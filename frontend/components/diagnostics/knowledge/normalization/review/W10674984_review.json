@@ -1,0 +1,1236 @@
+{
+  "manualId": "W10674984",
+  "platformId": "whirlpool_wrt311_adc",
+  "templateId": "refrigerator",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:16.929376+00:00",
+  "records": [
+    {
+      "candidateId": "map-W10674984-compound-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "control_board",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "control",
+          "actuator": "board"
+        },
+        "summary": "alias: control_board \u2192 None"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "control_board": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-cooling-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "control",
+              "actuator": "board"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w10674984-unresolved-w10674984-adc-cooling-voltage-compressor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "compressor",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: compressor \u2192 None"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "compressor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-cooling-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10674984-compound-adc-2000-cooling-output-(p6\u2013p4)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "ADC 2000 cooling output (P6\u2013P4)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: ADC 2000 cooling output (P6\u2013P4) \u2192 None"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ADC 2000 cooling output (P6\u2013P4)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-cooling-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10674984-compound-defrost_heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "defrost_heater",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: defrost_heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-heater-voltage",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "defrost_heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-heater-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-heater-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10674984-compound-adc-2000-defrost-heater-output-(p2\u2013p6)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "ADC 2000 defrost heater output (P2\u2013P6)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "adc 2000 defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: ADC 2000 defrost heater output (P2\u2013P6) \u2192 None"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-heater-voltage",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ADC 2000 defrost heater output (P2\u2013P6)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-heater-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-heater-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "adc 2000 defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10674984-compound-defrost_thermostat",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "defrost_thermostat",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: defrost_thermostat \u2192 None"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-defrost-bimetal",
+        "pages": [
+          1
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "defrost_thermostat": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-defrost-bimetal",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-defrost-bimetal",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10674984-compound-wrt311-defrost-bi-metal-(opens-58\u00b0f)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "WRT311 defrost bi-metal (opens 58\u00b0F)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: WRT311 defrost bi-metal (opens 58\u00b0F) \u2192 None"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-defrost-bimetal",
+        "pages": [
+          1
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "WRT311 defrost bi-metal (opens 58\u00b0F)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-defrost-bimetal",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-defrost-bimetal",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w10674984-unresolved-w10674984-defrost-heater-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-defrost-heater",
+        "pages": [
+          1
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-defrost-heater",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-defrost-heater",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10674984-compound-wrt311-defrost-heater-resistance-(30\u201342-\u03c9)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "WRT311 defrost heater resistance (30\u201342 \u03a9)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "wrt311 defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: WRT311 defrost heater resistance (30\u201342 \u03a9) \u2192 None"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-defrost-heater",
+        "pages": [
+          1
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "WRT311 defrost heater resistance (30\u201342 \u03a9)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-defrost-heater",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-defrost-heater",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "wrt311 defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10674984-compound-start_device",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "start_device",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: start_device \u2192 None"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-ptc-start",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "start_device": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-ptc-start",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-ptc-start",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w10674984-unresolved-w10674984-ptc-start-compressor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "compressor",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: compressor \u2192 None"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-ptc-start",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "compressor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-ptc-start",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-ptc-start",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10674984-compound-ptc-start-device-(wrt311-/-embraco)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "PTC start device (WRT311 / Embraco)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: PTC start device (WRT311 / Embraco) \u2192 None"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-ptc-start",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "PTC start device (WRT311 / Embraco)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-ptc-start",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-ptc-start",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W10674984-w10674984-adc-cooling-voltage-motor_command_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w10674984-adc-cooling-voltage",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_command_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w10674984-adc-cooling-voltage \u2192 motor_command_test"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w10674984-adc-cooling-voltage",
+          "testTargetId": "motor_command_test",
+          "displayTitle": "ADC 2000 cooling output (P6\u2013P4)",
+          "componentIds": [
+            "control_board",
+            "compressor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-cooling-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W10674984-w10674984-adc-cooling-voltage-meas-whirlpoolWrt311AdcCoolingOutputVoltage",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w10674984-adc-cooling-voltage",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_command_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolWrt311AdcCoolingOutputVoltage \u2192 motor_command_test"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "pages": [
+          2
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w10674984-adc-cooling-voltage",
+          "measurementKnowledgeId": "whirlpoolWrt311AdcCoolingOutputVoltage",
+          "testTargetId": "motor_command_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-cooling-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolWrt311AdcCoolingOutputVoltage",
+            "stepTitle": "ADC cooling output voltage"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W10674984-w10674984-adc-heater-voltage-motor_command_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w10674984-adc-heater-voltage",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_command_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w10674984-adc-heater-voltage \u2192 motor_command_test"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-heater-voltage",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w10674984-adc-heater-voltage",
+          "testTargetId": "motor_command_test",
+          "displayTitle": "ADC 2000 defrost heater output (P2\u2013P6)",
+          "componentIds": [
+            "defrost_heater",
+            "control_board"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-heater-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-heater-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W10674984-w10674984-adc-heater-voltage-meas-whirlpoolWrt311AdcDefrostHeaterVoltage",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w10674984-adc-heater-voltage",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_command_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolWrt311AdcDefrostHeaterVoltage \u2192 motor_command_test"
+      },
+      "source": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-heater-voltage",
+        "pages": [
+          2
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w10674984-adc-heater-voltage",
+          "measurementKnowledgeId": "whirlpoolWrt311AdcDefrostHeaterVoltage",
+          "testTargetId": "motor_command_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-heater-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-heater-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolWrt311AdcDefrostHeaterVoltage",
+            "stepTitle": "ADC defrost heater output voltage"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 16,
+    "byStatus": {
+      "needs_review": 12,
+      "candidate": 4
+    },
+    "byApprovalLevel": {
+      "blocked": 12,
+      "normal": 4
+    },
+    "byType": {
+      "canonicalMapping": 12,
+      "procedureTestBinding": 2,
+      "measurementBinding": 2
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 0,
+      "medium_0.80_0.94": 4,
+      "low_lt_0.80": 0,
+      "unresolved": 12
+    },
+    "byBlockedReason": {
+      "UNRESOLVED_COMPONENT": 2,
+      "AMBIGUOUS_COMPONENT": 1
+    }
+  }
+}

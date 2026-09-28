@@ -1,0 +1,3754 @@
+{
+  "manualId": "W11416395",
+  "platformId": "whirlpool_mvw6200",
+  "templateId": "washer",
+  "ontologyId": "front_load_washer",
+  "materializedAt": "2026-09-13T04:57:58.982983+00:00",
+  "records": [
+    {
+      "candidateId": "map-W11416395-supply-supply",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "supply",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 supply"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-01-acu-power",
+        "pages": [
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": "supply"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-01-acu-power",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-01-acu-power",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11416395-compound-main-control-(acu)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.86,
+      "what": "TEST #1: Main Control (ACU)",
+      "extractedTerm": "Main Control (ACU)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.86,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "main control",
+        "decomposition": {
+          "domain": "main",
+          "component": "control acu",
+          "actuator": null
+        },
+        "summary": "alias: TEST #1: Main Control (ACU) \u2192 control_board"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-01-acu-power",
+        "pages": [
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #1: Main Control (ACU)": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-01-acu-power",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-01-acu-power",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "main control",
+            "decomposition": {
+              "domain": "main",
+              "component": "control acu",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11416395-acu-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "ACU",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: ACU \u2192 control_board"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-01-acu-power",
+        "pages": [
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ACU": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-01-acu-power",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-01-acu-power",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:57.834485+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-W11416395-inlet_valve-inlet_valve",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "inlet_valve",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: inlet_valve \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-02-valves",
+        "pages": [
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_valve": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-02-valves",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-02-valves",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.485486+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-w11416395-unresolved-w11416395-test-02-valves-test-#2:-valves",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #2: Valves",
+      "extractedTerm": "Valves",
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: TEST #2: Valves \u2192 None"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-02-valves",
+        "pages": [
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #2: Valves": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-02-valves",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-02-valves",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #2: Valves",
+            "extractedTerm": "Valves",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11416395-drive_motor-drive_motor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "drive_motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: drive_motor \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03-drive-system",
+        "pages": [
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drive_motor": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03-drive-system",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-03-drive-system",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.331484+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-W11416395-compound-drive-system-(pre-test)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #3: Drive System (pre-test)",
+      "extractedTerm": "Drive System (pre-test)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: TEST #3: Drive System (pre-test) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03-drive-system",
+        "pages": [
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #3: Drive System (pre-test)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03-drive-system",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-03-drive-system",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11416395-compound-drive-system-\u2014-shifter",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #3a: Drive System \u2014 Shifter",
+      "extractedTerm": "Drive System \u2014 Shifter",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: TEST #3a: Drive System \u2014 Shifter \u2192 None"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03a-shifter",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #3a: Drive System \u2014 Shifter": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03a-shifter",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-03a-shifter",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11416395-compound-drive-system-\u2014-motor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #3b: Drive System \u2014 Motor",
+      "extractedTerm": "Drive System \u2014 Motor",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "drive system",
+          "actuator": "motor"
+        },
+        "summary": "alias: TEST #3b: Drive System \u2014 Motor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03b-motor",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #3b: Drive System \u2014 Motor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03b-motor",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-03b-motor",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "drive system",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11416395-hmi_control-hmi_control",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "hmi_control",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "hmi_control",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: hmi_control \u2192 hmi_control"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-04-hmi",
+        "pages": [
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "hmi_control": "hmi_control"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-04-hmi",
+        "pages": [
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-04-hmi",
+            "pages": [
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.799484+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-w11416395-unresolved-w11416395-test-04-hmi-test-#4:-hmi",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #4: HMI",
+      "extractedTerm": "HMI",
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: TEST #4: HMI \u2192 None"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-04-hmi",
+        "pages": [
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #4: HMI": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-04-hmi",
+        "pages": [
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-04-hmi",
+            "pages": [
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #4: HMI",
+            "extractedTerm": "HMI",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11416395-wash_ntc-wash_ntc",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "wash_ntc",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "wash_ntc",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: wash_ntc \u2192 wash_ntc"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-05-temp-thermistor",
+        "pages": [
+          27,
+          28
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "wash_ntc": "wash_ntc"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-05-temp-thermistor",
+        "pages": [
+          27,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-05-temp-thermistor",
+            "pages": [
+              27,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.949984+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-W11416395-compound-temperature-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #5: Temperature Thermistor",
+      "extractedTerm": "Temperature Thermistor",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "temperature",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: TEST #5: Temperature Thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-05-temp-thermistor",
+        "pages": [
+          27,
+          28
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #5: Temperature Thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-05-temp-thermistor",
+        "pages": [
+          27,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-05-temp-thermistor",
+            "pages": [
+              27,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "temperature",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11416395-water_level_sensor-water_level_sensor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "water_level_sensor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_sensor",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: water_level_sensor \u2192 water_level_sensor"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-06-water-level",
+        "pages": [
+          28
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "water_level_sensor": "water_level_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-06-water-level",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-06-water-level",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.641985+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-W11416395-compound-water-level",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #6: Water Level",
+      "extractedTerm": "Water Level",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "water",
+          "component": "level",
+          "actuator": null
+        },
+        "summary": "alias: TEST #6: Water Level \u2192 None"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-06-water-level",
+        "pages": [
+          28
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #6: Water Level": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-06-water-level",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-06-water-level",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "level",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11416395-drain_pump-drain_pump",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "drain_pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: drain_pump \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-07-drain-pump",
+        "pages": [
+          28
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drain_pump": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-07-drain-pump",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-07-drain-pump",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.130484+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-W11416395-drain-pump-drain_pump",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "TEST #7: Drain Pump",
+      "extractedTerm": "Drain Pump",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: TEST #7: Drain Pump \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-07-drain-pump",
+        "pages": [
+          28
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #7: Drain Pump": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-07-drain-pump",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-07-drain-pump",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #7: Drain Pump",
+            "extractedTerm": "Drain Pump",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.132484+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-W11416395-door_lock-door_lock",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "door_lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: door_lock \u2192 door_lock"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-08-lid-lock",
+        "pages": [
+          28,
+          29
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_lock": "door_lock"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-08-lid-lock",
+        "pages": [
+          28,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-08-lid-lock",
+            "pages": [
+              28,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:57.974486+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-W11416395-compound-lid-lock",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #8: Lid Lock",
+      "extractedTerm": "Lid Lock",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "lid",
+          "component": null,
+          "actuator": "lock"
+        },
+        "summary": "alias: TEST #8: Lid Lock \u2192 None"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-08-lid-lock",
+        "pages": [
+          28,
+          29
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #8: Lid Lock": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-08-lid-lock",
+        "pages": [
+          28,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-08-lid-lock",
+            "pages": [
+              28,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "lid",
+              "component": null,
+              "actuator": "lock"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11416395-w11416395-test-03-drive-system-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11416395-test-03-drive-system",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11416395-test-03-drive-system \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03-drive-system",
+        "pages": [
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11416395-test-03-drive-system",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3: Drive System (pre-test)",
+          "componentIds": [
+            "drive_motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03-drive-system",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-03-drive-system",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11416395-w11416395-test-03a-shifter-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11416395-test-03a-shifter",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11416395-test-03a-shifter \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03a-shifter",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11416395-test-03a-shifter",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3a: Drive System \u2014 Shifter",
+          "componentIds": [
+            "drive_motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03a-shifter",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-03a-shifter",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11416395-w11416395-test-03a-shifter-meas-whirlpoolMvw6200WasherShifterOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11416395-test-03a-shifter",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolMvw6200WasherShifterOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03a-shifter",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11416395-test-03a-shifter",
+          "measurementKnowledgeId": "whirlpoolMvw6200WasherShifterOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03a-shifter",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-03a-shifter",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolMvw6200WasherShifterOhms",
+            "stepTitle": "Shifter coil resistance J6-2 to J6-6"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11416395-w11416395-test-03b-motor-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11416395-test-03b-motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11416395-test-03b-motor \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03b-motor",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11416395-test-03b-motor",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3b: Drive System \u2014 Motor",
+          "componentIds": [
+            "drive_motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03b-motor",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-03b-motor",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11416395-w11416395-test-03b-motor-meas-whirlpoolMvw6200WasherMotorWindingOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11416395-test-03b-motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolMvw6200WasherMotorWindingOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03b-motor",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11416395-test-03b-motor",
+          "measurementKnowledgeId": "whirlpoolMvw6200WasherMotorWindingOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03b-motor",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-03b-motor",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolMvw6200WasherMotorWindingOhms",
+            "stepTitle": "Motor winding resistance at J6"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11416395-w11416395-test-03b-motor-meas-whirlpoolMvw6200WasherMotorWindingOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11416395-test-03b-motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolMvw6200WasherMotorWindingOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03b-motor",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11416395-test-03b-motor",
+          "measurementKnowledgeId": "whirlpoolMvw6200WasherMotorWindingOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03b-motor",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-03b-motor",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolMvw6200WasherMotorWindingOhms",
+            "stepTitle": "Motor resistance at drive connector"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11416395-w11416395-test-06-water-level-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11416395-test-06-water-level",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11416395-test-06-water-level \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-06-water-level",
+        "pages": [
+          28
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11416395-test-06-water-level",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #6: Water Level",
+          "componentIds": [
+            "water_level_sensor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-06-water-level",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-06-water-level",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11416395-w11416395-test-07-drain-pump-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11416395-test-07-drain-pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11416395-test-07-drain-pump \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-07-drain-pump",
+        "pages": [
+          28
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11416395-test-07-drain-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #7: Drain Pump",
+          "componentIds": [
+            "drain_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-07-drain-pump",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-07-drain-pump",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11416395-w11416395-test-07-drain-pump-meas-whirlpoolMvw6200WasherDrainPumpOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11416395-test-07-drain-pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolMvw6200WasherDrainPumpOhms \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-07-drain-pump",
+        "pages": [
+          28
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11416395-test-07-drain-pump",
+          "measurementKnowledgeId": "whirlpoolMvw6200WasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-07-drain-pump",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-07-drain-pump",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolMvw6200WasherDrainPumpOhms",
+            "stepTitle": "Drain pump resistance J6-3 to J6-6"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11416395-w11416395-test-07-drain-pump-meas-whirlpoolMvw6200WasherDrainPumpOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11416395-test-07-drain-pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolMvw6200WasherDrainPumpOhms \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-07-drain-pump",
+        "pages": [
+          28
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11416395-test-07-drain-pump",
+          "measurementKnowledgeId": "whirlpoolMvw6200WasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-07-drain-pump",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-07-drain-pump",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolMvw6200WasherDrainPumpOhms",
+            "stepTitle": "Resistance at drain pump terminals"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11416395-w11416395-test-08-lid-lock-door_lock_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11416395-test-08-lid-lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11416395-test-08-lid-lock \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-08-lid-lock",
+        "pages": [
+          28,
+          29
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11416395-test-08-lid-lock",
+          "testTargetId": "door_lock_test",
+          "displayTitle": "TEST #8: Lid Lock",
+          "componentIds": [
+            "door_lock"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-08-lid-lock",
+        "pages": [
+          28,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-08-lid-lock",
+            "pages": [
+              28,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11416395-w11416395-test-08-lid-lock-meas-whirlpoolMvw6200WasherLidLockSolenoidOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11416395-test-08-lid-lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolMvw6200WasherLidLockSolenoidOhms \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-08-lid-lock",
+        "pages": [
+          28,
+          29
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11416395-test-08-lid-lock",
+          "measurementKnowledgeId": "whirlpoolMvw6200WasherLidLockSolenoidOhms",
+          "testTargetId": "door_lock_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-08-lid-lock",
+        "pages": [
+          28,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-08-lid-lock",
+            "pages": [
+              28,
+              29
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolMvw6200WasherLidLockSolenoidOhms",
+            "stepTitle": "Lid lock solenoid J4-2 to J4-3"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 31,
+    "byStatus": {
+      "candidate": 13,
+      "COMPOUND_TERM_CANDIDATE": 1,
+      "approved": 9,
+      "needs_review": 8
+    },
+    "byApprovalLevel": {
+      "easy": 8,
+      "careful": 1,
+      "normal": 14,
+      "blocked": 8
+    },
+    "byType": {
+      "canonicalMapping": 19,
+      "procedureTestBinding": 6,
+      "measurementBinding": 6
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 8,
+      "medium_0.80_0.94": 15,
+      "low_lt_0.80": 0,
+      "unresolved": 8
+    },
+    "byBlockedReason": {
+      "UNRESOLVED_COMPONENT": 2
+    }
+  }
+}

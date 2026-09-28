@@ -1,4 +1,5 @@
 import { apiClient } from '../../utils/api-client';
+import { resolveExcludeWorkOrderIdForApi } from '../../utils/resolveExcludeWorkOrderIdForApi';
 
 /**
  * Prior diagnostic measurements for the same equipment serial.
@@ -16,8 +17,9 @@ export async function getDiagnosticLastMeasurements({
     equipment_serial: serial,
     template_id: templateId,
   });
-  if (excludeWorkOrderId) {
-    params.append('exclude_work_order_id', String(excludeWorkOrderId));
+  const excludeId = resolveExcludeWorkOrderIdForApi(excludeWorkOrderId);
+  if (excludeId) {
+    params.append('exclude_work_order_id', excludeId);
   }
 
   return apiClient(`work-orders/diagnostics/last-measurements?${params.toString()}`);

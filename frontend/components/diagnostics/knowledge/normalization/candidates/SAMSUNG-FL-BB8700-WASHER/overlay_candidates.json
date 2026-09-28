@@ -1,0 +1,355 @@
+{
+  "manualId": "SAMSUNG-FL-BB8700-WASHER",
+  "candidates": [
+    {
+      "id": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-door-lock-door_lock_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungbb8700-door-lock",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-3: Door lock and switch (DC, DC1)",
+      "componentIds": [
+        "door_lock"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-door-lock",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-door-lock-meas-samsungFlBb8700WasherDoorSwitchOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungbb8700-door-lock",
+      "measurementKnowledgeId": "samsungFlBb8700WasherDoorSwitchOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-door-lock",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungFlBb8700WasherDoorSwitchOhms",
+            "stepTitle": "TYPE 1 door switch (pins 1\u20133)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-door-lock-meas-samsungFlBb8700WasherDoorLockOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungbb8700-door-lock",
+      "measurementKnowledgeId": "samsungFlBb8700WasherDoorLockOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-door-lock",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungFlBb8700WasherDoorLockOhms",
+            "stepTitle": "TYPE 2 lock switch (pins 2\u20133)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-door-lock-meas-samsungFlBb8700WasherDoorLockMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungbb8700-door-lock",
+      "measurementKnowledgeId": "samsungFlBb8700WasherDoorLockMotorOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-door-lock",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungFlBb8700WasherDoorLockMotorOhms",
+            "stepTitle": "Add-door lock motor (1\u20132)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-drain-pump-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungbb8700-drain-pump",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-3: Drain / leakage (LC, LC1)",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-drain-pump",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-drain-pump",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-motor-circuit-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungbb8700-motor-circuit",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-3: Washing motor (3C)",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-motor-circuit",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-motor-circuit",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-motor-circuit-meas-samsungFlBb8700WasherMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungbb8700-motor-circuit",
+      "measurementKnowledgeId": "samsungFlBb8700WasherMotorOhms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-motor-circuit",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-motor-circuit",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungFlBb8700WasherMotorOhms",
+            "stepTitle": "Motor winding resistance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-overflow-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungbb8700-overflow",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-3: Overflow (OC)",
+      "componentIds": [
+        "water_level_sensor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-overflow",
+        "pages": [
+          45,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-overflow",
+            "pages": [
+              45,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-water-level-sensor-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungbb8700-water-level-sensor",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-3: Water level sensor (1C)",
+      "componentIds": [
+        "water_level_sensor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-water-level-sensor",
+        "pages": [
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-water-level-sensor",
+            "pages": [
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

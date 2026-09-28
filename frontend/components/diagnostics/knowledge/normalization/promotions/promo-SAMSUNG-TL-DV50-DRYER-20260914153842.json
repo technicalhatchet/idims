@@ -1,0 +1,58 @@
+{
+  "promotionId": "promo-SAMSUNG-TL-DV50-DRYER-20260914153842",
+  "manualId": "SAMSUNG-TL-DV50-DRYER",
+  "platformId": "samsung_tl_dryer_dv50",
+  "overlayFile": "samsung_vented_dryer.json",
+  "platformFamilyId": "samsung_tl_dryer_dv50",
+  "status": "planned",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-SAMSUNG-TL-DV50-DRYER-door_switch-door_switch",
+    "map-SAMSUNG-TL-DV50-DRYER-compound-flame_sensor",
+    "map-samsung-tl-dv50-dryer-unresolved-samsungtldv50-gas-ignitor-igniter",
+    "map-SAMSUNG-TL-DV50-DRYER-compound-gas_valve",
+    "map-SAMSUNG-TL-DV50-DRYER-heating_element-heat_source",
+    "map-SAMSUNG-TL-DV50-DRYER-compound-user_interface",
+    "map-SAMSUNG-TL-DV50-DRYER-drive_motor-drive_motor",
+    "map-samsung-tl-dv50-dryer-unresolved-samsungtldv50-power-supply",
+    "map-SAMSUNG-TL-DV50-DRYER-main_control-control_board",
+    "map-SAMSUNG-TL-DV50-DRYER-thermal_fuse-thermal_fuse",
+    "map-SAMSUNG-TL-DV50-DRYER-compound-high_limit_thermostat",
+    "map-SAMSUNG-TL-DV50-DRYER-compound-exhaust_thermistor",
+    "map-SAMSUNG-TL-DV50-DRYER-compound-inlet_thermistor"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {},
+      "skip": {
+        "door_switch": "door_switch",
+        "flame_sensor": "heat_source",
+        "igniter": "heat_source",
+        "gas_valve": "heat_source",
+        "heating_element": "heat_source",
+        "user_interface": "hmi_control",
+        "drive_motor": "drive_motor",
+        "supply": "power_supply",
+        "main_control": "control_board",
+        "thermal_fuse": "thermal_fuse",
+        "high_limit_thermostat": "thermal_cutoff",
+        "exhaust_thermistor": "temperature_sensor",
+        "inlet_thermistor": "temperature_sensor"
+      }
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [],
+      "skip": []
+    }
+  },
+  "plannedAt": "2026-09-14T15:38:42.773610+00:00"
+}

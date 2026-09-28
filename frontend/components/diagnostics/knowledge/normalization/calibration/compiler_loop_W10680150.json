@@ -1,0 +1,49 @@
+{
+  "manualId": "W10680150",
+  "promotionId": "promo-W10680150-20260914050829",
+  "published": true,
+  "equivalence": {
+    "manualId": "W10680150",
+    "equivalent": true,
+    "checks": {
+      "canonicalAliases": true,
+      "procedureBindings": true,
+      "measurementBindings": true,
+      "topologyOverrides": true
+    },
+    "aliasComparison": {
+      "equivalent": true,
+      "referenceCount": 20,
+      "generatedCount": 21,
+      "mismatches": [],
+      "extraGenerated": [
+        "test #10: service leds"
+      ]
+    },
+    "procedureBindingComparison": {
+      "label": "procedureBindings",
+      "equivalent": true,
+      "referenceCount": 33,
+      "generatedCount": 33,
+      "mismatches": [],
+      "extraGenerated": []
+    },
+    "measurementBindingComparison": {
+      "label": "measurementBindings",
+      "equivalent": true,
+      "referenceCount": 17,
+      "generatedCount": 17,
+      "mismatches": [],
+      "extraGenerated": []
+    },
+    "provenance": "generated",
+    "notes": [
+      "Semantic equivalence: reference CG-2 mappings must be preserved.",
+      "Extra generated aliases/bindings are allowed.",
+      "Topology overrides remain hand-authored and must not drift."
+    ],
+    "promotionId": "promo-W10680150-20260914050829",
+    "approvedCandidateCount": 0
+  },
+  "approvedCandidateIds": []
+}

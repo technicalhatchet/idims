@@ -24,7 +24,7 @@ function SolomonSignatureHome() {
   const { continueTarget, isLoading: continueLoading } = useSolomonContinue();
   const topInset = useSolomonTopInset();
 
-  const newHref = isDiyer ? '/solomon/start' : '/solomon/diagnose';
+  const newHref = '/solomon/start';
   const newTitle = isDiyer ? 'Start troubleshooting' : 'New diagnostic';
   const newSubtitle = isDiyer ? 'Walk through symptoms step by step' : null;
 

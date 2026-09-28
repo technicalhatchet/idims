@@ -12,6 +12,7 @@ import lg_dishwasher_ldt7808_bundles_ldt7808_water_supply_check from './seed/lg_
 import lg_lrmvs_bundles_lglrmvs_damper_test from './seed/lg_lrmvs/bundles/lglrmvs-damper-test.json';
 import lg_lrmvs_bundles_lglrmvs_test_mode_entry from './seed/lg_lrmvs/bundles/lglrmvs-test-mode-entry.json';
 import lg_microwave_otr_bundles_lgotrmw_self_test_entry from './seed/lg_microwave_otr/bundles/lgotrmw-self-test-entry.json';
+import lg_sxs_bundles_lgsxs_test_mode_entry from './seed/lg_sxs/bundles/lgsxs-test-mode-entry.json';
 import midea_rss_bundles_midearss_mandatory_mode_entry from './seed/midea_rss/bundles/midearss-mandatory-mode-entry.json';
 import midea_rss_bundles_mideartm18_test_mode_entry from './seed/midea_rss/bundles/mideartm18-test-mode-entry.json';
 import midea_uz21_bundles_mideauz21_forced_defrost_entry from './seed/midea_uz21/bundles/mideauz21-forced-defrost-entry.json';
@@ -180,6 +181,18 @@ import lg_dishwasher_ldt7808_ldt7808_leak_float from './seed/lg_dishwasher_ldt78
 import lg_dishwasher_ldt7808_ldt7808_thermistor from './seed/lg_dishwasher_ldt7808/ldt7808-thermistor.json';
 import lg_dishwasher_ldt7808_ldt7808_vario_valve from './seed/lg_dishwasher_ldt7808/ldt7808-vario-valve.json';
 import lg_dishwasher_ldt7808_ldt7808_wash_motor from './seed/lg_dishwasher_ldt7808/ldt7808-wash-motor.json';
+import lg_fl_washer_wm4000_lgwm4000_circulation_pump from './seed/lg_fl_washer_wm4000/lgwm4000-circulation-pump.json';
+import lg_fl_washer_wm4000_lgwm4000_display_comm from './seed/lg_fl_washer_wm4000/lgwm4000-display-comm.json';
+import lg_fl_washer_wm4000_lgwm4000_door_lock from './seed/lg_fl_washer_wm4000/lgwm4000-door-lock.json';
+import lg_fl_washer_wm4000_lgwm4000_drain_pump from './seed/lg_fl_washer_wm4000/lgwm4000-drain-pump.json';
+import lg_fl_washer_wm4000_lgwm4000_inlet_valves from './seed/lg_fl_washer_wm4000/lgwm4000-inlet-valves.json';
+import lg_fl_washer_wm4000_lgwm4000_motor_circuit from './seed/lg_fl_washer_wm4000/lgwm4000-motor-circuit.json';
+import lg_fl_washer_wm4000_lgwm4000_power from './seed/lg_fl_washer_wm4000/lgwm4000-power.json';
+import lg_fl_washer_wm4000_lgwm4000_pressure_sensor from './seed/lg_fl_washer_wm4000/lgwm4000-pressure-sensor.json';
+import lg_fl_washer_wm4000_lgwm4000_smart_diagnosis from './seed/lg_fl_washer_wm4000/lgwm4000-smart-diagnosis.json';
+import lg_fl_washer_wm4000_lgwm4000_vibration_sensor from './seed/lg_fl_washer_wm4000/lgwm4000-vibration-sensor.json';
+import lg_fl_washer_wm4000_lgwm4000_wash_heater from './seed/lg_fl_washer_wm4000/lgwm4000-wash-heater.json';
+import lg_fl_washer_wm4000_lgwm4000_wash_thermistor from './seed/lg_fl_washer_wm4000/lgwm4000-wash-thermistor.json';
 import lg_freestanding_range_lg_range_bake_element from './seed/lg_freestanding_range/lg-range-bake-element.json';
 import lg_freestanding_range_lg_range_broil_element from './seed/lg_freestanding_range/lg-range-broil-element.json';
 import lg_freestanding_range_lg_range_convection_element from './seed/lg_freestanding_range/lg-range-convection-element.json';
@@ -225,6 +238,20 @@ import lg_microwave_otr_lgotrmw_magnetron from './seed/lg_microwave_otr/lgotrmw-
 import lg_microwave_otr_lgotrmw_no_heat from './seed/lg_microwave_otr/lgotrmw-no-heat.json';
 import lg_microwave_otr_lgotrmw_pcb_thermistor from './seed/lg_microwave_otr/lgotrmw-pcb-thermistor.json';
 import lg_microwave_otr_lgotrmw_turntable from './seed/lg_microwave_otr/lgotrmw-turntable.json';
+import lg_sxs_lgsxs_ambient_sensor from './seed/lg_sxs/lgsxs-ambient-sensor.json';
+import lg_sxs_lgsxs_compressor from './seed/lg_sxs/lgsxs-compressor.json';
+import lg_sxs_lgsxs_condenser_fan from './seed/lg_sxs/lgsxs-condenser-fan.json';
+import lg_sxs_lgsxs_damper from './seed/lg_sxs/lgsxs-damper.json';
+import lg_sxs_lgsxs_defrost_heater from './seed/lg_sxs/lgsxs-defrost-heater.json';
+import lg_sxs_lgsxs_defrost_sensor from './seed/lg_sxs/lgsxs-defrost-sensor.json';
+import lg_sxs_lgsxs_display_communication from './seed/lg_sxs/lgsxs-display-communication.json';
+import lg_sxs_lgsxs_door_switch from './seed/lg_sxs/lgsxs-door-switch.json';
+import lg_sxs_lgsxs_freezer_sensor from './seed/lg_sxs/lgsxs-freezer-sensor.json';
+import lg_sxs_lgsxs_fresh_food_sensor from './seed/lg_sxs/lgsxs-fresh-food-sensor.json';
+import lg_sxs_lgsxs_fz_fan from './seed/lg_sxs/lgsxs-fz-fan.json';
+import lg_sxs_lgsxs_ice_maker from './seed/lg_sxs/lgsxs-ice-maker.json';
+import lg_sxs_lgsxs_lcd_check from './seed/lg_sxs/lgsxs-lcd-check.json';
+import lg_sxs_lgsxs_water_dispenser from './seed/lg_sxs/lgsxs-water-dispenser.json';
 import midea_rss_midearss_ambient_sensor from './seed/midea_rss/midearss-ambient-sensor.json';
 import midea_rss_midearss_communication from './seed/midea_rss/midearss-communication.json';
 import midea_rss_midearss_fz_defrost_heater from './seed/midea_rss/midearss-fz-defrost-heater.json';
@@ -286,7 +313,6 @@ import samsung_fl_dryer_bb8700_samsungbb8700_dryer_thermal_cutoff from './seed/s
 import samsung_fl_dryer_bb8700_samsungbb8700_dryer_thermistor from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-thermistor.json';
 import samsung_fl_dryer_dv6000_samsungdv6000_belt_cutoff from './seed/samsung_fl_dryer_dv6000/samsungdv6000-belt-cutoff.json';
 import samsung_fl_dryer_dv6000_samsungdv6000_door_switch from './seed/samsung_fl_dryer_dv6000/samsungdv6000-door-switch.json';
-import samsung_fl_dryer_dv6000_samsungdv6000_heat_pump_compressor from './seed/samsung_fl_dryer_dv6000/samsungdv6000-heat-pump-compressor.json';
 import samsung_fl_dryer_dv6000_samsungdv6000_heater_electric from './seed/samsung_fl_dryer_dv6000/samsungdv6000-heater-electric.json';
 import samsung_fl_dryer_dv6000_samsungdv6000_hmi from './seed/samsung_fl_dryer_dv6000/samsungdv6000-hmi.json';
 import samsung_fl_dryer_dv6000_samsungdv6000_motor_circuit from './seed/samsung_fl_dryer_dv6000/samsungdv6000-motor-circuit.json';
@@ -386,6 +412,16 @@ import samsung_fridge_rf28_samsungrf28_ice_room_heater from './seed/samsung_frid
 import samsung_fridge_rf28_samsungrf28_ice_room_sensor from './seed/samsung_fridge_rf28/samsungrf28-ice-room-sensor.json';
 import samsung_fridge_rf28_samsungrf28_main_inverter_comm from './seed/samsung_fridge_rf28/samsungrf28-main-inverter-comm.json';
 import samsung_fridge_rf28_samsungrf28_main_panel_comm from './seed/samsung_fridge_rf28/samsungrf28-main-panel-comm.json';
+import samsung_hp_dryer_dv22n_samsungdv22n_compressor_inverter from './seed/samsung_hp_dryer_dv22n/samsungdv22n-compressor-inverter.json';
+import samsung_hp_dryer_dv22n_samsungdv22n_condensate_overflow from './seed/samsung_hp_dryer_dv22n/samsungdv22n-condensate-overflow.json';
+import samsung_hp_dryer_dv22n_samsungdv22n_door_switch from './seed/samsung_hp_dryer_dv22n/samsungdv22n-door-switch.json';
+import samsung_hp_dryer_dv22n_samsungdv22n_drain_pump_float from './seed/samsung_hp_dryer_dv22n/samsungdv22n-drain-pump-float.json';
+import samsung_hp_dryer_dv22n_samsungdv22n_drum_motor from './seed/samsung_hp_dryer_dv22n/samsungdv22n-drum-motor.json';
+import samsung_hp_dryer_dv22n_samsungdv22n_hmi_button from './seed/samsung_hp_dryer_dv22n/samsungdv22n-hmi-button.json';
+import samsung_hp_dryer_dv22n_samsungdv22n_lint_filter from './seed/samsung_hp_dryer_dv22n/samsungdv22n-lint-filter.json';
+import samsung_hp_dryer_dv22n_samsungdv22n_pba_communication from './seed/samsung_hp_dryer_dv22n/samsungdv22n-pba-communication.json';
+import samsung_hp_dryer_dv22n_samsungdv22n_power_supply from './seed/samsung_hp_dryer_dv22n/samsungdv22n-power-supply.json';
+import samsung_hp_dryer_dv22n_samsungdv22n_refrigerant_thermistors from './seed/samsung_hp_dryer_dv22n/samsungdv22n-refrigerant-thermistors.json';
 import samsung_laundry_combo_samsungwd53_auto_open_door from './seed/samsung_laundry_combo/samsungwd53-auto-open-door.json';
 import samsung_laundry_combo_samsungwd53_communication from './seed/samsung_laundry_combo/samsungwd53-communication.json';
 import samsung_laundry_combo_samsungwd53_compressor from './seed/samsung_laundry_combo/samsungwd53-compressor.json';
@@ -421,6 +457,29 @@ import samsung_microwave_otr_samsungotrmw_temp_sensor from './seed/samsung_micro
 import samsung_microwave_otr_samsungotrmw_thermal_cutout from './seed/samsung_microwave_otr/samsungotrmw-thermal-cutout.json';
 import samsung_microwave_otr_samsungotrmw_turntable from './seed/samsung_microwave_otr/samsungotrmw-turntable.json';
 import samsung_microwave_otr_samsungotrmw_vent_motor from './seed/samsung_microwave_otr/samsungotrmw-vent-motor.json';
+import samsung_range_ne58_samsungne58_bake_element from './seed/samsung_range_ne58/samsungne58-bake-element.json';
+import samsung_range_ne58_samsungne58_broil_element from './seed/samsung_range_ne58/samsungne58-broil-element.json';
+import samsung_range_ne58_samsungne58_convection_element from './seed/samsung_range_ne58/samsungne58-convection-element.json';
+import samsung_range_ne58_samsungne58_convection_fan from './seed/samsung_range_ne58/samsungne58-convection-fan.json';
+import samsung_range_ne58_samsungne58_door_lock from './seed/samsung_range_ne58/samsungne58-door-lock.json';
+import samsung_range_ne58_samsungne58_door_switch from './seed/samsung_range_ne58/samsungne58-door-switch.json';
+import samsung_range_ne58_samsungne58_heater_relays from './seed/samsung_range_ne58/samsungne58-heater-relays.json';
+import samsung_range_ne58_samsungne58_hmi_touch from './seed/samsung_range_ne58/samsungne58-hmi-touch.json';
+import samsung_range_ne58_samsungne58_oven_sensor from './seed/samsung_range_ne58/samsungne58-oven-sensor.json';
+import samsung_range_ne58_samsungne58_power from './seed/samsung_range_ne58/samsungne58-power.json';
+import samsung_range_ne58_samsungne58_surface_radiant from './seed/samsung_range_ne58/samsungne58-surface-radiant.json';
+import samsung_range_ne58_samsungne58_thermal_cutoff from './seed/samsung_range_ne58/samsungne58-thermal-cutoff.json';
+import samsung_range_ne58h_induction_ne58h_bake_element from './seed/samsung_range_ne58h_induction/ne58h-bake-element.json';
+import samsung_range_ne58h_induction_ne58h_c20_oven_sensor from './seed/samsung_range_ne58h_induction/ne58h-c20-oven-sensor.json';
+import samsung_range_ne58h_induction_ne58h_c21_abnormal_temp from './seed/samsung_range_ne58h_induction/ne58h-c21-abnormal-temp.json';
+import samsung_range_ne58h_induction_ne58h_cd1_door_lock from './seed/samsung_range_ne58h_induction/ne58h-cd1-door-lock.json';
+import samsung_range_ne58h_induction_ne58h_cf0_main_sub from './seed/samsung_range_ne58h_induction/ne58h-cf0-main-sub.json';
+import samsung_range_ne58h_induction_ne58h_cf2_touch from './seed/samsung_range_ne58h_induction/ne58h-cf2-touch.json';
+import samsung_range_ne58h_induction_ne58h_convection_fan from './seed/samsung_range_ne58h_induction/ne58h-convection-fan.json';
+import samsung_range_ne58h_induction_ne58h_induction_comm_inverter from './seed/samsung_range_ne58h_induction/ne58h-induction-comm-inverter.json';
+import samsung_range_ne58h_induction_ne58h_induction_igbt_sensor from './seed/samsung_range_ne58h_induction/ne58h-induction-igbt-sensor.json';
+import samsung_range_ne58h_induction_ne58h_induction_pan_detection from './seed/samsung_range_ne58h_induction/ne58h-induction-pan-detection.json';
+import samsung_range_ne58h_induction_ne58h_power from './seed/samsung_range_ne58h_induction/ne58h-power.json';
 import samsung_range_nx60_samsungnx60_bake_element from './seed/samsung_range_nx60/samsungnx60-bake-element.json';
 import samsung_range_nx60_samsungnx60_bake_ignitor from './seed/samsung_range_nx60/samsungnx60-bake-ignitor.json';
 import samsung_range_nx60_samsungnx60_broil_element from './seed/samsung_range_nx60/samsungnx60-broil-element.json';
@@ -898,6 +957,7 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   lg_lrmvs_bundles_lglrmvs_damper_test as ServiceModeBundle,
   lg_lrmvs_bundles_lglrmvs_test_mode_entry as ServiceModeBundle,
   lg_microwave_otr_bundles_lgotrmw_self_test_entry as ServiceModeBundle,
+  lg_sxs_bundles_lgsxs_test_mode_entry as ServiceModeBundle,
   midea_rss_bundles_midearss_mandatory_mode_entry as ServiceModeBundle,
   midea_rss_bundles_mideartm18_test_mode_entry as ServiceModeBundle,
   midea_uz21_bundles_mideauz21_forced_defrost_entry as ServiceModeBundle,
@@ -1068,6 +1128,18 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   lg_dishwasher_ldt7808_ldt7808_thermistor as ServiceProcedureSeed,
   lg_dishwasher_ldt7808_ldt7808_vario_valve as ServiceProcedureSeed,
   lg_dishwasher_ldt7808_ldt7808_wash_motor as ServiceProcedureSeed,
+  lg_fl_washer_wm4000_lgwm4000_circulation_pump as ServiceProcedureSeed,
+  lg_fl_washer_wm4000_lgwm4000_display_comm as ServiceProcedureSeed,
+  lg_fl_washer_wm4000_lgwm4000_door_lock as ServiceProcedureSeed,
+  lg_fl_washer_wm4000_lgwm4000_drain_pump as ServiceProcedureSeed,
+  lg_fl_washer_wm4000_lgwm4000_inlet_valves as ServiceProcedureSeed,
+  lg_fl_washer_wm4000_lgwm4000_motor_circuit as ServiceProcedureSeed,
+  lg_fl_washer_wm4000_lgwm4000_power as ServiceProcedureSeed,
+  lg_fl_washer_wm4000_lgwm4000_pressure_sensor as ServiceProcedureSeed,
+  lg_fl_washer_wm4000_lgwm4000_smart_diagnosis as ServiceProcedureSeed,
+  lg_fl_washer_wm4000_lgwm4000_vibration_sensor as ServiceProcedureSeed,
+  lg_fl_washer_wm4000_lgwm4000_wash_heater as ServiceProcedureSeed,
+  lg_fl_washer_wm4000_lgwm4000_wash_thermistor as ServiceProcedureSeed,
   lg_freestanding_range_lg_range_bake_element as ServiceProcedureSeed,
   lg_freestanding_range_lg_range_broil_element as ServiceProcedureSeed,
   lg_freestanding_range_lg_range_convection_element as ServiceProcedureSeed,
@@ -1113,6 +1185,20 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   lg_microwave_otr_lgotrmw_no_heat as ServiceProcedureSeed,
   lg_microwave_otr_lgotrmw_pcb_thermistor as ServiceProcedureSeed,
   lg_microwave_otr_lgotrmw_turntable as ServiceProcedureSeed,
+  lg_sxs_lgsxs_ambient_sensor as ServiceProcedureSeed,
+  lg_sxs_lgsxs_compressor as ServiceProcedureSeed,
+  lg_sxs_lgsxs_condenser_fan as ServiceProcedureSeed,
+  lg_sxs_lgsxs_damper as ServiceProcedureSeed,
+  lg_sxs_lgsxs_defrost_heater as ServiceProcedureSeed,
+  lg_sxs_lgsxs_defrost_sensor as ServiceProcedureSeed,
+  lg_sxs_lgsxs_display_communication as ServiceProcedureSeed,
+  lg_sxs_lgsxs_door_switch as ServiceProcedureSeed,
+  lg_sxs_lgsxs_freezer_sensor as ServiceProcedureSeed,
+  lg_sxs_lgsxs_fresh_food_sensor as ServiceProcedureSeed,
+  lg_sxs_lgsxs_fz_fan as ServiceProcedureSeed,
+  lg_sxs_lgsxs_ice_maker as ServiceProcedureSeed,
+  lg_sxs_lgsxs_lcd_check as ServiceProcedureSeed,
+  lg_sxs_lgsxs_water_dispenser as ServiceProcedureSeed,
   midea_rss_midearss_ambient_sensor as ServiceProcedureSeed,
   midea_rss_midearss_communication as ServiceProcedureSeed,
   midea_rss_midearss_fz_defrost_heater as ServiceProcedureSeed,
@@ -1174,7 +1260,6 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   samsung_fl_dryer_bb8700_samsungbb8700_dryer_thermistor as ServiceProcedureSeed,
   samsung_fl_dryer_dv6000_samsungdv6000_belt_cutoff as ServiceProcedureSeed,
   samsung_fl_dryer_dv6000_samsungdv6000_door_switch as ServiceProcedureSeed,
-  samsung_fl_dryer_dv6000_samsungdv6000_heat_pump_compressor as ServiceProcedureSeed,
   samsung_fl_dryer_dv6000_samsungdv6000_heater_electric as ServiceProcedureSeed,
   samsung_fl_dryer_dv6000_samsungdv6000_hmi as ServiceProcedureSeed,
   samsung_fl_dryer_dv6000_samsungdv6000_motor_circuit as ServiceProcedureSeed,
@@ -1274,6 +1359,16 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   samsung_fridge_rf28_samsungrf28_ice_room_sensor as ServiceProcedureSeed,
   samsung_fridge_rf28_samsungrf28_main_inverter_comm as ServiceProcedureSeed,
   samsung_fridge_rf28_samsungrf28_main_panel_comm as ServiceProcedureSeed,
+  samsung_hp_dryer_dv22n_samsungdv22n_compressor_inverter as ServiceProcedureSeed,
+  samsung_hp_dryer_dv22n_samsungdv22n_condensate_overflow as ServiceProcedureSeed,
+  samsung_hp_dryer_dv22n_samsungdv22n_door_switch as ServiceProcedureSeed,
+  samsung_hp_dryer_dv22n_samsungdv22n_drain_pump_float as ServiceProcedureSeed,
+  samsung_hp_dryer_dv22n_samsungdv22n_drum_motor as ServiceProcedureSeed,
+  samsung_hp_dryer_dv22n_samsungdv22n_hmi_button as ServiceProcedureSeed,
+  samsung_hp_dryer_dv22n_samsungdv22n_lint_filter as ServiceProcedureSeed,
+  samsung_hp_dryer_dv22n_samsungdv22n_pba_communication as ServiceProcedureSeed,
+  samsung_hp_dryer_dv22n_samsungdv22n_power_supply as ServiceProcedureSeed,
+  samsung_hp_dryer_dv22n_samsungdv22n_refrigerant_thermistors as ServiceProcedureSeed,
   samsung_laundry_combo_samsungwd53_auto_open_door as ServiceProcedureSeed,
   samsung_laundry_combo_samsungwd53_communication as ServiceProcedureSeed,
   samsung_laundry_combo_samsungwd53_compressor as ServiceProcedureSeed,
@@ -1309,6 +1404,29 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   samsung_microwave_otr_samsungotrmw_thermal_cutout as ServiceProcedureSeed,
   samsung_microwave_otr_samsungotrmw_turntable as ServiceProcedureSeed,
   samsung_microwave_otr_samsungotrmw_vent_motor as ServiceProcedureSeed,
+  samsung_range_ne58_samsungne58_bake_element as ServiceProcedureSeed,
+  samsung_range_ne58_samsungne58_broil_element as ServiceProcedureSeed,
+  samsung_range_ne58_samsungne58_convection_element as ServiceProcedureSeed,
+  samsung_range_ne58_samsungne58_convection_fan as ServiceProcedureSeed,
+  samsung_range_ne58_samsungne58_door_lock as ServiceProcedureSeed,
+  samsung_range_ne58_samsungne58_door_switch as ServiceProcedureSeed,
+  samsung_range_ne58_samsungne58_heater_relays as ServiceProcedureSeed,
+  samsung_range_ne58_samsungne58_hmi_touch as ServiceProcedureSeed,
+  samsung_range_ne58_samsungne58_oven_sensor as ServiceProcedureSeed,
+  samsung_range_ne58_samsungne58_power as ServiceProcedureSeed,
+  samsung_range_ne58_samsungne58_surface_radiant as ServiceProcedureSeed,
+  samsung_range_ne58_samsungne58_thermal_cutoff as ServiceProcedureSeed,
+  samsung_range_ne58h_induction_ne58h_bake_element as ServiceProcedureSeed,
+  samsung_range_ne58h_induction_ne58h_c20_oven_sensor as ServiceProcedureSeed,
+  samsung_range_ne58h_induction_ne58h_c21_abnormal_temp as ServiceProcedureSeed,
+  samsung_range_ne58h_induction_ne58h_cd1_door_lock as ServiceProcedureSeed,
+  samsung_range_ne58h_induction_ne58h_cf0_main_sub as ServiceProcedureSeed,
+  samsung_range_ne58h_induction_ne58h_cf2_touch as ServiceProcedureSeed,
+  samsung_range_ne58h_induction_ne58h_convection_fan as ServiceProcedureSeed,
+  samsung_range_ne58h_induction_ne58h_induction_comm_inverter as ServiceProcedureSeed,
+  samsung_range_ne58h_induction_ne58h_induction_igbt_sensor as ServiceProcedureSeed,
+  samsung_range_ne58h_induction_ne58h_induction_pan_detection as ServiceProcedureSeed,
+  samsung_range_ne58h_induction_ne58h_power as ServiceProcedureSeed,
   samsung_range_nx60_samsungnx60_bake_element as ServiceProcedureSeed,
   samsung_range_nx60_samsungnx60_bake_ignitor as ServiceProcedureSeed,
   samsung_range_nx60_samsungnx60_broil_element as ServiceProcedureSeed,

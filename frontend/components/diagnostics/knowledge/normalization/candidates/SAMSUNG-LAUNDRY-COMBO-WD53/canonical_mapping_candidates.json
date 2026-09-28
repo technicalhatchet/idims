@@ -1,0 +1,2014 @@
+{
+  "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+  "candidates": [
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-door_lock",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_lock",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": null,
+        "actuator": "lock"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-auto-open-door",
+        "pages": [
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-auto-open-door",
+            "pages": [
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "lock"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-auto-open-door-(dc5)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Auto-open door (DC5)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-auto-open-door",
+        "pages": [
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-auto-open-door",
+            "pages": [
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Auto-open door (DC5)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-ccfd232a7378-main_control",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "main_control",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-ccfd232a7378"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-communication",
+        "pages": [
+          47,
+          55
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-communication",
+            "pages": [
+              47,
+              55
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-ccfd232a7378",
+            "matchedSurface": "main_control",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
+          }
+        ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-ccfd232a7378-main_control",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:04.750Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.615523+00:00"
+      }
+    },
+    {
+      "id": "map-samsung-laundry-combo-wd53-unresolved-samsungwd53-communication-inverter",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inverter",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-communication",
+        "pages": [
+          47,
+          55
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-communication",
+            "pages": [
+              47,
+              55
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-pba-communication-(ac,-ac3\u2013ac6)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: PBA communication (AC, AC3\u2013AC6)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-communication",
+        "pages": [
+          47,
+          55
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-communication",
+            "pages": [
+              47,
+              55
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "PBA communication (AC, AC3\u2013AC6)"
+    },
+    {
+      "id": "map-samsung-laundry-combo-wd53-unresolved-samsungwd53-compressor-compressor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "compressor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-compressor",
+        "pages": [
+          50,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-compressor",
+            "pages": [
+              50,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-samsung-laundry-combo-wd53-unresolved-samsungwd53-compressor-inverter",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inverter",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-compressor",
+        "pages": [
+          50,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-compressor",
+            "pages": [
+              50,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-bldc-compressor-(3ca,-hc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: BLDC compressor (3CA, HC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-compressor",
+        "pages": [
+          50,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-compressor",
+            "pages": [
+              50,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "BLDC compressor (3CA, HC)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-door-lock-and-switch-(dc,-dc1,-dc1)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: Door lock and switch (DC, DC1, dC1)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": "lock and",
+        "actuator": "switch"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-door-lock",
+        "pages": [
+          50,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-door-lock",
+            "pages": [
+              50,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": "lock and",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Door lock and switch (DC, DC1, dC1)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-drain_pump",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drain_pump",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "drain",
+        "component": null,
+        "actuator": "pump"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-drain-pump",
+        "pages": [
+          55,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-drain-pump",
+            "pages": [
+              55,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "pump"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-drain-pump-(5c)-/-\u00a74-5-pump-motor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: Drain pump (5C) / \u00a74-5 pump motor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "drain",
+        "component": "pump 5c 4 5 pump",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-drain-pump",
+        "pages": [
+          55,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-drain-pump",
+            "pages": [
+              55,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "drain",
+              "component": "pump 5c 4 5 pump",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drain pump (5C) / \u00a74-5 pump motor"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-heating_element",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "heating_element",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-dry-heater",
+        "pages": [
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-dry-heater",
+            "pages": [
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-dry-heater-element-(#5)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-5: Dry heater element (#5)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "dry",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-dry-heater",
+        "pages": [
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-dry-heater",
+            "pages": [
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "dry",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Dry heater element (#5)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-lint_filter",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "lint_filter",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-filter-check",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-filter-check",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-filter-and-cover-magnets-(nc,-nc2,-nc3)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Filter and cover magnets (NC, NC2, NC3)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-filter-check",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-filter-check",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Filter and cover magnets (NC, NC2, NC3)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-foam-detection-(ulc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Foam detection (ULC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-foam-detection",
+        "pages": [
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-foam-detection",
+            "pages": [
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Foam detection (ULC)"
+    },
+    {
+      "id": "map-samsung-laundry-combo-wd53-unresolved-samsungwd53-heat-pump-thermistors-compressor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "compressor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-heat-pump-thermistors",
+        "pages": [
+          50,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-heat-pump-thermistors",
+            "pages": [
+              50,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-samsung-laundry-combo-wd53-unresolved-samsungwd53-heat-pump-thermistors-condenser",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "condenser",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-heat-pump-thermistors",
+        "pages": [
+          50,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-heat-pump-thermistors",
+            "pages": [
+              50,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-heat-pump-thermistors-(tc,-tc5\u2013tcb)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-5: Heat pump thermistors (tC, TC5\u2013TCB)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "heat",
+        "actuator": "pump"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-heat-pump-thermistors",
+        "pages": [
+          50,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-heat-pump-thermistors",
+            "pages": [
+              50,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "heat",
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Heat pump thermistors (tC, TC5\u2013TCB)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-cda9def45dce-user_interface",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "user_interface",
+      "extractedTerm": null,
+      "canonicalId": "hmi_control",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-hmi-check",
+        "pages": [
+          50,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-hmi-check",
+            "pages": [
+              50,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-cda9def45dce",
+            "matchedSurface": "user_interface",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
+          }
+        ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-cda9def45dce-user_interface",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:05.620Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.615523+00:00"
+      }
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-switch-error-(bc2,-bc2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: Switch error (BC2, bC2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": "switch"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-hmi-check",
+        "pages": [
+          50,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-hmi-check",
+            "pages": [
+              50,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Switch error (BC2, bC2)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-inlet_valve",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inlet_valve",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "inlet",
+        "component": null,
+        "actuator": "valve"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-inlet-valves",
+        "pages": [
+          47,
+          55
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-inlet-valves",
+            "pages": [
+              47,
+              55
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "inlet",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-inlet-valves-(4c,-co/ho-manual-check)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: Inlet valves (4C, Co/Ho manual check)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "inlet",
+        "component": "valves 4c co ho manual check",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-inlet-valves",
+        "pages": [
+          47,
+          55
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-inlet-valves",
+            "pages": [
+              47,
+              55
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "inlet",
+              "component": "valves 4c co ho manual check",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Inlet valves (4C, Co/Ho manual check)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-water-leakage-(lc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: Water leakage (LC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "leakage lc",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-leak-check",
+        "pages": [
+          49,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-leak-check",
+            "pages": [
+              49,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "leakage lc",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water leakage (LC)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-mems-sensor-(8c,-8c1,-8c2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: MEMS sensor (8C, 8C1, 8C2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "mems",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-mems-sensor",
+        "pages": [
+          49,
+          58
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-mems-sensor",
+            "pages": [
+              49,
+              58
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "mems",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "MEMS sensor (8C, 8C1, 8C2)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-drive_motor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drive_motor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "drive",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-motor-circuit",
+        "pages": [
+          55,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-motor-circuit",
+            "pages": [
+              55,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "drive",
+              "actuator": "motor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-washing-motor-(3c)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: Washing motor (3C)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "washing",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-motor-circuit",
+        "pages": [
+          55,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-motor-circuit",
+            "pages": [
+              55,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "washing",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Washing motor (3C)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-water_level_sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "water_level_sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "level",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-overflow",
+        "pages": [
+          49,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-overflow",
+            "pages": [
+              49,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "level",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-overflow-(oc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: Overflow (OC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-overflow",
+        "pages": [
+          49,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-overflow",
+            "pages": [
+              49,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Overflow (OC)"
+    },
+    {
+      "id": "map-samsung-laundry-combo-wd53-unresolved-samsungwd53-power-supply-supply",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-power-supply",
+        "pages": [
+          48,
+          58
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-power-supply",
+            "pages": [
+              48,
+              58
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-power-(9c1,-9c2,-9c5)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: Power (9C1, 9C2, 9C5)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-power-supply",
+        "pages": [
+          48,
+          58
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-power-supply",
+            "pages": [
+              48,
+              58
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Power (9C1, 9C2, 9C5)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-system-error-(sf)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: System error (SF)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-system-fault",
+        "pages": [
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-system-fault",
+            "pages": [
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "System error (SF)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-unbalance-(ub,-ub1)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: Unbalance (UB, UB1)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-unbalance",
+        "pages": [
+          49,
+          58
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-unbalance",
+            "pages": [
+              49,
+              58
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Unbalance (UB, UB1)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-wash_heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_heater",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": null,
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-wash-heater",
+        "pages": [
+          45,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-wash-heater",
+            "pages": [
+              45,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-wash_ntc",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_ntc",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": "ntc",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-wash-heater",
+        "pages": [
+          45,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-wash-heater",
+            "pages": [
+              45,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "wash",
+              "component": "ntc",
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-wash-heater-(hc,-hc1)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: Wash heater (HC, HC1)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": null,
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-wash-heater",
+        "pages": [
+          45,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-wash-heater",
+            "pages": [
+              45,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Wash heater (HC, HC1)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-wash-temperature-sensor-(tc1)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: Wash temperature sensor (TC1)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": "temperature",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-wash-thermistor",
+        "pages": [
+          49,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-wash-thermistor",
+            "pages": [
+              49,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "wash",
+              "component": "temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Wash temperature sensor (TC1)"
+    },
+    {
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-water-level-sensor-(1c)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-4: Water level sensor (1C)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "level",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-water-level-sensor",
+        "pages": [
+          55,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-water-level-sensor",
+            "pages": [
+              55,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "level",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water level sensor (1C)"
+    }
+  ]
+}

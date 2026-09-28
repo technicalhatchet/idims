@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "compounding_baseline",
+  "version": "v1",
+  "frozen": true,
+  "frozenAt": "2026-09-13T07:15:00+00:00",
+  "description": "FROZEN — W10864849 architecture-boundary experiment (FL corpus prior → top_load_washer ontology). 26.4% new-decision rate is expected, not regression.",
+  "architectureBoundary": "FL_corpus_prior → TL_ontology",
+  "priorCorpus": ["W8178558", "W11169652"],
+  "promotionGate": {
+    "manualId": "W10864849",
+    "platformId": "whirlpool_tl_dd",
+    "ontologyId": "top_load_washer",
+    "promotionId": "promo-W10864849-20260913070539",
+    "reviewRecords": 53,
+    "newHumanDecisionCount": 14,
+    "inheritedResolvedAutomatically": 39,
+    "newHumanDecisionRate": 0.264,
+    "inheritedResolutionRate": 0.736,
+    "equivalence": "PASS",
+    "newCanonicalKnowledge": 0,
+    "humanClassification": "w10864849_human_classification.json"
+  },
+  "platformKnowledgeSummary": {
+    "reusableTlPlatformConcept": 5,
+    "oneOffOemTerminology": 4,
+    "knownConceptNewTlImplementation": 3,
+    "newTlAlias": 6,
+    "newTlProcedureBinding": 24
+  },
+  "publishGate": {
+    "ontologyRoutingTopLoadWasher": true,
+    "noFlOverlayLeakage": true,
+    "platformTopologyResolves": true,
+    "canonicalValidation": true,
+    "compilerTests": true,
+    "humanClassificationOf14": true,
+    "promotionEquivalence": true,
+    "published": true,
+    "tlDs7Torture": "pending"
+  },
+  "nextExperiment": {
+    "manualId": "W11697231",
+    "platformId": "whirlpool_tl_dd",
+    "hypothesis": "mode_shifter, pressure_sensor, lid_lock mappings should become inherited TL platform knowledge — second-order compounding curve."
+  },
+  "architecturalNote": "Zero canonical ontology additions despite substantial topology jump (CCU/MCU FL → BPM/shifter TL). Canonical abstraction survived architecture boundary."
+}

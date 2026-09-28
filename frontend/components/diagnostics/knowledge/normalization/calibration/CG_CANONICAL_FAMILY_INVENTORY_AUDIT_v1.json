@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_canonical_family_inventory_audit",
+  "inventoryArtifact": "CG_CANONICAL_FAMILY_INVENTORY_v1.json",
+  "auditedAt": "2026-09-17T08:00:00+00:00",
+  "verdict": "GREEN / CANONICAL_FAMILY_INVENTORY_GATE_APPROVED",
+  "inventoryStatus": "closed",
+  "closedAt": "2026-09-17T08:15:00+00:00",
+  "openedWorkstream": "CG_MICROWAVE_FIT_TEST_CONTRACT_v1.json",
+  "auditQuestions": [
+    {
+      "id": "Q1",
+      "question": "Is inventory classification-only with no implicit promotion?",
+      "answer": true,
+      "evidence": "coreConstraint + promotionBlocked on all non-existing entries; minimumAdditionalCanonicalGraphs.confirmedRequired = 0"
+    },
+    {
+      "id": "Q2",
+      "question": "Is range_oven marked LOCKED with doNotReopen and excluded from fit-test queue?",
+      "answer": true,
+      "evidence": "range_oven_freestanding entry: architectureStatus LOCKED, doNotReopen true, inventoryNote prohibits fit reopen"
+    },
+    {
+      "id": "Q3",
+      "question": "Are all wizard templateIds accounted for?",
+      "answer": true,
+      "evidence": "wizardTemplateCoverage.allAccountedFor = true; 13/13 templates mapped"
+    },
+    {
+      "id": "Q4",
+      "question": "Does every requires_fit_test entry have a bounded next step?",
+      "answer": true,
+      "evidence": "8 entries with boundedNextStep CG-*-FIT contracts"
+    },
+    {
+      "id": "Q5",
+      "question": "Are major-appliance domains systematically covered?",
+      "answer": true,
+      "evidence": "Domains: laundry (8), cooking (7), refrigeration (4), dishwashing (2), food_preservation (2), specialty (1)"
+    },
+    {
+      "id": "Q6",
+      "question": "Is minimum additional graph count stated as hypothesis not decision?",
+      "answer": true,
+      "evidence": "workingEstimate lowerBound 1 upperBound 3; likelyAfterFitTests not confirmedRequired"
+    },
+    {
+      "id": "Q7",
+      "question": "Are CG-10–13 and range compounding artifacts treated as historical — not inventory reopen targets?",
+      "answer": true,
+      "evidence": "explicitNonGoals prohibits range fit reopen; range evidence cited as closed lock only"
+    }
+  ],
+  "bucketCounts": {
+    "existing_canonical_family": 6,
+    "variant_of_existing_graph": 6,
+    "requires_fit_test": 8,
+    "requires_new_canonical_graph": 0,
+    "out_of_scope": 4
+  },
+  "lockedFamilies": [
+    {
+      "canonicalOntologyId": "range_oven",
+      "status": "LOCKED — DO NOT REOPEN",
+      "familyLock": "CG_RANGE_FAMILY_LOCK_v1.json"
+    }
+  ],
+  "fitTestPriorityQueue": [
+    {
+      "rank": 1,
+      "categoryId": "microwave",
+      "contractId": "CG-MICROWAVE-FIT",
+      "reason": "Wizard + OEM procedures exist; no canonical graph; high-confidence new-graph lean"
+    },
+    {
+      "rank": 2,
+      "categoryId": "aio_laundry_combo",
+      "contractId": "CG-AIO-LAUNDRY-FIT",
+      "reason": "Explicit exclusion from vented_dryer and washer ontologies"
+    },
+    {
+      "rank": 3,
+      "categoryId": "heat_pump_dryer",
+      "contractId": "CG-HEAT-PUMP-DRYER-FIT",
+      "reason": "Distinct refrigerant-loop dry path; manual corpus in repo"
+    },
+    {
+      "rank": 4,
+      "categoryId": "standalone_freezer",
+      "contractId": "CG-STANDALONE-FREEZER-FIT",
+      "reason": "Wizard + platform exist; refrigerator absorption hypothesis untested"
+    },
+    {
+      "rank": 5,
+      "categoryId": "stacked_laundry_center",
+      "contractId": "CG-STACKED-LAUNDRY-FIT",
+      "reason": "Decomposability vs integrated unit unknown"
+    },
+    {
+      "rank": 6,
+      "categoryId": "wall_oven",
+      "contractId": "CG-WALL-OVEN-FIT",
+      "reason": "range_oven variant hypothesis — low urgency while range locked"
+    },
+    {
+      "rank": 7,
+      "categoryId": "cooktop_only",
+      "contractId": "CG-COOKTOP-FIT",
+      "reason": "range_oven variant hypothesis — corroboration vocabulary exists"
+    }
+  ],
+  "explicitExclusions": [
+    "range_oven fit reopen",
+    "range compounding sequences",
+    "fuel-specific canonical graph creation"
+  ]
+}

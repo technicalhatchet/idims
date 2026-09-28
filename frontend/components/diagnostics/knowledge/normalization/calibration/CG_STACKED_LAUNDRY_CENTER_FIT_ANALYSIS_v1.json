@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_stacked_laundry_center_fit_analysis",
+  "workstream": "CG-STACKED-LAUNDRY-CENTER-FIT-TEST",
+  "status": "complete",
+  "generatedAt": "2026-09-17T17:30:00+00:00",
+  "contract": "CG_STACKED_LAUNDRY_CENTER_FIT_TEST_CONTRACT_v1.json",
+  "hardOutcome": "proven_variant",
+  "hardOutcomeGate": {
+    "permittedOutcomes": ["proven_variant", "architectural_divergence", "insufficient_evidence"],
+    "selected": "proven_variant",
+    "exactlyOne": true
+  },
+  "evidenceChain": {
+    "contract": "CG_STACKED_LAUNDRY_CENTER_FIT_TEST_CONTRACT_v1.json",
+    "observation": "CG_GUD27_FIT_OBSERVATION_v1.json",
+    "triangulation": "CG_STACKED_LAUNDRY_CENTER_FIT_TRIANGULATION_v1.json"
+  },
+  "fitAgainstVentedDryer": {
+    "verdict": "fits_without_mutation",
+    "fitsWithoutMutation": true,
+    "drySectionIsProvenVariant": true,
+    "rationale": "All six ingested dryer procedures map to vented_dryer functional domains: heat_source (electric element or gas ignitor/valve), drive_motor, exhaust_path/blower vent restriction, thermal protection via cycling thermostats and safety fuse, door authorization. Mechanical timer realizes control_board/hmi_control/drying_control at platform overlay — analogous to CG-11 gas range realizing electric_range control domains with different physical implementation. No sealed moisture rejection, no heat-pump thermal system, no exhaust-path omission.",
+    "functionalDomainsMapped": [
+      "heat_generation",
+      "drum_mechanical_drive",
+      "airflow_exhaust",
+      "thermal_sensing_protection",
+      "drying_control",
+      "door_authorization"
+    ],
+    "implementationOverlays": [
+      "mechanical_timer",
+      "timer_motor",
+      "timer_contact_chart",
+      "long_vent_blower"
+    ],
+    "rejectedSuperficialDivergences": [
+      {
+        "observation": "No electronic control_board or display codes",
+        "rejection": "Mechanical timer is implementation of drying_control — not missing canonical domain"
+      },
+      {
+        "observation": "Thermostat auto-dry instead of electronic moisture sensor",
+        "rejection": "vented_dryer moisture termination can be thermostat- or sensor-based at platform layer"
+      }
+    ]
+  },
+  "fitAgainstAioLaundryCombo": {
+    "verdict": "not_applicable_host_rejected",
+    "evaluated": true,
+    "fitsWithoutMutation": false,
+    "rationale": "GUD27 is unitized stacked washer+dryer with separate sections and manual load transfer. No integrated_laundry_orchestration, no single drum, no wash→dry mode transition on shared controller. aio_laundry_combo is explicitly the wrong host family."
+  },
+  "fitAgainstHeatPumpDryer": {
+    "verdict": "not_applicable",
+    "evaluated": true,
+    "rationale": "Vented exhaust architecture — no refrigerant loop, no sealed_moisture_rejection_path"
+  },
+  "washerSectionAnalysis": {
+    "verdict": "deferred_insufficient_ingested_procedures",
+    "blocksWholeApplianceVariant": false,
+    "rationale": "Washer section is mechanical with zero ingested OEM electronic test procedures. Wizard template already decomposes washer_section vs dryer_section. Host family (likely top_load_washer mechanical variant) can be resolved when/if washer service manual is ingested — does not require stacked_laundry_center.json canonical graph.",
+    "recommendedRouting": "stacked_laundry wizard → washer_section uses washer family overlay; dryer_section routes to vented_dryer"
+  },
+  "composedDecompositionHypothesis": {
+    "hypothesis": "stacked_laundry_center = vented_dryer (dry section) + existing washer contract (wash section) + cabinet shared_power only",
+    "result": "accepted",
+    "reason": "Dry section proven variant of vented_dryer. No cross-section functional coupling beyond shared power. No AIO-style orchestration.",
+    "canonicalGraphRequired": false
+  },
+  "integrationAnalysis": {
+    "sharedControlArchitecture": false,
+    "sharedMotorDrive": false,
+    "sharedDrum": false,
+    "integratedWashDryOrchestration": false,
+    "manualLoadTransfer": true,
+    "sharedCabinetPower": true,
+    "conclusion": "Cabinet integration does not add functional domains beyond what decomposed washer+dryer contracts already cover"
+  },
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "stackedLaundryCenterJsonCreated": false,
+    "overlayCreated": false,
+    "discoveryAuthorized": false,
+    "procedureCount": 6,
+    "ventedDryerClassifications": 5,
+    "implementationSpecificClassifications": 1
+  },
+  "architecturalDisposition": {
+    "categoryId": "stacked_laundry_center",
+    "disposition": "proven_composition_variant",
+    "dryHostCanonicalOntologyId": "vented_dryer",
+    "washHostCanonicalOntologyId": "deferred_pending_washer_manual",
+    "newCanonicalGraphRequired": false,
+    "note": "Template-level section decomposition — not a blind union graph like aio_laundry_combo"
+  },
+  "stopCondition": "FIT closure — no discovery/freeze for stacked_laundry_center.json. Normalization/compounding deferred until architecture-complete STOP."
+}

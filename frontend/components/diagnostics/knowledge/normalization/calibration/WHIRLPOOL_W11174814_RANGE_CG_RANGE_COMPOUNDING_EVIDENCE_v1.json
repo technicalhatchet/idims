@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_compounding_evidence",
+  "manualId": "W11174814",
+  "platformId": "whirlpool_freestanding_range",
+  "compoundingPhase": "CG-RANGE-COMPOUNDING",
+  "compoundingSequence": 4,
+  "compoundingRole": "corroboration",
+  "notRetroactiveFitEvidence": true,
+  "generatedAt": "2026-09-17T06:30:00+00:00",
+  "priorSequenceClosed": "CG_RANGE_NY63T8751SS_COMPOUNDING_AUDIT_v1.json",
+  "normalizationArtifact": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+  "gateArtifact": "WHIRLPOOL_W11174814_RANGE_overlay_mapping_table_v1.json",
+  "overlayFile": "whirlpool_freestanding_range_w11174814.json",
+  "canonicalOntology": {
+    "id": "range_oven",
+    "revision": "rev1",
+    "immutable": true,
+    "adoptedFromHash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54"
+  },
+  "compoundingCurve": {
+    "framing": "corroboration_functional_realization",
+    "canonicalInheritance": 5,
+    "instanceScopeBinding": 2,
+    "conditionalInstanceScopeBinding": 1,
+    "conditionalBinding": 3,
+    "overlayImplementation": 16,
+    "proceduresBound": 26,
+    "measurementsBound": 17,
+    "decisionBranchesExecutable": 12,
+    "functionalRealizations": 15,
+    "platformOnlyProcedures": 3,
+    "canonicalExpansion": 0,
+    "fitArtifactsReopened": 0,
+    "note": "Final compounding sequence — cross-family corroboration across electric radiant, induction, gas, and dual-fuel slices without Samsung-specific or dual_fuel canonical ontology."
+  },
+  "hierarchyTest": {
+    "frozenKeepStable": true,
+    "notRetroactiveFitEvidence": true,
+    "cg10Through13Untouched": true,
+    "samsungOverlaysIsolated": true,
+    "surfaceHeatingMultiFuelCorroboration": true,
+    "instanceScopeElectricAndGasOvenPaths": true,
+    "verdict": "W11174814 compounding corroborates range_oven is not Samsung-specific — implementation vocabulary differs, canonical contract holds."
+  },
+  "provenanceChain": {
+    "flow": "CG_RANGE_W11174814_NORMALIZATION_v1.json → WHIRLPOOL_W11174814_RANGE_overlay_mapping_table_v1.json → whirlpool_freestanding_range_w11174814.json",
+    "fitWitnessReferenceOnly": null,
+    "notRetroactiveFitEvidence": true,
+    "samsungNormalizationWitnesses": [
+      "CG_RANGE_NX60_NORMALIZATION_v1.json",
+      "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json",
+      "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json"
+    ]
+  },
+  "nextSteps": [
+    "CG_RANGE_W11174814_COMPOUNDING_AUDIT_v1.json integrity + regression green",
+    "STOP — range compounding sequences complete; family closure unlocks separately"
+  ]
+}

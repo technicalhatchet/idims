@@ -1,0 +1,66 @@
+{
+  "id": "lgwm4000-inlet-valves",
+  "version": "1.0.0",
+  "title": "\u00a78: Inlet and dispenser valves",
+  "platformId": "lg_fl_washer_wm4000",
+  "componentIds": [
+    "inlet_valve",
+    "dosing_pump"
+  ],
+  "tags": [
+    "fill_failure"
+  ],
+  "source": {
+    "manualId": "LG-FL-WASHER",
+    "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+    "sourcePdf": "backend/docs/manuals/lg wm4000h fl washer service manual.pdf",
+    "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "8",
+    "oemTestTitle": "Inlet / bleach / pre-wash valves",
+    "pages": [
+      33,
+      53
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_harness"
+    },
+    {
+      "id": "valve_harness",
+      "order": 2,
+      "type": "instruction",
+      "title": "Valve harnesses",
+      "body": "Check VALVE HOT, INLET, PRE, and BLEACH solenoids at MAIN PWB.",
+      "sourceExcerpt": "Check VALVE HOT, INLET, PRE, and BLEACH solenoids at MAIN PWB.",
+      "requiresInput": false,
+      "defaultNextStepId": "valves_ok"
+    },
+    {
+      "id": "replace_valve",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace inlet valve",
+      "oemOutcome": "Replace failed solenoid or valve assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "valves_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Inlet valves OK",
+      "oemOutcome": "Fill valve path verified.",
+      "requiresInput": false
+    }
+  ]
+}

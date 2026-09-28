@@ -1,0 +1,607 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "vented_dryer",
+  "manufacturer": "Samsung",
+  "label": "Samsung vented dryer family overlays",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "samsung_fl_dryer_bb8700",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "manualId": "SAMSUNG-FL-BB8700-DRYER",
+      "label": "Samsung FL dryer BB8700 / DV8700B (DVE/DVG 53/50BB)",
+      "appliesTo": {
+        "templateIds": [
+          "electric_dryer",
+          "gas_dryer"
+        ],
+        "manufacturers": [
+          "Samsung"
+        ],
+        "modelPatterns": [
+          "DVE53BB*",
+          "DVE50*",
+          "DVE46BB*",
+          "DVG53BB*",
+          "DVG50*",
+          "DVG46BB*",
+          "DV53BB*",
+          "DV50*"
+        ],
+        "platformIds": [
+          "samsung_fl_dryer_bb8700"
+        ]
+      },
+      "oemTermAliases": {
+        "supply": "power_supply",
+        "user_interface": "hmi_control",
+        "main_control": "control_board",
+        "door_switch": "door_switch",
+        "drive_motor": "drive_motor",
+        "heating_element": "heat_source",
+        "gas_valve": "heat_source",
+        "igniter": "heat_source",
+        "flame_sensor": "heat_source",
+        "exhaust_thermistor": "temperature_sensor",
+        "inlet_thermistor": "temperature_sensor",
+        "thermal_fuse": "thermal_fuse",
+        "high_limit_thermostat": "thermal_cutoff"
+      },
+      "displayTerms": {
+        "control_board": "Main control PCB",
+        "hmi_control": "Display / buttons (bC2)",
+        "power_supply": "Line voltage / supply (9C1, FC, AC)",
+        "heat_source": "Heat source (element or gas path)",
+        "electric_heater": "Electric heater (5300 W, ~11 \u03a9)",
+        "gas_valve": "Gas valve coils (25M01A)",
+        "ignitor": "Hot-surface igniter (101D)",
+        "temperature_sensor": "Thermistors (tC / tC5)",
+        "thermal_cutoff": "Hi-limit thermostat (60T21)",
+        "drive_motor": "Drive motor / centrifugal switch"
+      },
+      "add": {
+        "components": [
+          {
+            "id": "electric_heater",
+            "name": "Electric heating element",
+            "aliases": [
+              "heating element",
+              "heating_element"
+            ],
+            "systemId": "heating",
+            "categoryId": "dry_heating",
+            "type": "actuator",
+            "templateIds": [
+              "electric_dryer"
+            ]
+          },
+          {
+            "id": "gas_valve",
+            "name": "Gas valve",
+            "aliases": [
+              "gas valve",
+              "gas_valve"
+            ],
+            "systemId": "heating",
+            "categoryId": "dry_heating",
+            "type": "actuator",
+            "templateIds": [
+              "gas_dryer"
+            ]
+          },
+          {
+            "id": "ignitor",
+            "name": "Hot-surface igniter",
+            "aliases": [
+              "igniter",
+              "ignitor"
+            ],
+            "systemId": "heating",
+            "categoryId": "dry_heating",
+            "type": "actuator",
+            "templateIds": [
+              "gas_dryer"
+            ]
+          }
+        ],
+        "establishedFactSources": [
+          {
+            "factId": "door_closed_authorized",
+            "fromBranches": [
+              "door_closed_authorized"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_running",
+            "fromBranches": [
+              "motor_running"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "heat_command_present",
+            "fromBranches": [
+              "heat_command_present"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          }
+        ],
+        "relationships": [
+          {
+            "from": "electric_heater",
+            "to": "heat_source",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Samsung BB8700 \u2014 5300 W single element ~11 \u03a9."
+          },
+          {
+            "from": "gas_valve",
+            "to": "heat_source",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Samsung BB8700 \u2014 25M01A gas valve coil pairs."
+          },
+          {
+            "from": "ignitor",
+            "to": "heat_source",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Samsung BB8700 \u2014 101D igniter 40\u2013120 \u03a9."
+          }
+        ]
+      },
+      "overrides": [],
+      "procedureBindings": [
+        {
+          "procedureId": "samsungbb8700-dryer-power",
+          "testTargetId": "heat_command_test",
+          "failureDomains": [
+            "control_failure",
+            "supply_issue"
+          ],
+          "displayTitle": "\u00a74-1 \u2014 Power and communication",
+          "oemTestNumber": "4-1"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-thermistor",
+          "testTargetId": "exhaust_temperature_test",
+          "failureDomains": [
+            "temperature_sensing_failure",
+            "heating_failure"
+          ],
+          "displayTitle": "\u00a74-1 / \u00a74-6 \u2014 Thermistors",
+          "oemTestNumber": "4-1"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-door-switch",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "door_authorization_failure"
+          ],
+          "displayTitle": "\u00a74-1 / \u00a74-6 \u2014 Door switch",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-heater-electric",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "\u00a74-6 \u2014 Electric heater",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+          "testTargetId": "thermal_protection_test",
+          "failureDomains": [
+            "heating_failure",
+            "thermal_protection_failure"
+          ],
+          "displayTitle": "\u00a74-6 \u2014 Thermal cutoff and hi-limit",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-motor-circuit",
+          "testTargetId": "motor_run_test",
+          "failureDomains": [
+            "drive_failure"
+          ],
+          "displayTitle": "\u00a74-6 \u2014 Motor centrifugal switch",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-belt-cutoff",
+          "testTargetId": "motor_run_test",
+          "failureDomains": [
+            "drive_failure"
+          ],
+          "displayTitle": "\u00a74-6 \u2014 Belt cut-off switch",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-hmi",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "user_interface_failure",
+            "control_failure"
+          ],
+          "displayTitle": "\u00a74-1 \u2014 Display / buttons",
+          "oemTestNumber": "4-1"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-valve",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure",
+            "ignition_issue"
+          ],
+          "displayTitle": "\u00a74-6 \u2014 Gas valve coils",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-ignitor",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure",
+            "ignition_issue"
+          ],
+          "displayTitle": "\u00a74-6 \u2014 Gas igniter",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-flame-sensor",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure",
+            "ignition_issue"
+          ],
+          "displayTitle": "\u00a74-6 \u2014 Radiant flame sensor",
+          "oemTestNumber": "4-6"
+        }
+      ],
+      "measurementBindings": [
+        {
+          "procedureId": "samsungbb8700-dryer-heater-electric",
+          "measurementKnowledgeId": "samsungFlBb8700DryerHeaterOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "5300 W element",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-valve",
+          "measurementKnowledgeId": "samsungFlBb8700DryerGasValve12Ohms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Gas valve coils 1\u20132",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-valve",
+          "measurementKnowledgeId": "samsungFlBb8700DryerGasValve13Ohms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Gas valve coils 1\u20133",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-valve",
+          "measurementKnowledgeId": "samsungFlBb8700DryerGasValve45Ohms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Gas valve coils 4\u20135",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-valve",
+          "measurementKnowledgeId": "samsungFlBb8700DryerGasValve67Ohms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Gas valve coils 6\u20137",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-ignitor",
+          "measurementKnowledgeId": "samsungFlBb8700DryerIgnitorOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Hot-surface igniter (101D)",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+          "measurementKnowledgeId": "samsungFlBb8700DryerHiLimitOhms",
+          "testTargetId": "thermal_protection_test",
+          "displayLabel": "Hi-limit thermostat (60T21)",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        }
+      ]
+    },
+    {
+      "platformFamilyId": "samsung_fl_dryer_dv6000",
+      "platformId": "samsung_fl_dryer_dv6000",
+      "manualId": "SAMSUNG-FL-DV6000-DRYER",
+      "label": "Samsung FL dryer DV6000T (DVE45T6000/6005/6200)",
+      "appliesTo": {
+        "templateIds": [
+          "electric_dryer"
+        ],
+        "manufacturers": [
+          "Samsung"
+        ],
+        "modelPatterns": [
+          "DV6000*",
+          "DVE45T*",
+          "DV45T60*",
+          "DVE60*"
+        ],
+        "platformIds": [
+          "samsung_fl_dryer_dv6000"
+        ]
+      },
+      "oemTermAliases": {
+        "supply": "power_supply",
+        "user_interface": "hmi_control",
+        "main_control": "control_board",
+        "door_switch": "door_switch",
+        "drive_motor": "drive_motor",
+        "heating_element": "heat_source",
+        "exhaust_thermistor": "temperature_sensor",
+        "inlet_thermistor": "temperature_sensor",
+        "thermal_fuse": "thermal_fuse",
+        "high_limit_thermostat": "thermal_cutoff"
+      },
+      "displayTerms": {
+        "control_board": "Main control PCB",
+        "hmi_control": "Display / buttons (bC2)",
+        "power_supply": "Line voltage / supply (9C1, FC, AC)",
+        "heat_source": "Heat source (electric element)",
+        "electric_heater": "Electric heater (single 10 \u03a9 / dual 13 \u03a9 / 34 \u03a9)",
+        "temperature_sensor": "Thermistors (tC / tC5)",
+        "thermal_cutoff": "Hi-limit thermostat (60T21)",
+        "drive_motor": "Drive motor / relay (3C)"
+      },
+      "add": {
+        "components": [
+          {
+            "id": "electric_heater",
+            "name": "Electric heating element",
+            "aliases": [
+              "heating element",
+              "heating_element"
+            ],
+            "systemId": "heating",
+            "categoryId": "dry_heating",
+            "type": "actuator",
+            "templateIds": [
+              "electric_dryer"
+            ]
+          }
+        ],
+        "establishedFactSources": [
+          {
+            "factId": "door_closed_authorized",
+            "fromBranches": [
+              "door_closed_authorized"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_running",
+            "fromBranches": [
+              "motor_running"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "heat_command_present",
+            "fromBranches": [
+              "heat_command_present"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          }
+        ],
+        "relationships": [
+          {
+            "from": "electric_heater",
+            "to": "heat_source",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Samsung DV6000 \u2014 single 10 \u03a9 or dual 13 \u03a9 / 34 \u03a9 element paths."
+          }
+        ]
+      },
+      "overrides": [],
+      "procedureBindings": [
+        {
+          "procedureId": "samsungdv6000-power",
+          "testTargetId": "heat_command_test",
+          "failureDomains": [
+            "control_failure",
+            "supply_issue"
+          ],
+          "displayTitle": "\u00a74-1 \u2014 Power and communication",
+          "oemTestNumber": "4-1"
+        },
+        {
+          "procedureId": "samsungdv6000-thermistor",
+          "testTargetId": "exhaust_temperature_test",
+          "failureDomains": [
+            "temperature_sensing_failure",
+            "heating_failure"
+          ],
+          "displayTitle": "\u00a74-1 / \u00a74-6 \u2014 Thermistors",
+          "oemTestNumber": "4-1"
+        },
+        {
+          "procedureId": "samsungdv6000-door-switch",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "door_authorization_failure"
+          ],
+          "displayTitle": "\u00a74-1 / \u00a74-6 \u2014 Door switch",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungdv6000-heater-electric",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "\u00a74-6 \u2014 Electric heater",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungdv6000-thermal-cutoff",
+          "testTargetId": "thermal_protection_test",
+          "failureDomains": [
+            "heating_failure",
+            "thermal_protection_failure"
+          ],
+          "displayTitle": "\u00a74-6 \u2014 Thermal cutoff and hi-limit",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungdv6000-motor-circuit",
+          "testTargetId": "motor_run_test",
+          "failureDomains": [
+            "drive_failure"
+          ],
+          "displayTitle": "\u00a74-6 \u2014 Motor windings and relay",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungdv6000-belt-cutoff",
+          "testTargetId": "motor_run_test",
+          "failureDomains": [
+            "drive_failure"
+          ],
+          "displayTitle": "\u00a74-6 \u2014 Belt cut-off switch",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungdv6000-hmi",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "user_interface_failure",
+            "control_failure"
+          ],
+          "displayTitle": "\u00a74-1 \u2014 Display / buttons",
+          "oemTestNumber": "4-1"
+        }
+      ],
+      "measurementBindings": [
+        {
+          "procedureId": "samsungdv6000-heater-electric",
+          "measurementKnowledgeId": "samsungFlDv6000DryerHeaterSingleOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Single element pin 1\u20133 (10 \u03a9)",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungdv6000-heater-electric",
+          "measurementKnowledgeId": "samsungFlDv6000DryerHeaterDualLowOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Dual element pin 2\u20133 (13 \u03a9)",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungdv6000-heater-electric",
+          "measurementKnowledgeId": "samsungFlDv6000DryerHeaterDualHighOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Dual element pin 1\u20132 (34 \u03a9)",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungdv6000-motor-circuit",
+          "measurementKnowledgeId": "samsungFlDv6000DryerMotorWinding34Ohms",
+          "testTargetId": "motor_run_test",
+          "displayLabel": "Motor winding pin 3\u20134 (2.88 \u03a9)",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungdv6000-motor-circuit",
+          "measurementKnowledgeId": "samsungFlDv6000DryerMotorWinding45Ohms",
+          "testTargetId": "motor_run_test",
+          "displayLabel": "Motor winding pin 4\u20135 (3.5 \u03a9)",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungdv6000-thermistor",
+          "measurementKnowledgeId": "samsungFlDv6000DryerThermistor10KOhms",
+          "testTargetId": "exhaust_temperature_test",
+          "displayLabel": "Thermistor 10 k\u03a9 @ 25\u00b0C",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungdv6000-thermal-cutoff",
+          "measurementKnowledgeId": "samsungFlDv6000DryerHiLimitOhms",
+          "testTargetId": "thermal_protection_test",
+          "displayLabel": "Hi-limit thermostat (60T21)",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        }
+      ]
+    }
+  ]
+}

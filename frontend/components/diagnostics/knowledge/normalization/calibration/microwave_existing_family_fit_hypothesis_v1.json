@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "microwave_existing_family_fit_hypothesis",
+  "workstream": "CG-MICROWAVE-FIT",
+  "status": "r1_observation_complete",
+  "generatedAt": "2026-09-17T08:20:00+00:00",
+  "contract": "CG_MICROWAVE_FIT_TEST_CONTRACT_v1.json",
+  "inventoryClassification": {
+    "categoryId": "microwave",
+    "classification": "requires_fit_test",
+    "inventoryHypothesisLean": "requires_new_canonical_graph",
+    "note": "Inventory lean is not architectural conclusion — fit test must falsify or confirm"
+  },
+  "centerpieceHypothesis": {
+    "question": "Can any existing frozen canonical contract absorb microwave functional architecture without mutation or range_oven contamination?",
+    "nullHypothesis": "Microwave exposes functional domains (HV/magnetron, RF cavity, interlock monitor chain) absent from all frozen families — divergence is expected",
+    "alternateHypothesis": "Microwave is a cooking-appliance variant routable under range_oven with platform overlay vocabulary only",
+    "contaminationNull": "Merging microwave into range_oven would contaminate locked range contract with HV/RF domains that are not oven/range functions"
+  },
+  "hostContractPriors": [
+    {
+      "id": "range_oven",
+      "fitPrior": "unlikely_without_contamination",
+      "rationale": "Superficial overlap on door switch, thermal cutout, control board — but magnetron/HV/cavity have no frozen host node",
+      "familyLock": "CG_RANGE_FAMILY_LOCK_v1.json",
+      "mutable": false
+    },
+    {
+      "id": "french_door_refrigerator",
+      "fitPrior": "reject",
+      "rationale": "Compressor sealed-system topology is not microwave architecture"
+    },
+    {
+      "id": "dishwasher",
+      "fitPrior": "reject",
+      "rationale": "Wash pump / tub / diverter functional domain unrelated"
+    },
+    {
+      "id": "vented_dryer",
+      "fitPrior": "reject",
+      "rationale": "Drum heat/airflow domain unrelated to RF cavity"
+    },
+    {
+      "id": "front_load_washer",
+      "fitPrior": "reject",
+      "rationale": "No shared functional contract"
+    },
+    {
+      "id": "top_load_washer",
+      "fitPrior": "reject",
+      "rationale": "No shared functional contract"
+    }
+  ],
+  "microwaveFunctionalLayers": {
+    "invariantCandidates": [
+      "door_interlock_chain",
+      "hv_generation",
+      "thermal_protection",
+      "power_supply",
+      "control_and_sensing",
+      "rf_cavity",
+      "mechanical_drive"
+    ],
+    "otrConditional": ["ventilation_otr"],
+    "crossManufacturerRecurrencePending": true
+  },
+  "r1ObservationTarget": {
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "platformId": "lg_microwave_otr",
+    "observationArtifact": "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+    "status": "complete",
+    "completedAt": "2026-09-17T08:35:00+00:00"
+  },
+  "r1PreliminaryLean": "genuine_divergence_preliminary",
+  "r1Gate": "CG_MICROWAVE_FIT_R1_GATE_v1.json",
+  "r2TriangulationTarget": {
+    "manualId": "SAMSUNG-ME11-MICROWAVE",
+    "platformId": "samsung_microwave_otr",
+    "observationArtifact": "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json",
+    "status": "complete",
+    "completedAt": "2026-09-17T08:50:00+00:00"
+  },
+  "triangulationArtifact": "CG_MICROWAVE_FIT_TRIANGULATION_v1.json",
+  "triangulationLean": "cross_manufacturer_functional_recurrence_supports_divergence",
+  "fitClosure": "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+  "fitOutcome": "B_genuine_divergence_documented",
+  "discoveryContract": "CG_MICROWAVE_DISCOVERY_CONTRACT_v1.json",
+  "discoveryClosure": "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json",
+  "approvedFunctionalContract": "microwave_functional_contract_candidate_v1.json",
+  "freezeContract": "CG_MICROWAVE_FREEZE_CONTRACT_v1.json",
+  "freezeLock": "CG_MICROWAVE_FREEZE_LOCK_v1.json",
+  "freezeClosure": "CG_MICROWAVE_FREEZE_CLOSURE_v1.json"
+}

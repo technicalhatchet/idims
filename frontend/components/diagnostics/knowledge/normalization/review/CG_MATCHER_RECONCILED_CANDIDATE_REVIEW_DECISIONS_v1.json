@@ -1,0 +1,4261 @@
+{
+  "schemaVersion": 1,
+  "reportType": "matcher_reconciled_candidate_review_decisions",
+  "gateId": "matcher-reconciled-candidate-review-v1",
+  "generatedAt": "2026-09-21T20:41:45.282138+00:00",
+  "decisions": {
+    "FRIGIDAIRE-PRMC-FRIDGE::canonical_mapping::map-FRIGIDAIRE-PRMC-FRIDGE-mig-efmm-247b16052823-display_panel": {
+      "decisionId": "FRIGIDAIRE-PRMC-FRIDGE::canonical_mapping::map-FRIGIDAIRE-PRMC-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateId": "FRIGIDAIRE-PRMC-FRIDGE::canonical_mapping::map-FRIGIDAIRE-PRMC-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "FRIGIDAIRE-PRMC-FRIDGE::frigidaireprmc-ui-communication::display_panel::",
+      "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+      "procedureId": "frigidaireprmc-ui-communication",
+      "procedureFamily": "frigidaireprmc-ui-communication",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:10:39.792Z",
+      "updatedAt": "2026-09-22T06:10:39.792Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "user_interface",
+      "matcherImprovement": {
+        "backlogId": "efmm-247b16052823",
+        "approvedTarget": "user_interface"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "FRIGIDAIRE-PRMC-FRIDGE::frigidaireprmc-ui-communication::display_panel::",
+          "decisionId": "delta-a-409979908e3d347d",
+          "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+          "procedureId": "frigidaireprmc-ui-communication",
+          "procedureFamily": "frigidaireprmc-ui-communication",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "user_interface",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "display_panel",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T19:57:45.964Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T19:57:45.964Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "FRIGIDAIRE-PRMC-FRIDGE::frigidaireprmc-ui-communication::display_panel::",
+          "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+          "procedureId": "frigidaireprmc-ui-communication",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "user_interface",
+          "stagedSourceHash": "26ce64aa96f67afcc6b6d8eda90c456ecf09a2ab578ba4158429cc4389d75dd3",
+          "oldProductionRecordHash": "fedaa939c4835d233690352bd62179df37b2e2dc7ec97897350c967c853743e2",
+          "newProductionRecordHash": "26ce64aa96f67afcc6b6d8eda90c456ecf09a2ab578ba4158429cc4389d75dd3"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:10:39.792Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "FRIGIDAIRE-PRMC-FRIDGE::canonical_mapping::map-FRIGIDAIRE-PRMC-FRIDGE-mig-efmm-ccfd232a7378-main_control": {
+      "decisionId": "FRIGIDAIRE-PRMC-FRIDGE::canonical_mapping::map-FRIGIDAIRE-PRMC-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "candidateId": "FRIGIDAIRE-PRMC-FRIDGE::canonical_mapping::map-FRIGIDAIRE-PRMC-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "FRIGIDAIRE-PRMC-FRIDGE::frigidaireprmc-manual-defrost::main_control::",
+      "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+      "procedureId": "frigidaireprmc-manual-defrost",
+      "procedureFamily": "frigidaireprmc-manual-defrost",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:10:45.910Z",
+      "updatedAt": "2026-09-22T06:10:45.910Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "control_board",
+      "matcherImprovement": {
+        "backlogId": "efmm-ccfd232a7378",
+        "approvedTarget": "control_board"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "FRIGIDAIRE-PRMC-FRIDGE::frigidaireprmc-manual-defrost::main_control::",
+          "decisionId": "delta-a-421afbbf7d8e8c2a",
+          "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+          "procedureId": "frigidaireprmc-manual-defrost",
+          "procedureFamily": "frigidaireprmc-manual-defrost",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "control_board",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "main_control",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:03:58.076Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:03:58.076Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "FRIGIDAIRE-PRMC-FRIDGE::frigidaireprmc-manual-defrost::main_control::",
+          "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+          "procedureId": "frigidaireprmc-manual-defrost",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "control_board",
+          "stagedSourceHash": "f390db036c1b4a2c06566df60a549c984268f9f16ac31bac129f51f9e62a0d9c",
+          "oldProductionRecordHash": "0c992dbce4514140ddce5cc4ee84b500353b389f99219055731b4f960ed17954",
+          "newProductionRecordHash": "f390db036c1b4a2c06566df60a549c984268f9f16ac31bac129f51f9e62a0d9c"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:10:45.910Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "INSIGNIA-DWR3-DISHWASHER::canonical_mapping::map-INSIGNIA-DWR3-DISHWASHER-mig-efmm-e859af7c0c65-e3-—-tub-heater-10–15-ω": {
+      "decisionId": "INSIGNIA-DWR3-DISHWASHER::canonical_mapping::map-INSIGNIA-DWR3-DISHWASHER-mig-efmm-e859af7c0c65-e3-—-tub-heater-10–15-ω",
+      "candidateId": "INSIGNIA-DWR3-DISHWASHER::canonical_mapping::map-INSIGNIA-DWR3-DISHWASHER-mig-efmm-e859af7c0c65-e3-—-tub-heater-10–15-ω",
+      "candidateKey": "INSIGNIA-DWR3-DISHWASHER::nsdwr3ss1-heater::E3 — Tub heater 10–15 Ω::",
+      "manualId": "INSIGNIA-DWR3-DISHWASHER",
+      "procedureId": "nsdwr3ss1-heater",
+      "procedureFamily": "nsdwr3ss1-heater",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:10:47.945Z",
+      "updatedAt": "2026-09-22T06:10:47.945Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "heat_source",
+      "matcherImprovement": {
+        "backlogId": "efmm-e859af7c0c65",
+        "approvedTarget": "heat_source"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "INSIGNIA-DWR3-DISHWASHER::nsdwr3ss1-heater::E3 — Tub heater 10–15 Ω::",
+          "decisionId": "delta-a-8b2bd046986ecfd4",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-heater",
+          "procedureFamily": "nsdwr3ss1-heater",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "heat_source",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-e859af7c0c65",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "E3 — Tub heater 10–15 Ω",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:05:09.684Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:05:09.684Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "INSIGNIA-DWR3-DISHWASHER::nsdwr3ss1-heater::E3 — Tub heater 10–15 Ω::",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-heater",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-e859af7c0c65",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "heat_source",
+          "stagedSourceHash": "4c02036ba5ecafa55e9331486789b0133833cd1202533700c44ee9835dac470f",
+          "oldProductionRecordHash": "b9d86435d880bfd0ce13151bb8ced625ac636705c30ae767ac406e4061db8573",
+          "newProductionRecordHash": "4c02036ba5ecafa55e9331486789b0133833cd1202533700c44ee9835dac470f"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:10:47.945Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "LG-LRMVS-FRIDGE::canonical_mapping::map-LG-LRMVS-FRIDGE-mig-efmm-247b16052823-display_panel": {
+      "decisionId": "LG-LRMVS-FRIDGE::canonical_mapping::map-LG-LRMVS-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateId": "LG-LRMVS-FRIDGE::canonical_mapping::map-LG-LRMVS-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "LG-LRMVS-FRIDGE::lglrmvs-display-communication::display_panel::",
+      "manualId": "LG-LRMVS-FRIDGE",
+      "procedureId": "lglrmvs-display-communication",
+      "procedureFamily": "lglrmvs-display-communication",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:10:49.268Z",
+      "updatedAt": "2026-09-22T06:10:49.268Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "user_interface",
+      "matcherImprovement": {
+        "backlogId": "efmm-247b16052823",
+        "approvedTarget": "user_interface"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "LG-LRMVS-FRIDGE::lglrmvs-display-communication::display_panel::",
+          "decisionId": "delta-a-d436549cdcc10563",
+          "manualId": "LG-LRMVS-FRIDGE",
+          "procedureId": "lglrmvs-display-communication",
+          "procedureFamily": "lglrmvs-display-communication",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "user_interface",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "display_panel",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T19:57:52.343Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T19:57:52.343Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "LG-LRMVS-FRIDGE::lglrmvs-display-communication::display_panel::",
+          "manualId": "LG-LRMVS-FRIDGE",
+          "procedureId": "lglrmvs-display-communication",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "user_interface",
+          "stagedSourceHash": "1ac5a69323fdc200f3d2ca6bb4b8d86b40bb2be9f035617614032e6d016a1bd4",
+          "oldProductionRecordHash": "52489dee55e5fc41ecb31727534c5c36917f6670bc216908d22e6574a9581ec3",
+          "newProductionRecordHash": "1ac5a69323fdc200f3d2ca6bb4b8d86b40bb2be9f035617614032e6d016a1bd4"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:10:49.268Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "LG-LRMVS-FRIDGE::canonical_mapping::map-LG-LRMVS-FRIDGE-mig-efmm-ccfd232a7378-main_control": {
+      "decisionId": "LG-LRMVS-FRIDGE::canonical_mapping::map-LG-LRMVS-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "candidateId": "LG-LRMVS-FRIDGE::canonical_mapping::map-LG-LRMVS-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "LG-LRMVS-FRIDGE::lglrmvs-display-communication::main_control::",
+      "manualId": "LG-LRMVS-FRIDGE",
+      "procedureId": "lglrmvs-display-communication",
+      "procedureFamily": "lglrmvs-display-communication",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:10:50.251Z",
+      "updatedAt": "2026-09-22T06:10:50.251Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "control_board",
+      "matcherImprovement": {
+        "backlogId": "efmm-ccfd232a7378",
+        "approvedTarget": "control_board"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "LG-LRMVS-FRIDGE::lglrmvs-display-communication::main_control::",
+          "decisionId": "delta-a-d558cc4d5c1ae633",
+          "manualId": "LG-LRMVS-FRIDGE",
+          "procedureId": "lglrmvs-display-communication",
+          "procedureFamily": "lglrmvs-display-communication",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "control_board",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "main_control",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:03:59.018Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:03:59.018Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "LG-LRMVS-FRIDGE::lglrmvs-display-communication::main_control::",
+          "manualId": "LG-LRMVS-FRIDGE",
+          "procedureId": "lglrmvs-display-communication",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "control_board",
+          "stagedSourceHash": "752f6a0c216a08cf75142db102fef37799406aead2f84db21746861de1b75e4e",
+          "oldProductionRecordHash": "8b06ac3bf4971f99776e0de699efb324b340ca720b4065fad988205111f575ba",
+          "newProductionRecordHash": "752f6a0c216a08cf75142db102fef37799406aead2f84db21746861de1b75e4e"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:10:50.251Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "LG-LSC27926-SXS::canonical_mapping::map-LG-LSC27926-SXS-mig-efmm-247b16052823-display_panel": {
+      "decisionId": "LG-LSC27926-SXS::canonical_mapping::map-LG-LSC27926-SXS-mig-efmm-247b16052823-display_panel",
+      "candidateId": "LG-LSC27926-SXS::canonical_mapping::map-LG-LSC27926-SXS-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "LG-LSC27926-SXS::lgsxs-display-communication::display_panel::",
+      "manualId": "LG-LSC27926-SXS",
+      "procedureId": "lgsxs-display-communication",
+      "procedureFamily": "lgsxs-display-communication",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:10:51.143Z",
+      "updatedAt": "2026-09-22T06:10:51.143Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "user_interface",
+      "matcherImprovement": {
+        "backlogId": "efmm-247b16052823",
+        "approvedTarget": "user_interface"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "LG-LSC27926-SXS::lgsxs-display-communication::display_panel::",
+          "decisionId": "delta-a-7ca94fe8aa8af530",
+          "manualId": "LG-LSC27926-SXS",
+          "procedureId": "lgsxs-display-communication",
+          "procedureFamily": "lgsxs-display-communication",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "user_interface",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "display_panel",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T19:57:59.265Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T19:57:59.265Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "LG-LSC27926-SXS::lgsxs-display-communication::display_panel::",
+          "manualId": "LG-LSC27926-SXS",
+          "procedureId": "lgsxs-display-communication",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "user_interface",
+          "stagedSourceHash": "d068b96956801f86fcd5a172c4d422f642fd2c4e838218f37b9a862af085d490",
+          "oldProductionRecordHash": "51c3c5cbd74e267f89686d6a70cf027f07d51d8ed0e45a8986ef7899f27eed08",
+          "newProductionRecordHash": "d068b96956801f86fcd5a172c4d422f642fd2c4e838218f37b9a862af085d490"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:10:51.143Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "LG-LSC27926-SXS::canonical_mapping::map-LG-LSC27926-SXS-mig-efmm-ccfd232a7378-main_control": {
+      "decisionId": "LG-LSC27926-SXS::canonical_mapping::map-LG-LSC27926-SXS-mig-efmm-ccfd232a7378-main_control",
+      "candidateId": "LG-LSC27926-SXS::canonical_mapping::map-LG-LSC27926-SXS-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "LG-LSC27926-SXS::lgsxs-display-communication::main_control::",
+      "manualId": "LG-LSC27926-SXS",
+      "procedureId": "lgsxs-display-communication",
+      "procedureFamily": "lgsxs-display-communication",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:10:51.821Z",
+      "updatedAt": "2026-09-22T06:10:51.821Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "control_board",
+      "matcherImprovement": {
+        "backlogId": "efmm-ccfd232a7378",
+        "approvedTarget": "control_board"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "LG-LSC27926-SXS::lgsxs-display-communication::main_control::",
+          "decisionId": "delta-a-0000289b6e382329",
+          "manualId": "LG-LSC27926-SXS",
+          "procedureId": "lgsxs-display-communication",
+          "procedureFamily": "lgsxs-display-communication",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "control_board",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "main_control",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:07.558Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:07.558Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "LG-LSC27926-SXS::lgsxs-display-communication::main_control::",
+          "manualId": "LG-LSC27926-SXS",
+          "procedureId": "lgsxs-display-communication",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "control_board",
+          "stagedSourceHash": "0a7177ae8743299456f1c28606accb05a1c869be724f1788a6a0918eed21a373",
+          "oldProductionRecordHash": "6888e3758503c6fb7f41512f40a1c26500479ae5127740bc62beeebae4952243",
+          "newProductionRecordHash": "0a7177ae8743299456f1c28606accb05a1c869be724f1788a6a0918eed21a373"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:10:51.821Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "MIDEA-RSS-FRIDGE::canonical_mapping::map-MIDEA-RSS-FRIDGE-mig-efmm-247b16052823-display_panel": {
+      "decisionId": "MIDEA-RSS-FRIDGE::canonical_mapping::map-MIDEA-RSS-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateId": "MIDEA-RSS-FRIDGE::canonical_mapping::map-MIDEA-RSS-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "MIDEA-RSS-FRIDGE::midearss-communication::display_panel::",
+      "manualId": "MIDEA-RSS-FRIDGE",
+      "procedureId": "midearss-communication",
+      "procedureFamily": "midearss-communication",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:10:52.681Z",
+      "updatedAt": "2026-09-22T06:10:52.681Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "user_interface",
+      "matcherImprovement": {
+        "backlogId": "efmm-247b16052823",
+        "approvedTarget": "user_interface"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "MIDEA-RSS-FRIDGE::midearss-communication::display_panel::",
+          "decisionId": "delta-a-8814c788fee8b85b",
+          "manualId": "MIDEA-RSS-FRIDGE",
+          "procedureId": "midearss-communication",
+          "procedureFamily": "midearss-communication",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "user_interface",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "display_panel",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T19:58:01.520Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T19:58:01.520Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "MIDEA-RSS-FRIDGE::midearss-communication::display_panel::",
+          "manualId": "MIDEA-RSS-FRIDGE",
+          "procedureId": "midearss-communication",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "user_interface",
+          "stagedSourceHash": "64a57886d0c496100bc4ed714f56e3816e00cbb214cea94cbd28a5aed373dd9d",
+          "oldProductionRecordHash": "4854975c75b436553e532b7f0c07da70a141b680eafab7ac10aac5ed53b29ee8",
+          "newProductionRecordHash": "64a57886d0c496100bc4ed714f56e3816e00cbb214cea94cbd28a5aed373dd9d"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:10:52.681Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "MIDEA-RSS-FRIDGE::canonical_mapping::map-MIDEA-RSS-FRIDGE-mig-efmm-ccfd232a7378-main_control": {
+      "decisionId": "MIDEA-RSS-FRIDGE::canonical_mapping::map-MIDEA-RSS-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "candidateId": "MIDEA-RSS-FRIDGE::canonical_mapping::map-MIDEA-RSS-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "MIDEA-RSS-FRIDGE::midearss-communication::main_control::",
+      "manualId": "MIDEA-RSS-FRIDGE",
+      "procedureId": "midearss-communication",
+      "procedureFamily": "midearss-communication",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:10:53.289Z",
+      "updatedAt": "2026-09-22T06:10:53.289Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "control_board",
+      "matcherImprovement": {
+        "backlogId": "efmm-ccfd232a7378",
+        "approvedTarget": "control_board"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "MIDEA-RSS-FRIDGE::midearss-communication::main_control::",
+          "decisionId": "delta-a-5d9735fcb9eb9407",
+          "manualId": "MIDEA-RSS-FRIDGE",
+          "procedureId": "midearss-communication",
+          "procedureFamily": "midearss-communication",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "control_board",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "main_control",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:08.767Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:08.767Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "MIDEA-RSS-FRIDGE::midearss-communication::main_control::",
+          "manualId": "MIDEA-RSS-FRIDGE",
+          "procedureId": "midearss-communication",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "control_board",
+          "stagedSourceHash": "d86d6aad97ede869c0365b5f9fa9968e4fed8b43eaf8e33ece0fa3cf6a3f4c2c",
+          "oldProductionRecordHash": "663cd678fe98166a81e30ed03dd54fd19a406ab16a78490ad2be8ebc458370a4",
+          "newProductionRecordHash": "d86d6aad97ede869c0365b5f9fa9968e4fed8b43eaf8e33ece0fa3cf6a3f4c2c"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:10:53.289Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "MIDEA-UZ21-FREEZER::canonical_mapping::map-MIDEA-UZ21-FREEZER-mig-efmm-247b16052823-display_panel": {
+      "decisionId": "MIDEA-UZ21-FREEZER::canonical_mapping::map-MIDEA-UZ21-FREEZER-mig-efmm-247b16052823-display_panel",
+      "candidateId": "MIDEA-UZ21-FREEZER::canonical_mapping::map-MIDEA-UZ21-FREEZER-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "MIDEA-UZ21-FREEZER::mideauz21-communication::display_panel::",
+      "manualId": "MIDEA-UZ21-FREEZER",
+      "procedureId": "mideauz21-communication",
+      "procedureFamily": "mideauz21-communication",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:10:54.268Z",
+      "updatedAt": "2026-09-22T06:10:54.268Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "user_interface",
+      "matcherImprovement": {
+        "backlogId": "efmm-247b16052823",
+        "approvedTarget": "user_interface"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "MIDEA-UZ21-FREEZER::mideauz21-communication::display_panel::",
+          "decisionId": "delta-a-a1904ec9eecfca79",
+          "manualId": "MIDEA-UZ21-FREEZER",
+          "procedureId": "mideauz21-communication",
+          "procedureFamily": "mideauz21-communication",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "user_interface",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "display_panel",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T19:58:03.249Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T19:58:03.249Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "MIDEA-UZ21-FREEZER::mideauz21-communication::display_panel::",
+          "manualId": "MIDEA-UZ21-FREEZER",
+          "procedureId": "mideauz21-communication",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "user_interface",
+          "stagedSourceHash": "f3c7f8c4816ba03efc60f007ad507fcb067403b2bbd8fa7141941ef79a42ae6a",
+          "oldProductionRecordHash": "98e28f121839744655a1e14d2a28ebd8f771407da49d3848e9545b0e04227809",
+          "newProductionRecordHash": "f3c7f8c4816ba03efc60f007ad507fcb067403b2bbd8fa7141941ef79a42ae6a"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:10:54.268Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "MIDEA-UZ21-FREEZER::canonical_mapping::map-MIDEA-UZ21-FREEZER-mig-efmm-ccfd232a7378-main_control": {
+      "decisionId": "MIDEA-UZ21-FREEZER::canonical_mapping::map-MIDEA-UZ21-FREEZER-mig-efmm-ccfd232a7378-main_control",
+      "candidateId": "MIDEA-UZ21-FREEZER::canonical_mapping::map-MIDEA-UZ21-FREEZER-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "MIDEA-UZ21-FREEZER::mideauz21-communication::main_control::",
+      "manualId": "MIDEA-UZ21-FREEZER",
+      "procedureId": "mideauz21-communication",
+      "procedureFamily": "mideauz21-communication",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:10:55.218Z",
+      "updatedAt": "2026-09-22T06:10:55.218Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "control_board",
+      "matcherImprovement": {
+        "backlogId": "efmm-ccfd232a7378",
+        "approvedTarget": "control_board"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "MIDEA-UZ21-FREEZER::mideauz21-communication::main_control::",
+          "decisionId": "delta-a-64663877e6277e29",
+          "manualId": "MIDEA-UZ21-FREEZER",
+          "procedureId": "mideauz21-communication",
+          "procedureFamily": "mideauz21-communication",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "control_board",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "main_control",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:09.849Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:09.849Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "MIDEA-UZ21-FREEZER::mideauz21-communication::main_control::",
+          "manualId": "MIDEA-UZ21-FREEZER",
+          "procedureId": "mideauz21-communication",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "control_board",
+          "stagedSourceHash": "a316dc37e3cd47f560ce1ba3c653144dcd4f70d3728f5ccc508b281c69221aea",
+          "oldProductionRecordHash": "3a41e2ce29f5d1ba18799b099d4d5d2fcfe728db98b25c38e135131b3d08b02b",
+          "newProductionRecordHash": "a316dc37e3cd47f560ce1ba3c653144dcd4f70d3728f5ccc508b281c69221aea"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:10:55.218Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "NS-TDRE75W1::canonical_mapping::map-NS-TDRE75W1-mig-efmm-cda9def45dce-user_interface": {
+      "decisionId": "NS-TDRE75W1::canonical_mapping::map-NS-TDRE75W1-mig-efmm-cda9def45dce-user_interface",
+      "candidateId": "NS-TDRE75W1::canonical_mapping::map-NS-TDRE75W1-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "NS-TDRE75W1::nstdre75w1-communication::user_interface::",
+      "manualId": "NS-TDRE75W1",
+      "procedureId": "nstdre75w1-communication",
+      "procedureFamily": "nstdre75w1-communication",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:10:56.263Z",
+      "updatedAt": "2026-09-22T06:10:56.263Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "hmi_control",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce",
+        "approvedTarget": "hmi_control"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "NS-TDRE75W1::nstdre75w1-communication::user_interface::",
+          "decisionId": "delta-a-be846de1f4f8c8c1",
+          "manualId": "NS-TDRE75W1",
+          "procedureId": "nstdre75w1-communication",
+          "procedureFamily": "nstdre75w1-communication",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "hmi_control",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "user_interface",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:17.401Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:17.401Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "NS-TDRE75W1::nstdre75w1-communication::user_interface::",
+          "manualId": "NS-TDRE75W1",
+          "procedureId": "nstdre75w1-communication",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "hmi_control",
+          "stagedSourceHash": "24cb8074a73b4d1b29bddc04a91e7f1e6c93d5e9f5b6f5bae891a83d109c1887",
+          "oldProductionRecordHash": "bdd36436d5e5e4ddcb37eb92d0656675d0a66ba71cf3d7a6a56bfa970784c613",
+          "newProductionRecordHash": "24cb8074a73b4d1b29bddc04a91e7f1e6c93d5e9f5b6f5bae891a83d109c1887"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:10:56.263Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-mig-efmm-c01495a054b4-§4-3:-water-thermistor-(tc)": {
+      "decisionId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-mig-efmm-c01495a054b4-§4-3:-water-thermistor-(tc)",
+      "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-mig-efmm-c01495a054b4-§4-3:-water-thermistor-(tc)",
+      "candidateKey": "SAMSUNG-DISHWASHER-M9::samsungdwm9-thermistor::§4-3: Water Thermistor (tC)::Water Thermistor (tC)",
+      "manualId": "SAMSUNG-DISHWASHER-M9",
+      "procedureId": "samsungdwm9-thermistor",
+      "procedureFamily": "samsungdwm9-thermistor",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:10:57.551Z",
+      "updatedAt": "2026-09-22T06:10:57.551Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "temperature_sensor",
+      "matcherImprovement": {
+        "backlogId": "efmm-c01495a054b4",
+        "approvedTarget": "temperature_sensor"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-DISHWASHER-M9::samsungdwm9-thermistor::§4-3: Water Thermistor (tC)::Water Thermistor (tC)",
+          "decisionId": "delta-a-b3990a8fe487ef20",
+          "manualId": "SAMSUNG-DISHWASHER-M9",
+          "procedureId": "samsungdwm9-thermistor",
+          "procedureFamily": "samsungdwm9-thermistor",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "temperature_sensor",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-c01495a054b4",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "§4-3: Water Thermistor (tC)",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:03:54.534Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:03:54.534Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-DISHWASHER-M9::samsungdwm9-thermistor::§4-3: Water Thermistor (tC)::Water Thermistor (tC)",
+          "manualId": "SAMSUNG-DISHWASHER-M9",
+          "procedureId": "samsungdwm9-thermistor",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-c01495a054b4",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "temperature_sensor",
+          "stagedSourceHash": "5e48f5c875bb2b43bdc71171a76441db78eeaee1f80d520791613768c9912082",
+          "oldProductionRecordHash": "d8c64c2b15aa207a49af04de86be0d7ad683296f881786b67be312619400a0dc",
+          "newProductionRecordHash": "5e48f5c875bb2b43bdc71171a76441db78eeaee1f80d520791613768c9912082"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:10:57.551Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-mig-efmm-c01495a054b4-§4-1:-water-thermistor-(tc)": {
+      "decisionId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-mig-efmm-c01495a054b4-§4-1:-water-thermistor-(tc)",
+      "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-mig-efmm-c01495a054b4-§4-1:-water-thermistor-(tc)",
+      "candidateKey": "SAMSUNG-DISHWASHER::samsungdw-thermistor::§4-1: Water Thermistor (tC)::Water Thermistor (tC)",
+      "manualId": "SAMSUNG-DISHWASHER",
+      "procedureId": "samsungdw-thermistor",
+      "procedureFamily": "samsungdw-thermistor",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:10:58.592Z",
+      "updatedAt": "2026-09-22T06:10:58.592Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "temperature_sensor",
+      "matcherImprovement": {
+        "backlogId": "efmm-c01495a054b4",
+        "approvedTarget": "temperature_sensor"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-DISHWASHER::samsungdw-thermistor::§4-1: Water Thermistor (tC)::Water Thermistor (tC)",
+          "decisionId": "delta-a-0808ce7cc2e6d899",
+          "manualId": "SAMSUNG-DISHWASHER",
+          "procedureId": "samsungdw-thermistor",
+          "procedureFamily": "samsungdw-thermistor",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "temperature_sensor",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-c01495a054b4",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "§4-1: Water Thermistor (tC)",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:03:55.075Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:03:55.075Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-DISHWASHER::samsungdw-thermistor::§4-1: Water Thermistor (tC)::Water Thermistor (tC)",
+          "manualId": "SAMSUNG-DISHWASHER",
+          "procedureId": "samsungdw-thermistor",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-c01495a054b4",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "temperature_sensor",
+          "stagedSourceHash": "62baef6fadf6aba5b198ee55bde19eef9f57d5e6c83c6909295e8f7da2aa260f",
+          "oldProductionRecordHash": "3d0a45d5d4482e0c628b09cf7f462148d4f980558c4907c13161fe59073b6b53",
+          "newProductionRecordHash": "62baef6fadf6aba5b198ee55bde19eef9f57d5e6c83c6909295e8f7da2aa260f"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:10:58.592Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-mig-efmm-cda9def45dce-user_interface": {
+      "decisionId": "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "candidateId": "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "SAMSUNG-FL-BB8700-DRYER::samsungbb8700-dryer-hmi::user_interface::",
+      "manualId": "SAMSUNG-FL-BB8700-DRYER",
+      "procedureId": "samsungbb8700-dryer-hmi",
+      "procedureFamily": "samsungbb8700-dryer-hmi",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:01.087Z",
+      "updatedAt": "2026-09-22T06:11:01.087Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "hmi_control",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce",
+        "approvedTarget": "hmi_control"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-FL-BB8700-DRYER::samsungbb8700-dryer-hmi::user_interface::",
+          "decisionId": "delta-a-2a875e81e13a8ec3",
+          "manualId": "SAMSUNG-FL-BB8700-DRYER",
+          "procedureId": "samsungbb8700-dryer-hmi",
+          "procedureFamily": "samsungbb8700-dryer-hmi",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "hmi_control",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "user_interface",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:18.038Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:18.038Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-FL-BB8700-DRYER::samsungbb8700-dryer-hmi::user_interface::",
+          "manualId": "SAMSUNG-FL-BB8700-DRYER",
+          "procedureId": "samsungbb8700-dryer-hmi",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "hmi_control",
+          "stagedSourceHash": "63717c0da8db4e9b492576a99d26d5faa3c62be08b11c9bd9f7dd0cccc3c98fd",
+          "oldProductionRecordHash": "45d5efcd92c26e03a6dfb440e9b4654972dfcc1ccfcc45df7f09e4271a4a9f77",
+          "newProductionRecordHash": "63717c0da8db4e9b492576a99d26d5faa3c62be08b11c9bd9f7dd0cccc3c98fd"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:01.087Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-mig-efmm-cda9def45dce-user_interface": {
+      "decisionId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "SAMSUNG-FL-DV6000-DRYER::samsungdv6000-hmi::user_interface::",
+      "manualId": "SAMSUNG-FL-DV6000-DRYER",
+      "procedureId": "samsungdv6000-hmi",
+      "procedureFamily": "samsungdv6000-hmi",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:01.838Z",
+      "updatedAt": "2026-09-22T06:11:01.838Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "hmi_control",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce",
+        "approvedTarget": "hmi_control"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-FL-DV6000-DRYER::samsungdv6000-hmi::user_interface::",
+          "decisionId": "delta-a-d0cf7844a4e113e5",
+          "manualId": "SAMSUNG-FL-DV6000-DRYER",
+          "procedureId": "samsungdv6000-hmi",
+          "procedureFamily": "samsungdv6000-hmi",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "hmi_control",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "user_interface",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:18.632Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:18.632Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-FL-DV6000-DRYER::samsungdv6000-hmi::user_interface::",
+          "manualId": "SAMSUNG-FL-DV6000-DRYER",
+          "procedureId": "samsungdv6000-hmi",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "hmi_control",
+          "stagedSourceHash": "a1bb6a88cac3b3ac38956913d7a8bac34fc9e8741a741ea9e2ccff255f2c3ea1",
+          "oldProductionRecordHash": "65d7613b731b88446fc47402d4636326d168a14ee4e2b42de29bac6a486bcf7e",
+          "newProductionRecordHash": "a1bb6a88cac3b3ac38956913d7a8bac34fc9e8741a741ea9e2ccff255f2c3ea1"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:01.838Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-mig-efmm-ce66fe78ffd3-§4-6:-electric-heater": {
+      "decisionId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-mig-efmm-ce66fe78ffd3-§4-6:-electric-heater",
+      "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-mig-efmm-ce66fe78ffd3-§4-6:-electric-heater",
+      "candidateKey": "SAMSUNG-FL-DV6000-DRYER::samsungdv6000-heater-electric::§4-6: Electric heater::Electric heater",
+      "manualId": "SAMSUNG-FL-DV6000-DRYER",
+      "procedureId": "samsungdv6000-heater-electric",
+      "procedureFamily": "samsungdv6000-heater-electric",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:03.064Z",
+      "updatedAt": "2026-09-22T06:11:03.064Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "heat_source",
+      "matcherImprovement": {
+        "backlogId": "efmm-ce66fe78ffd3",
+        "approvedTarget": "heat_source"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-FL-DV6000-DRYER::samsungdv6000-heater-electric::§4-6: Electric heater::Electric heater",
+          "decisionId": "delta-a-9ff11eed0f4a08df",
+          "manualId": "SAMSUNG-FL-DV6000-DRYER",
+          "procedureId": "samsungdv6000-heater-electric",
+          "procedureFamily": "samsungdv6000-heater-electric",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "heat_source",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ce66fe78ffd3",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "§4-6: Electric heater",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:30.474Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:30.474Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-FL-DV6000-DRYER::samsungdv6000-heater-electric::§4-6: Electric heater::Electric heater",
+          "manualId": "SAMSUNG-FL-DV6000-DRYER",
+          "procedureId": "samsungdv6000-heater-electric",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ce66fe78ffd3",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "heat_source",
+          "stagedSourceHash": "86628d807332773e968a3e79320edf45473a08eee52c0f713592daf9a26b3f54",
+          "oldProductionRecordHash": "4248137f776637995df1867e3318798deb85ce217f3997a49365f9bd2602e352",
+          "newProductionRecordHash": "86628d807332773e968a3e79320edf45473a08eee52c0f713592daf9a26b3f54"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:03.064Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-HP-DRYER-DV22N::canonical_mapping::map-SAMSUNG-HP-DRYER-DV22N-mig-efmm-247b16052823-display_panel": {
+      "decisionId": "SAMSUNG-HP-DRYER-DV22N::canonical_mapping::map-SAMSUNG-HP-DRYER-DV22N-mig-efmm-247b16052823-display_panel",
+      "candidateId": "SAMSUNG-HP-DRYER-DV22N::canonical_mapping::map-SAMSUNG-HP-DRYER-DV22N-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "SAMSUNG-HP-DRYER-DV22N::samsungdv22n-hmi-button::display_panel::",
+      "manualId": "SAMSUNG-HP-DRYER-DV22N",
+      "procedureId": "samsungdv22n-hmi-button",
+      "procedureFamily": "samsungdv22n-hmi-button",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:03.910Z",
+      "updatedAt": "2026-09-22T06:11:03.910Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "user_interface",
+      "matcherImprovement": {
+        "backlogId": "efmm-247b16052823",
+        "approvedTarget": "user_interface"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-HP-DRYER-DV22N::samsungdv22n-hmi-button::display_panel::",
+          "decisionId": "delta-a-b1908720d160c615",
+          "manualId": "SAMSUNG-HP-DRYER-DV22N",
+          "procedureId": "samsungdv22n-hmi-button",
+          "procedureFamily": "samsungdv22n-hmi-button",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "user_interface",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "display_panel",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:00:29.835Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:00:29.835Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-HP-DRYER-DV22N::samsungdv22n-hmi-button::display_panel::",
+          "manualId": "SAMSUNG-HP-DRYER-DV22N",
+          "procedureId": "samsungdv22n-hmi-button",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "user_interface",
+          "stagedSourceHash": "a3830e41a4199eeb5e0b3e18cf1c302a0b4444adfe8a8eaad585817a6377aadc",
+          "oldProductionRecordHash": "5c4abc87dd060c4a14500c5825b14f2208e464d598672615823476d90d3da5fa",
+          "newProductionRecordHash": "a3830e41a4199eeb5e0b3e18cf1c302a0b4444adfe8a8eaad585817a6377aadc"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:03.910Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-ccfd232a7378-main_control": {
+      "decisionId": "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-ccfd232a7378-main_control",
+      "candidateId": "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "SAMSUNG-LAUNDRY-COMBO-WD53::samsungwd53-communication::main_control::",
+      "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+      "procedureId": "samsungwd53-communication",
+      "procedureFamily": "samsungwd53-communication",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:04.750Z",
+      "updatedAt": "2026-09-22T06:11:04.750Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "control_board",
+      "matcherImprovement": {
+        "backlogId": "efmm-ccfd232a7378",
+        "approvedTarget": "control_board"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-LAUNDRY-COMBO-WD53::samsungwd53-communication::main_control::",
+          "decisionId": "delta-a-d8d04a89ef28b8d5",
+          "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+          "procedureId": "samsungwd53-communication",
+          "procedureFamily": "samsungwd53-communication",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "control_board",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "main_control",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:10.773Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:10.773Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-LAUNDRY-COMBO-WD53::samsungwd53-communication::main_control::",
+          "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+          "procedureId": "samsungwd53-communication",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "control_board",
+          "stagedSourceHash": "4d682f6897ec0581e42a26df932ea14508c66adc8cbf3de29d1a730543e38b70",
+          "oldProductionRecordHash": "ef33989d5a25ade85f1ce42cbdc20cd8ff65b094c3a86c1966f79aea0fe7e751",
+          "newProductionRecordHash": "4d682f6897ec0581e42a26df932ea14508c66adc8cbf3de29d1a730543e38b70"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:04.750Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-cda9def45dce-user_interface": {
+      "decisionId": "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-cda9def45dce-user_interface",
+      "candidateId": "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "SAMSUNG-LAUNDRY-COMBO-WD53::samsungwd53-hmi-check::user_interface::",
+      "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+      "procedureId": "samsungwd53-hmi-check",
+      "procedureFamily": "samsungwd53-hmi-check",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:05.620Z",
+      "updatedAt": "2026-09-22T06:11:05.620Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "hmi_control",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce",
+        "approvedTarget": "hmi_control"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-LAUNDRY-COMBO-WD53::samsungwd53-hmi-check::user_interface::",
+          "decisionId": "delta-a-b8fd3036372bc9c6",
+          "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+          "procedureId": "samsungwd53-hmi-check",
+          "procedureFamily": "samsungwd53-hmi-check",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "hmi_control",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "user_interface",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:19.248Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:19.248Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-LAUNDRY-COMBO-WD53::samsungwd53-hmi-check::user_interface::",
+          "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+          "procedureId": "samsungwd53-hmi-check",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "hmi_control",
+          "stagedSourceHash": "4ab2cf035bed0cf98308082e3557487ad04c721673b225d2b4a35e0da9bde23f",
+          "oldProductionRecordHash": "8db630ad29ed723a7fa5adb92a1445ce32aec2890f78d202943f59b78b34ed9e",
+          "newProductionRecordHash": "4ab2cf035bed0cf98308082e3557487ad04c721673b225d2b4a35e0da9bde23f"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:05.620Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-RF23BB-FRIDGE::canonical_mapping::map-SAMSUNG-RF23BB-FRIDGE-mig-efmm-247b16052823-display_panel": {
+      "decisionId": "SAMSUNG-RF23BB-FRIDGE::canonical_mapping::map-SAMSUNG-RF23BB-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateId": "SAMSUNG-RF23BB-FRIDGE::canonical_mapping::map-SAMSUNG-RF23BB-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "SAMSUNG-RF23BB-FRIDGE::samsungbespoke-main-panel-comm::display_panel::",
+      "manualId": "SAMSUNG-RF23BB-FRIDGE",
+      "procedureId": "samsungbespoke-main-panel-comm",
+      "procedureFamily": "samsungbespoke-main-panel-comm",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:06.354Z",
+      "updatedAt": "2026-09-22T06:11:06.354Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "user_interface",
+      "matcherImprovement": {
+        "backlogId": "efmm-247b16052823",
+        "approvedTarget": "user_interface"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-RF23BB-FRIDGE::samsungbespoke-main-panel-comm::display_panel::",
+          "decisionId": "delta-a-f6c0e8ed265185bf",
+          "manualId": "SAMSUNG-RF23BB-FRIDGE",
+          "procedureId": "samsungbespoke-main-panel-comm",
+          "procedureFamily": "samsungbespoke-main-panel-comm",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "user_interface",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "display_panel",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:00:39.749Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:00:39.749Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-RF23BB-FRIDGE::samsungbespoke-main-panel-comm::display_panel::",
+          "manualId": "SAMSUNG-RF23BB-FRIDGE",
+          "procedureId": "samsungbespoke-main-panel-comm",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "user_interface",
+          "stagedSourceHash": "0f2d15f34f5f54235787805376c2ddb5f8d5eb5741a53434a1763240ad523a8e",
+          "oldProductionRecordHash": "779725504d46530ccf91542df23f38b427d27b07afa6b4e24935f93ef64d3587",
+          "newProductionRecordHash": "0f2d15f34f5f54235787805376c2ddb5f8d5eb5741a53434a1763240ad523a8e"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:06.354Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-RF260B-FRIDGE::canonical_mapping::map-SAMSUNG-RF260B-FRIDGE-mig-efmm-247b16052823-display_panel": {
+      "decisionId": "SAMSUNG-RF260B-FRIDGE::canonical_mapping::map-SAMSUNG-RF260B-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateId": "SAMSUNG-RF260B-FRIDGE::canonical_mapping::map-SAMSUNG-RF260B-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "SAMSUNG-RF260B-FRIDGE::samsungrf260b-option-error::display_panel::",
+      "manualId": "SAMSUNG-RF260B-FRIDGE",
+      "procedureId": "samsungrf260b-option-error",
+      "procedureFamily": "samsungrf260b-option-error",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:07.167Z",
+      "updatedAt": "2026-09-22T06:11:07.167Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "user_interface",
+      "matcherImprovement": {
+        "backlogId": "efmm-247b16052823",
+        "approvedTarget": "user_interface"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-RF260B-FRIDGE::samsungrf260b-option-error::display_panel::",
+          "decisionId": "delta-a-a604fe769ca63c60",
+          "manualId": "SAMSUNG-RF260B-FRIDGE",
+          "procedureId": "samsungrf260b-option-error",
+          "procedureFamily": "samsungrf260b-option-error",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "user_interface",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "display_panel",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:00:41.491Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:00:41.491Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-RF260B-FRIDGE::samsungrf260b-option-error::display_panel::",
+          "manualId": "SAMSUNG-RF260B-FRIDGE",
+          "procedureId": "samsungrf260b-option-error",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "user_interface",
+          "stagedSourceHash": "934f92f4cbfbef9a342400e6af5823f357f83c4ed016874ca96d61bebaea3aba",
+          "oldProductionRecordHash": "a1bc018a65b517dd970880325707af8a3eb1966fee6d5cf4c06880cd27518d64",
+          "newProductionRecordHash": "934f92f4cbfbef9a342400e6af5823f357f83c4ed016874ca96d61bebaea3aba"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:07.167Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-RF260B-FRIDGE::canonical_mapping::map-SAMSUNG-RF260B-FRIDGE-mig-efmm-ccfd232a7378-main_control": {
+      "decisionId": "SAMSUNG-RF260B-FRIDGE::canonical_mapping::map-SAMSUNG-RF260B-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "candidateId": "SAMSUNG-RF260B-FRIDGE::canonical_mapping::map-SAMSUNG-RF260B-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "SAMSUNG-RF260B-FRIDGE::samsungrf260b-option-error::main_control::",
+      "manualId": "SAMSUNG-RF260B-FRIDGE",
+      "procedureId": "samsungrf260b-option-error",
+      "procedureFamily": "samsungrf260b-option-error",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:07.881Z",
+      "updatedAt": "2026-09-22T06:11:07.881Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "control_board",
+      "matcherImprovement": {
+        "backlogId": "efmm-ccfd232a7378",
+        "approvedTarget": "control_board"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-RF260B-FRIDGE::samsungrf260b-option-error::main_control::",
+          "decisionId": "delta-a-f36961861d63f033",
+          "manualId": "SAMSUNG-RF260B-FRIDGE",
+          "procedureId": "samsungrf260b-option-error",
+          "procedureFamily": "samsungrf260b-option-error",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "control_board",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "main_control",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:11.464Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:11.464Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-RF260B-FRIDGE::samsungrf260b-option-error::main_control::",
+          "manualId": "SAMSUNG-RF260B-FRIDGE",
+          "procedureId": "samsungrf260b-option-error",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "control_board",
+          "stagedSourceHash": "8a4a1a541ed5fa7858cbded0e3953ade2b26b455218f7101db3e104904ea9344",
+          "oldProductionRecordHash": "d8924ca0e4fd5bb7eae7f088d1c9a49000782e10e494acf05652618594b26951",
+          "newProductionRecordHash": "8a4a1a541ed5fa7858cbded0e3953ade2b26b455218f7101db3e104904ea9344"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:07.881Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-RF28-FRIDGE::canonical_mapping::map-SAMSUNG-RF28-FRIDGE-mig-efmm-247b16052823-display_panel": {
+      "decisionId": "SAMSUNG-RF28-FRIDGE::canonical_mapping::map-SAMSUNG-RF28-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateId": "SAMSUNG-RF28-FRIDGE::canonical_mapping::map-SAMSUNG-RF28-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "SAMSUNG-RF28-FRIDGE::samsungrf28-dispenser-panel-comm::display_panel::",
+      "manualId": "SAMSUNG-RF28-FRIDGE",
+      "procedureId": "samsungrf28-dispenser-panel-comm",
+      "procedureFamily": "samsungrf28-dispenser-panel-comm",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:08.643Z",
+      "updatedAt": "2026-09-22T06:11:08.643Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "user_interface",
+      "matcherImprovement": {
+        "backlogId": "efmm-247b16052823",
+        "approvedTarget": "user_interface"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-RF28-FRIDGE::samsungrf28-dispenser-panel-comm::display_panel::",
+          "decisionId": "delta-a-63e90918e9d743fa",
+          "manualId": "SAMSUNG-RF28-FRIDGE",
+          "procedureId": "samsungrf28-dispenser-panel-comm",
+          "procedureFamily": "samsungrf28-dispenser-panel-comm",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "user_interface",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "display_panel",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:00:44.107Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:00:44.107Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-RF28-FRIDGE::samsungrf28-dispenser-panel-comm::display_panel::",
+          "manualId": "SAMSUNG-RF28-FRIDGE",
+          "procedureId": "samsungrf28-dispenser-panel-comm",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "user_interface",
+          "stagedSourceHash": "442021ad7e204e8c3eb34484d139bb9ef590601b2d81c1a2d50323c31c8d5e02",
+          "oldProductionRecordHash": "cf9bb50f354d7b96b890235a1c0513871bdbbe32a16f7bf03a14ae0994b33049",
+          "newProductionRecordHash": "442021ad7e204e8c3eb34484d139bb9ef590601b2d81c1a2d50323c31c8d5e02"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:08.643Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-RS28-SXS::canonical_mapping::map-SAMSUNG-RS28-SXS-mig-efmm-247b16052823-display_panel": {
+      "decisionId": "SAMSUNG-RS28-SXS::canonical_mapping::map-SAMSUNG-RS28-SXS-mig-efmm-247b16052823-display_panel",
+      "candidateId": "SAMSUNG-RS28-SXS::canonical_mapping::map-SAMSUNG-RS28-SXS-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "SAMSUNG-RS28-SXS::samsungrs28-panel-communication::display_panel::",
+      "manualId": "SAMSUNG-RS28-SXS",
+      "procedureId": "samsungrs28-panel-communication",
+      "procedureFamily": "samsungrs28-panel-communication",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:09.348Z",
+      "updatedAt": "2026-09-22T06:11:09.348Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "user_interface",
+      "matcherImprovement": {
+        "backlogId": "efmm-247b16052823",
+        "approvedTarget": "user_interface"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-RS28-SXS::samsungrs28-panel-communication::display_panel::",
+          "decisionId": "delta-a-c09795f8db4ba461",
+          "manualId": "SAMSUNG-RS28-SXS",
+          "procedureId": "samsungrs28-panel-communication",
+          "procedureFamily": "samsungrs28-panel-communication",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "user_interface",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "display_panel",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:00:45.244Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:00:45.244Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-RS28-SXS::samsungrs28-panel-communication::display_panel::",
+          "manualId": "SAMSUNG-RS28-SXS",
+          "procedureId": "samsungrs28-panel-communication",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-247b16052823",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "user_interface",
+          "stagedSourceHash": "2d495b25a88797066c6a4ee830c1ac63618ccbb548c2c0c69a947d3f179a3be7",
+          "oldProductionRecordHash": "320b95c0e18d453ff1d95d9d38d2cab43ee93b72ce954f6aada2892ee108cd93",
+          "newProductionRecordHash": "2d495b25a88797066c6a4ee830c1ac63618ccbb548c2c0c69a947d3f179a3be7"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:09.348Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-RS28-SXS::canonical_mapping::map-SAMSUNG-RS28-SXS-mig-efmm-ccfd232a7378-main_control": {
+      "decisionId": "SAMSUNG-RS28-SXS::canonical_mapping::map-SAMSUNG-RS28-SXS-mig-efmm-ccfd232a7378-main_control",
+      "candidateId": "SAMSUNG-RS28-SXS::canonical_mapping::map-SAMSUNG-RS28-SXS-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "SAMSUNG-RS28-SXS::samsungrs28-dispenser-communication::main_control::",
+      "manualId": "SAMSUNG-RS28-SXS",
+      "procedureId": "samsungrs28-dispenser-communication",
+      "procedureFamily": "samsungrs28-dispenser-communication",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:10.040Z",
+      "updatedAt": "2026-09-22T06:11:10.040Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "control_board",
+      "matcherImprovement": {
+        "backlogId": "efmm-ccfd232a7378",
+        "approvedTarget": "control_board"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-RS28-SXS::samsungrs28-dispenser-communication::main_control::",
+          "decisionId": "delta-a-971ffa0f76b7308a",
+          "manualId": "SAMSUNG-RS28-SXS",
+          "procedureId": "samsungrs28-dispenser-communication",
+          "procedureFamily": "samsungrs28-dispenser-communication",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "control_board",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "main_control",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:12.294Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:12.294Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-RS28-SXS::samsungrs28-dispenser-communication::main_control::",
+          "manualId": "SAMSUNG-RS28-SXS",
+          "procedureId": "samsungrs28-dispenser-communication",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ccfd232a7378",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "control_board",
+          "stagedSourceHash": "edab4ac455980e73a9b6dbd23b54a501d302411d791c383d7a53b86da1a4df9b",
+          "oldProductionRecordHash": "553b87b7965967508194fda0e586c6e2bfd90d17185a34bc03c583902e17e03a",
+          "newProductionRecordHash": "edab4ac455980e73a9b6dbd23b54a501d302411d791c383d7a53b86da1a4df9b"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:10.040Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-mig-efmm-5edc6b1da575-§5-3:-water-supply-(4c)": {
+      "decisionId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-mig-efmm-5edc6b1da575-§5-3:-water-supply-(4c)",
+      "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-mig-efmm-5edc6b1da575-§5-3:-water-supply-(4c)",
+      "candidateKey": "SAMSUNG-TL-A50-WASHER::samsungtla50-inlet-valves::§5-3: Water supply (4C)::Water supply (4C)",
+      "manualId": "SAMSUNG-TL-A50-WASHER",
+      "procedureId": "samsungtla50-inlet-valves",
+      "procedureFamily": "samsungtla50-inlet-valves",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:10.707Z",
+      "updatedAt": "2026-09-22T06:11:10.707Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "inlet_valve",
+      "matcherImprovement": {
+        "backlogId": "efmm-5edc6b1da575",
+        "approvedTarget": "inlet_valve"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-TL-A50-WASHER::samsungtla50-inlet-valves::§5-3: Water supply (4C)::Water supply (4C)",
+          "decisionId": "delta-a-87a65f9792ce1d2c",
+          "manualId": "SAMSUNG-TL-A50-WASHER",
+          "procedureId": "samsungtla50-inlet-valves",
+          "procedureFamily": "samsungtla50-inlet-valves",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "inlet_valve",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-5edc6b1da575",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "§5-3: Water supply (4C)",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:01:31.756Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:01:31.756Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-TL-A50-WASHER::samsungtla50-inlet-valves::§5-3: Water supply (4C)::Water supply (4C)",
+          "manualId": "SAMSUNG-TL-A50-WASHER",
+          "procedureId": "samsungtla50-inlet-valves",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-5edc6b1da575",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "inlet_valve",
+          "stagedSourceHash": "811dba98085999aecc768f9887c0bf753e60df03d08ab2b93974292b34c2e294",
+          "oldProductionRecordHash": "34e94720f4c87be38e16898ef8cce51c9e406fe4036008b543f2a1fa5f676062",
+          "newProductionRecordHash": "811dba98085999aecc768f9887c0bf753e60df03d08ab2b93974292b34c2e294"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:10.707Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-mig-efmm-62ec837ed0fc-§5-3:-door-lock-(dc,-dc1,-dc2)": {
+      "decisionId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-mig-efmm-62ec837ed0fc-§5-3:-door-lock-(dc,-dc1,-dc2)",
+      "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-mig-efmm-62ec837ed0fc-§5-3:-door-lock-(dc,-dc1,-dc2)",
+      "candidateKey": "SAMSUNG-TL-A50-WASHER::samsungtla50-door-lock::§5-3: Door lock (DC, DC1, DC2)::Door lock (DC, DC1, DC2)",
+      "manualId": "SAMSUNG-TL-A50-WASHER",
+      "procedureId": "samsungtla50-door-lock",
+      "procedureFamily": "samsungtla50-door-lock",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:11.549Z",
+      "updatedAt": "2026-09-22T06:11:11.549Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "lid_lock",
+      "matcherImprovement": {
+        "backlogId": "efmm-62ec837ed0fc",
+        "approvedTarget": "lid_lock"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-TL-A50-WASHER::samsungtla50-door-lock::§5-3: Door lock (DC, DC1, DC2)::Door lock (DC, DC1, DC2)",
+          "decisionId": "delta-a-8c08094c4082bca2",
+          "manualId": "SAMSUNG-TL-A50-WASHER",
+          "procedureId": "samsungtla50-door-lock",
+          "procedureFamily": "samsungtla50-door-lock",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "lid_lock",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-62ec837ed0fc",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "§5-3: Door lock (DC, DC1, DC2)",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:03:42.047Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:03:42.047Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-TL-A50-WASHER::samsungtla50-door-lock::§5-3: Door lock (DC, DC1, DC2)::Door lock (DC, DC1, DC2)",
+          "manualId": "SAMSUNG-TL-A50-WASHER",
+          "procedureId": "samsungtla50-door-lock",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-62ec837ed0fc",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "lid_lock",
+          "stagedSourceHash": "96e76899cb2b3a3252b2e30a51e5326decc92c13a7a44a635448e8499b7c67f7",
+          "oldProductionRecordHash": "382f714be551bd755bb1bd996f70194bdcb8a4308ff892c276513f04a2129738",
+          "newProductionRecordHash": "96e76899cb2b3a3252b2e30a51e5326decc92c13a7a44a635448e8499b7c67f7"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:11.549Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-mig-efmm-cda9def45dce-user_interface": {
+      "decisionId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "candidateId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "SAMSUNG-TL-CG71-DRYER::samsungtlcg71d-hmi::user_interface::",
+      "manualId": "SAMSUNG-TL-CG71-DRYER",
+      "procedureId": "samsungtlcg71d-hmi",
+      "procedureFamily": "samsungtlcg71d-hmi",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:12.293Z",
+      "updatedAt": "2026-09-22T06:11:12.293Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "hmi_control",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce",
+        "approvedTarget": "hmi_control"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-TL-CG71-DRYER::samsungtlcg71d-hmi::user_interface::",
+          "decisionId": "delta-a-4f959c099ebef3fc",
+          "manualId": "SAMSUNG-TL-CG71-DRYER",
+          "procedureId": "samsungtlcg71d-hmi",
+          "procedureFamily": "samsungtlcg71d-hmi",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "hmi_control",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "user_interface",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:19.835Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:19.835Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-TL-CG71-DRYER::samsungtlcg71d-hmi::user_interface::",
+          "manualId": "SAMSUNG-TL-CG71-DRYER",
+          "procedureId": "samsungtlcg71d-hmi",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "hmi_control",
+          "stagedSourceHash": "02f4029ce9e424c119b9fc50e32c35d138f7a9823a04b54507d82fd23400cfc0",
+          "oldProductionRecordHash": "26b2b39daeb4fc35e350f410fc27423ed974c14960fef7187f60f0f480a73a76",
+          "newProductionRecordHash": "02f4029ce9e424c119b9fc50e32c35d138f7a9823a04b54507d82fd23400cfc0"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:12.293Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-mig-efmm-ce66fe78ffd3-§4-4:-electric-heater": {
+      "decisionId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-mig-efmm-ce66fe78ffd3-§4-4:-electric-heater",
+      "candidateId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-mig-efmm-ce66fe78ffd3-§4-4:-electric-heater",
+      "candidateKey": "SAMSUNG-TL-CG71-DRYER::samsungtlcg71d-heater-electric::§4-4: Electric heater::Electric heater",
+      "manualId": "SAMSUNG-TL-CG71-DRYER",
+      "procedureId": "samsungtlcg71d-heater-electric",
+      "procedureFamily": "samsungtlcg71d-heater-electric",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:13.113Z",
+      "updatedAt": "2026-09-22T06:11:13.113Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "heat_source",
+      "matcherImprovement": {
+        "backlogId": "efmm-ce66fe78ffd3",
+        "approvedTarget": "heat_source"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-TL-CG71-DRYER::samsungtlcg71d-heater-electric::§4-4: Electric heater::Electric heater",
+          "decisionId": "delta-a-39722024b056884b",
+          "manualId": "SAMSUNG-TL-CG71-DRYER",
+          "procedureId": "samsungtlcg71d-heater-electric",
+          "procedureFamily": "samsungtlcg71d-heater-electric",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "heat_source",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ce66fe78ffd3",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "§4-4: Electric heater",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:32.247Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:32.247Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-TL-CG71-DRYER::samsungtlcg71d-heater-electric::§4-4: Electric heater::Electric heater",
+          "manualId": "SAMSUNG-TL-CG71-DRYER",
+          "procedureId": "samsungtlcg71d-heater-electric",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ce66fe78ffd3",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "heat_source",
+          "stagedSourceHash": "63433769c8864e76441b765fb8fb87615d18c6ba3930ad6e3c2112f88b3ed75e",
+          "oldProductionRecordHash": "08d62616d0903061cafc7beeb02ccda06885de57cfcbcf5ee0ee6e93839affa3",
+          "newProductionRecordHash": "63433769c8864e76441b765fb8fb87615d18c6ba3930ad6e3c2112f88b3ed75e"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:13.113Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-mig-efmm-5edc6b1da575-§5-3:-water-supply-(4c)": {
+      "decisionId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-mig-efmm-5edc6b1da575-§5-3:-water-supply-(4c)",
+      "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-mig-efmm-5edc6b1da575-§5-3:-water-supply-(4c)",
+      "candidateKey": "SAMSUNG-TL-CG71-WASHER::samsungtlcg71-inlet-valves::§5-3: Water supply (4C)::Water supply (4C)",
+      "manualId": "SAMSUNG-TL-CG71-WASHER",
+      "procedureId": "samsungtlcg71-inlet-valves",
+      "procedureFamily": "samsungtlcg71-inlet-valves",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:13.854Z",
+      "updatedAt": "2026-09-22T06:11:13.854Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "inlet_valve",
+      "matcherImprovement": {
+        "backlogId": "efmm-5edc6b1da575",
+        "approvedTarget": "inlet_valve"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-TL-CG71-WASHER::samsungtlcg71-inlet-valves::§5-3: Water supply (4C)::Water supply (4C)",
+          "decisionId": "delta-a-2bd0c81d53cfaf63",
+          "manualId": "SAMSUNG-TL-CG71-WASHER",
+          "procedureId": "samsungtlcg71-inlet-valves",
+          "procedureFamily": "samsungtlcg71-inlet-valves",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "inlet_valve",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-5edc6b1da575",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "§5-3: Water supply (4C)",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:01:37.803Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:01:37.803Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-TL-CG71-WASHER::samsungtlcg71-inlet-valves::§5-3: Water supply (4C)::Water supply (4C)",
+          "manualId": "SAMSUNG-TL-CG71-WASHER",
+          "procedureId": "samsungtlcg71-inlet-valves",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-5edc6b1da575",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "inlet_valve",
+          "stagedSourceHash": "0fe1a90bf779b32ee2edf3697e2f09985cf6e0d752314cff6bb4c22fd7fcdb2f",
+          "oldProductionRecordHash": "27aad6e6140c51a9d3aeb4b2c706c54131a3593ddccf6b006ff5bc213e793537",
+          "newProductionRecordHash": "0fe1a90bf779b32ee2edf3697e2f09985cf6e0d752314cff6bb4c22fd7fcdb2f"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:13.854Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-mig-efmm-62ec837ed0fc-§5-3:-door-lock-(dc,-dc1,-dc2)": {
+      "decisionId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-mig-efmm-62ec837ed0fc-§5-3:-door-lock-(dc,-dc1,-dc2)",
+      "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-mig-efmm-62ec837ed0fc-§5-3:-door-lock-(dc,-dc1,-dc2)",
+      "candidateKey": "SAMSUNG-TL-CG71-WASHER::samsungtlcg71-door-lock::§5-3: Door lock (DC, DC1, DC2)::Door lock (DC, DC1, DC2)",
+      "manualId": "SAMSUNG-TL-CG71-WASHER",
+      "procedureId": "samsungtlcg71-door-lock",
+      "procedureFamily": "samsungtlcg71-door-lock",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:15.118Z",
+      "updatedAt": "2026-09-22T06:11:15.118Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "lid_lock",
+      "matcherImprovement": {
+        "backlogId": "efmm-62ec837ed0fc",
+        "approvedTarget": "lid_lock"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-TL-CG71-WASHER::samsungtlcg71-door-lock::§5-3: Door lock (DC, DC1, DC2)::Door lock (DC, DC1, DC2)",
+          "decisionId": "delta-a-30a6e3d3735cddf7",
+          "manualId": "SAMSUNG-TL-CG71-WASHER",
+          "procedureId": "samsungtlcg71-door-lock",
+          "procedureFamily": "samsungtlcg71-door-lock",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "lid_lock",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-62ec837ed0fc",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "§5-3: Door lock (DC, DC1, DC2)",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:03:46.146Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:03:46.146Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-TL-CG71-WASHER::samsungtlcg71-door-lock::§5-3: Door lock (DC, DC1, DC2)::Door lock (DC, DC1, DC2)",
+          "manualId": "SAMSUNG-TL-CG71-WASHER",
+          "procedureId": "samsungtlcg71-door-lock",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-62ec837ed0fc",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "lid_lock",
+          "stagedSourceHash": "d92fe0091e18e1c3bb7b6f960785b18293164b7ee6d8f5876d86662ecd62d50e",
+          "oldProductionRecordHash": "7c8f0df296b36db9723ef28c3cdd19255782fd81d15cf9ce45090e0b8b025395",
+          "newProductionRecordHash": "d92fe0091e18e1c3bb7b6f960785b18293164b7ee6d8f5876d86662ecd62d50e"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:15.118Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-mig-efmm-cda9def45dce-user_interface": {
+      "decisionId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "candidateId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "SAMSUNG-TL-DV50-DRYER::samsungtldv50-hmi::user_interface::",
+      "manualId": "SAMSUNG-TL-DV50-DRYER",
+      "procedureId": "samsungtldv50-hmi",
+      "procedureFamily": "samsungtldv50-hmi",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:15.952Z",
+      "updatedAt": "2026-09-22T06:11:15.952Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "hmi_control",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce",
+        "approvedTarget": "hmi_control"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-TL-DV50-DRYER::samsungtldv50-hmi::user_interface::",
+          "decisionId": "delta-a-447e208a023e3e01",
+          "manualId": "SAMSUNG-TL-DV50-DRYER",
+          "procedureId": "samsungtldv50-hmi",
+          "procedureFamily": "samsungtldv50-hmi",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "hmi_control",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "user_interface",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:20.406Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:20.406Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-TL-DV50-DRYER::samsungtldv50-hmi::user_interface::",
+          "manualId": "SAMSUNG-TL-DV50-DRYER",
+          "procedureId": "samsungtldv50-hmi",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "hmi_control",
+          "stagedSourceHash": "2a78e2b11ed71ae554e149804db8e821828152f70f83c11c37f18b270b27d822",
+          "oldProductionRecordHash": "448628dc30575f6cda5743524954975bb8909704dbf6851eb845d86b6cff4573",
+          "newProductionRecordHash": "2a78e2b11ed71ae554e149804db8e821828152f70f83c11c37f18b270b27d822"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:15.952Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-mig-efmm-ce66fe78ffd3-§4-4:-electric-heater": {
+      "decisionId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-mig-efmm-ce66fe78ffd3-§4-4:-electric-heater",
+      "candidateId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-mig-efmm-ce66fe78ffd3-§4-4:-electric-heater",
+      "candidateKey": "SAMSUNG-TL-DV50-DRYER::samsungtldv50-heater-electric::§4-4: Electric heater::Electric heater",
+      "manualId": "SAMSUNG-TL-DV50-DRYER",
+      "procedureId": "samsungtldv50-heater-electric",
+      "procedureFamily": "samsungtldv50-heater-electric",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:16.692Z",
+      "updatedAt": "2026-09-22T06:11:16.692Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "heat_source",
+      "matcherImprovement": {
+        "backlogId": "efmm-ce66fe78ffd3",
+        "approvedTarget": "heat_source"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "SAMSUNG-TL-DV50-DRYER::samsungtldv50-heater-electric::§4-4: Electric heater::Electric heater",
+          "decisionId": "delta-a-1851556767a2884a",
+          "manualId": "SAMSUNG-TL-DV50-DRYER",
+          "procedureId": "samsungtldv50-heater-electric",
+          "procedureFamily": "samsungtldv50-heater-electric",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "heat_source",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ce66fe78ffd3",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "§4-4: Electric heater",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:33.943Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:33.943Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "SAMSUNG-TL-DV50-DRYER::samsungtldv50-heater-electric::§4-4: Electric heater::Electric heater",
+          "manualId": "SAMSUNG-TL-DV50-DRYER",
+          "procedureId": "samsungtldv50-heater-electric",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-ce66fe78ffd3",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "heat_source",
+          "stagedSourceHash": "371cc3cd2a1c5311834412509ac86571b00df8a0359c8ea176cb81947bc10a89",
+          "oldProductionRecordHash": "a2de79ffbdb49da38dc99894cedcb1c762179328c5eaedfc8e94c4a3c5588cd3",
+          "newProductionRecordHash": "371cc3cd2a1c5311834412509ac86571b00df8a0359c8ea176cb81947bc10a89"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:16.692Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W10410465::canonical_mapping::map-W10410465-mig-efmm-cda9def45dce-user_interface": {
+      "decisionId": "W10410465::canonical_mapping::map-W10410465-mig-efmm-cda9def45dce-user_interface",
+      "candidateId": "W10410465::canonical_mapping::map-W10410465-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "W10410465::w10410465-button-indicator::user_interface::",
+      "manualId": "W10410465",
+      "procedureId": "w10410465-button-indicator",
+      "procedureFamily": "w10410465-button-indicator",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:17.450Z",
+      "updatedAt": "2026-09-22T06:11:17.450Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "hmi_control",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce",
+        "approvedTarget": "hmi_control"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W10410465::w10410465-button-indicator::user_interface::",
+          "decisionId": "delta-a-2c601526affe1cc2",
+          "manualId": "W10410465",
+          "procedureId": "w10410465-button-indicator",
+          "procedureFamily": "w10410465-button-indicator",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "hmi_control",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "user_interface",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:20.945Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:20.945Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W10410465::w10410465-button-indicator::user_interface::",
+          "manualId": "W10410465",
+          "procedureId": "w10410465-button-indicator",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "hmi_control",
+          "stagedSourceHash": "f221f941401eb726bc3c024e0d6846f7b87d35a99d2db62b54976a6b2ca8f62c",
+          "oldProductionRecordHash": "1018354c7625382b042ffb3291c9d59d6dbf626dee56419a743cccf730bc521d",
+          "newProductionRecordHash": "f221f941401eb726bc3c024e0d6846f7b87d35a99d2db62b54976a6b2ca8f62c"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:17.450Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W10680150::canonical_mapping::map-W10680150-mig-efmm-cda9def45dce-user_interface": {
+      "decisionId": "W10680150::canonical_mapping::map-W10680150-mig-efmm-cda9def45dce-user_interface",
+      "candidateId": "W10680150::canonical_mapping::map-W10680150-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "W10680150::w10680150-button-indicator::user_interface::",
+      "manualId": "W10680150",
+      "procedureId": "w10680150-button-indicator",
+      "procedureFamily": "w10680150-button-indicator",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:18.457Z",
+      "updatedAt": "2026-09-22T06:11:18.457Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "hmi_control",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce",
+        "approvedTarget": "hmi_control"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W10680150::w10680150-button-indicator::user_interface::",
+          "decisionId": "delta-a-1d1921558f305155",
+          "manualId": "W10680150",
+          "procedureId": "w10680150-button-indicator",
+          "procedureFamily": "w10680150-button-indicator",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "hmi_control",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "user_interface",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:21.600Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:21.600Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W10680150::w10680150-button-indicator::user_interface::",
+          "manualId": "W10680150",
+          "procedureId": "w10680150-button-indicator",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "hmi_control",
+          "stagedSourceHash": "827dddc22bb5045027ccb6cf1f50ef0bbb01055151b86010543fc7c4a1fbb5ce",
+          "oldProductionRecordHash": "5955a5b989c8c57412cd61c864f72db91952932033a642234d152ebc73a4ed7b",
+          "newProductionRecordHash": "827dddc22bb5045027ccb6cf1f50ef0bbb01055151b86010543fc7c4a1fbb5ce"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:18.457Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W10864849::canonical_mapping::map-W10864849-mig-efmm-615da9433924-test-#5:-temperature-thermistor": {
+      "decisionId": "W10864849::canonical_mapping::map-W10864849-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "candidateId": "W10864849::canonical_mapping::map-W10864849-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "candidateKey": "W10864849::w10864849-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-05-temp-thermistor",
+      "procedureFamily": "w10864849-test-05-temp-thermistor",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:19.239Z",
+      "updatedAt": "2026-09-22T06:11:19.239Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "temperature_sensor",
+      "matcherImprovement": {
+        "backlogId": "efmm-615da9433924",
+        "approvedTarget": "temperature_sensor"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W10864849::w10864849-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+          "decisionId": "delta-a-115ce2678c10145d",
+          "manualId": "W10864849",
+          "procedureId": "w10864849-test-05-temp-thermistor",
+          "procedureFamily": "w10864849-test-05-temp-thermistor",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "temperature_sensor",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-615da9433924",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "TEST #5: Temperature Thermistor",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:01:55.230Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:01:55.230Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W10864849::w10864849-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+          "manualId": "W10864849",
+          "procedureId": "w10864849-test-05-temp-thermistor",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-615da9433924",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "temperature_sensor",
+          "stagedSourceHash": "d5c21d9323c600d08caafe2dec9588489ace55efb78d48aae71832c10d6ef6a8",
+          "oldProductionRecordHash": "78cdb5039283376ef05606084825be71d09a910a287a9874ce28aa9318322797",
+          "newProductionRecordHash": "d5c21d9323c600d08caafe2dec9588489ace55efb78d48aae71832c10d6ef6a8"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:19.239Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W10881701::canonical_mapping::map-W10881701-mig-efmm-cda9def45dce-user_interface": {
+      "decisionId": "W10881701::canonical_mapping::map-W10881701-mig-efmm-cda9def45dce-user_interface",
+      "candidateId": "W10881701::canonical_mapping::map-W10881701-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "W10881701::w10881701-button-indicator::user_interface::",
+      "manualId": "W10881701",
+      "procedureId": "w10881701-button-indicator",
+      "procedureFamily": "w10881701-button-indicator",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:20.118Z",
+      "updatedAt": "2026-09-22T06:11:20.118Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "hmi_control",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce",
+        "approvedTarget": "hmi_control"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W10881701::w10881701-button-indicator::user_interface::",
+          "decisionId": "delta-a-3b0c40a446f25a8d",
+          "manualId": "W10881701",
+          "procedureId": "w10881701-button-indicator",
+          "procedureFamily": "w10881701-button-indicator",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "hmi_control",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "user_interface",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:23.951Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:23.951Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W10881701::w10881701-button-indicator::user_interface::",
+          "manualId": "W10881701",
+          "procedureId": "w10881701-button-indicator",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "hmi_control",
+          "stagedSourceHash": "83cf232bbab1459d01680a117478eb465c26262a0e472556967c38c49625959d",
+          "oldProductionRecordHash": "c1d85916991dd40342ec7391145df6d826551794a8d78b81392d4e3516f26239",
+          "newProductionRecordHash": "83cf232bbab1459d01680a117478eb465c26262a0e472556967c38c49625959d"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:20.118Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W11187658::canonical_mapping::map-W11187658-mig-efmm-e859af7c0c65-e3-—-tub-heater-~14-ω": {
+      "decisionId": "W11187658::canonical_mapping::map-W11187658-mig-efmm-e859af7c0c65-e3-—-tub-heater-~14-ω",
+      "candidateId": "W11187658::canonical_mapping::map-W11187658-mig-efmm-e859af7c0c65-e3-—-tub-heater-~14-ω",
+      "candidateKey": "W11187658::w11187658-heater::E3 — Tub heater ~14 Ω::",
+      "manualId": "W11187658",
+      "procedureId": "w11187658-heater",
+      "procedureFamily": "w11187658-heater",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:20.974Z",
+      "updatedAt": "2026-09-22T06:11:20.974Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "heat_source",
+      "matcherImprovement": {
+        "backlogId": "efmm-e859af7c0c65",
+        "approvedTarget": "heat_source"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W11187658::w11187658-heater::E3 — Tub heater ~14 Ω::",
+          "decisionId": "delta-a-c10378c47b657298",
+          "manualId": "W11187658",
+          "procedureId": "w11187658-heater",
+          "procedureFamily": "w11187658-heater",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "heat_source",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-e859af7c0c65",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "E3 — Tub heater ~14 Ω",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:05:12.600Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:05:12.600Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W11187658::w11187658-heater::E3 — Tub heater ~14 Ω::",
+          "manualId": "W11187658",
+          "procedureId": "w11187658-heater",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-e859af7c0c65",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "heat_source",
+          "stagedSourceHash": "25f210716f19b669c59f030c385bd5a2d0f4da2c55edba07a25b5f80f6caf48c",
+          "oldProductionRecordHash": "aecb44c9161be3558ba652de4519c6a81e4b71e8068ca3207170b30d4bc97f10",
+          "newProductionRecordHash": "25f210716f19b669c59f030c385bd5a2d0f4da2c55edba07a25b5f80f6caf48c"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:20.974Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W11416395::canonical_mapping::map-W11416395-mig-efmm-615da9433924-test-#5:-temperature-thermistor": {
+      "decisionId": "W11416395::canonical_mapping::map-W11416395-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "candidateId": "W11416395::canonical_mapping::map-W11416395-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "candidateKey": "W11416395::w11416395-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+      "manualId": "W11416395",
+      "procedureId": "w11416395-test-05-temp-thermistor",
+      "procedureFamily": "w11416395-test-05-temp-thermistor",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:21.761Z",
+      "updatedAt": "2026-09-22T06:11:21.761Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "temperature_sensor",
+      "matcherImprovement": {
+        "backlogId": "efmm-615da9433924",
+        "approvedTarget": "temperature_sensor"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W11416395::w11416395-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+          "decisionId": "delta-a-67fb89c1f0a0a953",
+          "manualId": "W11416395",
+          "procedureId": "w11416395-test-05-temp-thermistor",
+          "procedureFamily": "w11416395-test-05-temp-thermistor",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "temperature_sensor",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-615da9433924",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "TEST #5: Temperature Thermistor",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:02:51.144Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:02:51.144Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W11416395::w11416395-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+          "manualId": "W11416395",
+          "procedureId": "w11416395-test-05-temp-thermistor",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-615da9433924",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "temperature_sensor",
+          "stagedSourceHash": "999a8d4d4ee7375618ed7706a676fce329fcdac2dab46789f68198f6a6a6986a",
+          "oldProductionRecordHash": "2d61429952c990ee8eadf971e94813ae7ca91d253e508a7792f1425a1502641f",
+          "newProductionRecordHash": "999a8d4d4ee7375618ed7706a676fce329fcdac2dab46789f68198f6a6a6986a"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:21.761Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W11416787::canonical_mapping::map-W11416787-mig-efmm-615da9433924-test-#5:-temperature-thermistor": {
+      "decisionId": "W11416787::canonical_mapping::map-W11416787-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "candidateId": "W11416787::canonical_mapping::map-W11416787-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "candidateKey": "W11416787::w11416787-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-05-temp-thermistor",
+      "procedureFamily": "w11416787-test-05-temp-thermistor",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:22.504Z",
+      "updatedAt": "2026-09-22T06:11:22.504Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "temperature_sensor",
+      "matcherImprovement": {
+        "backlogId": "efmm-615da9433924",
+        "approvedTarget": "temperature_sensor"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W11416787::w11416787-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+          "decisionId": "delta-a-3000bb11238f152b",
+          "manualId": "W11416787",
+          "procedureId": "w11416787-test-05-temp-thermistor",
+          "procedureFamily": "w11416787-test-05-temp-thermistor",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "temperature_sensor",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-615da9433924",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "TEST #5: Temperature Thermistor",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:02:53.979Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:02:53.979Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W11416787::w11416787-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+          "manualId": "W11416787",
+          "procedureId": "w11416787-test-05-temp-thermistor",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-615da9433924",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "temperature_sensor",
+          "stagedSourceHash": "d549c1e2a345338d7bea1d0678a2a849290d1b930c3a2e9efcbeb1dda1ff1a15",
+          "oldProductionRecordHash": "342cb906bd7e6462179766b6d59787f3be18291dd481d14706cffef7363c2e16",
+          "newProductionRecordHash": "d549c1e2a345338d7bea1d0678a2a849290d1b930c3a2e9efcbeb1dda1ff1a15"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:22.504Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W11416805::canonical_mapping::map-W11416805-mig-efmm-cda9def45dce-user_interface": {
+      "decisionId": "W11416805::canonical_mapping::map-W11416805-mig-efmm-cda9def45dce-user_interface",
+      "candidateId": "W11416805::canonical_mapping::map-W11416805-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "W11416805::w11416805-hmi::user_interface::",
+      "manualId": "W11416805",
+      "procedureId": "w11416805-hmi",
+      "procedureFamily": "w11416805-hmi",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:23.225Z",
+      "updatedAt": "2026-09-22T06:11:23.225Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "hmi_control",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce",
+        "approvedTarget": "hmi_control"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W11416805::w11416805-hmi::user_interface::",
+          "decisionId": "delta-a-a8bf67473f0ceb74",
+          "manualId": "W11416805",
+          "procedureId": "w11416805-hmi",
+          "procedureFamily": "w11416805-hmi",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "hmi_control",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "user_interface",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:24.872Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:24.872Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W11416805::w11416805-hmi::user_interface::",
+          "manualId": "W11416805",
+          "procedureId": "w11416805-hmi",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "hmi_control",
+          "stagedSourceHash": "2edfed5d71afcbe2365d92a46dc18ee89d9068159b4323cb1a2a91b0825111e9",
+          "oldProductionRecordHash": "6a5115f378799f34f6b8ed6adec64aec653f7fb10d4569bd9e52165187aca5c9",
+          "newProductionRecordHash": "2edfed5d71afcbe2365d92a46dc18ee89d9068159b4323cb1a2a91b0825111e9"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:23.225Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W11697231::canonical_mapping::map-W11697231-mig-efmm-615da9433924-test-#5:-temperature-thermistor": {
+      "decisionId": "W11697231::canonical_mapping::map-W11697231-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "candidateId": "W11697231::canonical_mapping::map-W11697231-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "candidateKey": "W11697231::w11697231-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+      "manualId": "W11697231",
+      "procedureId": "w11697231-test-05-temp-thermistor",
+      "procedureFamily": "w11697231-test-05-temp-thermistor",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:26.630Z",
+      "updatedAt": "2026-09-22T06:11:26.630Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "temperature_sensor",
+      "matcherImprovement": {
+        "backlogId": "efmm-615da9433924",
+        "approvedTarget": "temperature_sensor"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W11697231::w11697231-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+          "decisionId": "delta-a-15b994deebeada0b",
+          "manualId": "W11697231",
+          "procedureId": "w11697231-test-05-temp-thermistor",
+          "procedureFamily": "w11697231-test-05-temp-thermistor",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "temperature_sensor",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-615da9433924",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "TEST #5: Temperature Thermistor",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:02:55.973Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:02:55.973Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W11697231::w11697231-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+          "manualId": "W11697231",
+          "procedureId": "w11697231-test-05-temp-thermistor",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-615da9433924",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "temperature_sensor",
+          "stagedSourceHash": "220f5a3b2bc0e6c5238248c3c57be378b3de822ed985a822e65a31397c0d4dd9",
+          "oldProductionRecordHash": "6847d91944312b2c01602d9bce3f5231f1977f3df5e271d42220c4564b3a7fcc",
+          "newProductionRecordHash": "220f5a3b2bc0e6c5238248c3c57be378b3de822ed985a822e65a31397c0d4dd9"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:26.630Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W11746350::canonical_mapping::map-W11746350-acu-control_board": {
+      "decisionId": "W11746350::canonical_mapping::map-W11746350-acu-control_board",
+      "candidateId": "W11746350::canonical_mapping::map-W11746350-acu-control_board",
+      "candidateKey": "W11746350::w11746350-acu-power::ACU::",
+      "manualId": "W11746350",
+      "procedureId": "w11746350-acu-power",
+      "procedureFamily": "w11746350-acu",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:47.776Z",
+      "updatedAt": "2026-09-22T06:11:47.776Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "control_board",
+      "matcherImprovement": {
+        "backlogId": null,
+        "approvedTarget": "control_board"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W11746350::w11746350-acu-power::ACU::",
+          "decisionId": "delta-b-5b5f2c7501e61f3b",
+          "manualId": "W11746350",
+          "procedureId": "w11746350-acu-power",
+          "procedureFamily": "w11746350-acu",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "control_board",
+          "population": "B",
+          "decision": "accept_staged",
+          "backlogId": null,
+          "mappingType": null,
+          "sourceTerm": "ACU",
+          "provenance": {
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range",
+            "procedureId": "w11746350-acu-power",
+            "pages": [
+              14,
+              29,
+              30
+            ],
+            "sources": [
+              {
+                "type": "manual",
+                "manualId": "W11746350",
+                "platformId": "whirlpool_freestanding_range"
+              },
+              {
+                "type": "procedure",
+                "procedureId": "w11746350-acu-power",
+                "pages": [
+                  14,
+                  29,
+                  30
+                ]
+              },
+              {
+                "type": "extraction_doc",
+                "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+              },
+              {
+                "type": "matcher",
+                "layer": "canonical_ontology_alias"
+              }
+            ]
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:08:39.709Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:08:39.709Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W11746350::w11746350-acu-power::ACU::",
+          "manualId": "W11746350",
+          "procedureId": "w11746350-acu-power",
+          "population": "B",
+          "decision": "accept_staged",
+          "backlogId": null,
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "control_board",
+          "stagedSourceHash": "3d720378b083a56784746609d9ebd9383d6ac6c3f06e414604a0db0e3caba9b4",
+          "oldProductionRecordHash": "08fb0b74eae352058e87f7fb44803e28f5de8820404a900d816e2d4ba56b3fc9",
+          "newProductionRecordHash": "3d720378b083a56784746609d9ebd9383d6ac6c3f06e414604a0db0e3caba9b4"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:47.776Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W11746350::canonical_mapping::map-W11746350-bake_element-bake_heating_element": {
+      "decisionId": "W11746350::canonical_mapping::map-W11746350-bake_element-bake_heating_element",
+      "candidateId": "W11746350::canonical_mapping::map-W11746350-bake_element-bake_heating_element",
+      "candidateKey": "W11746350::w11746350-bake-element::bake_element::",
+      "manualId": "W11746350",
+      "procedureId": "w11746350-bake-element",
+      "procedureFamily": "w11746350-bake",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:52.107Z",
+      "updatedAt": "2026-09-22T06:11:52.107Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "bake_heating_element",
+      "matcherImprovement": {
+        "backlogId": null,
+        "approvedTarget": "bake_heating_element"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W11746350::w11746350-bake-element::bake_element::",
+          "decisionId": "delta-b-2c1de7d724fd18aa",
+          "manualId": "W11746350",
+          "procedureId": "w11746350-bake-element",
+          "procedureFamily": "w11746350-bake",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "bake_heating_element",
+          "population": "B",
+          "decision": "accept_staged",
+          "backlogId": null,
+          "mappingType": null,
+          "sourceTerm": "bake_element",
+          "provenance": {
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range",
+            "procedureId": "w11746350-bake-element",
+            "pages": [
+              21,
+              41,
+              47
+            ],
+            "sources": [
+              {
+                "type": "manual",
+                "manualId": "W11746350",
+                "platformId": "whirlpool_freestanding_range"
+              },
+              {
+                "type": "procedure",
+                "procedureId": "w11746350-bake-element",
+                "pages": [
+                  21,
+                  41,
+                  47
+                ]
+              },
+              {
+                "type": "extraction_doc",
+                "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+              },
+              {
+                "type": "matcher",
+                "layer": "range_seed_alias"
+              }
+            ]
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:05:23.386Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:05:23.386Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W11746350::w11746350-bake-element::bake_element::",
+          "manualId": "W11746350",
+          "procedureId": "w11746350-bake-element",
+          "population": "B",
+          "decision": "accept_staged",
+          "backlogId": null,
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "bake_heating_element",
+          "stagedSourceHash": "985d92a05c7f529eed4d43466d125d36c946b57d2ffda3f7ff71a7f8e067cd80",
+          "oldProductionRecordHash": "69ff03ef8f3f1456a8a4662cceb7516919d2a17d71b9f6cb42bbc07dc34b2107",
+          "newProductionRecordHash": "985d92a05c7f529eed4d43466d125d36c946b57d2ffda3f7ff71a7f8e067cd80"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:52.107Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W11746350::canonical_mapping::map-W11746350-broil_element-broil_heating_element": {
+      "decisionId": "W11746350::canonical_mapping::map-W11746350-broil_element-broil_heating_element",
+      "candidateId": "W11746350::canonical_mapping::map-W11746350-broil_element-broil_heating_element",
+      "candidateKey": "W11746350::w11746350-broil-element::broil_element::",
+      "manualId": "W11746350",
+      "procedureId": "w11746350-broil-element",
+      "procedureFamily": "w11746350-broil",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:54.633Z",
+      "updatedAt": "2026-09-22T06:11:54.633Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "broil_heating_element",
+      "matcherImprovement": {
+        "backlogId": null,
+        "approvedTarget": "broil_heating_element"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W11746350::w11746350-broil-element::broil_element::",
+          "decisionId": "delta-b-4e0ccbe683ba2f00",
+          "manualId": "W11746350",
+          "procedureId": "w11746350-broil-element",
+          "procedureFamily": "w11746350-broil",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "broil_heating_element",
+          "population": "B",
+          "decision": "accept_staged",
+          "backlogId": null,
+          "mappingType": null,
+          "sourceTerm": "broil_element",
+          "provenance": {
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range",
+            "procedureId": "w11746350-broil-element",
+            "pages": [
+              18,
+              41,
+              47
+            ],
+            "sources": [
+              {
+                "type": "manual",
+                "manualId": "W11746350",
+                "platformId": "whirlpool_freestanding_range"
+              },
+              {
+                "type": "procedure",
+                "procedureId": "w11746350-broil-element",
+                "pages": [
+                  18,
+                  41,
+                  47
+                ]
+              },
+              {
+                "type": "extraction_doc",
+                "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+              },
+              {
+                "type": "matcher",
+                "layer": "range_seed_alias"
+              }
+            ]
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:05:25.046Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:05:25.046Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W11746350::w11746350-broil-element::broil_element::",
+          "manualId": "W11746350",
+          "procedureId": "w11746350-broil-element",
+          "population": "B",
+          "decision": "accept_staged",
+          "backlogId": null,
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "broil_heating_element",
+          "stagedSourceHash": "bafe1f20ac8e3f38652a8e91cef748f6fc05f92b1ce7d701f214477f6d1ee442",
+          "oldProductionRecordHash": "6915851e8df197e3ca3bd22d36b01712aed3e2725a90e5858966f2c606639f6a",
+          "newProductionRecordHash": "bafe1f20ac8e3f38652a8e91cef748f6fc05f92b1ce7d701f214477f6d1ee442"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:54.633Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W11746350::canonical_mapping::map-W11746350-compound-main-oven-temperature-sensor": {
+      "decisionId": "W11746350::canonical_mapping::map-W11746350-compound-main-oven-temperature-sensor",
+      "candidateId": "W11746350::canonical_mapping::map-W11746350-compound-main-oven-temperature-sensor",
+      "candidateKey": "W11746350::w11746350-oven-sensor::Main Oven Temperature Sensor::",
+      "manualId": "W11746350",
+      "procedureId": "w11746350-oven-sensor",
+      "procedureFamily": "w11746350-oven",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:55.780Z",
+      "updatedAt": "2026-09-22T06:11:55.780Z",
+      "currentReviewClass": "implementationSpecific",
+      "currentProposedCanonicalId": "temperature_sensor",
+      "matcherImprovement": {
+        "backlogId": null,
+        "approvedTarget": "temperature_sensor"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W11746350::w11746350-oven-sensor::Main Oven Temperature Sensor::",
+          "decisionId": "delta-b-f2ae999c56e30969",
+          "manualId": "W11746350",
+          "procedureId": "w11746350-oven-sensor",
+          "procedureFamily": "w11746350-oven",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "implementationSpecific",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "temperature_sensor",
+          "population": "B",
+          "decision": "accept_staged",
+          "backlogId": null,
+          "mappingType": null,
+          "sourceTerm": "Main Oven Temperature Sensor",
+          "provenance": {
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range",
+            "procedureId": "w11746350-oven-sensor",
+            "pages": [
+              12,
+              32,
+              33,
+              49
+            ],
+            "sources": [
+              {
+                "type": "manual",
+                "manualId": "W11746350",
+                "platformId": "whirlpool_freestanding_range"
+              },
+              {
+                "type": "procedure",
+                "procedureId": "w11746350-oven-sensor",
+                "pages": [
+                  12,
+                  32,
+                  33,
+                  49
+                ]
+              },
+              {
+                "type": "extraction_doc",
+                "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+              },
+              {
+                "type": "matcher",
+                "layer": "compound:canonical_alias_suffix",
+                "matchedPhrase": "oven temperature sensor",
+                "decomposition": {
+                  "domain": "main",
+                  "component": "oven temperature",
+                  "actuator": "sensor"
+                }
+              }
+            ]
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:06:23.815Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:06:23.815Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W11746350::w11746350-oven-sensor::Main Oven Temperature Sensor::",
+          "manualId": "W11746350",
+          "procedureId": "w11746350-oven-sensor",
+          "population": "B",
+          "decision": "accept_staged",
+          "backlogId": null,
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "implementationSpecific",
+          "oldProductionTarget": null,
+          "newProductionTarget": "temperature_sensor",
+          "stagedSourceHash": "d2f9a03f3de4f8f5ccd55713898b90fc62e7740ce9e32cbbcc62a0f7a89990d6",
+          "oldProductionRecordHash": "0e77a0f9762c9c6bc590edcbe0bc40cddbe007a73ea0c72a3ffb3c3b64d1472a",
+          "newProductionRecordHash": "d2f9a03f3de4f8f5ccd55713898b90fc62e7740ce9e32cbbcc62a0f7a89990d6"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:55.780Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W11746350::canonical_mapping::map-W11746350-convection_fan-convection_fan": {
+      "decisionId": "W11746350::canonical_mapping::map-W11746350-convection_fan-convection_fan",
+      "candidateId": "W11746350::canonical_mapping::map-W11746350-convection_fan-convection_fan",
+      "candidateKey": "W11746350::w11746350-convect-element::convection_fan::",
+      "manualId": "W11746350",
+      "procedureId": "w11746350-convect-element",
+      "procedureFamily": "w11746350-convect",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:11:59.032Z",
+      "updatedAt": "2026-09-22T06:11:59.032Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "convection_fan",
+      "matcherImprovement": {
+        "backlogId": null,
+        "approvedTarget": "convection_fan"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W11746350::w11746350-convect-element::convection_fan::",
+          "decisionId": "delta-b-e443a965369f37d5",
+          "manualId": "W11746350",
+          "procedureId": "w11746350-convect-element",
+          "procedureFamily": "w11746350-convect",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "convection_fan",
+          "population": "B",
+          "decision": "accept_staged",
+          "backlogId": null,
+          "mappingType": null,
+          "sourceTerm": "convection_fan",
+          "provenance": {
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range",
+            "procedureId": "w11746350-convect-element",
+            "pages": [
+              15,
+              41,
+              48
+            ],
+            "sources": [
+              {
+                "type": "manual",
+                "manualId": "W11746350",
+                "platformId": "whirlpool_freestanding_range"
+              },
+              {
+                "type": "procedure",
+                "procedureId": "w11746350-convect-element",
+                "pages": [
+                  15,
+                  41,
+                  48
+                ]
+              },
+              {
+                "type": "extraction_doc",
+                "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+              },
+              {
+                "type": "matcher",
+                "layer": "canonical_component_id"
+              }
+            ]
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:05:27.239Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:05:27.239Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W11746350::w11746350-convect-element::convection_fan::",
+          "manualId": "W11746350",
+          "procedureId": "w11746350-convect-element",
+          "population": "B",
+          "decision": "accept_staged",
+          "backlogId": null,
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "convection_fan",
+          "stagedSourceHash": "5e1b72ac38f90828e48fa746251368727fb959184ede5b4339c2f0d166f1b16d",
+          "oldProductionRecordHash": "bdf89461b4016cbcbb4a13619eeadfa154fc6dd57cefeb4c62eca43084668bc5",
+          "newProductionRecordHash": "5e1b72ac38f90828e48fa746251368727fb959184ede5b4339c2f0d166f1b16d"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:11:59.032Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W11746350::canonical_mapping::map-W11746350-supply-power_supply": {
+      "decisionId": "W11746350::canonical_mapping::map-W11746350-supply-power_supply",
+      "candidateId": "W11746350::canonical_mapping::map-W11746350-supply-power_supply",
+      "candidateKey": "W11746350::w11746350-acu-power::supply::",
+      "manualId": "W11746350",
+      "procedureId": "w11746350-acu-power",
+      "procedureFamily": "w11746350-acu",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:12:01.249Z",
+      "updatedAt": "2026-09-22T06:12:01.249Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "power_supply",
+      "matcherImprovement": {
+        "backlogId": null,
+        "approvedTarget": "power_supply"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W11746350::w11746350-acu-power::supply::",
+          "decisionId": "delta-b-6a37cf8d0b10b692",
+          "manualId": "W11746350",
+          "procedureId": "w11746350-acu-power",
+          "procedureFamily": "w11746350-acu",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "power_supply",
+          "population": "B",
+          "decision": "accept_staged",
+          "backlogId": null,
+          "mappingType": null,
+          "sourceTerm": "supply",
+          "provenance": {
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range",
+            "procedureId": "w11746350-acu-power",
+            "pages": [
+              14,
+              29,
+              30
+            ],
+            "sources": [
+              {
+                "type": "manual",
+                "manualId": "W11746350",
+                "platformId": "whirlpool_freestanding_range"
+              },
+              {
+                "type": "procedure",
+                "procedureId": "w11746350-acu-power",
+                "pages": [
+                  14,
+                  29,
+                  30
+                ]
+              },
+              {
+                "type": "extraction_doc",
+                "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+              },
+              {
+                "type": "matcher",
+                "layer": "range_seed_alias"
+              }
+            ]
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:08:41.236Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:08:41.236Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W11746350::w11746350-acu-power::supply::",
+          "manualId": "W11746350",
+          "procedureId": "w11746350-acu-power",
+          "population": "B",
+          "decision": "accept_staged",
+          "backlogId": null,
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "power_supply",
+          "stagedSourceHash": "af8f13f1a285e387ba7b7abdb45688a1af9099ee30f52c2800b00b10d1188a63",
+          "oldProductionRecordHash": "b6b7ab62c54ce114184283f7a6b9d5e0e5efc781ad070453f09f38f5ba50adc7",
+          "newProductionRecordHash": "af8f13f1a285e387ba7b7abdb45688a1af9099ee30f52c2800b00b10d1188a63"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:12:01.249Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W11798430::canonical_mapping::map-W11798430-mig-efmm-cda9def45dce-user_interface": {
+      "decisionId": "W11798430::canonical_mapping::map-W11798430-mig-efmm-cda9def45dce-user_interface",
+      "candidateId": "W11798430::canonical_mapping::map-W11798430-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "W11798430::w11798430-hmi::user_interface::",
+      "manualId": "W11798430",
+      "procedureId": "w11798430-hmi",
+      "procedureFamily": "w11798430-hmi",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:12:05.608Z",
+      "updatedAt": "2026-09-22T06:12:05.608Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "hmi_control",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce",
+        "approvedTarget": "hmi_control"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W11798430::w11798430-hmi::user_interface::",
+          "decisionId": "delta-a-fd118a55ea30ec1d",
+          "manualId": "W11798430",
+          "procedureId": "w11798430-hmi",
+          "procedureFamily": "w11798430-hmi",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "hmi_control",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "user_interface",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:25.424Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:25.424Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W11798430::w11798430-hmi::user_interface::",
+          "manualId": "W11798430",
+          "procedureId": "w11798430-hmi",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "hmi_control",
+          "stagedSourceHash": "bf0125069667ebe8fb50895b378bec755a35629a61cdcf05ebddd806e965b3b8",
+          "oldProductionRecordHash": "0fa9d6a710a6e69b9fda229ae3aad9ac930ca20c44b0b31df20bea13e8261122",
+          "newProductionRecordHash": "bf0125069667ebe8fb50895b378bec755a35629a61cdcf05ebddd806e965b3b8"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:12:05.608Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W8178559::canonical_mapping::map-W8178559-mig-efmm-cda9def45dce-user_interface": {
+      "decisionId": "W8178559::canonical_mapping::map-W8178559-mig-efmm-cda9def45dce-user_interface",
+      "candidateId": "W8178559::canonical_mapping::map-W8178559-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "W8178559::w8178559-button-indicator::user_interface::",
+      "manualId": "W8178559",
+      "procedureId": "w8178559-button-indicator",
+      "procedureFamily": "w8178559-button-indicator",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:12:06.751Z",
+      "updatedAt": "2026-09-22T06:12:06.751Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "hmi_control",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce",
+        "approvedTarget": "hmi_control"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W8178559::w8178559-button-indicator::user_interface::",
+          "decisionId": "delta-a-b16e14c0188dee2c",
+          "manualId": "W8178559",
+          "procedureId": "w8178559-button-indicator",
+          "procedureFamily": "w8178559-button-indicator",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "hmi_control",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "user_interface",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:26.358Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:26.358Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W8178559::w8178559-button-indicator::user_interface::",
+          "manualId": "W8178559",
+          "procedureId": "w8178559-button-indicator",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "hmi_control",
+          "stagedSourceHash": "9b00dc21e8f6a660886fb91ba21152ec3f0ef69bd779dc79e8e9d2df009e571a",
+          "oldProductionRecordHash": "990b18cf5e94d103f85c62446ded54b086eda8e3fd843417d982ec244408dee9",
+          "newProductionRecordHash": "9b00dc21e8f6a660886fb91ba21152ec3f0ef69bd779dc79e8e9d2df009e571a"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:12:06.751Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    },
+    "W8178629::canonical_mapping::map-W8178629-mig-efmm-cda9def45dce-user_interface": {
+      "decisionId": "W8178629::canonical_mapping::map-W8178629-mig-efmm-cda9def45dce-user_interface",
+      "candidateId": "W8178629::canonical_mapping::map-W8178629-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "W8178629::w8178629-timer-motor::user_interface::",
+      "manualId": "W8178629",
+      "procedureId": "w8178629-timer-motor",
+      "procedureFamily": "w8178629-timer-motor",
+      "decision": "accepted",
+      "reviewer": "technicalhatchet@gmail.com",
+      "timestamp": "2026-09-22T06:12:08.127Z",
+      "updatedAt": "2026-09-22T06:12:08.127Z",
+      "currentReviewClass": "existingCanonicalMapping",
+      "currentProposedCanonicalId": "hmi_control",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce",
+        "approvedTarget": "hmi_control"
+      },
+      "deltaReconciliationDecision": "accept_staged",
+      "productionReconciliation": {
+        "manifestRecord": {
+          "candidateKey": "W8178629::w8178629-timer-motor::user_interface::",
+          "decisionId": "delta-a-a364b25dd4b3c256",
+          "manualId": "W8178629",
+          "procedureId": "w8178629-timer-motor",
+          "procedureFamily": "w8178629-timer-motor",
+          "baselineClassification": "unresolved",
+          "stagedClassification": "existingCanonicalMapping",
+          "baselineProposedCanonicalId": null,
+          "stagedProposedCanonicalId": "hmi_control",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "mappingType": "matcher_improvement",
+          "sourceTerm": "user_interface",
+          "provenance": {
+            "stagedCorpus": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1"
+          },
+          "humanDecision": {
+            "reviewer": "technicalhatchet@gmail.com",
+            "updatedAt": "2026-09-21T20:04:26.933Z",
+            "rationale": null,
+            "history": [
+              {
+                "at": "2026-09-21T20:04:26.933Z",
+                "decision": "accept_staged",
+                "reviewer": "technicalhatchet@gmail.com",
+                "rationale": null
+              }
+            ]
+          },
+          "canonicalPromotionImplied": false
+        },
+        "changesetMutation": {
+          "candidateKey": "W8178629::w8178629-timer-motor::user_interface::",
+          "manualId": "W8178629",
+          "procedureId": "w8178629-timer-motor",
+          "population": "A",
+          "decision": "accept_staged",
+          "backlogId": "efmm-cda9def45dce",
+          "oldProductionClassification": "unresolved",
+          "newProductionClassification": "existingCanonicalMapping",
+          "oldProductionTarget": null,
+          "newProductionTarget": "hmi_control",
+          "stagedSourceHash": "375795968b8059052ffda7542af5ca2061a7692e3d2476e79148ae4dfb8682fe",
+          "oldProductionRecordHash": "28464dcc9388f9bbfacd91306d1358bce4e7228a7e250d25bbfb928a50826c84",
+          "newProductionRecordHash": "375795968b8059052ffda7542af5ca2061a7692e3d2476e79148ae4dfb8682fe"
+        }
+      },
+      "rationale": null,
+      "history": [
+        {
+          "at": "2026-09-22T06:12:08.127Z",
+          "decision": "accepted",
+          "reviewer": "technicalhatchet@gmail.com",
+          "rationale": null
+        }
+      ]
+    }
+  },
+  "automaticDecisionsApplied": false,
+  "mergedIntoProductionReviewDecisions": false,
+  "updatedAt": "2026-09-21T20:41:45.282639+00:00"
+}

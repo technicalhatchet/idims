@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_freeze_closure",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T09:35:00+00:00",
+  "phase": "CG-MICROWAVE-FREEZE",
+  "verdict": "CLOSED / MICROWAVE_FAMILY_LOCKED",
+  "closureStatement": "Microwave canonical family frozen at rev1, registered in resolver, and locked. Fit → discovery → freeze workstream complete. Normalization/compounding explicitly deferred.",
+  "freezeLock": "CG_MICROWAVE_FREEZE_LOCK_v1.json",
+  "canonicalOntology": {
+    "id": "microwave",
+    "frozenRevision": "rev1",
+    "frozenHash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "registryRegistered": true
+  },
+  "governanceConclusion": {
+    "microwaveFamilyLocked": true,
+    "canonicalExpansion": 0,
+    "componentPromotionCount": 0,
+    "rangeOvenHashMutated": false,
+    "normalizationAuthorized": false,
+    "compoundingAuthorized": false
+  },
+  "workstreamChain": [
+    "CG-MICROWAVE-FIT — Outcome B",
+    "CG-MICROWAVE-DISCOVERY — 7 core + 2 conditional approved",
+    "CG-MICROWAVE-FREEZE — rev1 frozen and locked"
+  ],
+  "nextDisciplinedStep": "Microwave architecture immutable — normalization/compounding only when explicitly opened; additional manuals are coverage work"
+}

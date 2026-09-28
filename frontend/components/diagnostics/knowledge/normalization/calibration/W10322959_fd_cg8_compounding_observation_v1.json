@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg8_fd_compounding_observation",
+  "workstream": "CG-8",
+  "workPackage": "WP1",
+  "manualId": "W10322959",
+  "platformId": "whirlpool_jazz_french_door",
+  "verdict": {
+    "canonicalInheritances": 6,
+    "conditionalBindings": 4,
+    "overlayLearningEvents": 4,
+    "intentionalAbstentions": 4,
+    "canonicalExpansion": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0
+  },
+  "verdictNote": "First post-freeze refrigerator compounding pass. Teaching rows preserve frozen ontology boundary under Jazz evidence. Unresolved rows recorded as intentional abstention \u2014 not matcher failure or missing ontology.",
+  "gateArtifact": "WHIRLPOOL_JAZZ_FD_overlay_mapping_table_v1.json",
+  "ledgerArtifact": "WHIRLPOOL_JAZZ_FD_gate_decision_ledger_v1.json",
+  "generatedAt": "2026-09-16T06:15:09.031787+00:00",
+  "canonicalOntology": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "immutable": true
+  }
+}

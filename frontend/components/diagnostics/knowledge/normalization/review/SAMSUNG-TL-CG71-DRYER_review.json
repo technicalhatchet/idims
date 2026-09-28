@@ -1,0 +1,2274 @@
+{
+  "manualId": "SAMSUNG-TL-CG71-DRYER",
+  "platformId": "samsung_tl_dryer_cg71",
+  "templateId": "electric_dryer",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:16.892379+00:00",
+  "records": [
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-belt_switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "belt_switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "belt",
+          "actuator": "switch"
+        },
+        "summary": "alias: belt_switch \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-belt-cutoff",
+        "pages": [
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "belt_switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-belt-cutoff",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-belt-cutoff",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "belt",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-belt-cut-off-switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-4: Belt cut-off switch",
+      "extractedTerm": "Belt cut-off switch",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "belt cut off",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a74-4: Belt cut-off switch \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-belt-cutoff",
+        "pages": [
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: Belt cut-off switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-belt-cutoff",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-belt-cutoff",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "belt cut off",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-door_switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "door_switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "door",
+          "component": null,
+          "actuator": "switch"
+        },
+        "summary": "alias: door_switch \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-door-switch",
+        "pages": [
+          19,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-door-switch",
+        "pages": [
+          19,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-door-switch",
+            "pages": [
+              19,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-/-\u00a74-4:-door-switch-(dc,-df)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1 / \u00a74-4: Door switch (dC, dF)",
+      "extractedTerm": "/ \u00a74-4: Door switch (dC, dF)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "4 4 door",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a74-1 / \u00a74-4: Door switch (dC, dF) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-door-switch",
+        "pages": [
+          19,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1 / \u00a74-4: Door switch (dC, dF)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-door-switch",
+        "pages": [
+          19,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-door-switch",
+            "pages": [
+              19,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "4 4 door",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-flame_sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "flame_sensor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "flame",
+          "actuator": "sensor"
+        },
+        "summary": "alias: flame_sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-gas-flame-sensor",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "flame_sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-gas-flame-sensor",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-gas-flame-sensor",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "flame",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-radiant-flame-sensor-(10rs)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-4: Radiant flame sensor (10RS)",
+      "extractedTerm": "Radiant flame sensor (10RS)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "radiant flame",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-4: Radiant flame sensor (10RS) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-gas-flame-sensor",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: Radiant flame sensor (10RS)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-gas-flame-sensor",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-gas-flame-sensor",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "radiant flame",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-tl-cg71-dryer-unresolved-samsungtlcg71d-gas-ignitor-igniter",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "igniter",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: igniter \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-gas-ignitor",
+        "pages": [
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "igniter": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-gas-ignitor",
+        "pages": [
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-gas-ignitor",
+            "pages": [
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-gas-igniter-(101d)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-4: Gas igniter (101D)",
+      "extractedTerm": "Gas igniter (101D)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "gas",
+          "component": null,
+          "actuator": "igniter"
+        },
+        "summary": "alias: \u00a74-4: Gas igniter (101D) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-gas-ignitor",
+        "pages": [
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: Gas igniter (101D)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-gas-ignitor",
+        "pages": [
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-gas-ignitor",
+            "pages": [
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "igniter"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-gas_valve",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "gas_valve",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "gas",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: gas_valve \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-gas-valve",
+        "pages": [
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "gas_valve": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-gas-valve",
+        "pages": [
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-gas-valve",
+            "pages": [
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-gas-valve-coils-(25m01a)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-4: Gas valve coils (25M01A)",
+      "extractedTerm": "Gas valve coils (25M01A)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "gas",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: \u00a74-4: Gas valve coils (25M01A) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-gas-valve",
+        "pages": [
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: Gas valve coils (25M01A)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-gas-valve",
+        "pages": [
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-gas-valve",
+            "pages": [
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-heating_element",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "heating_element",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "wash_heater",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "heating element",
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: heating_element \u2192 wash_heater"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-heater-electric",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heating_element": "wash_heater"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-heater-electric",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-heater-electric",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "heating element",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-electric-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-4: Electric heater",
+      "extractedTerm": "Electric heater",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "electric",
+          "component": null,
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a74-4: Electric heater \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-heater-electric",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: Electric heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-heater-electric",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-heater-electric",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "electric",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-user_interface",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "user_interface",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: user_interface \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-hmi",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "user_interface": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-hmi",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-hmi",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-display-/-buttons-(bc2)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Display / buttons (bC2)",
+      "extractedTerm": "Display / buttons (bC2)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1: Display / buttons (bC2) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-hmi",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Display / buttons (bC2)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-hmi",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-hmi",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-drive_motor",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "drive_motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "drive motor",
+        "decomposition": {
+          "domain": null,
+          "component": "drive",
+          "actuator": "motor"
+        },
+        "summary": "alias: drive_motor \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-motor-circuit",
+        "pages": [
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drive_motor": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "drive motor",
+            "decomposition": {
+              "domain": null,
+              "component": "drive",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-motor-windings-and-centrifugal-switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-4: Motor windings and centrifugal switch",
+      "extractedTerm": "Motor windings and centrifugal switch",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "motor windings and centrifugal",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a74-4: Motor windings and centrifugal switch \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-motor-circuit",
+        "pages": [
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: Motor windings and centrifugal switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "motor windings and centrifugal",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-tl-cg71-dryer-unresolved-samsungtlcg71d-power-supply",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-power",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-power",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-power",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-main_control-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.96,
+      "what": "main_control",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.96,
+        "matcherLayer": "platform_overlay:samsung_fl_washer_wf6000r",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: main_control \u2192 control_board"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-power",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "main_control": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-power",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-power",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-power-and-communication-(9c1,-fc,-ac)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Power and communication (9C1, FC, AC)",
+      "extractedTerm": "Power and communication (9C1, FC, AC)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1: Power and communication (9C1, FC, AC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-power",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Power and communication (9C1, FC, AC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-power",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-power",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-thermal_fuse",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "thermal_fuse",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "thermal",
+          "actuator": "fuse"
+        },
+        "summary": "alias: thermal_fuse \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-thermal-cutoff",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermal_fuse": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-thermal-cutoff",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-thermal-cutoff",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "thermal",
+              "actuator": "fuse"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-high_limit_thermostat",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "high_limit_thermostat",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: high_limit_thermostat \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-thermal-cutoff",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "high_limit_thermostat": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-thermal-cutoff",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-thermal-cutoff",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-thermal-cutoff-and-hi-limit",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-4: Thermal cutoff and hi-limit",
+      "extractedTerm": "Thermal cutoff and hi-limit",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-4: Thermal cutoff and hi-limit \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-thermal-cutoff",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: Thermal cutoff and hi-limit": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-thermal-cutoff",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-thermal-cutoff",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-exhaust_thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "exhaust_thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "exhaust",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: exhaust_thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-thermistor",
+        "pages": [
+          19,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "exhaust_thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-thermistor",
+        "pages": [
+          19,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-thermistor",
+            "pages": [
+              19,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "exhaust",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-inlet_thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "inlet_thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "inlet",
+          "component": null,
+          "actuator": "thermistor"
+        },
+        "summary": "alias: inlet_thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-thermistor",
+        "pages": [
+          19,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-thermistor",
+        "pages": [
+          19,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-thermistor",
+            "pages": [
+              19,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "inlet",
+              "component": null,
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-DRYER-compound-/-\u00a74-4:-thermistors-(tc,-tc5,-hc)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1 / \u00a74-4: Thermistors (tC, tC5, HC)",
+      "extractedTerm": "/ \u00a74-4: Thermistors (tC, tC5, HC)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1 / \u00a74-4: Thermistors (tC, tC5, HC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-thermistor",
+        "pages": [
+          19,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1 / \u00a74-4: Thermistors (tC, tC5, HC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-thermistor",
+        "pages": [
+          19,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-thermistor",
+            "pages": [
+              19,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-DRYER-samsungtlcg71d-belt-cutoff-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungtlcg71d-belt-cutoff",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungtlcg71d-belt-cutoff \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-belt-cutoff",
+        "pages": [
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71d-belt-cutoff",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a74-4: Belt cut-off switch",
+          "componentIds": [
+            "belt_switch"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-belt-cutoff",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-belt-cutoff",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-DRYER-samsungtlcg71d-motor-circuit-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungtlcg71d-motor-circuit",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungtlcg71d-motor-circuit \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-motor-circuit",
+        "pages": [
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71d-motor-circuit",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a74-4: Motor windings and centrifugal switch",
+          "componentIds": [
+            "drive_motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-DRYER-samsungtlcg71d-motor-circuit-meas-samsungTlDv50DryerMotorWinding34Ohms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungtlcg71d-motor-circuit",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungTlDv50DryerMotorWinding34Ohms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-motor-circuit",
+        "pages": [
+          26
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71d-motor-circuit",
+          "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding34Ohms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding34Ohms",
+            "stepTitle": "Motor winding pin 3\u20134"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-DRYER-samsungtlcg71d-motor-circuit-meas-samsungTlDv50DryerMotorWinding45Ohms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungtlcg71d-motor-circuit",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungTlDv50DryerMotorWinding45Ohms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-motor-circuit",
+        "pages": [
+          26
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71d-motor-circuit",
+          "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding45Ohms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding45Ohms",
+            "stepTitle": "Motor winding pin 4\u20135"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 29,
+    "byStatus": {
+      "needs_review": 22,
+      "COMPOUND_TERM_CANDIDATE": 2,
+      "candidate": 5
+    },
+    "byApprovalLevel": {
+      "blocked": 22,
+      "careful": 2,
+      "easy": 1,
+      "normal": 4
+    },
+    "byType": {
+      "canonicalMapping": 25,
+      "procedureTestBinding": 2,
+      "measurementBinding": 2
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 1,
+      "medium_0.80_0.94": 4,
+      "low_lt_0.80": 2,
+      "unresolved": 22
+    },
+    "byBlockedReason": {
+      "UNRESOLVED_COMPONENT": 1,
+      "AMBIGUOUS_COMPONENT": 1
+    }
+  }
+}

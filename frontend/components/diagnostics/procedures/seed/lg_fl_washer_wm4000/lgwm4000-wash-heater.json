@@ -1,0 +1,66 @@
+{
+  "id": "lgwm4000-wash-heater",
+  "version": "1.0.0",
+  "title": "\u00a78: Washer heater",
+  "platformId": "lg_fl_washer_wm4000",
+  "componentIds": [
+    "wash_heater"
+  ],
+  "tags": [
+    "heating_failure",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "LG-FL-WASHER",
+    "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+    "sourcePdf": "backend/docs/manuals/lg wm4000h fl washer service manual.pdf",
+    "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "8",
+    "oemTestTitle": "WASHER HEATER (WM3900/WM4000)",
+    "pages": [
+      33,
+      53
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_harness"
+    },
+    {
+      "id": "heater_harness",
+      "order": 2,
+      "type": "instruction",
+      "title": "Washer heater harness",
+      "body": "Verify WASHER HEATER at MAIN PWB \u2014 WM3900/WM4000 only.",
+      "sourceExcerpt": "Verify WASHER HEATER at MAIN PWB \u2014 WM3900/WM4000 only.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_ok"
+    },
+    {
+      "id": "replace_heater",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace wash heater",
+      "oemOutcome": "Replace heater element when harness verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Wash heater OK",
+      "oemOutcome": "Wash heater verified.",
+      "requiresInput": false
+    }
+  ]
+}

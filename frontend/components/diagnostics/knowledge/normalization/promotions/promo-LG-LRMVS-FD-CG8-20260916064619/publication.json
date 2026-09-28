@@ -1,0 +1,124 @@
+{
+  "manualId": "LG-LRMVS-FRIDGE",
+  "platformId": "lg_lrmvs",
+  "gateArtifact": "LG_LRMVS_FD_overlay_mapping_table_v1.json",
+  "ledgerArtifact": "LG_LRMVS_FD_gate_decision_ledger_v1.json",
+  "publishMode": "gate_table_authoritative_third_manual_compounding",
+  "gateKind": "lg_lrmvs_third_manual_compounding",
+  "isLearningEvent": true,
+  "isCertification": false,
+  "priorPublishedManualIds": [
+    "W10322959",
+    "SAMSUNG-RF23BB-FRIDGE"
+  ],
+  "accounting": {
+    "canonicalInheritances": 5,
+    "conditionalBindings": 7,
+    "overlayLearningEvents": 7,
+    "intentionalAbstentions": 4,
+    "newOverlaySemanticDecisions": 7,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0,
+    "semanticLearningFromRouting": 0
+  },
+  "headlineMetric": {
+    "canonicalExpansion": 0
+  },
+  "hardInvariants": {
+    "canonicalHash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+    "canonicalExpansion": 0,
+    "whirlpoolOverlayMutation": 0,
+    "samsungOverlayMutation": 0,
+    "discoveryCorpusInheritance": 0
+  },
+  "promotionId": "promo-LG-LRMVS-FD-CG8-20260916064619",
+  "publishedAt": "2026-09-16T06:46:19.437792+00:00",
+  "canonicalHashBefore": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+  "canonicalHashAfter": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+  "priorOverlayHashesBefore": {
+    "whirlpool_jazz": "9c06e8ddfe925bbd6a0565d4193b46f4a21384ec88924520ba2684d33c2de2f2",
+    "samsung_rf23bb": "7f75acf87d811d650e3c830ef32a5f72b43e8bae1588d2bed50be6223992bf9c"
+  },
+  "priorOverlayHashesAfter": {
+    "whirlpool_jazz": "9c06e8ddfe925bbd6a0565d4193b46f4a21384ec88924520ba2684d33c2de2f2",
+    "samsung_rf23bb": "7f75acf87d811d650e3c830ef32a5f72b43e8bae1588d2bed50be6223992bf9c"
+  },
+  "overlayFile": "frontend\\components\\diagnostics\\knowledge\\canonical\\manufacturer_overlays\\lg_lrmvs.json",
+  "applied": {
+    "oemAliases": [
+      "main pcb",
+      "main pba",
+      "test mode",
+      "display panel",
+      "display_panel",
+      "demo mode",
+      "evap_fan",
+      "r-fan",
+      "f-fan",
+      "i-fan",
+      "damper",
+      "thermistor",
+      "compressor",
+      "linear compressor",
+      "condenser fan",
+      "ice maker",
+      "sealed system"
+    ],
+    "platformComponents": [
+      "linear_compressor",
+      "freezer_defrost_ntc",
+      "fridge_defrost_ntc",
+      "icing_fan",
+      "wifi_modem",
+      "ice_maker_module"
+    ],
+    "conditionalBindings": [
+      "compressor",
+      "condenser_fan",
+      "temperature_sensor",
+      "temperature_sensor",
+      "temperature_sensor",
+      "temperature_sensor",
+      "ice_maker"
+    ],
+    "procedureBindings": [
+      "lglrmvs-test-mode-entry",
+      "lglrmvs-display-communication",
+      "lglrmvs-display-mode",
+      "lglrmvs-damper-test",
+      "lglrmvs-ff-fan",
+      "lglrmvs-fz-fan",
+      "lglrmvs-fz-defrost-heater",
+      "lglrmvs-ff-defrost-heater",
+      "lglrmvs-sealed-system",
+      "lglrmvs-condenser-fan",
+      "lglrmvs-ff-sensor",
+      "lglrmvs-fz-sensor",
+      "lglrmvs-convert-sensor",
+      "lglrmvs-icing-sensor",
+      "lglrmvs-ice-maker-electrical"
+    ],
+    "procedureRoleEvidence": [],
+    "routingRejections": [
+      "sealed_system",
+      "defrost_system",
+      "cooling_system",
+      "airflow_path"
+    ],
+    "deferredArtifacts": [
+      "lg-door-switch-abstention",
+      "lg-water-dispenser-abstention",
+      "lg-humidity-abstention",
+      "lg-power-supply-abstention"
+    ]
+  },
+  "manufacturerIsolation": {
+    "priorOverlays": [
+      "whirlpool_jazz_french_door.json",
+      "samsung_fridge_bespoke.json"
+    ],
+    "discoveryCorpusImportBlocked": true
+  }
+}

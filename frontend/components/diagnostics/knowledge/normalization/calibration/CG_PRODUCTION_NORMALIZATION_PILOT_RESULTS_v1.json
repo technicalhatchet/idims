@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_pilot_results",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-PILOT",
+  "contract": "CG_PRODUCTION_NORMALIZATION_PILOT_CONTRACT_v1.json",
+  "status": "executed",
+  "generatedAt": "2026-09-17T20:07:40.152783+00:00",
+  "orchestrator": "backend/scripts/run_pilot_batch.py",
+  "batchStatus": "stopped",
+  "batchStopReason": "architecture_exception on SAMSUNG-FLEXWASH-WASHER \u2014 batch STOP per pilot contract",
+  "frozenHashesVerified": true,
+  "lifecycleProof": {
+    "canonical_mapping_continue": true,
+    "implementation_specific_overlay": true,
+    "unresolved_block": true,
+    "architecture_exception_stop": true,
+    "prerequisite_block_no_silent_skip": false
+  },
+  "manualResults": [
+    {
+      "slotId": "P01",
+      "manualId": "W11169652",
+      "executionStatus": "classified",
+      "pipelineDisposition": "implementation_specific",
+      "outcomeCounts": {
+        "mapping": {
+          "candidate": 24,
+          "UNRESOLVED_TERM": 9,
+          "COMPOUND_TERM_CANDIDATE": 3
+        },
+        "overlayCandidates": 13,
+        "conflicts": 0
+      },
+      "architectureException": false,
+      "promotionBlocked": true,
+      "batchStop": false
+    },
+    {
+      "slotId": "P02",
+      "manualId": "SAMSUNG-FL-BB8700-WASHER",
+      "executionStatus": "classified",
+      "pipelineDisposition": "implementation_specific",
+      "outcomeCounts": {
+        "mapping": {
+          "candidate": 10,
+          "UNRESOLVED_TERM": 6,
+          "COMPOUND_TERM_CANDIDATE": 4
+        },
+        "overlayCandidates": 9,
+        "conflicts": 0
+      },
+      "architectureException": false,
+      "promotionBlocked": true,
+      "batchStop": false
+    },
+    {
+      "slotId": "P03",
+      "manualId": "LG-FL-WASHER",
+      "executionStatus": "classified",
+      "pipelineDisposition": "implementation_specific",
+      "outcomeCounts": {
+        "mapping": {
+          "candidate": 14,
+          "UNRESOLVED_TERM": 9,
+          "COMPOUND_TERM_CANDIDATE": 3
+        },
+        "overlayCandidates": 6,
+        "conflicts": 0
+      },
+      "architectureException": false,
+      "promotionBlocked": true,
+      "batchStop": false
+    },
+    {
+      "slotId": "P04",
+      "manualId": "W11746350",
+      "executionStatus": "blocked",
+      "pipelineDisposition": "unresolved_block",
+      "outcomeCounts": {
+        "mapping": {
+          "UNRESOLVED_TERM": 30
+        },
+        "overlayCandidates": 0,
+        "conflicts": 0
+      },
+      "architectureException": false,
+      "promotionBlocked": true,
+      "batchStop": false
+    },
+    {
+      "slotId": "P05",
+      "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+      "executionStatus": "classified",
+      "pipelineDisposition": "implementation_specific",
+      "outcomeCounts": {
+        "mapping": {
+          "candidate": 9,
+          "UNRESOLVED_TERM": 8,
+          "COMPOUND_TERM_CANDIDATE": 3
+        },
+        "overlayCandidates": 11,
+        "conflicts": 0
+      },
+      "architectureException": false,
+      "promotionBlocked": true,
+      "batchStop": false
+    },
+    {
+      "slotId": "P06",
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "executionStatus": "blocked",
+      "pipelineDisposition": "unresolved_block",
+      "outcomeCounts": {
+        "mapping": {
+          "COMPOUND_TERM_CANDIDATE": 2,
+          "UNRESOLVED_TERM": 21
+        },
+        "overlayCandidates": 2,
+        "conflicts": 0
+      },
+      "architectureException": false,
+      "promotionBlocked": true,
+      "batchStop": false
+    },
+    {
+      "slotId": "P07",
+      "manualId": "SAMSUNG-HP-DRYER-DV22N",
+      "executionStatus": "classified",
+      "pipelineDisposition": "implementation_specific",
+      "outcomeCounts": {
+        "mapping": {
+          "UNRESOLVED_TERM": 17,
+          "candidate": 5,
+          "COMPOUND_TERM_CANDIDATE": 1
+        },
+        "overlayCandidates": 1,
+        "conflicts": 0
+      },
+      "architectureException": false,
+      "promotionBlocked": true,
+      "batchStop": false
+    },
+    {
+      "slotId": "P08",
+      "manualId": "SAMSUNG-FLEXWASH-WASHER",
+      "executionStatus": "stopped",
+      "pipelineDisposition": "architecture_exception_stop",
+      "outcomeCounts": {
+        "mapping": {
+          "candidate": 11,
+          "UNRESOLVED_TERM": 15,
+          "COMPOUND_TERM_CANDIDATE": 6
+        },
+        "overlayCandidates": 13,
+        "conflicts": 0
+      },
+      "architectureException": true,
+      "promotionBlocked": true,
+      "batchStop": true
+    }
+  ]
+}

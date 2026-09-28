@@ -1,14 +1,18 @@
 import { useRouter } from 'next/router';
 import { useSolomonAuth } from '../../hooks/useSolomonAuth';
 import SolomonListPage from './SolomonListPage';
-import { SOLOMON_DIY_APPLIANCES } from '../../constants/solomonDiyAppliances';
+import { SOLOMON_DIY_APPLIANCES, templateIdToDiySubtype } from '../../constants/solomonDiyAppliances';
+import SolomonApplianceIcon from './SolomonApplianceIcon';
 import {
   SOLOMON_PAGE_DESCRIPTION_CLASS,
   SOLOMON_PAGE_TITLE_CLASS,
 } from './solomonListPageUi';
+import { SOLOMON_APPLIANCE_PICKER_GRID_CLASS } from './solomonAppliancePickerLayout';
+
+export { SOLOMON_APPLIANCE_PICKER_GRID_CLASS } from './solomonAppliancePickerLayout';
 
 const PICKER_BUTTON_CLASS =
-  'rounded-xl border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-elevated)] px-4 py-3 text-left hover:border-[color:var(--solomon-primary-border)] hover:bg-[var(--solomon-surface-glass-hover)] transition-colors';
+  'flex min-h-[4.25rem] flex-col items-center justify-center gap-1.5 rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-elevated)] px-2 py-2.5 text-center transition-colors hover:border-[color:var(--solomon-primary-border)] hover:bg-[var(--solomon-surface-glass-hover)]';
 
 const WELCOME_BANNER_CLASS =
   'rounded-xl border border-[color:var(--solomon-primary-border)] bg-[var(--solomon-primary-from)]/5 px-4 py-3';
@@ -35,16 +39,23 @@ export default function SolomonAppliancePicker({ onSelect, showWelcome = false }
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+      <div className={SOLOMON_APPLIANCE_PICKER_GRID_CLASS} data-solomon-appliance-picker-grid>
         {SOLOMON_DIY_APPLIANCES.map((item) => (
           <button
             key={item.templateId}
             type="button"
             onClick={() => onSelect(item.templateId)}
             className={PICKER_BUTTON_CLASS}
+            data-appliance-template={item.templateId}
           >
-            <p className="font-medium text-[var(--solomon-text-primary)]">{item.label}</p>
-            <p className="text-xs text-[var(--solomon-text-muted)] mt-0.5 line-clamp-2">{item.hint}</p>
+            <SolomonApplianceIcon
+              equipmentType={item.templateId}
+              equipmentSubtype={templateIdToDiySubtype(item.templateId)}
+              className="h-8 w-8 shrink-0"
+            />
+            <p className="text-sm font-medium leading-tight text-[var(--solomon-text-primary)]">
+              {item.label}
+            </p>
           </button>
         ))}
       </div>

@@ -1,0 +1,37 @@
+{
+  "manualId": "NS-TDRE75W1",
+  "platformId": "insignia_dryer_tdre",
+  "templateId": "electric_dryer",
+  "label": "Insignia NS-TDRE75W1 / NS-TDRG75W1 vented dryer",
+  "status": "candidate",
+  "ontologyId": null,
+  "generatedAt": "2026-09-12T22:21:05.249378+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 14,
+    "mappingCandidates": 27,
+    "overlayCandidates": 2,
+    "conflicts": 0,
+    "extractionFiltered": 2
+  },
+  "extractionFilters": {
+    "proceduralNoise": 2,
+    "structuralNoise": 0,
+    "invalidExtraction": 0,
+    "totalFiltered": 2,
+    "samples": [
+      {
+        "rawTerm": "Service test",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "nstdre75w1-hmi-test",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "service test 04",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "nstdre75w1-outlet-thermistor",
+        "source": "title_token"
+      }
+    ]
+  }
+}

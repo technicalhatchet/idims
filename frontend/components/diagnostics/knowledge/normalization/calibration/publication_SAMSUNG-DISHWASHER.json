@@ -1,0 +1,1011 @@
+{
+  "manualId": "SAMSUNG-DISHWASHER",
+  "promotionId": "promo-SAMSUNG-DISHWASHER-20260915135811",
+  "publishedAt": "2026-09-15T13:58:21.981075+00:00",
+  "publishMode": "gate_table_authoritative",
+  "equivalent": true,
+  "equivalenceChecks": {
+    "canonicalAliases": true,
+    "procedureBindings": true,
+    "measurementBindings": true,
+    "topologyOverrides": true,
+    "topologyAdditiveOnly": true
+  },
+  "publicationPlan": {
+    "manualId": "SAMSUNG-DISHWASHER",
+    "gateArtifact": "SAMSUNG_DISHWASHER_overlay_mapping_table_v1.json",
+    "publishMode": "gate_table_authoritative",
+    "gateIntent": {
+      "manufacturerAliases": [
+        {
+          "term": "circulation motor",
+          "canonicalId": "circulation_pump",
+          "layer": "samsung_manufacturer_vocabulary",
+          "source": "proposedAliases",
+          "manualConcept": "wash_motor"
+        },
+        {
+          "term": "main pba",
+          "canonicalId": "control_board",
+          "layer": "samsung_manufacturer_vocabulary",
+          "source": "proposedAliases",
+          "manualConcept": "main_control"
+        },
+        {
+          "term": "main control",
+          "canonicalId": "control_board",
+          "layer": "samsung_manufacturer_vocabulary",
+          "source": "proposedAliases",
+          "manualConcept": "main_control"
+        },
+        {
+          "term": "dispenser",
+          "canonicalId": "detergent_dispenser",
+          "layer": "canonical_reuse",
+          "source": "seed_component_id"
+        },
+        {
+          "term": "distributor motor",
+          "canonicalId": "circulation_pump",
+          "layer": "samsung_manufacturer_vocabulary",
+          "source": "proposedAliases",
+          "manualConcept": "distributor motor"
+        },
+        {
+          "term": "door latch",
+          "canonicalId": "door_switch",
+          "layer": "samsung_manufacturer_vocabulary",
+          "source": "proposedAliases",
+          "manualConcept": "door_latch"
+        },
+        {
+          "term": "door sensing switch",
+          "canonicalId": "door_switch",
+          "layer": "samsung_manufacturer_vocabulary",
+          "source": "proposedAliases",
+          "manualConcept": "door_latch"
+        },
+        {
+          "term": "drain_pump",
+          "canonicalId": "drain_pump",
+          "layer": "canonical_reuse",
+          "source": "seed_component_id"
+        },
+        {
+          "term": "vent",
+          "canonicalId": "drying_system",
+          "layer": "samsung_manufacturer_vocabulary",
+          "source": "proposedAliases",
+          "manualConcept": "vent"
+        },
+        {
+          "term": "dry fan",
+          "canonicalId": "drying_system",
+          "layer": "samsung_manufacturer_vocabulary",
+          "source": "proposedAliases",
+          "manualConcept": "vent"
+        },
+        {
+          "term": "inlet_valve",
+          "canonicalId": "inlet_valve",
+          "layer": "canonical_reuse",
+          "source": "seed_component_id"
+        },
+        {
+          "term": "heater",
+          "canonicalId": "heat_source",
+          "layer": "canonical_reuse",
+          "source": "seed_component_id"
+        },
+        {
+          "term": "user interface",
+          "canonicalId": "hmi_control",
+          "layer": "samsung_manufacturer_vocabulary",
+          "source": "proposedAliases",
+          "manualConcept": "user_interface"
+        },
+        {
+          "term": "touch panel",
+          "canonicalId": "hmi_control",
+          "layer": "samsung_manufacturer_vocabulary",
+          "source": "proposedAliases",
+          "manualConcept": "user_interface"
+        },
+        {
+          "term": "float switch",
+          "canonicalId": "water_level_sensor",
+          "layer": "samsung_manufacturer_vocabulary",
+          "source": "proposedAliases",
+          "manualConcept": "float_switch"
+        },
+        {
+          "term": "overflow sensor",
+          "canonicalId": "water_level_sensor",
+          "layer": "samsung_manufacturer_vocabulary",
+          "source": "proposedAliases",
+          "manualConcept": "float_switch"
+        },
+        {
+          "term": "thermistor",
+          "canonicalId": "temperature_sensor",
+          "layer": "canonical_reuse",
+          "source": "seed_component_id"
+        }
+      ],
+      "procedureBindings": [
+        {
+          "procedureId": "samsungdw-circulation-motor",
+          "testTargetId": "circulation_test",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "circulation_motor",
+          "overlayCandidateIds": [
+            "overlay-SAMSUNG-DISHWASHER-samsungdw-circulation-motor-circulation_test"
+          ],
+          "gateAction": "approve_human",
+          "layer": "samsung_platform_implementation"
+        },
+        {
+          "procedureId": "samsungdw-door-switch",
+          "testTargetId": "door_switch_test",
+          "canonicalComponents": [
+            "door_switch"
+          ],
+          "overlayCandidateIds": [
+            "overlay-SAMSUNG-DISHWASHER-samsungdw-door-switch-door_switch_test"
+          ],
+          "gateAction": "approve_human",
+          "layer": "samsung_manufacturer_vocabulary"
+        },
+        {
+          "procedureId": "samsungdw-drain-pump",
+          "testTargetId": "drain_test",
+          "canonicalComponents": [
+            "drain_pump"
+          ],
+          "overlayCandidateIds": [
+            "overlay-SAMSUNG-DISHWASHER-samsungdw-drain-pump-drain_test"
+          ],
+          "gateAction": "approve_human",
+          "layer": "canonical_reuse"
+        },
+        {
+          "procedureId": "samsungdw-dispenser",
+          "testTargetId": "detergent_dispenser_test",
+          "canonicalComponents": [
+            "detergent_dispenser"
+          ],
+          "gateAction": "approve_human",
+          "layer": "canonical_reuse"
+        },
+        {
+          "procedureId": "samsungdw-distributor",
+          "testTargetId": "circulation_test",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "distributor_motor",
+          "gateAction": "approve_human",
+          "layer": "samsung_platform_implementation"
+        },
+        {
+          "procedureId": "samsungdw-dry-system",
+          "testTargetId": "drying_airflow_test",
+          "canonicalComponents": [
+            "drying_system"
+          ],
+          "implementationComponent": "vent_fan_motor",
+          "gateAction": "approve_human",
+          "layer": "samsung_platform_implementation"
+        },
+        {
+          "procedureId": "samsungdw-fill-valve",
+          "testTargetId": "fill_test",
+          "canonicalComponents": [
+            "inlet_valve"
+          ],
+          "overlayCandidateIds": [
+            "overlay-SAMSUNG-DISHWASHER-samsungdw-fill-valve-fill_test"
+          ],
+          "gateAction": "approve_human",
+          "layer": "canonical_reuse"
+        },
+        {
+          "procedureId": "samsungdw-heater",
+          "testTargetId": "heater_command_test",
+          "canonicalComponents": [
+            "heat_source"
+          ],
+          "overlayCandidateIds": [
+            "overlay-SAMSUNG-DISHWASHER-samsungdw-heater-heater_command_test"
+          ],
+          "gateAction": "approve_human",
+          "layer": "canonical_reuse"
+        },
+        {
+          "procedureId": "samsungdw-overflow",
+          "testTargetId": "water_level_test",
+          "canonicalComponents": [
+            "water_level_sensor"
+          ],
+          "implementationComponent": "overflow_sensor",
+          "gateAction": "approve_human",
+          "layer": "samsung_platform_implementation"
+        },
+        {
+          "procedureId": "samsungdw-thermistor",
+          "testTargetId": "temperature_response_test",
+          "canonicalComponents": [
+            "temperature_sensor"
+          ],
+          "gateAction": "approve_human",
+          "layer": "canonical_reuse"
+        }
+      ],
+      "measurementBindings": [
+        {
+          "procedureId": "samsungdw-circulation-motor",
+          "measurementKnowledgeId": "samsungDishwasherCirculationMotorOhms",
+          "testTargetId": "circulation_test",
+          "implementationComponent": "circulation_motor",
+          "overlayCandidateIds": [
+            "overlay-SAMSUNG-DISHWASHER-samsungdw-circulation-motor-meas-samsungDishwasherCirculationMotorOhms"
+          ],
+          "gateAction": "approve_human",
+          "layer": "samsung_platform_implementation"
+        },
+        {
+          "procedureId": "samsungdw-dispenser",
+          "measurementKnowledgeId": "samsungDishwasherDispenserOhms",
+          "testTargetId": "detergent_dispenser_test",
+          "gateAction": "approve_human",
+          "layer": "samsung_platform_implementation"
+        },
+        {
+          "procedureId": "samsungdw-dry-system",
+          "measurementKnowledgeId": "samsungDishwasherDryFanOhms",
+          "testTargetId": "drying_airflow_test",
+          "implementationComponent": "vent_fan_motor",
+          "gateAction": "approve_human",
+          "layer": "samsung_platform_implementation"
+        },
+        {
+          "procedureId": "samsungdw-dry-system",
+          "measurementKnowledgeId": "samsungDishwasherThermalActuatorOhms",
+          "testTargetId": "drying_airflow_test",
+          "implementationComponent": "thermal_actuator",
+          "gateAction": "approve_human",
+          "layer": "samsung_platform_implementation"
+        },
+        {
+          "procedureId": "samsungdw-thermistor",
+          "measurementKnowledgeId": "samsungDishwasherThermistorOhms",
+          "testTargetId": "temperature_response_test",
+          "gateAction": "approve_human",
+          "layer": "canonical_reuse"
+        }
+      ],
+      "platformComponents": [
+        {
+          "id": "circulation_motor",
+          "implementsCanonicalId": "circulation_pump",
+          "note": "Samsung circulation motor + nozzle (~5.8 \u03a9)."
+        },
+        {
+          "id": "distributor_motor",
+          "implementsCanonicalId": "circulation_pump",
+          "note": "Samsung distributor/cam motor (PC code) \u2014 not diverter_valve."
+        },
+        {
+          "id": "vent_fan_motor",
+          "implementsCanonicalId": "drying_system",
+          "note": "Samsung dry fan (~150 \u03a9) \u2014 distinct from Whirlpool ProDry DC fan."
+        },
+        {
+          "id": "thermal_actuator",
+          "implementsCanonicalId": "drying_system",
+          "note": "Samsung auto-door thermal actuator (~1.45 k\u03a9)."
+        },
+        {
+          "id": "overflow_sensor",
+          "implementsCanonicalId": "water_level_sensor",
+          "note": "Samsung OC overflow sensor on CN505."
+        }
+      ],
+      "rejected": {
+        "mappings": [
+          {
+            "manualConcept": "diverter_motor (seed on distributor procedure)",
+            "layer": "reject_wrong_matcher",
+            "candidate": "circulation_pump",
+            "gateAction": "reject_mapping",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-diverter_motor"
+            ],
+            "rationale": "Wrong seed term \u2014 Samsung uses distributor motor, not diverter. Reject diverter_motor mapping."
+          }
+        ],
+        "overlayBindings": [
+          {
+            "procedureId": "samsungdw-communication",
+            "matcherOutput": "heater_command_test",
+            "expectedCorrection": "defer \u2014 control_board communication diagnostic",
+            "overlayCandidateIds": [
+              "overlay-SAMSUNG-DISHWASHER-samsungdw-communication-heater_command_test"
+            ],
+            "gateAction": "reject_binding"
+          },
+          {
+            "procedureId": "samsungdw-power-supply",
+            "matcherOutput": "fill_test",
+            "expectedCorrection": "reject \u2014 power_supply diagnostic, not fill_test",
+            "overlayCandidateIds": [
+              "overlay-SAMSUNG-DISHWASHER-samsungdw-power-supply-fill_test"
+            ],
+            "gateAction": "reject_binding"
+          }
+        ],
+        "procedureBindings": [
+          {
+            "procedureId": "samsungdw-power-supply",
+            "testTargetId": "fill_test",
+            "matcherOutput": "fill_test",
+            "expectedInvestigation": "power_supply / control_board power diagnostic family",
+            "overlayCandidateIds": [
+              "overlay-SAMSUNG-DISHWASHER-samsungdw-power-supply-fill_test"
+            ],
+            "gateAction": "reject_binding",
+            "layer": "matcher_binding_correction"
+          }
+        ]
+      },
+      "deferred": {
+        "mappings": [
+          {
+            "manualConcept": "\u00a74-1: Circulation Motor & Nozzle",
+            "layer": "defer_procedural_title",
+            "gateAction": "defer_procedural_title",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-circulation-motor-&-nozzle"
+            ],
+            "rationale": "Procedural title \u2014 circulation motor alias taught separately."
+          },
+          {
+            "manualConcept": "\u00a74-1: PBA Communication (AC / AC6)",
+            "layer": "defer_procedural_title",
+            "gateAction": "defer_procedural_title",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-pba-communication-(ac-/-ac6)"
+            ],
+            "rationale": "Procedural title noise \u2014 communication bound by procedureId."
+          },
+          {
+            "manualConcept": "\u00a74-1: Detergent Dispenser",
+            "layer": "defer_procedural_title",
+            "gateAction": "defer_procedural_title",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-detergent-dispenser-detergent_dispenser"
+            ],
+            "rationale": "Procedural title \u2014 dispenser alias already on seed term."
+          },
+          {
+            "manualConcept": "\u00a74-1: Distributor Motor (PC)",
+            "layer": "defer_procedural_title",
+            "gateAction": "defer_procedural_title",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-distributor-motor-(pc)"
+            ],
+            "rationale": "Procedural title \u2014 distributor motor alias taught at manufacturer/platform layer."
+          },
+          {
+            "manualConcept": "\u00a74-1: Door Sensing Switch",
+            "layer": "defer_procedural_title",
+            "gateAction": "defer_procedural_title",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-door-sensing-switch"
+            ],
+            "rationale": "Procedural title noise."
+          },
+          {
+            "manualConcept": "\u00a74-1: Drain Pump (5C)",
+            "layer": "defer_procedural_title",
+            "gateAction": "defer_procedural_title",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-drain-pump-(5c)"
+            ],
+            "rationale": "Procedural title noise."
+          },
+          {
+            "manualConcept": "fan_motor",
+            "layer": "defer_platform",
+            "gateAction": "defer_platform",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-fan_motor"
+            ],
+            "rationale": "Vent fan motor \u2014 platform implementation under drying_system; defer until vent_fan_motor component gated."
+          },
+          {
+            "manualConcept": "\u00a74-1: Dry Fan & Thermal Actuator (FC / dC3)",
+            "layer": "defer_procedural_title",
+            "gateAction": "defer_procedural_title",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-dry-fan-&-thermal-actuator-(fc-/-dc3)"
+            ],
+            "rationale": "Procedural title \u2014 dry fan alias taught separately; thermal actuator is platform."
+          },
+          {
+            "manualConcept": "\u00a74-1: Fill Valve & Flow Meter (4C)",
+            "layer": "defer_procedural_title",
+            "gateAction": "defer_procedural_title",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-fill-valve-&-flow-meter-(4c)"
+            ],
+            "rationale": "Procedural title noise."
+          },
+          {
+            "manualConcept": "\u00a74-1: Heater Operation (HC / HC1)",
+            "layer": "defer_procedural_title",
+            "gateAction": "defer_procedural_title",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-heater-operation-(hc-/-hc1)"
+            ],
+            "rationale": "Procedural title noise."
+          },
+          {
+            "manualConcept": "\u00a74-1: Touch Panel & Sub PBA (bC2 / bC3)",
+            "layer": "defer_procedural_title",
+            "gateAction": "defer_procedural_title",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-touch-panel-&-sub-pba-(bc2-/-bc3)"
+            ],
+            "rationale": "Procedural title noise."
+          },
+          {
+            "manualConcept": "leak_sensor",
+            "layer": "defer_platform",
+            "gateAction": "defer_platform",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-leak_sensor"
+            ],
+            "rationale": "LC leak sensor \u2014 insufficient evidence to map to water_level_sensor; Samsung platform review."
+          },
+          {
+            "manualConcept": "\u00a74-1: Leak Sensor (LC)",
+            "layer": "defer_procedural_title",
+            "gateAction": "defer_procedural_title",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-leak-sensor-(lc)"
+            ],
+            "rationale": "Procedural title noise; leak sensor deferred at platform layer."
+          },
+          {
+            "manualConcept": "\u00a74-1: Overflow Sensor (OC)",
+            "layer": "defer_procedural_title",
+            "gateAction": "defer_procedural_title",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-overflow-sensor-(oc)"
+            ],
+            "rationale": "Procedural title noise."
+          },
+          {
+            "manualConcept": "supply",
+            "layer": "defer_platform",
+            "gateAction": "defer_platform",
+            "candidateIds": [
+              "map-samsung-dishwasher-unresolved-samsungdw-power-supply-supply"
+            ],
+            "rationale": "Ambiguous seed term \u2014 gate defers power_supply alias until PBA power path is taught at platform layer."
+          },
+          {
+            "manualConcept": "\u00a74-1: Main PBA Power & DC Supplies",
+            "layer": "defer_procedural_title",
+            "gateAction": "defer_procedural_title",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-main-pba-power-&-dc-supplies"
+            ],
+            "rationale": "Procedural title noise."
+          },
+          {
+            "manualConcept": "\u00a74-1: Water Thermistor (tC)",
+            "layer": "defer_procedural_title",
+            "gateAction": "defer_procedural_title",
+            "candidateIds": [
+              "map-SAMSUNG-DISHWASHER-compound-water-thermistor-(tc)"
+            ],
+            "rationale": "Procedural title noise."
+          }
+        ],
+        "procedureBindings": [
+          {
+            "procedureId": "samsungdw-communication",
+            "testTargetId": "heater_command_test",
+            "matcherOutput": "heater_command_test",
+            "expectedInvestigation": "control_board communication diagnostic \u2014 no heater evidence",
+            "gateAction": "defer_procedure_binding",
+            "layer": "matcher_binding_correction",
+            "note": "Matcher overlay rejected; procedure binding deferred until control-board comms test family is established."
+          },
+          {
+            "procedureId": "samsungdw-hmi-check",
+            "testTargetId": "door_switch_test",
+            "gateAction": "defer_procedure_binding",
+            "layer": "defer_platform",
+            "note": "HMI/touch IC diagnostics \u2014 no canonical hmi_test; defer binding."
+          },
+          {
+            "procedureId": "samsungdw-leak-sensor",
+            "testTargetId": "water_level_test",
+            "gateAction": "defer_procedure_binding",
+            "layer": "defer_platform",
+            "note": "LC leak sensor \u2014 functional role not established on frozen ontology."
+          }
+        ]
+      },
+      "counts": {
+        "manufacturerAliases": 17,
+        "procedureBindings": 10,
+        "measurementBindings": 5,
+        "platformComponents": 5,
+        "totalApproved": 37
+      }
+    },
+    "expectedCounts": {
+      "procedureBindings": 10,
+      "measurementBindings": 5,
+      "platformComponents": 5
+    },
+    "rejected": {
+      "mappings": [
+        {
+          "manualConcept": "diverter_motor (seed on distributor procedure)",
+          "layer": "reject_wrong_matcher",
+          "candidate": "circulation_pump",
+          "gateAction": "reject_mapping",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-diverter_motor"
+          ],
+          "rationale": "Wrong seed term \u2014 Samsung uses distributor motor, not diverter. Reject diverter_motor mapping."
+        }
+      ],
+      "overlayBindings": [
+        {
+          "procedureId": "samsungdw-communication",
+          "matcherOutput": "heater_command_test",
+          "expectedCorrection": "defer \u2014 control_board communication diagnostic",
+          "overlayCandidateIds": [
+            "overlay-SAMSUNG-DISHWASHER-samsungdw-communication-heater_command_test"
+          ],
+          "gateAction": "reject_binding"
+        },
+        {
+          "procedureId": "samsungdw-power-supply",
+          "matcherOutput": "fill_test",
+          "expectedCorrection": "reject \u2014 power_supply diagnostic, not fill_test",
+          "overlayCandidateIds": [
+            "overlay-SAMSUNG-DISHWASHER-samsungdw-power-supply-fill_test"
+          ],
+          "gateAction": "reject_binding"
+        }
+      ],
+      "procedureBindings": [
+        {
+          "procedureId": "samsungdw-power-supply",
+          "testTargetId": "fill_test",
+          "matcherOutput": "fill_test",
+          "expectedInvestigation": "power_supply / control_board power diagnostic family",
+          "overlayCandidateIds": [
+            "overlay-SAMSUNG-DISHWASHER-samsungdw-power-supply-fill_test"
+          ],
+          "gateAction": "reject_binding",
+          "layer": "matcher_binding_correction"
+        }
+      ]
+    },
+    "deferred": {
+      "mappings": [
+        {
+          "manualConcept": "\u00a74-1: Circulation Motor & Nozzle",
+          "layer": "defer_procedural_title",
+          "gateAction": "defer_procedural_title",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-circulation-motor-&-nozzle"
+          ],
+          "rationale": "Procedural title \u2014 circulation motor alias taught separately."
+        },
+        {
+          "manualConcept": "\u00a74-1: PBA Communication (AC / AC6)",
+          "layer": "defer_procedural_title",
+          "gateAction": "defer_procedural_title",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-pba-communication-(ac-/-ac6)"
+          ],
+          "rationale": "Procedural title noise \u2014 communication bound by procedureId."
+        },
+        {
+          "manualConcept": "\u00a74-1: Detergent Dispenser",
+          "layer": "defer_procedural_title",
+          "gateAction": "defer_procedural_title",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-detergent-dispenser-detergent_dispenser"
+          ],
+          "rationale": "Procedural title \u2014 dispenser alias already on seed term."
+        },
+        {
+          "manualConcept": "\u00a74-1: Distributor Motor (PC)",
+          "layer": "defer_procedural_title",
+          "gateAction": "defer_procedural_title",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-distributor-motor-(pc)"
+          ],
+          "rationale": "Procedural title \u2014 distributor motor alias taught at manufacturer/platform layer."
+        },
+        {
+          "manualConcept": "\u00a74-1: Door Sensing Switch",
+          "layer": "defer_procedural_title",
+          "gateAction": "defer_procedural_title",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-door-sensing-switch"
+          ],
+          "rationale": "Procedural title noise."
+        },
+        {
+          "manualConcept": "\u00a74-1: Drain Pump (5C)",
+          "layer": "defer_procedural_title",
+          "gateAction": "defer_procedural_title",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-drain-pump-(5c)"
+          ],
+          "rationale": "Procedural title noise."
+        },
+        {
+          "manualConcept": "fan_motor",
+          "layer": "defer_platform",
+          "gateAction": "defer_platform",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-fan_motor"
+          ],
+          "rationale": "Vent fan motor \u2014 platform implementation under drying_system; defer until vent_fan_motor component gated."
+        },
+        {
+          "manualConcept": "\u00a74-1: Dry Fan & Thermal Actuator (FC / dC3)",
+          "layer": "defer_procedural_title",
+          "gateAction": "defer_procedural_title",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-dry-fan-&-thermal-actuator-(fc-/-dc3)"
+          ],
+          "rationale": "Procedural title \u2014 dry fan alias taught separately; thermal actuator is platform."
+        },
+        {
+          "manualConcept": "\u00a74-1: Fill Valve & Flow Meter (4C)",
+          "layer": "defer_procedural_title",
+          "gateAction": "defer_procedural_title",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-fill-valve-&-flow-meter-(4c)"
+          ],
+          "rationale": "Procedural title noise."
+        },
+        {
+          "manualConcept": "\u00a74-1: Heater Operation (HC / HC1)",
+          "layer": "defer_procedural_title",
+          "gateAction": "defer_procedural_title",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-heater-operation-(hc-/-hc1)"
+          ],
+          "rationale": "Procedural title noise."
+        },
+        {
+          "manualConcept": "\u00a74-1: Touch Panel & Sub PBA (bC2 / bC3)",
+          "layer": "defer_procedural_title",
+          "gateAction": "defer_procedural_title",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-touch-panel-&-sub-pba-(bc2-/-bc3)"
+          ],
+          "rationale": "Procedural title noise."
+        },
+        {
+          "manualConcept": "leak_sensor",
+          "layer": "defer_platform",
+          "gateAction": "defer_platform",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-leak_sensor"
+          ],
+          "rationale": "LC leak sensor \u2014 insufficient evidence to map to water_level_sensor; Samsung platform review."
+        },
+        {
+          "manualConcept": "\u00a74-1: Leak Sensor (LC)",
+          "layer": "defer_procedural_title",
+          "gateAction": "defer_procedural_title",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-leak-sensor-(lc)"
+          ],
+          "rationale": "Procedural title noise; leak sensor deferred at platform layer."
+        },
+        {
+          "manualConcept": "\u00a74-1: Overflow Sensor (OC)",
+          "layer": "defer_procedural_title",
+          "gateAction": "defer_procedural_title",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-overflow-sensor-(oc)"
+          ],
+          "rationale": "Procedural title noise."
+        },
+        {
+          "manualConcept": "supply",
+          "layer": "defer_platform",
+          "gateAction": "defer_platform",
+          "candidateIds": [
+            "map-samsung-dishwasher-unresolved-samsungdw-power-supply-supply"
+          ],
+          "rationale": "Ambiguous seed term \u2014 gate defers power_supply alias until PBA power path is taught at platform layer."
+        },
+        {
+          "manualConcept": "\u00a74-1: Main PBA Power & DC Supplies",
+          "layer": "defer_procedural_title",
+          "gateAction": "defer_procedural_title",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-main-pba-power-&-dc-supplies"
+          ],
+          "rationale": "Procedural title noise."
+        },
+        {
+          "manualConcept": "\u00a74-1: Water Thermistor (tC)",
+          "layer": "defer_procedural_title",
+          "gateAction": "defer_procedural_title",
+          "candidateIds": [
+            "map-SAMSUNG-DISHWASHER-compound-water-thermistor-(tc)"
+          ],
+          "rationale": "Procedural title noise."
+        }
+      ],
+      "procedureBindings": [
+        {
+          "procedureId": "samsungdw-communication",
+          "testTargetId": "heater_command_test",
+          "matcherOutput": "heater_command_test",
+          "expectedInvestigation": "control_board communication diagnostic \u2014 no heater evidence",
+          "gateAction": "defer_procedure_binding",
+          "layer": "matcher_binding_correction",
+          "note": "Matcher overlay rejected; procedure binding deferred until control-board comms test family is established."
+        },
+        {
+          "procedureId": "samsungdw-hmi-check",
+          "testTargetId": "door_switch_test",
+          "gateAction": "defer_procedure_binding",
+          "layer": "defer_platform",
+          "note": "HMI/touch IC diagnostics \u2014 no canonical hmi_test; defer binding."
+        },
+        {
+          "procedureId": "samsungdw-leak-sensor",
+          "testTargetId": "water_level_test",
+          "gateAction": "defer_procedure_binding",
+          "layer": "defer_platform",
+          "note": "LC leak sensor \u2014 functional role not established on frozen ontology."
+        }
+      ]
+    },
+    "publisherResult": {
+      "manufacturerAliases": {
+        "applied": [
+          {
+            "term": "circulation motor",
+            "canonicalId": "circulation_pump",
+            "layer": "samsung_manufacturer_vocabulary",
+            "source": "proposedAliases",
+            "manualConcept": "wash_motor"
+          },
+          {
+            "term": "main pba",
+            "canonicalId": "control_board",
+            "layer": "samsung_manufacturer_vocabulary",
+            "source": "proposedAliases",
+            "manualConcept": "main_control"
+          },
+          {
+            "term": "main control",
+            "canonicalId": "control_board",
+            "layer": "samsung_manufacturer_vocabulary",
+            "source": "proposedAliases",
+            "manualConcept": "main_control"
+          },
+          {
+            "term": "dispenser",
+            "canonicalId": "detergent_dispenser",
+            "layer": "canonical_reuse",
+            "source": "seed_component_id"
+          },
+          {
+            "term": "distributor motor",
+            "canonicalId": "circulation_pump",
+            "layer": "samsung_manufacturer_vocabulary",
+            "source": "proposedAliases",
+            "manualConcept": "distributor motor"
+          },
+          {
+            "term": "door latch",
+            "canonicalId": "door_switch",
+            "layer": "samsung_manufacturer_vocabulary",
+            "source": "proposedAliases",
+            "manualConcept": "door_latch"
+          },
+          {
+            "term": "door sensing switch",
+            "canonicalId": "door_switch",
+            "layer": "samsung_manufacturer_vocabulary",
+            "source": "proposedAliases",
+            "manualConcept": "door_latch"
+          },
+          {
+            "term": "drain_pump",
+            "canonicalId": "drain_pump",
+            "layer": "canonical_reuse",
+            "source": "seed_component_id"
+          },
+          {
+            "term": "vent",
+            "canonicalId": "drying_system",
+            "layer": "samsung_manufacturer_vocabulary",
+            "source": "proposedAliases",
+            "manualConcept": "vent"
+          },
+          {
+            "term": "dry fan",
+            "canonicalId": "drying_system",
+            "layer": "samsung_manufacturer_vocabulary",
+            "source": "proposedAliases",
+            "manualConcept": "vent"
+          },
+          {
+            "term": "inlet_valve",
+            "canonicalId": "inlet_valve",
+            "layer": "canonical_reuse",
+            "source": "seed_component_id"
+          },
+          {
+            "term": "heater",
+            "canonicalId": "heat_source",
+            "layer": "canonical_reuse",
+            "source": "seed_component_id"
+          },
+          {
+            "term": "user interface",
+            "canonicalId": "hmi_control",
+            "layer": "samsung_manufacturer_vocabulary",
+            "source": "proposedAliases",
+            "manualConcept": "user_interface"
+          },
+          {
+            "term": "touch panel",
+            "canonicalId": "hmi_control",
+            "layer": "samsung_manufacturer_vocabulary",
+            "source": "proposedAliases",
+            "manualConcept": "user_interface"
+          },
+          {
+            "term": "float switch",
+            "canonicalId": "water_level_sensor",
+            "layer": "samsung_manufacturer_vocabulary",
+            "source": "proposedAliases",
+            "manualConcept": "float_switch"
+          },
+          {
+            "term": "overflow sensor",
+            "canonicalId": "water_level_sensor",
+            "layer": "samsung_manufacturer_vocabulary",
+            "source": "proposedAliases",
+            "manualConcept": "float_switch"
+          },
+          {
+            "term": "thermistor",
+            "canonicalId": "temperature_sensor",
+            "layer": "canonical_reuse",
+            "source": "seed_component_id"
+          }
+        ],
+        "skipped": [],
+        "failures": []
+      },
+      "procedureBindings": {
+        "applied": [
+          "samsungdw-circulation-motor",
+          "samsungdw-door-switch",
+          "samsungdw-drain-pump",
+          "samsungdw-dispenser",
+          "samsungdw-distributor",
+          "samsungdw-dry-system",
+          "samsungdw-fill-valve",
+          "samsungdw-heater",
+          "samsungdw-overflow",
+          "samsungdw-thermistor"
+        ],
+        "skipped": [],
+        "failures": []
+      },
+      "measurementBindings": {
+        "applied": [
+          "samsungdw-circulation-motor:samsungDishwasherCirculationMotorOhms",
+          "samsungdw-dispenser:samsungDishwasherDispenserOhms",
+          "samsungdw-dry-system:samsungDishwasherDryFanOhms",
+          "samsungdw-dry-system:samsungDishwasherThermalActuatorOhms",
+          "samsungdw-thermistor:samsungDishwasherThermistorOhms"
+        ],
+        "skipped": [],
+        "failures": []
+      },
+      "platformComponents": {
+        "applied": [
+          "circulation_motor",
+          "distributor_motor",
+          "vent_fan_motor",
+          "thermal_actuator",
+          "overflow_sensor"
+        ],
+        "skipped": [],
+        "failures": []
+      }
+    },
+    "appliedCounts": {
+      "manufacturerAliases": 17,
+      "procedureBindings": 10,
+      "measurementBindings": 5,
+      "platformComponents": 5
+    },
+    "silentlyDropped": [],
+    "publishBlocked": false,
+    "summary": {
+      "gateIntentTotal": 37,
+      "publisherAppliedTotal": 37,
+      "representationFailures": 0,
+      "publishBlocked": false
+    }
+  },
+  "publicationChecks": {
+    "dishwasherFrozenRev1": true,
+    "dishwasherSemanticallyUnchanged": true,
+    "equivalentPromotion": true,
+    "gateTableFullyApplied": true,
+    "whirlpoolUnchanged": true,
+    "tenProcedureBindings": true,
+    "fiveMeasurementBindings": true,
+    "fivePlatformComponents": true,
+    "noDiverterMotorAlias": true,
+    "communicationNotPublished": true,
+    "powerSupplyNotPublished": true
+  },
+  "testResults": {
+    "components/diagnostics/session/__tests__/scenarios/cg6-dishwasher-ontology.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/cg6-dishwasher-architecture-boundary.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/canonical-graph-wont-spin.test.ts": 0
+  },
+  "tscExitCode": 2,
+  "compoundingMetrics": {
+    "cohortRole": "samsung_manufacturer_boundary_first_manual",
+    "whirlpoolIsolationVerdict": "clean",
+    "crossTemplateLeakCount": 1,
+    "newHumanSemanticDecisions": 15,
+    "canonicalAutoReuse": 6,
+    "newSamsungManufacturerVocabulary": 7,
+    "newSamsungPlatformKnowledge": 5,
+    "newSamsungModelSpecificKnowledge": 0,
+    "matcherBindingCorrections": 2,
+    "matcherMappingRejections": 1,
+    "deferredProceduralTitles": 14,
+    "deferredPlatformConcepts": 4,
+    "deferredProcedureBindings": 3,
+    "newCanonicalConcepts": 0
+  },
+  "overlayFile": "samsung_dishwasher.json",
+  "ledgerArtifact": "SAMSUNG_DISHWASHER_gate_decision_ledger_v1.json",
+  "manufacturerIsolation": {
+    "whirlpoolLeakCount": 0,
+    "crossTemplateLeakCount": 1,
+    "verdict": "clean"
+  },
+  "publicationDelta": {
+    "procedureBindingsAdded": 10,
+    "measurementBindingsAdded": 5,
+    "oemAliasesAdded": 17,
+    "platformComponentsAdded": 5,
+    "canonicalChanges": 0
+  }
+}

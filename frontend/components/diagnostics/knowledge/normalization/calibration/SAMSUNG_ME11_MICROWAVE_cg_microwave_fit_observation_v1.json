@@ -1,0 +1,282 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_fit_r2_observation",
+  "experiment": "CG-MICROWAVE-FIT R2 — Samsung ME11 OTR microwave fit observation against all frozen canonical contracts. Independent evidentiary artifact — triangulation with LG R1, not component-list confirmation.",
+  "workstream": "CG-MICROWAVE-FIT",
+  "stage": "R2_microwave_fit_observation",
+  "status": "complete",
+  "manualId": "SAMSUNG-ME11-MICROWAVE",
+  "platformId": "samsung_microwave_otr",
+  "smokeModel": "ME11A7510DSAA",
+  "templateFilter": "microwave",
+  "contract": "CG_MICROWAVE_FIT_TEST_CONTRACT_v1.json",
+  "r1Gate": "CG_MICROWAVE_FIT_R1_GATE_v1.json",
+  "r1Observation": "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+  "fitEligible": false,
+  "canonicalPromotionBlocked": true,
+  "canonicalMutationBlocked": true,
+  "crossManufacturerProof": false,
+  "triangulationPending": "CG_MICROWAVE_FIT_TRIANGULATION_v1.json",
+  "generatedAt": "2026-09-17T08:50:00+00:00",
+  "r2DecisionGate": {
+    "question": "Do the same microwave functional diagnostic behaviors recur on Samsung ME11 — independent of LG component naming?",
+    "notAsked": "Does Samsung use the same parts list as LG?",
+    "triangulationIntent": "Different implementation + same functional diagnostic behavior → cross-manufacturer functional domain",
+    "evaluatedAgainst": "all_six_frozen_canonical_families",
+    "notCreating": "microwave.json or manufacturer canonical overlay"
+  },
+  "classificationVocabulary": [
+    "SUPERFICIAL_OVERLAP",
+    "CONTRACT_BOUNDARY",
+    "CONTAMINATES_IF_MERGED",
+    "NO_HOST",
+    "DIVERGES",
+    "PLATFORM_ONLY",
+    "UNCERTAIN",
+    "DEFERRED"
+  ],
+  "graphArtifacts": {
+    "sourcePdf": "backend/docs/manuals/Samsung ME11A7510DSAA.pdf",
+    "extractedText": "backend/docs/manuals/Samsung ME11A7510DSAA microwave-extracted.txt",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md",
+    "procedureSeedDir": "frontend/components/diagnostics/procedures/seed/samsung_microwave_otr",
+    "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_microwave_otr/procedureCatalog.json"
+  },
+  "pipelineCounts": {
+    "proceduresEvaluated": 14,
+    "functionalLayersProbed": 8,
+    "frozenContractsCompared": 6,
+    "measurementSpecsCaptured": 12,
+    "errorCodeFamilies": 1
+  },
+  "procedureObservations": [
+    {
+      "procedureId": "samsungotrmw-door-interlock",
+      "oemSection": "4-6",
+      "title": "§4-6: Door Interlock Switches",
+      "pages": [24, 25],
+      "functionalBehavior": "Primary, monitor (COM-NC/NO), secondary, and door-sensing switches with continuity table — latch adjustment prevents oscillation.",
+      "sequencing": "Primary open/closed → monitor → secondary → door sensing; HV + vent cap discharge prerequisite.",
+      "measurements": [{ "knowledgeId": "microwaveDoorInterlockSwitchOhms", "logic": "Primary ∞ door open / 0 closed; monitor NC behavior; door sensing for vent-only-on-plug-in" }],
+      "errorCodes": ["C-F0"],
+      "microwaveSpecificMechanism": "hv_safety_interlock_monitor_chain",
+      "platformVocabulary": ["primary_interlock", "monitor_switch", "secondary_interlock", "door_sensing_switch"]
+    },
+    {
+      "procedureId": "samsungotrmw-line-power",
+      "oemSection": "5-1-dead",
+      "title": "§5-1: Dead Unit (No Display)",
+      "pages": [30, 31],
+      "functionalBehavior": "Dead-unit tree through line power, magnetron TCO, interlock/monitor chain, then PCB.",
+      "microwaveSpecificMechanism": "line_power_with_hv_safety_prerequisite",
+      "candidateFunctionalMapping": "power_supply"
+    },
+    {
+      "procedureId": "samsungotrmw-no-heat",
+      "oemSection": "5-1-no-heat",
+      "title": "§5-1: No Heat (Timer Runs, No Oscillation)",
+      "pages": [32, 33],
+      "functionalBehavior": "Latch alignment → magnetron TCO → power relay contacts → HV component path (§4-1–4-4).",
+      "sequencing": "Interlock before TCO before relay before HV cascade — same causal ordering as LG no-heat orchestration.",
+      "decisionLogic": ["Power relay contact continuity after START", "Explicit HV path handoff when door/TCO/relay pass"],
+      "microwaveSpecificMechanism": "hv_enable_and_cascade_orchestration"
+    },
+    {
+      "procedureId": "samsungotrmw-hv-transformer",
+      "oemSection": "4-1",
+      "title": "§4-1: High-Voltage Transformer",
+      "pages": [12, 13],
+      "functionalBehavior": "Primary 0.41–0.48 Ω (variant-dependent); secondary ~123.5 or ~131 Ω ±2%; filament continuity.",
+      "measurements": [
+        { "knowledgeId": "samsungMe11HvTransformerPrimaryOhms", "spec": "0.410–0.480 Ω primary @ 20°C" },
+        { "knowledgeId": "samsungMe11HvTransformerSecondaryOhms", "spec": "~123.5 or ~131 Ω secondary ±2%" }
+      ],
+      "microwaveSpecificMechanism": "hv_generation_transformer"
+    },
+    {
+      "procedureId": "samsungotrmw-hv-capacitor",
+      "oemSection": "4-3",
+      "title": "§4-3: High-Voltage Capacitor",
+      "pages": [13, 14],
+      "functionalBehavior": "Charge then ~9 MΩ terminal-to-terminal; infinite terminal-to-chassis.",
+      "microwaveSpecificMechanism": "hv_resonant_capacitor"
+    },
+    {
+      "procedureId": "samsungotrmw-hv-diode",
+      "oemSection": "4-4",
+      "title": "§4-4: High-Voltage Diode",
+      "pages": [14, 15],
+      "functionalBehavior": "∞ one direction; several hundred kΩ other direction (9V+ meter).",
+      "measurements": [{ "knowledgeId": "microwaveHVDiodeCheck" }],
+      "microwaveSpecificMechanism": "hv_rectification"
+    },
+    {
+      "procedureId": "samsungotrmw-magnetron",
+      "oemSection": "4-2",
+      "title": "§4-2: Magnetron",
+      "pages": [13, 14],
+      "functionalBehavior": "Filament ≤1 Ω; filament-to-case open.",
+      "measurements": [{ "knowledgeId": "microwaveMagnetronFilamentOhms", "spec": "≤1 Ω filament; case OL" }],
+      "microwaveSpecificMechanism": "rf_generation_magnetron"
+    },
+    {
+      "procedureId": "samsungotrmw-thermal-cutout",
+      "oemSection": "4-8",
+      "title": "§4-8: Thermal Cutouts (TCO)",
+      "pages": [26, 28],
+      "functionalBehavior": "Four distinct TCO roles: cavity/flame 248°F non-reset; hood 158°F closes; bottom 248°F; magnetron 302°F resettable.",
+      "sequencing": "Independent TCO tests — broader than LG single TAB1–TAB2 cutout on no-heat path.",
+      "measurements": [{ "knowledgeId": "microwaveThermalCutoutOhms", "testPoints": ["cavity TCO", "hood TCO", "bottom TCO", "magnetron TCO"] }],
+      "errorCodes": ["C-21"],
+      "microwaveSpecificMechanism": "multi_node_thermal_protection_network"
+    },
+    {
+      "procedureId": "samsungotrmw-temp-sensor",
+      "oemSection": "C-20",
+      "title": "C-20: Temperature Sensor Error",
+      "pages": [20, 21],
+      "functionalBehavior": "Temp sensor fault — short indicated by black wire; routes before magnetron on coded no-heat paths.",
+      "errorCodes": ["C-20"],
+      "microwaveSpecificMechanism": "cavity_temperature_sensing_fault"
+    },
+    {
+      "procedureId": "samsungotrmw-humidity-sensor",
+      "oemSection": "4-14",
+      "title": "§4-14 / C-10: Humidity (Gas) Sensor",
+      "pages": [22, 23],
+      "functionalBehavior": "Quick test 15–185 normal; ≥213 open; <6 short. Heater H terminals ~30 Ω.",
+      "measurements": [{ "knowledgeId": "samsungMe11HumiditySensorHeaterOhms", "spec": "~30 Ω Black/Red only" }],
+      "errorCodes": ["C-10"],
+      "microwaveSpecificMechanism": "humidity_sensing_for_cook_control"
+    },
+    {
+      "procedureId": "samsungotrmw-pcb-comm",
+      "oemSection": "5-3-2",
+      "title": "C-F0 / C-F1: PCB Communication",
+      "pages": [34, 35],
+      "functionalBehavior": "Main ↔ sub PCB communication faults C-F0/C-F1 — distinct from touch-only failures.",
+      "errorCodes": ["C-F0", "C-F1"],
+      "microwaveSpecificMechanism": "split_pcb_control_communication"
+    },
+    {
+      "procedureId": "samsungotrmw-keypad-touch",
+      "oemSection": "5-3-3",
+      "title": "C-F2 / C-d0: Touch and Key Failure",
+      "pages": [35, 36],
+      "functionalBehavior": "Touch film FPC and membrane short diagnostics.",
+      "errorCodes": ["C-F2", "C-d0"],
+      "microwaveSpecificMechanism": "touch_membrane_input"
+    },
+    {
+      "procedureId": "samsungotrmw-vent-motor",
+      "oemSection": "4-7",
+      "title": "§4-7: Vent Exhaust Blower Motor",
+      "pages": [25, 26],
+      "functionalBehavior": "Vent blower ~94 Ω across run-cap leads; discharge vent cap before test.",
+      "measurements": [{ "knowledgeId": "samsungMe11VentBlowerOhms", "spec": "~94 Ω" }],
+      "microwaveSpecificMechanism": "otr_ventilation_exhaust"
+    },
+    {
+      "procedureId": "samsungotrmw-turntable",
+      "oemSection": "3-7",
+      "title": "§3-7: Turntable Drive Motor",
+      "pages": [10, 11],
+      "functionalBehavior": "Operational/harness check → motor → PCB RY206 when rotation fails.",
+      "microwaveSpecificMechanism": "cavity_mechanical_drive",
+      "platformVocabulary": ["turntable_motor", "ry206"]
+    }
+  ],
+  "functionalLayerEvaluations": {
+    "power_supply": {
+      "comparisons": { "range_oven": { "classification": "SUPERFICIAL_OVERLAP" }, "allOthers": { "classification": "SUPERFICIAL_OVERLAP" } },
+      "procedureIds": ["samsungotrmw-line-power"],
+      "canonicalMutation": false
+    },
+    "control_board": {
+      "comparisons": {
+        "range_oven": { "classification": "SUPERFICIAL_OVERLAP", "note": "Relay + split PCB comm — HV enable semantics must not merge into range_oven" },
+        "allOthers": { "classification": "CONTRACT_BOUNDARY" }
+      },
+      "procedureIds": ["samsungotrmw-no-heat", "samsungotrmw-pcb-comm"],
+      "canonicalMutation": false
+    },
+    "user_interface": {
+      "comparisons": { "range_oven": { "classification": "SUPERFICIAL_OVERLAP" }, "allOthers": { "classification": "SUPERFICIAL_OVERLAP" } },
+      "procedureIds": ["samsungotrmw-keypad-touch", "samsungotrmw-line-power"],
+      "canonicalMutation": false
+    },
+    "door_interlock_chain": {
+      "microwaveFunctionalBehavior": "Multi-switch interlock including monitor NC and door-sensing for vent/HV gating.",
+      "comparisons": {
+        "range_oven": { "classification": "CONTAMINATES_IF_MERGED", "frozenNode": "oven_door_switch" },
+        "allOthers": { "classification": "CONTRACT_BOUNDARY" }
+      },
+      "procedureIds": ["samsungotrmw-door-interlock", "samsungotrmw-no-heat", "samsungotrmw-line-power"],
+      "canonicalMutation": false
+    },
+    "thermal_protection": {
+      "microwaveFunctionalBehavior": "Network of four TCO types plus magnetron TCO on no-heat path — materially richer than range conditional thermal_protection.",
+      "comparisons": {
+        "range_oven": { "classification": "CONTAMINATES_IF_MERGED", "frozenNode": "thermal_protection" },
+        "allOthers": { "classification": "CONTRACT_BOUNDARY" }
+      },
+      "procedureIds": ["samsungotrmw-thermal-cutout", "samsungotrmw-no-heat", "samsungotrmw-temp-sensor"],
+      "canonicalMutation": false
+    },
+    "hv_generation": {
+      "microwaveFunctionalBehavior": "Same diagnostic cascade class as LG: relay → transformer → capacitor → diode → magnetron with per-component tests.",
+      "comparisons": {
+        "range_oven": { "classification": "NO_HOST" },
+        "allOthers": { "classification": "NO_HOST" }
+      },
+      "procedureIds": [
+        "samsungotrmw-hv-transformer",
+        "samsungotrmw-hv-capacitor",
+        "samsungotrmw-hv-diode",
+        "samsungotrmw-magnetron",
+        "samsungotrmw-no-heat"
+      ],
+      "canonicalMutation": false,
+      "divergenceSignal": "R2 confirms same functional domain as LG R1 with different Ω specs and relay naming"
+    },
+    "rf_cavity": {
+      "comparisons": { "range_oven": { "classification": "NO_HOST" }, "allOthers": { "classification": "NO_HOST" } },
+      "procedureIds": ["samsungotrmw-magnetron", "samsungotrmw-turntable"],
+      "canonicalMutation": false
+    },
+    "control_and_sensing": {
+      "comparisons": {
+        "range_oven": { "classification": "NO_HOST", "frozenNode": "temperature_sensor" },
+        "french_door_refrigerator": { "classification": "UNCERTAIN" }
+      },
+      "procedureIds": ["samsungotrmw-humidity-sensor", "samsungotrmw-temp-sensor"],
+      "canonicalMutation": false
+    },
+    "ventilation_otr": {
+      "microwaveFunctionalBehavior": "Dedicated vent blower motor test — OTR-only functional layer.",
+      "comparisons": { "range_oven": { "classification": "CONTAMINATES_IF_MERGED", "note": "Must not map to surface_heating_system" } },
+      "procedureIds": ["samsungotrmw-vent-motor"],
+      "canonicalMutation": false
+    }
+  },
+  "rangeOvenContaminationAssessment": {
+    "familyLock": "CG_RANGE_FAMILY_LOCK_v1.json",
+    "rangeOvenHashUnchanged": true,
+    "verdict": "Samsung R2 reinforces R1 — merge would contaminate locked range_oven",
+    "rangeArchitectureReopened": false
+  },
+  "r2PreliminarySummary": {
+    "proceduresRecorded": 14,
+    "bestHostContract": null,
+    "rangeOvenVariantHypothesis": "rejected_preliminary",
+    "awaitTriangulation": true,
+    "humanFitAnalysisRequired": true,
+    "nextStep": "CG_MICROWAVE_FIT_TRIANGULATION_v1.json → human boundary decision"
+  },
+  "explicitNonActions": [
+    "No microwave.json created",
+    "No canonical file mutations",
+    "No overlay compounding",
+    "No fit closure — triangulation and human gate remain"
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "manualId": "SAMSUNG-TL-CG71-DRYER",
+  "candidates": [
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-DRYER-samsungtlcg71d-belt-cutoff-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungtlcg71d-belt-cutoff",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-4: Belt cut-off switch",
+      "componentIds": [
+        "belt_switch"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-belt-cutoff",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-belt-cutoff",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-DRYER-samsungtlcg71d-motor-circuit-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungtlcg71d-motor-circuit",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-4: Motor windings and centrifugal switch",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-DRYER-samsungtlcg71d-motor-circuit-meas-samsungTlDv50DryerMotorWinding34Ohms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungtlcg71d-motor-circuit",
+      "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding34Ohms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding34Ohms",
+            "stepTitle": "Motor winding pin 3\u20134"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-DRYER-samsungtlcg71d-motor-circuit-meas-samsungTlDv50DryerMotorWinding45Ohms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungtlcg71d-motor-circuit",
+      "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding45Ohms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "procedureId": "samsungtlcg71d-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "platformId": "samsung_tl_dryer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71d-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding45Ohms",
+            "stepTitle": "Motor winding pin 4\u20135"
+          }
+        ]
+      }
+    }
+  ]
+}

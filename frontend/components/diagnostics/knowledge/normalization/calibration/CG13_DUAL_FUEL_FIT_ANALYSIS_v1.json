@@ -1,0 +1,222 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg13_dual_fuel_range_fit_analysis",
+  "workstream": "CG-13",
+  "stage": "fit_falsification_analysis",
+  "status": "human_boundary_approved",
+  "generatedAt": "2026-09-16T19:55:00+00:00",
+  "contract": "CG13_DUAL_FUEL_FIT_TEST_CONTRACT_v1.json",
+  "humanBoundaryApprovalRequired": true,
+  "humanBoundaryApprovedAt": "2026-09-16T19:56:00+00:00",
+  "humanBoundaryApprovedOutcome": "A",
+  "r1SufficientForClosure": true,
+  "r2RequiredForClosure": false,
+  "closureArtifact": "CG13_DUAL_FUEL_FIT_CLOSURE_v1.json",
+  "canonicalMutationAuthorized": false,
+  "canonicalRenameAuthorized": false,
+  "recommendedOutcome": "A",
+  "recommendedOutcomeLabel": "dual_fuel_fits_electric_contract",
+  "r2Required": false,
+  "r2Mandatory": false,
+  "r2OptionalFor": "cross_manufacturer_consistency_matrix — not required to establish R1 implementation fit",
+  "r2WaivedForR1FitReason": "R1 Samsung NY63T8751 produces zero DIVERGES across 11 probes with INHERITS on all five frozen components, both bake/broil instance scopes, and evidenced convection_heating_element. Gas surface and electric oven remain independently addressable under control_board. R2/R3 are separate family-confidence decisions.",
+  "frozenContractUnderTest": {
+    "id": "electric_range",
+    "file": "frontend/components/diagnostics/knowledge/canonical/electric_range.json",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-16T15:26:00+00:00",
+    "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "hashMutatedDuringCg13": false,
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "priorFitClosed": [
+      "CG11_GAS_RANGE_FIT_CLOSURE_v1.json",
+      "CG12_INDUCTION_FIT_CLOSURE_v1.json"
+    ]
+  },
+  "evidenceChain": {
+    "r1Observation": "SAMSUNG_NY63T8751SS_DF_CG13X_OBSERVATION_v1.json",
+    "manualId": "SAMSUNG-NY63-DUAL-FUEL",
+    "platformId": "samsung_range_ny63",
+    "sourcePdf": "backend/docs/manuals/samsungny64dualfuel.pdf",
+    "fuelFilter": "dual_fuel_range",
+    "fitHypothesis": "electric_range_dual_fuel_fit_hypothesis_v1.json",
+    "cg10FrozenContract": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "cg11GasFitClosure": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json",
+    "cg12InductionFitClosure": "CG12_INDUCTION_FIT_CLOSURE_v1.json"
+  },
+  "dualEvaluation": {
+    "r1ImplementationFit": {
+      "question": "Does NY63T8751 demonstrate that dual-fuel (gas surface + electric oven) can be represented by the frozen electric_range rev1 contract?",
+      "verdict": "yes_zero_divergence_recommended",
+      "diverges": 0,
+      "canonicalExpansionRequired": 0,
+      "contractRevisionRequired": false,
+      "recommendedOutcome": "A",
+      "summary": "Samsung dual-fuel R1 witness fits frozen contract at functional layer — gas surface maps to surface_heating_system, electric oven maps to instance scopes, with platform overlay vocabulary only."
+    },
+    "familyLevelConfidence": {
+      "question": "Is one Samsung witness enough to make a broader dual-fuel-family statement, or should LG R2 / Whirlpool R3 be run?",
+      "verdict": "r1_fit_valid_single_witness_insufficient_for_cross_manufacturer_matrix",
+      "crossManufacturerConsistency": "PENDING — all R1 matrix cells remain PENDING",
+      "dualFuelFamilyStatementAuthorized": false,
+      "r2Recommended": false,
+      "r2Optional": true,
+      "r3Optional": true,
+      "r2Purpose": "Populate LG LSDL6336F column in cross-manufacturer matrix — not required to prove R1 implementation fit",
+      "humanGateOptions": [
+        "Accept R1 as sufficient for CG-13 fit question (Outcome A) without R2/R3",
+        "Require R2/R3 specifically to populate cross-manufacturer dual-fuel matrix before closure"
+      ],
+      "note": "Recommended Outcome A on R1 fit does not pretend one Samsung manual proves cross-manufacturer consistency."
+    }
+  },
+  "classificationSummary": {
+    "INHERITS": 9,
+    "CONDITIONAL": 2,
+    "DIVERGES": 0,
+    "PLATFORM_ONLY": 10,
+    "NO_EVIDENCE": 0,
+    "DEFERRED": 0,
+    "allFiveCanonicalComponentsInherit": true,
+    "bothInstanceScopesInherit": true,
+    "convectionHeatingElementEvidenced": true,
+    "gasHardwarePromotedToCanonical": false,
+    "dualEnergyDomainsIndependentlyAddressable": true
+  },
+  "layerDisposition": {
+    "components": {
+      "power_supply": "INHERITS",
+      "control_board": "INHERITS",
+      "user_interface": "INHERITS",
+      "temperature_sensor": "INHERITS",
+      "surface_heating_system": "INHERITS"
+    },
+    "instanceScopes": {
+      "bake_heating_element": "INHERITS",
+      "broil_heating_element": "INHERITS"
+    },
+    "conditionalInstanceScopes": {
+      "convection_heating_element": "INHERITS"
+    },
+    "conditionalConcepts": {
+      "convection_fan": "INHERITS",
+      "thermal_protection": "CONDITIONAL",
+      "oven_door_switch": "CONDITIONAL"
+    },
+    "removedConcepts": {
+      "oven_heating_system": "remains_removed"
+    }
+  },
+  "centerpieceFinding": {
+    "id": "dual_energy_domain_independent_addressability",
+    "title": "Gas surface + electric oven survive as independently addressable domains under frozen contract without canonical divergence",
+    "physicalImplementationDelta": {
+      "gas_surface": "knob → switch ignition → spark module → valve cooktop → burner",
+      "electric_oven": "Main PCB relays → bake/broil/convection electric heaters + convection fan"
+    },
+    "diagnosticStructurePreserved": {
+      "cooktopGas": {
+        "independentlyAddressable": true,
+        "separateFaultFamily": "§4-3 Cooktop parts: spark module, ignition switch, electrode, valve/manifold, GPR, orifice",
+        "separateFromOvenPaths": true,
+        "sourceProvenance": ["§4-3 p.72–77", "§3-9 p.29", "§3-17 p.37–38"]
+      },
+      "ovenElectric": {
+        "bakeBroilConvectionIndependentlyTestable": true,
+        "resistanceSpecs": "Broil 13Ω, Bake 19Ω, Conv 44Ω — §4-1 p.64",
+        "relayPaths": "RY202 broil, RY203 bake, RY207 convection heater — §6-3 p.88",
+        "sourceProvenance": ["§4-1 C-21 p.56–57", "§4-1 symptom p.64", "§6-3 p.88"]
+      },
+      "sharedControl": {
+        "mainSubPcbArchitecture": true,
+        "noInseparableDiagnosticCollapse": true,
+        "note": "control_board orchestrates both domains; troubleshooting trees remain domain-separated"
+      }
+    },
+    "conclusion": "Dual-fuel architecture produces zero functional divergences. surface_heating_system absorbs gas ignition/valve/burner path; bake/broil/convection instance scopes absorb electric oven path. Gas hardware remains platform vocabulary — not ontology expansion.",
+    "platformVocabularyNotCanonical": [
+      "valve_cooktop",
+      "spark_module",
+      "switch_ignition",
+      "electrode",
+      "gas_pressure_regulator",
+      "surface_burner",
+      "gas_orifice_nozzle"
+    ],
+    "topologyNotCanonical": "control_board → gas cooktop ignition/valve path AND control_board → oven electric relay path is implementation evidence — not promoted to canonical topology"
+  },
+  "criticalDualFuelProbeAnswer": {
+    "question": "Does combining gas surface heating and electric oven heating create a functional dependency the frozen contract cannot represent?",
+    "answer": "Not on R1 evidence — manual service flows treat gas cooktop and electric oven as separately diagnosable under shared control_board without requiring new canonical nodes.",
+    "falsificationResult": "no_divergence_observed"
+  },
+  "cumulativeFitContext": {
+    "cg10": "electric discovery — frozen contract origin",
+    "cg11": "gas fits — full gas platform",
+    "cg12": "induction fits — radical surface implementation",
+    "cg13_r1": "dual-fuel fits (recommended) — combines CG-11 gas surface vocabulary with CG-10/CG-12 electric oven instance scopes in one appliance",
+    "experiment": "If human gate approves Outcome A, frozen contract tested across electric, gas, induction, and dual-fuel without canonical mutation"
+  },
+  "centerpieceQuestionAnswer": {
+    "questionId": "dual_fuel_vs_frozen_electric_contract",
+    "answer": "On Samsung NY63T8751 dual-fuel R1 evidence, the frozen electric_range rev1 contract appears to represent this implementation without canonical divergence.",
+    "confidence": "high_r1_implementation_fit",
+    "familyLevelCaveat": "Cross-manufacturer dual-fuel confidence remains PENDING — one Samsung witness does not populate LG/Whirlpool matrix columns.",
+    "r2NotRequiredForR1Fit": true,
+    "pendingHumanGate": false,
+    "humanApprovedAt": "2026-09-16T19:56:00+00:00"
+  },
+  "governanceConclusion": {
+    "statement": "CG-13 R1 demonstrates functional compatibility of the frozen electric-range ontology with a dual-fuel implementation (gas surface + electric oven). It does not establish that gas surface hardware belongs in canonical components[], nor does it authorize renaming the ontology. Recommended Outcome A is pending human boundary approval.",
+    "functionalCompatibility": true,
+    "dualFuelImplementationInCanonical": false,
+    "ontologyRenameAuthorized": false,
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0,
+    "normalizationCompoundingAuthorized": false,
+    "doesNotAuthorize": [
+      "mutating electric_range.json",
+      "creating dual_fuel_range.json",
+      "promoting gas_valve, spark_module, igniter, burner to canonical",
+      "automatic rename electric_range → range_oven",
+      "claiming cross-manufacturer dual-fuel consistency from R1 alone",
+      "normalization or manufacturer overlay compounding"
+    ]
+  },
+  "surfaceHeatFinding": {
+    "classification": "INHERITS",
+    "summary": "surface_heating_system absorbs gas spark-ignition/valve/burner architecture on dual-fuel — cooktop heat generation remains independently diagnosable from electric oven; gas hardware stays platform vocabulary."
+  },
+  "fitOutcomeRecommendation": {
+    "outcome": "A",
+    "label": "dual_fuel_fits_electric_contract",
+    "description": "Frozen electric_range rev1 absorbs Samsung dual-fuel R1 functional architecture without canonical expansion, divergence, or dual-fuel ontology. Gas surface hardware remains platform overlay vocabulary bound to frozen layers.",
+    "scope": "r1_implementation_fit",
+    "automaticClosure": false,
+    "requiresHumanBoundaryApproval": true,
+    "humanGateMayAlsoDecide": "Whether to run R2 LG LSDL6336F or R3 Whirlpool for cross-manufacturer matrix before CG-13 closure"
+  },
+  "deferredOrganizationalQuestion": {
+    "id": "electric_range_to_range_oven_rename",
+    "question": "Should the broader contract be renamed from electric_range to range_oven (or similar)?",
+    "trigger": "Cumulative fit evidence across fuel families — separate from CG-13 R1 alone",
+    "authorizedByThisAnalysis": false,
+    "separateHumanGate": true,
+    "note": "CG-13 R1 adds dual-fuel to gas/induction fit evidence — rename remains organizational gate after family boundary review."
+  },
+  "postApprovalSequence": [
+    "Human reviews CG13_DUAL_FUEL_FIT_ANALYSIS_v1.json and dual evaluation (R1 fit vs family confidence)",
+    "Human approves Outcome A, B, or C",
+    "Human optionally requires R2/R3 before closure — not mandatory for Outcome A on R1 fit",
+    "If Outcome A approved: author CG13_DUAL_FUEL_FIT_CLOSURE_v1.json",
+    "CG-13 CLOSED — electric_range.json remains immutable; no normalization/compounding",
+    "Deferred: CG-RANGE-FAMILY-REVIEW; organizational rename gate"
+  ],
+  "futureWork": {
+    "optionalR2": "LG LSDL6336F — cross-manufacturer matrix only",
+    "optionalR3": "Whirlpool dual-fuel — pending verified manual",
+    "familyBoundaryReview": "Triangulate CG-11/12/13 after CG-13 closure",
+    "normalizationCompounding": "After family boundary review — not during CG-13",
+    "organizationalRenameGate": "electric_range → range_oven — cumulative evidence, separate human gate"
+  }
+}

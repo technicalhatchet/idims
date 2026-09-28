@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_compounding_workstream",
+  "workstream": "CG-RANGE-COMPOUNDING",
+  "status": "closed",
+  "verdict": "GREEN / RANGE_COMPOUNDING_COMPLETE",
+  "closedAt": "2026-09-17T06:30:00+00:00",
+  "openedAt": "2026-09-17T04:10:00+00:00",
+  "priorPhaseClosed": "CG_RANGE_NORMALIZATION_AUDIT_v1.json",
+  "normalizationAuditVerdict": "GREEN / NORMALIZATION_AUDIT_PASSED",
+  "targetCanonicalIdentity": {
+    "primaryId": "range_oven",
+    "legacyAliasId": "electric_range",
+    "frozenContractHash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json"
+  },
+  "coreConstraint": "Compounding populates the frozen range_oven canonical contract and implementation overlays from normalized evidence. It does not redesign the ontology established and frozen through CG-10–13.",
+  "coreDistinction": {
+    "fitTests": "CG-10–13 proved architecture boundary — frozen experimental record",
+    "normalization": "CG-RANGE-NORMALIZATION extracted procedures/measurements/decisions beneath range_oven — closed with audit GREEN",
+    "compounding": "Bind normalized knowledge into range_oven functional mappings + manufacturer/platform/model overlays"
+  },
+  "immutableRules": [
+    "Load range_oven.json rev1 as immutable canonical truth — adopted from CG-10 electric_range rev1 hash 0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54.",
+    "electric_range.json remains the immutable CG-10 historical freeze record — do not mutate.",
+    "Normalized implementation vocabulary (gas_valve, inverter, spark_module, DSI, etc.) binds to platform/model overlays — not canonical components[].",
+    "Do not create gas_range.json, induction_range.json, or dual_fuel_range.json canonical ontology files.",
+    "W11174814 is corroboration input only — notRetroactiveFitEvidence: true; does not reopen CG-10–13.",
+    "Procedure noun recurrence across manuals does not auto-promote to canonical without separate ontology gate.",
+    "Compounding is not another opportunity to redesign the ontology — populate the established contract."
+  ],
+  "compoundingSequence": [
+    {
+      "sequence": 1,
+      "targetId": "samsung_nx60_gas",
+      "status": "closed",
+      "verdict": "GREEN / NX60_COMPOUNDING_AUDIT_PASSED",
+      "compoundingArtifact": "CG_RANGE_NX60_COMPOUNDING_v1.json",
+      "auditArtifact": "CG_RANGE_NX60_COMPOUNDING_AUDIT_v1.json",
+      "overlayFile": "samsung_range_nx60.json"
+    },
+    {
+      "sequence": 2,
+      "targetId": "samsung_ne58r9560ws_induction",
+      "status": "closed",
+      "verdict": "GREEN / NE58_COMPOUNDING_AUDIT_PASSED",
+      "compoundingArtifact": "CG_RANGE_NE58R9560WS_COMPOUNDING_v1.json",
+      "auditArtifact": "CG_RANGE_NE58R9560WS_COMPOUNDING_AUDIT_v1.json",
+      "overlayFile": "samsung_range_ne58.json"
+    },
+    {
+      "sequence": 3,
+      "targetId": "samsung_ny63t8751ss_dual_fuel",
+      "status": "closed",
+      "verdict": "GREEN / NY63_COMPOUNDING_AUDIT_PASSED",
+      "compoundingArtifact": "CG_RANGE_NY63T8751SS_COMPOUNDING_v1.json",
+      "auditArtifact": "CG_RANGE_NY63T8751SS_COMPOUNDING_AUDIT_v1.json",
+      "overlayFile": "samsung_range_ny63.json"
+    },
+    {
+      "sequence": 4,
+      "targetId": "whirlpool_w11174814_corpus",
+      "status": "closed",
+      "verdict": "GREEN / W11174814_CORROBORATION_COMPOUNDING_AUDIT_PASSED",
+      "role": "corroboration",
+      "notRetroactiveFitEvidence": true,
+      "compoundingArtifact": "CG_RANGE_W11174814_COMPOUNDING_v1.json",
+      "auditArtifact": "CG_RANGE_W11174814_COMPOUNDING_AUDIT_v1.json",
+      "overlayFile": "whirlpool_freestanding_range_w11174814.json"
+    }
+  ],
+  "normalizedEvidenceInputs": [
+    {
+      "sequence": 1,
+      "targetId": "samsung_nx60_gas",
+      "status": "compounded",
+      "normalizationArtifact": "CG_RANGE_NX60_NORMALIZATION_v1.json",
+      "compoundingArtifact": "CG_RANGE_NX60_COMPOUNDING_v1.json",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "implementationTemplateId": "gas_range",
+      "smokeModel": "NX60T8311SS",
+      "manualId": "SAMSUNG-NX60-RANGE",
+      "role": "fit_witness_normalization"
+    },
+    {
+      "sequence": 2,
+      "targetId": "samsung_ne58r9560ws_induction",
+      "status": "compounded",
+      "normalizationArtifact": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json",
+      "compoundingArtifact": "CG_RANGE_NE58R9560WS_COMPOUNDING_v1.json",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "implementationTemplateId": "induction_range",
+      "smokeModel": "NE58R9560WS/AA",
+      "manualId": "SAMSUNG-NE58R9560-INDUCTION",
+      "role": "fit_witness_normalization"
+    },
+    {
+      "sequence": 3,
+      "targetId": "samsung_ny63t8751ss_dual_fuel",
+      "status": "compounded",
+      "normalizationArtifact": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+      "compoundingArtifact": "CG_RANGE_NY63T8751SS_COMPOUNDING_v1.json",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ny63",
+      "implementationTemplateId": "dual_fuel_range",
+      "smokeModel": "NY63T8751SS/AA",
+      "manualId": "SAMSUNG-NY63-DUAL-FUEL",
+      "role": "fit_witness_normalization"
+    },
+    {
+      "sequence": 4,
+      "targetId": "whirlpool_w11174814_corpus",
+      "status": "compounded",
+      "normalizationArtifact": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+      "compoundingArtifact": "CG_RANGE_W11174814_COMPOUNDING_v1.json",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_freestanding_range",
+      "implementationTemplateIds": ["electric_range", "gas_range", "induction_range", "dual_fuel_range"],
+      "manualId": "W11174814",
+      "role": "corroboration",
+      "notRetroactiveFitEvidence": true
+    }
+  ],
+  "compoundingDeliverables": {
+    "canonicalFunctionalKnowledge": "Bind normalized canonicalFunctionalMappings to range_oven reference overlay and resolver-visible functional knowledge",
+    "platformOverlays": "Samsung NX60 / NE58 / NY63 platform overlays + Whirlpool-family corroboration overlay slices",
+    "modelOverlays": "Smoke-model bindings where platform registry distinguishes variants"
+  },
+  "layerStack": [
+    "range_oven canonical contract (frozen)",
+    "conditional_concept_binding",
+    "instance_scope_binding",
+    "manufacturer_implementation",
+    "platform_implementation",
+    "model_specific_behavior"
+  ],
+  "allowedCanonicalTargets": {
+    "components": [
+      "power_supply",
+      "control_board",
+      "user_interface",
+      "temperature_sensor",
+      "surface_heating_system"
+    ],
+    "instanceScopes": ["bake_heating_element", "broil_heating_element"],
+    "conditionalInstanceScopes": ["convection_heating_element"],
+    "conditionalConcepts": ["convection_fan", "thermal_protection", "oven_door_switch"]
+  },
+  "exitCriteria": {
+    "canonicalGraphUnchanged": true,
+    "electricRangeRev1HashUnchanged": true,
+    "platformOverlaysPublished": true,
+    "sequencesComplete": "4/4",
+    "familyClosureArtifact": "CG_RANGE_FAMILY_LOCK_v1.json",
+    "compoundingAuditArtifact": "CG_RANGE_W11174814_COMPOUNDING_AUDIT_v1.json"
+  },
+  "unlockOnSuccess": {
+    "familyClosure": "CG-RANGE-FAMILY-CLOSURE",
+    "remainingFamilyInventory": "deferred until range compounding closure"
+  },
+  "explicitNonGoals": [
+    "Ontology redesign or canonical components[] expansion",
+    "Reopen CG-10–13 fit conclusions",
+    "Promote implementation vocabulary to canonical from compounding pass alone",
+    "Use W11174814 as retroactive fit evidence",
+    "Remaining-appliance-family inventory before range family closure"
+  ],
+  "nextDisciplinedStep": "STOP — all four compounding sequences audit green; CG-RANGE-FAMILY-CLOSURE unlocks separately"
+}

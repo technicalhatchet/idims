@@ -1,6 +1,7 @@
 'use client';
 
 import type { ProcedureRecommendation } from '../recommendServiceProcedures';
+import { sanitizeUserFacingExplanation } from '../procedureStepPresentation';
 import {
   isStrongProcedureLead,
   resolveWizardStepKeyForProcedure,
@@ -15,6 +16,7 @@ interface OemWizardProcedureOfferProps {
   variant?: 'mobile' | 'desktop';
   /** When true, hide cross-step hints — this is the dedicated OEM wizard step. */
   inWizardStep?: boolean;
+  offerEyebrow?: string;
 }
 
 /**
@@ -27,6 +29,7 @@ export default function OemWizardProcedureOffer({
   onStartProcedure,
   variant = 'desktop',
   inWizardStep = false,
+  offerEyebrow = 'Suggested OEM test',
 }: OemWizardProcedureOfferProps) {
   if (!recommendation || !isStrongProcedureLead(recommendation)) return null;
 
@@ -36,6 +39,7 @@ export default function OemWizardProcedureOffer({
     : null;
   const onIdealStep = inWizardStep || Boolean(procedureStepKey && procedureStepKey === currentStepKey);
   const isMobile = variant === 'mobile';
+  const reasonText = sanitizeUserFacingExplanation(recommendation.reason);
 
   return (
     <div
@@ -51,7 +55,7 @@ export default function OemWizardProcedureOffer({
           isMobile ? 'text-cyan-200/80' : 'text-cyan-700 dark:text-cyan-300/80'
         }`}
       >
-        Suggested OEM test
+        {offerEyebrow}
       </p>
       <p
         className={`mt-1 text-sm font-medium ${
@@ -60,13 +64,13 @@ export default function OemWizardProcedureOffer({
       >
         {recommendation.procedure.title}
       </p>
-      {recommendation.reason ? (
+      {reasonText ? (
         <p
           className={`mt-1 text-xs leading-relaxed ${
             isMobile ? 'text-cyan-100/80' : 'text-cyan-900/80 dark:text-cyan-100/80'
           }`}
         >
-          {recommendation.reason}
+          {reasonText}
         </p>
       ) : null}
       {!onIdealStep && procedureStepLabel ? (

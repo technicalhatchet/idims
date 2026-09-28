@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_workstream_status",
+  "workstream": "CG-AIO-LAUNDRY-COMBO",
+  "status": "AIO_FAMILY_FROZEN",
+  "updatedAt": "2026-09-17T17:00:00+00:00",
+  "dependencyResolved": {
+    "heatPumpDryerFreeze": "COMPLETE",
+    "heatPumpDryerFrozenHash": "d7a98c826d011a9fdef4b8c91ebd4d66ff88629f7d7b91357d43fee42c32d3bb",
+    "returnWorkstream": "CG-AIO-LAUNDRY-COMBO-RETURN",
+    "returnClosure": "CG_AIO_LAUNDRY_COMBO_RETURN_CLOSURE_v1.json",
+    "freezeWorkstream": "CG-AIO-LAUNDRY-COMBO-FREEZE",
+    "freezeClosure": "CG_AIO_LAUNDRY_COMBO_FREEZE_CLOSURE_v1.json"
+  },
+  "discoveryConclusionPreserved": {
+    "unchanged": true,
+    "discoveryClosure": "CG_AIO_LAUNDRY_COMBO_DISCOVERY_CLOSURE_v1.json",
+    "historicalDiscoveryOutcome": "candidate_ready_for_freeze",
+    "note": "Discovery closure not rewritten — return revised live candidate; freeze authored canonical graph"
+  },
+  "corroborationStatus": {
+    "workstream": "CG-AIO-LAUNDRY-COMBO-CORROBORATION",
+    "state": "COMPLETE",
+    "returnIncorporated": true,
+    "artifactsPreservedUnchanged": [
+      "CG_AIO_WFW9620_CORROBORATION_OBSERVATION_v1.json",
+      "CG_AIO_LAUNDRY_COMBO_CORROBORATION_v1.json"
+    ]
+  },
+  "returnStatus": {
+    "state": "COMPLETE",
+    "outcome": "candidate_ready_for_freeze",
+    "candidateRevision": "return_v1_post_hp_freeze",
+    "sealedVentlessDryingParent": "rejected",
+    "sealedHeatPumpDrying": "superseded"
+  },
+  "freezeStatus": {
+    "state": "COMPLETE",
+    "frozenRevision": "rev1",
+    "frozenHash": "be3799a991b3d778b62e60a7ec3d91dfd6fe82432e3f9ac8663d607008081183",
+    "freezeLock": "CG_AIO_LAUNDRY_COMBO_FREEZE_LOCK_v1.json",
+    "canonicalExpansion": 1,
+    "componentPromotionCount": 0
+  },
+  "hardBlocks": {
+    "aioLaundryComboJsonMutation": true,
+    "frozenGraphMutation": true,
+    "corpusNormalization": true,
+    "compounding": true,
+    "overlayBinding": true
+  },
+  "authorizedNextWorkstream": null,
+  "nextDisciplinedStep": "TERMINAL — AIO family frozen. Remaining inventory architecture gates → architecture-complete STOP."
+}

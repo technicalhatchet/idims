@@ -1,0 +1,234 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_pilot_fresh_8of8_rerun_report",
+  "workstream": "CG-PILOT-FRESH-8-OF-8-RERUN-AFTER-P05-FIX",
+  "status": "complete",
+  "generatedAt": "2026-09-17T20:08:00+00:00",
+  "p05FixReference": "CG_PILOT_P05_FIX_REPORT_v1.json",
+  "baselineReference": "CG_PRODUCTION_NORMALIZATION_PILOT_RESULTS_v1.json (2026-09-17T19:33:10Z — pre-P05-fix)",
+  "freshRunReference": "CG_PRODUCTION_NORMALIZATION_PILOT_RESULTS_v1.json (2026-09-17T20:07:40Z — post-P05-fix)",
+  "orchestratorCommand": "python backend/scripts/run_pilot_batch.py --write",
+  "pilotGateVerdict": "HOLD",
+  "pilotClosureAuthorized": false,
+  "executiveVerdict": "IDEAL OUTCOME — P05 isolated repair confirmed. P01–P04, P06–P07 identical to baseline. P05 moved unresolved_block → implementation_specific. P08 architecture_exception_stop unchanged. No collateral routing regressions detected.",
+  "lifecycleDispositionMatrix": [
+    {
+      "slotId": "P01",
+      "manualId": "W11169652",
+      "baselineDisposition": "implementation_specific",
+      "freshDisposition": "implementation_specific",
+      "executionStatus": "classified",
+      "changed": false
+    },
+    {
+      "slotId": "P02",
+      "manualId": "SAMSUNG-FL-BB8700-WASHER",
+      "baselineDisposition": "implementation_specific",
+      "freshDisposition": "implementation_specific",
+      "executionStatus": "classified",
+      "changed": false
+    },
+    {
+      "slotId": "P03",
+      "manualId": "LG-FL-WASHER",
+      "baselineDisposition": "implementation_specific",
+      "freshDisposition": "implementation_specific",
+      "executionStatus": "classified",
+      "changed": false
+    },
+    {
+      "slotId": "P04",
+      "manualId": "W11746350",
+      "baselineDisposition": "unresolved_block",
+      "freshDisposition": "unresolved_block",
+      "executionStatus": "blocked",
+      "changed": false
+    },
+    {
+      "slotId": "P05",
+      "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+      "baselineDisposition": "unresolved_block",
+      "freshDisposition": "implementation_specific",
+      "executionStatus": "classified",
+      "changed": true,
+      "isolatedFix": true
+    },
+    {
+      "slotId": "P06",
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "baselineDisposition": "unresolved_block",
+      "freshDisposition": "unresolved_block",
+      "executionStatus": "blocked",
+      "changed": false
+    },
+    {
+      "slotId": "P07",
+      "manualId": "SAMSUNG-HP-DRYER-DV22N",
+      "baselineDisposition": "implementation_specific",
+      "freshDisposition": "implementation_specific",
+      "executionStatus": "classified",
+      "changed": false
+    },
+    {
+      "slotId": "P08",
+      "manualId": "SAMSUNG-FLEXWASH-WASHER",
+      "baselineDisposition": "architecture_exception_stop",
+      "freshDisposition": "architecture_exception_stop",
+      "executionStatus": "stopped",
+      "batchStop": true,
+      "changed": false
+    }
+  ],
+  "batchSummary": {
+    "batchStatus": "stopped",
+    "batchStopReason": "architecture_exception on SAMSUNG-FLEXWASH-WASHER — batch STOP per pilot contract",
+    "frozenHashesVerified": true,
+    "lifecycleProof": {
+      "canonical_mapping_continue": true,
+      "implementation_specific_overlay": true,
+      "unresolved_block": true,
+      "architecture_exception_stop": true
+    }
+  },
+  "p05BeforeAfter": {
+    "before": {
+      "pipelineDisposition": "unresolved_block",
+      "executionStatus": "blocked",
+      "ontologyId": null,
+      "mapping": { "candidate": 0, "UNRESOLVED_TERM": 21 },
+      "overlayCandidates": 1,
+      "rootCause": "range_oven ontology + samsung_range_ne58 overlay not wired in production matcher"
+    },
+    "after": {
+      "pipelineDisposition": "implementation_specific",
+      "executionStatus": "classified",
+      "ontologyId": "range_oven",
+      "platformId": "samsung_range_ne58",
+      "templateId": "induction_range",
+      "mapping": { "candidate": 9, "UNRESOLVED_TERM": 8, "COMPOUND_TERM_CANDIDATE": 3 },
+      "overlayCandidates": 11,
+      "conflicts": 0
+    },
+    "dispositionDelta": "unresolved_block → implementation_specific",
+    "candidateMappedCountDelta": "0 → 9",
+    "overlayCandidatesDelta": "1 → 11"
+  },
+  "p05RecoveredMappings": {
+    "canonicalCandidateMappings": [
+      { "sourceTerm": "bake_element", "canonicalId": "bake_heating_element", "layer": "range_seed_alias" },
+      { "sourceTerm": "thermistor", "canonicalId": "temperature_sensor", "layer": "range_seed_alias" },
+      { "sourceTerm": "broil_element", "canonicalId": "broil_heating_element", "layer": "range_seed_alias" },
+      { "sourceTerm": "door_lock", "canonicalId": "oven_door_switch", "layer": "range_seed_alias" },
+      { "sourceTerm": "main_control", "canonicalId": "control_board", "layer": "range_seed_alias" },
+      { "sourceTerm": "display_panel", "canonicalId": "user_interface", "layer": "range_seed_alias" },
+      { "sourceTerm": "convection_fan", "canonicalId": "convection_fan", "layer": "range_seed_alias" },
+      { "sourceTerm": "surface_element", "canonicalId": "surface_heating_system", "layer": "range_seed_alias" },
+      { "sourceTerm": "supply", "canonicalId": "power_supply", "layer": "range_seed_alias" }
+    ],
+    "cg12InductionOverlayBindings": [
+      {
+        "procedureId": "ne58h-induction-igbt-sensor",
+        "canonicalTestTarget": "surface_heat_test",
+        "componentIds": ["surface_element"],
+        "stressTerm": "Cooktop: IGBT sensor open/short"
+      },
+      {
+        "procedureId": "ne58h-induction-pan-detection",
+        "canonicalTestTarget": "surface_heat_test",
+        "componentIds": ["surface_element"],
+        "stressTerm": "Cooktop: Pan detection / unsuitable cookware"
+      },
+      {
+        "procedureId": "ne58h-induction-comm-inverter",
+        "canonicalTestTarget": "display_communication_test",
+        "componentIds": ["surface_element", "display_panel"],
+        "stressTerm": "Cooktop: Display ↔ inverter communication"
+      }
+    ],
+    "compoundTitleTermsRemainingUnresolved": [
+      "Cooktop: IGBT sensor open/short",
+      "Cooktop: Display ↔ inverter communication",
+      "Cooktop: Pan detection / unsuitable cookware"
+    ],
+    "compoundTitleNote": "Acceptable — component/procedure-aware routing reaches overlay targets; title text not semantically promoted per pilot model."
+  },
+  "regressionComparison": {
+    "unchangedSlots": ["P01", "P02", "P03", "P04", "P06", "P07", "P08"],
+    "slots": [
+      { "slotId": "P01", "dispositionMatch": true, "outcomeCountsMatch": true },
+      { "slotId": "P02", "dispositionMatch": true, "outcomeCountsMatch": true },
+      { "slotId": "P03", "dispositionMatch": true, "outcomeCountsMatch": true },
+      { "slotId": "P04", "dispositionMatch": true, "outcomeCountsMatch": true },
+      { "slotId": "P06", "dispositionMatch": true, "outcomeCountsMatch": true },
+      { "slotId": "P07", "dispositionMatch": true, "outcomeCountsMatch": true },
+      { "slotId": "P08", "dispositionMatch": true, "outcomeCountsMatch": true }
+    ],
+    "collateralRegressions": []
+  },
+  "p08StopConfirmation": {
+    "pipelineDisposition": "architecture_exception_stop",
+    "executionStatus": "stopped",
+    "architectureException": true,
+    "batchStop": true,
+    "batchStoppedAt": "P08",
+    "outcomeCounts": {
+      "mapping": { "candidate": 11, "UNRESOLVED_TERM": 15, "COMPOUND_TERM_CANDIDATE": 6 },
+      "overlayCandidates": 13,
+      "conflicts": 0
+    },
+    "identicalToBaseline": true
+  },
+  "architectureExceptionIntegrity": {
+    "path": "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json",
+    "modified": false,
+    "exceptionType": "architecture_conflict",
+    "batchDisposition": "STOP",
+    "generatedAt": "2026-09-17T18:12:51.589261+00:00",
+    "forbiddenShortcutPreserved": "Map dual-load orchestration to front_load_washer canonical nodes and continue batch"
+  },
+  "canonicalMutationCheck": {
+    "canonicalJsonModified": false,
+    "newCanonicalNodesCreated": false,
+    "frozenHashMutationObserved": false,
+    "failureModesChecked": { "silent_canonical_promotion": { "observed": false } }
+  },
+  "frozenHashVerification": {
+    "verified": true,
+    "method": "validate_canonical_graph.py + SHA-256 spot check",
+    "ontologiesVerified": 10,
+    "allMatch": true
+  },
+  "candidateProvenanceIntegrity": {
+    "resultsArtifactWrittenByOrchestrator": true,
+    "analysisArtifactWrittenByOrchestrator": true,
+    "manualResultsEditDetected": false,
+    "p05ProvenanceSources": ["manual", "procedure", "extraction_doc", "matcher:range_seed_alias"],
+    "p05OverlayProvenanceIntact": true
+  },
+  "classifierObservations": [
+    {
+      "observation": "implementation_specific_overlay evidenceManualIds now includes SAMSUNG-NE58H-INDUCTION-RANGE (was absent in baseline)",
+      "severity": "positive_expected_change"
+    },
+    {
+      "observation": "unresolved_block lifecycle proof still lists P05 in evidenceManualIds because 8 UNRESOLVED_TERM remain — disposition is implementation_specific due to candidate mappings + overlays, not zero-unresolved",
+      "severity": "known_classifier_semantics_deferred",
+      "action": "Disposition cleanup deferred per pilot gate"
+    }
+  ],
+  "routingRegressions": [],
+  "testsPostRerun": {
+    "cgProductionNormalizationPilotTest": "11/11 PASS",
+    "cgPilotP05RangeRoutingTest": "4/4 PASS",
+    "validateCanonicalGraph": "OK"
+  },
+  "explicitlyNotDone": [
+    "Pilot closure",
+    "P08 architecture triage",
+    "Disposition classifier cleanup",
+    "70-manual batch",
+    "Matcher broadening for compound procedure titles",
+    "Any additional fixes"
+  ],
+  "nextAuthorizedGate": "P08 human architecture decision + final pilot closure analysis"
+}

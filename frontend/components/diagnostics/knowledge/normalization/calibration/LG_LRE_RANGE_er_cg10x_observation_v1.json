@@ -1,0 +1,1199 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg10_electric_range_r2_boundary_observation",
+  "experiment": "CG-10 R2 \u2014 LG LRE electric range manufacturer boundary test. Ask which functional relationships remain invariant \u2014 NOT whether LG matches Whirlpool.",
+  "workstream": "CG-10",
+  "stage": "R2_manufacturer_boundary_test",
+  "manualId": "LG-LRE-RANGE",
+  "platformId": "lg_freestanding_range",
+  "fuelFilter": "electric_range",
+  "ontologyId": "electric_range_oven_candidate",
+  "ontologyFrozen": false,
+  "freezeEligible": false,
+  "generatedAt": "2026-09-16T14:09:23.409285+00:00",
+  "metricsSource": "fresh_cg3_observation",
+  "publishBlocked": true,
+  "gateBlocked": true,
+  "canonicalPromotionBlocked": true,
+  "canonicalDirectoryMutable": false,
+  "candidateSkeletonMutable": false,
+  "crossManualInference": false,
+  "r2DecisionGate": {
+    "question": "Which functional relationships remain invariant despite LG implementation?",
+    "notAsked": "Does LG match Whirlpool?",
+    "corpusNote": "R2 is genuine cross-manufacturer (Whirlpool vs LG). R3 is same-manufacturer platform architecture probe \u2014 not a third independent manufacturer."
+  },
+  "r1Reference": {
+    "manualId": "W11746350",
+    "platformId": "whirlpool_freestanding_range",
+    "observationArtifact": "W11746350_er_cg10x_observation_v1.json",
+    "verdictHistogram": {
+      "canonical_functional": 3,
+      "needs_second_manual": 7,
+      "platform_implementation": 4,
+      "deferred": 5
+    }
+  },
+  "graphArtifacts": {
+    "cg10xCandidate": "frontend\\components\\diagnostics\\knowledge\\normalization\\calibration\\electric_range_oven_cg10x_candidate_v1.json",
+    "r1Observation": "W11746350_er_cg10x_observation_v1.json",
+    "extractionDoc": "frontend\\components\\diagnostics\\knowledge\\pattern-catalog\\LG_LRE_RANGE_EXTRACTION.md",
+    "extractedText": "backend\\docs\\manuals\\LG electric freestanding range-extracted.txt",
+    "procedureSeedDir": "frontend\\components\\diagnostics\\knowledge\\procedures\\seed\\lg_freestanding_range"
+  },
+  "pipelineCounts": {
+    "procedures": 16,
+    "mappingCandidates": 32,
+    "overlayCandidates": 5,
+    "conflicts": 0,
+    "extractionFiltered": 0
+  },
+  "normalizeRun": {
+    "manualId": "LG-LRE-RANGE",
+    "generatedAt": null
+  },
+  "conflicts": 0,
+  "mappingSummary": {
+    "total": 32,
+    "unresolved": 32
+  },
+  "componentTestIndex": {
+    "no_power": {
+      "procedureId": "lg-range-no-power",
+      "title": "No display / no power",
+      "seedComponents": [
+        "control_board"
+      ]
+    },
+    "oven_sensor": {
+      "procedureId": "lg-range-oven-sensor",
+      "title": "Main oven temperature sensor",
+      "seedComponents": [
+        "thermistor"
+      ]
+    },
+    "bake": {
+      "procedureId": "lg-range-bake-element",
+      "title": "Bake element",
+      "seedComponents": [
+        "heater"
+      ]
+    },
+    "broil": {
+      "procedureId": "lg-range-broil-element",
+      "title": "Broil element",
+      "seedComponents": [
+        "heater"
+      ]
+    },
+    "convection_element": {
+      "procedureId": "lg-range-convection-element",
+      "title": "Convection element",
+      "seedComponents": [
+        "heater"
+      ]
+    },
+    "convection_motor": {
+      "procedureId": "lg-range-convection-motor",
+      "title": "Convection fan motor",
+      "seedComponents": [
+        "fan"
+      ]
+    },
+    "door_switch": {
+      "procedureId": "lg-range-door-switch",
+      "title": "Oven door switch",
+      "seedComponents": [
+        "door_switch"
+      ]
+    },
+    "door_latch": {
+      "procedureId": "lg-range-door-latch",
+      "title": "Door latch motor & micro switch",
+      "seedComponents": [
+        "door_latch"
+      ]
+    },
+    "cooktop_single": {
+      "procedureId": "lg-range-cooktop-single",
+      "title": "Single surface elements LF/LR/RR",
+      "seedComponents": [
+        "heater"
+      ]
+    },
+    "warming_zone": {
+      "procedureId": "lg-range-warming-zone",
+      "title": "Center warming zone",
+      "seedComponents": [
+        "heater"
+      ]
+    },
+    "dual_rf": {
+      "procedureId": "lg-range-dual-rf-element",
+      "title": "Dual surface element RF",
+      "seedComponents": [
+        "heater"
+      ]
+    },
+    "warming_drawer": {
+      "procedureId": "lg-range-warming-drawer",
+      "title": "Warming drawer sensor & element",
+      "seedComponents": [
+        "heater",
+        "thermistor"
+      ]
+    },
+    "oven_lamp": {
+      "procedureId": "lg-range-oven-lamp",
+      "title": "Oven lamp",
+      "seedComponents": [
+        "lamp"
+      ]
+    }
+  },
+  "r2ConceptEvaluations": {
+    "power_supply": {
+      "conceptId": "power_supply",
+      "verdict": "canonical_functional",
+      "rationale": "\u00a76-1 no-power path and line-voltage prerequisite on LRE electric manual. LG independently treats mains supply as distinct diagnostic entry.",
+      "componentTests": [
+        "no_power"
+      ],
+      "procedureIds": [
+        "lg-range-no-power"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "no display",
+        "no power",
+        "line voltage"
+      ]
+    },
+    "control_board": {
+      "conceptId": "control_board",
+      "verdict": "canonical_functional",
+      "rationale": "Main PCB + oven relay PCB + cook-top relay PCB orchestration; F-codes route through control. Independent control functional role on LG R2.",
+      "componentTests": [
+        "no_power"
+      ],
+      "procedureIds": [
+        "lg-range-no-power"
+      ],
+      "seedComponentIds": [
+        "control_board"
+      ],
+      "manualPhraseHits": [
+        "main pcb",
+        "relay pcb",
+        "power control board"
+      ]
+    },
+    "user_interface": {
+      "conceptId": "user_interface",
+      "verdict": "canonical_functional",
+      "rationale": "Key membrane / cook-top display PCB; F-1 key short and no-key-input complaints. User command surface distinct from main PCB on LG R2.",
+      "componentTests": [],
+      "procedureIds": [
+        "lg-range-no-power"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "key membrane",
+        "no key input",
+        "f-1"
+      ]
+    },
+    "temperature_sensor": {
+      "conceptId": "temperature_sensor",
+      "verdict": "canonical_functional",
+      "rationale": "\u00a74-3 dedicated oven sensor procedure at 1.09 k\u03a9 \u00b110% with F-1/F-2/F-3/F-4/F-6 routing \u2014 LG independently treats cavity temperature feedback as a testable functional role (not merely harness vocabulary).",
+      "componentTests": [
+        "oven_sensor"
+      ],
+      "procedureIds": [
+        "lg-range-oven-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "manualPhraseHits": [
+        "oven sensor",
+        "oven temperature sensor",
+        "f-3"
+      ]
+    },
+    "oven_heating_system": {
+      "conceptId": "oven_heating_system",
+      "verdict": "reject_monolithic_aggregate",
+      "rationale": "LG \u00a74-4 provides three independent element tests (bake 14 \u03a9, broil/convection 17 \u03a9) with separate failure routing \u2014 not a single undifferentiated oven heat test. Aggregate oven_heating_system appears orchestration-only on LG R2.",
+      "componentTests": [
+        "bake",
+        "broil",
+        "convection_element"
+      ],
+      "procedureIds": [
+        "lg-range-bake-element",
+        "lg-range-broil-element",
+        "lg-range-convection-element"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "bake element",
+        "broil element",
+        "convection element"
+      ]
+    },
+    "bake_heating_element": {
+      "conceptId": "bake_heating_element",
+      "verdict": "instance_functional_role",
+      "rationale": "Dedicated \u00a74-4 bake procedure (14 \u03a9 \u00b110%) with F-9 no-heat routing \u2014 LG independently diagnoses bake as distinct testable function.",
+      "componentTests": [
+        "bake"
+      ],
+      "procedureIds": [
+        "lg-range-bake-element"
+      ],
+      "seedComponentIds": [
+        "heater"
+      ],
+      "manualPhraseHits": []
+    },
+    "broil_heating_element": {
+      "conceptId": "broil_heating_element",
+      "verdict": "instance_functional_role",
+      "rationale": "Dedicated \u00a74-4 broil procedure (17 \u03a9 \u00b110%) separate from bake \u2014 LG independently diagnoses broil as distinct testable function.",
+      "componentTests": [
+        "broil"
+      ],
+      "procedureIds": [
+        "lg-range-broil-element"
+      ],
+      "seedComponentIds": [
+        "heater"
+      ],
+      "manualPhraseHits": []
+    },
+    "convection_heating_element": {
+      "conceptId": "convection_heating_element",
+      "verdict": "instance_functional_role",
+      "rationale": "Dedicated \u00a74-4 convection element procedure (17 \u03a9) on LRE electric \u2014 LG tests convection heat path separately from bake/broil. Whirlpool R1 lacked electric convection element procedure.",
+      "componentTests": [
+        "convection_element"
+      ],
+      "procedureIds": [
+        "lg-range-convection-element"
+      ],
+      "seedComponentIds": [
+        "heater"
+      ],
+      "manualPhraseHits": [
+        "convection element",
+        "convection bake"
+      ]
+    },
+    "surface_heating_system": {
+      "conceptId": "surface_heating_system",
+      "verdict": "needs_r3_architecture_probe",
+      "rationale": "LG decomposes surface into single (46 \u03a9), dual RF (32/55 \u03a9), and warming zone (565 \u03a9) procedures \u2014 functional surface heating domain evidenced but granularity vs infinite-switch LCX (R3) still required.",
+      "componentTests": [
+        "cooktop_single",
+        "dual_rf",
+        "warming_zone"
+      ],
+      "procedureIds": [
+        "lg-range-cooktop-single",
+        "lg-range-dual-rf-element",
+        "lg-range-warming-zone"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "single surface unit",
+        "dual surface unit",
+        "warming zone"
+      ]
+    },
+    "surface_heating_element": {
+      "conceptId": "surface_heating_element",
+      "verdict": "platform_implementation",
+      "rationale": "Per-element \u03a9 procedures (LF/LR/RR/RF/CR) \u2014 physical element instances under surface heating functional domain.",
+      "componentTests": [
+        "cooktop_single",
+        "dual_rf",
+        "warming_zone"
+      ],
+      "procedureIds": [
+        "lg-range-cooktop-single",
+        "lg-range-dual-rf-element",
+        "lg-range-warming-zone"
+      ],
+      "seedComponentIds": [
+        "heater"
+      ],
+      "manualPhraseHits": []
+    },
+    "surface_control": {
+      "conceptId": "surface_control",
+      "verdict": "deferred",
+      "rationale": "LG electric uses relay PCB paths for surface elements \u2014 no infinite-switch procedure. R3 W11174426 LCX required to test surface_control as functional vs platform.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "cook-top relay",
+        "relay pcb"
+      ]
+    },
+    "oven_cavity": {
+      "conceptId": "oven_cavity",
+      "verdict": "deferred",
+      "rationale": "Cavity referenced in safety/complaint text only \u2014 no standalone cavity test on LG R2.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "interior surfaces of an oven",
+        "oven cavity"
+      ]
+    },
+    "convection_fan": {
+      "conceptId": "convection_fan",
+      "verdict": "canonical_functional",
+      "rationale": "\u00a74-1 convection fan motor procedure (33.5 \u03a9) separate from convection element \u2014 LG independently tests air circulation actuator distinct from heating element.",
+      "componentTests": [
+        "convection_motor"
+      ],
+      "procedureIds": [
+        "lg-range-convection-motor"
+      ],
+      "seedComponentIds": [
+        "fan"
+      ],
+      "manualPhraseHits": [
+        "convection motor",
+        "fan motor",
+        "fan blade"
+      ]
+    },
+    "oven_door_switch": {
+      "conceptId": "oven_door_switch",
+      "verdict": "canonical_functional",
+      "rationale": "Dedicated \u00a74-3 door switch procedure separate from latch motor \u2014 LG independently tests door authorization switch as distinct from latch actuator.",
+      "componentTests": [
+        "door_switch"
+      ],
+      "procedureIds": [
+        "lg-range-door-switch"
+      ],
+      "seedComponentIds": [
+        "door_switch"
+      ],
+      "manualPhraseHits": [
+        "door switch"
+      ]
+    },
+    "door_latch_motor": {
+      "conceptId": "door_latch_motor",
+      "verdict": "platform_implementation",
+      "rationale": "\u00a74-2 latch drive + micro switch (27 \u03a9 / 2.6 k\u03a9) \u2014 actuator implementation of self-clean lock path; distinct from door switch on LG R2.",
+      "componentTests": [
+        "door_latch"
+      ],
+      "procedureIds": [
+        "lg-range-door-latch"
+      ],
+      "seedComponentIds": [
+        "door_latch"
+      ],
+      "manualPhraseHits": [
+        "latch drive",
+        "door locking motor",
+        "f-2"
+      ]
+    },
+    "thermal_protection": {
+      "conceptId": "thermal_protection",
+      "verdict": "needs_r3_architecture_probe",
+      "rationale": "F-6 oven hot / thermal language in manual but no dedicated thermal-fuse procedure in LG electric seeds (Whirlpool R1 has thermal-fuse proc). R3 + freeze gate required.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "f-6",
+        "overheat",
+        "hot"
+      ]
+    },
+    "cooling_fan": {
+      "conceptId": "cooling_fan",
+      "verdict": "needs_r3_architecture_probe",
+      "rationale": "LG separates convection motor (\u00a74-1) from element; no explicit electronics cooling fan procedure. Whirlpool R1 combined vent/convection fan \u2014 fan-role split unresolved.",
+      "componentTests": [
+        "convection_motor"
+      ],
+      "procedureIds": [
+        "lg-range-convection-motor"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": []
+    },
+    "oven_lamp": {
+      "conceptId": "oven_lamp",
+      "verdict": "platform_implementation",
+      "rationale": "\u00a74-5 oven lamp \u22645 \u03a9 procedure \u2014 accessory with independent test on LG R2.",
+      "componentTests": [
+        "oven_lamp"
+      ],
+      "procedureIds": [
+        "lg-range-oven-lamp"
+      ],
+      "seedComponentIds": [
+        "lamp"
+      ],
+      "manualPhraseHits": []
+    },
+    "warming_drawer": {
+      "conceptId": "warming_drawer",
+      "verdict": "needs_second_manual",
+      "rationale": "Optional warming drawer sensor (4.6 k\u03a9) + element (95 \u03a9) on LRE30755 \u2014 feature-domain evidence; freeze as conditional optional pending R3.",
+      "componentTests": [
+        "warming_drawer"
+      ],
+      "procedureIds": [
+        "lg-range-warming-drawer"
+      ],
+      "seedComponentIds": [
+        "heater",
+        "thermistor"
+      ],
+      "manualPhraseHits": [
+        "warming drawer"
+      ]
+    }
+  },
+  "r2VerdictHistogram": {
+    "canonical_functional": 6,
+    "reject_monolithic_aggregate": 1,
+    "instance_functional_role": 3,
+    "needs_r3_architecture_probe": 3,
+    "platform_implementation": 3,
+    "deferred": 2,
+    "needs_second_manual": 1
+  },
+  "boundaryEvaluations": {
+    "power_supply": {
+      "conceptId": "power_supply",
+      "r1Status": "canonical_functional",
+      "r2Status": "canonical_functional",
+      "candidateDisposition": "keep_canonical_candidate",
+      "crossManufacturerResult": "invariant_functional_posture",
+      "invariantFunctionalRelationship": true,
+      "r2Evidence": {
+        "conceptId": "power_supply",
+        "verdict": "canonical_functional",
+        "rationale": "\u00a76-1 no-power path and line-voltage prerequisite on LRE electric manual. LG independently treats mains supply as distinct diagnostic entry.",
+        "componentTests": [
+          "no_power"
+        ],
+        "procedureIds": [
+          "lg-range-no-power"
+        ],
+        "seedComponentIds": [],
+        "manualPhraseHits": [
+          "no display",
+          "no power",
+          "line voltage"
+        ]
+      },
+      "r1Rationale": "120/240 VAC supply checks are prerequisite on every diagnostic path (pre-service + ACU power). Functional power input distinct from control orchestration on R1.",
+      "watchpoint": false
+    },
+    "control_board": {
+      "conceptId": "control_board",
+      "r1Status": "canonical_functional",
+      "r2Status": "canonical_functional",
+      "candidateDisposition": "keep_canonical_candidate",
+      "crossManufacturerResult": "invariant_functional_posture",
+      "invariantFunctionalRelationship": true,
+      "r2Evidence": {
+        "conceptId": "control_board",
+        "verdict": "canonical_functional",
+        "rationale": "Main PCB + oven relay PCB + cook-top relay PCB orchestration; F-codes route through control. Independent control functional role on LG R2.",
+        "componentTests": [
+          "no_power"
+        ],
+        "procedureIds": [
+          "lg-range-no-power"
+        ],
+        "seedComponentIds": [
+          "control_board"
+        ],
+        "manualPhraseHits": [
+          "main pcb",
+          "relay pcb",
+          "power control board"
+        ]
+      },
+      "r1Rationale": "Copernicus ACU orchestrates component activation, relay drive, F1E1/F6E1 comm faults, and service diagnostics entry. Independent control functional role on R1.",
+      "watchpoint": false
+    },
+    "user_interface": {
+      "conceptId": "user_interface",
+      "r1Status": "canonical_functional",
+      "r2Status": "canonical_functional",
+      "candidateDisposition": "keep_canonical_candidate",
+      "crossManufacturerResult": "invariant_functional_posture",
+      "invariantFunctionalRelationship": true,
+      "r2Evidence": {
+        "conceptId": "user_interface",
+        "verdict": "canonical_functional",
+        "rationale": "Key membrane / cook-top display PCB; F-1 key short and no-key-input complaints. User command surface distinct from main PCB on LG R2.",
+        "componentTests": [],
+        "procedureIds": [
+          "lg-range-no-power"
+        ],
+        "seedComponentIds": [],
+        "manualPhraseHits": [
+          "key membrane",
+          "no key input",
+          "f-1"
+        ]
+      },
+      "r1Rationale": "Touch HMI with service diagnostics entry (111111111), stuck-key F2E1/F2E2, and P3 12 VDC feed. User command surface distinct from ACU on R1.",
+      "watchpoint": false
+    },
+    "temperature_sensor": {
+      "conceptId": "temperature_sensor",
+      "r1Status": "needs_second_manual",
+      "r2Status": "canonical_functional",
+      "candidateDisposition": "keep_canonical_candidate",
+      "crossManufacturerResult": "invariant_temperature_feedback_role",
+      "invariantFunctionalRelationship": true,
+      "r2Evidence": {
+        "conceptId": "temperature_sensor",
+        "verdict": "canonical_functional",
+        "rationale": "\u00a74-3 dedicated oven sensor procedure at 1.09 k\u03a9 \u00b110% with F-1/F-2/F-3/F-4/F-6 routing \u2014 LG independently treats cavity temperature feedback as a testable functional role (not merely harness vocabulary).",
+        "componentTests": [
+          "oven_sensor"
+        ],
+        "procedureIds": [
+          "lg-range-oven-sensor"
+        ],
+        "seedComponentIds": [
+          "thermistor"
+        ],
+        "manualPhraseHits": [
+          "oven sensor",
+          "oven temperature sensor",
+          "f-3"
+        ]
+      },
+      "r1Rationale": "Main oven RTD 1000\u20131200 \u03a9 with dedicated F3E0 procedure. Functional temperature feedback evidenced but single-sensor scope \u2014 R2 LG must confirm cross-manufacturer abstraction.",
+      "watchpoint": true
+    },
+    "oven_heating_system": {
+      "conceptId": "oven_heating_system",
+      "r1Status": "needs_second_manual",
+      "r2Status": "reject_monolithic_aggregate",
+      "candidateDisposition": "reject_aggregate_use_instance_scopes",
+      "crossManufacturerResult": "invariant_rejects_monolithic_aggregate",
+      "invariantFunctionalRelationship": true,
+      "r2Evidence": {
+        "conceptId": "oven_heating_system",
+        "verdict": "reject_monolithic_aggregate",
+        "rationale": "LG \u00a74-4 provides three independent element tests (bake 14 \u03a9, broil/convection 17 \u03a9) with separate failure routing \u2014 not a single undifferentiated oven heat test. Aggregate oven_heating_system appears orchestration-only on LG R2.",
+        "componentTests": [
+          "bake",
+          "broil",
+          "convection_element"
+        ],
+        "procedureIds": [
+          "lg-range-bake-element",
+          "lg-range-broil-element",
+          "lg-range-convection-element"
+        ],
+        "seedComponentIds": [],
+        "manualPhraseHits": [
+          "bake element",
+          "broil element",
+          "convection element"
+        ]
+      },
+      "r1Rationale": "Manual decomposes oven heat into separate bake (FEE6) and broil (FEE7) element tests with distinct \u03a9 specs \u2014 aggregate may be orchestration-only. R2/R3 must decide bake/broil instance semantics vs separate canonical nodes.",
+      "watchpoint": true
+    },
+    "bake_heating_element": {
+      "conceptId": "bake_heating_element",
+      "r1Status": "platform_implementation",
+      "r2Status": "instance_functional_role",
+      "candidateDisposition": "promote_instance_scopes_not_separate_canonical_nodes",
+      "crossManufacturerResult": "invariant_independent_element_decomposition",
+      "invariantFunctionalRelationship": true,
+      "r2Evidence": {
+        "conceptId": "bake_heating_element",
+        "verdict": "instance_functional_role",
+        "rationale": "Dedicated \u00a74-4 bake procedure (14 \u03a9 \u00b110%) with F-9 no-heat routing \u2014 LG independently diagnoses bake as distinct testable function.",
+        "componentTests": [
+          "bake"
+        ],
+        "procedureIds": [
+          "lg-range-bake-element"
+        ],
+        "seedComponentIds": [
+          "heater"
+        ],
+        "manualPhraseHits": []
+      },
+      "r1Rationale": "Hidden bake 23.3 \u03a9 P4 with FEE6 \u2014 strong instance-level procedure evidence. Likely instance of oven_heating_system rather than independent canonical node pending R2/R3.",
+      "watchpoint": true
+    },
+    "broil_heating_element": {
+      "conceptId": "broil_heating_element",
+      "r1Status": "platform_implementation",
+      "r2Status": "instance_functional_role",
+      "candidateDisposition": "promote_instance_scopes_not_separate_canonical_nodes",
+      "crossManufacturerResult": "invariant_independent_element_decomposition",
+      "invariantFunctionalRelationship": true,
+      "r2Evidence": {
+        "conceptId": "broil_heating_element",
+        "verdict": "instance_functional_role",
+        "rationale": "Dedicated \u00a74-4 broil procedure (17 \u03a9 \u00b110%) separate from bake \u2014 LG independently diagnoses broil as distinct testable function.",
+        "componentTests": [
+          "broil"
+        ],
+        "procedureIds": [
+          "lg-range-broil-element"
+        ],
+        "seedComponentIds": [
+          "heater"
+        ],
+        "manualPhraseHits": []
+      },
+      "r1Rationale": "Broil 10\u201340 \u03a9 P80 with FEE7 \u2014 separate procedure from bake. Supports instance decomposition hypothesis; canonical promotion deferred.",
+      "watchpoint": true
+    },
+    "convection_heating_element": {
+      "conceptId": "convection_heating_element",
+      "r1Status": "deferred",
+      "r2Status": "instance_functional_role",
+      "candidateDisposition": "promote_instance_scopes_not_separate_canonical_nodes",
+      "crossManufacturerResult": "r2_expands_electric_convection_evidence",
+      "invariantFunctionalRelationship": false,
+      "r2Evidence": {
+        "conceptId": "convection_heating_element",
+        "verdict": "instance_functional_role",
+        "rationale": "Dedicated \u00a74-4 convection element procedure (17 \u03a9) on LRE electric \u2014 LG tests convection heat path separately from bake/broil. Whirlpool R1 lacked electric convection element procedure.",
+        "componentTests": [
+          "convection_element"
+        ],
+        "procedureIds": [
+          "lg-range-convection-element"
+        ],
+        "seedComponentIds": [
+          "heater"
+        ],
+        "manualPhraseHits": [
+          "convection element",
+          "convection bake"
+        ]
+      },
+      "r1Rationale": "W11746350 convect-element procedure is gas_range templateIds only. Electric convection on this manual is fan-mediated (F7E5/F7E6) \u2014 element path not evidenced for electric R1.",
+      "watchpoint": true
+    },
+    "surface_heating_system": {
+      "conceptId": "surface_heating_system",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_r3_architecture_probe",
+      "candidateDisposition": "defer_pending_r3",
+      "crossManufacturerResult": "implementation_granularity_divergence",
+      "invariantFunctionalRelationship": false,
+      "r2Evidence": {
+        "conceptId": "surface_heating_system",
+        "verdict": "needs_r3_architecture_probe",
+        "rationale": "LG decomposes surface into single (46 \u03a9), dual RF (32/55 \u03a9), and warming zone (565 \u03a9) procedures \u2014 functional surface heating domain evidenced but granularity vs infinite-switch LCX (R3) still required.",
+        "componentTests": [
+          "cooktop_single",
+          "dual_rf",
+          "warming_zone"
+        ],
+        "procedureIds": [
+          "lg-range-cooktop-single",
+          "lg-range-dual-rf-element",
+          "lg-range-warming-zone"
+        ],
+        "seedComponentIds": [],
+        "manualPhraseHits": [
+          "single surface unit",
+          "dual surface unit",
+          "warming zone"
+        ]
+      },
+      "r1Rationale": "Bridge/single/warming surface element \u03a9 procedures exist but cooktop control is ACU-relay mediated on Copernicus. surface_heating_system vs per-element canonical split needs LG + LCX infinite-switch contrast (R2/R3).",
+      "watchpoint": true
+    },
+    "surface_heating_element": {
+      "conceptId": "surface_heating_element",
+      "r1Status": "platform_implementation",
+      "r2Status": "platform_implementation",
+      "candidateDisposition": "platform_implementation",
+      "crossManufacturerResult": "review_at_r3",
+      "invariantFunctionalRelationship": false,
+      "r2Evidence": {
+        "conceptId": "surface_heating_element",
+        "verdict": "platform_implementation",
+        "rationale": "Per-element \u03a9 procedures (LF/LR/RR/RF/CR) \u2014 physical element instances under surface heating functional domain.",
+        "componentTests": [
+          "cooktop_single",
+          "dual_rf",
+          "warming_zone"
+        ],
+        "procedureIds": [
+          "lg-range-cooktop-single",
+          "lg-range-dual-rf-element",
+          "lg-range-warming-zone"
+        ],
+        "seedComponentIds": [
+          "heater"
+        ],
+        "manualPhraseHits": []
+      },
+      "r1Rationale": "Bridge element procedure with distinct \u03a9 \u2014 physical element instance. Diagnostic routing through ACU relays \u2014 platform implementation candidate.",
+      "watchpoint": true
+    },
+    "surface_control": {
+      "conceptId": "surface_control",
+      "r1Status": "deferred",
+      "r2Status": "deferred",
+      "candidateDisposition": "defer",
+      "crossManufacturerResult": "invariant_functional_posture",
+      "invariantFunctionalRelationship": true,
+      "r2Evidence": {
+        "conceptId": "surface_control",
+        "verdict": "deferred",
+        "rationale": "LG electric uses relay PCB paths for surface elements \u2014 no infinite-switch procedure. R3 W11174426 LCX required to test surface_control as functional vs platform.",
+        "componentTests": [],
+        "procedureIds": [],
+        "seedComponentIds": [],
+        "manualPhraseHits": [
+          "cook-top relay",
+          "relay pcb"
+        ]
+      },
+      "r1Rationale": "Copernicus uses ACU relay drive for surface elements \u2014 no infinite-switch procedure on W11746350. LCX manual (R3) required to test surface_control as functional vs platform.",
+      "watchpoint": true
+    },
+    "oven_cavity": {
+      "conceptId": "oven_cavity",
+      "r1Status": "deferred",
+      "r2Status": "deferred",
+      "candidateDisposition": "defer",
+      "crossManufacturerResult": "invariant_functional_posture",
+      "invariantFunctionalRelationship": true,
+      "r2Evidence": {
+        "conceptId": "oven_cavity",
+        "verdict": "deferred",
+        "rationale": "Cavity referenced in safety/complaint text only \u2014 no standalone cavity test on LG R2.",
+        "componentTests": [],
+        "procedureIds": [],
+        "seedComponentIds": [],
+        "manualPhraseHits": [
+          "interior surfaces of an oven",
+          "oven cavity"
+        ]
+      },
+      "r1Rationale": "Cavity referenced in complaint routing but no standalone cavity test \u2014 likely routing vocabulary only unless R2/R3 show independent diagnostic role.",
+      "watchpoint": false
+    },
+    "convection_fan": {
+      "conceptId": "convection_fan",
+      "r1Status": "needs_second_manual",
+      "r2Status": "canonical_functional",
+      "candidateDisposition": "keep_canonical_candidate",
+      "crossManufacturerResult": "invariant_convection_fan_role",
+      "invariantFunctionalRelationship": true,
+      "r2Evidence": {
+        "conceptId": "convection_fan",
+        "verdict": "canonical_functional",
+        "rationale": "\u00a74-1 convection fan motor procedure (33.5 \u03a9) separate from convection element \u2014 LG independently tests air circulation actuator distinct from heating element.",
+        "componentTests": [
+          "convection_motor"
+        ],
+        "procedureIds": [
+          "lg-range-convection-motor"
+        ],
+        "seedComponentIds": [
+          "fan"
+        ],
+        "manualPhraseHits": [
+          "convection motor",
+          "fan motor",
+          "fan blade"
+        ]
+      },
+      "r1Rationale": "Vent/convection fan 85 \u03a9 + 12 VDC P6 with F7E5/F7E6. Functional air circulation evidenced but relationship to oven heating mode needs cross-manufacturer confirmation.",
+      "watchpoint": true
+    },
+    "oven_door_switch": {
+      "conceptId": "oven_door_switch",
+      "r1Status": "needs_second_manual",
+      "r2Status": "canonical_functional",
+      "candidateDisposition": "keep_canonical_candidate",
+      "crossManufacturerResult": "r2_expands_door_switch_procedure_evidence",
+      "invariantFunctionalRelationship": false,
+      "r2Evidence": {
+        "conceptId": "oven_door_switch",
+        "verdict": "canonical_functional",
+        "rationale": "Dedicated \u00a74-3 door switch procedure separate from latch motor \u2014 LG independently tests door authorization switch as distinct from latch actuator.",
+        "componentTests": [
+          "door_switch"
+        ],
+        "procedureIds": [
+          "lg-range-door-switch"
+        ],
+        "seedComponentIds": [
+          "door_switch"
+        ],
+        "manualPhraseHits": [
+          "door switch"
+        ]
+      },
+      "r1Rationale": "F5E0/F5E1 door/latch switch disagree codes reference switch logic but primary procedure targets latch motor \u03a9. door_switch vs latch motor functional split needs R2/R3.",
+      "watchpoint": true
+    },
+    "door_latch_motor": {
+      "conceptId": "door_latch_motor",
+      "r1Status": "platform_implementation",
+      "r2Status": "platform_implementation",
+      "candidateDisposition": "platform_implementation",
+      "crossManufacturerResult": "review_at_r3",
+      "invariantFunctionalRelationship": false,
+      "r2Evidence": {
+        "conceptId": "door_latch_motor",
+        "verdict": "platform_implementation",
+        "rationale": "\u00a74-2 latch drive + micro switch (27 \u03a9 / 2.6 k\u03a9) \u2014 actuator implementation of self-clean lock path; distinct from door switch on LG R2.",
+        "componentTests": [
+          "door_latch"
+        ],
+        "procedureIds": [
+          "lg-range-door-latch"
+        ],
+        "seedComponentIds": [
+          "door_latch"
+        ],
+        "manualPhraseHits": [
+          "latch drive",
+          "door locking motor",
+          "f-2"
+        ]
+      },
+      "r1Rationale": "Self-clean latch motor 500\u20133000 \u03a9 P8 \u2014 actuator implementation of door authorization. Platform layer unless R2/R3 elevate latch to canonical functional node.",
+      "watchpoint": false
+    },
+    "thermal_protection": {
+      "conceptId": "thermal_protection",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_r3_architecture_probe",
+      "candidateDisposition": "defer_pending_r3",
+      "crossManufacturerResult": "unresolved_pending_r3",
+      "invariantFunctionalRelationship": false,
+      "r2Evidence": {
+        "conceptId": "thermal_protection",
+        "verdict": "needs_r3_architecture_probe",
+        "rationale": "F-6 oven hot / thermal language in manual but no dedicated thermal-fuse procedure in LG electric seeds (Whirlpool R1 has thermal-fuse proc). R3 + freeze gate required.",
+        "componentTests": [],
+        "procedureIds": [],
+        "seedComponentIds": [],
+        "manualPhraseHits": [
+          "f-6",
+          "overheat",
+          "hot"
+        ]
+      },
+      "r1Rationale": "Thermal fuse / hi-limit continuity procedure exists for overheat complaints. Functional safety role evidenced but fuse vs hi-limit vs cutout naming varies by platform \u2014 R2/R3.",
+      "watchpoint": true
+    },
+    "cooling_fan": {
+      "conceptId": "cooling_fan",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_r3_architecture_probe",
+      "candidateDisposition": "defer_pending_r3",
+      "crossManufacturerResult": "unresolved_pending_r3",
+      "invariantFunctionalRelationship": false,
+      "r2Evidence": {
+        "conceptId": "cooling_fan",
+        "verdict": "needs_r3_architecture_probe",
+        "rationale": "LG separates convection motor (\u00a74-1) from element; no explicit electronics cooling fan procedure. Whirlpool R1 combined vent/convection fan \u2014 fan-role split unresolved.",
+        "componentTests": [
+          "convection_motor"
+        ],
+        "procedureIds": [
+          "lg-range-convection-motor"
+        ],
+        "seedComponentIds": [],
+        "manualPhraseHits": []
+      },
+      "r1Rationale": "Vent fan procedure may serve convection and/or electronics cooling \u2014 same motor on R1. Must determine if cooling_fan and convection_fan are one functional role or two.",
+      "watchpoint": true
+    },
+    "oven_lamp": {
+      "conceptId": "oven_lamp",
+      "r1Status": "deferred",
+      "r2Status": "platform_implementation",
+      "candidateDisposition": "platform_implementation",
+      "crossManufacturerResult": "review_at_r3",
+      "invariantFunctionalRelationship": false,
+      "r2Evidence": {
+        "conceptId": "oven_lamp",
+        "verdict": "platform_implementation",
+        "rationale": "\u00a74-5 oven lamp \u22645 \u03a9 procedure \u2014 accessory with independent test on LG R2.",
+        "componentTests": [
+          "oven_lamp"
+        ],
+        "procedureIds": [
+          "lg-range-oven-lamp"
+        ],
+        "seedComponentIds": [
+          "lamp"
+        ],
+        "manualPhraseHits": []
+      },
+      "r1Rationale": "No oven lamp procedure on W11746350 electric seeds \u2014 deferred until multi-manual evidence.",
+      "watchpoint": false
+    },
+    "warming_drawer": {
+      "conceptId": "warming_drawer",
+      "r1Status": "deferred",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "crossManufacturerResult": "review_at_r3",
+      "invariantFunctionalRelationship": false,
+      "r2Evidence": {
+        "conceptId": "warming_drawer",
+        "verdict": "needs_second_manual",
+        "rationale": "Optional warming drawer sensor (4.6 k\u03a9) + element (95 \u03a9) on LRE30755 \u2014 feature-domain evidence; freeze as conditional optional pending R3.",
+        "componentTests": [
+          "warming_drawer"
+        ],
+        "procedureIds": [
+          "lg-range-warming-drawer"
+        ],
+        "seedComponentIds": [
+          "heater",
+          "thermistor"
+        ],
+        "manualPhraseHits": [
+          "warming drawer"
+        ]
+      },
+      "r1Rationale": "Warming drawer not in W11746350 procedure catalog \u2014 deferred.",
+      "watchpoint": false
+    }
+  },
+  "r2WatchpointSummary": [
+    {
+      "conceptId": "temperature_sensor",
+      "invariantFunctionalRelationship": true,
+      "crossManufacturerResult": "invariant_temperature_feedback_role",
+      "candidateDisposition": "keep_canonical_candidate",
+      "r1Status": "needs_second_manual",
+      "r2Status": "canonical_functional"
+    },
+    {
+      "conceptId": "cooling_fan",
+      "invariantFunctionalRelationship": false,
+      "crossManufacturerResult": "unresolved_pending_r3",
+      "candidateDisposition": "defer_pending_r3",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_r3_architecture_probe"
+    },
+    {
+      "conceptId": "broil_heating_element",
+      "invariantFunctionalRelationship": true,
+      "crossManufacturerResult": "invariant_independent_element_decomposition",
+      "candidateDisposition": "promote_instance_scopes_not_separate_canonical_nodes",
+      "r1Status": "platform_implementation",
+      "r2Status": "instance_functional_role"
+    },
+    {
+      "conceptId": "surface_control",
+      "invariantFunctionalRelationship": true,
+      "crossManufacturerResult": "invariant_functional_posture",
+      "candidateDisposition": "defer",
+      "r1Status": "deferred",
+      "r2Status": "deferred"
+    },
+    {
+      "conceptId": "oven_heating_system",
+      "invariantFunctionalRelationship": true,
+      "crossManufacturerResult": "invariant_rejects_monolithic_aggregate",
+      "candidateDisposition": "reject_aggregate_use_instance_scopes",
+      "r1Status": "needs_second_manual",
+      "r2Status": "reject_monolithic_aggregate"
+    },
+    {
+      "conceptId": "surface_heating_system",
+      "invariantFunctionalRelationship": false,
+      "crossManufacturerResult": "implementation_granularity_divergence",
+      "candidateDisposition": "defer_pending_r3",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_r3_architecture_probe"
+    },
+    {
+      "conceptId": "surface_heating_element",
+      "invariantFunctionalRelationship": false,
+      "crossManufacturerResult": "review_at_r3",
+      "candidateDisposition": "platform_implementation",
+      "r1Status": "platform_implementation",
+      "r2Status": "platform_implementation"
+    },
+    {
+      "conceptId": "bake_heating_element",
+      "invariantFunctionalRelationship": true,
+      "crossManufacturerResult": "invariant_independent_element_decomposition",
+      "candidateDisposition": "promote_instance_scopes_not_separate_canonical_nodes",
+      "r1Status": "platform_implementation",
+      "r2Status": "instance_functional_role"
+    },
+    {
+      "conceptId": "oven_door_switch",
+      "invariantFunctionalRelationship": false,
+      "crossManufacturerResult": "r2_expands_door_switch_procedure_evidence",
+      "candidateDisposition": "keep_canonical_candidate",
+      "r1Status": "needs_second_manual",
+      "r2Status": "canonical_functional"
+    },
+    {
+      "conceptId": "convection_heating_element",
+      "invariantFunctionalRelationship": false,
+      "crossManufacturerResult": "r2_expands_electric_convection_evidence",
+      "candidateDisposition": "promote_instance_scopes_not_separate_canonical_nodes",
+      "r1Status": "deferred",
+      "r2Status": "instance_functional_role"
+    },
+    {
+      "conceptId": "convection_fan",
+      "invariantFunctionalRelationship": true,
+      "crossManufacturerResult": "invariant_convection_fan_role",
+      "candidateDisposition": "keep_canonical_candidate",
+      "r1Status": "needs_second_manual",
+      "r2Status": "canonical_functional"
+    },
+    {
+      "conceptId": "thermal_protection",
+      "invariantFunctionalRelationship": false,
+      "crossManufacturerResult": "unresolved_pending_r3",
+      "candidateDisposition": "defer_pending_r3",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_r3_architecture_probe"
+    }
+  ],
+  "dispositionDeltas": [
+    {
+      "conceptId": "temperature_sensor",
+      "r1Status": "needs_second_manual",
+      "r2Status": "canonical_functional",
+      "candidateDisposition": "keep_canonical_candidate"
+    },
+    {
+      "conceptId": "oven_heating_system",
+      "r1Status": "needs_second_manual",
+      "r2Status": "reject_monolithic_aggregate",
+      "candidateDisposition": "reject_aggregate_use_instance_scopes"
+    },
+    {
+      "conceptId": "bake_heating_element",
+      "r1Status": "platform_implementation",
+      "r2Status": "instance_functional_role",
+      "candidateDisposition": "promote_instance_scopes_not_separate_canonical_nodes"
+    },
+    {
+      "conceptId": "broil_heating_element",
+      "r1Status": "platform_implementation",
+      "r2Status": "instance_functional_role",
+      "candidateDisposition": "promote_instance_scopes_not_separate_canonical_nodes"
+    },
+    {
+      "conceptId": "convection_heating_element",
+      "r1Status": "deferred",
+      "r2Status": "instance_functional_role",
+      "candidateDisposition": "promote_instance_scopes_not_separate_canonical_nodes"
+    },
+    {
+      "conceptId": "surface_heating_system",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_r3_architecture_probe",
+      "candidateDisposition": "defer_pending_r3"
+    },
+    {
+      "conceptId": "convection_fan",
+      "r1Status": "needs_second_manual",
+      "r2Status": "canonical_functional",
+      "candidateDisposition": "keep_canonical_candidate"
+    },
+    {
+      "conceptId": "oven_door_switch",
+      "r1Status": "needs_second_manual",
+      "r2Status": "canonical_functional",
+      "candidateDisposition": "keep_canonical_candidate"
+    },
+    {
+      "conceptId": "thermal_protection",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_r3_architecture_probe",
+      "candidateDisposition": "defer_pending_r3"
+    },
+    {
+      "conceptId": "cooling_fan",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_r3_architecture_probe",
+      "candidateDisposition": "defer_pending_r3"
+    },
+    {
+      "conceptId": "oven_lamp",
+      "r1Status": "deferred",
+      "r2Status": "platform_implementation",
+      "candidateDisposition": "platform_implementation"
+    },
+    {
+      "conceptId": "warming_drawer",
+      "r1Status": "deferred",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual"
+    }
+  ],
+  "candidateDispositionHistogram": {
+    "keep_canonical_candidate": 6,
+    "reject_aggregate_use_instance_scopes": 1,
+    "promote_instance_scopes_not_separate_canonical_nodes": 3,
+    "defer_pending_r3": 3,
+    "platform_implementation": 3,
+    "defer": 2,
+    "needs_second_manual": 1
+  },
+  "crossManufacturerResultHistogram": {
+    "invariant_functional_posture": 5,
+    "invariant_temperature_feedback_role": 1,
+    "invariant_rejects_monolithic_aggregate": 1,
+    "invariant_independent_element_decomposition": 2,
+    "r2_expands_electric_convection_evidence": 1,
+    "implementation_granularity_divergence": 1,
+    "review_at_r3": 4,
+    "invariant_convection_fan_role": 1,
+    "r2_expands_door_switch_procedure_evidence": 1,
+    "unresolved_pending_r3": 2
+  },
+  "invariantRelationshipCount": 10,
+  "recommendation": {
+    "freezeCandidateNow": false,
+    "rationale": "R2 LG independently decomposes bake/broil/convection elements and separates convection fan from elements \u2014 strengthening reject_monolithic_aggregate for oven_heating_system. Surface architecture and thermal_protection remain unresolved. Run R3 W11174426 LCX infinite-switch falsification before freeze recommendation.",
+    "nextManual": "W11174426",
+    "nextStage": "R3_platform_architecture_falsification_probe"
+  },
+  "pipelineDiscipline": {
+    "r2Constraints": [
+      "LG-LRE-RANGE electric procedures only",
+      "no candidate skeleton mutation",
+      "no canonical/ mutation",
+      "invariant-relationship framing \u2014 not match scoring"
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_target_compounding",
+  "workstream": "CG-MICROWAVE-COMPOUNDING",
+  "sequence": 1,
+  "targetId": "lg_lmhm2237_otr",
+  "status": "closed",
+  "verdict": "GREEN / LG_COMPOUNDING_COMPLETE",
+  "compoundedAt": "2026-09-17T11:45:00+00:00",
+  "parentWorkstream": "CG_MICROWAVE_COMPOUNDING_v1.json",
+  "normalizationSource": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+  "metadataGovernanceClosure": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+  "gateSequence": [
+    "LG normalization approved",
+    "metadata governance Branch A closed",
+    "LG compounding",
+    "overlay integrity/provenance audit",
+    "regression",
+    "STOP",
+    "Samsung ME11 compounding (blocked until LG audit green)"
+  ],
+  "deliverables": {
+    "overlayFile": "canonical/manufacturer_overlays/lg_microwave_otr.json",
+    "gateTable": "LG_LMHM2237_MICROWAVE_overlay_mapping_table_v1.json",
+    "compoundingEvidence": "LG_LMHM2237_MICROWAVE_CG_MICROWAVE_COMPOUNDING_EVIDENCE_v1.json",
+    "compoundingObservation": "LG_LMHM2237_MICROWAVE_cg_microwave_compounding_observation_v1.json",
+    "auditArtifact": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_AUDIT_v1.json"
+  },
+  "rollup": {
+    "proceduresBound": 12,
+    "measurementsBound": 12,
+    "decisionBranchesExecutable": 12,
+    "functionalRealizations": 13,
+    "canonicalExpansion": 0,
+    "microwaveRev1HashUnchanged": true,
+    "staleMagnetronRealizesNotPropagated": true
+  },
+  "exitCriteria": {
+    "overlayPublished": true,
+    "provenanceAuditGreen": true,
+    "compoundingRegressionGreen": true,
+    "canonicalGraphUnchanged": true,
+    "closureArtifact": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_AUDIT_v1.json"
+  },
+  "nextDisciplinedStep": "STOP — Samsung ME11 sequence 2 authorized"
+}

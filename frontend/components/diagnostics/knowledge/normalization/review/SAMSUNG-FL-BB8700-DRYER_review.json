@@ -1,0 +1,2278 @@
+{
+  "manualId": "SAMSUNG-FL-BB8700-DRYER",
+  "platformId": "samsung_fl_dryer_bb8700",
+  "templateId": "electric_dryer",
+  "ontologyId": "vented_dryer",
+  "materializedAt": "2026-09-14T05:25:30.603134+00:00",
+  "records": [
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-belt_switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "belt_switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "belt",
+          "actuator": "switch"
+        },
+        "summary": "alias: belt_switch \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-belt-cutoff",
+        "pages": [
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "belt_switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-belt-cutoff",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-belt-cutoff",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "belt",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-belt-cut-off-switch",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-6: Belt cut-off switch",
+      "extractedTerm": "Belt cut-off switch",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "belt cut off",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a74-6: Belt cut-off switch \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-belt-cutoff",
+        "pages": [
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-6: Belt cut-off switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-belt-cutoff",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-belt-cutoff",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "belt cut off",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.484122+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-door_switch-door_switch",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "door_switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_switch",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: door_switch \u2192 door_switch"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-door-switch",
+        "pages": [
+          35,
+          40
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_switch": "door_switch"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-door-switch",
+        "pages": [
+          35,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-door-switch",
+            "pages": [
+              35,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-/-\u00a74-6:-door-switch-(dc,-df)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1 / \u00a74-6: Door switch (dC, dF)",
+      "extractedTerm": "/ \u00a74-6: Door switch (dC, dF)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "4 6 door",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a74-1 / \u00a74-6: Door switch (dC, dF) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-door-switch",
+        "pages": [
+          35,
+          40
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1 / \u00a74-6: Door switch (dC, dF)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-door-switch",
+        "pages": [
+          35,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-door-switch",
+            "pages": [
+              35,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "4 6 door",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.473120+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-flame_sensor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "flame_sensor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "flame",
+          "actuator": "sensor"
+        },
+        "summary": "alias: flame_sensor \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-flame-sensor",
+        "pages": [
+          41,
+          42
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "flame_sensor": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-flame-sensor",
+        "pages": [
+          41,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-gas-flame-sensor",
+            "pages": [
+              41,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "flame",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.351623+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-BB8700-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-radiant-flame-sensor-(10rs)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-6: Radiant flame sensor (10RS)",
+      "extractedTerm": "Radiant flame sensor (10RS)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "radiant flame",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-6: Radiant flame sensor (10RS) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-flame-sensor",
+        "pages": [
+          41,
+          42
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-6: Radiant flame sensor (10RS)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-flame-sensor",
+        "pages": [
+          41,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-gas-flame-sensor",
+            "pages": [
+              41,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "radiant flame",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.564704+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-samsung-fl-bb8700-dryer-unresolved-samsungbb8700-dryer-gas-ignitor-igniter",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "igniter",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: igniter \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-ignitor",
+        "pages": [
+          42
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "igniter": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-ignitor",
+        "pages": [
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-gas-ignitor",
+            "pages": [
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-gas-igniter-(101d)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-6: Gas igniter (101D)",
+      "extractedTerm": "Gas igniter (101D)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "gas",
+          "component": null,
+          "actuator": "igniter"
+        },
+        "summary": "alias: \u00a74-6: Gas igniter (101D) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-ignitor",
+        "pages": [
+          42
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-6: Gas igniter (101D)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-ignitor",
+        "pages": [
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-gas-ignitor",
+            "pages": [
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "igniter"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.518121+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-gas_valve",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "gas_valve",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "gas",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: gas_valve \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-valve",
+        "pages": [
+          42
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "gas_valve": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-valve",
+        "pages": [
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-gas-valve",
+            "pages": [
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.363621+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-BB8700-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-gas-valve-coils-(25m01a)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-6: Gas valve coils (25M01A)",
+      "extractedTerm": "Gas valve coils (25M01A)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "gas",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: \u00a74-6: Gas valve coils (25M01A) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-valve",
+        "pages": [
+          42
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-6: Gas valve coils (25M01A)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-valve",
+        "pages": [
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-gas-valve",
+            "pages": [
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.530620+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-heating_element-heat_source",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "heating_element",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heating_element \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-heater-electric",
+        "pages": [
+          40,
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heating_element": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-heater-electric",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-heater-electric",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-electric-heater-(5300-w)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-6: Electric heater (5300 W)",
+      "extractedTerm": "Electric heater (5300 W)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "electric",
+          "component": null,
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a74-6: Electric heater (5300 W) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-heater-electric",
+        "pages": [
+          40,
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-6: Electric heater (5300 W)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-heater-electric",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-heater-electric",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "electric",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.506621+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-user_interface",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "user_interface",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "hmi_control",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: user_interface \u2192 hmi_control"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-hmi",
+        "pages": [
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "user_interface": "hmi_control"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-hmi",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-hmi",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.427620+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-BB8700-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-display-/-buttons-(bc2)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Display / buttons (bC2)",
+      "extractedTerm": "Display / buttons (bC2)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1: Display / buttons (bC2) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-hmi",
+        "pages": [
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Display / buttons (bC2)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-hmi",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-hmi",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.494621+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-drive_motor-drive_motor",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "drive_motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: drive_motor \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-motor-circuit",
+        "pages": [
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drive_motor": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-motor-circuit",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-motor-circuit",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-motor-centrifugal-switch",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-6: Motor centrifugal switch",
+      "extractedTerm": "Motor centrifugal switch",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "motor centrifugal",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a74-6: Motor centrifugal switch \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-motor-circuit",
+        "pages": [
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-6: Motor centrifugal switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-motor-circuit",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-motor-circuit",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "motor centrifugal",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.541621+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-samsung-fl-bb8700-dryer-unresolved-samsungbb8700-dryer-power-supply",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-power",
+        "pages": [
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-power",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-power",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-main_control-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.96,
+      "what": "main_control",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.96,
+        "matcherLayer": "platform_overlay:samsung_fl_washer_wf6000r",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: main_control \u2192 control_board"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-power",
+        "pages": [
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "main_control": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-power",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-power",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.439621+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-BB8700-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-power-and-communication-(9c1,-fc,-ac)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Power and communication (9C1, FC, AC)",
+      "extractedTerm": "Power and communication (9C1, FC, AC)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1: Power and communication (9C1, FC, AC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-power",
+        "pages": [
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Power and communication (9C1, FC, AC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-power",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-power",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.552621+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-thermal_fuse-thermal_fuse",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "thermal_fuse",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "thermal_fuse",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: thermal_fuse \u2192 thermal_fuse"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+        "pages": [
+          40,
+          42
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermal_fuse": "thermal_fuse"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+        "pages": [
+          40,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+            "pages": [
+              40,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-high_limit_thermostat",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "high_limit_thermostat",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "thermal_cutoff",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: high_limit_thermostat \u2192 thermal_cutoff"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+        "pages": [
+          40,
+          42
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "high_limit_thermostat": "thermal_cutoff"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+        "pages": [
+          40,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+            "pages": [
+              40,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.391622+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-BB8700-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-thermal-cutoff-and-hi-limit",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.85,
+      "what": "\u00a74-6: Thermal cutoff and hi-limit",
+      "extractedTerm": "Thermal cutoff and hi-limit",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "thermal_cutoff",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "thermal cutoff",
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-6: Thermal cutoff and hi-limit \u2192 thermal_cutoff"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+        "pages": [
+          40,
+          42
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-6: Thermal cutoff and hi-limit": "thermal_cutoff"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+        "pages": [
+          40,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+            "pages": [
+              40,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "thermal cutoff",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.576620+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-exhaust_thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "exhaust_thermistor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "temperature_sensor",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "exhaust thermistor",
+        "decomposition": {
+          "domain": null,
+          "component": "exhaust",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: exhaust_thermistor \u2192 temperature_sensor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-thermistor",
+        "pages": [
+          35,
+          40
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "exhaust_thermistor": "temperature_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-thermistor",
+        "pages": [
+          35,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-thermistor",
+            "pages": [
+              35,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "exhaust thermistor",
+            "decomposition": {
+              "domain": null,
+              "component": "exhaust",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.340620+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-BB8700-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-inlet_thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "inlet_thermistor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "temperature_sensor",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "inlet thermistor",
+        "decomposition": {
+          "domain": "inlet",
+          "component": null,
+          "actuator": "thermistor"
+        },
+        "summary": "alias: inlet_thermistor \u2192 temperature_sensor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-thermistor",
+        "pages": [
+          35,
+          40
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_thermistor": "temperature_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-thermistor",
+        "pages": [
+          35,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-thermistor",
+            "pages": [
+              35,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "inlet thermistor",
+            "decomposition": {
+              "domain": "inlet",
+              "component": null,
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.404122+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-BB8700-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-DRYER-compound-thermistors-(tc,-tc5,-hc)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Thermistors (tC, tC5, HC)",
+      "extractedTerm": "Thermistors (tC, tC5, HC)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1: Thermistors (tC, tC5, HC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-thermistor",
+        "pages": [
+          35,
+          40
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Thermistors (tC, tC5, HC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-thermistor",
+        "pages": [
+          35,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-thermistor",
+            "pages": [
+              35,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:25:18.588622+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-BB8700-DRYER-samsungbb8700-dryer-belt-cutoff-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungbb8700-dryer-belt-cutoff",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungbb8700-dryer-belt-cutoff \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-belt-cutoff",
+        "pages": [
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungbb8700-dryer-belt-cutoff",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a74-6: Belt cut-off switch",
+          "componentIds": [
+            "belt_switch"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-belt-cutoff",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-belt-cutoff",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-BB8700-DRYER-samsungbb8700-dryer-motor-circuit-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungbb8700-dryer-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungbb8700-dryer-motor-circuit \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-motor-circuit",
+        "pages": [
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungbb8700-dryer-motor-circuit",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a74-6: Motor centrifugal switch",
+          "componentIds": [
+            "drive_motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-motor-circuit",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-motor-circuit",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 27,
+    "byStatus": {
+      "needs_review": 3,
+      "rejected": 11,
+      "candidate": 6,
+      "approved": 7
+    },
+    "byApprovalLevel": {
+      "blocked": 17,
+      "easy": 4,
+      "normal": 3,
+      "careful": 3
+    },
+    "byType": {
+      "canonicalMapping": 25,
+      "procedureTestBinding": 2
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 4,
+      "medium_0.80_0.94": 6,
+      "low_lt_0.80": 0,
+      "unresolved": 17
+    },
+    "byBlockedReason": {
+      "UNRESOLVED_COMPONENT": 1,
+      "AMBIGUOUS_COMPONENT": 1
+    }
+  }
+}

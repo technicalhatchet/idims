@@ -1,0 +1,133 @@
+{
+  "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+  "platformId": "samsung_laundry_combo",
+  "templateId": "aio_laundry",
+  "label": "Samsung all-in-one laundry combo WD53/WD80 (WD53DBA900HZA1)",
+  "status": "candidate",
+  "ontologyId": null,
+  "generatedAt": "2026-09-12T22:21:05.883378+00:00",
+  "topologySignature": "ccu_mcu_motor",
+  "counts": {
+    "procedures": 21,
+    "mappingCandidates": 37,
+    "overlayCandidates": 13,
+    "conflicts": 0,
+    "extractionFiltered": 18
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 18,
+    "invalidExtraction": 0,
+    "totalFiltered": 18,
+    "samples": [
+      {
+        "rawTerm": "DC5",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-auto-open-door",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "AC3",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-communication",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "AC6",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-communication",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "DC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-door-lock",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "dC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-door-lock",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "NC2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-filter-check",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "NC3",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-filter-check",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TC5",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-heat-pump-thermistors",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "BC2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-hmi-check",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "bC2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-hmi-check",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-mems-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-mems-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-power-supply",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-power-supply",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C5",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-power-supply",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "UB1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-unbalance",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "HC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-wash-heater",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwd53-wash-thermistor",
+        "source": "title_token"
+      }
+    ]
+  }
+}

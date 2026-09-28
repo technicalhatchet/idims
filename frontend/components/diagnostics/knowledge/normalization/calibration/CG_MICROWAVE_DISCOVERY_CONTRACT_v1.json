@@ -1,0 +1,187 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_discovery_contract",
+  "workstream": "CG-MICROWAVE-DISCOVERY",
+  "status": "closed",
+  "closedAt": "2026-09-17T09:25:00+00:00",
+  "closureArtifact": "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json",
+  "closureVerdict": "CLOSED / MICROWAVE_FUNCTIONAL_CONTRACT_APPROVED",
+  "phase": "CG-MICROWAVE-DISCOVERY",
+  "activatedAt": "2026-09-17T09:00:00+00:00",
+  "priorPhaseClosed": "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+  "priorPhaseVerdict": "CLOSED / MICROWAVE_GENUINE_FUNCTIONAL_DIVERGENCE",
+  "fitOutcome": "B_genuine_divergence_documented",
+  "discoveryMode": "minimal_functional_contract_discovery",
+  "coreConstraint": "Discovery proposes and challenges candidate canonical microwave FUNCTIONS — not OEM component lists. Fit artifacts are immutable input evidence.",
+  "immutableFitInputs": {
+    "policy": "Read-only — discovery must not mutate fit closure evidence",
+    "artifacts": [
+      "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+      "CG_MICROWAVE_FIT_ANALYSIS_v1.json",
+      "CG_MICROWAVE_FIT_TRIANGULATION_v1.json",
+      "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+      "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json",
+      "CG_MICROWAVE_FIT_R1_GATE_v1.json",
+      "CG_MICROWAVE_FIT_TEST_CONTRACT_v1.json"
+    ],
+    "rangeOvenFamilyLock": "CG_RANGE_FAMILY_LOCK_v1.json",
+    "rangeOvenImmutable": true
+  },
+  "notCreating": [
+    "microwave.json",
+    "frozen:true canonical file",
+    "manufacturer overlay compounding",
+    "canonical promotion of magnetron",
+    "canonical promotion of hv_capacitor",
+    "canonical promotion of hv_diode",
+    "canonical promotion of hv_transformer",
+    "canonical promotion of waveguide",
+    "canonical promotion of turntable_motor",
+    "canonical promotion of humidity_sensor",
+    "mutations to any existing frozen canonical ontology",
+    "range_oven routing changes"
+  ],
+  "candidateFunctionalContract": "microwave_functional_contract_candidate_v1.json",
+  "centerpieceQuestion": {
+    "id": "minimal_microwave_functional_contract",
+    "question": "What is the minimum set of canonical microwave FUNCTIONS — not components — that both LG and Samsung diagnostic procedures require?",
+    "framing": "Discovery challenges whether triangulation domains become canonical nodes, instance scopes, or conditional layers — and which OEM hardware stays platform-only.",
+    "disallowedShortcut": "Promoting every diagnosable component from two manuals into ~30 canonical nodes"
+  },
+  "candidateFunctionalDomains": [
+    {
+      "id": "hv_generation",
+      "triangulationStatus": "CROSS_MANUFACTURER_FUNCTIONAL_DOMAIN",
+      "discoveryQuestion": "Is hv_generation one canonical function with implementation realizations (transformer, capacitor, diode, magnetron, hv_fuse), or multiple functions?",
+      "implementationVocabularyGuard": ["magnetron", "hv_capacitor", "hv_diode", "hv_transformer", "hv_fuse", "power_relay", "relay_2"],
+      "fitEvidence": ["CG_MICROWAVE_FIT_TRIANGULATION_v1.json domain hv_generation"]
+    },
+    {
+      "id": "door_interlock_chain",
+      "triangulationStatus": "CROSS_MANUFACTURER_SAFETY_CONTRACT",
+      "discoveryQuestion": "Does door_interlock_chain absorb primary/secondary/monitor/door-sensing as platform vocabulary under one safety function?",
+      "implementationVocabularyGuard": ["primary_switch", "secondary_switch", "monitor_switch", "door_sensing_switch", "latch_board"],
+      "fitEvidence": ["CG_MICROWAVE_FIT_TRIANGULATION_v1.json domain door_interlock_chain"]
+    },
+    {
+      "id": "rf_cavity",
+      "triangulationStatus": "CROSS_MANUFACTURER_RF_CAVITY_DOMAIN",
+      "discoveryQuestion": "Is rf_cavity the abstraction for field uniformity/arcing/waveguide — distinct from hv_generation excitation?",
+      "implementationVocabularyGuard": ["waveguide_cover", "stirrer", "turntable_motor", "gasket"],
+      "fitEvidence": ["CG_MICROWAVE_FIT_TRIANGULATION_v1.json domain rf_cavity"]
+    },
+    {
+      "id": "thermal_protection",
+      "triangulationStatus": "CROSS_MANUFACTURER_THERMAL_NETWORK",
+      "discoveryQuestion": "How does thermal_protection represent multi-TCO networks + cabinet thermistor without becoming a component laundry list?",
+      "implementationVocabularyGuard": ["magnetron_tco", "cavity_tco", "hood_tco", "bottom_tco", "pcb_thermistor", "thermal_cutout"],
+      "fitEvidence": ["CG_MICROWAVE_FIT_TRIANGULATION_v1.json domain thermal_protection"]
+    },
+    {
+      "id": "control_and_sensing",
+      "triangulationStatus": "PARTIAL_RECURRENCE",
+      "discoveryQuestion": "Do humidity and temperature sensing merge into one control_and_sensing function or remain conditional platform scopes?",
+      "implementationVocabularyGuard": ["humidity_sensor", "temp_sensor", "pcb_thermistor", "split_pcb_comm"],
+      "fitEvidence": ["CG_MICROWAVE_FIT_TRIANGULATION_v1.json domain control_and_sensing"]
+    },
+    {
+      "id": "ventilation_otr",
+      "triangulationStatus": "OTR_CONDITIONAL_LAYER",
+      "discoveryQuestion": "Is ventilation_otr a conditional function on microwave template only — never merged into range_oven surface_heating_system?",
+      "implementationVocabularyGuard": ["vent_blower_motor", "vent_fan", "run_capacitor"],
+      "fitEvidence": ["CG_MICROWAVE_FIT_TRIANGULATION_v1.json domain ventilation_otr"],
+      "conditionalOn": "templateId: microwave + OTR configuration"
+    }
+  ],
+  "sharedPrerequisiteDomains": [
+    {
+      "id": "power_supply",
+      "note": "Superficial overlap with all frozen families — likely prerequisite function not microwave-specific discovery focus",
+      "discoveryPosture": "include_as_prerequisite_only"
+    },
+    {
+      "id": "control_board",
+      "note": "Orchestration function — must not import range_oven heat-path semantics",
+      "discoveryPosture": "challenge_minimal_scope"
+    },
+    {
+      "id": "user_interface",
+      "note": "HMI/service-mode entry — shared pattern across appliances",
+      "discoveryPosture": "include_if_minimal_contract_requires"
+    }
+  ],
+  "boundaryQuestions": [
+    {
+      "id": "function_vs_implementation",
+      "question": "For each candidate domain, which OEM-testable components are implementation realizations vs independently diagnosable canonical functions?",
+      "evidenceRequired": "Both R1 and R2 procedure sequencing"
+    },
+    {
+      "id": "hv_vs_rf_split",
+      "question": "Should hv_generation and rf_cavity remain separate canonical functions, or does triangulation collapse them?",
+      "evidenceRequired": "No-heat orchestration paths on both manuals"
+    },
+    {
+      "id": "thermal_network_shape",
+      "question": "Does thermal_protection use conditional instance scopes for TCO types, or one function with platform overlay vocabulary?",
+      "evidenceRequired": "Samsung §4-8 four TCO types vs LG TAB1–TAB2"
+    },
+    {
+      "id": "otr_conditional",
+      "question": "Is ventilation_otr a conditionalConcept only — excluded from countertop microwave variant?",
+      "evidenceRequired": "Template routing + Samsung §4-7 vs absent countertop corpus"
+    },
+    {
+      "id": "minimal_node_budget",
+      "question": "What is the minimum components[] count that preserves diagnostic causality on both manufacturers without component laundry-listing?",
+      "target": "fewer than 10 canonical functions — challenge every addition"
+    }
+  ],
+  "discoveryCorpus": {
+    "inheritedFromFit": true,
+    "R1": {
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "observationArtifact": "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+      "procedureCount": 12
+    },
+    "R2": {
+      "manualId": "SAMSUNG-ME11-MICROWAVE",
+      "observationArtifact": "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json",
+      "procedureCount": 14
+    },
+    "triangulation": "CG_MICROWAVE_FIT_TRIANGULATION_v1.json"
+  },
+  "immutableRules": [
+    "Fit artifacts are read-only historical evidence",
+    "range_oven.json must not be mutated or used as host ontology",
+    "No microwave.json until separate human freeze gate after discovery synthesis",
+    "Component names from manuals default to platform vocabulary until discovery proves independent functional domain",
+    "Discovery success is a minimal functional contract candidate — not production canonical file"
+  ],
+  "successCriteria": {
+    "candidateContractAuthored": true,
+    "candidateArtifact": "microwave_functional_contract_candidate_v1.json",
+    "humanDiscoveryReviewRequired": true,
+    "humanDiscoveryReviewStatus": "approved",
+    "candidateStatus": "approved_for_freeze_preparation",
+    "canonicalFileCreated": false,
+    "closureStatus": "closed_successful",
+    "freezeGateAuthorized": "CG_MICROWAVE_FREEZE_CONTRACT_v1.json"
+  },
+  "approvedDiscoveryDecisions": {
+    "hv_vs_rf_split": "KEEP SPLIT",
+    "thermal_network": "SINGLE CANONICAL FUNCTION thermal_protection",
+    "control_and_sensing": "CONDITIONAL",
+    "ventilation_otr": "CONDITIONAL",
+    "function_budget": "7 core + 2 conditional — hard cap approved"
+  },
+  "progression": [
+    "CG-MICROWAVE-FIT closed Outcome B",
+    "Synthesize microwave_functional_contract_candidate_v1.json from triangulation domains",
+    "Challenge each candidate function against R1+R2 procedure causality",
+    "Human discovery review gate — APPROVED",
+    "CG-MICROWAVE-FREEZE authorized — microwave.json still blocked until human freeze approval"
+  ],
+  "authorizedNextWorkstream": "CG_MICROWAVE_FREEZE_CONTRACT_v1.json",
+  "nextDisciplinedStep": "CG-MICROWAVE-FREEZE — author microwave.json rev1 from approved functional contract"
+}

@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "W11416787",
+  "platformFamilyId": "whirlpool_tl_dd_5100_direct_drive",
+  "ontologyId": "top_load_washer",
+  "description": "CG-5.5 TL #3 — 2 model-specific gate decisions + inherited TL platform vocabulary.",
+  "resolutions": [
+    {
+      "candidateId": "map-W11416787-compound-main-control-(acu)",
+      "oemTerm": "TEST #1: Main Control (ACU)",
+      "canonicalId": "control_board",
+      "classification": "inherited_platform_family",
+      "rationale": "Inherited from TL #1/#2 platform overlay."
+    },
+    {
+      "candidateId": "map-W11416787-compound-drive-system-(pre-test)",
+      "oemTerm": "TEST #3: Drive System (pre-test)",
+      "canonicalId": "drive_motor",
+      "classification": "inherited_platform_family",
+      "rationale": "TL drive orchestration parent TEST — inherited platform concept."
+    },
+    {
+      "candidateId": "map-W11416787-compound-drive-system-\u2014-shifter",
+      "oemTerm": "TEST #3a: Drive System \u2014 Shifter",
+      "canonicalId": "mode_shifter",
+      "classification": "inherited_platform_family",
+      "rationale": "mode_shifter established on TL platform — replicated on 5100 seed."
+    },
+    {
+      "candidateId": "map-W11416787-compound-drive-system-\u2014-motor",
+      "oemTerm": "TEST #3b: Drive System \u2014 Motor",
+      "canonicalId": "drive_motor",
+      "classification": "inherited_platform_family",
+      "rationale": "BPM motor TEST — same canonical mapping as TL #1."
+    },
+    {
+      "candidateId": "map-w11416787-unresolved-w11416787-test-04-hmi-test-#4:-hmi",
+      "oemTerm": "TEST #4: HMI",
+      "canonicalId": "hmi_control",
+      "classification": "new_model_specific",
+      "rationale": "WTW5100-line HMI TEST title — model-specific OEM alias; canonical hmi_control unchanged."
+    },
+    {
+      "candidateId": "map-W11416787-compound-temperature-thermistor",
+      "oemTerm": "TEST #5: Temperature Thermistor",
+      "canonicalId": "wash_ntc",
+      "classification": "inherited_platform_family",
+      "rationale": "Inherited wash NTC TEST alias."
+    },
+    {
+      "candidateId": "map-W11416787-compound-water-level",
+      "oemTerm": "TEST #6: Water Level",
+      "canonicalId": "pressure_sensor",
+      "classification": "inherited_platform_family",
+      "rationale": "pressure_sensor remains TL-platform scoped per human-reviewed TL #1 decision."
+    },
+    {
+      "candidateId": "map-W11416787-compound-drain-&-recirculation-pump",
+      "oemTerm": "TEST #7: Drain & Recirculation Pump",
+      "canonicalId": "drain_pump",
+      "classification": "inherited_platform_family",
+      "rationale": "Shared TL drain/recirc TEST alias."
+    },
+    {
+      "candidateId": "map-W11416787-compound-lid-lock",
+      "oemTerm": "TEST #8: Lid Lock",
+      "canonicalId": "lid_lock",
+      "classification": "inherited_platform_family",
+      "rationale": "lid_lock on top_load_washer ontology — inherited TL platform concept."
+    },
+    {
+      "candidateId": "map-W11416787-compound-load-&-go-detergent",
+      "oemTerm": "TEST #9: Load & Go Detergent",
+      "canonicalId": "bulk_level_switch",
+      "classification": "new_model_specific",
+      "rationale": "Whirlpool Load & Go mini-bulk feature (F3E5) — model-line specific; maps to bulk_level_switch on TL ontology."
+    }
+  ]
+}

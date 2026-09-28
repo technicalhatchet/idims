@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_p08_flexwash_freeze_audit",
+  "workstream": "CG-P08-FLEXWASH-FREEZE",
+  "status": "audit_pass",
+  "auditedAt": "2026-09-17T22:30:00+00:00",
+  "verdict": "GREEN",
+  "auditSummary": "P08 FlexWash integration boundary freeze artifacts created. All six human decisions encoded. No canonical ontology mutation. All 10 frozen canonical hashes unchanged. architecture_exception.json preserved intact. WV60 registered as platform generation metadata only.",
+  "humanDecisionsVerified": [
+    {
+      "decision": "system_supervision frozen — W1+W2",
+      "artifactField": "explicitEvidenceStatuses.system_supervision",
+      "expected": "FROZEN / CORROBORATED",
+      "verified": true
+    },
+    {
+      "decision": "inter_instance_control_communication frozen W1_DERIVED",
+      "artifactField": "explicitEvidenceStatuses.inter_instance_control_communication",
+      "expected": "FROZEN / W1_DERIVED",
+      "verified": true
+    },
+    {
+      "decision": "WV60 AC7 UNDOCUMENTED not absent",
+      "artifactField": "explicitEvidenceStatuses.wv60_ac7",
+      "expected": "UNDOCUMENTED",
+      "verified": true
+    },
+    {
+      "decision": "enable_inhibit FROZEN_FACET",
+      "artifactField": "explicitEvidenceStatuses.enable_inhibit",
+      "expected": "FROZEN_FACET",
+      "verified": true
+    },
+    {
+      "decision": "simultaneous active wash NOT_PROVEN",
+      "artifactField": "explicitEvidenceStatuses.simultaneous_active_wash",
+      "expected": "NOT_PROVEN",
+      "verified": true
+    },
+    {
+      "decision": "WV60 platform generation registered",
+      "artifact": "CG_P08_FLEXWASH_WV60_PLATFORM_GENERATION_v1.json",
+      "verified": true
+    }
+  ],
+  "safetyRulesAudit": [
+    {
+      "rule": "No frozen canonical graph mutation",
+      "result": "PASS",
+      "evidence": "validate_canonical_graph.py frozen_hashes=10 verified; front_load_washer hash unchanged"
+    },
+    {
+      "rule": "No new canonical family file",
+      "result": "PASS",
+      "evidence": "flexwash_integration_boundary_functional_contract_frozen_v1.json notCanonicalFile:true; no dual_load*.json in canonical/"
+    },
+    {
+      "rule": "No dual_load_integrated_orchestration",
+      "result": "PASS",
+      "evidence": "rejectedAtFreeze in frozen contract"
+    },
+    {
+      "rule": "No integrated_laundry_orchestration copy",
+      "result": "PASS",
+      "evidence": "rejectedAtFreeze + enable_inhibit.isIntegratedLaundryOrchestration:false"
+    },
+    {
+      "rule": "Simultaneous operation not proven",
+      "result": "PASS",
+      "evidence": "simultaneousActiveWash.status: NOT_PROVEN; canonicalCapabilityCreated: false"
+    },
+    {
+      "rule": "WV60 AC7 not marked absent",
+      "result": "PASS",
+      "evidence": "wv60Ac7Status.notAbsent: true"
+    },
+    {
+      "rule": "AC7 not promoted to universally corroborated",
+      "result": "PASS",
+      "evidence": "inter_instance_control_communication.w2Corroboration: false; evidenceStatus: W1_DERIVED"
+    },
+    {
+      "rule": "architecture_exception.json preserved",
+      "result": "PASS",
+      "evidence": "batchDisposition STOP unchanged; file exists"
+    }
+  ],
+  "canonicalHashStatus": {
+    "registry": "frozen_canonical_hashes_v1.json",
+    "count": 10,
+    "mutated": 0,
+    "verified": true,
+    "front_load_washer": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05"
+  },
+  "frozenContractProof": {
+    "file": "flexwash_integration_boundary_functional_contract_frozen_v1.json",
+    "hash": "af4fa710941c9bb26dc802de390d1f4c9dcc09106c04da6fb5f6be84651950d3",
+    "hashAlgorithm": "SHA-256",
+    "lockReference": "CG_P08_FLEXWASH_FREEZE_LOCK_v1.json"
+  },
+  "architectureExceptionProvenance": {
+    "path": "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json",
+    "exceptionType": "architecture_conflict",
+    "batchDisposition": "STOP",
+    "preserved": true,
+    "deleted": false,
+    "rewritten": false
+  },
+  "platformRegistryAudit": {
+    "wv60Registered": true,
+    "canonicalMutation": false,
+    "artifact": "CG_P08_FLEXWASH_WV60_PLATFORM_GENERATION_v1.json",
+    "registryFile": "frontend/components/diagnostics/knowledge/platformRegistry.ts"
+  },
+  "validationCommands": [
+    {
+      "command": "python backend/scripts/validate_canonical_graph.py",
+      "expected": "frozen_hashes=10 verified",
+      "result": "PASS"
+    },
+    {
+      "command": "npx tsx --test cg-p08-flexwash-freeze.test.ts cg-p08-flexwash-w2-fit.test.ts cg-production-normalization-pilot.test.ts",
+      "expected": "24/24 pass",
+      "result": "PASS — 24/24"
+    }
+  ],
+  "unresolvedItems": []
+}

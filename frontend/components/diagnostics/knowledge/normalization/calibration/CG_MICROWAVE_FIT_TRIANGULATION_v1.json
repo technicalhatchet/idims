@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_fit_triangulation",
+  "workstream": "CG-MICROWAVE-FIT",
+  "status": "complete",
+  "verdict": "PRELIMINARY / CROSS_MANUFACTURER_FUNCTIONAL_RECURRENCE",
+  "generatedAt": "2026-09-17T08:55:00+00:00",
+  "contract": "CG_MICROWAVE_FIT_TEST_CONTRACT_v1.json",
+  "r1Gate": "CG_MICROWAVE_FIT_R1_GATE_v1.json",
+  "observations": {
+    "R1": "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+    "R2": "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json"
+  },
+  "fitClosureBlocked": true,
+  "canonicalPromotionBlocked": true,
+  "preliminaryLean": "genuine_divergence_preliminary",
+  "preliminaryRemainsLocked": true,
+  "triangulationIntent": "Test functional-behavior recurrence across manufacturers — not component-list universality.",
+  "domainTriangulation": [
+    {
+      "domainId": "hv_generation",
+      "lgR1Behavior": "Relay 2 >8V enable → transformer → capacitor → diode → magnetron → HV fuse; per-component Ω tests §10",
+      "samsungR2Behavior": "Power relay contacts → transformer §4-1 → capacitor §4-3 → diode §4-4 → magnetron §4-2; per-component Ω tests",
+      "functionalRecurrence": true,
+      "implementationDifference": "Different relay naming (Relay 2/D35 vs power relay); different transformer Ω bands — same diagnostic cascade structure",
+      "frozenContractHost": null,
+      "triangulationVerdict": "CROSS_MANUFACTURER_FUNCTIONAL_DOMAIN — not oven_heating_element implementation"
+    },
+    {
+      "domainId": "door_interlock_chain",
+      "lgR1Behavior": "Primary + secondary COM–NO + monitor COM–NC sequential §9-2",
+      "samsungR2Behavior": "Primary + monitor + secondary + door-sensing §4-6 continuity table",
+      "functionalRecurrence": true,
+      "implementationDifference": "Samsung adds door-sensing switch for vent/HV gating — same monitor-chain safety contract",
+      "frozenContractHost": null,
+      "rangeOvenMerge": "CONTAMINATES_IF_MERGED",
+      "triangulationVerdict": "CROSS_MANUFACTURER_SAFETY_CONTRACT — not oven_door_switch variant"
+    },
+    {
+      "domainId": "rf_cavity",
+      "lgR1Behavior": "Turntable motor 2.5–3.5 kΩ; waveguide/gasket on magnetron replace",
+      "samsungR2Behavior": "Turntable harness/motor/RY206; magnetron filament test with cavity coupling",
+      "functionalRecurrence": true,
+      "implementationDifference": "LG has Ω spec on turntable; Samsung operational-first — same cavity field uniformity domain",
+      "frozenContractHost": null,
+      "triangulationVerdict": "CROSS_MANUFACTURER_RF_CAVITY_DOMAIN"
+    },
+    {
+      "domainId": "thermal_protection",
+      "lgR1Behavior": "Single TCO TAB1–TAB2 on no-heat + PCB thermistor F-1/F-2 self-test",
+      "samsungR2Behavior": "Four TCO types §4-8 + magnetron TCO on no-heat + C-20 temp sensor",
+      "functionalRecurrence": true,
+      "implementationDifference": "Samsung materially richer TCO network — same protection/sensing functional class, broader than range thermal_protection",
+      "frozenContractHost": null,
+      "rangeOvenMerge": "CONTAMINATES_IF_MERGED",
+      "triangulationVerdict": "CROSS_MANUFACTURER_THERMAL_NETWORK — eventual graph must absorb multi-TCO not single fuse semantics"
+    },
+    {
+      "domainId": "control_and_sensing",
+      "lgR1Behavior": "Humidity F-4 + PCB cabinet thermistor F-1/F-2",
+      "samsungR2Behavior": "Humidity C-10 quick test + C-20 temp sensor + split PCB C-F0/C-F1",
+      "functionalRecurrence": "partial",
+      "implementationDifference": "Different code families and sensor placement — shared cook-control sensing domain",
+      "frozenContractHost": null,
+      "triangulationVerdict": "PARTIAL_RECURRENCE — platform vocabulary heavy; not reason to fit existing cooking contracts"
+    },
+    {
+      "domainId": "ventilation_otr",
+      "lgR1Behavior": "Referenced on TCO replace only — no dedicated procedure in R1",
+      "samsungR2Behavior": "Dedicated vent blower ~94 Ω §4-7",
+      "functionalRecurrence": true,
+      "implementationDifference": "R2 provides evidence LG R1 deferred — OTR ventilation is real functional layer",
+      "frozenContractHost": null,
+      "triangulationVerdict": "OTR_CONDITIONAL_LAYER — not range surface_heating_system"
+    }
+  ],
+  "crossManufacturerSummary": {
+    "manufacturers": ["LG", "Samsung"],
+    "functionalDomainsRecurring": 5,
+    "functionalDomainsPartial": 1,
+    "fitsAnyFrozenContract": false,
+    "rangeOvenVariantRejected": true,
+    "workingHypothesis": "Microwave requires its own functional contract broader than either implementation individually — discovery/freeze gate still required before microwave.json"
+  },
+  "humanBoundaryDecision": {
+    "status": "approved",
+    "approvedOutcome": "B_genuine_divergence_documented",
+    "approvedAt": "2026-09-17T09:00:00+00:00",
+    "fitAnalysis": "CG_MICROWAVE_FIT_ANALYSIS_v1.json",
+    "fitClosure": "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+    "note": "Outcome B authorizes discovery only — not microwave.json",
+    "disallowedWithoutDiscoveryFreeze": ["microwave.json", "canonical overlay compounding", "range_oven routing change"]
+  },
+  "nextDisciplinedStep": "CG-MICROWAVE-DISCOVERY — microwave_functional_contract_candidate_v1.json human review"
+}

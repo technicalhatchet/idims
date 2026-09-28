@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg8_fd_compounding_observation",
+  "workstream": "CG-8",
+  "workPackage": "WP2",
+  "manualId": "SAMSUNG-RF23BB-FRIDGE",
+  "platformId": "samsung_fridge_bespoke",
+  "compoundingSequence": 2,
+  "verdict": {
+    "canonicalInheritances": 5,
+    "conditionalBindings": 7,
+    "overlayLearningEvents": 7,
+    "intentionalAbstentions": 4,
+    "canonicalExpansion": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0
+  },
+  "verdictNote": "Second post-freeze refrigerator compounding pass with stricter manufacturer boundary. Inverter PBA, multi-NTC scopes, and multi-fan topology absorbed by conditional/platform layers. door_switch withheld \u2014 no independent RF23BB procedure evidence. Whirlpool Jazz overlay not imported.",
+  "gateArtifact": "SAMSUNG_RF23BB_FD_overlay_mapping_table_v1.json",
+  "ledgerArtifact": "SAMSUNG_RF23BB_FD_gate_decision_ledger_v1.json",
+  "generatedAt": "2026-09-16T06:24:22.288294+00:00",
+  "canonicalOntology": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "immutable": true,
+    "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9"
+  }
+}

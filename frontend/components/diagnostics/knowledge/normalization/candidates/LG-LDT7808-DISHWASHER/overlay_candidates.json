@@ -1,0 +1,83 @@
+{
+  "manualId": "LG-LDT7808-DISHWASHER",
+  "candidates": [
+    {
+      "id": "overlay-LG-LDT7808-DISHWASHER-ldt7808-drain-pump-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "ldt7808-drain-pump",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a77-1/7-2: Drain Pump (OE drain fault)",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-drain-pump",
+        "pages": [
+          47,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-drain-pump",
+            "pages": [
+              47,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-LG-LDT7808-DISHWASHER-ldt7808-drain-pump-meas-lgDishwasherLdt7808DrainPumpOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "ldt7808-drain-pump",
+      "measurementKnowledgeId": "lgDishwasherLdt7808DrainPumpOhms",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-drain-pump",
+        "pages": [
+          47,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-drain-pump",
+            "pages": [
+              47,
+              50
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "lgDishwasherLdt7808DrainPumpOhms",
+            "stepTitle": "Drain pump resistance"
+          }
+        ]
+      }
+    }
+  ]
+}

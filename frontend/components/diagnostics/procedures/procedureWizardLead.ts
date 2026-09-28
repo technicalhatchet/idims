@@ -1,12 +1,28 @@
 import { resolveStepKeyLabel } from '../intelligence/stepKeyLabels';
 import type { ProcedureRecommendation } from './recommendServiceProcedures';
+import {
+  filterWizardStepsAfterDoorLockVerified,
+  isDoorLockPathVerified,
+} from './procedureWizardRouting';
+import type { OemWizardLeadDecisions } from './oemWizardDecisions';
+import { isOemWizardLeadSuppressedForProcedure } from './oemWizardDecisions';
+import type { ProcedureRunState } from './types';
 import type { ServiceProcedure } from './types';
 
 export const OEM_WIZARD_STEP_KEY = 'oem_test';
 export const OEM_WIZARD_STEP_ID = '__oem_test__';
 
-/** Single-chip complaints that get a dedicated OEM wizard step before mechanical checks. */
-const OEM_INLINE_WIZARD_CHIPS = new Set(['lid_lock']);
+/** Complaint chips that get a dedicated OEM wizard step when strongly matched. */
+const OEM_INLINE_WIZARD_CHIPS = new Set([
+  'lid_lock',
+  'wont_drain',
+  'wont_spin',
+  'wont_agitate',
+  'no_fill',
+  'no_heat',
+  'noisy',
+  'vibration',
+]);
 
 /** Procedure tag → wizard stepKey (guided diagnostics). */
 const PROCEDURE_TAG_WIZARD_STEPS: Record<string, string> = {
@@ -91,6 +107,8 @@ const COMPONENT_WIZARD_STEPS: Record<string, string> = {
   surface_ignition: 'functional',
   supply: 'commonly_missed',
   main_control: 'commonly_missed',
+  inverter: 'electrical',
+  motor_controller: 'electrical',
   wash_motor: 'motor',
   diverter_motor: 'motor',
 };
@@ -119,17 +137,72 @@ const TAG_RESOLVE_ORDER = [
 
 /** Strong enough to show OEM lead card and bias wizard routing. */
 export function isStrongProcedureLead(recommendation: ProcedureRecommendation): boolean {
-  return recommendation.priority >= 28 || Boolean(recommendation.matchedErrorCodes?.length);
+  return (
+    recommendation.priority >= 28
+    || Boolean(recommendation.matchedErrorCodes?.length)
+    || Boolean(recommendation.canonicalDomainMatches?.length)
+  );
+}
+
+/** Next strong OEM lead that is not skipped / already-verified for wizard display. */
+export function resolveOfferableOemLeadRecommendation(
+  procedureRecommendations: ProcedureRecommendation[],
+  unifiedTopProcedureId: string | null | undefined,
+  decisions?: OemWizardLeadDecisions,
+): ProcedureRecommendation | null {
+  if (!procedureRecommendations.length) return null;
+
+  const pick = (procedureId: string | null | undefined) => {
+    if (!procedureId) return null;
+    const rec = procedureRecommendations.find((item) => item.procedureId === procedureId);
+    if (!rec || !isStrongProcedureLead(rec)) return null;
+    if (isOemWizardLeadSuppressedForProcedure(procedureId, decisions)) return null;
+    return rec;
+  };
+
+  const unified = pick(unifiedTopProcedureId);
+  if (unified) return unified;
+
+  return procedureRecommendations.find(
+    (rec) => isStrongProcedureLead(rec)
+      && !isOemWizardLeadSuppressedForProcedure(rec.procedureId, decisions),
+  ) ?? null;
+}
+
+export interface OemWizardStepInsertOptions {
+  /** @deprecated use oemWizardLeadDecisions */
+  skippedOemWizardStep?: boolean;
+  oemWizardLeadDecisions?: OemWizardLeadDecisions;
+  errorCodes?: string[];
 }
 
 export function shouldInsertOemWizardStep(
   complaintChipIds: string[],
   recommendation: ProcedureRecommendation | null | undefined,
-  skippedOemWizardStep?: boolean,
+  options: OemWizardStepInsertOptions = {},
 ): boolean {
-  if (skippedOemWizardStep || !recommendation || !isStrongProcedureLead(recommendation)) {
+  if (!recommendation || !isStrongProcedureLead(recommendation)) {
     return false;
   }
+  if (options.skippedOemWizardStep) {
+    return false;
+  }
+  if (
+    isOemWizardLeadSuppressedForProcedure(
+      recommendation.procedureId,
+      options.oemWizardLeadDecisions,
+    )
+  ) {
+    return false;
+  }
+
+  const hasDiagnosticContext =
+    complaintChipIds.length > 0 || Boolean(options.errorCodes?.length);
+
+  if (recommendation.canonicalDomainMatches?.length && hasDiagnosticContext) {
+    return true;
+  }
+
   if (complaintChipIds.length !== 1) return false;
   return OEM_INLINE_WIZARD_CHIPS.has(complaintChipIds[0]);
 }
@@ -165,6 +238,33 @@ export function resolveWizardStepLabelForProcedure(
 }
 
 /**
+ * Build wizard recommended keys from unified ranker output, falling back to
+ * intelligence-only keys when the unified pool is empty.
+ */
+export function buildUnifiedWizardRecommendedStepKeys(
+  unifiedWizardStepKeys: string[],
+  fallbackStepKeys: string[],
+  recommendation: ProcedureRecommendation | null | undefined,
+  visitedStepKeys: string[],
+  insertOemWizardStep = false,
+  procedureRuns: Record<string, ProcedureRunState> = {},
+): string[] {
+  let base = fallbackStepKeys;
+  if (unifiedWizardStepKeys.length) {
+    const seen = new Set(unifiedWizardStepKeys);
+    const tail = fallbackStepKeys.filter((key) => key && !seen.has(key));
+    base = [...unifiedWizardStepKeys, ...tail];
+  }
+  return mergeOemProcedureWizardSteps(
+    base,
+    recommendation,
+    visitedStepKeys,
+    insertOemWizardStep,
+    procedureRuns,
+  );
+}
+
+/**
  * Prepend OEM-matched wizard step when a platform procedure is a strong lead,
  * so WizardSuggestedStep and intelligence routing align with the OEM panel.
  */
@@ -173,23 +273,35 @@ export function mergeOemProcedureWizardSteps(
   recommendation: ProcedureRecommendation | null | undefined,
   visitedStepKeys: string[],
   insertOemWizardStep = false,
+  procedureRuns: Record<string, ProcedureRunState> = {},
 ): string[] {
-  if (!recommendation) return baseStepKeys;
+  let keys = filterWizardStepsAfterDoorLockVerified(baseStepKeys, procedureRuns);
+
+  if (
+    recommendation
+    && isDoorLockPathVerified(recommendation.procedureId, procedureRuns[recommendation.procedureId])
+    && !visitedStepKeys.includes('mechanical')
+  ) {
+    keys = ['mechanical', ...keys.filter((key) => key !== 'mechanical')];
+    return keys;
+  }
+
+  if (!recommendation) return keys;
 
   if (
     insertOemWizardStep
     && !visitedStepKeys.includes(OEM_WIZARD_STEP_KEY)
   ) {
-    const rest = baseStepKeys.filter((key) => key !== OEM_WIZARD_STEP_KEY);
+    const rest = keys.filter((key) => key !== OEM_WIZARD_STEP_KEY);
     return [OEM_WIZARD_STEP_KEY, ...rest];
   }
 
   const stepKey = resolveWizardStepKeyForProcedure(recommendation.procedure);
-  if (!stepKey || visitedStepKeys.includes(stepKey)) return baseStepKeys;
+  if (!stepKey || visitedStepKeys.includes(stepKey)) return keys;
 
   if (!isStrongProcedureLead(recommendation) && recommendation.priority < 25) {
-    return baseStepKeys;
+    return keys;
   }
 
-  return [stepKey, ...baseStepKeys.filter((key) => key !== stepKey)];
+  return [stepKey, ...keys.filter((key) => key !== stepKey)];
 }

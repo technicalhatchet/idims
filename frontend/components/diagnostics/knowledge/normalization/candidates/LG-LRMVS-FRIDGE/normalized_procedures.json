@@ -1,0 +1,4517 @@
+{
+  "manualId": "LG-LRMVS-FRIDGE",
+  "procedures": [
+    {
+      "procedureId": "lglrmvs-condenser-fan",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-11: Condenser fan (E CF)",
+      "purpose": "C-fan fan voltage",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "E_CF",
+        "E CF",
+        "condenser_fan",
+        "airflow",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "test_mode_1",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter Test Mode 1",
+          "body": "Push main PCB test button once \u2014 compressor, damper, and all fans run (all display segments on).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Push main PCB test button once \u2014 compressor, damper, and all fans run (all display segments on)."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "PCB test mode entered. Continue with component-specific voltage or resistance checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After \u00a79 test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "fan_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "C-fan fan supply voltage",
+          "body": "Measure CON3 12 \u2194 9 vs GND \u2014 11.4\u201312.6 V in Test Mode 1. Feedback/PWM lines should not be stuck at 0 V or 5 V.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRefrigeratorFanVoltage",
+              "testPoint": {
+                "connector": "CON3",
+                "pins": "12 \u2194 9",
+                "label": "C-fan fan supply voltage"
+              },
+              "title": "C-fan fan supply voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "11.4\u201312.6 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure CON3 12 \u2194 9 vs GND \u2014 11.4\u201312.6 V in Test Mode 1. Feedback/PWM lines should not be stuck at 0 V or 5 V."
+        },
+        {
+          "id": "replace_fan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace fan or PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRefrigeratorFanVoltage",
+          "testPoint": {
+            "connector": "CON3",
+            "pins": "12 \u2194 9",
+            "label": "C-fan fan supply voltage"
+          },
+          "title": "C-fan fan supply voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_pass",
+          "label": "11.4\u201312.6 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-fan",
+        "oemTestTitle": "C-fan fan voltage",
+        "pages": [
+          56,
+          57
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-condenser-fan",
+        "pages": [
+          56,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-condenser-fan",
+            "pages": [
+              56,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-convert-sensor",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-22: Convert drawer sensor (E CS)",
+      "purpose": "Convert drawer sensor (E CS)",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "E_CS",
+        "E CS",
+        "thermistor",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "check_connector",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness seated at main PCB?",
+          "body": "Verify CON4 harness is fully seated \u2014 loose connections are the first check in \u00a78 flowcharts.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_conn",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_conn_out",
+              "terminal": true,
+              "oemOutcome": "Repair or reconnect harness at main PCB."
+            }
+          ],
+          "sourceExcerpt": "Verify CON4 harness is fully seated \u2014 loose connections are the first check in \u00a78 flowcharts."
+        },
+        {
+          "id": "repair_conn",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Reseat or repair connector, then retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat or repair connector, then retest."
+        },
+        {
+          "id": "repair_conn_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Thermistor resistance",
+          "body": "Power off. Measure CON4 13 \u2194 14 \u2014 compare to \u00a78 NTC table at measured cabinet temperature (8k\u201340k \u03a9 typical).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "CON4",
+                "pins": "13 \u2194 14",
+                "label": "Thermistor resistance"
+              },
+              "title": "Thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In table range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure CON4 13 \u2194 14 \u2014 compare to \u00a78 NTC table at measured cabinet temperature (8k\u201340k \u03a9 typical)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "CON4",
+            "pins": "13 \u2194 14",
+            "label": "Thermistor resistance"
+          },
+          "title": "Thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_connector"
+        },
+        {
+          "id": "repair_conn",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_conn_out",
+          "terminal": true,
+          "oemOutcome": "Repair or reconnect harness at main PCB.",
+          "stepId": "check_connector"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-22-CS",
+        "oemTestTitle": "Convert drawer sensor (E CS)",
+        "pages": [
+          78,
+          79
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-convert-sensor",
+        "pages": [
+          78,
+          79
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-convert-sensor",
+            "pages": [
+              78,
+              79
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-display-communication",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-12: Main \u2194 display communication (E CO)",
+      "purpose": "Communication Error (E CO)",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel",
+        "main_control"
+      ],
+      "tags": [
+        "E_CO",
+        "E CO",
+        "hmi_check",
+        "display_dead"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "co_active",
+          "order": 2,
+          "type": "visual_check",
+          "title": "E CO on display?",
+          "body": "E CO indicates main PCB \u2194 display PCB communication fault \u2014 often hinge harness CON101.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "co_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_hinge",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "co_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "comm_ok",
+              "terminal": true,
+              "oemOutcome": "Communication error not present."
+            }
+          ],
+          "sourceExcerpt": "E CO indicates main PCB \u2194 display PCB communication fault \u2014 often hinge harness CON101."
+        },
+        {
+          "id": "check_hinge",
+          "order": 3,
+          "type": "instruction",
+          "title": "Inspect hinge harness",
+          "body": "Check CON101 at door hinge for loose pins or damage. Verify 12 V (pins 5\u20134) and 5 V (pins 1\u20134) per \u00a78-12.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check CON101 at door hinge for loose pins or damage. Verify 12 V (pins 5\u20134) and 5 V (pins 1\u20134) per \u00a78-12."
+        },
+        {
+          "id": "comm_restored",
+          "order": 4,
+          "type": "visual_check",
+          "title": "E CO cleared?",
+          "body": "After harness repair and power cycle, is E CO cleared?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_boards",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_boards_out",
+              "terminal": true,
+              "oemOutcome": "Replace main and/or display PCB per voltage tree."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, is E CO cleared?"
+        },
+        {
+          "id": "comm_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "No comm fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_boards_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace PCB(s)",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_path_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "co_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_hinge",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "co_active"
+        },
+        {
+          "id": "co_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "comm_ok",
+          "terminal": true,
+          "oemOutcome": "Communication error not present.",
+          "stepId": "co_active"
+        },
+        {
+          "id": "comm_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_restored"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace main and/or display PCB per voltage tree.",
+          "stepId": "comm_restored"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-12",
+        "oemTestTitle": "Communication Error (E CO)",
+        "pages": [
+          58,
+          59
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-display-communication",
+        "pages": [
+          58,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-display-communication",
+            "pages": [
+              58,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-display-mode",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a713-1-15: Display / demo mode (OFF)",
+      "purpose": "Display mode cancel",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel",
+        "main_control"
+      ],
+      "tags": [
+        "cooling_off",
+        "display_mode",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "display_off",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Panel shows OFF or O?",
+          "body": "Display mode disables all cooling (lamp/UI only). Ice Plus \u00d73 while holding Fridge button toggles mode \u00a713-1-15.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "demo_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "cancel_demo",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "demo_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "cooling_ok",
+              "terminal": true,
+              "oemOutcome": "Display mode not active."
+            }
+          ],
+          "sourceExcerpt": "Display mode disables all cooling (lamp/UI only). Ice Plus \u00d73 while holding Fridge button toggles mode \u00a713-1-15."
+        },
+        {
+          "id": "cancel_demo",
+          "order": 3,
+          "type": "instruction",
+          "title": "Cancel display mode",
+          "body": "Door open: press Ice Plus 3 times while holding Refrigerator button until special beep \u2014 repeat to confirm OFF cleared.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Door open: press Ice Plus 3 times while holding Refrigerator button until special beep \u2014 repeat to confirm OFF cleared."
+        },
+        {
+          "id": "demo_cleared",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Cooling restored?",
+          "body": "After canceling display mode, does unit resume normal cooling?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cooling_restored",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "demo_resolved",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "investigate_cooling",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "still_warm",
+              "terminal": true,
+              "oemOutcome": "Cooling fault remains \u2014 continue diagnostics."
+            }
+          ],
+          "sourceExcerpt": "After canceling display mode, does unit resume normal cooling?"
+        },
+        {
+          "id": "cooling_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Not display mode",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "demo_resolved",
+          "order": 6,
+          "type": "outcome",
+          "title": "Display mode cleared",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "still_warm",
+          "order": 7,
+          "type": "outcome",
+          "title": "Continue diagnostics",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "demo_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cancel_demo",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "display_off"
+        },
+        {
+          "id": "demo_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "cooling_ok",
+          "terminal": true,
+          "oemOutcome": "Display mode not active.",
+          "stepId": "display_off"
+        },
+        {
+          "id": "cooling_restored",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "demo_resolved",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "demo_cleared"
+        },
+        {
+          "id": "investigate_cooling",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "still_warm",
+          "terminal": true,
+          "oemOutcome": "Cooling fault remains \u2014 continue diagnostics.",
+          "stepId": "demo_cleared"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "13-1-15",
+        "oemTestTitle": "Display mode cancel",
+        "pages": [
+          127
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-display-mode",
+        "pages": [
+          127
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-display-mode",
+            "pages": [
+              127
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-ff-defrost-heater",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-7: Fresh-food defrost heater (r dH)",
+      "purpose": "Defrost Heater Error (r dH)",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "r_dH",
+        "r dH",
+        "defrost_heater",
+        "frost_buildup",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "door_gasket_r",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Door gasket sealing?",
+          "body": "Inspect fresh-food door gasket \u2014 air leaks can cause r dH after failed defrost.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "gasket_r_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "heater_ohms_r",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_gasket_r",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_gasket_r_out",
+              "terminal": true,
+              "oemOutcome": "Replace damaged door gasket."
+            }
+          ],
+          "sourceExcerpt": "Inspect fresh-food door gasket \u2014 air leaks can cause r dH after failed defrost."
+        },
+        {
+          "id": "replace_gasket_r_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace gasket",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 4,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "PCB test mode entered. Continue with component-specific voltage or resistance checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After \u00a79 test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "heater_ohms_r",
+          "order": 5,
+          "type": "measurement",
+          "title": "R defrost heater resistance",
+          "body": "Power off. CON9 pin 7 \u2194 13 \u2014 103\u2013119 \u03a9 per \u00a78-7.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgDefrostHeaterOhmsFridge",
+              "testPoint": {
+                "connector": "CON9",
+                "pins": "7 \u2194 13",
+                "label": "R defrost heater resistance"
+              },
+              "title": "R defrost heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ff_heater_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater_r",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ff_heater_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater_r",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ff_heater_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater_r",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ff_heater_pass",
+              "label": "103\u2013119 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "test_mode_3_r",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. CON9 pin 7 \u2194 13 \u2014 103\u2013119 \u03a9 per \u00a78-7."
+        },
+        {
+          "id": "replace_heater_r",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "test_mode_3_r",
+          "order": 7,
+          "type": "instruction",
+          "title": "Enter Test Mode 3",
+          "body": "Push main PCB test button three times \u2014 display shows 33 33 (forced defrost).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Push main PCB test button three times \u2014 display shows 33 33 (forced defrost)."
+        },
+        {
+          "id": "heater_voltage_r",
+          "order": 8,
+          "type": "measurement",
+          "title": "R defrost heater voltage",
+          "body": "CON9 pin 7 \u2194 13 \u2014 112\u2013116 V in Test Mode 3.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgDefrostHeaterVoltage",
+              "testPoint": {
+                "connector": "CON9",
+                "pins": "7 \u2194 13",
+                "label": "R defrost heater voltage"
+              },
+              "title": "R defrost heater voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ff_v_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_pcb_r",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ff_v_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_pcb_r",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ff_v_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_pcb_r",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ff_v_pass",
+              "label": "112\u2013116 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_r_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CON9 pin 7 \u2194 13 \u2014 112\u2013116 V in Test Mode 3."
+        },
+        {
+          "id": "replace_pcb_r",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_r_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "Defrost heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgDefrostHeaterOhmsFridge",
+          "testPoint": {
+            "connector": "CON9",
+            "pins": "7 \u2194 13",
+            "label": "R defrost heater resistance"
+          },
+          "title": "R defrost heater resistance"
+        },
+        {
+          "measurementKnowledgeId": "lgDefrostHeaterVoltage",
+          "testPoint": {
+            "connector": "CON9",
+            "pins": "7 \u2194 13",
+            "label": "R defrost heater voltage"
+          },
+          "title": "R defrost heater voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "gasket_r_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ohms_r",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_gasket_r"
+        },
+        {
+          "id": "replace_gasket_r",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_gasket_r_out",
+          "terminal": true,
+          "oemOutcome": "Replace damaged door gasket.",
+          "stepId": "door_gasket_r"
+        },
+        {
+          "id": "ff_heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater_r",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms_r"
+        },
+        {
+          "id": "ff_heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater_r",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms_r"
+        },
+        {
+          "id": "ff_heater_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater_r",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms_r"
+        },
+        {
+          "id": "ff_heater_pass",
+          "label": "103\u2013119 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "test_mode_3_r",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms_r"
+        },
+        {
+          "id": "ff_v_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pcb_r",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_voltage_r"
+        },
+        {
+          "id": "ff_v_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pcb_r",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_voltage_r"
+        },
+        {
+          "id": "ff_v_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pcb_r",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_voltage_r"
+        },
+        {
+          "id": "ff_v_pass",
+          "label": "112\u2013116 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_r_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_voltage_r"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-7",
+        "oemTestTitle": "Defrost Heater Error (r dH)",
+        "pages": [
+          48,
+          49
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ff-defrost-heater",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-ff-defrost-heater",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-ff-defrost-sensor",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-5: Fresh-food defrost sensor (r dS)",
+      "purpose": "Fresh-food defrost sensor (r dS)",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "r_dS",
+        "r dS",
+        "thermistor",
+        "defrost",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "check_connector",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness seated at main PCB?",
+          "body": "Verify CON4 harness is fully seated \u2014 loose connections are the first check in \u00a78 flowcharts.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_conn",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_conn_out",
+              "terminal": true,
+              "oemOutcome": "Repair or reconnect harness at main PCB."
+            }
+          ],
+          "sourceExcerpt": "Verify CON4 harness is fully seated \u2014 loose connections are the first check in \u00a78 flowcharts."
+        },
+        {
+          "id": "repair_conn",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Reseat or repair connector, then retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat or repair connector, then retest."
+        },
+        {
+          "id": "repair_conn_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Thermistor resistance",
+          "body": "Power off. Measure CON4 20 \u2194 19 \u2014 compare to \u00a78 NTC table at measured cabinet temperature (8k\u201340k \u03a9 typical).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "CON4",
+                "pins": "20 \u2194 19",
+                "label": "Thermistor resistance"
+              },
+              "title": "Thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In table range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure CON4 20 \u2194 19 \u2014 compare to \u00a78 NTC table at measured cabinet temperature (8k\u201340k \u03a9 typical)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "CON4",
+            "pins": "20 \u2194 19",
+            "label": "Thermistor resistance"
+          },
+          "title": "Thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_connector"
+        },
+        {
+          "id": "repair_conn",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_conn_out",
+          "terminal": true,
+          "oemOutcome": "Repair or reconnect harness at main PCB.",
+          "stepId": "check_connector"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-5",
+        "oemTestTitle": "Fresh-food defrost sensor (r dS)",
+        "pages": [
+          44,
+          45
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ff-defrost-sensor",
+        "pages": [
+          44,
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-ff-defrost-sensor",
+            "pages": [
+              44,
+              45
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-ff-fan",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-8: Refrigerator evaporator fan (E rF)",
+      "purpose": "R-fan fan voltage",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "E_rF",
+        "E rF",
+        "evap_fan",
+        "airflow",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "test_mode_1",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter Test Mode 1",
+          "body": "Push main PCB test button once \u2014 compressor, damper, and all fans run (all display segments on).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Push main PCB test button once \u2014 compressor, damper, and all fans run (all display segments on)."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "PCB test mode entered. Continue with component-specific voltage or resistance checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After \u00a79 test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "fan_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "R-fan fan supply voltage",
+          "body": "Measure CON3 28 \u2194 25 vs GND \u2014 11.4\u201312.6 V in Test Mode 1. Feedback/PWM lines should not be stuck at 0 V or 5 V.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRefrigeratorFanVoltage",
+              "testPoint": {
+                "connector": "CON3",
+                "pins": "28 \u2194 25",
+                "label": "R-fan fan supply voltage"
+              },
+              "title": "R-fan fan supply voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "11.4\u201312.6 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure CON3 28 \u2194 25 vs GND \u2014 11.4\u201312.6 V in Test Mode 1. Feedback/PWM lines should not be stuck at 0 V or 5 V."
+        },
+        {
+          "id": "replace_fan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace fan or PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRefrigeratorFanVoltage",
+          "testPoint": {
+            "connector": "CON3",
+            "pins": "28 \u2194 25",
+            "label": "R-fan fan supply voltage"
+          },
+          "title": "R-fan fan supply voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_pass",
+          "label": "11.4\u201312.6 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-fan",
+        "oemTestTitle": "R-fan fan voltage",
+        "pages": [
+          50,
+          51
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ff-fan",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-ff-fan",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-ff-sensor",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-2: Fresh-food cabinet sensor (E rS)",
+      "purpose": "Fresh-food cabinet sensor (E rS)",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "E_rS",
+        "E rS",
+        "thermistor",
+        "sensor_check",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "check_connector",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness seated at main PCB?",
+          "body": "Verify CON4 harness is fully seated \u2014 loose connections are the first check in \u00a78 flowcharts.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_conn",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_conn_out",
+              "terminal": true,
+              "oemOutcome": "Repair or reconnect harness at main PCB."
+            }
+          ],
+          "sourceExcerpt": "Verify CON4 harness is fully seated \u2014 loose connections are the first check in \u00a78 flowcharts."
+        },
+        {
+          "id": "repair_conn",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Reseat or repair connector, then retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat or repair connector, then retest."
+        },
+        {
+          "id": "repair_conn_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Thermistor resistance",
+          "body": "Power off. Measure CON4 16 \u2194 15 \u2014 compare to \u00a78 NTC table at measured cabinet temperature (8k\u201340k \u03a9 typical).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "CON4",
+                "pins": "16 \u2194 15",
+                "label": "Thermistor resistance"
+              },
+              "title": "Thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In table range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure CON4 16 \u2194 15 \u2014 compare to \u00a78 NTC table at measured cabinet temperature (8k\u201340k \u03a9 typical)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "CON4",
+            "pins": "16 \u2194 15",
+            "label": "Thermistor resistance"
+          },
+          "title": "Thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_connector"
+        },
+        {
+          "id": "repair_conn",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_conn_out",
+          "terminal": true,
+          "oemOutcome": "Repair or reconnect harness at main PCB.",
+          "stepId": "check_connector"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-2",
+        "oemTestTitle": "Fresh-food cabinet sensor (E rS)",
+        "pages": [
+          38,
+          39
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ff-sensor",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-ff-sensor",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-fz-defrost-heater",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-6: Freezer defrost heater (F dH)",
+      "purpose": "Defrost Heater Error (F dH)",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "F_dH",
+        "F dH",
+        "defrost_heater",
+        "frost_buildup",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "door_gasket",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Door gasket sealing?",
+          "body": "Heavy ice or warm air leak can trigger F dH \u2014 inspect freezer door gasket before electrical tests.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "gasket_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "heater_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_gasket",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_gasket_out",
+              "terminal": true,
+              "oemOutcome": "Replace damaged door gasket."
+            }
+          ],
+          "sourceExcerpt": "Heavy ice or warm air leak can trigger F dH \u2014 inspect freezer door gasket before electrical tests."
+        },
+        {
+          "id": "replace_gasket_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace gasket",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 4,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "PCB test mode entered. Continue with component-specific voltage or resistance checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After \u00a79 test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "F defrost heater resistance",
+          "body": "Power off. CON9 pin 5 \u2194 13 \u2014 62\u201370 \u03a9 heater; Fuse-M should read 0 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgDefrostHeaterOhmsFreezer",
+              "testPoint": {
+                "connector": "CON9",
+                "pins": "5 \u2194 13",
+                "label": "F defrost heater resistance"
+              },
+              "title": "F defrost heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fz_heater_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fz_heater_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fz_heater_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fz_heater_pass",
+              "label": "62\u201370 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "test_mode_3",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. CON9 pin 5 \u2194 13 \u2014 62\u201370 \u03a9 heater; Fuse-M should read 0 \u03a9."
+        },
+        {
+          "id": "replace_heater",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "test_mode_3",
+          "order": 7,
+          "type": "instruction",
+          "title": "Enter Test Mode 3",
+          "body": "Push main PCB test button three times \u2014 display shows 33 33 (forced defrost).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Push main PCB test button three times \u2014 display shows 33 33 (forced defrost)."
+        },
+        {
+          "id": "heater_voltage",
+          "order": 8,
+          "type": "measurement",
+          "title": "F defrost heater voltage",
+          "body": "CON9 pin 5 \u2194 13 \u2014 112\u2013116 V in Test Mode 3. Should read 0 V in Test Mode 1.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgDefrostHeaterVoltage",
+              "testPoint": {
+                "connector": "CON9",
+                "pins": "5 \u2194 13",
+                "label": "F defrost heater voltage"
+              },
+              "title": "F defrost heater voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fz_v_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fz_v_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fz_v_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fz_v_pass",
+              "label": "112\u2013116 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CON9 pin 5 \u2194 13 \u2014 112\u2013116 V in Test Mode 3. Should read 0 V in Test Mode 1."
+        },
+        {
+          "id": "replace_pcb",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "Defrost heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgDefrostHeaterOhmsFreezer",
+          "testPoint": {
+            "connector": "CON9",
+            "pins": "5 \u2194 13",
+            "label": "F defrost heater resistance"
+          },
+          "title": "F defrost heater resistance"
+        },
+        {
+          "measurementKnowledgeId": "lgDefrostHeaterVoltage",
+          "testPoint": {
+            "connector": "CON9",
+            "pins": "5 \u2194 13",
+            "label": "F defrost heater voltage"
+          },
+          "title": "F defrost heater voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "gasket_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_gasket"
+        },
+        {
+          "id": "replace_gasket",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_gasket_out",
+          "terminal": true,
+          "oemOutcome": "Replace damaged door gasket.",
+          "stepId": "door_gasket"
+        },
+        {
+          "id": "fz_heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "fz_heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "fz_heater_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "fz_heater_pass",
+          "label": "62\u201370 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "test_mode_3",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "fz_v_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        },
+        {
+          "id": "fz_v_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        },
+        {
+          "id": "fz_v_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        },
+        {
+          "id": "fz_v_pass",
+          "label": "112\u2013116 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-6",
+        "oemTestTitle": "Defrost Heater Error (F dH)",
+        "pages": [
+          46,
+          47
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-fz-defrost-heater",
+        "pages": [
+          46,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-fz-defrost-heater",
+            "pages": [
+              46,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-fz-defrost-sensor",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-4: Freezer defrost sensor (F dS)",
+      "purpose": "Freezer defrost sensor (F dS)",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "F_dS",
+        "F dS",
+        "thermistor",
+        "defrost",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "check_connector",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness seated at main PCB?",
+          "body": "Verify CON4 harness is fully seated \u2014 loose connections are the first check in \u00a78 flowcharts.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_conn",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_conn_out",
+              "terminal": true,
+              "oemOutcome": "Repair or reconnect harness at main PCB."
+            }
+          ],
+          "sourceExcerpt": "Verify CON4 harness is fully seated \u2014 loose connections are the first check in \u00a78 flowcharts."
+        },
+        {
+          "id": "repair_conn",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Reseat or repair connector, then retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat or repair connector, then retest."
+        },
+        {
+          "id": "repair_conn_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Thermistor resistance",
+          "body": "Power off. Measure CON4 22 \u2194 21 \u2014 compare to \u00a78 NTC table at measured cabinet temperature (8k\u201340k \u03a9 typical).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "CON4",
+                "pins": "22 \u2194 21",
+                "label": "Thermistor resistance"
+              },
+              "title": "Thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In table range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure CON4 22 \u2194 21 \u2014 compare to \u00a78 NTC table at measured cabinet temperature (8k\u201340k \u03a9 typical)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "CON4",
+            "pins": "22 \u2194 21",
+            "label": "Thermistor resistance"
+          },
+          "title": "Thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_connector"
+        },
+        {
+          "id": "repair_conn",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_conn_out",
+          "terminal": true,
+          "oemOutcome": "Repair or reconnect harness at main PCB.",
+          "stepId": "check_connector"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-4",
+        "oemTestTitle": "Freezer defrost sensor (F dS)",
+        "pages": [
+          42,
+          43
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-fz-defrost-sensor",
+        "pages": [
+          42,
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-fz-defrost-sensor",
+            "pages": [
+              42,
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-fz-fan",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-9: Freezer evaporator fan (E FF)",
+      "purpose": "F-fan fan voltage",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "E_FF",
+        "E FF",
+        "evap_fan",
+        "airflow",
+        "not_cooling",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "test_mode_1",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter Test Mode 1",
+          "body": "Push main PCB test button once \u2014 compressor, damper, and all fans run (all display segments on).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Push main PCB test button once \u2014 compressor, damper, and all fans run (all display segments on)."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "PCB test mode entered. Continue with component-specific voltage or resistance checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After \u00a79 test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "fan_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "F-fan fan supply voltage",
+          "body": "Measure CON3 16 \u2194 13 vs GND \u2014 11.4\u201312.6 V in Test Mode 1. Feedback/PWM lines should not be stuck at 0 V or 5 V.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRefrigeratorFanVoltage",
+              "testPoint": {
+                "connector": "CON3",
+                "pins": "16 \u2194 13",
+                "label": "F-fan fan supply voltage"
+              },
+              "title": "F-fan fan supply voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "11.4\u201312.6 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure CON3 16 \u2194 13 vs GND \u2014 11.4\u201312.6 V in Test Mode 1. Feedback/PWM lines should not be stuck at 0 V or 5 V."
+        },
+        {
+          "id": "replace_fan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace fan or PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRefrigeratorFanVoltage",
+          "testPoint": {
+            "connector": "CON3",
+            "pins": "16 \u2194 13",
+            "label": "F-fan fan supply voltage"
+          },
+          "title": "F-fan fan supply voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_pass",
+          "label": "11.4\u201312.6 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-fan",
+        "oemTestTitle": "F-fan fan voltage",
+        "pages": [
+          52,
+          53
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-fz-fan",
+        "pages": [
+          52,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-fz-fan",
+            "pages": [
+              52,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-fz-sensor",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-1: Freezer cabinet sensor (E FS)",
+      "purpose": "Freezer cabinet sensor (E FS)",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "E_FS",
+        "E FS",
+        "thermistor",
+        "sensor_check",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "check_connector",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness seated at main PCB?",
+          "body": "Verify CON4 harness is fully seated \u2014 loose connections are the first check in \u00a78 flowcharts.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_conn",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_conn_out",
+              "terminal": true,
+              "oemOutcome": "Repair or reconnect harness at main PCB."
+            }
+          ],
+          "sourceExcerpt": "Verify CON4 harness is fully seated \u2014 loose connections are the first check in \u00a78 flowcharts."
+        },
+        {
+          "id": "repair_conn",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Reseat or repair connector, then retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat or repair connector, then retest."
+        },
+        {
+          "id": "repair_conn_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Thermistor resistance",
+          "body": "Power off. Measure CON4 18 \u2194 17 \u2014 compare to \u00a78 NTC table at measured cabinet temperature (8k\u201340k \u03a9 typical).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "CON4",
+                "pins": "18 \u2194 17",
+                "label": "Thermistor resistance"
+              },
+              "title": "Thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In table range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure CON4 18 \u2194 17 \u2014 compare to \u00a78 NTC table at measured cabinet temperature (8k\u201340k \u03a9 typical)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "CON4",
+            "pins": "18 \u2194 17",
+            "label": "Thermistor resistance"
+          },
+          "title": "Thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_connector"
+        },
+        {
+          "id": "repair_conn",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_conn_out",
+          "terminal": true,
+          "oemOutcome": "Repair or reconnect harness at main PCB.",
+          "stepId": "check_connector"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-1",
+        "oemTestTitle": "Freezer cabinet sensor (E FS)",
+        "pages": [
+          36,
+          37
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-fz-sensor",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-fz-sensor",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-ice-maker-electrical",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-24: Ice maker kit electrical (E ID / E IU)",
+      "purpose": "Ice maker tray sensor / kit electrical",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "E_ID",
+        "E ID",
+        "E_IU",
+        "E IU",
+        "ice_maker",
+        "no_ice"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "ice_error",
+          "order": 2,
+          "type": "visual_check",
+          "title": "E ID or E IU displayed?",
+          "body": "E ID = ice tray sensor short/open; E IU = ice maker kit motor, gear, hall IC, or heater open.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ice_err_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_im_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ice_err_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "ice_ok",
+              "terminal": true,
+              "oemOutcome": "Ice maker electrical fault not displayed."
+            }
+          ],
+          "sourceExcerpt": "E ID = ice tray sensor short/open; E IU = ice maker kit motor, gear, hall IC, or heater open."
+        },
+        {
+          "id": "check_im_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Ice maker harness and test switch",
+          "body": "Verify ice maker connector seating. Press I/M test switch \u2014 ice should drop when kit healthy. Check tray sensor and kit resistance per \u00a78-24.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify ice maker connector seating. Press I/M test switch \u2014 ice should drop when kit healthy. Check tray sensor and kit resistance per \u00a78-24."
+        },
+        {
+          "id": "im_repair",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace ice maker parts",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ice_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "No ice maker fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ice_err_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_im_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ice_error"
+        },
+        {
+          "id": "ice_err_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "ice_ok",
+          "terminal": true,
+          "oemOutcome": "Ice maker electrical fault not displayed.",
+          "stepId": "ice_error"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-24",
+        "oemTestTitle": "Ice maker tray sensor / kit electrical",
+        "pages": [
+          33,
+          34
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ice-maker-electrical",
+        "pages": [
+          33,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-ice-maker-electrical",
+            "pages": [
+              33,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-icing-fan",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-10: Icing compartment fan (E IF)",
+      "purpose": "I-fan fan voltage",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "E_IF",
+        "E IF",
+        "ER",
+        "evap_fan",
+        "ice_maker",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "test_mode_1",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter Test Mode 1",
+          "body": "Push main PCB test button once \u2014 compressor, damper, and all fans run (all display segments on).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Push main PCB test button once \u2014 compressor, damper, and all fans run (all display segments on)."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "PCB test mode entered. Continue with component-specific voltage or resistance checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After \u00a79 test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "fan_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "I-fan fan supply voltage",
+          "body": "Measure CON3 24 \u2194 21 vs GND \u2014 11.4\u201312.6 V in Test Mode 1. Feedback/PWM lines should not be stuck at 0 V or 5 V.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRefrigeratorFanVoltage",
+              "testPoint": {
+                "connector": "CON3",
+                "pins": "24 \u2194 21",
+                "label": "I-fan fan supply voltage"
+              },
+              "title": "I-fan fan supply voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "11.4\u201312.6 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure CON3 24 \u2194 21 vs GND \u2014 11.4\u201312.6 V in Test Mode 1. Feedback/PWM lines should not be stuck at 0 V or 5 V."
+        },
+        {
+          "id": "replace_fan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace fan or PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRefrigeratorFanVoltage",
+          "testPoint": {
+            "connector": "CON3",
+            "pins": "24 \u2194 21",
+            "label": "I-fan fan supply voltage"
+          },
+          "title": "I-fan fan supply voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_pass",
+          "label": "11.4\u201312.6 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-fan",
+        "oemTestTitle": "I-fan fan voltage",
+        "pages": [
+          54,
+          55
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-icing-fan",
+        "pages": [
+          54,
+          55
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-icing-fan",
+            "pages": [
+              54,
+              55
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-icing-sensor",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-3: Icing room sensor (E IS)",
+      "purpose": "Icing room sensor (E IS)",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "E_IS",
+        "E IS",
+        "thermistor",
+        "ice_maker",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "check_connector",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness seated at main PCB?",
+          "body": "Verify CON5 harness is fully seated \u2014 loose connections are the first check in \u00a78 flowcharts.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_conn",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_conn_out",
+              "terminal": true,
+              "oemOutcome": "Repair or reconnect harness at main PCB."
+            }
+          ],
+          "sourceExcerpt": "Verify CON5 harness is fully seated \u2014 loose connections are the first check in \u00a78 flowcharts."
+        },
+        {
+          "id": "repair_conn",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Reseat or repair connector, then retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat or repair connector, then retest."
+        },
+        {
+          "id": "repair_conn_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Thermistor resistance",
+          "body": "Power off. Measure CON5 18 \u2194 17 \u2014 compare to \u00a78 NTC table at measured cabinet temperature (8k\u201340k \u03a9 typical).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "CON5",
+                "pins": "18 \u2194 17",
+                "label": "Thermistor resistance"
+              },
+              "title": "Thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In table range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure CON5 18 \u2194 17 \u2014 compare to \u00a78 NTC table at measured cabinet temperature (8k\u201340k \u03a9 typical)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "CON5",
+            "pins": "18 \u2194 17",
+            "label": "Thermistor resistance"
+          },
+          "title": "Thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_connector"
+        },
+        {
+          "id": "repair_conn",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_conn_out",
+          "terminal": true,
+          "oemOutcome": "Repair or reconnect harness at main PCB.",
+          "stepId": "check_connector"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-3",
+        "oemTestTitle": "Icing room sensor (E IS)",
+        "pages": [
+          40,
+          41
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-icing-sensor",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-icing-sensor",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-sealed-system",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-22: Sealed-system leak cycle (E CH / E CL)",
+      "purpose": "High/Low side cycle leakage",
+      "prerequisites": [],
+      "componentIds": [
+        "sealed_system",
+        "compressor"
+      ],
+      "tags": [
+        "E_CH",
+        "E CH",
+        "E_CL",
+        "E CL",
+        "sealed_system",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "leak_code",
+          "order": 2,
+          "type": "visual_check",
+          "title": "E CH or E CL active?",
+          "body": "CH = high-side leak cycle; CL = low-side leak cycle on R-600a linear compressor platform.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "leak_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "uv_leak_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "leak_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "no_leak_code",
+              "terminal": true,
+              "oemOutcome": "Sealed-system leak code not displayed."
+            }
+          ],
+          "sourceExcerpt": "CH = high-side leak cycle; CL = low-side leak cycle on R-600a linear compressor platform."
+        },
+        {
+          "id": "uv_leak_check",
+          "order": 3,
+          "type": "instruction",
+          "title": "UV leak detection",
+          "body": "Follow \u00a78-22 steps: verify error code, inspect sealed system, check restriction/compressor, high/low side parts, then UV driver leak check.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Follow \u00a78-22 steps: verify error code, inspect sealed system, check restriction/compressor, high/low side parts, then UV driver leak check."
+        },
+        {
+          "id": "sealed_repair",
+          "order": 4,
+          "type": "outcome",
+          "title": "Sealed-system repair",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "no_leak_code",
+          "order": 5,
+          "type": "outcome",
+          "title": "No leak code",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "leak_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "uv_leak_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "leak_code"
+        },
+        {
+          "id": "leak_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "no_leak_code",
+          "terminal": true,
+          "oemOutcome": "Sealed-system leak code not displayed.",
+          "stepId": "leak_code"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-22-CHCL",
+        "oemTestTitle": "High/Low side cycle leakage",
+        "pages": [
+          80,
+          87
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-sealed-system",
+        "pages": [
+          80,
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-sealed-system",
+            "pages": [
+              80,
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lglrmvs-wifi-modem",
+      "manufacturer": "LG",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "title": "\u00a78-20: Wi-Fi modem communication (E Od)",
+      "purpose": "Wi-Fi Modem Error (E Od)",
+      "prerequisites": [],
+      "componentIds": [
+        "control_board"
+      ],
+      "tags": [
+        "E_Od",
+        "E Od",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply."
+        },
+        {
+          "id": "od_active",
+          "order": 2,
+          "type": "visual_check",
+          "title": "E Od on display?",
+          "body": "E Od is ThinQ WiFi modem communication \u2014 cooling usually unaffected.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "od_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_modem_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "od_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "modem_ok",
+              "terminal": true,
+              "oemOutcome": "WiFi error not displayed."
+            }
+          ],
+          "sourceExcerpt": "E Od is ThinQ WiFi modem communication \u2014 cooling usually unaffected."
+        },
+        {
+          "id": "check_modem_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Modem harness J1/J3",
+          "body": "Verify WiFi modem connector seating and voltage at J1/J3 per \u00a78-20 flowchart.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify WiFi modem connector seating and voltage at J1/J3 per \u00a78-20 flowchart."
+        },
+        {
+          "id": "modem_restored",
+          "order": 4,
+          "type": "visual_check",
+          "title": "E Od cleared?",
+          "body": "After harness or modem replacement, is E Od cleared?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "modem_ok_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "modem_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_modem",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_modem_out",
+              "terminal": true,
+              "oemOutcome": "Replace WiFi modem or main PCB."
+            }
+          ],
+          "sourceExcerpt": "After harness or modem replacement, is E Od cleared?"
+        },
+        {
+          "id": "modem_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "No WiFi fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_modem_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace modem/PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "modem_path_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "WiFi OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "od_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_modem_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "od_active"
+        },
+        {
+          "id": "od_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "modem_ok",
+          "terminal": true,
+          "oemOutcome": "WiFi error not displayed.",
+          "stepId": "od_active"
+        },
+        {
+          "id": "modem_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "modem_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "modem_restored"
+        },
+        {
+          "id": "replace_modem",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_modem_out",
+          "terminal": true,
+          "oemOutcome": "Replace WiFi modem or main PCB.",
+          "stepId": "modem_restored"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+        "oemTestNumber": "8-20",
+        "oemTestTitle": "Wi-Fi Modem Error (E Od)",
+        "pages": [
+          77,
+          78
+        ],
+        "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-wifi-modem",
+        "pages": [
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-wifi-modem",
+            "pages": [
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

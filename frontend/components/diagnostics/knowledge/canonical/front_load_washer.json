@@ -1,0 +1,735 @@
+{
+  "schemaVersion": "1.0.0",
+  "ontology": {
+    "id": "front_load_washer",
+    "name": "Front-Load Washer",
+    "templateId": "washer",
+    "variant": "front_load",
+    "description": "Canonical functional and diagnostic ontology for front-load washing machines. Component ids align with Solomon evidence graph where established."
+  },
+  "designPrinciples": [
+    "The canonical graph represents functional relationships that matter to diagnosis, not every physical wire.",
+    "Manufacturer and model implementations extend this graph via platform overlays — they do not replace it.",
+    "Tests produce evidence; evidence changes component and hypothesis state (handled in procedure + intelligence layers).",
+    "A normal measurement reduces likelihood of a failure mode but does not prove the entire component verified_good.",
+    "Do not condemn a downstream component until required upstream conditions are established.",
+    "Unknown information must remain unknown — never infer good or bad without evidence.",
+    "Procedure branch logic and test definitions stay in service procedure seeds, not in this file."
+  ],
+  "relationshipTypes": [
+    "supplies",
+    "controls",
+    "commands",
+    "provides_feedback_to",
+    "communicates_with",
+    "senses",
+    "mechanically_drives",
+    "mechanically_connected_to",
+    "hydraulically_connects_to",
+    "depends_on",
+    "enables",
+    "inhibits",
+    "reports_level_through"
+  ],
+  "componentStateModel": {
+    "description": "Target state vocabulary for Phase 2+ engine integration. Current intelligence engine uses unknown|confirmed|unlikely|eliminated.",
+    "states": [
+      "unknown",
+      "unverified",
+      "suspected",
+      "supported",
+      "conditionally_supported",
+      "contradicted",
+      "verified_good",
+      "verified_failed",
+      "not_applicable",
+      "inaccessible"
+    ],
+    "terminalStates": [
+      "verified_good",
+      "verified_failed",
+      "not_applicable"
+    ],
+    "intelligenceEngineMapping": {
+      "confirmed": "verified_failed",
+      "unlikely": "supported",
+      "eliminated": "verified_good",
+      "unknown": "unknown",
+      "_note": "DS-6: procedure confirm without explicit failure rule maps to unlikely/supported, not confirmed/verified_failed"
+    }
+  },
+  "systems": [
+    {
+      "id": "power",
+      "name": "Power",
+      "categoryId": "electrical_supply",
+      "purpose": "Provides and distributes electrical power to control and load circuits."
+    },
+    {
+      "id": "control",
+      "name": "Control",
+      "categoryId": "control_board",
+      "purpose": "Coordinates operation, interprets sensors, and commands loads and subsystems."
+    },
+    {
+      "id": "user_interface",
+      "name": "User Interface",
+      "categoryId": "control_hmi",
+      "purpose": "Accepts user commands and displays appliance state."
+    },
+    {
+      "id": "door_interlock",
+      "name": "Door / Interlock",
+      "categoryId": "door_lock",
+      "purpose": "Confirms safe door closure and provides cycle authorization."
+    },
+    {
+      "id": "water_inlet",
+      "name": "Water Inlet",
+      "categoryId": "fill_supply",
+      "purpose": "Controls and routes incoming water into the tub."
+    },
+    {
+      "id": "water_level",
+      "name": "Water Level",
+      "categoryId": "water_level",
+      "purpose": "Measures and communicates tub water level to control."
+    },
+    {
+      "id": "dispensing",
+      "name": "Dispensing",
+      "categoryId": "dispenser",
+      "purpose": "Routes water through detergent, bleach, and softener paths."
+    },
+    {
+      "id": "drain",
+      "name": "Drain",
+      "categoryId": "drain_pump",
+      "purpose": "Removes water from the tub via drain pump path."
+    },
+    {
+      "id": "recirculation",
+      "name": "Recirculation",
+      "categoryId": "drain_pump",
+      "purpose": "Optional recirculation path during wash (platform-specific)."
+    },
+    {
+      "id": "drive",
+      "name": "Drive",
+      "categoryId": "drive_motor",
+      "purpose": "Produces and transfers rotational motion to the wash drum."
+    },
+    {
+      "id": "heating",
+      "name": "Heating",
+      "categoryId": "wash_heating",
+      "purpose": "Raises and maintains wash water temperature when required."
+    },
+    {
+      "id": "temperature",
+      "name": "Temperature Sensing",
+      "categoryId": "wash_heating",
+      "purpose": "Measures water temperature for control and safety decisions."
+    },
+    {
+      "id": "mechanical",
+      "name": "Mechanical",
+      "categoryId": "mechanical",
+      "purpose": "Structural, rotational, suspension, and bearing functions."
+    },
+    {
+      "id": "communication",
+      "name": "Communication",
+      "categoryId": "control_board",
+      "purpose": "Distributed control and UI communication paths."
+    },
+    {
+      "id": "vent_dry",
+      "name": "Vent / Dry (combo units)",
+      "categoryId": "vent_dry",
+      "purpose": "Washer-dryer combo vent and dry-air subsystems — optional per platform.",
+      "optional": true
+    }
+  ],
+  "components": [
+    {
+      "id": "supply",
+      "name": "Supply / voltage",
+      "systemId": "power",
+      "categoryId": "electrical_supply",
+      "type": "external_input"
+    },
+    {
+      "id": "control_board",
+      "name": "Main control board",
+      "aliases": ["ACU", "CCU", "Main PCB", "Main Control", "main_control"],
+      "systemId": "control",
+      "categoryId": "control_board",
+      "type": "controller"
+    },
+    {
+      "id": "motor_controller",
+      "name": "Motor controller / inverter",
+      "aliases": ["MCU", "Inverter Board", "Motor Control Board", "inverter"],
+      "systemId": "drive",
+      "categoryId": "drive_motor",
+      "type": "controller",
+      "optional": true
+    },
+    {
+      "id": "hmi_control",
+      "name": "HMI / UI control",
+      "aliases": ["UI", "Console", "Control Panel"],
+      "systemId": "user_interface",
+      "categoryId": "control_hmi",
+      "type": "interface"
+    },
+    {
+      "id": "door_lock",
+      "name": "Door lock",
+      "aliases": ["Door Interlock", "Door Lock Assembly"],
+      "systemId": "door_interlock",
+      "categoryId": "door_lock",
+      "type": "actuator"
+    },
+    {
+      "id": "inlet_valve",
+      "name": "Inlet valve",
+      "aliases": ["Water Valve", "Fill Valve"],
+      "systemId": "water_inlet",
+      "categoryId": "fill_supply",
+      "type": "actuator"
+    },
+    {
+      "id": "water_level_sensor",
+      "name": "Water level / pressure sensor",
+      "aliases": ["Pressure Switch", "APS", "Water Level Sensor"],
+      "systemId": "water_level",
+      "categoryId": "water_level",
+      "type": "sensor"
+    },
+    {
+      "id": "pressure_hose",
+      "name": "Pressure hose",
+      "systemId": "water_level",
+      "categoryId": "water_level",
+      "type": "passive",
+      "optional": true
+    },
+    {
+      "id": "pressure_chamber",
+      "name": "Pressure chamber / air dome",
+      "systemId": "water_level",
+      "categoryId": "water_level",
+      "type": "passive",
+      "optional": true
+    },
+    {
+      "id": "dosing_pump",
+      "name": "Dosing / dispenser pump",
+      "aliases": ["Dispenser Motor"],
+      "systemId": "dispensing",
+      "categoryId": "dispenser",
+      "type": "actuator",
+      "optional": true
+    },
+    {
+      "id": "bulk_level_switch",
+      "name": "Bulk dispenser level switch",
+      "systemId": "dispensing",
+      "categoryId": "dispenser",
+      "type": "sensor",
+      "optional": true
+    },
+    {
+      "id": "drain_pump",
+      "name": "Drain pump",
+      "systemId": "drain",
+      "categoryId": "drain_pump",
+      "type": "actuator"
+    },
+    {
+      "id": "recirc_pump",
+      "name": "Recirculation pump",
+      "systemId": "recirculation",
+      "categoryId": "drain_pump",
+      "type": "actuator",
+      "optional": true
+    },
+    {
+      "id": "drive_motor",
+      "name": "Drive motor",
+      "aliases": ["Wash Motor", "Drum Motor"],
+      "systemId": "drive",
+      "categoryId": "drive_motor",
+      "type": "actuator"
+    },
+    {
+      "id": "wash_heater",
+      "name": "Wash heater",
+      "aliases": ["Heating Element"],
+      "systemId": "heating",
+      "categoryId": "wash_heating",
+      "type": "actuator",
+      "optional": true
+    },
+    {
+      "id": "wash_ntc",
+      "name": "Wash temperature sensor",
+      "aliases": ["Thermistor", "NTC", "TH2"],
+      "systemId": "temperature",
+      "categoryId": "wash_heating",
+      "type": "sensor",
+      "optional": true
+    },
+    {
+      "id": "drum_bearing",
+      "name": "Drum / tub bearing",
+      "aliases": ["bearing", "tub bearing"],
+      "systemId": "mechanical",
+      "categoryId": "mechanical",
+      "type": "mechanical"
+    },
+    {
+      "id": "suspension",
+      "name": "Suspension system",
+      "aliases": ["shocks", "dampers", "springs"],
+      "systemId": "mechanical",
+      "categoryId": "mechanical",
+      "type": "mechanical"
+    },
+    {
+      "id": "drive_belt",
+      "name": "Drive belt",
+      "systemId": "mechanical",
+      "categoryId": "mechanical",
+      "type": "mechanical",
+      "optional": true
+    },
+    {
+      "id": "vent_fan",
+      "name": "Vent fan motor",
+      "systemId": "vent_dry",
+      "categoryId": "vent_dry",
+      "type": "actuator",
+      "optional": true,
+      "comboVariantOnly": true
+    },
+    {
+      "id": "vent_baffle",
+      "name": "Vent baffle solenoid",
+      "systemId": "vent_dry",
+      "categoryId": "vent_dry",
+      "type": "actuator",
+      "optional": true,
+      "comboVariantOnly": true
+    },
+    {
+      "id": "dry_heater",
+      "name": "Dry heating element",
+      "systemId": "vent_dry",
+      "categoryId": "dry_heating",
+      "type": "actuator",
+      "optional": true,
+      "comboVariantOnly": true
+    },
+    {
+      "id": "dry_ntc",
+      "name": "Dry temperature sensor",
+      "systemId": "vent_dry",
+      "categoryId": "dry_heating",
+      "type": "sensor",
+      "optional": true,
+      "comboVariantOnly": true
+    },
+    {
+      "id": "dry_blower",
+      "name": "Dry blower motor",
+      "systemId": "vent_dry",
+      "categoryId": "vent_dry",
+      "type": "actuator",
+      "optional": true,
+      "comboVariantOnly": true
+    }
+  ],
+  "relationships": [
+    { "from": "supply", "type": "supplies", "to": "control_board" },
+    { "from": "hmi_control", "type": "communicates_with", "to": "control_board" },
+    { "from": "control_board", "type": "controls", "to": "door_lock" },
+    { "from": "door_lock", "type": "provides_feedback_to", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "door_lock", "type": "enables", "to": "drive_motor", "source": "canonical", "confidence": "high", "note": "Diagnostic authorization — distinct from mechanical_connected_to" },
+    { "from": "control_board", "type": "controls", "to": "inlet_valve" },
+    { "from": "inlet_valve", "type": "hydraulically_connects_to", "to": "water_level_sensor" },
+    { "from": "water_level_sensor", "type": "reports_level_through", "to": "pressure_chamber" },
+    { "from": "pressure_chamber", "type": "hydraulically_connects_to", "to": "pressure_hose" },
+    { "from": "pressure_hose", "type": "hydraulically_connects_to", "to": "water_level_sensor" },
+    { "from": "water_level_sensor", "type": "provides_feedback_to", "to": "control_board" },
+    { "from": "control_board", "type": "controls", "to": "drain_pump" },
+    { "from": "control_board", "type": "controls", "to": "recirc_pump" },
+    { "from": "drain_pump", "type": "hydraulically_connects_to", "to": "water_level_sensor" },
+    { "from": "control_board", "type": "commands", "to": "motor_controller" },
+    { "from": "motor_controller", "type": "controls", "to": "drive_motor" },
+    { "from": "control_board", "type": "controls", "to": "drive_motor" },
+    { "from": "drive_motor", "type": "mechanically_drives", "to": "drum_bearing" },
+    { "from": "drive_motor", "type": "mechanically_connected_to", "to": "drive_belt" },
+    { "from": "drive_belt", "type": "mechanically_drives", "to": "drum_bearing" },
+    { "from": "suspension", "type": "mechanically_connected_to", "to": "drum_bearing" },
+    { "from": "drive_motor", "type": "provides_feedback_to", "to": "control_board" },
+    { "from": "control_board", "type": "controls", "to": "wash_heater" },
+    { "from": "wash_heater", "type": "depends_on", "to": "wash_ntc" },
+    { "from": "wash_ntc", "type": "senses", "to": "wash_heater" },
+    { "from": "wash_ntc", "type": "provides_feedback_to", "to": "control_board" },
+    { "from": "control_board", "type": "controls", "to": "dosing_pump" },
+    { "from": "bulk_level_switch", "type": "provides_feedback_to", "to": "control_board" },
+    { "from": "control_board", "type": "controls", "to": "vent_fan" },
+    { "from": "control_board", "type": "controls", "to": "vent_baffle" },
+    { "from": "control_board", "type": "controls", "to": "dry_heater" },
+    { "from": "dry_ntc", "type": "provides_feedback_to", "to": "control_board" },
+    { "from": "control_board", "type": "controls", "to": "dry_blower" },
+    { "from": "motor_controller", "type": "communicates_with", "to": "control_board" }
+  ],
+  "functionalDependencies": [
+    {
+      "id": "cycle_start_authorization",
+      "description": "Normal cycle start requires valid user input, control readiness, and acceptable door/interlock state.",
+      "requires": ["hmi_control", "control_board", "door_lock"],
+      "enables": ["water_fill", "drive_operation"]
+    },
+    {
+      "id": "water_fill",
+      "description": "Fill requires authorization, water supply, operable inlet valve, and level feedback path.",
+      "requires": ["control_board", "door_lock", "inlet_valve", "supply"],
+      "feedback": ["water_level_sensor"],
+      "conditional": ["pressure_hose", "pressure_chamber"]
+    },
+    {
+      "id": "drain_completion",
+      "description": "Drain requires pump/path function and control recognition of resulting level change.",
+      "requires": ["control_board", "drain_pump"],
+      "feedback": ["water_level_sensor"],
+      "conditional": ["pressure_hose", "pressure_chamber"]
+    },
+    {
+      "id": "drive_operation",
+      "description": "Motor operation requires cycle authorization, acceptable water/drain state, motor path, and feedback where used.",
+      "requires": ["control_board", "door_lock", "drive_motor"],
+      "conditional": ["motor_controller", "water_level_sensor", "drain_pump", "suspension", "drum_bearing"]
+    },
+    {
+      "id": "heating_operation",
+      "description": "Heating requires control request, heater continuity, switching path, and valid temperature feedback.",
+      "requires": ["control_board", "wash_heater"],
+      "conditional": ["wash_ntc"]
+    },
+    {
+      "id": "dispense_operation",
+      "description": "Dispensing requires fill authorization, valve routing, and clear dispenser path.",
+      "requires": ["control_board", "inlet_valve"],
+      "conditional": ["dosing_pump", "bulk_level_switch"]
+    },
+    {
+      "id": "spin_authorization",
+      "description": "High-speed spin generally requires locked door, drained tub, and acceptable balance/level state.",
+      "requires": ["door_lock", "drain_pump", "water_level_sensor"],
+      "conditional": ["suspension", "drive_motor"]
+    }
+  ],
+  "establishedFactSources": [
+    {
+      "factId": "door_lock_authorized",
+      "label": "Door lock authorized for cycle",
+      "fromComponents": ["door_lock"],
+      "fromBranches": ["door_lock_verified_good", "lock_energizes_yes"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "factId": "drain_completion",
+      "label": "Tub drain completed / water level acceptable for spin",
+      "fromComponents": ["drain_pump"],
+      "fromBranches": ["drain_verified_good"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "factId": "motor_command_present",
+      "label": "Motor run command present at control output",
+      "fromBranches": ["motor_command_present"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "factId": "motor_output_abnormal",
+      "label": "Motor load output abnormal vs specification",
+      "fromBranches": ["motor_voltage_abnormal"],
+      "source": "service_manual",
+      "confidence": "high"
+    }
+  ],
+  "testTargets": [
+    {
+      "id": "door_lock_test",
+      "label": "Door lock / interlock verification",
+      "role": "prerequisite",
+      "testAliasId": "door_lock_test",
+      "establishesFacts": ["door_lock_authorized"],
+      "forGoals": ["spin_authorization", "drive_operation", "cycle_start_authorization"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "drain_test",
+      "label": "Drain path verification",
+      "role": "prerequisite",
+      "testAliasId": "drain_test",
+      "establishesFacts": ["drain_completion"],
+      "forGoals": ["spin_authorization", "drive_operation", "drain_completion"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "motor_command_test",
+      "label": "Motor command / control authorization",
+      "role": "discriminator",
+      "testAliasId": "motor_command_test",
+      "establishesFacts": ["motor_command_present"],
+      "requires": {
+        "facts": ["door_lock_authorized", "drain_completion"]
+      },
+      "forGoals": ["drive_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "motor_output_test",
+      "label": "Motor output / drive path",
+      "role": "discriminator",
+      "testAliasId": "motor_output_test",
+      "requires": {
+        "facts": ["door_lock_authorized", "drain_completion", "motor_command_present"]
+      },
+      "forGoals": ["drive_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "motor_winding_test",
+      "label": "Motor winding / load measurement",
+      "role": "discriminator",
+      "testAliasId": "motor_winding_test",
+      "requires": {
+        "facts": ["door_lock_authorized", "drain_completion", "motor_command_present"]
+      },
+      "forGoals": ["drive_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "mechanical_path_test",
+      "label": "Mechanical drive path",
+      "role": "discriminator",
+      "testAliasId": "mechanical_path_test",
+      "requires": {
+        "facts": ["door_lock_authorized", "drain_completion", "motor_command_present"]
+      },
+      "forGoals": ["drive_operation"],
+      "source": "canonical",
+      "confidence": "medium"
+    }
+  ],
+  "failureDomains": [
+    {
+      "id": "power_failure",
+      "label": "Power / supply",
+      "components": ["supply", "control_board"]
+    },
+    {
+      "id": "control_failure",
+      "label": "Control",
+      "components": ["control_board", "motor_controller"]
+    },
+    {
+      "id": "user_interface_failure",
+      "label": "User interface",
+      "components": ["hmi_control"]
+    },
+    {
+      "id": "door_interlock_failure",
+      "label": "Door / interlock",
+      "components": ["door_lock"]
+    },
+    {
+      "id": "fill_failure",
+      "label": "Water inlet / fill",
+      "components": ["supply", "inlet_valve"]
+    },
+    {
+      "id": "water_level_failure",
+      "label": "Water level / pressure",
+      "components": ["water_level_sensor", "pressure_hose", "pressure_chamber"]
+    },
+    {
+      "id": "drain_failure",
+      "label": "Drain",
+      "components": ["drain_pump"]
+    },
+    {
+      "id": "recirc_failure",
+      "label": "Recirculation",
+      "components": ["recirc_pump"],
+      "optional": true
+    },
+    {
+      "id": "drive_failure",
+      "label": "Drive / motor",
+      "components": ["drive_motor", "motor_controller", "drive_belt"]
+    },
+    {
+      "id": "heating_failure",
+      "label": "Heating",
+      "components": ["wash_heater", "wash_ntc", "control_board"]
+    },
+    {
+      "id": "dispense_failure",
+      "label": "Dispensing",
+      "components": ["dosing_pump", "bulk_level_switch", "inlet_valve"]
+    },
+    {
+      "id": "mechanical_failure",
+      "label": "Mechanical",
+      "components": ["drum_bearing", "suspension", "drive_belt"]
+    },
+    {
+      "id": "communication_failure",
+      "label": "Communication",
+      "components": ["control_board", "motor_controller", "hmi_control"]
+    },
+    {
+      "id": "installation_external",
+      "label": "Installation / external",
+      "components": ["supply"],
+      "crossCutting": true
+    },
+    {
+      "id": "wiring_connection",
+      "label": "Wiring / connection",
+      "crossCutting": true
+    },
+    {
+      "id": "vent_dry_failure",
+      "label": "Vent / dry (combo)",
+      "components": ["vent_fan", "vent_baffle", "dry_heater", "dry_ntc", "dry_blower"],
+      "optional": true
+    }
+  ],
+  "diagnosticPrinciples": {
+    "general": [
+      {
+        "id": "upstream_before_downstream",
+        "rule": "Establish required upstream conditions before condemning a downstream component."
+      },
+      {
+        "id": "do_not_repeat_resolved_tests",
+        "rule": "A component or domain already verified_good should not normally be retested unless contradictory evidence appears."
+      },
+      {
+        "id": "normal_is_not_proof",
+        "rule": "A normal measurement reduces failure likelihood without declaring the entire component verified_good."
+      },
+      {
+        "id": "failed_command_changes_path",
+        "rule": "If a load does not receive expected command or supply, investigate upstream control path before condemning the load."
+      },
+      {
+        "id": "pressure_path_before_sensor",
+        "rule": "Do not condemn water level sensor until pressure hose and air path are verified where applicable."
+      },
+      {
+        "id": "lock_feedback_vs_mechanics",
+        "rule": "Door lock mechanical operation and electrical feedback are separate failure modes."
+      },
+      {
+        "id": "preserve_uncertainty",
+        "rule": "Unknown, inaccessible, and unverified states must remain distinct from verified_good."
+      }
+    ]
+  },
+  "diagnosticEntryPoints": [
+    {
+      "id": "dead",
+      "symptoms": ["completely dead", "no display", "no response", "no power"],
+      "initialDomains": ["power_failure", "control_failure"]
+    },
+    {
+      "id": "wont_start",
+      "symptoms": ["won't start", "pressing start does nothing", "cycle will not begin"],
+      "initialDomains": ["user_interface_failure", "control_failure", "door_interlock_failure", "power_failure"]
+    },
+    {
+      "id": "wont_fill",
+      "symptoms": ["won't fill", "no water", "slow fill", "LF", "F20", "4C"],
+      "initialDomains": ["fill_failure", "door_interlock_failure", "water_level_failure", "control_failure"]
+    },
+    {
+      "id": "overfills",
+      "symptoms": ["overfills", "too much water", "does not stop filling", "OC"],
+      "initialDomains": ["water_level_failure", "fill_failure", "control_failure"]
+    },
+    {
+      "id": "wont_drain",
+      "symptoms": ["won't drain", "water remains", "slow drain", "F21", "5C", "LC"],
+      "initialDomains": ["drain_failure", "water_level_failure", "control_failure"]
+    },
+    {
+      "id": "wont_spin",
+      "symptoms": ["won't spin", "does not spin", "no high-speed spin", "F25", "F28", "3C"],
+      "initialDomains": ["drive_failure", "drain_failure", "water_level_failure", "door_interlock_failure", "mechanical_failure", "control_failure"],
+      "activeGoals": ["spin_authorization", "drive_operation"]
+    },
+    {
+      "id": "wont_tumble",
+      "symptoms": ["won't tumble", "drum does not rotate", "no agitation"],
+      "initialDomains": ["drive_failure", "door_interlock_failure", "mechanical_failure", "control_failure"]
+    },
+    {
+      "id": "no_heat",
+      "symptoms": ["no heat", "water stays cold", "F23", "F24", "HC"],
+      "initialDomains": ["heating_failure", "control_failure"]
+    },
+    {
+      "id": "leak",
+      "symptoms": ["leak", "water on floor", "LC", "leakage"],
+      "initialDomains": ["drain_failure", "fill_failure", "door_interlock_failure", "installation_external"]
+    },
+    {
+      "id": "excessive_noise",
+      "symptoms": ["loud noise", "grinding", "rumbling", "banging", "bearing noise"],
+      "initialDomains": ["mechanical_failure", "drive_failure"]
+    },
+    {
+      "id": "vibration_unbalance",
+      "symptoms": ["vibration", "walking", "unbalance", "UV", "UB", "Sd"],
+      "initialDomains": ["mechanical_failure", "drive_failure", "installation_external"]
+    },
+    {
+      "id": "door_lock_issue",
+      "symptoms": ["door won't lock", "door lock error", "F22", "F26", "F29", "DC", "DC3"],
+      "initialDomains": ["door_interlock_failure", "control_failure", "wiring_connection"]
+    },
+    {
+      "id": "dispenser_issue",
+      "symptoms": ["detergent not dispensing", "softener not dispensing", "F30"],
+      "initialDomains": ["dispense_failure", "fill_failure"]
+    },
+    {
+      "id": "error_code_displayed",
+      "symptoms": ["error code", "fault code", "flashing code"],
+      "initialDomains": ["control_failure", "user_interface_failure"]
+    },
+    {
+      "id": "communication_fault",
+      "symptoms": ["communication error", "AC", "AC3", "AC6"],
+      "initialDomains": ["communication_failure", "control_failure"]
+    }
+  ]
+}

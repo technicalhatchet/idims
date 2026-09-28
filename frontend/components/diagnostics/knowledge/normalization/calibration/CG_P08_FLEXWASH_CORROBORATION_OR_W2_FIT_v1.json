@@ -1,0 +1,307 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_p08_flexwash_corroboration_or_w2_fit",
+  "workstream": "CG-P08-FLEXWASH-CORROBORATION-OR-W2-FIT",
+  "status": "corroboration_blocked_pending_w2_acquisition",
+  "generatedAt": "2026-09-17T22:00:00+00:00",
+  "gateStatus": {
+    "w2CorroborationAuthorized": true,
+    "w2FitExecuted": false,
+    "freezeAuthorized": false,
+    "pilotClosure": "HOLD",
+    "p08ArchitectureException": "VALID — STOP preserved"
+  },
+  "referenceArtifacts": [
+    "CG_P08_FLEXWASH_FIT_TEST_v1.json",
+    "CG_P08_FLEXWASH_INTEGRATION_DISCOVERY_v1.json",
+    "CG_P08_FLEXWASH_ARCHITECTURE_DECISION_PACKAGE_v1.json",
+    "CG_AIO_LAUNDRY_COMBO_CORROBORATION_v1.json"
+  ],
+  "corroborationSummary": "Corpus search found no second dual-load wash implementation witness. W1 (Samsung WV55M9600) fit-test conclusions remain valid and unfalsified but uncorroborated. The reduced model (FL_LOWER + FL_UPPER + minimal integration domain with inter-instance communication, system supervision, and enable/inhibit facets) cannot be confirmed or broken cross-implementation until a genuine W2 manual is acquired and fit-tested. This gate documents W2 candidate inventory, falsification protocol, and W1 baseline — not corroboration success.",
+  "corroborationVerdict": {
+    "modelFalsified": false,
+    "modelCorroborated": false,
+    "crossImplementationConvergence": "unproven",
+    "reason": "Single witness only — corroboration requires independent W2 fit observation"
+  },
+  "humanDecisionRequired": true,
+  "corpusSearchSummary": {
+    "method": "Repo-wide search: backend/docs/manuals, procedure seeds, platformRegistry, pattern-catalog, normalization candidates",
+    "w1Present": true,
+    "w2Present": false,
+    "w1Artifacts": [
+      "backend/docs/manuals/wv55m9600av-extracted.txt",
+      "SAMSUNG-FLEXWASH-WASHER (21 procedures)",
+      "platformId: samsung_flexwash (WV55*)"
+    ],
+    "w2SearchTerms": ["flexwash", "FlexWash", "dual-load", "dual load", "TwinWash", "twin wash", "upper washer", "interload", "AC7", "WV60", "MultiWash"],
+    "w2MatchesInManualCorpus": 0,
+    "excludedMisclassifiedWitnesses": [
+      {
+        "candidate": "Samsung WD53 AIO laundry combo",
+        "reason": "Integrated wash+dry single drum — AIO architecture, not dual-load wash (explicitly excluded in CG_AIO_LAUNDRY_COMBO_FIT_TRIANGULATION_v1.json)"
+      },
+      {
+        "candidate": "GE GUD27 stacked laundry center",
+        "reason": "Separate washer + dryer chambers — not dual wash drums"
+      },
+      {
+        "candidate": "Whirlpool/Maytag 'lower washer harness' references",
+        "reason": "Mechanical harness part name on single-drum TL washers — not dual-load topology"
+      },
+      {
+        "candidate": "Samsung RF28 FlexSensor",
+        "reason": "Refrigerator flex zone — unrelated product line"
+      }
+    ],
+    "impactOnConfidence": "W1 integration requirements (AC7, SF) are internally consistent but manufacturer-specific recurrence unproven"
+  },
+  "w1IntegrationBaseline": {
+    "witnessId": "W1",
+    "model": "FL_LOWER + FL_UPPER + CANDIDATE-DUAL-COMPARTMENT-INTEGRATION (DISCOVERY_ONLY)",
+    "fitResult": "partially_fits",
+    "verifiedProcedureCoverage": "19/21 without distortion",
+    "integrationProcedures": 2,
+    "integrationResponsibilities": {
+      "inter_instance_control_communication": { "required": true, "evidence": "AC7 / samsungflexwash-interload-communication" },
+      "system_supervision": { "required": true, "evidence": "SF / samsungflexwash-system-fault" },
+      "cross_compartment_coordination": { "verdict": "reducible_to_enable_inhibit_facets", "notSeparateOrchestrationNode": true }
+    },
+    "preservedOperationalDistinctions": {
+      "independentCompartmentOperation": "PROVEN — must survive freeze",
+      "limitedCrossCompartmentCoordination": "PROVEN — AC7 dependency, shared drain, SF disable",
+      "simultaneousActiveWashOrchestration": "NOT PROVEN — must not be inferred at freeze"
+    },
+    "procedureClassificationCounts": {
+      "FITS_EXISTING_INSTANCE": 4,
+      "FITS_MULTI_INSTANCE": 13,
+      "FITS_INTEGRATION_DOMAIN": 2,
+      "DOES_NOT_FIT": 1,
+      "INSUFFICIENT_EVIDENCE": 1
+    }
+  },
+  "w2CorroborationQuestions": [
+    {
+      "id": "Q1-AC7-RECURRENCE",
+      "question": "Does another dual-load architecture exhibit the same AC7-style inter-instance communication?",
+      "w1Answer": "Yes — AC7 upper↔lower PBA via CN803",
+      "w2Answer": "UNANSWERED — no W2 in corpus",
+      "falsificationIfNo": "AC7 may be Samsung OEM code overlay, not architectural inter-instance comm requirement",
+      "corroborationIfYes": "inter_instance_control_communication is cross-implementation functional class"
+    },
+    {
+      "id": "Q2-SF-RECURRENCE",
+      "question": "Does W2 have the same appliance/system-level SF supervision behavior?",
+      "w1Answer": "Yes — System Error / microcontroller operation fail, both fault columns",
+      "w2Answer": "UNANSWERED",
+      "falsificationIfNo": "SF may map to primary control_board overlay — system_supervision responsibility shrinks",
+      "corroborationIfYes": "system_supervision is architectural, not Samsung-specific"
+    },
+    {
+      "id": "Q3-ENABLE-INHIBIT-FACET",
+      "question": "Is enable/inhibit actually an integration facet rather than a separate orchestration function?",
+      "w1Answer": "Yes — reducible; no simultaneous wash evidence",
+      "w2Answer": "UNANSWERED",
+      "falsificationIfNo": "W2 may require separate orchestration canonical node",
+      "corroborationIfYes": "Minimal integration domain (comm + supervision + facets) sufficient"
+    },
+    {
+      "id": "Q4-TWO-FL-INSTANCES",
+      "question": "Do upper/lower compartments still cleanly map to two FL instances?",
+      "w1Answer": "Yes — 13 procedures FITS_MULTI_INSTANCE",
+      "w2Answer": "UNANSWERED",
+      "falsificationIfNo": "W2 topology may require different composition (e.g. slave drawer, shared motor)",
+      "corroborationIfYes": "2× front_load_washer composition confirmed cross-implementation"
+    },
+    {
+      "id": "Q5-W2-NEW-INTEGRATION",
+      "question": "Does W2 introduce any integration behavior W1 couldn't represent?",
+      "w1Answer": "N/A baseline",
+      "w2Answer": "UNANSWERED",
+      "falsificationIfYes": "Candidate integration domain too small — architecture expansion required",
+      "corroborationIfNo": "W1 minimal model is sufficient superset"
+    },
+    {
+      "id": "Q6-PLATFORM-SPECIFIC",
+      "question": "Does W2 reveal AC7/SF are platform-specific rather than architectural?",
+      "w1Answer": "Unknown — single witness",
+      "w2Answer": "UNANSWERED",
+      "falsificationIfYes": "Integration domain becomes overlay-only; freeze may not need new canonical node",
+      "corroborationIfNo": "Architectural integration function justified"
+    }
+  ],
+  "w2CandidateInventory": [
+    {
+      "priority": 1,
+      "candidate": "LG TwinWash (pedestal + main washer)",
+      "manufacturer": "LG",
+      "rationale": "Cross-manufacturer dual-load wash — highest falsification value for Samsung-specific AC7/SF",
+      "corroborationValue": "high",
+      "falsificationValue": "high",
+      "inCorpus": false,
+      "acquisitionNote": "Requires service manual with dual-compartment fault table and inter-unit communication evidence"
+    },
+    {
+      "priority": 2,
+      "candidate": "Samsung FlexWash variant (WV60*, later WV55 revision)",
+      "manufacturer": "Samsung",
+      "rationale": "Same product line, different model — confirms Samsung pattern recurrence without cross-manufacturer proof",
+      "corroborationValue": "medium",
+      "falsificationValue": "medium",
+      "inCorpus": false,
+      "acquisitionNote": "Useful if LG unavailable; weaker than cross-manufacturer witness"
+    },
+    {
+      "priority": 3,
+      "candidate": "Samsung Bespoke / MultiWash dual-load (if distinct architecture)",
+      "manufacturer": "Samsung",
+      "rationale": "May confirm or diverge from WV55 integration pattern",
+      "corroborationValue": "medium",
+      "falsificationValue": "medium-high",
+      "inCorpus": false,
+      "acquisitionNote": "Verify architecture is dual independent wash — not AIO or single drum"
+    },
+    {
+      "priority": 4,
+      "candidate": "Non-Samsung dual-compartment washer (Haier, GE Profile, etc.)",
+      "manufacturer": "various",
+      "rationale": "Any genuine second implementation with compartment partition diagnostics",
+      "corroborationValue": "high if cross-manufacturer",
+      "falsificationValue": "high",
+      "inCorpus": false
+    }
+  ],
+  "w2UnacceptableWitnesses": [
+    "Another WV55M9600 copy (same manual — not independent)",
+    "Single-drum FL washer with 'Flex' marketing name only",
+    "AIO wash+dry combo",
+    "Stacked laundry center (washer + dryer)",
+    "Inventory mention without ingested service manual"
+  ],
+  "w2FitProtocol": {
+    "purpose": "Execute when W2 manual acquired — try to falsify W1 reduced model",
+    "requiredArtifacts": [
+      "CG_P08_FLEXWASH_W2_FIT_OBSERVATION_v1.json",
+      "W2 extraction doc with dual-column or compartment-attributed fault table",
+      "W2 procedure inventory (or fit observation from manual fault/tests)"
+    ],
+    "classificationSchema": [
+      "FITS_EXISTING_INSTANCE",
+      "FITS_MULTI_INSTANCE",
+      "FITS_INTEGRATION_DOMAIN",
+      "DOES_NOT_FIT",
+      "INSUFFICIENT_EVIDENCE"
+    ],
+    "comparisonRequired": [
+      "Procedure-level classification parity with W1 fit matrix",
+      "Integration responsibility recurrence (comm, supervision, enable/inhibit)",
+      "New integration behaviors not in W1",
+      "Platform-specific codes vs functional classes",
+      "Preserved distinctions: independent vs coordination vs simultaneous"
+    ],
+    "falsificationTriggers": [
+      "W2 has no inter-compartment communication diagnostic → AC7 Samsung-specific",
+      "W2 has no system-level fault class → SF Samsung-specific",
+      "W2 requires third subsystem beyond FL_LOWER + FL_UPPER + integration",
+      "W2 uses single shared motor for both compartments",
+      "W2 documents explicit simultaneous dual-active wash with interlocks not in candidate"
+    ],
+    "corroborationTriggers": [
+      "W2 has functionally equivalent inter-instance comm failure mode",
+      "W2 has appliance-level supervisory fault spanning compartments",
+      "W2 dual-column or compartment-attributed fault partition",
+      "W2 upper/lower map to independent FL instances without distortion",
+      "W2 integration needs do not exceed W1 minimal domain"
+    ]
+  },
+  "w1W2ComparisonMatrixTemplate": {
+    "note": "Populate when W2 fit observation exists",
+    "rows": [
+      { "dimension": "inter_instance_communication", "w1": "AC7 required", "w2": null },
+      { "dimension": "system_supervision", "w1": "SF required", "w2": null },
+      { "dimension": "enable_inhibit_facets", "w1": "reducible facet", "w2": null },
+      { "dimension": "two_fl_instances", "w1": "13 FITS_MULTI_INSTANCE", "w2": null },
+      { "dimension": "simultaneous_active_wash", "w1": "NOT PROVEN", "w2": null },
+      { "dimension": "independent_operation", "w1": "PROVEN", "w2": null },
+      { "dimension": "integration_domain_procedure_count", "w1": 2, "w2": null },
+      { "dimension": "new_integration_behaviors_in_w2", "w1": "none", "w2": null }
+    ]
+  },
+  "integrationRequirementComparison": {
+    "status": "w1_only",
+    "w1MinimalDomain": {
+      "inter_instance_control_communication": "required",
+      "system_supervision": "required",
+      "enable_inhibit_facets": "partial_required_reducible",
+      "separate_orchestration_node": false,
+      "simultaneous_wash_orchestration": false
+    },
+    "w2Delta": null,
+    "modelExpandedByW2": false,
+    "modelRejectedByW2": false
+  },
+  "falsificationAttempt": {
+    "executed": false,
+    "reason": "No W2 witness available to attempt falsification",
+    "w1InternalFalsificationChecks": [
+      { "test": "Single FL instance", "result": "REJECTED — distortion" },
+      { "test": "2× FL without integration", "result": "REJECTED — AC7/SF unrepresentable" },
+      { "test": "Integration blob absorbing ordinary wash", "result": "REJECTED — only 2/21 procedures" },
+      { "test": "Orchestration node for simultaneous wash", "result": "REJECTED — not proven in W1" }
+    ],
+    "crossWitnessFalsification": "deferred_pending_w2"
+  },
+  "freezeReadiness": {
+    "verdict": "not_ready",
+    "blockers": [
+      "No W2 corroboration or falsification",
+      "Single witness (Samsung WV55M9600) only",
+      "MEMS platform overlay gap on W1"
+    ],
+    "candidateStatus": "DISCOVERY_ONLY",
+    "freezeNotAuthorized": true
+  },
+  "preservedContractConstraints": {
+    "mustSurviveFreeze": [
+      "independent_compartment_operation: PROVEN",
+      "limited_cross_compartment_coordination: PROVEN",
+      "simultaneous_active_wash_orchestration: NOT PROVEN — do not infer"
+    ],
+    "note": "Future frozen contract must encode these distinctions explicitly to prevent marketing-driven orchestration scope creep"
+  },
+  "recommendedNextGate": {
+    "gateId": "CG-P08-FLEXWASH-W2-ACQUISITION-AND-FIT",
+    "description": "Human acquisition of priority-1 W2 manual (LG TwinWash preferred) → extract → CG_P08_FLEXWASH_W2_FIT_OBSERVATION_v1.json → populate W1/W2 comparison → corroboration or falsification verdict",
+    "notAuthorized": [
+      "Canonical freeze",
+      "Integration domain promotion",
+      "P08 exception resolution",
+      "Pilot closure",
+      "Automatic manual ingest without human acquisition authorization"
+    ]
+  },
+  "architectureExceptionIntegrity": {
+    "path": "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json",
+    "modified": false,
+    "generatedAt": "2026-09-17T18:12:51.589261+00:00"
+  },
+  "canonicalMutationCheck": {
+    "modified": false,
+    "frozenHashesVerified": 10
+  },
+  "validationExecuted": {
+    "artifactSchemaValid": true,
+    "validateCanonicalGraph": "OK",
+    "cgProductionNormalizationPilotTest": "11/11 PASS",
+    "noImplementation": true,
+    "noW2Ingested": true
+  },
+  "explicitlyNotDone": [
+    "Acquire or ingest W2 manual",
+    "Freeze integration candidate",
+    "Modify canonical graphs",
+    "Resolve P08",
+    "Pilot closure",
+    "Publish overlays"
+  ]
+}

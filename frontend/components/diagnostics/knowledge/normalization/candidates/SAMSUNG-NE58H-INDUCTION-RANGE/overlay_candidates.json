@@ -1,0 +1,435 @@
+{
+  "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+  "candidates": [
+    {
+      "id": "overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-bake-element-oven_sensor_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "ne58h-bake-element",
+      "canonicalTestTarget": "oven_sensor_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-3: Bake element component test",
+      "componentIds": [
+        "bake_element"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-bake-element",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-bake-element",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-c20-oven-sensor-oven_sensor_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "ne58h-c20-oven-sensor",
+      "canonicalTestTarget": "oven_sensor_test",
+      "confidence": 0.92,
+      "displayTitle": "C-20: Oven temperature sensor",
+      "componentIds": [
+        "thermistor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-c20-oven-sensor",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-c20-oven-sensor",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-c21-abnormal-temp-oven_sensor_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "ne58h-c21-abnormal-temp",
+      "canonicalTestTarget": "oven_sensor_test",
+      "confidence": 0.92,
+      "displayTitle": "C-21: Abnormal internal temperature",
+      "componentIds": [
+        "bake_element",
+        "broil_element",
+        "thermistor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-c21-abnormal-temp",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-c21-abnormal-temp",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-cd1-door-lock-display_communication_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "ne58h-cd1-door-lock",
+      "canonicalTestTarget": "display_communication_test",
+      "confidence": 0.92,
+      "displayTitle": "C-d1: Door lock mispositioned",
+      "componentIds": [
+        "door_lock"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-cd1-door-lock",
+        "pages": [
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-cd1-door-lock",
+            "pages": [
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-cf0-main-sub-display_communication_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "ne58h-cf0-main-sub",
+      "canonicalTestTarget": "display_communication_test",
+      "confidence": 0.92,
+      "displayTitle": "C-F0: Main \u2194 sub PCB communication",
+      "componentIds": [
+        "main_control"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-cf0-main-sub",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-cf0-main-sub",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-cf2-touch-display_communication_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "ne58h-cf2-touch",
+      "canonicalTestTarget": "display_communication_test",
+      "confidence": 0.92,
+      "displayTitle": "C-F2: Touch PCB communication",
+      "componentIds": [
+        "display_panel"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-cf2-touch",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-cf2-touch",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-convection-fan-surface_heat_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "ne58h-convection-fan",
+      "canonicalTestTarget": "surface_heat_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-3: Convection fan motor",
+      "componentIds": [
+        "convection_fan"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-convection-fan",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-convection-fan",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-induction-comm-inverter-display_communication_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "ne58h-induction-comm-inverter",
+      "canonicalTestTarget": "display_communication_test",
+      "confidence": 0.92,
+      "displayTitle": "Cooktop: Display \u2194 inverter communication",
+      "componentIds": [
+        "surface_element",
+        "display_panel"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-induction-comm-inverter",
+        "pages": [
+          56,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-induction-comm-inverter",
+            "pages": [
+              56,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-induction-igbt-sensor-surface_heat_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "ne58h-induction-igbt-sensor",
+      "canonicalTestTarget": "surface_heat_test",
+      "confidence": 0.92,
+      "displayTitle": "Cooktop: IGBT sensor open/short",
+      "componentIds": [
+        "surface_element"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-induction-igbt-sensor",
+        "pages": [
+          41,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-induction-igbt-sensor",
+            "pages": [
+              41,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-induction-pan-detection-surface_heat_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "ne58h-induction-pan-detection",
+      "canonicalTestTarget": "surface_heat_test",
+      "confidence": 0.92,
+      "displayTitle": "Cooktop: Pan detection / unsuitable cookware",
+      "componentIds": [
+        "surface_element"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-induction-pan-detection",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-induction-pan-detection",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-power-supply_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "ne58h-power",
+      "canonicalTestTarget": "supply_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-3: No power / terminal block",
+      "componentIds": [
+        "supply",
+        "main_control"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-power",
+        "pages": [
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-power",
+            "pages": [
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

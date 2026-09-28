@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_pilot_prerequisite_ingestion_contract",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-PILOT",
+  "parentContract": "CG_PRODUCTION_NORMALIZATION_PILOT_CONTRACT_v1.json",
+  "phaseIntent": "Evidence acquisition for pilot cohort slots P03, P05, P07 only. Not pilot closure. Not P08 resolution.",
+  "immutableDuringPrerequisiteIngestion": [
+    "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json",
+    "CG_PRODUCTION_NORMALIZATION_PILOT_RESULTS_v1.json",
+    "CG_PRODUCTION_NORMALIZATION_PILOT_ANALYSIS_v1.json",
+    "CG_PRODUCTION_NORMALIZATION_PILOT_CLOSURE_v1.json"
+  ],
+  "forbiddenActions": [
+    "Resolve or remove P08 architecture_exception",
+    "Close pilot GATE",
+    "Authorize 70-manual batch",
+    "Mutate frozen canonical graphs or frozen_canonical_hashes_v1.json",
+    "Run pilot_batch.py --write (fresh pilot run is a separate step after all prerequisites ready)"
+  ],
+  "allowedActions": [
+    "PDF extract (if needed)",
+    "Extraction docs",
+    "procedureManualManifest entries",
+    "platformRegistry entries",
+    "Procedure seed generation",
+    "Normalization candidates for P03/P05/P07 only",
+    "Prerequisite status artifacts under CG_PILOT_* prefix"
+  ],
+  "slots": {
+    "P03": {
+      "manualId": "LG-FL-WASHER",
+      "statusArtifact": "CG_P03_LG_FL_WASHER_INGESTION_BLOCKER_v1.json"
+    },
+    "P05": {
+      "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+      "statusArtifact": "CG_PILOT_P05_INGESTION_COMPLETE_v1.json"
+    },
+    "P07": {
+      "manualId": "SAMSUNG-HP-DRYER-DV22N",
+      "statusArtifact": "CG_PILOT_P07_INGESTION_COMPLETE_v1.json"
+    }
+  },
+  "aggregateStatusArtifact": "CG_PILOT_PREREQUISITE_INGESTION_STATUS_v1.json",
+  "nextStepAfterPrerequisites": "Fresh 8-slot pilot run → inspect every slot → human triage P08 → closure"
+}

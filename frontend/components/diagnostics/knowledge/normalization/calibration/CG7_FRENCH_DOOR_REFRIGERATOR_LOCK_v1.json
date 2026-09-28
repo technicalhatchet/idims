@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg7_french_door_refrigerator_lock",
+  "status": "locked",
+  "lockedAt": "2026-09-16T04:30:00+00:00",
+  "phase": "CG-7",
+  "verdict": "discovery_closed_canonical_frozen",
+  "canonicalOntology": {
+    "id": "french_door_refrigerator",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-16T04:30:00+00:00",
+    "file": "frontend/components/diagnostics/knowledge/canonical/french_door_refrigerator.json"
+  },
+  "hierarchy": {
+    "frozen": "FRENCH_DOOR_REFRIGERATOR rev1",
+    "discoveryCorpus": {
+      "R1": { "manualId": "W10322959", "platformId": "whirlpool_jazz_french_door", "role": "first_manual_observation" },
+      "R2": { "manualId": "SAMSUNG-RF23BB-FRIDGE", "platformId": "samsung_fridge_bespoke", "role": "boundary_test" },
+      "R3": { "manualId": "LG-LRMVS-FRIDGE", "platformId": "lg_lrmvs", "role": "triangulation_tie_breaker" }
+    },
+    "nextPhase": "CG-8_manufacturer_compounding",
+    "compoundingContract": "CG8_FRENCH_DOOR_COMPOUNDING_CONTRACT_v1.json",
+    "compoundingTargets": ["whirlpool_jazz_french_door", "samsung_fridge_bespoke", "lg_lrmvs"],
+    "familyClosure": "CG95_REFRIGERATOR_FAMILY_LOCK_v1.json",
+    "familyClosedAt": "2026-09-16T14:00:00+00:00"
+  },
+  "freezeBuckets": {
+    "keep": 6,
+    "conditional": 5,
+    "platformOnly": 4,
+    "remove": 3,
+    "defer": 6,
+    "canonicalExpansion": 0
+  },
+  "ontologyContract": {
+    "conditionalNotInComponents": true,
+    "componentsCount": 6,
+    "conditionalConceptsCount": 5
+  },
+  "demonstratedProperties": [
+    "discovery_discipline — R2 withheld R1 premature promotions; R3 independently reconfirmed controls trio",
+    "aggregate_rejection — airflow_path, defrost_system, cooling_system removed on consistent decomposition evidence",
+    "platform_boundary — compressor_controller, defrost_sensor, sealed_system remain overlay-only across three manuals",
+    "conditional_semantics — temperature_sensor, compressor, condenser_fan, ice_maker, water_dispenser in ontology contract only"
+  ],
+  "evidenceArtifacts": [
+    "W10322959_fd_cg7x_observation_v1.json",
+    "SAMSUNG_RF23BB_fd_cg7x_observation_v1.json",
+    "LG_LRMVS_fd_cg7x_observation_v1.json",
+    "FRENCH_DOOR_REFRIGERATOR_CG7_FREEZE_RECOMMENDATION_v1.json",
+    "french_door_refrigerator_cg7x_candidate_v1.json"
+  ],
+  "candidateSkeletonPolicy": "french_door_refrigerator_cg7x_candidate_v1.json remains unmodified calibration artifact"
+}

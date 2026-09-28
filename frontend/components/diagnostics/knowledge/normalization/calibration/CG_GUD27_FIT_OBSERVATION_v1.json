@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_stacked_laundry_center_fit_observation",
+  "workstream": "CG-STACKED-LAUNDRY-CENTER-FIT-TEST",
+  "witnessId": "W1",
+  "status": "complete",
+  "generatedAt": "2026-09-17T17:20:00+00:00",
+  "contract": "CG_STACKED_LAUNDRY_CENTER_FIT_TEST_CONTRACT_v1.json",
+  "manufacturer": "GE",
+  "model": "GUD27ESSMWW / GUD27GSSMWW",
+  "platformId": "ge_gud27_stacked",
+  "manualId": "GE-GUD27-STACKED",
+  "templateId": "stacked_laundry",
+  "dryerArchitecture": "vented_mechanical_timer",
+  "washerArchitecture": "mechanical_no_ingested_electronic_procedures",
+  "canonicalPromotionBlocked": true,
+  "canonicalMutationBlocked": true,
+  "classificationVocabulary": [
+    "vented_dryer",
+    "front_load_washer",
+    "top_load_washer",
+    "shared_function",
+    "implementation_specific",
+    "unresolved"
+  ],
+  "graphArtifacts": {
+    "sourcePdf": "backend/docs/manuals/gud27essmww.pdf",
+    "extractedText": "backend/docs/manuals/gud27essmww-extracted.txt",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/GE_GUD27_UNITIZED_EXTRACTION.md",
+    "procedureSeedDir": "frontend/components/diagnostics/procedures/seed/ge_gud27_stacked",
+    "procedureCatalog": "frontend/components/diagnostics/procedures/seed/ge_gud27_stacked/procedureCatalog.json"
+  },
+  "functionalArchitectureSummary": {
+    "dryPath": "Vented exhaust dryer with mechanical timer — inlet/outlet control thermostats, safety + high-limit, electric dual element or gas ignitor/valve path. Auto cycles hold timer until thermostats sense dry. No display error codes. Long-vent blower on some models.",
+    "washPath": "Mechanical washer in same cabinet — extraction doc states washer is mechanical/timer platform; no electronic OEM test procedures ingested in v1 corpus.",
+    "integration": "Unitized cabinet with shared power feed. Separate washer and dryer functional sections. Manual load transfer between sections — NOT single-drum wash→dry orchestration. Distinct from aio_laundry_combo.",
+    "aioRelevance": "Explicitly NOT AIO — separate sections, no integrated_laundry_orchestration"
+  },
+  "classificationHistogram": {
+    "vented_dryer": 5,
+    "front_load_washer": 0,
+    "top_load_washer": 0,
+    "shared_function": 0,
+    "implementation_specific": 1,
+    "unresolved": 0
+  },
+  "procedureClassifications": [
+    {
+      "procedureId": "gegud27-no-heat-electric",
+      "oemSection": "TS-60",
+      "pages": [60, 77],
+      "classification": "vented_dryer",
+      "functionalDomain": "heat_generation_electric",
+      "provenance": "High-limit, safety thermostat, heating element, 240 V at element — maps to vented_dryer heat_source + thermal_fuse/cutoff protection path.",
+      "frozenContractFit": "vented_dryer.heat_source + thermal protection without mutation"
+    },
+    {
+      "procedureId": "gegud27-heater-thermostats-electric",
+      "oemSection": "TS-34",
+      "pages": [34],
+      "classification": "vented_dryer",
+      "functionalDomain": "thermal_sensing_protection",
+      "provenance": "Element 23.7–26 Ω; cycling thermostats biased near element/blower — same diagnostic role as vented_dryer temperature sensing and heat circuit protection.",
+      "frozenContractFit": "vented_dryer.heat_source + temperature_sensor/thermal domains"
+    },
+    {
+      "procedureId": "gegud27-no-heat-gas",
+      "oemSection": "TS-61",
+      "pages": [61],
+      "classification": "vented_dryer",
+      "functionalDomain": "heat_generation_gas",
+      "provenance": "Ignitor, flame sensor, gas valve coils, outlet thermostat — vented gas dry heat path; fuel-specific implementation overlay on heat_source.",
+      "frozenContractFit": "vented_dryer.heat_source (gas realization) without mutation"
+    },
+    {
+      "procedureId": "gegud27-no-tumble",
+      "oemSection": "TS-28",
+      "pages": [28],
+      "classification": "vented_dryer",
+      "functionalDomain": "drum_mechanical_drive",
+      "provenance": "Drive belt, idler, motor start/run windings — maps to vented_dryer drive_motor + door authorization gate.",
+      "frozenContractFit": "vented_dryer.drive_motor + door_switch"
+    },
+    {
+      "procedureId": "gegud27-timer-not-advancing",
+      "oemSection": "TS-62",
+      "pages": [62],
+      "classification": "implementation_specific",
+      "functionalDomain": "drying_control_timer",
+      "provenance": "Mechanical timer motor ~2.4 kΩ, timer contacts, 4500 Ω voltage-dropping resistor — realizes vented_dryer control_board/hmi_control/drying_control at platform layer; timer chart sequencing is implementation vocabulary.",
+      "frozenContractFit": "vented_dryer drying_control via mechanical_timer platform overlay — not canonical node promotion",
+      "alsoMapsTo": "vented_dryer.control_board (functional realization)"
+    },
+    {
+      "procedureId": "gegud27-vent-restriction",
+      "oemSection": "TS-14",
+      "pages": [14],
+      "classification": "vented_dryer",
+      "functionalDomain": "airflow_exhaust",
+      "provenance": "Restricted vent, long-vent blower motor — maps to vented_dryer exhaust_path + blower + lint restriction domains.",
+      "frozenContractFit": "vented_dryer.exhaust_path + blower + lint_filter without mutation"
+    }
+  ],
+  "washerSectionEvidence": {
+    "ingestedProcedureCount": 0,
+    "wizardDecomposition": "stacked_laundry template already models washer_section and dryer_section separately",
+    "hostFamilyHypothesis": "top_load_washer or mechanical_washer_platform_overlay",
+    "blocksProvenVariant": false,
+    "rationale": "Absence of ingested washer OEM procedures does not create dryer-side divergence — washer uses existing wizard section decomposition pending separate washer manual fit if needed"
+  },
+  "rejectedMappings": [
+    {
+      "candidate": "aio_laundry_combo",
+      "reason": "No integrated orchestration, separate sections, manual load transfer"
+    },
+    {
+      "candidate": "heat_pump_dryer",
+      "reason": "Vented exhaust architecture with element/gas heat — not sealed heat-pump"
+    },
+    {
+      "candidate": "mechanical_timer as canonical control_board node",
+      "reason": "Timer is platform implementation — vented_dryer control domains suffice"
+    }
+  ]
+}

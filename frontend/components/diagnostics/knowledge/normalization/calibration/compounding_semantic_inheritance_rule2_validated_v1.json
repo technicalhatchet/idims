@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "semantic_inheritance_rule_validation",
+  "ruleId": "samsung-fl-pba-communication-control-board",
+  "ladder": "R2",
+  "status": "VALIDATED",
+  "validatedAt": "2026-09-14T02:35:00+00:00",
+  "phase": "CG-6.3",
+  "controlBaseline": "compounding_efficiency_v1.json",
+  "benchmarkArtifact": "semantic_inheritance_benchmark_v1.json",
+  "closedLoop": [
+    "Human proves: PBA communication (AC/AC6 → AC3–AC6) → control_board (inherited_corpus_knowledge)",
+    "Freeze provenance (BB8700 term resolution + WF6000R human classification)",
+    "Encode compound semantic rule — require PBA + communication, exclude mems/motor",
+    "Matcher applies rule deterministically on WF6000R only",
+    "1 additional fewer human gate decision (47 → 46 projected with R1+R2)",
+    "0 false positives on 7-manual calibration corpus",
+    "1 deliberate abstention (MEMS PBA — must not absorb mems_sensor)",
+    "0 leakage, 0 ontology promotion, 0 topology inference"
+  ],
+  "evidenceStrength": {
+    "sameManufacturer": true,
+    "sameApplianceFamily": true,
+    "humanProvenOnBothManuals": true,
+    "existingCorpusConcept": true,
+    "compoundPhraseRequired": true,
+    "singleTokenExtrapolationForbidden": true
+  },
+  "nastyRegressionMatrix": {
+    "PBA communication": "match → control_board",
+    "PBA communication error": "match → control_board",
+    "PBA alone": "abstain",
+    "communication alone": "abstain",
+    "motor communication": "abstain (excludeAny motor)",
+    "MEMS PBA": "abstain — does not resolve to mems_sensor",
+    "Whirlpool without Samsung evidence": "no match",
+    "unrelated Samsung PBA procedure": "abstain"
+  },
+  "benchmarkResults": {
+    "mappingGateBurden": { "before": 71, "after": 69, "deltaWithR1AndR2": 2 },
+    "projectedCohortHumanGateDecisions": { "before": 48, "after": 46 },
+    "semanticInheritsAutoResolved": 2,
+    "abstentions": 1,
+    "regressionFalsePositives": 0,
+    "leakage": 0,
+    "newCanonical": 0
+  },
+  "nextRuleGuidance": {
+    "ladder": "R3",
+    "requirement": "OEM diagnostic-code/title variation — greater semantic distance than R2",
+    "doNot": "Use new-platform evidence (e.g. mems_sensor) as semantic-inheritance seed"
+  }
+}

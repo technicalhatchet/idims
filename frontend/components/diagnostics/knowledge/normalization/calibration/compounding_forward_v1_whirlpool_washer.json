@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "forward_compounding",
+  "version": "v1",
+  "generatedAt": "2026-09-13T07:15:13.571882+00:00",
+  "promotionOrder": [
+    "W8178558",
+    "W11169652",
+    "W10864849"
+  ],
+  "manuals": {
+    "W8178558": {
+      "manualId": "W8178558",
+      "architecture": "FL",
+      "reviewRecords": 41,
+      "newHumanDecisionCount": 10,
+      "newHumanDecisionRate": 0.2439,
+      "inheritedResolvedAutomatically": 20,
+      "inheritedResolutionRate": 0.6667,
+      "newPlatformKnowledge": 10,
+      "newCanonicalKnowledge": 0,
+      "platformKnowledgeDetail": {},
+      "equivalence": "PASS",
+      "metricsSource": "frozen_baseline_v1_whirlpool_fl"
+    },
+    "W11169652": {
+      "manualId": "W11169652",
+      "architecture": "FL",
+      "reviewRecords": 49,
+      "newHumanDecisionCount": 9,
+      "newHumanDecisionRate": 0.1837,
+      "inheritedResolvedAutomatically": 40,
+      "inheritedResolutionRate": 0.8163,
+      "newPlatformKnowledge": 9,
+      "newCanonicalKnowledge": 0,
+      "platformKnowledgeDetail": {},
+      "equivalence": "PASS",
+      "metricsSource": "frozen_baseline_v1_whirlpool_fl"
+    },
+    "W10864849": {
+      "manualId": "W10864849",
+      "architecture": "TL",
+      "reviewRecords": 53,
+      "newHumanDecisionCount": 14,
+      "newHumanDecisionRate": 0.264,
+      "inheritedResolvedAutomatically": 39,
+      "inheritedResolutionRate": 0.736,
+      "newPlatformKnowledge": 14,
+      "newCanonicalKnowledge": 0,
+      "platformKnowledgeDetail": {
+        "reusableTlPlatformConcept": 5,
+        "oneOffOemTerminology": 4,
+        "knownConceptNewTlImplementation": 3,
+        "newTlAlias": 6,
+        "newTlProcedureBinding": 24
+      },
+      "equivalence": "PASS",
+      "metricsSource": "frozen_baseline_v1_whirlpool_tl",
+      "humanClassification": {
+        "promotionGateDecisions": 14,
+        "newCanonicalKnowledge": 0,
+        "newPlatformKnowledge": 14,
+        "reusableTlPlatformConcept": 5,
+        "oneOffOemTerminology": 4,
+        "knownConceptNewTlImplementation": 3,
+        "newTlAlias": 6,
+        "newTlProcedureBinding": 24,
+        "inheritedFlCorpusConcepts": 10,
+        "inheritedTlPlatformFamily": 0,
+        "byPlatformSubtype": {
+          "new_tl_alias": 5,
+          "reusable_tl_platform_concept": 3,
+          "known_concept_new_tl_implementation": 2,
+          "one_off_oem_terminology": 4
+        },
+        "architectureBoundary": "FL_corpus_prior \u2192 TL_ontology"
+      }
+    }
+  },
+  "notes": [
+    "newCanonicalKnowledge should stay 0 unless repeated cross-manual evidence forces ontology expansion.",
+    "newPlatformKnowledge = newHumanDecisionCount - newCanonicalKnowledge.",
+    "W10864849 is the first architecture-boundary test (FL corpus prior, TL ontology)."
+  ]
+}

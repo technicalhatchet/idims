@@ -8,6 +8,7 @@ import SolomonMobileShell from '../../components/solomon/SolomonMobileShell';
 import SolomonWizardHeader, { SolomonWizardBackLink } from '../../components/solomon/SolomonWizardHeader';
 import SolomonAccessGuard from '../../components/solomon/SolomonAccessGuard';
 import SolomonEquipmentBar from '../../components/solomon/SolomonEquipmentBar';
+import SolomonAppliancePicker from '../../components/solomon/SolomonAppliancePicker';
 import DiagnosticResultsForm, { clearDiagnosticDraft, getDiagnosticDraftKey } from '../../components/work_orders/DiagnosticResultsForm';
 import {
   buildInitialDiagnosticStateForTemplate,
@@ -22,6 +23,7 @@ import {
 import { hasSolomonDiagnosticProgress } from '../../utils/solomonDiagnosticProgress';
 import { confirmSolomonTemplateChange } from '../../utils/solomonTemplateChange';
 import useSolomonTheme from '../../hooks/useSolomonTheme';
+import { isDiagnosticEquipmentCommitted } from '../../utils/solomonEquipmentInput';
 
 function syncHintText(syncHint, isDiyer) {
   if (syncHint === 'saved') {
@@ -52,16 +54,20 @@ export default function SolomonDiagnosePage() {
 
   const initialTemplateId = useMemo(() => {
     if (templateParam && getDiagnosticTemplate(templateParam)) return templateParam;
-    return 'refrigerator';
+    return null;
   }, [templateParam]);
 
-  const [payload, setPayload] = useState(() => buildInitialDiagnosticStateForTemplate(initialTemplateId));
+  const [payload, setPayload] = useState(() => (
+    initialTemplateId ? buildInitialDiagnosticStateForTemplate(initialTemplateId) : null
+  ));
   const [equipment, setEquipment] = useState(() => ({
     equipment_make: '',
     equipment_model: '',
     equipment_serial: '',
-    equipment_subtype: templateIdToDiySubtype(initialTemplateId),
+    equipment_version: '',
+    equipment_subtype: initialTemplateId ? templateIdToDiySubtype(initialTemplateId) : '',
   }));
+  const [committedEquipment, setCommittedEquipment] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
   const [queuedMessage, setQueuedMessage] = useState(null);
@@ -93,6 +99,7 @@ export default function SolomonDiagnosePage() {
   }, [diagnosticId, draftScope]);
 
   useEffect(() => {
+    if (!payload) return undefined;
     if (!diagnosticId && !hasSolomonDiagnosticProgress(payload)) return undefined;
     const timer = setTimeout(() => {
       persistProgress(payload, { immediate: true });
@@ -115,7 +122,7 @@ export default function SolomonDiagnosePage() {
 
   const handleTemplateChange = useCallback(
     (nextTemplateId) => {
-      if (!nextTemplateId || nextTemplateId === payload.templateId) return;
+      if (!nextTemplateId || !payload || nextTemplateId === payload.templateId) return;
       if (!getDiagnosticTemplate(nextTemplateId)) return;
       if (!confirmSolomonTemplateChange(payload, isDiyer)) return;
 
@@ -157,21 +164,52 @@ export default function SolomonDiagnosePage() {
   const authSettled = !authLoading && !rolesLoading && rolesResolved;
   const showWizard = mounted && routerReady && authSettled;
 
-  const templateLabel = getDiagnosticTemplate(payload?.templateId)?.label;
+  const activeTemplateId = payload?.templateId || initialTemplateId;
+  const templateLabel = activeTemplateId ? getDiagnosticTemplate(activeTemplateId)?.label : null;
+  const diagnosticEquipment = committedEquipment || null;
+  const equipmentSetupComplete = Boolean(
+    activeTemplateId
+    && diagnosticEquipment
+    && isDiagnosticEquipmentCommitted(diagnosticEquipment, activeTemplateId),
+  );
+
+  const workOrderForDiagnostic = useMemo(
+    () => (diagnosticEquipment ? {
+      equipment_make: diagnosticEquipment.equipment_make,
+      equipment_model: diagnosticEquipment.equipment_model,
+      equipment_serial: diagnosticEquipment.equipment_serial,
+      equipment_version: diagnosticEquipment.equipment_version,
+    } : null),
+    [diagnosticEquipment],
+  );
+
+  const handleApplianceSelect = useCallback((nextTemplateId) => {
+    if (!getDiagnosticTemplate(nextTemplateId)) return;
+    const nextPayload = buildInitialDiagnosticStateForTemplate(nextTemplateId);
+    setPayload(nextPayload);
+    setEquipment((prev) => ({
+      ...prev,
+      equipment_subtype: templateIdToDiySubtype(nextTemplateId),
+    }));
+    const params = new URLSearchParams({ template: nextTemplateId });
+    if (outcomeId) params.set('outcome_id', outcomeId);
+    router.replace(`/solomon/diagnose?${params.toString()}`, undefined, { shallow: true });
+  }, [outcomeId, router]);
 
   const solomonSession = useMemo(() => ({
     id: diagnosticId,
     template_id: payload?.templateId,
     template_label: templateLabel,
-    equipment_make: equipment.equipment_make,
-    equipment_model: equipment.equipment_model,
-    equipment_serial: equipment.equipment_serial,
+    equipment_make: diagnosticEquipment?.equipment_make || equipment.equipment_make,
+    equipment_model: diagnosticEquipment?.equipment_model || equipment.equipment_model,
+    equipment_serial: diagnosticEquipment?.equipment_serial || equipment.equipment_serial,
     status: 'in_progress',
     payload,
   }), [
     diagnosticId,
     payload,
     templateLabel,
+    diagnosticEquipment,
     equipment.equipment_make,
     equipment.equipment_model,
     equipment.equipment_serial,
@@ -195,43 +233,57 @@ export default function SolomonDiagnosePage() {
         }
       >
         <SolomonAccessGuard promptTitle="Sign in to run guided diagnostics">
-        <SolomonEquipmentBar
-          equipment={equipment}
-          onEquipmentChange={setEquipment}
-          templateId={payload.templateId}
-          templateOptions={templateOptions}
-          onTemplateChange={handleTemplateChange}
-          templateLabel={templateLabel}
-          isDiyer={isDiyer}
-          copy={copy}
-          outcomeId={outcomeId}
-          progressMessage={progressMessage}
-          insightPeeks={insightPeeks}
-          error={error}
-          queuedMessage={queuedMessage}
-          diagnosticsLinkLabel={isDiyer ? 'View my sessions →' : 'View my diagnostics →'}
-          lifecycleDiagnostic={diagnosticId ? { id: diagnosticId, status: 'in_progress' } : null}
-        />
+        {!activeTemplateId ? (
+          <SolomonAppliancePicker onSelect={handleApplianceSelect} />
+        ) : (
+          <>
+            <SolomonEquipmentBar
+              equipment={equipment}
+              onEquipmentChange={setEquipment}
+              onEquipmentCommit={setCommittedEquipment}
+              committedEquipment={committedEquipment}
+              templateId={activeTemplateId}
+              templateOptions={templateOptions}
+              onTemplateChange={handleTemplateChange}
+              templateLabel={templateLabel}
+              isDiyer={isDiyer}
+              copy={copy}
+              outcomeId={outcomeId}
+              progressMessage={equipmentSetupComplete ? progressMessage : null}
+              error={error}
+              queuedMessage={queuedMessage}
+              diagnosticsLinkLabel={isDiyer ? 'View my sessions →' : 'View my diagnostics →'}
+              lifecycleDiagnostic={diagnosticId ? { id: diagnosticId, status: 'in_progress' } : null}
+              insightPeeks={equipmentSetupComplete ? insightPeeks : null}
+            />
 
-        <DiagnosticResultsForm
-          payload={payload}
-          onChange={setPayload}
-          workOrder={null}
-          workOrderId={draftScope}
-          draftNoteId={diagnosticId}
-          variant="mobile"
-          audience={isDiyer ? 'diy' : 'tech'}
-          readOnly={false}
-          isSaving={isSaving}
-          onSave={handleSave}
-          onProgressSave={handleProgressSave}
-          hideTemplateSelector
-          insightPeekPlacement="external"
-          solomonMobileLayout
-          interfaceStyle={interfaceStyle}
-          solomonSession={solomonSession}
-          onInsightPeeksChange={setInsightPeeks}
-        />
+            {equipmentSetupComplete && payload && workOrderForDiagnostic ? (
+              <DiagnosticResultsForm
+                payload={payload}
+                onChange={setPayload}
+                workOrder={workOrderForDiagnostic}
+                workOrderId={draftScope}
+                draftNoteId={diagnosticId}
+                variant="mobile"
+                audience={isDiyer ? 'diy' : 'tech'}
+                readOnly={false}
+                isSaving={isSaving}
+                onSave={handleSave}
+                onProgressSave={handleProgressSave}
+                hideTemplateSelector
+                insightPeekPlacement="external"
+                solomonMobileLayout
+                interfaceStyle={interfaceStyle}
+                solomonSession={solomonSession}
+                onInsightPeeksChange={setInsightPeeks}
+              />
+            ) : (
+              <p className="text-sm text-gray-400 px-1 py-4">
+                Enter make and a full model number, then tap Continue to diagnostic.
+              </p>
+            )}
+          </>
+        )}
         </SolomonAccessGuard>
       </SolomonMobileShell>
     </>

@@ -5,6 +5,7 @@ import {
   FaCog,
   FaFlask,
   FaHashtag,
+  FaSearch,
   FaWrench,
 } from 'react-icons/fa';
 import SolomonListPage from '../../components/solomon/SolomonListPage';
@@ -84,6 +85,15 @@ export default function SolomonMorePage() {
             subtitle="Staff dev tool — OEM test runner"
             icon={FaFlask}
             accentClass="bg-violet-500/15 text-violet-300"
+          />
+        ) : null}
+        {isStaff ? (
+          <MoreLinkRow
+            href="/solomon/knowledge/review"
+            label="Knowledge review"
+            subtitle="Candidate-level normalization review (no promotion)"
+            icon={FaSearch}
+            accentClass="bg-emerald-500/15 text-emerald-300"
           />
         ) : null}
         {isStaff ? (

@@ -4,7 +4,7 @@
 **Extracted text:** `backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt`  
 **Scope:** DVE/DVG 45T6000/6005/6200* (DV6000T project); electric platform v1  
 **Platform:** `samsung_fl_dryer_dv6000`  
-**Status:** Complete — §4-1 codes, §4-4 Smart Install, §4-6 component Ω, heat-pump HE/HC notes  
+**Status:** Complete — §4-1 codes, §4-4 Smart Install, §4-6 component Ω (vented electric FL; not heat-pump)  
 **Knowledge:** `measurement-knowledge-batch27.json`
 
 ---
@@ -35,12 +35,12 @@ Gas models (DVG45T*) share manual §4-6 gas components; v1 platform is **electri
 | **FC** | Invalid power frequency | Power supply |
 | **9C1** | Invalid voltage / PCB | Power supply |
 | **AC** | Invalid communication | Power / PCB |
-| **HC** | Invalid heating temp in run | Thermistor + heater; heat-pump compressor wiring |
+| **HC** | Invalid heating temp in run | Thermistor + heater path |
 | **3C** | Motor relay short | Motor circuit |
 
 **Error Recall:** Hold **Dryness + Wrinkle Prevent** 8 s on DVE(G)45T6200*/6000*/6005* — last error displays.
 
-**Heat pump / compressor (§1-1 safety):** After service, run Time Dry 20 min and verify **HE** does not return. If **HC** occurs on heat-pump units, inspect compressor terminal wiring (pin desorption).
+**Note:** Heat-pump compressor service is **WD53DBA900** (`samsung_laundry_combo`) — not DVE45T6000 vented DV6000T.
 
 ---
 
@@ -85,6 +85,5 @@ Gas-only §4-6 (deferred — electric platform): valve 25M01A coils, igniter 101
 | `samsungdv6000-belt-cutoff` | §4-6 | motor_check |
 | `samsungdv6000-hmi` | §4-1 bC2 | bC2, hmi_check |
 | `samsungdv6000-power` | §4-1 | 9C1, FC, AC, no_power |
-| `samsungdv6000-heat-pump-compressor` | §1-1 / §4-4 HC | HE, HC, heat_pump_check |
 
 **Bundles:** `samsungdv6000-smart-install-entry`, `samsungdv6000-error-recall`

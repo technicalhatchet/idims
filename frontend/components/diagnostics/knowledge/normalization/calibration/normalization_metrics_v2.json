@@ -1,0 +1,2778 @@
+{
+  "schemaVersion": "1.0.0",
+  "baselineVersion": "v2",
+  "matcherVersion": "cg5.1-v1",
+  "templateFilter": null,
+  "generatedAt": "2026-09-12T22:21:17.165377+00:00",
+  "metrics": {
+    "manuals": 67,
+    "candidates": 2253,
+    "byType": {
+      "canonicalMapping": 1875,
+      "procedureTestBinding": 188,
+      "measurementBinding": 190
+    },
+    "byStatus": {
+      "candidate": 587,
+      "needs_review": 1500,
+      "COMPOUND_TERM_CANDIDATE": 152,
+      "approved": 14
+    },
+    "byApprovalLevel": {
+      "normal": 439,
+      "blocked": 1500,
+      "easy": 162,
+      "careful": 152
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 166,
+      "medium_0.80_0.94": 505,
+      "low_lt_0.80": 82,
+      "unresolved": 1500
+    },
+    "byOverlayState": {
+      "promotion_ready": 2088,
+      "not_promotion_ready": 152,
+      "already_published": 13
+    },
+    "byMappingType": {
+      "alias": 478,
+      "compound_alias": 1397
+    },
+    "conflictRefs": 546,
+    "globalConflicts": {
+      "total": 1,
+      "byType": {
+        "RELATIONSHIP_CONFLICT": 1
+      }
+    },
+    "procedureBindingConfidence": [
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.99,
+      0.99,
+      0.99,
+      0.99,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92
+    ],
+    "measurementBindingConfidence": [
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94
+    ],
+    "unresolvedTerms": {
+      "Er t4: Fresh-food evaporator defrost sensor": 1,
+      "Er t3: Fresh-food cabinet temperature sensor": 1,
+      "ice_maker_module": 14,
+      "FFIM twist-tray self-test (TEST button)": 1,
+      "Er t6: FFIM tray temperature sensor": 1,
+      "Er t2: Freezer evaporator defrost sensor": 1,
+      "Er t1: Freezer cabinet temperature sensor": 1,
+      "heater": 86,
+      "Manual defrost mode (dF)": 1,
+      "display_panel": 13,
+      "Er CE: Dispenser UI \u2194 main board communication": 1,
+      "Er t5: VCZ (variable zone) temperature sensor": 1,
+      "user_interface": 20,
+      "E9 \u2014 Stuck button (>30 s)": 1,
+      "Ed \u2014 Display \u2194 main communication": 1,
+      "circulation_pump": 7,
+      "E8 \u2014 Diverter valve assembly": 1,
+      "E3 \u2014 Tub heater 10\u201315 \u03a9": 1,
+      "E1 \u2014 Water inlet failure (4 min fill)": 2,
+      "E4 \u2014 Overflow / base pan": 2,
+      "Tub thermistor \u2014 E6/E7 NTC": 2,
+      "\u00a710.8 E7: Ambient temperature sensor": 2,
+      "\u00a710.8 E6: Display \u2194 main communication": 2,
+      "defrost_heater": 11,
+      "\u00a76.3 / \u00a78.6: Freezer defrost heater": 2,
+      "defrost_thermostat": 8,
+      "\u00a710.8 E5: Freezing chamber defrost sensor": 2,
+      "\u00a710.8 E2: Freezing chamber temperature sensor": 2,
+      "door_switch": 18,
+      "compressor": 18,
+      "\u00a710.8 E9: Freezer high-temperature alarm": 2,
+      "\u00a710.8 EE: Ice maker sensor circuit": 2,
+      "\u00a710.8 E0: Ice maker fault": 2,
+      "\u00a710.8 E4: Refrigerating chamber defrost sensor": 2,
+      "\u00a710.8 E1: Refrigerating chamber temperature sensor": 2,
+      "door_gasket": 6,
+      "\u00a77-1: Bubble Error (BE suds fault)": 1,
+      "\u00a77-2: Hall Sensor (IE fill path)": 1,
+      "\u00a77-1/7-2: Wash Heater (HE heater error)": 1,
+      "\u00a77-1/7-2: Leak / Float (AE leakage error)": 1,
+      "\u00a77-1/7-2: Tub Thermistor (tE thermal error)": 1,
+      "\u00a77-1/7-2: Vario Valve (VARIO ERROR)": 1,
+      "supply": 58,
+      "\u00a76-3: Humidity Sensor (F-4)": 1,
+      "hv_capacitor": 2,
+      "\u00a710: High-Voltage Capacitor": 1,
+      "magnetron": 10,
+      "\u00a710: High-Voltage Diode": 1,
+      "line_fuse": 2,
+      "\u00a710: High-Voltage Fuse": 1,
+      "\u00a710: High-Voltage Transformer": 1,
+      "\u00a76-4: Keypad Failure": 1,
+      "\u00a76-4: No Display / Dead Unit": 1,
+      "\u00a710: Magnetron": 1,
+      "\u00a76-4: No Heat / No Cook": 1,
+      "thermal_cutout": 2,
+      "\u00a76-3: PCB Thermistor (F-1 / F-2)": 1,
+      "\u00a710: Turntable Motor": 1,
+      "bake_element": 5,
+      "\u00a74-4: Bake element": 1,
+      "broil_element": 5,
+      "\u00a74-4: Broil element": 1,
+      "convection_element": 1,
+      "\u00a74-4: Convection element": 1,
+      "convection_fan": 5,
+      "\u00a74-1: Convection fan motor": 1,
+      "surface_element": 1,
+      "\u00a74-6: Single surface elements (LF/LR/RR)": 1,
+      "door_lock": 3,
+      "\u00a74-3: Oven door switch": 1,
+      "\u00a74-8: Dual surface element (RF)": 1,
+      "surface_ignition": 5,
+      "\u00a74-3: Surface ignition switch": 1,
+      "\u00a76-1: No display / no power": 1,
+      "gas_valve": 17,
+      "\u00a74-3: Oven safety valve": 1,
+      "igniter": 21,
+      "\u00a74-3: Oven bake/broil igniter": 1,
+      "\u00a74-5: Oven lamp": 1,
+      "temp_sensor": 4,
+      "\u00a74-3: Main oven temperature sensor": 1,
+      "warming_drawer": 1,
+      "\u00a74-3/4: Warming drawer sensor & element": 1,
+      "warming_zone": 1,
+      "\u00a74-7: Center warming zone (CR)": 1,
+      "evap_fan": 15,
+      "\u00a78-11: Condenser fan (E CF)": 1,
+      "\u00a78-22: Convert drawer sensor (E CS)": 1,
+      "\u00a78-12: Main \u2194 display communication (E CO)": 1,
+      "\u00a713-1-15: Display / demo mode (OFF)": 1,
+      "\u00a78-7: Fresh-food defrost heater (r dH)": 1,
+      "\u00a78-5: Fresh-food defrost sensor (r dS)": 1,
+      "\u00a78-8: Refrigerator evaporator fan (E rF)": 1,
+      "\u00a78-2: Fresh-food cabinet sensor (E rS)": 1,
+      "\u00a78-6: Freezer defrost heater (F dH)": 1,
+      "\u00a78-4: Freezer defrost sensor (F dS)": 1,
+      "\u00a78-9: Freezer evaporator fan (E FF)": 1,
+      "\u00a78-1: Freezer cabinet sensor (E FS)": 1,
+      "\u00a78-24: Ice maker kit electrical (E ID / E IU)": 1,
+      "\u00a78-10: Icing compartment fan (E IF)": 1,
+      "\u00a78-3: Icing room sensor (E IS)": 1,
+      "sealed_system": 1,
+      "\u00a78-22: Sealed-system leak cycle (E CH / E CL)": 1,
+      "control_board": 5,
+      "\u00a78-20: Wi-Fi modem communication (E Od)": 1,
+      "\u00a79.6 E7: Ambient temperature sensor": 1,
+      "\u00a79.6 E6: Display \u2194 main communication": 1,
+      "\u00a77.5 / \u00a79.6 E9: Freezer evaporator fan": 1,
+      "\u00a75.1 / \u00a77.6: Freezer defrost heater": 1,
+      "\u00a79.6 E5: Freezer defrost sensor": 1,
+      "\u00a79.6 E2: Freezer temperature sensor": 1,
+      "light_switch": 1,
+      "\u00a79.6 E9: High-temperature alarm": 1,
+      "motor": 16,
+      "Belt safety switch": 1,
+      "Display communication \u2014 C9 fault": 1,
+      "Door switch \u2014 COM to NO": 1,
+      "flame_sensor": 5,
+      "Flame sensor \u2014 continuity": 1,
+      "Gas ignitor \u2014 40\u2013400 \u03a9": 1,
+      "Gas valve coils": 1,
+      "thermal_cutoff": 9,
+      "thermal_fuse": 13,
+      "Electric heater element \u2014 20 \u03a9": 1,
+      "Gas heat path \u2014 thermal devices": 1,
+      "Service test \u2014 knob & key check": 1,
+      "moisture_sensor": 8,
+      "Humidity sensor \u2014 E4 timed-dry fallback": 1,
+      "Motor \u2014 belt switch & centrifugal": 1,
+      "exhaust_thermistor": 13,
+      "Outlet NTC \u2014 service test 04 & bench": 1,
+      "Thermal cut-off \u2014 continuity": 1,
+      "Regulating thermostat & hi-limit": 1,
+      "\u00a74-1: Circulation Motor & Nozzle": 1,
+      "\u00a74-1: PBA Communication (AC / AC6)": 1,
+      "dispenser": 3,
+      "\u00a74-1: Detergent Dispenser": 1,
+      "diverter_motor": 2,
+      "\u00a74-1: Distributor Motor (PC)": 1,
+      "\u00a74-1: Door Sensing Switch": 1,
+      "fan_motor": 2,
+      "vent": 2,
+      "\u00a74-1: Dry Fan & Thermal Actuator (FC / dC3)": 1,
+      "\u00a74-1: Heater Operation (HC / HC1)": 1,
+      "\u00a74-1: Touch Panel & Sub PBA (bC2 / bC3)": 1,
+      "leak_sensor": 2,
+      "\u00a74-1: Leak Sensor (LC)": 1,
+      "float_switch": 2,
+      "\u00a74-1: Overflow Sensor (OC)": 1,
+      "\u00a74-1: Main PBA Power & DC Supplies": 1,
+      "\u00a74-1: Water Thermistor (tC)": 1,
+      "\u00a74-3: Circulation Pump (3C)": 1,
+      "\u00a74-3: PBA Communication (AC / AC6)": 1,
+      "\u00a74-3: Detergent Dispenser": 1,
+      "\u00a74-3: Distributor Motor (PC)": 1,
+      "\u00a74-3: Door Sensing Switch": 1,
+      "\u00a74-3: Dry Fan, Actuator & Auto Door (FC / dC3)": 1,
+      "\u00a74-3: Heater Operation (HC / HC1)": 1,
+      "\u00a74-3: Touch Panel & Sub PBA (bC2 / bC3)": 1,
+      "\u00a74-3: Leak Sensor (LC)": 1,
+      "\u00a74-3: Overflow Sensor (OC)": 1,
+      "No Power & Power Relay Check": 1,
+      "\u00a74-3: Water Thermistor (tC)": 1,
+      "\u00a74-3: Lower Vane Motor (7C)": 1,
+      "\u00a74-1: Abnormal Supply Voltage (9C1 / 9C2)": 1,
+      "belt_switch": 4,
+      "\u00a74-6: Belt cut-off switch": 2,
+      "\u00a74-1 / \u00a74-6: Door switch (dC, dF)": 2,
+      "\u00a74-6: Radiant flame sensor (10RS)": 1,
+      "\u00a74-6: Gas igniter (101D)": 1,
+      "\u00a74-6: Gas valve coils (25M01A)": 1,
+      "\u00a74-6: Electric heater (5300 W)": 1,
+      "\u00a74-1: Display / buttons (bC2)": 4,
+      "\u00a74-6: Motor centrifugal switch": 1,
+      "\u00a74-1: Power and communication (9C1, FC, AC)": 4,
+      "high_limit_thermostat": 4,
+      "\u00a74-6: Thermal cutoff and hi-limit": 2,
+      "inlet_thermistor": 11,
+      "\u00a74-1: Thermistors (tC, tC5, HC)": 1,
+      "\u00a74-3: PBA communication (AC, AC6)": 1,
+      "\u00a74-3: Drain / leakage (LC, LC1)": 1,
+      "\u00a74-2: Inlet valves (Co / Ho manual check)": 1,
+      "\u00a74-3: Washing motor (3C)": 2,
+      "\u00a74-3: Overflow (OC)": 3,
+      "\u00a74-3: Power / current sense (9C5)": 1,
+      "\u00a71-1 / \u00a74-4: Heat-pump HE/HC and compressor wiring": 1,
+      "\u00a74-6: Electric heater": 1,
+      "\u00a74-6: Motor windings and relay (3C)": 1,
+      "\u00a74-1 / \u00a74-6: Thermistors (tC, tC5, HC)": 1,
+      "\u00a74-3: PBA communication (AC, AC3\u2013AC6)": 1,
+      "\u00a74-3: Drain / leakage (LC, 5C)": 1,
+      "\u00a74-1: Switch error (BC2)": 1,
+      "\u00a74-3: Inlet valves (4C, Co/Ho manual check)": 1,
+      "\u00a74-1: MEMS PBA (8C, 8C1, 8C2)": 1,
+      "\u00a74-1: Power / voltage (9C1, 9C2)": 1,
+      "\u00a74-3: Unbalance (UV, UB)": 1,
+      "\u00a74-3: Sub/main PBA communication (AC)": 1,
+      "\u00a74-3: Water supply (4C, 4C2)": 1,
+      "\u00a74-3: Upper-lower PBA communication (AC7)": 1,
+      "\u00a74-3: Inverter PBA communication (AC6)": 1,
+      "\u00a74-3: Inverter over-temperature (TC4)": 1,
+      "\u00a74-3: Water leakage (LC, LC1)": 1,
+      "\u00a74-3: MEMS sensor (8C, 8C1, 8C2)": 1,
+      "\u00a74-3: Lower DD motor (3C)": 1,
+      "\u00a74-3: Power (9C1, 9C2)": 1,
+      "\u00a74-3: System fault (SF)": 1,
+      "\u00a74-3: Unbalance (UB)": 1,
+      "\u00a74-3: Upper compartment door (DC4, DC1)": 1,
+      "\u00a74-3: Upper washer motor (3C)": 1,
+      "\u00a74-3: WiFi module communication (AC4)": 1,
+      "External air sensor": 2,
+      "AutoFill infuser overflow": 4,
+      "Compressor / inverter IPM fault": 4,
+      "Convertible compartment fan (C-FAN)": 4,
+      "damper_motor": 13,
+      "Flex-Zone damper heater": 2,
+      "Main \u2194 dispenser panel communication": 2,
+      "Flex-Zone sensor": 2,
+      "Freezer defrost heater (F-DEF)": 2,
+      "Freezer defrost sensor (F-DEF)": 2,
+      "Freezer evaporator fan (F-FAN)": 4,
+      "Freezer compartment sensor (F)": 4,
+      "Fridge defrost heater (R-DEF)": 2,
+      "Fridge defrost sensor (R-DEF)": 2,
+      "Fridge compartment fan": 4,
+      "Fridge compartment sensor (R)": 4,
+      "Humidity sensor": 4,
+      "ice_pipe_heater": 7,
+      "Fridge ice duct heater": 2,
+      "Ice maker (fridge) function": 2,
+      "Ice maker (fridge) sensor": 2,
+      "Ice room fan": 4,
+      "Frozen ice room \u2014 service preparation": 2,
+      "dispenser_panel": 5,
+      "Frozen ice room \u2014 bulletin service measures": 2,
+      "Fridge ice room heater": 2,
+      "Ice room sensor": 2,
+      "Main \u2194 inverter communication": 4,
+      "Main \u2194 display panel communication": 4,
+      "\u00a74-2: Auto-open door (DC5)": 1,
+      "\u00a74-4: PBA communication (AC, AC3\u2013AC6)": 1,
+      "\u00a74-2: BLDC compressor (3CA, HC)": 1,
+      "\u00a74-4: Door lock and switch (DC, DC1, dC1)": 1,
+      "\u00a74-5: Dry heater element (#5)": 1,
+      "lint_filter": 1,
+      "\u00a74-2: Filter and cover magnets (NC, NC2, NC3)": 1,
+      "\u00a74-2: Foam detection (ULC)": 1,
+      "condenser": 1,
+      "\u00a74-5: Heat pump thermistors (tC, TC5\u2013TCB)": 1,
+      "\u00a74-4: Switch error (BC2, bC2)": 1,
+      "\u00a74-4: Inlet valves (4C, Co/Ho manual check)": 1,
+      "\u00a74-4: Water leakage (LC)": 1,
+      "\u00a74-4: MEMS sensor (8C, 8C1, 8C2)": 1,
+      "\u00a74-4: Washing motor (3C)": 1,
+      "water_level_sensor": 1,
+      "\u00a74-4: Overflow (OC)": 1,
+      "\u00a74-4: Power (9C1, 9C2, 9C5)": 1,
+      "\u00a74-4: System error (SF)": 1,
+      "\u00a74-4: Unbalance (UB, UB1)": 1,
+      "wash_heater": 1,
+      "wash_ntc": 1,
+      "\u00a74-4: Wash heater (HC, HC1)": 1,
+      "\u00a74-4: Wash temperature sensor (TC1)": 1,
+      "\u00a74-4: Water level sensor (1C)": 1,
+      "\u00a74-14 / C-10: Humidity (Gas) Sensor": 1,
+      "\u00a74-3: High-Voltage Capacitor": 1,
+      "\u00a74-4: High-Voltage Diode": 1,
+      "\u00a74-1: High-Voltage Transformer": 1,
+      "C-F2 / C-d0: Touch and Key Failure": 1,
+      "\u00a75-1: Dead Unit (No Display)": 1,
+      "\u00a74-2: Magnetron": 1,
+      "\u00a75-1: No Heat (Timer Runs, No Oscillation)": 1,
+      "C-F0 / C-F1: PCB Communication": 1,
+      "C-20: Temperature Sensor Error": 1,
+      "\u00a74-8: Thermal Cutouts (TCO)": 1,
+      "\u00a74-7: Vent Exhaust Blower Motor": 1,
+      "\u00a74-4: Bake element (electric NE63)": 1,
+      "\u00a74-4: Bake burner HSI": 1,
+      "\u00a74-4: Broil element (electric NE63)": 1,
+      "\u00a74-4: Broil burner HSI": 1,
+      "\u00a74-3: Convection fan motor": 1,
+      "\u00a74-1: Display cooling fan (C-A2)": 1,
+      "\u00a74-1: Door lock motor (C-d1)": 1,
+      "\u00a74-1: Heater relays \u2014 DLB / bake / broil (C-21)": 1,
+      "\u00a74-2: Touch keypad": 1,
+      "\u00a74-3: Oven lamp": 1,
+      "\u00a74-1: Oven temperature sensor (C-20 / C-21)": 1,
+      "\u00a74-1: Oven vent blocked (C-24)": 1,
+      "\u00a74-2: No power / no display": 1,
+      "\u00a74-4: Oven gas safety valve": 1,
+      "\u00a74-3: Cooktop spark module": 1,
+      "\u00a74-1: Sub \u2194 touch communication (C-F2)": 1,
+      "External / ambient air sensor": 2,
+      "Flex-Zone damper heater (135 \u03a9)": 2,
+      "Damper heater (24 \u03a9 \u2014 RF32CG)": 2,
+      "Flex-Zone sensor (optional)": 2,
+      "Freezer defrost heater": 2,
+      "Freezer defrost sensor": 2,
+      "Fridge defrost sensor": 2,
+      "Fridge ice duct heater (63 \u03a9)": 2,
+      "Ice maker temperature sensor": 2,
+      "Ice pipe heater (24 \u03a9 \u2014 RF32CG)": 2,
+      "Freezer ice pipe heater (72 \u03a9 \u2014 RF23BB)": 2,
+      "Ice room heater (135 \u03a9)": 2,
+      "\u00a74-1-3: Ambient sensor": 3,
+      "\u00a74-1-3: C fan feedback": 3,
+      "\u00a74-1-3: Fresh-food defrost sensor (FF-DEF-Sensor)": 3,
+      "\u00a74-1-3: Fresh-food defrost heater (FF-DEF)": 3,
+      "\u00a74-1-3: FF fan feedback": 3,
+      "\u00a74-1-3: Fresh-food cabinet sensor (FF-Sensor)": 3,
+      "\u00a74-1-3: Freezer defrost sensor (FZ-DEF-Sensor)": 3,
+      "\u00a74-1-3: Freezer defrost heater (FZ-DEF)": 3,
+      "\u00a74-1-3: FZ fan feedback": 3,
+      "\u00a74-1-3: Freezer cabinet sensor (FZ-Sensor)": 3,
+      "\u00a74-1-3: Humidity sensor": 3,
+      "\u00a74-1-3: Ice maker function (FZ)": 3,
+      "\u00a74-1-3: Ice maker fill sensor": 3,
+      "\u00a74-1-2: Option error (OP-Er)": 3,
+      "\u00a74-1-2: Panel communication (Pc-Er)": 3,
+      "\u00a74-1-3: Pantry sensor": 3,
+      "\u00a74-2: Ambient sensor": 3,
+      "\u00a74-2: C fan feedback": 3,
+      "\u00a74-2: R-room damper heater": 3,
+      "\u00a74-2: Dispenser panel communication (47Er)": 3,
+      "\u00a74-2: Freezer defrost sensor (F-DEF-Sensor)": 3,
+      "\u00a74-2: Freezer defrost heater (F-DEF)": 3,
+      "\u00a74-2: F fan feedback": 3,
+      "\u00a74-2: Freezer cabinet sensor (F-Sensor)": 3,
+      "\u00a74-2: Humidity sensor": 3,
+      "\u00a74-2: Ice maker function": 3,
+      "\u00a74-2: Ice maker sensor": 3,
+      "\u00a74-2: Ice pipe heater": 3,
+      "\u00a74-2: Inverter communication (44Er)": 3,
+      "\u00a74-2: I/O expander communication (46Er)": 3,
+      "\u00a74-2: Panel communication (41Er)": 3,
+      "\u00a74-2: Fresh-food cabinet sensor (R-Sensor)": 3,
+      "\u00a74-2: Wi-Fi communication (52Er)": 3,
+      "clutch": 2,
+      "\u00a75-2: Clutch position (PC, PC1)": 2,
+      "\u00a75-3: PBA communication (AC)": 2,
+      "\u00a75-3: Water supply (4C)": 2,
+      "\u00a75-3: Water leakage (LC, LC1)": 2,
+      "\u00a75-3: MEMS sensor (8C)": 2,
+      "\u00a75-3: Washing motor (3C)": 2,
+      "\u00a75-3: Overflow (OC)": 2,
+      "\u00a75-3: Power (UC, 9C1, 9C2)": 2,
+      "\u00a75-2: Unbalance (UB)": 2,
+      "\u00a75-3: Temperature sensors (TC1\u2013TC4)": 2,
+      "\u00a74-4: Belt cut-off switch": 2,
+      "\u00a74-1 / \u00a74-4: Door switch (dC, dF)": 2,
+      "\u00a74-4: Radiant flame sensor (10RS)": 2,
+      "\u00a74-4: Gas igniter (101D)": 2,
+      "\u00a74-4: Gas valve coils (25M01A)": 2,
+      "\u00a74-4: Electric heater": 2,
+      "\u00a74-4: Motor windings and centrifugal switch": 2,
+      "\u00a74-4: Thermal cutoff and hi-limit": 2,
+      "\u00a74-1 / \u00a74-4: Thermistors (tC, tC5, HC)": 2,
+      "\u00a75-2: Detergent drawer (SDC)": 1,
+      "Programming mode (P-E): Program code": 1,
+      "Service Test 1: Defrost thermostat & heater": 1,
+      "condenser_fan": 7,
+      "Service Test 2: Compressor & condenser fan": 1,
+      "Service Test 3: Evaporator / freezer fan": 1,
+      "Service Test 4: Fresh food thermistor": 1,
+      "Service Test 5: Freezer thermistor": 1,
+      "Service Test 6: Fresh food damper": 1,
+      "Service Test 7: FF performance offset": 1,
+      "Service Test 8: FZ performance offset": 1,
+      "Service Test 9: Defrost interval": 1,
+      "\u00a75-6: Compressor winding identification": 1,
+      "\u00a75-3: Condenser fan motor (shaded pole)": 1,
+      "\u00a74-8: Defrost bimetal / terminator": 1,
+      "\u00a74-5: Defrost heater resistance": 1,
+      "defrost_timer": 1,
+      "\u00a73-12: Mechanical defrost timer contacts": 1,
+      "\u00a76-2: Ice maker harness thermal fuse": 1,
+      "start_device": 2,
+      "\u00a75-9: PTC start device (cold)": 1,
+      "TEST #6: Buttons and Indicators": 4,
+      "TEST #1: CCU Power Check": 4,
+      "TEST #7: Door Switch": 6,
+      "drum_light": 6,
+      "TEST #8: Drum Light": 3,
+      "TEST #5a: Customer Dryness Level": 4,
+      "TEST #4d: Gas Valve": 6,
+      "TEST #4: Heat System (electric)": 6,
+      "TEST #4: Heat System (gas)": 6,
+      "TEST #5: Moisture Sensor": 6,
+      "TEST #3: Motor Circuit": 7,
+      "steam_valve": 6,
+      "TEST #9: Myst Valve": 1,
+      "TEST #2: Supply Connections": 6,
+      "TEST #4c: Thermal Cut-Off": 6,
+      "TEST #4b: Thermal Fuse": 6,
+      "TEST #4a: Thermistors": 11,
+      "ADC 2000 cooling output (P6\u2013P4)": 1,
+      "ADC 2000 defrost heater output (P2\u2013P6)": 1,
+      "WRT311 defrost bi-metal (opens 58\u00b0F)": 1,
+      "WRT311 defrost heater resistance (30\u201342 \u03a9)": 1,
+      "PTC start device (WRT311 / Embraco)": 1,
+      "TEST #1: ACU Power Check": 6,
+      "TEST #8: Drum LED": 3,
+      "TEST #10: Service LEDs": 5,
+      "TEST #9: Water Valve": 5,
+      "wifi_module": 1,
+      "\u00a74-7\u20134-11: Console connectivity indicators": 1,
+      "\u00a77: Clean-connect dishwasher WiFi": 1,
+      "\u00a78-4: Smart refrigerator WiFi service tests": 1,
+      "\u00a74-10: HMI \u2194 WiFi communication": 1,
+      "power_management": 1,
+      "current_transformer": 1,
+      "\u00a74-17: Power Management board & CT": 1,
+      "\u00a74-14: WiFi module diagnostics": 1,
+      "TEST #2: Valves": 9,
+      "TEST #3: Drive System (pre-test)": 7,
+      "TEST #3a: Drive System \u2014 Shifter": 7,
+      "TEST #3b: Drive System \u2014 Motor": 7,
+      "TEST #4: Keys and Encoders": 2,
+      "TEST #5: Temperature Thermistor": 4,
+      "TEST #6: Water Level": 4,
+      "TEST #8: Lid Lock": 4,
+      "TEST #9: Heater Element": 2,
+      "TEST #11: Basket Light": 2,
+      "TEST #12: Bulk Dispense Pump and REX Board": 2,
+      "TEST #4: Console and Indicators": 2,
+      "Service Test 01: RC thermistor": 1,
+      "Service Test 02: FC thermistor": 1,
+      "Service Test 05: Pantry thermistor": 1,
+      "ice_maker": 4,
+      "Service Test 120/121: Ice maker harvest": 1,
+      "Service Test 14: Door ice box thermistor": 1,
+      "Service Test 40: Compressor & sealed system": 1,
+      "Service Test 42: Pantry air baffle": 1,
+      "Service Test 56: FC fan": 1,
+      "Service Test 57: RC fan": 1,
+      "Service Test 58: Condenser fan": 1,
+      "Service Test 59: Ice box fan": 1,
+      "Service Test 89/91: FC defrost": 1,
+      "water_valve": 6,
+      "Service Test 96: Water valve general": 1,
+      "Service Test 97/98: Ice maker water fill": 1,
+      "TEST #2: Human-Machine Interface (HMI)": 1,
+      "TEST #5: Drum Light": 1,
+      "TEST #6: Water Inlet Valves": 1,
+      "TEST #11A: Single Dose Dispenser": 1,
+      "TEST #11B: Optimal Dosing Pump": 1,
+      "TEST #12A: Drawer Bulk Dispenser": 1,
+      "TEST #12B: Bulk Dispenser Level Sensing": 1,
+      "Control Power & Supply": 3,
+      "Bake Element": 3,
+      "Broil Element": 3,
+      "DSI Board (Gas Oven)": 3,
+      "Keypad / HMI (F2E1)": 3,
+      "Cooktop Infinite Switches": 3,
+      "Oven Temperature Sensor": 3,
+      "Surface Spark Module": 3,
+      "Indigo Ceran Cooktop Element": 3,
+      "Indigo Gas Oven Igniters (Bake / Broil)": 3,
+      "Oven Light Assembly": 3,
+      "Warming Drawer Element": 3,
+      "Warming Drawer Temperature Sensor": 3,
+      "ACU Power & Communication": 3,
+      "Hidden Bake Element": 3,
+      "Bridge / Single / Warming Cooktop Elements": 3,
+      "Convection Element (gas oven)": 3,
+      "DSI Board & Gas Regulator": 3,
+      "HMI / Touch Interface": 3,
+      "Main Oven Temperature Sensor": 3,
+      "Surface Burner Spark Module": 3,
+      "Thermal Fuse / Thermo Fuse": 3,
+      "Ventilation / Convection Fan": 3,
+      "E3 \u2014 Tub heater ~14 \u03a9": 1,
+      "Athena service mode: Display fail message decode": 1,
+      "Service step 1: Freezer (FC) thermistor": 1,
+      "Service step 3: Refrigerator (RC) thermistor": 1,
+      "Service step 5: Defrost thermistor": 1,
+      "Service step 7: Compressor & condenser fan": 1,
+      "Service step 9: Damper open": 1,
+      "Service step 11: Damper heater": 1,
+      "Service step 13: Defrost heater": 1,
+      "Service step 15: Evaporator fan": 1,
+      "Service step 19: Water dispenser valve": 1,
+      "Service step 21: RC door switch": 1,
+      "Service step 23: FC door switch": 1,
+      "Service step 33: IDI ice tray thermistor (SANKYO)": 1,
+      "Dispenser Solenoid (310\u2013380 \u03a9)": 5,
+      "Drain Motor (SSM, 27.4\u201332.2 \u03a9)": 5,
+      "RIF Filter Plugged (F7E4)": 5,
+      "Tub Light (12 V PWM)": 5,
+      "Vent Wax Motor (1890\u20132310 \u03a9 each coil)": 5,
+      "\u00a73-20: DC Fan Motor (ProDry)": 5,
+      "\u00a73-14: Diverter Motor (P6)": 5,
+      "\u00a73-8: Door Switch Circuit (P12)": 5,
+      "\u00a73-19: Drain Motor (Variable Speed platform)": 5,
+      "\u00a73-11: Water Heating / Heat Dry": 5,
+      "\u00a73-21: Interior LED Lighting": 5,
+      "\u00a73-13: Overfill Float Switch (P11)": 5,
+      "\u00a73-6: ACU Power & DC Supplies": 5,
+      "\u00a73-17: DC Fan Motor": 5,
+      "\u00a73-9: Dispenser Solenoid": 5,
+      "\u00a73-13: Diverter Motor": 5,
+      "\u00a73-14: Diverter Position Sensor": 5,
+      "\u00a73-7: Door Switch Circuit": 5,
+      "\u00a73-16: Drain Motor": 5,
+      "\u00a73-12: Overfill Float Switch": 5,
+      "\u00a73-11: OWI / Thermistor": 5,
+      "\u00a73-3: F500 Triac Load Fuse": 5,
+      "\u00a73-19: Door Opening System (D.O.S.)": 5,
+      "TEST #4: HMI": 5,
+      "TEST #9: Load & Go Detergent": 1,
+      "TEST #6: HMI": 2,
+      "TEST #5: HMI": 2,
+      "TEST #5: Water Level": 3,
+      "TEST #7: Lid Lock": 3,
+      "Service Test 1: Freezer compartment thermistor": 1,
+      "Service Test 2: Refrigerator compartment thermistor": 1,
+      "Service Test 3: Evaporator fan & air baffle": 1,
+      "Service Test 4: Compressor & condenser fan": 1,
+      "Service Test 6: Defrost heater & bimetal": 1,
+      "Service Test 19: Fill tube & fascia heater": 1,
+      "Service Test 36: Ice box fan": 1,
+      "Service Test 37: Ice box thermistor": 1,
+      "Service Test 45: Ice maker water fill": 1,
+      "Service Test 56: Ice maker error codes (E0\u2013E5)": 1,
+      "Service Test 57: Ice maker harvest": 1,
+      "Service Test 58: Ice maker heater & thermistor": 1,
+      "Service Test 59: Ice maker motor": 1,
+      "Service Test 10: FC evaporator thermistor": 1,
+      "Service Test 111: FC evaporator fan": 1,
+      "Service Test 113: Condenser fan": 1,
+      "Service Test 12: FC compartment thermistor": 1,
+      "Service Test 13: RC compartment thermistor": 1,
+      "Test 13: Water dispenser / ISO valve": 1,
+      "Service Test 131: FC defrost heater": 1,
+      "Service Test 134/144: Mullion & fill tube heaters": 1,
+      "Service Test 17: Pantry thermistor": 1,
+      "Service Test 181: FC ice maker harvest": 1,
+      "humidity_sensor": 2,
+      "Service Test 29: External RH sensor": 1,
+      "Service Test 72/75: Compressor & inverter": 1,
+      "Service Test 80/81: RC & pantry dampers": 1,
+      "Service Test 01: RC compartment thermistor": 1,
+      "Service Test 03: FC compartment thermistor": 1,
+      "Service Test 05: FC evaporator thermistor": 1,
+      "Service Test 7: FC ice maker tray thermistor": 1,
+      "Service Test 10: Ambient humidity sensor": 1,
+      "FC ice maker test mode & FBEC/FBEB faults": 1,
+      "Service Test / Test 14: Isolation water valve": 1,
+      "Service Test 23: Inverter compressor speed": 1,
+      "Service Test 25: Refrigerator damper": 1,
+      "Service Test 27: FC evaporator fan": 1,
+      "Service Test 28: Condenser fan": 1,
+      "Service Test 38: Defrost heater": 1,
+      "Service Test 40: Vertical mullion heater": 1,
+      "DL3": 8,
+      "\u00a75-8: Interlock Switch (NC ground)": 1,
+      "\u00a75-7: Wash NTC (TH2)": 1,
+      "TEST #5: Button and Indicator Test": 1,
+      "TEST #6: Door Switch Test": 1,
+      "TEST #4a: Customer Drying Mode": 1,
+      "TEST #3a: Exhaust Thermistor": 1,
+      "TEST #3 (gas): Ignitor": 1,
+      "TEST #3d: Gas Valve Coils": 1,
+      "TEST #3: Heater (electric)": 1,
+      "TEST #3: Heater (gas)": 1,
+      "TEST #4: Moisture Sensor": 1,
+      "TEST #2: Motor Circuit": 1,
+      "TEST #1: Supply Connections": 1,
+      "TEST #3c: Thermal Cut-Off": 1,
+      "TEST #3b: Thermal Fuse": 1,
+      "Door Switch Test": 1,
+      "Electric Heater (Dual Element)": 1,
+      "TCO, High-Limit & Inlet Thermistor (electric)": 1,
+      "Flame Sensor Test": 1,
+      "Gas Burner Coils Test": 1,
+      "High-Limit & Thermal Cutoff (gas)": 1,
+      "Burner Ignitor Test": 1,
+      "Supply Connections Test": 1,
+      "Thermal Fuse & Exhaust Thermistor": 1,
+      "Timer & Motor Relay Test": 1,
+      "Harvest bimetal (T\u2013H)": 1,
+      "Harness thermal fuse (IMFUSE)": 1,
+      "Test 56 ice maker errors (IME2\u2013IME5)": 1,
+      "Module power (L\u2013N)": 1,
+      "Mold heater (L\u2013H) \u2014 72 \u03a9": 1,
+      "Ejector motor (L\u2013M) \u2014 8800 \u03a9": 1,
+      "Water level adjustment": 1,
+      "Water valve (N\u2013V) and fill volume": 1
+    },
+    "compoundCandidates": 152,
+    "duplicateCandidateGroups": 354,
+    "promotionReady": 2088,
+    "alreadyPublished": 13,
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 160,
+      "UNRESOLVED_COMPONENT": 94,
+      "CROSS_APPLIANCE_TERM": 1
+    },
+    "extractionFiltered": 505,
+    "extractionFilteredProcedural": 358,
+    "extractionFilteredStructural": 147,
+    "perManual": {
+      "FRIGIDAIRE-PRMC-FRIDGE": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "templateId": "refrigerator",
+        "total": 14,
+        "byType": {
+          "canonicalMapping": 14
+        },
+        "byApprovalLevel": {
+          "normal": 1,
+          "blocked": 12,
+          "easy": 1
+        },
+        "blocked": 12
+      },
+      "INSIGNIA-DWR3-DISHWASHER": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "platformId": "insignia_dishwasher",
+        "templateId": "dishwasher",
+        "total": 19,
+        "byType": {
+          "canonicalMapping": 16,
+          "procedureTestBinding": 2,
+          "measurementBinding": 1
+        },
+        "byApprovalLevel": {
+          "blocked": 11,
+          "normal": 4,
+          "careful": 4
+        },
+        "blocked": 11
+      },
+      "INSIGNIA-RTM18-FRIDGE": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "templateId": "refrigerator",
+        "total": 22,
+        "byType": {
+          "canonicalMapping": 22
+        },
+        "byApprovalLevel": {
+          "normal": 1,
+          "blocked": 18,
+          "easy": 1,
+          "careful": 2
+        },
+        "blocked": 18
+      },
+      "LG-LDT7808-DISHWASHER": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "templateId": "dishwasher",
+        "total": 18,
+        "byType": {
+          "canonicalMapping": 16,
+          "procedureTestBinding": 1,
+          "measurementBinding": 1
+        },
+        "byApprovalLevel": {
+          "blocked": 10,
+          "careful": 6,
+          "normal": 2
+        },
+        "blocked": 10
+      },
+      "LG-LMHM2237-MICROWAVE": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "templateId": "microwave",
+        "total": 25,
+        "byType": {
+          "canonicalMapping": 23,
+          "procedureTestBinding": 1,
+          "measurementBinding": 1
+        },
+        "byApprovalLevel": {
+          "careful": 2,
+          "blocked": 21,
+          "normal": 2
+        },
+        "blocked": 21
+      },
+      "LG-LRE-RANGE": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "templateId": "electric_range",
+        "total": 37,
+        "byType": {
+          "canonicalMapping": 32,
+          "procedureTestBinding": 2,
+          "measurementBinding": 3
+        },
+        "byApprovalLevel": {
+          "blocked": 30,
+          "careful": 1,
+          "easy": 1,
+          "normal": 5
+        },
+        "blocked": 30
+      },
+      "LG-LRMVS-FRIDGE": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "templateId": "refrigerator",
+        "total": 28,
+        "byType": {
+          "canonicalMapping": 27,
+          "procedureTestBinding": 1
+        },
+        "byApprovalLevel": {
+          "blocked": 25,
+          "normal": 2,
+          "easy": 1
+        },
+        "blocked": 25
+      },
+      "MIDEA-RSS-FRIDGE": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "templateId": "refrigerator",
+        "total": 22,
+        "byType": {
+          "canonicalMapping": 22
+        },
+        "byApprovalLevel": {
+          "normal": 1,
+          "blocked": 18,
+          "easy": 1,
+          "careful": 2
+        },
+        "blocked": 18
+      },
+      "MIDEA-UZ21-FREEZER": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "templateId": "standalone_freezer",
+        "total": 17,
+        "byType": {
+          "canonicalMapping": 17
+        },
+        "byApprovalLevel": {
+          "normal": 1,
+          "blocked": 15,
+          "easy": 1
+        },
+        "blocked": 15
+      },
+      "NS-TDRE75W1": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "templateId": "electric_dryer",
+        "total": 29,
+        "byType": {
+          "canonicalMapping": 27,
+          "procedureTestBinding": 2
+        },
+        "byApprovalLevel": {
+          "blocked": 25,
+          "normal": 3,
+          "careful": 1
+        },
+        "blocked": 25
+      },
+      "SAMSUNG-DISHWASHER": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "templateId": "dishwasher",
+        "total": 32,
+        "byType": {
+          "canonicalMapping": 29,
+          "procedureTestBinding": 2,
+          "measurementBinding": 1
+        },
+        "byApprovalLevel": {
+          "careful": 6,
+          "blocked": 21,
+          "easy": 1,
+          "normal": 4
+        },
+        "blocked": 21
+      },
+      "SAMSUNG-DISHWASHER-M9": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "templateId": "dishwasher",
+        "total": 36,
+        "byType": {
+          "canonicalMapping": 32,
+          "procedureTestBinding": 2,
+          "measurementBinding": 2
+        },
+        "byApprovalLevel": {
+          "careful": 6,
+          "blocked": 24,
+          "easy": 1,
+          "normal": 5
+        },
+        "blocked": 24
+      },
+      "SAMSUNG-FL-BB8700-DRYER": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "templateId": "electric_dryer",
+        "total": 27,
+        "byType": {
+          "canonicalMapping": 25,
+          "procedureTestBinding": 2
+        },
+        "byApprovalLevel": {
+          "blocked": 22,
+          "careful": 2,
+          "easy": 1,
+          "normal": 2
+        },
+        "blocked": 22
+      },
+      "SAMSUNG-FL-BB8700-WASHER": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "templateId": "washer",
+        "total": 29,
+        "byType": {
+          "canonicalMapping": 20,
+          "procedureTestBinding": 5,
+          "measurementBinding": 4
+        },
+        "byApprovalLevel": {
+          "easy": 10,
+          "blocked": 6,
+          "careful": 4,
+          "normal": 9
+        },
+        "blocked": 6
+      },
+      "SAMSUNG-FL-DV6000-DRYER": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "templateId": "electric_dryer",
+        "total": 25,
+        "byType": {
+          "canonicalMapping": 21,
+          "procedureTestBinding": 2,
+          "measurementBinding": 2
+        },
+        "byApprovalLevel": {
+          "blocked": 18,
+          "careful": 2,
+          "easy": 1,
+          "normal": 4
+        },
+        "blocked": 18
+      },
+      "SAMSUNG-FL-WF6000R-WASHER": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "templateId": "washer",
+        "total": 36,
+        "byType": {
+          "canonicalMapping": 24,
+          "procedureTestBinding": 6,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "easy": 11,
+          "blocked": 9,
+          "careful": 4,
+          "normal": 12
+        },
+        "blocked": 9
+      },
+      "SAMSUNG-FLEXWASH-WASHER": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "templateId": "washer",
+        "total": 45,
+        "byType": {
+          "canonicalMapping": 32,
+          "procedureTestBinding": 11,
+          "measurementBinding": 2
+        },
+        "byApprovalLevel": {
+          "easy": 10,
+          "blocked": 16,
+          "careful": 6,
+          "normal": 13
+        },
+        "blocked": 16
+      },
+      "SAMSUNG-ICE-MAKER-BULLETIN": {
+        "manualId": "SAMSUNG-ICE-MAKER-BULLETIN",
+        "platformId": "samsung_fridge_rf28",
+        "templateId": "refrigerator",
+        "total": 37,
+        "byType": {
+          "canonicalMapping": 37
+        },
+        "byApprovalLevel": {
+          "normal": 1,
+          "blocked": 35,
+          "careful": 1
+        },
+        "blocked": 35
+      },
+      "SAMSUNG-LAUNDRY-COMBO-WD53": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "templateId": "aio_laundry",
+        "total": 50,
+        "byType": {
+          "canonicalMapping": 37,
+          "procedureTestBinding": 8,
+          "measurementBinding": 5
+        },
+        "byApprovalLevel": {
+          "blocked": 30,
+          "easy": 2,
+          "careful": 5,
+          "normal": 13
+        },
+        "blocked": 30
+      },
+      "SAMSUNG-ME11-MICROWAVE": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "templateId": "microwave",
+        "total": 30,
+        "byType": {
+          "canonicalMapping": 27,
+          "procedureTestBinding": 2,
+          "measurementBinding": 1
+        },
+        "byApprovalLevel": {
+          "careful": 3,
+          "blocked": 24,
+          "normal": 3
+        },
+        "blocked": 24
+      },
+      "SAMSUNG-NX60-RANGE": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "templateId": "gas_range",
+        "total": 33,
+        "byType": {
+          "canonicalMapping": 31,
+          "procedureTestBinding": 1,
+          "measurementBinding": 1
+        },
+        "byApprovalLevel": {
+          "blocked": 29,
+          "easy": 1,
+          "normal": 3
+        },
+        "blocked": 29
+      },
+      "SAMSUNG-RF23BB-FRIDGE": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "templateId": "refrigerator",
+        "total": 32,
+        "byType": {
+          "canonicalMapping": 32
+        },
+        "byApprovalLevel": {
+          "normal": 1,
+          "blocked": 30,
+          "careful": 1
+        },
+        "blocked": 30
+      },
+      "SAMSUNG-RF260B-FRIDGE": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "templateId": "refrigerator",
+        "total": 46,
+        "byType": {
+          "canonicalMapping": 46
+        },
+        "byApprovalLevel": {
+          "normal": 1,
+          "blocked": 43,
+          "easy": 1,
+          "careful": 1
+        },
+        "blocked": 43
+      },
+      "SAMSUNG-RF28-FRIDGE": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "templateId": "refrigerator",
+        "total": 37,
+        "byType": {
+          "canonicalMapping": 37
+        },
+        "byApprovalLevel": {
+          "normal": 1,
+          "blocked": 35,
+          "careful": 1
+        },
+        "blocked": 35
+      },
+      "SAMSUNG-RF32CG-FRIDGE": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "templateId": "refrigerator",
+        "total": 32,
+        "byType": {
+          "canonicalMapping": 32
+        },
+        "byApprovalLevel": {
+          "normal": 1,
+          "blocked": 30,
+          "careful": 1
+        },
+        "blocked": 30
+      },
+      "SAMSUNG-RS22T-SXS": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "templateId": "refrigerator",
+        "total": 46,
+        "byType": {
+          "canonicalMapping": 46
+        },
+        "byApprovalLevel": {
+          "normal": 1,
+          "blocked": 43,
+          "easy": 1,
+          "careful": 1
+        },
+        "blocked": 43
+      },
+      "SAMSUNG-RS28-SXS": {
+        "manualId": "SAMSUNG-RS28-SXS",
+        "platformId": "samsung_sxs",
+        "templateId": "refrigerator",
+        "total": 46,
+        "byType": {
+          "canonicalMapping": 46
+        },
+        "byApprovalLevel": {
+          "normal": 1,
+          "blocked": 43,
+          "easy": 1,
+          "careful": 1
+        },
+        "blocked": 43
+      },
+      "SAMSUNG-TL-A50-WASHER": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "templateId": "washer",
+        "total": 38,
+        "byType": {
+          "canonicalMapping": 26,
+          "procedureTestBinding": 7,
+          "measurementBinding": 5
+        },
+        "byApprovalLevel": {
+          "blocked": 12,
+          "easy": 9,
+          "careful": 5,
+          "normal": 12
+        },
+        "blocked": 12
+      },
+      "SAMSUNG-TL-CG71-DRYER": {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "platformId": "samsung_tl_dryer_cg71",
+        "templateId": "electric_dryer",
+        "total": 29,
+        "byType": {
+          "canonicalMapping": 25,
+          "procedureTestBinding": 2,
+          "measurementBinding": 2
+        },
+        "byApprovalLevel": {
+          "blocked": 22,
+          "careful": 2,
+          "easy": 1,
+          "normal": 4
+        },
+        "blocked": 22
+      },
+      "SAMSUNG-TL-CG71-WASHER": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "templateId": "washer",
+        "total": 40,
+        "byType": {
+          "canonicalMapping": 28,
+          "procedureTestBinding": 7,
+          "measurementBinding": 5
+        },
+        "byApprovalLevel": {
+          "blocked": 14,
+          "easy": 9,
+          "careful": 5,
+          "normal": 12
+        },
+        "blocked": 14
+      },
+      "SAMSUNG-TL-DV50-DRYER": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "templateId": "electric_dryer",
+        "total": 29,
+        "byType": {
+          "canonicalMapping": 25,
+          "procedureTestBinding": 2,
+          "measurementBinding": 2
+        },
+        "byApprovalLevel": {
+          "blocked": 22,
+          "careful": 2,
+          "easy": 1,
+          "normal": 4
+        },
+        "blocked": 22
+      },
+      "W10322959": {
+        "manualId": "W10322959",
+        "platformId": "whirlpool_jazz_french_door",
+        "templateId": "refrigerator",
+        "total": 22,
+        "byType": {
+          "canonicalMapping": 18,
+          "procedureTestBinding": 4
+        },
+        "byApprovalLevel": {
+          "blocked": 17,
+          "normal": 5
+        },
+        "blocked": 17
+      },
+      "W10330404": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "templateId": "refrigerator",
+        "total": 18,
+        "byType": {
+          "canonicalMapping": 17,
+          "procedureTestBinding": 1
+        },
+        "byApprovalLevel": {
+          "blocked": 17,
+          "normal": 1
+        },
+        "blocked": 17
+      },
+      "W10410465": {
+        "manualId": "W10410465",
+        "platformId": "whirlpool_ccu_tl_dryer",
+        "templateId": "electric_dryer",
+        "total": 34,
+        "byType": {
+          "canonicalMapping": 30,
+          "procedureTestBinding": 1,
+          "measurementBinding": 3
+        },
+        "byApprovalLevel": {
+          "blocked": 28,
+          "easy": 1,
+          "careful": 1,
+          "normal": 4
+        },
+        "blocked": 28
+      },
+      "W10674984": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "templateId": "refrigerator",
+        "total": 16,
+        "byType": {
+          "canonicalMapping": 12,
+          "procedureTestBinding": 2,
+          "measurementBinding": 2
+        },
+        "byApprovalLevel": {
+          "blocked": 12,
+          "normal": 4
+        },
+        "blocked": 12
+      },
+      "W10680150": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "templateId": "electric_dryer",
+        "total": 45,
+        "byType": {
+          "canonicalMapping": 37,
+          "procedureTestBinding": 2,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "blocked": 34,
+          "easy": 1,
+          "careful": 1,
+          "normal": 9
+        },
+        "blocked": 34
+      },
+      "W10785366A": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "templateId": "washer",
+        "total": 11,
+        "byType": {
+          "canonicalMapping": 11
+        },
+        "byApprovalLevel": {
+          "easy": 1,
+          "blocked": 9,
+          "normal": 1
+        },
+        "blocked": 9
+      },
+      "W10864849": {
+        "manualId": "W10864849",
+        "platformId": "whirlpool_tl_dd",
+        "templateId": "washer",
+        "total": 53,
+        "byType": {
+          "canonicalMapping": 29,
+          "procedureTestBinding": 12,
+          "measurementBinding": 12
+        },
+        "byApprovalLevel": {
+          "easy": 11,
+          "careful": 2,
+          "normal": 26,
+          "blocked": 14
+        },
+        "blocked": 14
+      },
+      "W10881701": {
+        "manualId": "W10881701",
+        "platformId": "whirlpool_ccu_dryer",
+        "templateId": "electric_dryer",
+        "total": 45,
+        "byType": {
+          "canonicalMapping": 37,
+          "procedureTestBinding": 2,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "blocked": 34,
+          "easy": 1,
+          "careful": 1,
+          "normal": 9
+        },
+        "blocked": 34
+      },
+      "W10901168": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "templateId": "refrigerator",
+        "total": 22,
+        "byType": {
+          "canonicalMapping": 22
+        },
+        "byApprovalLevel": {
+          "normal": 1,
+          "blocked": 21
+        },
+        "blocked": 21
+      },
+      "W11169652": {
+        "manualId": "W11169652",
+        "platformId": "whirlpool_fl_dd",
+        "templateId": "washer",
+        "total": 49,
+        "byType": {
+          "canonicalMapping": 36,
+          "procedureTestBinding": 4,
+          "measurementBinding": 9
+        },
+        "byApprovalLevel": {
+          "easy": 16,
+          "blocked": 9,
+          "normal": 21,
+          "careful": 3
+        },
+        "blocked": 9
+      },
+      "W11169659": {
+        "manualId": "W11169659",
+        "platformId": "whirlpool_ccu_dryer",
+        "templateId": "electric_dryer",
+        "total": 45,
+        "byType": {
+          "canonicalMapping": 37,
+          "procedureTestBinding": 2,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "blocked": 34,
+          "easy": 1,
+          "careful": 1,
+          "normal": 9
+        },
+        "blocked": 34
+      },
+      "W11174426": {
+        "manualId": "W11174426",
+        "platformId": "whirlpool_freestanding_range",
+        "templateId": "electric_range",
+        "total": 38,
+        "byType": {
+          "canonicalMapping": 38
+        },
+        "byApprovalLevel": {
+          "blocked": 35,
+          "careful": 2,
+          "normal": 1
+        },
+        "blocked": 35
+      },
+      "W11174814": {
+        "manualId": "W11174814",
+        "platformId": "whirlpool_freestanding_range",
+        "templateId": "electric_range",
+        "total": 38,
+        "byType": {
+          "canonicalMapping": 38
+        },
+        "byApprovalLevel": {
+          "blocked": 35,
+          "careful": 2,
+          "normal": 1
+        },
+        "blocked": 35
+      },
+      "W11187658": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "templateId": "dishwasher",
+        "total": 13,
+        "byType": {
+          "canonicalMapping": 10,
+          "procedureTestBinding": 2,
+          "measurementBinding": 1
+        },
+        "byApprovalLevel": {
+          "careful": 4,
+          "blocked": 6,
+          "normal": 3
+        },
+        "blocked": 6
+      },
+      "W11296289": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "templateId": "refrigerator",
+        "total": 25,
+        "byType": {
+          "canonicalMapping": 24,
+          "procedureTestBinding": 1
+        },
+        "byApprovalLevel": {
+          "blocked": 23,
+          "normal": 2
+        },
+        "blocked": 23
+      },
+      "W11366142": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "templateId": "dishwasher",
+        "total": 56,
+        "byType": {
+          "canonicalMapping": 43,
+          "procedureTestBinding": 6,
+          "measurementBinding": 7
+        },
+        "byApprovalLevel": {
+          "careful": 7,
+          "blocked": 35,
+          "normal": 14
+        },
+        "blocked": 35
+      },
+      "W11416395": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "templateId": "washer",
+        "total": 31,
+        "byType": {
+          "canonicalMapping": 19,
+          "procedureTestBinding": 6,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "easy": 8,
+          "careful": 1,
+          "normal": 14,
+          "blocked": 8
+        },
+        "blocked": 8
+      },
+      "W11416787": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "templateId": "washer",
+        "total": 33,
+        "byType": {
+          "canonicalMapping": 21,
+          "procedureTestBinding": 6,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "easy": 9,
+          "careful": 2,
+          "normal": 13,
+          "blocked": 9
+        },
+        "blocked": 9
+      },
+      "W11416805": {
+        "manualId": "W11416805",
+        "platformId": "whirlpool_acu_tl_dryer",
+        "templateId": "electric_dryer",
+        "total": 43,
+        "byType": {
+          "canonicalMapping": 35,
+          "procedureTestBinding": 2,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "normal": 9,
+          "careful": 2,
+          "blocked": 32
+        },
+        "blocked": 32
+      },
+      "W11428632": {
+        "manualId": "W11428632",
+        "platformId": "whirlpool_tl_psc_washer",
+        "templateId": "washer",
+        "total": 29,
+        "byType": {
+          "canonicalMapping": 17,
+          "procedureTestBinding": 6,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "easy": 7,
+          "careful": 1,
+          "normal": 14,
+          "blocked": 7
+        },
+        "blocked": 7
+      },
+      "W11455152": {
+        "manualId": "W11455152",
+        "platformId": "whirlpool_tl_dd_6157",
+        "templateId": "washer",
+        "total": 29,
+        "byType": {
+          "canonicalMapping": 17,
+          "procedureTestBinding": 6,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "easy": 7,
+          "careful": 1,
+          "normal": 14,
+          "blocked": 7
+        },
+        "blocked": 7
+      },
+      "W11480208": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "templateId": "dishwasher",
+        "total": 56,
+        "byType": {
+          "canonicalMapping": 43,
+          "procedureTestBinding": 6,
+          "measurementBinding": 7
+        },
+        "byApprovalLevel": {
+          "careful": 7,
+          "blocked": 35,
+          "normal": 14
+        },
+        "blocked": 35
+      },
+      "W11499711": {
+        "manualId": "W11499711",
+        "platformId": "whirlpool_dishwasher_acu",
+        "templateId": "dishwasher",
+        "total": 56,
+        "byType": {
+          "canonicalMapping": 43,
+          "procedureTestBinding": 6,
+          "measurementBinding": 7
+        },
+        "byApprovalLevel": {
+          "careful": 7,
+          "blocked": 35,
+          "normal": 14
+        },
+        "blocked": 35
+      },
+      "W11509412": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "templateId": "refrigerator",
+        "total": 23,
+        "byType": {
+          "canonicalMapping": 22,
+          "procedureTestBinding": 1
+        },
+        "byApprovalLevel": {
+          "normal": 2,
+          "blocked": 21
+        },
+        "blocked": 21
+      },
+      "W11633848": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "templateId": "dishwasher",
+        "total": 56,
+        "byType": {
+          "canonicalMapping": 43,
+          "procedureTestBinding": 6,
+          "measurementBinding": 7
+        },
+        "byApprovalLevel": {
+          "careful": 7,
+          "blocked": 35,
+          "normal": 14
+        },
+        "blocked": 35
+      },
+      "W11697231": {
+        "manualId": "W11697231",
+        "platformId": "whirlpool_tl_dd",
+        "templateId": "washer",
+        "total": 53,
+        "byType": {
+          "canonicalMapping": 29,
+          "procedureTestBinding": 12,
+          "measurementBinding": 12
+        },
+        "byApprovalLevel": {
+          "easy": 11,
+          "careful": 2,
+          "normal": 26,
+          "blocked": 14
+        },
+        "blocked": 14
+      },
+      "W11746350": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "templateId": "electric_range",
+        "total": 38,
+        "byType": {
+          "canonicalMapping": 38
+        },
+        "byApprovalLevel": {
+          "blocked": 35,
+          "careful": 2,
+          "normal": 1
+        },
+        "blocked": 35
+      },
+      "W11794121": {
+        "manualId": "W11794121",
+        "platformId": "whirlpool_dishwasher_acu",
+        "templateId": "dishwasher",
+        "total": 56,
+        "byType": {
+          "canonicalMapping": 43,
+          "procedureTestBinding": 6,
+          "measurementBinding": 7
+        },
+        "byApprovalLevel": {
+          "careful": 7,
+          "blocked": 35,
+          "normal": 14
+        },
+        "blocked": 35
+      },
+      "W11798430": {
+        "manualId": "W11798430",
+        "platformId": "whirlpool_acu_tl_dryer",
+        "templateId": "electric_dryer",
+        "total": 43,
+        "byType": {
+          "canonicalMapping": 35,
+          "procedureTestBinding": 2,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "normal": 9,
+          "careful": 2,
+          "blocked": 32
+        },
+        "blocked": 32
+      },
+      "W11800233": {
+        "manualId": "W11800233",
+        "platformId": "whirlpool_tl_dd_4100",
+        "templateId": "washer",
+        "total": 29,
+        "byType": {
+          "canonicalMapping": 17,
+          "procedureTestBinding": 6,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "easy": 7,
+          "careful": 1,
+          "normal": 14,
+          "blocked": 7
+        },
+        "blocked": 7
+      },
+      "W11803249": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "templateId": "refrigerator",
+        "total": 24,
+        "byType": {
+          "canonicalMapping": 24
+        },
+        "byApprovalLevel": {
+          "normal": 2,
+          "blocked": 22
+        },
+        "blocked": 22
+      },
+      "W11819775": {
+        "manualId": "W11819775",
+        "platformId": "whirlpool_acu_fd_inverter",
+        "templateId": "refrigerator",
+        "total": 24,
+        "byType": {
+          "canonicalMapping": 24
+        },
+        "byApprovalLevel": {
+          "normal": 2,
+          "blocked": 22
+        },
+        "blocked": 22
+      },
+      "W8178558": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "templateId": "washer",
+        "total": 41,
+        "byType": {
+          "canonicalMapping": 31,
+          "procedureTestBinding": 5,
+          "measurementBinding": 5
+        },
+        "byApprovalLevel": {
+          "easy": 14,
+          "careful": 7,
+          "blocked": 10,
+          "normal": 10
+        },
+        "blocked": 10
+      },
+      "W8178559": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "templateId": "electric_dryer",
+        "total": 28,
+        "byType": {
+          "canonicalMapping": 24,
+          "procedureTestBinding": 2,
+          "measurementBinding": 2
+        },
+        "byApprovalLevel": {
+          "blocked": 23,
+          "careful": 1,
+          "normal": 4
+        },
+        "blocked": 23
+      },
+      "W8178629": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "templateId": "electric_dryer",
+        "total": 30,
+        "byType": {
+          "canonicalMapping": 24,
+          "procedureTestBinding": 2,
+          "measurementBinding": 4
+        },
+        "byApprovalLevel": {
+          "blocked": 22,
+          "normal": 7,
+          "careful": 1
+        },
+        "blocked": 22
+      },
+      "WHIRLPOOL-2225623-ICE-MAKER": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "platformId": "whirlpool_modular_ice_maker",
+        "templateId": "refrigerator",
+        "total": 15,
+        "byType": {
+          "canonicalMapping": 13,
+          "procedureTestBinding": 1,
+          "measurementBinding": 1
+        },
+        "byApprovalLevel": {
+          "blocked": 13,
+          "normal": 2
+        },
+        "blocked": 13
+      }
+    },
+    "duplicateExamples": [
+      {
+        "key": "canonicalMapping::thermistor::wash_ntc",
+        "candidateIds": [
+          "map-FRIGIDAIRE-PRMC-FRIDGE-thermistor-wash_ntc",
+          "map-INSIGNIA-RTM18-FRIDGE-thermistor-wash_ntc",
+          "map-LG-LRMVS-FRIDGE-thermistor-wash_ntc",
+          "map-MIDEA-RSS-FRIDGE-thermistor-wash_ntc",
+          "map-MIDEA-UZ21-FREEZER-thermistor-wash_ntc",
+          "map-SAMSUNG-DISHWASHER-thermistor-wash_ntc",
+          "map-SAMSUNG-DISHWASHER-M9-thermistor-wash_ntc",
+          "map-SAMSUNG-ICE-MAKER-BULLETIN-thermistor-wash_ntc",
+          "map-SAMSUNG-NX60-RANGE-thermistor-wash_ntc",
+          "map-SAMSUNG-RF23BB-FRIDGE-thermistor-wash_ntc",
+          "map-SAMSUNG-RF260B-FRIDGE-thermistor-wash_ntc",
+          "map-SAMSUNG-RF28-FRIDGE-thermistor-wash_ntc",
+          "map-SAMSUNG-RF32CG-FRIDGE-thermistor-wash_ntc",
+          "map-SAMSUNG-RS22T-SXS-thermistor-wash_ntc",
+          "map-SAMSUNG-RS28-SXS-thermistor-wash_ntc",
+          "map-W10322959-thermistor-wash_ntc",
+          "map-W10901168-thermistor-wash_ntc",
+          "map-W11296289-thermistor-wash_ntc",
+          "map-W11509412-thermistor-wash_ntc",
+          "map-W11803249-thermistor-wash_ntc",
+          "map-W11819775-thermistor-wash_ntc"
+        ],
+        "count": 21
+      },
+      {
+        "key": "canonicalMapping::ice_maker_module::",
+        "candidateIds": [
+          "map-FRIGIDAIRE-PRMC-FRIDGE-compound-ice_maker_module",
+          "map-INSIGNIA-RTM18-FRIDGE-compound-ice_maker_module",
+          "map-LG-LRMVS-FRIDGE-compound-ice_maker_module",
+          "map-MIDEA-RSS-FRIDGE-compound-ice_maker_module",
+          "map-SAMSUNG-ICE-MAKER-BULLETIN-compound-ice_maker_module",
+          "map-SAMSUNG-RF23BB-FRIDGE-compound-ice_maker_module",
+          "map-SAMSUNG-RF260B-FRIDGE-compound-ice_maker_module",
+          "map-SAMSUNG-RF28-FRIDGE-compound-ice_maker_module",
+          "map-SAMSUNG-RF32CG-FRIDGE-compound-ice_maker_module",
+          "map-SAMSUNG-RS22T-SXS-compound-ice_maker_module",
+          "map-SAMSUNG-RS28-SXS-compound-ice_maker_module",
+          "map-W10330404-compound-ice_maker_module",
+          "map-W11296289-compound-ice_maker_module",
+          "map-WHIRLPOOL-2225623-ICE-MAKER-compound-ice_maker_module"
+        ],
+        "count": 14
+      },
+      {
+        "key": "canonicalMapping::heater::",
+        "candidateIds": [
+          "map-frigidaire-prmc-fridge-unresolved-frigidaireprmc-manual-defrost-heater",
+          "map-insignia-dwr3-dishwasher-unresolved-nsdwr3ss1-heater-heater",
+          "map-insignia-dwr3-dishwasher-unresolved-nsdwr3ss1-tub-thermistor-heater",
+          "map-insignia-rtm18-fridge-unresolved-midearss-fz-defrost-heater-heater",
+          "map-lg-ldt7808-dishwasher-unresolved-ldt7808-heater-heater",
+          "map-lg-ldt7808-dishwasher-unresolved-ldt7808-thermistor-heater",
+          "map-lg-lre-range-unresolved-lg-range-oven-lamp-heater",
+          "map-lg-lrmvs-fridge-unresolved-lglrmvs-ff-defrost-heater-heater",
+          "map-lg-lrmvs-fridge-unresolved-lglrmvs-fz-defrost-heater-heater",
+          "map-midea-rss-fridge-unresolved-midearss-fz-defrost-heater-heater",
+          "map-midea-uz21-freezer-unresolved-mideauz21-fz-defrost-heater-heater",
+          "map-midea-uz21-freezer-unresolved-mideauz21-high-temp-alarm-heater",
+          "map-samsung-dishwasher-unresolved-samsungdw-heater-heater",
+          "map-samsung-dishwasher-m9-unresolved-samsungdwm9-heater-heater",
+          "map-samsung-ice-maker-bulletin-unresolved-samsungrf28-freezer-defrost-heater-heater",
+          "map-samsung-ice-maker-bulletin-unresolved-samsungrf28-fridge-defrost-heater-heater",
+          "map-samsung-ice-maker-bulletin-unresolved-samsungrf28-ice-room-heater-heater",
+          "map-samsung-nx60-range-unresolved-samsungnx60-heater-relays-heater",
+          "map-samsung-nx60-range-unresolved-samsungnx60-oven-lamp-heater",
+          "map-samsung-rf23bb-fridge-unresolved-samsungbespoke-freezer-defrost-heater-heater",
+          "map-samsung-rf23bb-fridge-unresolved-samsungbespoke-ice-room-heater-heater",
+          "map-samsung-rf260b-fridge-unresolved-samsungrf260b-ff-defrost-heater-heater",
+          "map-samsung-rf260b-fridge-unresolved-samsungrf260b-fz-defrost-heater-heater",
+          "map-samsung-rf260b-fridge-unresolved-samsungrs28-damper-heater-heater",
+          "map-samsung-rf260b-fridge-unresolved-samsungrs28-f-defrost-heater-heater",
+          "map-samsung-rf28-fridge-unresolved-samsungrf28-freezer-defrost-heater-heater",
+          "map-samsung-rf28-fridge-unresolved-samsungrf28-fridge-defrost-heater-heater",
+          "map-samsung-rf28-fridge-unresolved-samsungrf28-ice-room-heater-heater",
+          "map-samsung-rf32cg-fridge-unresolved-samsungbespoke-freezer-defrost-heater-heater",
+          "map-samsung-rf32cg-fridge-unresolved-samsungbespoke-ice-room-heater-heater",
+          "map-samsung-rs22t-sxs-unresolved-samsungrf260b-ff-defrost-heater-heater",
+          "map-samsung-rs22t-sxs-unresolved-samsungrf260b-fz-defrost-heater-heater",
+          "map-samsung-rs22t-sxs-unresolved-samsungrs28-damper-heater-heater",
+          "map-samsung-rs22t-sxs-unresolved-samsungrs28-f-defrost-heater-heater",
+          "map-samsung-rs28-sxs-unresolved-samsungrf260b-ff-defrost-heater-heater",
+          "map-samsung-rs28-sxs-unresolved-samsungrf260b-fz-defrost-heater-heater",
+          "map-samsung-rs28-sxs-unresolved-samsungrs28-damper-heater-heater",
+          "map-samsung-rs28-sxs-unresolved-samsungrs28-f-defrost-heater-heater",
+          "map-w10330404-unresolved-w10330404-defrost-heater-heater",
+          "map-w10674984-unresolved-w10674984-defrost-heater-heater",
+          "map-w11187658-unresolved-w11187658-heater-heater",
+          "map-w11187658-unresolved-w11187658-tub-thermistor-heater",
+          "map-w11296289-unresolved-w11296289-test-11-damper-heater-heater",
+          "map-w11366142-unresolved-w11366142-tub-light-heater",
+          "map-w11366142-unresolved-w11366142-vent-wax-motor-heater",
+          "map-w11366142-unresolved-w11480208-dc-fan-heater",
+          "map-w11366142-unresolved-w11480208-heater-heater",
+          "map-w11366142-unresolved-w11480208-interior-led-heater",
+          "map-w11366142-unresolved-w11633848-dc-fan-heater",
+          "map-w11366142-unresolved-w11633848-heater-heater",
+          "map-w11366142-unresolved-w11633848-owi-sensor-heater",
+          "map-w11480208-unresolved-w11366142-tub-light-heater",
+          "map-w11480208-unresolved-w11366142-vent-wax-motor-heater",
+          "map-w11480208-unresolved-w11480208-dc-fan-heater",
+          "map-w11480208-unresolved-w11480208-heater-heater",
+          "map-w11480208-unresolved-w11480208-interior-led-heater",
+          "map-w11480208-unresolved-w11633848-dc-fan-heater",
+          "map-w11480208-unresolved-w11633848-heater-heater",
+          "map-w11480208-unresolved-w11633848-owi-sensor-heater",
+          "map-w11499711-unresolved-w11366142-tub-light-heater",
+          "map-w11499711-unresolved-w11366142-vent-wax-motor-heater",
+          "map-w11499711-unresolved-w11480208-dc-fan-heater",
+          "map-w11499711-unresolved-w11480208-heater-heater",
+          "map-w11499711-unresolved-w11480208-interior-led-heater",
+          "map-w11499711-unresolved-w11633848-dc-fan-heater",
+          "map-w11499711-unresolved-w11633848-heater-heater",
+          "map-w11499711-unresolved-w11633848-owi-sensor-heater",
+          "map-w11633848-unresolved-w11366142-tub-light-heater",
+          "map-w11633848-unresolved-w11366142-vent-wax-motor-heater",
+          "map-w11633848-unresolved-w11480208-dc-fan-heater",
+          "map-w11633848-unresolved-w11480208-heater-heater",
+          "map-w11633848-unresolved-w11480208-interior-led-heater",
+          "map-w11633848-unresolved-w11633848-dc-fan-heater",
+          "map-w11633848-unresolved-w11633848-heater-heater",
+          "map-w11633848-unresolved-w11633848-owi-sensor-heater",
+          "map-w11794121-unresolved-w11366142-tub-light-heater",
+          "map-w11794121-unresolved-w11366142-vent-wax-motor-heater",
+          "map-w11794121-unresolved-w11480208-dc-fan-heater",
+          "map-w11794121-unresolved-w11480208-heater-heater",
+          "map-w11794121-unresolved-w11480208-interior-led-heater",
+          "map-w11794121-unresolved-w11633848-dc-fan-heater",
+          "map-w11794121-unresolved-w11633848-heater-heater",
+          "map-w11794121-unresolved-w11633848-owi-sensor-heater",
+          "map-w11803249-unresolved-w11803249-test-15-heaters-heater",
+          "map-w11819775-unresolved-w11819775-test-40-mullion-heater-heater",
+          "map-whirlpool-2225623-ice-maker-unresolved-w2225623-mold-heater-heater"
+        ],
+        "count": 86
+      },
+      {
+        "key": "canonicalMapping::main_control::control_board",
+        "candidateIds": [
+          "map-FRIGIDAIRE-PRMC-FRIDGE-main_control-control_board",
+          "map-INSIGNIA-RTM18-FRIDGE-main_control-control_board",
+          "map-LG-LRE-RANGE-main_control-control_board",
+          "map-LG-LRMVS-FRIDGE-main_control-control_board",
+          "map-MIDEA-RSS-FRIDGE-main_control-control_board",
+          "map-MIDEA-UZ21-FREEZER-main_control-control_board",
+          "map-SAMSUNG-DISHWASHER-main_control-control_board",
+          "map-SAMSUNG-DISHWASHER-M9-main_control-control_board",
+          "map-SAMSUNG-FL-BB8700-DRYER-main_control-control_board",
+          "map-SAMSUNG-FL-BB8700-WASHER-main_control-control_board",
+          "map-SAMSUNG-FL-DV6000-DRYER-main_control-control_board",
+          "map-SAMSUNG-FL-WF6000R-WASHER-main_control-control_board",
+          "map-SAMSUNG-FLEXWASH-WASHER-main_control-control_board",
+          "map-SAMSUNG-LAUNDRY-COMBO-WD53-main_control-control_board",
+          "map-SAMSUNG-NX60-RANGE-main_control-control_board",
+          "map-SAMSUNG-RF260B-FRIDGE-main_control-control_board",
+          "map-SAMSUNG-RS22T-SXS-main_control-control_board",
+          "map-SAMSUNG-RS28-SXS-main_control-control_board",
+          "map-SAMSUNG-TL-A50-WASHER-main_control-control_board",
+          "map-SAMSUNG-TL-CG71-DRYER-main_control-control_board",
+          "map-SAMSUNG-TL-CG71-WASHER-main_control-control_board",
+          "map-SAMSUNG-TL-DV50-DRYER-main_control-control_board"
+        ],
+        "count": 22
+      },
+      {
+        "key": "canonicalMapping::display_panel::",
+        "candidateIds": [
+          "map-FRIGIDAIRE-PRMC-FRIDGE-compound-display_panel",
+          "map-INSIGNIA-RTM18-FRIDGE-compound-display_panel",
+          "map-LG-LRMVS-FRIDGE-compound-display_panel",
+          "map-MIDEA-RSS-FRIDGE-compound-display_panel",
+          "map-MIDEA-UZ21-FREEZER-compound-display_panel",
+          "map-SAMSUNG-ICE-MAKER-BULLETIN-compound-display_panel",
+          "map-SAMSUNG-NX60-RANGE-compound-display_panel",
+          "map-SAMSUNG-RF23BB-FRIDGE-compound-display_panel",
+          "map-SAMSUNG-RF260B-FRIDGE-compound-display_panel",
+          "map-SAMSUNG-RF28-FRIDGE-compound-display_panel",
+          "map-SAMSUNG-RF32CG-FRIDGE-compound-display_panel",
+          "map-SAMSUNG-RS22T-SXS-compound-display_panel",
+          "map-SAMSUNG-RS28-SXS-compound-display_panel"
+        ],
+        "count": 13
+      },
+      {
+        "key": "canonicalMapping::user_interface::",
+        "candidateIds": [
+          "map-INSIGNIA-DWR3-DISHWASHER-compound-user_interface",
+          "map-NS-TDRE75W1-compound-user_interface",
+          "map-SAMSUNG-DISHWASHER-compound-user_interface",
+          "map-SAMSUNG-DISHWASHER-M9-compound-user_interface",
+          "map-SAMSUNG-FL-BB8700-DRYER-compound-user_interface",
+          "map-SAMSUNG-FL-DV6000-DRYER-compound-user_interface",
+          "map-SAMSUNG-FLEXWASH-WASHER-compound-user_interface",
+          "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-user_interface",
+          "map-SAMSUNG-TL-A50-WASHER-compound-user_interface",
+          "map-SAMSUNG-TL-CG71-DRYER-compound-user_interface",
+          "map-SAMSUNG-TL-CG71-WASHER-compound-user_interface",
+          "map-SAMSUNG-TL-DV50-DRYER-compound-user_interface",
+          "map-W10410465-compound-user_interface",
+          "map-W10680150-compound-user_interface",
+          "map-W10881701-compound-user_interface",
+          "map-W11169659-compound-user_interface",
+          "map-W11416805-compound-user_interface",
+          "map-W11798430-compound-user_interface",
+          "map-W8178559-compound-user_interface",
+          "map-W8178629-compound-user_interface"
+        ],
+        "count": 20
+      },
+      {
+        "key": "canonicalMapping::acu::control_board",
+        "candidateIds": [
+          "map-INSIGNIA-DWR3-DISHWASHER-acu-control_board",
+          "map-NS-TDRE75W1-acu-control_board",
+          "map-W10680150-acu-control_board",
+          "map-W10785366A-acu-control_board",
+          "map-W10864849-acu-control_board",
+          "map-W10881701-acu-control_board",
+          "map-W11169652-acu-control_board",
+          "map-W11169659-acu-control_board",
+          "map-W11174426-acu-control_board",
+          "map-W11174814-acu-control_board",
+          "map-W11366142-acu-control_board",
+          "map-W11416395-acu-control_board",
+          "map-W11416787-acu-control_board",
+          "map-W11416805-acu-control_board",
+          "map-W11428632-acu-control_board",
+          "map-W11455152-acu-control_board",
+          "map-W11480208-acu-control_board",
+          "map-W11499711-acu-control_board",
+          "map-W11633848-acu-control_board",
+          "map-W11697231-acu-control_board",
+          "map-W11746350-acu-control_board",
+          "map-W11794121-acu-control_board",
+          "map-W11798430-acu-control_board",
+          "map-W11800233-acu-control_board",
+          "map-W11803249-acu-control_board",
+          "map-W11819775-acu-control_board"
+        ],
+        "count": 26
+      },
+      {
+        "key": "canonicalMapping::circulation_pump::",
+        "candidateIds": [
+          "map-INSIGNIA-DWR3-DISHWASHER-compound-circulation_pump",
+          "map-LG-LDT7808-DISHWASHER-compound-circulation_pump",
+          "map-W11366142-compound-circulation_pump",
+          "map-W11480208-compound-circulation_pump",
+          "map-W11499711-compound-circulation_pump",
+          "map-W11633848-compound-circulation_pump",
+          "map-W11794121-compound-circulation_pump"
+        ],
+        "count": 7
+      },
+      {
+        "key": "canonicalMapping::drain_pump::drain_pump",
+        "candidateIds": [
+          "map-INSIGNIA-DWR3-DISHWASHER-compound-drain_pump",
+          "map-LG-LDT7808-DISHWASHER-compound-drain_pump",
+          "map-SAMSUNG-DISHWASHER-compound-drain_pump",
+          "map-SAMSUNG-DISHWASHER-M9-compound-drain_pump",
+          "map-SAMSUNG-FL-BB8700-WASHER-drain_pump-drain_pump",
+          "map-SAMSUNG-FL-WF6000R-WASHER-drain_pump-drain_pump",
+          "map-SAMSUNG-FLEXWASH-WASHER-drain_pump-drain_pump",
+          "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-drain_pump",
+          "map-SAMSUNG-TL-A50-WASHER-drain_pump-drain_pump",
+          "map-SAMSUNG-TL-CG71-WASHER-drain_pump-drain_pump",
+          "map-W10864849-drain_pump-drain_pump",
+          "map-W11169652-drain_pump-drain_pump",
+          "map-W11187658-compound-drain_pump",
+          "map-W11366142-compound-drain_pump",
+          "map-W11416395-drain_pump-drain_pump",
+          "map-W11416787-drain_pump-drain_pump",
+          "map-W11428632-drain_pump-drain_pump",
+          "map-W11455152-drain_pump-drain_pump",
+          "map-W11480208-compound-drain_pump",
+          "map-W11499711-compound-drain_pump",
+          "map-W11633848-compound-drain_pump",
+          "map-W11697231-drain_pump-drain_pump",
+          "map-W11794121-compound-drain_pump",
+          "map-W11800233-drain_pump-drain_pump",
+          "map-W8178558-drain_pump-drain_pump"
+        ],
+        "count": 25
+      },
+      {
+        "key": "canonicalMapping::inlet_valve::inlet_valve",
+        "candidateIds": [
+          "map-INSIGNIA-DWR3-DISHWASHER-compound-inlet_valve",
+          "map-LG-LDT7808-DISHWASHER-compound-inlet_valve",
+          "map-SAMSUNG-DISHWASHER-compound-inlet_valve",
+          "map-SAMSUNG-DISHWASHER-M9-compound-inlet_valve",
+          "map-SAMSUNG-FL-BB8700-WASHER-inlet_valve-inlet_valve",
+          "map-SAMSUNG-FL-WF6000R-WASHER-inlet_valve-inlet_valve",
+          "map-SAMSUNG-FLEXWASH-WASHER-inlet_valve-inlet_valve",
+          "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-inlet_valve",
+          "map-SAMSUNG-TL-A50-WASHER-inlet_valve-inlet_valve",
+          "map-SAMSUNG-TL-CG71-WASHER-inlet_valve-inlet_valve",
+          "map-W10864849-inlet_valve-inlet_valve",
+          "map-W11169652-inlet_valve-inlet_valve",
+          "map-W11187658-compound-inlet_valve",
+          "map-W11366142-compound-inlet_valve",
+          "map-W11416395-inlet_valve-inlet_valve",
+          "map-W11416787-inlet_valve-inlet_valve",
+          "map-W11428632-inlet_valve-inlet_valve",
+          "map-W11455152-inlet_valve-inlet_valve",
+          "map-W11480208-compound-inlet_valve",
+          "map-W11499711-compound-inlet_valve",
+          "map-W11633848-compound-inlet_valve",
+          "map-W11697231-inlet_valve-inlet_valve",
+          "map-W11794121-compound-inlet_valve",
+          "map-W11800233-inlet_valve-inlet_valve",
+          "map-W8178558-inlet_valve-inlet_valve"
+        ],
+        "count": 25
+      },
+      {
+        "key": "canonicalMapping::e1 \u2014 water inlet failure (4 min fill)::",
+        "candidateIds": [
+          "map-INSIGNIA-DWR3-DISHWASHER-compound-e1-\u2014-water-inlet-failure-(4-min-fill)",
+          "map-W11187658-compound-e1-\u2014-water-inlet-failure-(4-min-fill)"
+        ],
+        "count": 2
+      },
+      {
+        "key": "canonicalMapping::e4 \u2014 overflow / base pan::",
+        "candidateIds": [
+          "map-INSIGNIA-DWR3-DISHWASHER-compound-e4-\u2014-overflow-/-base-pan",
+          "map-W11187658-compound-e4-\u2014-overflow-/-base-pan"
+        ],
+        "count": 2
+      },
+      {
+        "key": "canonicalMapping::tub thermistor \u2014 e6/e7 ntc::",
+        "candidateIds": [
+          "map-INSIGNIA-DWR3-DISHWASHER-compound-tub-thermistor-\u2014-e6/e7-ntc",
+          "map-W11187658-compound-tub-thermistor-\u2014-e6/e7-ntc"
+        ],
+        "count": 2
+      },
+      {
+        "key": "canonicalMapping::\u00a710.8 e7: ambient temperature sensor::",
+        "candidateIds": [
+          "map-INSIGNIA-RTM18-FRIDGE-compound-e7:-ambient-temperature-sensor",
+          "map-MIDEA-RSS-FRIDGE-compound-e7:-ambient-temperature-sensor"
+        ],
+        "count": 2
+      },
+      {
+        "key": "canonicalMapping::\u00a710.8 e6: display \u2194 main communication::",
+        "candidateIds": [
+          "map-INSIGNIA-RTM18-FRIDGE-compound-e6:-display-\u2194-main-communication",
+          "map-MIDEA-RSS-FRIDGE-compound-e6:-display-\u2194-main-communication"
+        ],
+        "count": 2
+      },
+      {
+        "key": "canonicalMapping::defrost_heater::",
+        "candidateIds": [
+          "map-INSIGNIA-RTM18-FRIDGE-compound-defrost_heater",
+          "map-MIDEA-RSS-FRIDGE-compound-defrost_heater",
+          "map-MIDEA-UZ21-FREEZER-compound-defrost_heater",
+          "map-W10322959-compound-defrost_heater",
+          "map-W10330404-compound-defrost_heater",
+          "map-W10674984-compound-defrost_heater",
+          "map-W10901168-compound-defrost_heater",
+          "map-W11296289-compound-defrost_heater",
+          "map-W11509412-compound-defrost_heater",
+          "map-W11803249-compound-defrost_heater",
+          "map-W11819775-compound-defrost_heater"
+        ],
+        "count": 11
+      },
+      {
+        "key": "canonicalMapping::\u00a76.3 / \u00a78.6: freezer defrost heater::",
+        "candidateIds": [
+          "map-INSIGNIA-RTM18-FRIDGE-compound-/-\u00a78.6:-freezer-defrost-heater",
+          "map-MIDEA-RSS-FRIDGE-compound-/-\u00a78.6:-freezer-defrost-heater"
+        ],
+        "count": 2
+      },
+      {
+        "key": "canonicalMapping::defrost_thermostat::",
+        "candidateIds": [
+          "map-INSIGNIA-RTM18-FRIDGE-compound-defrost_thermostat",
+          "map-MIDEA-RSS-FRIDGE-compound-defrost_thermostat",
+          "map-MIDEA-UZ21-FREEZER-compound-defrost_thermostat",
+          "map-W10322959-compound-defrost_thermostat",
+          "map-W10330404-compound-defrost_thermostat",
+          "map-W10674984-compound-defrost_thermostat",
+          "map-W11509412-compound-defrost_thermostat",
+          "map-WHIRLPOOL-2225623-ICE-MAKER-compound-defrost_thermostat"
+        ],
+        "count": 8
+      },
+      {
+        "key": "canonicalMapping::\u00a710.8 e5: freezing chamber defrost sensor::",
+        "candidateIds": [
+          "map-INSIGNIA-RTM18-FRIDGE-compound-e5:-freezing-chamber-defrost-sensor",
+          "map-MIDEA-RSS-FRIDGE-compound-e5:-freezing-chamber-defrost-sensor"
+        ],
+        "count": 2
+      },
+      {
+        "key": "canonicalMapping::\u00a710.8 e2: freezing chamber temperature sensor::",
+        "candidateIds": [
+          "map-INSIGNIA-RTM18-FRIDGE-compound-e2:-freezing-chamber-temperature-sensor",
+          "map-MIDEA-RSS-FRIDGE-compound-e2:-freezing-chamber-temperature-sensor"
+        ],
+        "count": 2
+      },
+      {
+        "key": "canonicalMapping::door_switch::",
+        "candidateIds": [
+          "map-INSIGNIA-RTM18-FRIDGE-compound-door_switch",
+          "map-LG-LRE-RANGE-compound-door_switch",
+          "map-MIDEA-RSS-FRIDGE-compound-door_switch",
+          "map-MIDEA-UZ21-FREEZER-compound-door_switch",
+          "map-NS-TDRE75W1-compound-door_switch",
+          "map-SAMSUNG-FL-BB8700-DRYER-compound-door_switch",
+          "map-SAMSUNG-FL-DV6000-DRYER-compound-door_switch",
+          "map-SAMSUNG-TL-CG71-DRYER-compound-door_switch",
+          "map-SAMSUNG-TL-DV50-DRYER-compound-door_switch",
+          "map-W10410465-compound-door_switch",
+          "map-W10680150-compound-door_switch",
+          "map-W10881701-compound-door_switch",
+          "map-W11169659-compound-door_switch",
+          "map-W11296289-compound-door_switch",
+          "map-W11416805-compound-door_switch",
+          "map-W11798430-compound-door_switch",
+          "map-W8178559-compound-door_switch",
+          "map-W8178629-compound-door_switch"
+        ],
+        "count": 18
+      },
+      {
+        "key": "canonicalMapping::compressor::",
+        "candidateIds": [
+          "map-insignia-rtm18-fridge-unresolved-midearss-high-temp-alarm-compressor",
+          "map-insignia-rtm18-fridge-unresolved-midearss-vfd-inverter-compressor",
+          "map-lg-lrmvs-fridge-unresolved-lglrmvs-sealed-system-compressor",
+          "map-midea-rss-fridge-unresolved-midearss-high-temp-alarm-compressor",
+          "map-midea-rss-fridge-unresolved-midearss-vfd-inverter-compressor",
+          "map-samsung-fl-dv6000-dryer-unresolved-samsungdv6000-heat-pump-compressor-compressor",
+          "map-samsung-laundry-combo-wd53-unresolved-samsungwd53-compressor-compressor",
+          "map-samsung-laundry-combo-wd53-unresolved-samsungwd53-heat-pump-thermistors-compressor",
+          "map-w10322959-unresolved-w10322959-test-02-compressor-compressor",
+          "map-w10330404-unresolved-w10330404-compressor-windings-compressor",
+          "map-w10330404-unresolved-w10330404-ptc-start-compressor",
+          "map-w10674984-unresolved-w10674984-adc-cooling-voltage-compressor",
+          "map-w10674984-unresolved-w10674984-ptc-start-compressor",
+          "map-w10901168-unresolved-w10901168-test-40-compressor-sealed-system-compressor",
+          "map-w11296289-unresolved-w11296289-test-07-compressor-cond-fan-compressor",
+          "map-w11509412-unresolved-w11509412-test-04-compressor-compressor",
+          "map-w11803249-unresolved-w11803249-test-72-compressor-compressor",
+          "map-w11819775-unresolved-w11819775-test-23-compressor-compressor"
+        ],
+        "count": 18
+      },
+      {
+        "key": "canonicalMapping::\u00a710.8 e9: freezer high-temperature alarm::",
+        "candidateIds": [
+          "map-INSIGNIA-RTM18-FRIDGE-compound-e9:-freezer-high-temperature-alarm",
+          "map-MIDEA-RSS-FRIDGE-compound-e9:-freezer-high-temperature-alarm"
+        ],
+        "count": 2
+      },
+      {
+        "key": "canonicalMapping::\u00a710.8 ee: ice maker sensor circuit::",
+        "candidateIds": [
+          "map-INSIGNIA-RTM18-FRIDGE-compound-ee:-ice-maker-sensor-circuit",
+          "map-MIDEA-RSS-FRIDGE-compound-ee:-ice-maker-sensor-circuit"
+        ],
+        "count": 2
+      },
+      {
+        "key": "canonicalMapping::\u00a710.8 e0: ice maker fault::",
+        "candidateIds": [
+          "map-INSIGNIA-RTM18-FRIDGE-compound-e0:-ice-maker-fault",
+          "map-MIDEA-RSS-FRIDGE-compound-e0:-ice-maker-fault"
+        ],
+        "count": 2
+      }
+    ],
+    "unresolvedTermsTop": [
+      [
+        "heater",
+        86
+      ],
+      [
+        "supply",
+        58
+      ],
+      [
+        "igniter",
+        21
+      ],
+      [
+        "user_interface",
+        20
+      ],
+      [
+        "door_switch",
+        18
+      ],
+      [
+        "compressor",
+        18
+      ],
+      [
+        "gas_valve",
+        17
+      ],
+      [
+        "motor",
+        16
+      ],
+      [
+        "evap_fan",
+        15
+      ],
+      [
+        "ice_maker_module",
+        14
+      ],
+      [
+        "display_panel",
+        13
+      ],
+      [
+        "thermal_fuse",
+        13
+      ],
+      [
+        "exhaust_thermistor",
+        13
+      ],
+      [
+        "damper_motor",
+        13
+      ],
+      [
+        "defrost_heater",
+        11
+      ],
+      [
+        "inlet_thermistor",
+        11
+      ],
+      [
+        "TEST #4a: Thermistors",
+        11
+      ],
+      [
+        "magnetron",
+        10
+      ],
+      [
+        "thermal_cutoff",
+        9
+      ],
+      [
+        "TEST #2: Valves",
+        9
+      ],
+      [
+        "defrost_thermostat",
+        8
+      ],
+      [
+        "moisture_sensor",
+        8
+      ],
+      [
+        "DL3",
+        8
+      ],
+      [
+        "circulation_pump",
+        7
+      ],
+      [
+        "ice_pipe_heater",
+        7
+      ],
+      [
+        "condenser_fan",
+        7
+      ],
+      [
+        "TEST #3: Motor Circuit",
+        7
+      ],
+      [
+        "TEST #3: Drive System (pre-test)",
+        7
+      ],
+      [
+        "TEST #3a: Drive System \u2014 Shifter",
+        7
+      ],
+      [
+        "TEST #3b: Drive System \u2014 Motor",
+        7
+      ]
+    ],
+    "avgProcedureBindingConfidence": 0.921,
+    "avgMeasurementBindingConfidence": 0.94,
+    "qualityIndicators": {
+      "blockedRate": 0.6658,
+      "unresolvedRate": 0.6658,
+      "easyApprovalShare": 0.0719,
+      "carefulReviewShare": 0.0675,
+      "conflictRate": 0.0149,
+      "promotionReadyRate": 0.9268,
+      "alreadyPublishedRate": 0.0058,
+      "compoundCandidateShare": 0.0675
+    },
+    "manifestManualCount": 67,
+    "normalizedManualCount": 67
+  }
+}

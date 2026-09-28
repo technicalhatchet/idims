@@ -1,0 +1,450 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_fit_r1_observation",
+  "experiment": "CG-MICROWAVE-FIT R1 — LG LMHM2237 OTR microwave fit observation against all frozen canonical contracts. Evidence classification only — no microwave.json, no canonical mutation, no overlay compounding.",
+  "workstream": "CG-MICROWAVE-FIT",
+  "stage": "R1_microwave_fit_observation",
+  "status": "complete",
+  "manualId": "LG-LMHM2237-MICROWAVE",
+  "platformId": "lg_microwave_otr",
+  "smokeModel": "LMHM2237BD",
+  "templateFilter": "microwave",
+  "contract": "CG_MICROWAVE_FIT_TEST_CONTRACT_v1.json",
+  "fitEligible": false,
+  "canonicalPromotionBlocked": true,
+  "canonicalMutationBlocked": true,
+  "crossManufacturerProof": false,
+  "r1GateApproved": "CG_MICROWAVE_FIT_R1_GATE_v1.json",
+  "r1GateVerdict": "GREEN / R1_APPROVED_AUTHORIZE_R2",
+  "r2BlockedUntil": null,
+  "generatedAt": "2026-09-17T08:35:00+00:00",
+  "r1DecisionGate": {
+    "question": "Which microwave functional behaviors are independently diagnosable on LMHM2237, and do any map to an existing frozen contract without contamination?",
+    "notAsked": "Does LG microwave belong in range_oven because both have doors and thermal devices?",
+    "keyDistinction": "Unfamiliar component name ≠ new canonical function. Repeated functional behavior + absent host in frozen contracts + (pending R2) cross-manufacturer recurrence → possible new canonical domain.",
+    "evaluatedAgainst": "all_six_frozen_canonical_families",
+    "notCreating": "microwave.json or manufacturer canonical overlay"
+  },
+  "classificationVocabulary": [
+    "SUPERFICIAL_OVERLAP",
+    "INHERITS",
+    "CONTRACT_BOUNDARY",
+    "CONTAMINATES_IF_MERGED",
+    "NO_HOST",
+    "DIVERGES",
+    "PLATFORM_ONLY",
+    "UNCERTAIN",
+    "DEFERRED"
+  ],
+  "graphArtifacts": {
+    "sourcePdf": "backend/docs/manuals/LMHM2237BD.pdf",
+    "extractedText": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md",
+    "procedureSeedDir": "frontend/components/diagnostics/procedures/seed/lg_microwave_otr",
+    "procedureCatalog": "frontend/components/diagnostics/procedures/seed/lg_microwave_otr/procedureCatalog.json"
+  },
+  "pipelineCounts": {
+    "proceduresEvaluated": 12,
+    "functionalLayersProbed": 8,
+    "frozenContractsCompared": 6,
+    "measurementSpecsCaptured": 11,
+    "errorCodeFamilies": 2
+  },
+  "classificationHistogram": {
+    "SUPERFICIAL_OVERLAP": 4,
+    "INHERITS": 0,
+    "CONTRACT_BOUNDARY": 2,
+    "CONTAMINATES_IF_MERGED": 2,
+    "NO_HOST": 5,
+    "DIVERGES": 3,
+    "PLATFORM_ONLY": 12,
+    "UNCERTAIN": 1,
+    "DEFERRED": 1
+  },
+  "procedureObservations": [
+    {
+      "procedureId": "lgotrmw-pcb-thermistor",
+      "oemSection": "6-3-thermistor",
+      "title": "§6-3: PCB Thermistor (F-1 / F-2)",
+      "pages": [12, 13],
+      "functionalBehavior": "Service-test entry (Defrost weight/time 2s → TEST) surfaces F-1 short / F-2 open on cabinet PCB thermistor; routes to thermistor or PCB replacement.",
+      "sequencing": "Self-test before component condemnation; beep on fault entry per extraction doc.",
+      "measurements": [],
+      "errorCodes": ["F-1", "F-2", "F1", "F2"],
+      "microwaveSpecificMechanism": "cabinet_pcb_thermistor_sensing",
+      "candidateFunctionalMapping": "control_and_sensing — cavity/cabinet thermal feedback for control board",
+      "platformVocabulary": ["pcb_thermistor", "cabinet_thermistor"]
+    },
+    {
+      "procedureId": "lgotrmw-humidity-sensor",
+      "oemSection": "6-3-humidity",
+      "title": "§6-3: Humidity Sensor (F-4)",
+      "pages": [12, 13],
+      "functionalBehavior": "Service test surfaces F-4 humidity sensor fault; independent diagnostic path from thermistor and HV chain.",
+      "sequencing": "Paired with thermistor in §6-3 self diagnosis.",
+      "measurements": [],
+      "errorCodes": ["F-4", "F4"],
+      "microwaveSpecificMechanism": "humidity_sensing_for_cook_control",
+      "candidateFunctionalMapping": "control_and_sensing — moisture feedback for sensor-cook modes",
+      "platformVocabulary": ["humidity_sensor"]
+    },
+    {
+      "procedureId": "lgotrmw-door-interlock",
+      "oemSection": "9-2",
+      "title": "§9-2: Door Interlock Switches",
+      "pages": [29, 30],
+      "functionalBehavior": "Three-switch interlock chain with distinct door-open vs door-closed states: primary COM–NO, secondary COM–NO, monitor COM–NC. Latch adjustment path §9-1 before switch replacement.",
+      "sequencing": "Primary open → primary closed → secondary open → secondary closed → monitor open → monitor closed; HV discharge prerequisite on every HV-adjacent path.",
+      "measurements": [
+        {
+          "knowledgeId": "microwaveDoorInterlockSwitchOhms",
+          "testPoints": ["Primary COM-NO", "Secondary COM-NO", "Monitor COM-NC"],
+          "logic": "Open with door open (primary/secondary); closed with door shut; monitor NC closed with door open, open with door shut"
+        }
+      ],
+      "microwaveSpecificMechanism": "hv_safety_interlock_monitor_chain",
+      "candidateFunctionalMapping": "door_interlock_chain — not equivalent to single oven_door_switch authorization",
+      "platformVocabulary": ["primary_switch", "secondary_switch", "monitor_switch", "latch_board"]
+    },
+    {
+      "procedureId": "lgotrmw-line-power",
+      "oemSection": "6-4-dead",
+      "title": "§6-4: No Display / Dead Unit",
+      "pages": [14, 15],
+      "functionalBehavior": "Dead-unit tree: key response → PCB connectors → cord L/N continuity → line fuse → noise filter coils L(1)–L(2) and N(1)–N(2).",
+      "sequencing": "UI responsiveness before fuse condemnation; noise filter after line fuse.",
+      "measurements": [
+        { "knowledgeId": "microwaveLineFuseOhms", "spec": "line fuse continuity" },
+        { "knowledgeId": "lgMicrowaveOtrNoiseFilterCoilOhms", "spec": "L(1)–L(2) and N(1)–N(2) coils < 1 Ω" }
+      ],
+      "microwaveSpecificMechanism": "line_fuse_and_noise_filter_on_inlet",
+      "candidateFunctionalMapping": "power_supply prerequisite",
+      "platformVocabulary": ["noise_filter", "line_fuse", "power_cord"]
+    },
+    {
+      "procedureId": "lgotrmw-no-heat",
+      "oemSection": "6-4-no-heat",
+      "title": "§6-4: No Heat / No Cook",
+      "pages": [18, 21],
+      "functionalBehavior": "Orchestrates no-heat path: door cycle ×3 → thermal cutout TAB1–TAB2 → latch continuity → Relay 2 >8 V during EZ-ON → delegate to §10 HV component tests.",
+      "sequencing": "Door/interlock before thermal cutout before control relay before HV cascade.",
+      "measurements": [
+        { "knowledgeId": "microwaveThermalCutoutOhms", "testPoint": "TAB1-TAB2", "spec": "continuity" }
+      ],
+      "decisionLogic": [
+        "Relay 2 voltage across D35 > 8 V during EZ-ON start required before HV branch",
+        "Explicit handoff to transformer, capacitor, diode, magnetron, HV fuse (§10)"
+      ],
+      "microwaveSpecificMechanism": "hv_enable_relay_and_cascade_orchestration",
+      "candidateFunctionalMapping": "no-heat complaint routing across interlock → thermal → control relay → hv_generation",
+      "platformVocabulary": ["relay_2", "d35", "ez_on", "thermal_cutout"]
+    },
+    {
+      "procedureId": "lgotrmw-hv-transformer",
+      "oemSection": "10-transformer",
+      "title": "§10: High-Voltage Transformer",
+      "pages": [30, 31],
+      "functionalBehavior": "HV transformer primary 0.2–0.5 Ω; secondary 50–120 Ω; filament winding ~0 Ω separate; windings to ground infinite (Rx1000).",
+      "measurements": [
+        { "knowledgeId": "lgMicrowaveOtrHvTransformerPrimaryOhms", "spec": "0.2–0.5 Ω primary" },
+        { "knowledgeId": "lgMicrowaveOtrHvTransformerSecondaryOhms", "spec": "50–120 Ω secondary" }
+      ],
+      "microwaveSpecificMechanism": "hv_generation_transformer",
+      "candidateFunctionalMapping": "hv_generation — no analogue in any frozen canonical heat_circuit",
+      "platformVocabulary": ["hv_transformer", "filament_winding"]
+    },
+    {
+      "procedureId": "lgotrmw-hv-capacitor",
+      "oemSection": "10-capacitor",
+      "title": "§10: High-Voltage Capacitor",
+      "pages": [31, 32],
+      "functionalBehavior": "Terminal-to-terminal leakage check Rx1000: momentarily infinite then ~10 MΩ; terminal-to-case infinite.",
+      "measurements": [
+        { "knowledgeId": "microwaveHVCapacitanceMFD", "note": "leakage/resistance behavior specified in procedure; capacitance µF in wizard knowledge" }
+      ],
+      "microwaveSpecificMechanism": "hv_resonant_capacitor",
+      "candidateFunctionalMapping": "hv_generation — paired with magnetron/diode in RF excitation path",
+      "platformVocabulary": ["hv_capacitor"]
+    },
+    {
+      "procedureId": "lgotrmw-hv-diode",
+      "oemSection": "10-diode",
+      "title": "§10: High-Voltage Diode",
+      "pages": [31, 32],
+      "functionalBehavior": "Polarity-dependent HV diode check — short in both directions fails; open both directions fails.",
+      "measurements": [
+        { "knowledgeId": "microwaveHVDiodeCheck", "spec": "directional block/short test" }
+      ],
+      "microwaveSpecificMechanism": "hv_rectification",
+      "candidateFunctionalMapping": "hv_generation",
+      "platformVocabulary": ["hv_diode"]
+    },
+    {
+      "procedureId": "lgotrmw-magnetron",
+      "oemSection": "10-magnetron",
+      "title": "§10: Magnetron",
+      "pages": [30, 31],
+      "functionalBehavior": "Filament < 1 Ω (Rx1); filament to chassis infinite (Rx1000). Outcome requires waveguide/gasket check and leakage test after replacement.",
+      "measurements": [
+        { "knowledgeId": "microwaveMagnetronFilamentOhms", "spec": "< 1 Ω filament; chassis OL" }
+      ],
+      "microwaveSpecificMechanism": "rf_generation_magnetron",
+      "candidateFunctionalMapping": "hv_generation + rf_cavity coupling",
+      "platformVocabulary": ["magnetron", "waveguide", "gasket"]
+    },
+    {
+      "procedureId": "lgotrmw-hv-fuse",
+      "oemSection": "10-hv-fuse",
+      "title": "§10: High-Voltage Fuse",
+      "pages": [32, 33],
+      "functionalBehavior": "HV fuse continuity under 10 Ω; blown fuse triggers inspect door switches and HV short paths before replace.",
+      "measurements": [
+        { "knowledgeId": "lgMicrowaveOtrHvFuseOhms", "spec": "under 10 Ω" }
+      ],
+      "microwaveSpecificMechanism": "hv_circuit_protection",
+      "candidateFunctionalMapping": "hv_generation protection — distinct from line fuse in power_supply layer",
+      "platformVocabulary": ["hv_fuse"]
+    },
+    {
+      "procedureId": "lgotrmw-keypad",
+      "oemSection": "6-4-keypad",
+      "title": "§6-4: Keypad Failure",
+      "pages": [16, 17],
+      "functionalBehavior": "Touch/key response diagnostic when display or input fails independently of heat path.",
+      "sequencing": "Separated from HV procedures.",
+      "microwaveSpecificMechanism": "touch_membrane_input",
+      "candidateFunctionalMapping": "user_interface",
+      "platformVocabulary": ["keypad", "membrane", "touch_panel"]
+    },
+    {
+      "procedureId": "lgotrmw-turntable",
+      "oemSection": "10-turntable",
+      "title": "§10: Turntable Motor",
+      "pages": [32, 33],
+      "functionalBehavior": "Turntable motor 2.5–3.5 kΩ; if motor OK check door latch and RY1 relay on PCB.",
+      "measurements": [
+        { "knowledgeId": "lgMicrowaveOtrTurntableMotorOhms", "spec": "2500–3500 Ω" }
+      ],
+      "microwaveSpecificMechanism": "cavity_mechanical_drive",
+      "candidateFunctionalMapping": "mechanical_drive — no host in cooking heat contracts",
+      "platformVocabulary": ["turntable_motor", "ry1_relay"]
+    }
+  ],
+  "functionalLayerEvaluations": {
+    "power_supply": {
+      "microwaveFunctionalBehavior": "120 VAC inlet, line fuse, noise filter coils, cord continuity — prerequisite for all other domains.",
+      "recurrenceOnR1": true,
+      "comparisons": {
+        "range_oven": {
+          "classification": "SUPERFICIAL_OVERLAP",
+          "frozenNode": "power_supply",
+          "rationale": "Same mains prerequisite role; microwave adds noise-filter coil pair diagnostic not present in range_oven contract — implementation detail, not reason to merge ontologies."
+        },
+        "french_door_refrigerator": { "classification": "SUPERFICIAL_OVERLAP", "rationale": "Supply prerequisite only." },
+        "dishwasher": { "classification": "SUPERFICIAL_OVERLAP", "rationale": "Supply prerequisite only." },
+        "vented_dryer": { "classification": "SUPERFICIAL_OVERLAP", "rationale": "Supply prerequisite only." },
+        "front_load_washer": { "classification": "SUPERFICIAL_OVERLAP", "rationale": "Supply prerequisite only." },
+        "top_load_washer": { "classification": "SUPERFICIAL_OVERLAP", "rationale": "Supply prerequisite only." }
+      },
+      "procedureIds": ["lgotrmw-line-power"],
+      "canonicalMutation": false
+    },
+    "control_board": {
+      "microwaveFunctionalBehavior": "Main PCB orchestrates relay paths (Relay 2 HV enable), self-test, thermistor/humidity fault routing.",
+      "recurrenceOnR1": true,
+      "comparisons": {
+        "range_oven": {
+          "classification": "SUPERFICIAL_OVERLAP",
+          "frozenNode": "control_board",
+          "rationale": "Control orchestration role analogous, but microwave PCB commands HV relay/magnetron path — merging would import HV semantics into locked range contract."
+        },
+        "french_door_refrigerator": { "classification": "CONTRACT_BOUNDARY", "rationale": "Compressor/defrost control domain unrelated." },
+        "dishwasher": { "classification": "CONTRACT_BOUNDARY", "rationale": "Fill/heat/wash sequencing unrelated." },
+        "vented_dryer": { "classification": "CONTRACT_BOUNDARY", "rationale": "Motor/heat/airflow control unrelated." },
+        "front_load_washer": { "classification": "CONTRACT_BOUNDARY", "rationale": "Wash cycle control unrelated." },
+        "top_load_washer": { "classification": "CONTRACT_BOUNDARY", "rationale": "Wash cycle control unrelated." }
+      },
+      "procedureIds": ["lgotrmw-no-heat", "lgotrmw-pcb-thermistor", "lgotrmw-humidity-sensor"],
+      "canonicalMutation": false
+    },
+    "user_interface": {
+      "microwaveFunctionalBehavior": "Keypad/touch input, display, service-mode entry (Defrost 2s → TEST).",
+      "recurrenceOnR1": true,
+      "comparisons": {
+        "range_oven": {
+          "classification": "SUPERFICIAL_OVERLAP",
+          "frozenNode": "user_interface",
+          "rationale": "HMI/service-mode entry role similar; does not justify absorbing HV or interlock domains into range_oven."
+        },
+        "french_door_refrigerator": { "classification": "SUPERFICIAL_OVERLAP", "rationale": "Display/input only." },
+        "dishwasher": { "classification": "SUPERFICIAL_OVERLAP", "rationale": "Display/input only." },
+        "vented_dryer": { "classification": "SUPERFICIAL_OVERLAP", "rationale": "Display/input only." },
+        "front_load_washer": { "classification": "SUPERFICIAL_OVERLAP", "rationale": "Display/input only." },
+        "top_load_washer": { "classification": "SUPERFICIAL_OVERLAP", "rationale": "Display/input only." }
+      },
+      "procedureIds": ["lgotrmw-line-power", "lgotrmw-keypad", "lgotrmw-pcb-thermistor"],
+      "canonicalMutation": false
+    },
+    "door_interlock_chain": {
+      "microwaveFunctionalBehavior": "Independently diagnosable three-switch chain including monitor NC logic tied to HV safety — sequential §9-2 tests with latch adjustment.",
+      "recurrenceOnR1": true,
+      "comparisons": {
+        "range_oven": {
+          "classification": "CONTAMINATES_IF_MERGED",
+          "frozenNode": "oven_door_switch",
+          "rationale": "Range oven door switch is oven authorization/latch — not a three-switch HV monitor chain. Superficial 'door switch' label hides different functional safety behavior."
+        },
+        "french_door_refrigerator": { "classification": "NO_HOST", "rationale": "Door switch for light/alarm — no HV interlock chain." },
+        "dishwasher": { "classification": "CONTRACT_BOUNDARY", "rationale": "Door interlock for tub fill — different safety semantics." },
+        "vented_dryer": { "classification": "CONTRACT_BOUNDARY", "rationale": "Door/belt switch — no HV monitor chain." },
+        "front_load_washer": { "classification": "CONTRACT_BOUNDARY", "rationale": "Lid lock — different domain." },
+        "top_load_washer": { "classification": "CONTRACT_BOUNDARY", "rationale": "Lid lock — different domain." }
+      },
+      "procedureIds": ["lgotrmw-door-interlock", "lgotrmw-no-heat"],
+      "canonicalMutation": false,
+      "notEquivalentBecause": "Repeated functional behavior (monitor switch NC with door open) is independently tested and routed — not reducible to single COM–NO door switch."
+    },
+    "thermal_protection": {
+      "microwaveFunctionalBehavior": "Thermal cutout TAB1–TAB2 continuity on no-heat path; PCB thermistor F-1/F-2 on self-test — two distinct thermal behaviors.",
+      "recurrenceOnR1": true,
+      "comparisons": {
+        "range_oven": {
+          "classification": "CONTAMINATES_IF_MERGED",
+          "frozenNode": "thermal_protection",
+          "rationale": "Range thermal_protection covers oven thermal fuse/cutoff — not PCB cabinet thermistor + HV thermal cutout sequencing on microwave no-heat tree."
+        },
+        "french_door_refrigerator": { "classification": "CONTRACT_BOUNDARY", "rationale": "Defrost/evap thermistors — different thermal roles." },
+        "dishwasher": { "classification": "CONTRACT_BOUNDARY", "rationale": "Tub/heater thermistor — different." },
+        "vented_dryer": { "classification": "CONTRACT_BOUNDARY", "rationale": "Exhaust thermistor/fuse — different." },
+        "front_load_washer": { "classification": "CONTRACT_BOUNDARY", "rationale": "NTC variants — different." },
+        "top_load_washer": { "classification": "CONTRACT_BOUNDARY", "rationale": "NTC variants — different." }
+      },
+      "procedureIds": ["lgotrmw-no-heat", "lgotrmw-pcb-thermistor"],
+      "canonicalMutation": false
+    },
+    "hv_generation": {
+      "microwaveFunctionalBehavior": "Independently sequenced HV cascade: enable relay → transformer → capacitor → diode → magnetron → HV fuse; discharge safety on every touch.",
+      "recurrenceOnR1": true,
+      "comparisons": {
+        "range_oven": { "classification": "NO_HOST", "rationale": "Oven heat uses resistive/gas/ignition instance scopes — no magnetron/HV rectification domain." },
+        "french_door_refrigerator": { "classification": "NO_HOST", "rationale": "Sealed-system compressor — not HV RF generation." },
+        "dishwasher": { "classification": "NO_HOST", "rationale": "No HV heat path." },
+        "vented_dryer": { "classification": "NO_HOST", "rationale": "Resistive/gas vented heat — no HV RF." },
+        "front_load_washer": { "classification": "NO_HOST", "rationale": "No heat generation domain." },
+        "top_load_washer": { "classification": "NO_HOST", "rationale": "No heat generation domain." }
+      },
+      "procedureIds": [
+        "lgotrmw-hv-transformer",
+        "lgotrmw-hv-capacitor",
+        "lgotrmw-hv-diode",
+        "lgotrmw-magnetron",
+        "lgotrmw-hv-fuse",
+        "lgotrmw-no-heat"
+      ],
+      "canonicalMutation": false,
+      "divergenceSignal": "preliminary_R1 — repeated independent diagnostic sequencing across six procedures; absent from all frozen contracts"
+    },
+    "rf_cavity": {
+      "microwaveFunctionalBehavior": "Waveguide/gasket/arcing path referenced at magnetron replacement; turntable for field uniformity.",
+      "recurrenceOnR1": true,
+      "comparisons": {
+        "range_oven": { "classification": "NO_HOST", "rationale": "range_oven deferred oven_cavity — no RF waveguide semantics." },
+        "french_door_refrigerator": { "classification": "NO_HOST", "rationale": "No RF cavity." },
+        "dishwasher": { "classification": "NO_HOST", "rationale": "No RF cavity." },
+        "vented_dryer": { "classification": "NO_HOST", "rationale": "No RF cavity." },
+        "front_load_washer": { "classification": "NO_HOST", "rationale": "No RF cavity." },
+        "top_load_washer": { "classification": "NO_HOST", "rationale": "No RF cavity." }
+      },
+      "procedureIds": ["lgotrmw-magnetron", "lgotrmw-turntable"],
+      "canonicalMutation": false,
+      "divergenceSignal": "preliminary_R1 — arcing/waveguide is functional complaint route in extraction doc"
+    },
+    "control_and_sensing": {
+      "microwaveFunctionalBehavior": "Humidity sensor F-4 and PCB thermistor F-1/F-2 as independent sensor faults on self-test.",
+      "recurrenceOnR1": true,
+      "comparisons": {
+        "range_oven": {
+          "classification": "NO_HOST",
+          "frozenNode": "temperature_sensor",
+          "rationale": "Oven RTD is cavity temperature for bake — not humidity sensor or cabinet PCB thermistor fault family."
+        },
+        "french_door_refrigerator": { "classification": "UNCERTAIN", "rationale": "Multiple compartment sensors — may share 'sensor fault code' pattern but not humidity-for-cook; defer without forcing fit." },
+        "dishwasher": { "classification": "CONTRACT_BOUNDARY", "rationale": "OWI/turbidity different sensing purpose." },
+        "vented_dryer": { "classification": "CONTRACT_BOUNDARY", "rationale": "Moisture sensor is dryness termination — different function." },
+        "front_load_washer": { "classification": "CONTRACT_BOUNDARY", "rationale": "Water level/pressure sensing." },
+        "top_load_washer": { "classification": "CONTRACT_BOUNDARY", "rationale": "Water level sensing." }
+      },
+      "procedureIds": ["lgotrmw-pcb-thermistor", "lgotrmw-humidity-sensor"],
+      "canonicalMutation": false
+    },
+    "ventilation_otr": {
+      "microwaveFunctionalBehavior": "Vent path referenced on thermal cutout replacement; no dedicated vent-motor procedure in R1 catalog.",
+      "recurrenceOnR1": false,
+      "comparisons": {
+        "range_oven": {
+          "classification": "DEFERRED",
+          "rationale": "OTR vent fan must not map to surface_heating_system — insufficient R1 procedure evidence."
+        }
+      },
+      "procedureIds": [],
+      "canonicalMutation": false
+    }
+  },
+  "rangeOvenContaminationAssessment": {
+    "familyLock": "CG_RANGE_FAMILY_LOCK_v1.json",
+    "rangeOvenHashUnchanged": true,
+    "verdict": "Microwave cannot merge into range_oven without contaminating locked contract",
+    "superficialOverlapOnly": ["power_supply", "user_interface", "control_board"],
+    "contaminationRisks": [
+      "door_interlock_chain → oven_door_switch conflation",
+      "hv_generation → oven_heating_system / instanceScopes",
+      "thermal_protection → oven thermal fuse semantics only",
+      "ventilation_otr → surface_heating_system"
+    ],
+    "rangeArchitectureReopened": false
+  },
+  "divergenceEvidence": {
+    "preliminaryR1Lean": "genuine_divergence_preliminary",
+    "notArchitecturalConclusion": true,
+    "requiresR2Triangulation": true,
+    "functionalDomainsAbsentFromAllFrozenContracts": [
+      {
+        "domainId": "hv_generation",
+        "independentDiagnosticBehavior": "Sequenced HV cascade with discharge safety and dedicated measurements on transformer, capacitor, diode, magnetron, HV fuse",
+        "unfamiliarComponentNames": ["magnetron", "hv_capacitor", "hv_diode", "hv_transformer"],
+        "distinctionNote": "Unfamiliar names coincide with repeated functional behavior — not mere vocabulary"
+      },
+      {
+        "domainId": "door_interlock_chain",
+        "independentDiagnosticBehavior": "Three-switch monitor chain with opposing NO/NC door-state logic tied to HV enable",
+        "unfamiliarComponentNames": ["monitor_switch"],
+        "distinctionNote": "Door switch exists elsewhere — monitor-chain behavior does not"
+      },
+      {
+        "domainId": "rf_cavity",
+        "independentDiagnosticBehavior": "Waveguide/arcing/turntable field path coupled to heat complaint",
+        "unfamiliarComponentNames": ["waveguide_cover", "stirrer"],
+        "distinctionNote": "Mechanical turntable ≠ dryer drum — different functional role"
+      }
+    ],
+    "fitsExistingContractOutcome": {
+      "status": "not_supported_on_R1",
+      "note": "No frozen contract hosts HV/RF domains; superficial overlaps insufficient for variant promotion"
+    }
+  },
+  "r1PreliminarySummary": {
+    "proceduresRecorded": 12,
+    "bestHostContract": null,
+    "rangeOvenVariantHypothesis": "rejected_preliminary",
+    "newCanonicalDomainHypothesis": "preliminary_supported_pending_R2",
+    "humanGateRequired": true,
+    "nextStep": "Human R1 gate review → if approved, authorize R2 Samsung ME11 observation only"
+  },
+  "explicitNonActions": [
+    "No microwave.json created",
+    "No canonical file mutations",
+    "No manufacturer overlay compounding",
+    "No range_oven reopen",
+    "R2 not started — blocked until R1 human gate"
+  ]
+}

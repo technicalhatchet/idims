@@ -1,0 +1,3825 @@
+{
+  "manualId": "SAMSUNG-RF23BB-FRIDGE",
+  "procedures": [
+    {
+      "procedureId": "samsungbespoke-ambient-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "External / ambient air sensor",
+      "purpose": "Ambient sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "ambient_sensor",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "ambient_note",
+          "order": 2,
+          "type": "instruction",
+          "title": "Connector variant",
+          "body": "RF23BB: CN60 3\u21945. RF32CG ambient/ice-room may use CN40 18\u219420 \u2014 confirm model.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "RF23BB: CN60 3\u21945. RF32CG ambient/ice-room may use CN40 18\u219420 \u2014 confirm model."
+        },
+        {
+          "id": "ambient_voltage",
+          "order": 3,
+          "type": "measurement",
+          "title": "Ambient thermistor voltage",
+          "body": "Measure listed ambient pin pair \u2014 4.5 V warm \u2192 1.0 V cold.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN60 or CN40",
+                "pins": "3\u21945 or 18\u219420",
+                "label": "Ambient thermistor voltage"
+              },
+              "title": "Ambient thermistor voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "amb_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ambient",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "amb_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ambient",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "amb_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ambient_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure listed ambient pin pair \u2014 4.5 V warm \u2192 1.0 V cold."
+        },
+        {
+          "id": "replace_ambient",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace ambient sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ambient_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Ambient sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN60 or CN40",
+            "pins": "3\u21945 or 18\u219420",
+            "label": "Ambient thermistor voltage"
+          },
+          "title": "Ambient thermistor voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "amb_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ambient",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ambient_voltage"
+        },
+        {
+          "id": "amb_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ambient",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ambient_voltage"
+        },
+        {
+          "id": "amb_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ambient_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ambient_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Ambient sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-ambient-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-ambient-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-autofill-overflow",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "AutoFill infuser overflow",
+      "purpose": "AUTO FILL overflow",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "autofill",
+        "water_dispenser"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "overflow_check",
+          "order": 2,
+          "type": "instruction",
+          "title": "Check infuser bottle",
+          "body": "Inspect AutoFill pitcher for overflow or stuck float.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect AutoFill pitcher for overflow or stuck float."
+        },
+        {
+          "id": "overflow_voltage",
+          "order": 3,
+          "type": "measurement",
+          "title": "Overflow sense voltage",
+          "body": "CN90 11\u219413 \u2014 4.5\u20135 V normal; 0\u20134.5 V = overflow.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeAutofillOverflowVoltage",
+              "testPoint": {
+                "connector": "CN90",
+                "pins": "11 \u2194 13",
+                "label": "Overflow sense voltage"
+              },
+              "title": "Overflow sense voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "af_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "af_overflow",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "af_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "af_overflow",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "af_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "af_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN90 11\u219413 \u2014 4.5\u20135 V normal; 0\u20134.5 V = overflow."
+        },
+        {
+          "id": "af_overflow",
+          "order": 4,
+          "type": "outcome",
+          "title": "Clear overflow",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "af_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "AutoFill OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeAutofillOverflowVoltage",
+          "testPoint": {
+            "connector": "CN90",
+            "pins": "11 \u2194 13",
+            "label": "Overflow sense voltage"
+          },
+          "title": "Overflow sense voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "af_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "af_overflow",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "overflow_voltage"
+        },
+        {
+          "id": "af_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "af_overflow",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "overflow_voltage"
+        },
+        {
+          "id": "af_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "af_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "overflow_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "AUTO FILL overflow",
+        "pages": [
+          92,
+          101
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-autofill-overflow",
+        "pages": [
+          92,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-autofill-overflow",
+            "pages": [
+              92,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-compressor-inverter",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Compressor / inverter IPM fault",
+      "purpose": "Comp start / IPM / lock",
+      "prerequisites": [],
+      "componentIds": [
+        "inverter_board"
+      ],
+      "tags": [
+        "44E",
+        "84C",
+        "compressor",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "comp_short",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Compressor terminal shorts",
+          "body": "Check for shorts between compressor terminals U/V/W.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "no_short",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ipm_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "short_found",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "short_out",
+              "terminal": true,
+              "oemOutcome": "Repair short or replace compressor before energizing."
+            }
+          ],
+          "sourceExcerpt": "Check for shorts between compressor terminals U/V/W."
+        },
+        {
+          "id": "ipm_voltage",
+          "order": 3,
+          "type": "instruction",
+          "title": "IPM DC bus voltage",
+          "body": "Verify inverter DC output \u2014 under 13.5 V indicates comp starting failure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify inverter DC output \u2014 under 13.5 V indicates comp starting failure."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 4,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "ipm_read",
+          "order": 5,
+          "type": "measurement",
+          "title": "Inverter IPM voltage",
+          "body": "Read IPM DC supply \u2014 must be \u226513.5 V for reliable start.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeInverterIpmVoltage",
+              "testPoint": {
+                "connector": "Inverter PCB",
+                "pins": "DC bus",
+                "label": "Inverter IPM voltage"
+              },
+              "title": "Inverter IPM voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ipm_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_inverter",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ipm_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_inverter",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ipm_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "comp_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Read IPM DC supply \u2014 must be \u226513.5 V for reliable start."
+        },
+        {
+          "id": "short_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Repair short",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_inverter",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace inverter",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comp_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Compressor path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeInverterIpmVoltage",
+          "testPoint": {
+            "connector": "Inverter PCB",
+            "pins": "DC bus",
+            "label": "Inverter IPM voltage"
+          },
+          "title": "Inverter IPM voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "no_short",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ipm_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_short"
+        },
+        {
+          "id": "short_found",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "short_out",
+          "terminal": true,
+          "oemOutcome": "Repair short or replace compressor before energizing.",
+          "stepId": "comp_short"
+        },
+        {
+          "id": "ipm_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_inverter",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ipm_read"
+        },
+        {
+          "id": "ipm_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_inverter",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ipm_read"
+        },
+        {
+          "id": "ipm_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "comp_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ipm_read"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Comp start / IPM / lock",
+        "pages": [
+          91,
+          125
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-compressor-inverter",
+        "pages": [
+          91,
+          125
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-compressor-inverter",
+            "pages": [
+              91,
+              125
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-convertible-fan",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Convertible compartment fan (C-FAN)",
+      "purpose": "C-FAN error",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "22C",
+        "evap_fan"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "cfan_pins",
+          "order": 2,
+          "type": "instruction",
+          "title": "C-FAN pin variant",
+          "body": "RF23BB: CN40 11\u219413. RF32CG: CN40 13\u219415.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "RF23BB: CN40 11\u219413. RF32CG: CN40 13\u219415."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "cfan_fb",
+          "order": 4,
+          "type": "measurement",
+          "title": "C-FAN feedback voltage",
+          "body": "7\u201312 V while C-fan commanded on.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeEvapFanFeedbackVoltage",
+              "testPoint": {
+                "connector": "CN40",
+                "pins": "11\u219413 or 13\u219415",
+                "label": "C-FAN feedback voltage"
+              },
+              "title": "C-FAN feedback voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "cfan_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_cfan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "cfan_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_cfan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "cfan_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "cfan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "7\u201312 V while C-fan commanded on."
+        },
+        {
+          "id": "replace_cfan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace C-FAN",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "cfan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "C-FAN OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeEvapFanFeedbackVoltage",
+          "testPoint": {
+            "connector": "CN40",
+            "pins": "11\u219413 or 13\u219415",
+            "label": "C-FAN feedback voltage"
+          },
+          "title": "C-FAN feedback voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "cfan_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_cfan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "cfan_fb"
+        },
+        {
+          "id": "cfan_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_cfan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "cfan_fb"
+        },
+        {
+          "id": "cfan_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "cfan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cfan_fb"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "C-FAN error",
+        "pages": [
+          89,
+          126
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-convertible-fan",
+        "pages": [
+          89,
+          126
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-convertible-fan",
+            "pages": [
+              89,
+              126
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-damper-heater-135",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Flex-Zone damper heater (135 \u03a9)",
+      "purpose": "Flex ROOM damper heater",
+      "prerequisites": [],
+      "componentIds": [
+        "damper_motor"
+      ],
+      "tags": [
+        "damper_heater",
+        "RD"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "damp135_off",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect CN40",
+          "body": "Power off. Disconnect CN40 harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Disconnect CN40 harness."
+        },
+        {
+          "id": "damp135_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Damper heater 135 \u03a9",
+          "body": "CN40 25\u219427 \u2014 135 \u03a9 \u00b17%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeDamperHeaterOhms135",
+              "testPoint": {
+                "connector": "CN40",
+                "pins": "25 \u2194 27",
+                "label": "Damper heater 135 \u03a9"
+              },
+              "title": "Damper heater 135 \u03a9"
+            }
+          ],
+          "branches": [
+            {
+              "id": "d135_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_damp135",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "d135_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_damp135",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "d135_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_damp135",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "d135_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "damp135_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN40 25\u219427 \u2014 135 \u03a9 \u00b17%."
+        },
+        {
+          "id": "replace_damp135",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace damper heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "damp135_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Damper heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeDamperHeaterOhms135",
+          "testPoint": {
+            "connector": "CN40",
+            "pins": "25 \u2194 27",
+            "label": "Damper heater 135 \u03a9"
+          },
+          "title": "Damper heater 135 \u03a9"
+        }
+      ],
+      "branches": [
+        {
+          "id": "d135_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_damp135",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "damp135_ohms"
+        },
+        {
+          "id": "d135_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_damp135",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "damp135_ohms"
+        },
+        {
+          "id": "d135_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_damp135",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "damp135_ohms"
+        },
+        {
+          "id": "d135_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "damp135_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "damp135_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Flex ROOM damper heater",
+        "pages": [
+          90,
+          91
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-damper-heater-135",
+        "pages": [
+          90,
+          91
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-damper-heater-135",
+            "pages": [
+              90,
+              91
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-flex-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Flex-Zone sensor (optional)",
+      "purpose": "Self-diagnosis CHECK LIST \u2014 sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "flex_sensor",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "run_self_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Run self-diagnosis",
+          "body": "Enter Engineer Mode \u2192 mode 3, or hold service keys 10 s per UI variant. Note blinking LED for this sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Enter Engineer Mode \u2192 mode 3, or hold service keys 10 s per UI variant. Note blinking LED for this sensor."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 3,
+          "type": "measurement",
+          "title": "Thermistor voltage CN40 18 \u2194 20",
+          "body": "Measure MAIN PCB CN40 18 \u2194 20 \u2014 4.5 V warm \u2192 1.0 V cold.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN40",
+                "pins": "18 \u2194 20",
+                "label": "Thermistor voltage CN40 18 \u2194 20"
+              },
+              "title": "Thermistor voltage CN40 18 \u2194 20"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure MAIN PCB CN40 18 \u2194 20 \u2014 4.5 V warm \u2192 1.0 V cold."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN40",
+            "pins": "18 \u2194 20",
+            "label": "Thermistor voltage CN40 18 \u2194 20"
+          },
+          "title": "Thermistor voltage CN40 18 \u2194 20"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Self-diagnosis CHECK LIST \u2014 sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-flex-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-flex-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-freezer-defrost-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Freezer defrost heater",
+      "purpose": "Freezer defrosting error",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "defrost_heater",
+        "frost_buildup",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "fdef_disconnect",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect harness",
+          "body": "Power off. RF23BB: disconnect CN20, measure 6\u21948. RF32CG: disconnect CN70 & CN81, measure CN70-5 \u2194 CN81-1.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. RF23BB: disconnect CN20, measure 6\u21948. RF32CG: disconnect CN70 & CN81, measure CN70-5 \u2194 CN81-1."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "fdef_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Defrost heater resistance",
+          "body": "63(230) \u03a9 \u00b17% \u2014 0 \u03a9 short, \u221e open bimetal/heater.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeDefrostHeaterOhms63",
+              "testPoint": {
+                "connector": "CN20 or CN70/CN81",
+                "pins": "per model",
+                "label": "Defrost heater resistance"
+              },
+              "title": "Defrost heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fdef_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fdef_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fdef_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fdef_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fdef_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fdef_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fdef_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fdef_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "63(230) \u03a9 \u00b17% \u2014 0 \u03a9 short, \u221e open bimetal/heater."
+        },
+        {
+          "id": "replace_fdef_heater",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace defrost heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fdef_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Defrost heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeDefrostHeaterOhms63",
+          "testPoint": {
+            "connector": "CN20 or CN70/CN81",
+            "pins": "per model",
+            "label": "Defrost heater resistance"
+          },
+          "title": "Defrost heater resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fdef_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fdef_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fdef_ohms"
+        },
+        {
+          "id": "fdef_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fdef_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fdef_ohms"
+        },
+        {
+          "id": "fdef_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fdef_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fdef_ohms"
+        },
+        {
+          "id": "fdef_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fdef_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fdef_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Freezer defrosting error",
+        "pages": [
+          89,
+          123
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-freezer-defrost-heater",
+        "pages": [
+          89,
+          123
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-freezer-defrost-heater",
+            "pages": [
+              89,
+              123
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-freezer-defrost-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Freezer defrost sensor",
+      "purpose": "Self-diagnosis CHECK LIST \u2014 sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "defrost_sensor",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "run_self_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Run self-diagnosis",
+          "body": "Enter Engineer Mode \u2192 mode 3, or hold service keys 10 s per UI variant. Note blinking LED for this sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Enter Engineer Mode \u2192 mode 3, or hold service keys 10 s per UI variant. Note blinking LED for this sensor."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 3,
+          "type": "measurement",
+          "title": "Thermistor voltage CN20 6 \u2194 8",
+          "body": "Measure MAIN PCB CN20 6 \u2194 8 \u2014 4.5 V warm \u2192 1.0 V cold.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "6 \u2194 8",
+                "label": "Thermistor voltage CN20 6 \u2194 8"
+              },
+              "title": "Thermistor voltage CN20 6 \u2194 8"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure MAIN PCB CN20 6 \u2194 8 \u2014 4.5 V warm \u2192 1.0 V cold."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "6 \u2194 8",
+            "label": "Thermistor voltage CN20 6 \u2194 8"
+          },
+          "title": "Thermistor voltage CN20 6 \u2194 8"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Self-diagnosis CHECK LIST \u2014 sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-freezer-defrost-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-freezer-defrost-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-freezer-fan",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Freezer evaporator fan (F-FAN)",
+      "purpose": "F-FAN error",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "22E",
+        "evap_fan",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "fan_cmd",
+          "order": 2,
+          "type": "instruction",
+          "title": "Command fan on",
+          "body": "Use Test Mode manual operation or Load Condition to command F-fan. Door may stop fan \u2014 allow 1 min after close.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use Test Mode manual operation or Load Condition to command F-fan. Door may stop fan \u2014 allow 1 min after close."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "fan_fb",
+          "order": 4,
+          "type": "measurement",
+          "title": "F-FAN feedback voltage",
+          "body": "MAIN PCB CN20 16\u219418 \u2014 7\u201312 V while fan commanded.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeEvapFanFeedbackVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "16 \u2194 18",
+                "label": "F-FAN feedback voltage"
+              },
+              "title": "F-FAN feedback voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ffan_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ffan_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ffan_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "MAIN PCB CN20 16\u219418 \u2014 7\u201312 V while fan commanded."
+        },
+        {
+          "id": "replace_fan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace F-FAN",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "F-FAN OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeEvapFanFeedbackVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "16 \u2194 18",
+            "label": "F-FAN feedback voltage"
+          },
+          "title": "F-FAN feedback voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ffan_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        },
+        {
+          "id": "ffan_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        },
+        {
+          "id": "ffan_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "F-FAN error",
+        "pages": [
+          89,
+          120
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-freezer-fan",
+        "pages": [
+          89,
+          120
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-freezer-fan",
+            "pages": [
+              89,
+              120
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-freezer-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Freezer compartment sensor (F)",
+      "purpose": "Self-diagnosis CHECK LIST \u2014 sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "freezer_sensor",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "run_self_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Run self-diagnosis",
+          "body": "Enter Engineer Mode \u2192 mode 3, or hold service keys 10 s per UI variant. Note blinking LED for this sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Enter Engineer Mode \u2192 mode 3, or hold service keys 10 s per UI variant. Note blinking LED for this sensor."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Thermistor voltage CN20 10 \u2194 12",
+          "body": "Measure MAIN PCB CN20 10 \u2194 12 \u2014 4.5 V warm \u2192 1.0 V cold.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "10 \u2194 12",
+                "label": "Thermistor voltage CN20 10 \u2194 12"
+              },
+              "title": "Thermistor voltage CN20 10 \u2194 12"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure MAIN PCB CN20 10 \u2194 12 \u2014 4.5 V warm \u2192 1.0 V cold."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "10 \u2194 12",
+            "label": "Thermistor voltage CN20 10 \u2194 12"
+          },
+          "title": "Thermistor voltage CN20 10 \u2194 12"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Self-diagnosis CHECK LIST \u2014 sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-freezer-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-freezer-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-fridge-defrost-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Fridge defrost sensor",
+      "purpose": "Self-diagnosis CHECK LIST \u2014 sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "defrost_sensor",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "run_self_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Run self-diagnosis",
+          "body": "Enter Engineer Mode \u2192 mode 3, or hold service keys 10 s per UI variant. Note blinking LED for this sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Enter Engineer Mode \u2192 mode 3, or hold service keys 10 s per UI variant. Note blinking LED for this sensor."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 3,
+          "type": "measurement",
+          "title": "Thermistor voltage CN20 5 \u2194 7",
+          "body": "Measure MAIN PCB CN20 5 \u2194 7 \u2014 4.5 V warm \u2192 1.0 V cold.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "5 \u2194 7",
+                "label": "Thermistor voltage CN20 5 \u2194 7"
+              },
+              "title": "Thermistor voltage CN20 5 \u2194 7"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure MAIN PCB CN20 5 \u2194 7 \u2014 4.5 V warm \u2192 1.0 V cold."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "5 \u2194 7",
+            "label": "Thermistor voltage CN20 5 \u2194 7"
+          },
+          "title": "Thermistor voltage CN20 5 \u2194 7"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Self-diagnosis CHECK LIST \u2014 sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-fridge-defrost-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-fridge-defrost-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-fridge-fan",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Fridge compartment fan",
+      "purpose": "Fridge fan error",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "evap_fan",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "rfan_cmd",
+          "order": 2,
+          "type": "instruction",
+          "title": "Command fridge fan",
+          "body": "Use Test Mode or Load Condition display to verify fridge fan command.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use Test Mode or Load Condition display to verify fridge fan command."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "rfan_fb",
+          "order": 4,
+          "type": "measurement",
+          "title": "Fridge fan feedback",
+          "body": "MAIN PCB CN20 15\u219417 \u2014 7\u201312 V while commanded.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeEvapFanFeedbackVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "15 \u2194 17",
+                "label": "Fridge fan feedback"
+              },
+              "title": "Fridge fan feedback"
+            }
+          ],
+          "branches": [
+            {
+              "id": "rfan_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_rfan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "rfan_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_rfan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "rfan_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "rfan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "MAIN PCB CN20 15\u219417 \u2014 7\u201312 V while commanded."
+        },
+        {
+          "id": "replace_rfan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace fridge fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "rfan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fridge fan OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeEvapFanFeedbackVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "15 \u2194 17",
+            "label": "Fridge fan feedback"
+          },
+          "title": "Fridge fan feedback"
+        }
+      ],
+      "branches": [
+        {
+          "id": "rfan_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_rfan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "rfan_fb"
+        },
+        {
+          "id": "rfan_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_rfan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "rfan_fb"
+        },
+        {
+          "id": "rfan_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "rfan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "rfan_fb"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Fridge fan error",
+        "pages": [
+          89,
+          120
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-fridge-fan",
+        "pages": [
+          89,
+          120
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-fridge-fan",
+            "pages": [
+              89,
+              120
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-fridge-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Fridge compartment sensor (R)",
+      "purpose": "Self-diagnosis CHECK LIST \u2014 sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "fridge_sensor",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "run_self_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Run self-diagnosis",
+          "body": "Enter Engineer Mode \u2192 mode 3, or hold service keys 10 s per UI variant. Note blinking LED for this sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Enter Engineer Mode \u2192 mode 3, or hold service keys 10 s per UI variant. Note blinking LED for this sensor."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Thermistor voltage CN20 9 \u2194 11",
+          "body": "Measure MAIN PCB CN20 9 \u2194 11 \u2014 4.5 V warm \u2192 1.0 V cold.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "9 \u2194 11",
+                "label": "Thermistor voltage CN20 9 \u2194 11"
+              },
+              "title": "Thermistor voltage CN20 9 \u2194 11"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure MAIN PCB CN20 9 \u2194 11 \u2014 4.5 V warm \u2192 1.0 V cold."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "9 \u2194 11",
+            "label": "Thermistor voltage CN20 9 \u2194 11"
+          },
+          "title": "Thermistor voltage CN20 9 \u2194 11"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Self-diagnosis CHECK LIST \u2014 sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-fridge-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-fridge-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-humidity-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Humidity sensor",
+      "purpose": "Humidity sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "humidity_sensor",
+        "14E",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "humid_pins",
+          "order": 2,
+          "type": "instruction",
+          "title": "Pin pair by model",
+          "body": "RF23BB: CN60 3\u21947. RF32CG: CN40 14\u219416.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "RF23BB: CN60 3\u21947. RF32CG: CN40 14\u219416."
+        },
+        {
+          "id": "humid_voltage",
+          "order": 3,
+          "type": "measurement",
+          "title": "Humidity sensor voltage",
+          "body": "4.5 V warm \u2192 1.0 V cold at humidity sensor pins.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN60/CN40",
+                "pins": "per model",
+                "label": "Humidity sensor voltage"
+              },
+              "title": "Humidity sensor voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "hum_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_humid",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hum_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_humid",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hum_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "humid_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "4.5 V warm \u2192 1.0 V cold at humidity sensor pins."
+        },
+        {
+          "id": "replace_humid",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace humidity sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "humid_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Humidity sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN60/CN40",
+            "pins": "per model",
+            "label": "Humidity sensor voltage"
+          },
+          "title": "Humidity sensor voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "hum_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_humid",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "humid_voltage"
+        },
+        {
+          "id": "hum_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_humid",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "humid_voltage"
+        },
+        {
+          "id": "hum_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "humid_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "humid_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Humidity sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-humidity-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-humidity-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-ice-maker-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Ice maker temperature sensor",
+      "purpose": "Ice maker sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "ice_maker_sensor",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "im_pins",
+          "order": 2,
+          "type": "instruction",
+          "title": "Ice maker sensor pins",
+          "body": "Cubed RF23BB: CN90 14\u219426. Ice Bites: CN90 2\u21944. RF32CG cubed: CN90 11\u219413; fridge IM: CN90 11\u219421.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Cubed RF23BB: CN90 14\u219426. Ice Bites: CN90 2\u21944. RF32CG cubed: CN90 11\u219413; fridge IM: CN90 11\u219421."
+        },
+        {
+          "id": "im_voltage",
+          "order": 3,
+          "type": "measurement",
+          "title": "Ice maker sensor voltage",
+          "body": "4.5 V warm \u2192 1.0 V cold at ice maker sensor pins.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN90",
+                "pins": "per ice maker type",
+                "label": "Ice maker sensor voltage"
+              },
+              "title": "Ice maker sensor voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "im_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_im_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_im_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "im_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "4.5 V warm \u2192 1.0 V cold at ice maker sensor pins."
+        },
+        {
+          "id": "replace_im_sensor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace ice maker sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "im_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Ice maker sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN90",
+            "pins": "per ice maker type",
+            "label": "Ice maker sensor voltage"
+          },
+          "title": "Ice maker sensor voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "im_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_im_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "im_voltage"
+        },
+        {
+          "id": "im_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_im_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "im_voltage"
+        },
+        {
+          "id": "im_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "im_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "im_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Ice maker sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-ice-maker-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-ice-maker-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-ice-pipe-heater-72",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Freezer ice pipe heater (72 \u03a9 \u2014 RF23BB)",
+      "purpose": "Ice pipe heater cubed / ice bites",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_pipe_heater"
+      ],
+      "tags": [
+        "ice_pipe_heater",
+        "33E",
+        "ice_maker"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "pipe72_pins",
+          "order": 2,
+          "type": "instruction",
+          "title": "Ice pipe pin pair",
+          "body": "Cubed: CN20 19\u219423. Ice Bites: CN20 21\u219423. Power off, CN20 disconnected.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Cubed: CN20 19\u219423. Ice Bites: CN20 21\u219423. Power off, CN20 disconnected."
+        },
+        {
+          "id": "pipe72_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Ice pipe heater 72 \u03a9",
+          "body": "72 \u03a9 \u00b17%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungBespokeFridgeIcePipeHeaterOhms72",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "19\u219423 or 21\u219423",
+                "label": "Ice pipe heater 72 \u03a9"
+              },
+              "title": "Ice pipe heater 72 \u03a9"
+            }
+          ],
+          "branches": [
+            {
+              "id": "p72_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_pipe72",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "p72_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_pipe72",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "p72_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_pipe72",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "p72_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "pipe72_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "72 \u03a9 \u00b17%."
+        },
+        {
+          "id": "replace_pipe72",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace ice pipe heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "pipe72_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Ice pipe heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungBespokeFridgeIcePipeHeaterOhms72",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "19\u219423 or 21\u219423",
+            "label": "Ice pipe heater 72 \u03a9"
+          },
+          "title": "Ice pipe heater 72 \u03a9"
+        }
+      ],
+      "branches": [
+        {
+          "id": "p72_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pipe72",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "pipe72_ohms"
+        },
+        {
+          "id": "p72_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pipe72",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "pipe72_ohms"
+        },
+        {
+          "id": "p72_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pipe72",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "pipe72_ohms"
+        },
+        {
+          "id": "p72_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "pipe72_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pipe72_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Ice pipe heater cubed / ice bites",
+        "pages": [
+          90,
+          91
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-ice-pipe-heater-72",
+        "pages": [
+          90,
+          91
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-ice-pipe-heater-72",
+            "pages": [
+              90,
+              91
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-main-inverter-comm",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Main \u2194 inverter communication",
+      "purpose": "Main \u2194 Inverter communication",
+      "prerequisites": [],
+      "componentIds": [
+        "inverter_board"
+      ],
+      "tags": [
+        "44E",
+        "compressor"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "inv_harness",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Inverter harness",
+          "body": "Reseat CN70 inverter harness. Inspect for damage at machine compartment.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "inv_h_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "inv_scope",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_inv_h",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "inv_h_out",
+              "terminal": true,
+              "oemOutcome": "Repair inverter harness."
+            }
+          ],
+          "sourceExcerpt": "Reseat CN70 inverter harness. Inspect for damage at machine compartment."
+        },
+        {
+          "id": "inv_scope",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Comm line scope",
+          "body": "Verify main\u2194inverter comm with oscilloscope if harness OK.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "inv_comm_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "inv_comm_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_inv",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_inv_out",
+              "terminal": true,
+              "oemOutcome": "Replace main and/or inverter PCB."
+            }
+          ],
+          "sourceExcerpt": "Verify main\u2194inverter comm with oscilloscope if harness OK."
+        },
+        {
+          "id": "inv_h_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_inv_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace PCB(s)",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "inv_comm_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Inverter comm OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "inv_h_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inv_scope",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inv_harness"
+        },
+        {
+          "id": "fix_inv_h",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "inv_h_out",
+          "terminal": true,
+          "oemOutcome": "Repair inverter harness.",
+          "stepId": "inv_harness"
+        },
+        {
+          "id": "inv_comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inv_comm_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inv_scope"
+        },
+        {
+          "id": "replace_inv",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_inv_out",
+          "terminal": true,
+          "oemOutcome": "Replace main and/or inverter PCB.",
+          "stepId": "inv_scope"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Main \u2194 Inverter communication",
+        "pages": [
+          91,
+          125
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-main-inverter-comm",
+        "pages": [
+          91,
+          125
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-main-inverter-comm",
+            "pages": [
+              91,
+              125
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbespoke-main-panel-comm",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "title": "Main \u2194 display panel communication",
+      "purpose": "Main \u2194 Panel communication",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel"
+      ],
+      "tags": [
+        "41E",
+        "display_dead",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests."
+        },
+        {
+          "id": "harness_check",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Display harness",
+          "body": "Reseat display/UI harness. Check for hinge pinch or corrosion.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "scope_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_harness",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "harness_out",
+              "terminal": true,
+              "oemOutcome": "Repair or replace display harness."
+            }
+          ],
+          "sourceExcerpt": "Reseat display/UI harness. Check for hinge pinch or corrosion."
+        },
+        {
+          "id": "scope_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Oscilloscope comm line",
+          "body": "If harness OK, verify comm waveform between main and panel PCBs.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "panel_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_boards",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_boards_out",
+              "terminal": true,
+              "oemOutcome": "Replace main and/or display PCB after harness ruled out."
+            }
+          ],
+          "sourceExcerpt": "If harness OK, verify comm waveform between main and panel PCBs."
+        },
+        {
+          "id": "harness_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_boards_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace PCB(s)",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "panel_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "scope_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_check"
+        },
+        {
+          "id": "fix_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "harness_out",
+          "terminal": true,
+          "oemOutcome": "Repair or replace display harness.",
+          "stepId": "harness_check"
+        },
+        {
+          "id": "comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "panel_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "scope_check"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace main and/or display PCB after harness ruled out.",
+          "stepId": "scope_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+        "oemTestNumber": "5-1-2",
+        "oemTestTitle": "Main \u2194 Panel communication",
+        "pages": [
+          91,
+          137
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-main-panel-comm",
+        "pages": [
+          91,
+          137
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-main-panel-comm",
+            "pages": [
+              91,
+              137
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

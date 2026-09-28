@@ -1,0 +1,296 @@
+{
+  "manualId": "SAMSUNG-FL-BB8700-WASHER",
+  "platformFamilyId": "samsung_fl_bb8700_direct_drive",
+  "overlayFile": "samsung_front_load_washer.json",
+  "gapSummary": {
+    "canonical_alias": 14,
+    "canonical_ontology_candidate": 0,
+    "platform_overlay": 20,
+    "human_review": 1,
+    "unresolved": 50
+  },
+  "gapReportPath": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\calibration\\canonical_gap_report_compounding_SAMSUNG-FL-BB8700-WASHER.json",
+  "reviewSummary": {
+    "total": 29,
+    "byStatus": {
+      "approved": 25,
+      "COMPOUND_TERM_CANDIDATE": 4
+    },
+    "byApprovalLevel": {
+      "easy": 10,
+      "blocked": 6,
+      "careful": 4,
+      "normal": 9
+    },
+    "byType": {
+      "canonicalMapping": 20,
+      "procedureTestBinding": 5,
+      "measurementBinding": 4
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 10,
+      "medium_0.80_0.94": 13,
+      "low_lt_0.80": 0,
+      "unresolved": 6
+    },
+    "byBlockedReason": {}
+  },
+  "metrics": {
+    "manualId": "SAMSUNG-FL-BB8700-WASHER",
+    "platformId": "samsung_fl_washer_bb8700",
+    "priorManualIds": [
+      "W8178558",
+      "W11169652"
+    ],
+    "totalReviewRecords": 29,
+    "byApprovalLevel": {
+      "easy": 10,
+      "blocked": 6,
+      "careful": 4,
+      "normal": 9
+    },
+    "byStatus": {
+      "approved": 25,
+      "COMPOUND_TERM_CANDIDATE": 4
+    },
+    "byType": {
+      "canonicalMapping": 20,
+      "procedureTestBinding": 5,
+      "measurementBinding": 4
+    },
+    "approved": 25,
+    "rejected": 0,
+    "needsReview": 0,
+    "promoted": 0,
+    "autoApprovals": 10,
+    "humanApprovals": 15,
+    "humanRejections": 0,
+    "manualResolutionsRequired": 0,
+    "humanDecisionCount": 15,
+    "newHumanDecisionCount": 15,
+    "inheritedResolvedAutomatically": 14,
+    "newManualResolutions": 0,
+    "inheritedManualResolutions": 0,
+    "newHumanDecisionRate": 0.5172,
+    "inheritedResolutionRate": 0.4828,
+    "corpusKnowledgeSize": {
+      "canonicalMappings": 77,
+      "procedureBindings": 9,
+      "measurementBindings": 9
+    },
+    "platformFamilyPriorManualIds": [],
+    "flPriorManualIds": [
+      "W8178558",
+      "W11169652"
+    ],
+    "inheritedCorpusKnowledge": 14,
+    "inheritedPlatformFamilyKnowledge": 0,
+    "newPlatformKnowledgeCount": 15,
+    "newModelSpecificKnowledge": 0,
+    "newCanonicalKnowledgeCount": 0,
+    "knowledgeClassification": {
+      "inheritedKnowledge": 14,
+      "inheritedCorpusKnowledge": 14,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledge": 15,
+      "newModelSpecificKnowledge": 0,
+      "newCanonicalKnowledge": 0
+    }
+  },
+  "compoundingComparison": {
+    "schemaVersion": "1.0.0",
+    "reportType": "compounding_comparison",
+    "generatedAt": "2026-09-13T14:27:49.967876+00:00",
+    "baselineManualId": "W8178558",
+    "targetManualId": "SAMSUNG-FL-BB8700-WASHER",
+    "priorManualIds": [
+      "W8178558",
+      "W11169652"
+    ],
+    "baseline": {
+      "manualId": "W8178558",
+      "platformId": "whirlpool_duet_sport",
+      "priorManualIds": [],
+      "totalReviewRecords": 41,
+      "byApprovalLevel": {
+        "easy": 14,
+        "careful": 7,
+        "blocked": 10,
+        "normal": 10
+      },
+      "byStatus": {
+        "promoted": 31,
+        "needs_review": 10
+      },
+      "byType": {
+        "canonicalMapping": 31,
+        "procedureTestBinding": 5,
+        "measurementBinding": 5
+      },
+      "approved": 31,
+      "rejected": 0,
+      "needsReview": 10,
+      "promoted": 31,
+      "autoApprovals": 31,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 10,
+      "humanDecisionCount": 10,
+      "newHumanDecisionCount": 10,
+      "inheritedResolvedAutomatically": 20,
+      "newManualResolutions": 10,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.2439,
+      "inheritedResolutionRate": 0.6667,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 46,
+        "procedureBindings": 0,
+        "measurementBindings": 0
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 0,
+      "newModelSpecificKnowledge": 10,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 20,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 10,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    "target": {
+      "manualId": "SAMSUNG-FL-BB8700-WASHER",
+      "platformId": "samsung_fl_washer_bb8700",
+      "priorManualIds": [
+        "W8178558",
+        "W11169652"
+      ],
+      "totalReviewRecords": 29,
+      "byApprovalLevel": {
+        "easy": 10,
+        "blocked": 6,
+        "careful": 4,
+        "normal": 9
+      },
+      "byStatus": {
+        "approved": 25,
+        "COMPOUND_TERM_CANDIDATE": 4
+      },
+      "byType": {
+        "canonicalMapping": 20,
+        "procedureTestBinding": 5,
+        "measurementBinding": 4
+      },
+      "approved": 25,
+      "rejected": 0,
+      "needsReview": 0,
+      "promoted": 0,
+      "autoApprovals": 10,
+      "humanApprovals": 15,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 0,
+      "humanDecisionCount": 15,
+      "newHumanDecisionCount": 15,
+      "inheritedResolvedAutomatically": 14,
+      "newManualResolutions": 0,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.5172,
+      "inheritedResolutionRate": 0.4828,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 77,
+        "procedureBindings": 9,
+        "measurementBindings": 9
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [
+        "W8178558",
+        "W11169652"
+      ],
+      "inheritedCorpusKnowledge": 14,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 15,
+      "newModelSpecificKnowledge": 0,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 14,
+        "inheritedCorpusKnowledge": 14,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 15,
+        "newModelSpecificKnowledge": 0,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    "delta": {
+      "reviewRecords": -12,
+      "humanDecisionCount": 5,
+      "newHumanDecisionCount": 5,
+      "manualResolutionsRequired": -10,
+      "inheritedResolvedAutomatically": -6
+    }
+  },
+  "tlPlatformCompounding": null,
+  "promotion": {
+    "manualId": "SAMSUNG-FL-BB8700-WASHER",
+    "promotionId": "promo-SAMSUNG-FL-BB8700-WASHER-20260913142749",
+    "published": true,
+    "equivalence": {
+      "manualId": "SAMSUNG-FL-BB8700-WASHER",
+      "equivalent": true,
+      "checks": {
+        "canonicalAliases": true,
+        "procedureBindings": true,
+        "measurementBindings": true,
+        "topologyOverrides": true
+      },
+      "aliasComparison": {
+        "equivalent": true,
+        "referenceCount": 16,
+        "generatedCount": 16,
+        "mismatches": [],
+        "extraGenerated": []
+      },
+      "procedureBindingComparison": {
+        "label": "procedureBindings",
+        "equivalent": true,
+        "referenceCount": 0,
+        "generatedCount": 5,
+        "mismatches": [],
+        "extraGenerated": [
+          "samsungbb8700-door-lock",
+          "samsungbb8700-drain-pump",
+          "samsungbb8700-motor-circuit",
+          "samsungbb8700-overflow",
+          "samsungbb8700-water-level-sensor"
+        ]
+      },
+      "measurementBindingComparison": {
+        "label": "measurementBindings",
+        "equivalent": true,
+        "referenceCount": 0,
+        "generatedCount": 4,
+        "mismatches": [],
+        "extraGenerated": [
+          "samsungbb8700-door-lock:samsungFlBb8700WasherDoorLockMotorOhms",
+          "samsungbb8700-door-lock:samsungFlBb8700WasherDoorLockOhms",
+          "samsungbb8700-door-lock:samsungFlBb8700WasherDoorSwitchOhms",
+          "samsungbb8700-motor-circuit:samsungFlBb8700WasherMotorOhms"
+        ]
+      },
+      "provenance": "generated",
+      "notes": [
+        "Semantic equivalence: reference CG-2 mappings must be preserved.",
+        "Extra generated aliases/bindings are allowed.",
+        "Topology overrides remain hand-authored and must not drift."
+      ],
+      "promotionId": "promo-SAMSUNG-FL-BB8700-WASHER-20260913142749",
+      "approvedCandidateCount": 0
+    },
+    "approvedCandidateIds": []
+  },
+  "published": true
+}

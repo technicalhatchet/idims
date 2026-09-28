@@ -1,0 +1,121 @@
+{
+  "promotionId": "promo-SAMSUNG-FL-BB8700-WASHER-20260913142749",
+  "manualId": "SAMSUNG-FL-BB8700-WASHER",
+  "platformId": "samsung_fl_washer_bb8700",
+  "overlayFile": "samsung_front_load_washer.json",
+  "platformFamilyId": "samsung_fl_bb8700_direct_drive",
+  "status": "published",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-SAMSUNG-FL-BB8700-WASHER-main_control-control_board",
+    "map-SAMSUNG-FL-BB8700-WASHER-inverter-motor_controller",
+    "map-SAMSUNG-FL-BB8700-WASHER-compound-pba-communication-(ac,-ac6)",
+    "map-SAMSUNG-FL-BB8700-WASHER-door_lock-door_lock",
+    "map-SAMSUNG-FL-BB8700-WASHER-drain_pump-drain_pump",
+    "map-SAMSUNG-FL-BB8700-WASHER-compound-drain-/-leakage-(lc,-lc1)",
+    "map-SAMSUNG-FL-BB8700-WASHER-inlet_valve-inlet_valve",
+    "map-SAMSUNG-FL-BB8700-WASHER-compound-inlet-valves-(co-/-ho-manual-check)",
+    "map-SAMSUNG-FL-BB8700-WASHER-drive_motor-drive_motor",
+    "map-SAMSUNG-FL-BB8700-WASHER-compound-washing-motor-(3c)",
+    "map-SAMSUNG-FL-BB8700-WASHER-water_level_sensor-water_level_sensor",
+    "map-SAMSUNG-FL-BB8700-WASHER-compound-overflow-(oc)",
+    "map-SAMSUNG-FL-BB8700-WASHER-supply-supply",
+    "map-SAMSUNG-FL-BB8700-WASHER-compound-power-/-current-sense-(9c5)",
+    "map-SAMSUNG-FL-BB8700-WASHER-wash_heater-wash_heater",
+    "map-SAMSUNG-FL-BB8700-WASHER-wash_ntc-wash_ntc",
+    "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-door-lock-door_lock_test",
+    "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-door-lock-meas-samsungFlBb8700WasherDoorSwitchOhms",
+    "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-door-lock-meas-samsungFlBb8700WasherDoorLockOhms",
+    "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-door-lock-meas-samsungFlBb8700WasherDoorLockMotorOhms",
+    "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-drain-pump-drain_test",
+    "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-motor-circuit-motor_output_test",
+    "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-motor-circuit-meas-samsungFlBb8700WasherMotorOhms",
+    "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-overflow-drain_test",
+    "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-water-level-sensor-drain_test"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {},
+      "skip": {
+        "main_control": "control_board",
+        "inverter": "motor_controller",
+        "\u00a74-3: PBA communication (AC, AC6)": "control_board",
+        "door_lock": "door_lock",
+        "drain_pump": "drain_pump",
+        "\u00a74-3: Drain / leakage (LC, LC1)": "drain_pump",
+        "inlet_valve": "inlet_valve",
+        "\u00a74-2: Inlet valves (Co / Ho manual check)": "inlet_valve",
+        "drive_motor": "drive_motor",
+        "\u00a74-3: Washing motor (3C)": "drive_motor",
+        "water_level_sensor": "water_level_sensor",
+        "\u00a74-3: Overflow (OC)": "water_level_sensor",
+        "supply": "supply",
+        "\u00a74-3: Power / current sense (9C5)": "inverter_board",
+        "wash_heater": "wash_heater",
+        "wash_ntc": "wash_ntc"
+      }
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [
+        {
+          "procedureId": "samsungbb8700-door-lock",
+          "testTargetId": "door_lock_test",
+          "displayTitle": "\u00a74-3: Door lock and switch (DC, DC1)"
+        },
+        {
+          "procedureId": "samsungbb8700-drain-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a74-3: Drain / leakage (LC, LC1)"
+        },
+        {
+          "procedureId": "samsungbb8700-motor-circuit",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a74-3: Washing motor (3C)"
+        },
+        {
+          "procedureId": "samsungbb8700-overflow",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a74-3: Overflow (OC)"
+        },
+        {
+          "procedureId": "samsungbb8700-water-level-sensor",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a74-3: Water level sensor (1C)"
+        }
+      ],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [
+        {
+          "procedureId": "samsungbb8700-door-lock",
+          "measurementKnowledgeId": "samsungFlBb8700WasherDoorSwitchOhms",
+          "testTargetId": "door_lock_test"
+        },
+        {
+          "procedureId": "samsungbb8700-door-lock",
+          "measurementKnowledgeId": "samsungFlBb8700WasherDoorLockOhms",
+          "testTargetId": "door_lock_test"
+        },
+        {
+          "procedureId": "samsungbb8700-door-lock",
+          "measurementKnowledgeId": "samsungFlBb8700WasherDoorLockMotorOhms",
+          "testTargetId": "door_lock_test"
+        },
+        {
+          "procedureId": "samsungbb8700-motor-circuit",
+          "measurementKnowledgeId": "samsungFlBb8700WasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        }
+      ],
+      "skip": []
+    }
+  },
+  "plannedAt": "2026-09-13T14:27:49.989376+00:00",
+  "publishedAt": "2026-09-13T14:27:50.088878+00:00"
+}

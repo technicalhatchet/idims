@@ -1,0 +1,68 @@
+{
+  "id": "ne58h-induction-pan-detection",
+  "version": "1.0.0",
+  "title": "Cooktop: Pan detection / unsuitable cookware",
+  "platformId": "samsung_range_ne58",
+  "templateIds": [
+    "induction_range"
+  ],
+  "componentIds": [
+    "surface_element"
+  ],
+  "tags": [
+    "surface_burner",
+    "long_bake"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+    "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+    "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Pan detection fault",
+    "pages": [
+      41
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the range.",
+      "requiresInput": false,
+      "defaultNextStepId": "cookware_check"
+    },
+    {
+      "id": "cookware_check",
+      "order": 2,
+      "type": "instruction",
+      "title": "Suitable cookware",
+      "body": "Verify suitable ferrous cookware on induction zone.",
+      "sourceExcerpt": "Verify suitable ferrous cookware on induction zone.",
+      "requiresInput": false,
+      "defaultNextStepId": "pan_ok"
+    },
+    {
+      "id": "replace_inverter_touch",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace inverter or touch PCB",
+      "oemOutcome": "Replace Assy-Inverter Module or touch PCB.",
+      "requiresInput": false
+    },
+    {
+      "id": "pan_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Pan detection OK",
+      "oemOutcome": "Pan detection verified.",
+      "requiresInput": false
+    }
+  ]
+}

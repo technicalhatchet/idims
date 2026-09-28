@@ -1,0 +1,3696 @@
+{
+  "manualId": "SAMSUNG-RF260B-FRIDGE",
+  "platformId": "samsung_sxs",
+  "templateId": "refrigerator",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:16.847377+00:00",
+  "records": [
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-thermistor-wash_ntc",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.85,
+      "what": "thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "wash_ntc",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "global_hint",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: thermistor \u2192 wash_ntc"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ambient-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermistor": "wash_ntc"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ambient-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-ambient-sensor",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "global_hint"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--3:-ambient-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-3: Ambient sensor",
+      "extractedTerm": "-3: Ambient sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "3 ambient",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-1-3: Ambient sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ambient-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-3: Ambient sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ambient-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-ambient-sensor",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "3 ambient",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-evap_fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "evap_fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: evap_fan \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-c-fan",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "evap_fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-c-fan",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-c-fan",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--3:-c-fan-feedback",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-3: C fan feedback",
+      "extractedTerm": "-3: C fan feedback",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1-3: C fan feedback \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-c-fan",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-3: C fan feedback": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-c-fan",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-c-fan",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--3:-fresh-food-defrost-sensor-(ff-def-sensor)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-3: Fresh-food defrost sensor (FF-DEF-Sensor)",
+      "extractedTerm": "-3: Fresh-food defrost sensor (FF-DEF-Sensor)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "3 fresh food defrost sensor ff def",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-1-3: Fresh-food defrost sensor (FF-DEF-Sensor) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ff-def-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-3: Fresh-food defrost sensor (FF-DEF-Sensor)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ff-def-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-ff-def-sensor",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "3 fresh food defrost sensor ff def",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-rf260b-fridge-unresolved-samsungrf260b-ff-defrost-heater-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ff-defrost-heater",
+        "pages": [
+          49,
+          50,
+          71
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ff-defrost-heater",
+        "pages": [
+          49,
+          50,
+          71
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-ff-defrost-heater",
+            "pages": [
+              49,
+              50,
+              71
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--3:-fresh-food-defrost-heater-(ff-def)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-3: Fresh-food defrost heater (FF-DEF)",
+      "extractedTerm": "-3: Fresh-food defrost heater (FF-DEF)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "3 fresh food defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a74-1-3: Fresh-food defrost heater (FF-DEF) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ff-defrost-heater",
+        "pages": [
+          49,
+          50,
+          71
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-3: Fresh-food defrost heater (FF-DEF)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ff-defrost-heater",
+        "pages": [
+          49,
+          50,
+          71
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-ff-defrost-heater",
+            "pages": [
+              49,
+              50,
+              71
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "3 fresh food defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--3:-ff-fan-feedback",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-3: FF fan feedback",
+      "extractedTerm": "-3: FF fan feedback",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1-3: FF fan feedback \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ff-fan",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-3: FF fan feedback": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ff-fan",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-ff-fan",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--3:-fresh-food-cabinet-sensor-(ff-sensor)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-3: Fresh-food cabinet sensor (FF-Sensor)",
+      "extractedTerm": "-3: Fresh-food cabinet sensor (FF-Sensor)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "3 fresh food cabinet sensor ff",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-1-3: Fresh-food cabinet sensor (FF-Sensor) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ff-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-3: Fresh-food cabinet sensor (FF-Sensor)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ff-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-ff-sensor",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "3 fresh food cabinet sensor ff",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--3:-freezer-defrost-sensor-(fz-def-sensor)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-3: Freezer defrost sensor (FZ-DEF-Sensor)",
+      "extractedTerm": "-3: Freezer defrost sensor (FZ-DEF-Sensor)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "3 freezer defrost sensor fz def",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-1-3: Freezer defrost sensor (FZ-DEF-Sensor) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-fz-def-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-3: Freezer defrost sensor (FZ-DEF-Sensor)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-fz-def-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-fz-def-sensor",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "3 freezer defrost sensor fz def",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-rf260b-fridge-unresolved-samsungrf260b-fz-defrost-heater-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-fz-defrost-heater",
+        "pages": [
+          49,
+          50,
+          71
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-fz-defrost-heater",
+        "pages": [
+          49,
+          50,
+          71
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-fz-defrost-heater",
+            "pages": [
+              49,
+              50,
+              71
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--3:-freezer-defrost-heater-(fz-def)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-3: Freezer defrost heater (FZ-DEF)",
+      "extractedTerm": "-3: Freezer defrost heater (FZ-DEF)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "3 freezer defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a74-1-3: Freezer defrost heater (FZ-DEF) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-fz-defrost-heater",
+        "pages": [
+          49,
+          50,
+          71
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-3: Freezer defrost heater (FZ-DEF)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-fz-defrost-heater",
+        "pages": [
+          49,
+          50,
+          71
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-fz-defrost-heater",
+            "pages": [
+              49,
+              50,
+              71
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "3 freezer defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--3:-fz-fan-feedback",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-3: FZ fan feedback",
+      "extractedTerm": "-3: FZ fan feedback",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1-3: FZ fan feedback \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-fz-fan",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-3: FZ fan feedback": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-fz-fan",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-fz-fan",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--3:-freezer-cabinet-sensor-(fz-sensor)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-3: Freezer cabinet sensor (FZ-Sensor)",
+      "extractedTerm": "-3: Freezer cabinet sensor (FZ-Sensor)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "3 freezer cabinet sensor fz",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-1-3: Freezer cabinet sensor (FZ-Sensor) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-fz-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-3: Freezer cabinet sensor (FZ-Sensor)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-fz-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-fz-sensor",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "3 freezer cabinet sensor fz",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--3:-humidity-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-3: Humidity sensor",
+      "extractedTerm": "-3: Humidity sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "3 humidity",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-1-3: Humidity sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-humidity-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-3: Humidity sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-humidity-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-humidity-sensor",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "3 humidity",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-ice_maker_module",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "ice_maker_module",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "ice maker",
+          "actuator": "module"
+        },
+        "summary": "alias: ice_maker_module \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ice-maker-function",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ice_maker_module": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ice-maker-function",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-ice-maker-function",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice maker",
+              "actuator": "module"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--3:-ice-maker-function-(fz)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-3: Ice maker function (FZ)",
+      "extractedTerm": "-3: Ice maker function (FZ)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1-3: Ice maker function (FZ) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ice-maker-function",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-3: Ice maker function (FZ)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ice-maker-function",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-ice-maker-function",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--3:-ice-maker-fill-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-3: Ice maker fill sensor",
+      "extractedTerm": "-3: Ice maker fill sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "3 ice maker fill",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-1-3: Ice maker fill sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ice-maker-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-3: Ice maker fill sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-ice-maker-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-ice-maker-sensor",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "3 ice maker fill",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-display_panel",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "display_panel",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: display_panel \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-option-error",
+        "pages": [
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "display_panel": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-option-error",
+        "pages": [
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-option-error",
+            "pages": [
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-main_control-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.96,
+      "what": "main_control",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.96,
+        "matcherLayer": "platform_overlay:samsung_fl_washer_wf6000r",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: main_control \u2192 control_board"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-option-error",
+        "pages": [
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "main_control": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-option-error",
+        "pages": [
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-option-error",
+            "pages": [
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--2:-option-error-(op-er)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-2: Option error (OP-Er)",
+      "extractedTerm": "-2: Option error (OP-Er)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1-2: Option error (OP-Er) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-option-error",
+        "pages": [
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-2: Option error (OP-Er)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-option-error",
+        "pages": [
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-option-error",
+            "pages": [
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--2:-panel-communication-(pc-er)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-2: Panel communication (Pc-Er)",
+      "extractedTerm": "-2: Panel communication (Pc-Er)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1-2: Panel communication (Pc-Er) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-panel-communication",
+        "pages": [
+          48,
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-2: Panel communication (Pc-Er)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-panel-communication",
+        "pages": [
+          48,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-panel-communication",
+            "pages": [
+              48,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound--3:-pantry-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1-3: Pantry sensor",
+      "extractedTerm": "-3: Pantry sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "3 pantry",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-1-3: Pantry sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-pantry-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1-3: Pantry sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrf260b-pantry-sensor",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf260b-pantry-sensor",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "3 pantry",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-ambient-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: Ambient sensor",
+      "extractedTerm": "Ambient sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "ambient",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-2: Ambient sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ambient-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Ambient sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ambient-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ambient-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ambient",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-c-fan-feedback",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: C fan feedback",
+      "extractedTerm": "C fan feedback",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-2: C fan feedback \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-c-fan",
+        "pages": [
+          67,
+          68
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: C fan feedback": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-c-fan",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-c-fan",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-damper_motor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "damper_motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "damper",
+          "actuator": "motor"
+        },
+        "summary": "alias: damper_motor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-damper-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "damper_motor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-damper-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-damper-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "damper",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-rf260b-fridge-unresolved-samsungrs28-damper-heater-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-damper-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-damper-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-damper-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-r-room-damper-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: R-room damper heater",
+      "extractedTerm": "R-room damper heater",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "r room damper",
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a74-2: R-room damper heater \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-damper-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: R-room damper heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-damper-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-damper-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "r room damper",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-dispenser_panel",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "dispenser_panel",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "dispenser",
+          "component": "panel",
+          "actuator": null
+        },
+        "summary": "alias: dispenser_panel \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-dispenser-communication",
+        "pages": [
+          69
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "dispenser_panel": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-dispenser-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-dispenser-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "dispenser",
+              "component": "panel",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-dispenser-panel-communication-(47er)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: Dispenser panel communication (47Er)",
+      "extractedTerm": "Dispenser panel communication (47Er)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "dispenser",
+          "component": "panel communication 47er",
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-2: Dispenser panel communication (47Er) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-dispenser-communication",
+        "pages": [
+          69
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Dispenser panel communication (47Er)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-dispenser-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-dispenser-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "dispenser",
+              "component": "panel communication 47er",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-freezer-defrost-sensor-(f-def-sensor)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: Freezer defrost sensor (F-DEF-Sensor)",
+      "extractedTerm": "Freezer defrost sensor (F-DEF-Sensor)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "freezer defrost sensor f def",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-2: Freezer defrost sensor (F-DEF-Sensor) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-def-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Freezer defrost sensor (F-DEF-Sensor)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-def-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-def-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "freezer defrost sensor f def",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-rf260b-fridge-unresolved-samsungrs28-f-defrost-heater-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-defrost-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-defrost-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-defrost-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-freezer-defrost-heater-(f-def)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: Freezer defrost heater (F-DEF)",
+      "extractedTerm": "Freezer defrost heater (F-DEF)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "freezer defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a74-2: Freezer defrost heater (F-DEF) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-defrost-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Freezer defrost heater (F-DEF)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-defrost-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-defrost-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "freezer defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-f-fan-feedback",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: F fan feedback",
+      "extractedTerm": "F fan feedback",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-2: F fan feedback \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-fan",
+        "pages": [
+          67,
+          68
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: F fan feedback": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-fan",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-fan",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-freezer-cabinet-sensor-(f-sensor)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: Freezer cabinet sensor (F-Sensor)",
+      "extractedTerm": "Freezer cabinet sensor (F-Sensor)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "freezer cabinet sensor f",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-2: Freezer cabinet sensor (F-Sensor) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Freezer cabinet sensor (F-Sensor)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "freezer cabinet sensor f",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-humidity-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: Humidity sensor",
+      "extractedTerm": "Humidity sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "humidity",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-2: Humidity sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-humidity-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Humidity sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-humidity-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-humidity-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "humidity",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-ice-maker-function",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: Ice maker function",
+      "extractedTerm": "Ice maker function",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-2: Ice maker function \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-maker-function",
+        "pages": [
+          68
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Ice maker function": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-maker-function",
+        "pages": [
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ice-maker-function",
+            "pages": [
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-ice-maker-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: Ice maker sensor",
+      "extractedTerm": "Ice maker sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "ice maker",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-2: Ice maker sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-maker-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Ice maker sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-maker-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ice-maker-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice maker",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-ice_pipe_heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "ice_pipe_heater",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "ice pipe",
+          "actuator": "heater"
+        },
+        "summary": "alias: ice_pipe_heater \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-pipe-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ice_pipe_heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-pipe-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ice-pipe-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice pipe",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-ice-pipe-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: Ice pipe heater",
+      "extractedTerm": "Ice pipe heater",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "ice pipe",
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a74-2: Ice pipe heater \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-pipe-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Ice pipe heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-pipe-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ice-pipe-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice pipe",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-inverter_board",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.88,
+      "what": "inverter_board",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_controller",
+      "why": {
+        "confidence": 0.88,
+        "matcherLayer": "compound:manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "inverter board",
+        "decomposition": {
+          "domain": null,
+          "component": "inverter",
+          "actuator": "board"
+        },
+        "summary": "alias: inverter_board \u2192 motor_controller"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-inverter-communication",
+        "pages": [
+          69
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inverter_board": "motor_controller"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-inverter-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-inverter-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+            "matchedPhrase": "inverter board",
+            "decomposition": {
+              "domain": null,
+              "component": "inverter",
+              "actuator": "board"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-inverter-communication-(44er)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: Inverter communication (44Er)",
+      "extractedTerm": "Inverter communication (44Er)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-2: Inverter communication (44Er) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-inverter-communication",
+        "pages": [
+          69
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Inverter communication (44Er)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-inverter-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-inverter-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-i/o-expander-communication-(46er)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: I/O expander communication (46Er)",
+      "extractedTerm": "I/O expander communication (46Er)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-2: I/O expander communication (46Er) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-io-expander-communication",
+        "pages": [
+          69
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: I/O expander communication (46Er)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-io-expander-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-io-expander-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-panel-communication-(41er)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: Panel communication (41Er)",
+      "extractedTerm": "Panel communication (41Er)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-2: Panel communication (41Er) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-panel-communication",
+        "pages": [
+          69
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Panel communication (41Er)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-panel-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-panel-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-fresh-food-cabinet-sensor-(r-sensor)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: Fresh-food cabinet sensor (R-Sensor)",
+      "extractedTerm": "Fresh-food cabinet sensor (R-Sensor)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "fresh food cabinet sensor r",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-2: Fresh-food cabinet sensor (R-Sensor) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-r-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Fresh-food cabinet sensor (R-Sensor)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-r-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-r-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "fresh food cabinet sensor r",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF260B-FRIDGE-compound-wi-fi-communication-(52er)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: Wi-Fi communication (52Er)",
+      "extractedTerm": "Wi-Fi communication (52Er)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-2: Wi-Fi communication (52Er) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-wifi-communication",
+        "pages": [
+          69
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Wi-Fi communication (52Er)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-wifi-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF260B-FRIDGE",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-wifi-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 46,
+    "byStatus": {
+      "candidate": 2,
+      "needs_review": 43,
+      "COMPOUND_TERM_CANDIDATE": 1
+    },
+    "byApprovalLevel": {
+      "normal": 1,
+      "blocked": 43,
+      "easy": 1,
+      "careful": 1
+    },
+    "byType": {
+      "canonicalMapping": 46
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 1,
+      "medium_0.80_0.94": 2,
+      "low_lt_0.80": 0,
+      "unresolved": 43
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 4
+    }
+  }
+}

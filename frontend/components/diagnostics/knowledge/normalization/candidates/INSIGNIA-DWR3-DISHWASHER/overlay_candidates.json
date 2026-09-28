@@ -1,0 +1,125 @@
+{
+  "manualId": "INSIGNIA-DWR3-DISHWASHER",
+  "candidates": [
+    {
+      "id": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "nsdwr3ss1-drain-pump",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "Drain pump \u2014 25\u201335 \u03a9",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "platformId": "insignia_dishwasher",
+        "procedureId": "nsdwr3ss1-drain-pump",
+        "pages": [
+          21,
+          11
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-DWR3-DISHWASHER",
+            "platformId": "insignia_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nsdwr3ss1-drain-pump",
+            "pages": [
+              21,
+              11
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-meas-insigniaDishwasherDrainPumpOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "nsdwr3ss1-drain-pump",
+      "measurementKnowledgeId": "insigniaDishwasherDrainPumpOhms",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "platformId": "insignia_dishwasher",
+        "procedureId": "nsdwr3ss1-drain-pump",
+        "pages": [
+          21,
+          11
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-DWR3-DISHWASHER",
+            "platformId": "insignia_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nsdwr3ss1-drain-pump",
+            "pages": [
+              21,
+              11
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "insigniaDishwasherDrainPumpOhms",
+            "stepTitle": "Drain pump winding resistance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-overflow-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "nsdwr3ss1-overflow",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "E4 \u2014 Overflow / base pan",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "platformId": "insignia_dishwasher",
+        "procedureId": "nsdwr3ss1-overflow",
+        "pages": [
+          28,
+          20,
+          21
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-DWR3-DISHWASHER",
+            "platformId": "insignia_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nsdwr3ss1-overflow",
+            "pages": [
+              28,
+              20,
+              21
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

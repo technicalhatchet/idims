@@ -1,0 +1,441 @@
+{
+  "schemaVersion": "1.0.0",
+  "ontology": {
+    "id": "french_door_refrigerator",
+    "name": "French-Door Refrigerator",
+    "templateId": "refrigerator",
+    "variant": "french_door",
+    "description": "Canonical functional diagnostic ontology for French-door refrigerators. Models functional relationships and diagnostic dependencies; manufacturer, platform, compartment, and drive-architecture implementations belong in overlays.",
+    "frozen": true,
+    "frozenAt": "2026-09-16T04:30:00+00:00",
+    "frozenRevision": "rev1",
+    "frozenNote": "CG-7 rev1 — three-manual discovery (W10322959 Jazz, SAMSUNG-RF23BB, LG-LRMVS). Six KEEP components; five CONDITIONAL concepts in ontology contract only; three aggregates removed; four platform-only; six deferred."
+  },
+  "designPrinciples": [
+    "Model functional refrigeration behavior — not physical sealed-system topology or manufacturer-specific board architectures.",
+    "Separate power, control, user interface, temperature control, cooling actuation, airflow distribution, defrost, and optional features (ice/water) diagnostically.",
+    "door_switch is door authorization / light / service-mode sensing — distinct from lid_lock or mechanical door mechanisms on other appliance families.",
+    "evaporator_fan and defrost_heater may have multiple compartment-scoped instances; canonical nodes accept instance overlay bindings.",
+    "CONDITIONAL concepts (temperature_sensor, compressor, condenser_fan, ice_maker, water_dispenser) are evidence-backed functional roles that are not universally instantiated — they do not appear in components[] until overlay binding supplies scope.",
+    "Removed aggregates (airflow_path, defrost_system, cooling_system) decompose to member actuators on all discovery manuals — do not reintroduce at canonical layer.",
+    "Platform-only vocabulary (compressor_controller, defrost_sensor, water_inlet_valve, sealed_system) must not auto-promote from overlay exposure.",
+    "Manufacturer-specific implementations (Jazz board, inverter PBA, linear compressor, compartment NTC naming) extend via overlays — they do not replace canonical function.",
+    "Tests produce evidence; evidence changes component and hypothesis state (handled in procedure + intelligence layers).",
+    "Do not condemn a downstream actuator until required upstream control and authorization conditions are established.",
+    "Unknown information must remain unknown — never infer good or bad without evidence.",
+    "Procedure branch logic and test definitions stay in service procedure seeds, not in this file."
+  ],
+  "ontologyContract": {
+    "canonicalComponentRule": "components[] lists only triangulated KEEP nodes with 3-manufacturer functional recurrence and universal diagnostic role within the French-door refrigeration family.",
+    "conditionalConceptRule": "Evidence-backed functional role that is not universally instantiated and requires overlay binding or instance scope before graph participation.",
+    "instanceSemanticsRule": "When mayHaveInstances is true, overlays bind compartment or feature scope (e.g. fresh_food, freezer, convert, icing) — the canonical node identity is stable; instances are overlay-scoped, not separate canonical components.",
+    "notEveryApplianceHasOne": "A conditional concept means the function exists across the appliance family — not that every appliance has exactly one component with that identity."
+  },
+  "conditionalConcepts": [
+    {
+      "id": "temperature_sensor",
+      "canonicalStatus": "conditional",
+      "freezeRecommendation": "CONDITIONAL",
+      "evidenceBackedFunctionalRole": true,
+      "universallyInstantiated": false,
+      "requiresOverlayBinding": true,
+      "mayHaveInstances": true,
+      "instanceScopeExamples": ["fresh_food", "freezer", "convert", "icing", "defrost"],
+      "freezeRationale": "Compartment/function-specific sensing triangulated on all three manuals — generic undifferentiated sensor does not survive.",
+      "triangulationResult": "compartment_split_triangulated",
+      "discoveryManuals": ["W10322959", "SAMSUNG-RF23BB-FRIDGE", "LG-LRMVS-FRIDGE"]
+    },
+    {
+      "id": "compressor",
+      "canonicalStatus": "conditional",
+      "freezeRecommendation": "CONDITIONAL",
+      "evidenceBackedFunctionalRole": true,
+      "universallyInstantiated": true,
+      "requiresOverlayBinding": true,
+      "implementationOverlayRequired": true,
+      "implementationVariants": ["relay_drive", "inverter_pba", "linear_compressor"],
+      "freezeRationale": "Refrigeration heat-pump actuator role recurs; drive path is platform implementation — never collapse compressor_controller into canonical compressor.",
+      "triangulationResult": "implementation_diverges_functional_role_holds",
+      "discoveryManuals": ["W10322959", "SAMSUNG-RF23BB-FRIDGE", "LG-LRMVS-FRIDGE"]
+    },
+    {
+      "id": "condenser_fan",
+      "canonicalStatus": "conditional",
+      "freezeRecommendation": "CONDITIONAL",
+      "evidenceBackedFunctionalRole": true,
+      "universallyInstantiated": false,
+      "requiresOverlayBinding": true,
+      "freezeRationale": "2/3 standalone diagnostic exposure (Whirlpool + LG; Samsung absent) — conditional until broader refrigerator corpus confirms.",
+      "triangulationResult": "partial_triangulation_2_of_3",
+      "discoveryManuals": ["W10322959", "LG-LRMVS-FRIDGE"]
+    },
+    {
+      "id": "ice_maker",
+      "canonicalStatus": "conditional",
+      "freezeRecommendation": "CONDITIONAL",
+      "evidenceBackedFunctionalRole": true,
+      "universallyInstantiated": false,
+      "optionalFeature": true,
+      "requiresOverlayBinding": true,
+      "freezeRationale": "Optional feature domain — Samsung + LG evidence; Jazz absent. Do not require every French-door refrigerator to instantiate.",
+      "triangulationResult": "optional_feature_2_of_3",
+      "discoveryManuals": ["SAMSUNG-RF23BB-FRIDGE", "LG-LRMVS-FRIDGE"]
+    },
+    {
+      "id": "water_dispenser",
+      "canonicalStatus": "conditional",
+      "freezeRecommendation": "CONDITIONAL",
+      "evidenceBackedFunctionalRole": true,
+      "universallyInstantiated": false,
+      "optionalFeature": true,
+      "requiresOverlayBinding": true,
+      "freezeRationale": "Optional through-door dispense feature — Samsung + LG evidence; Jazz absent.",
+      "triangulationResult": "optional_feature_2_of_3",
+      "discoveryManuals": ["SAMSUNG-RF23BB-FRIDGE", "LG-LRMVS-FRIDGE"]
+    }
+  ],
+  "removedFromRev1": [
+    {
+      "id": "airflow_path",
+      "freezeRecommendation": "REMOVE",
+      "reason": "No independent diagnostic meaning across three manuals — redundant with fan + damper members."
+    },
+    {
+      "id": "defrost_system",
+      "freezeRecommendation": "REMOVE",
+      "reason": "Manuals consistently decompose defrost into heater, sensor, and control paths."
+    },
+    {
+      "id": "cooling_system",
+      "freezeRecommendation": "REMOVE",
+      "reason": "Aggregate adds no diagnostic discrimination beyond compressor, fan, and defrost members."
+    }
+  ],
+  "overlayOnlyConcepts": [
+    {
+      "id": "compressor_controller",
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "reason": "Relay vs inverter vs linear drive electronics — platform overlay on all three manuals."
+    },
+    {
+      "id": "defrost_sensor",
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "reason": "Compartment-specific termination vocabulary (bimetal, F-DEF/R-DEF, F dS/r dS) — not a single canonical sensor."
+    },
+    {
+      "id": "water_inlet_valve",
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "reason": "Water path tied to dispenser/ice feature hardware — no standalone inlet valve diagnostic on discovery manuals."
+    },
+    {
+      "id": "sealed_system",
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "reason": "LG E CH/E CL aggregate diagnostic — do not turn LG platform vocabulary into universal canonical abstraction."
+    }
+  ],
+  "deferredConcepts": [
+    { "id": "power_supply", "freezeRecommendation": "DEFER", "reason": "Implied-only on all three manuals — no independent supply-path service test." },
+    { "id": "condenser", "freezeRecommendation": "DEFER", "reason": "Physical component — no component-level diagnostic procedure." },
+    { "id": "evaporator", "freezeRecommendation": "DEFER", "reason": "Physical component — no component-level diagnostic procedure." },
+    { "id": "door_heater", "freezeRecommendation": "DEFER", "reason": "Insufficient cross-manufacturer diagnostic evidence." },
+    { "id": "water_level_sensor", "freezeRecommendation": "DEFER", "reason": "Samsung-only AutoFill overflow diagnostic exposure." },
+    { "id": "humidity_control", "freezeRecommendation": "DEFER", "reason": "Samsung-only humidity-sensor procedure; LG mechanical crisper only." }
+  ],
+  "relationshipTypes": [
+    "supplies",
+    "controls",
+    "commands",
+    "communicates_with",
+    "senses",
+    "provides_feedback_to",
+    "regulates",
+    "distributes_air_to",
+    "removes_heat_via",
+    "depends_on",
+    "enables",
+    "inhibits",
+    "monitors"
+  ],
+  "componentStateModel": {
+    "description": "Component verification states for this ontology. Distinct from intelligence-engine hypothesis ranking.",
+    "states": [
+      "unknown",
+      "unverified",
+      "suspected",
+      "supported",
+      "conditionally_supported",
+      "contradicted",
+      "verified_good",
+      "verified_failed",
+      "not_applicable",
+      "inaccessible"
+    ],
+    "terminalStates": ["verified_good", "verified_failed", "not_applicable"],
+    "engineSeparationNote": "Diagnostic ranking, candidate support, and routing effects do not constitute component verification. verified_good and verified_failed require explicit diagnostic evidence."
+  },
+  "systems": [
+    { "id": "control", "name": "Control", "categoryId": "control_board", "purpose": "Command, sequencing, monitoring, and refrigeration decision logic." },
+    { "id": "user_interface", "name": "User Interface", "categoryId": "control_hmi", "purpose": "User input, display, status, and service-mode entry." },
+    { "id": "door_authorization", "name": "Door Authorization", "categoryId": "door_switch", "purpose": "Door-closed authorization, lighting, and service-mode gating." },
+    { "id": "airflow", "name": "Airflow Distribution", "categoryId": "evap_fan", "purpose": "Compartment evaporator airflow and fresh-food damper control." },
+    { "id": "defrost", "name": "Defrost", "categoryId": "heat_dry", "purpose": "Defrost heater actuation and ice removal support." }
+  ],
+  "components": [
+    {
+      "id": "control_board",
+      "name": "Control Board",
+      "aliases": ["main control", "main_control", "main pcb", "machine control", "acu"],
+      "systemId": "control",
+      "categoryId": "control_board",
+      "type": "controller"
+    },
+    {
+      "id": "user_interface",
+      "name": "User Interface",
+      "aliases": ["display_panel", "hmi_control", "display", "control panel"],
+      "systemId": "user_interface",
+      "categoryId": "control_hmi",
+      "type": "interface"
+    },
+    {
+      "id": "door_switch",
+      "name": "Door Switch",
+      "aliases": ["door light switch", "door authorization switch"],
+      "systemId": "door_authorization",
+      "categoryId": "door_switch",
+      "type": "sensor",
+      "note": "Door authorization / lighting — distinct from mechanical lock or latch mechanisms."
+    },
+    {
+      "id": "evaporator_fan",
+      "name": "Evaporator Fan",
+      "aliases": ["evap fan", "freezer fan", "fridge fan"],
+      "systemId": "airflow",
+      "categoryId": "evap_fan",
+      "type": "actuator",
+      "instanceSemantics": {
+        "mayHaveInstances": true,
+        "instanceScopeExamples": ["fresh_food", "freezer", "convert", "icing"],
+        "note": "Multi-fan topology is normal — bind compartment scope in platform overlay, not as separate canonical components."
+      }
+    },
+    {
+      "id": "air_damper",
+      "name": "Air Damper",
+      "aliases": ["damper", "air tower damper", "fresh-food damper"],
+      "systemId": "airflow",
+      "categoryId": "damper_motor",
+      "type": "actuator",
+      "note": "Fresh-food airflow control — implementation surfaces differ (service test, damper heater, test-mode close)."
+    },
+    {
+      "id": "defrost_heater",
+      "name": "Defrost Heater",
+      "aliases": ["heater", "defrost heater"],
+      "systemId": "defrost",
+      "categoryId": "heat_dry",
+      "type": "actuator",
+      "instanceSemantics": {
+        "mayHaveInstances": true,
+        "instanceScopeExamples": ["fresh_food", "freezer"],
+        "note": "Compartment-scoped defrost heaters are overlay instances of this canonical actuator."
+      }
+    }
+  ],
+  "relationships": [
+    { "from": "user_interface", "type": "communicates_with", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "user_interface", "type": "commands", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "door_switch", "type": "provides_feedback_to", "to": "control_board", "source": "canonical", "confidence": "high", "note": "Door authorization — distinct from lock/latch mechanisms." },
+    { "from": "control_board", "type": "controls", "to": "evaporator_fan", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "controls", "to": "air_damper", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "controls", "to": "defrost_heater", "source": "canonical", "confidence": "high" },
+    { "from": "air_damper", "type": "regulates", "to": "evaporator_fan", "source": "canonical", "confidence": "medium", "note": "Functional airflow distribution — hose/tower routing belongs in overlay." },
+    { "from": "evaporator_fan", "type": "distributes_air_to", "to": "control_board", "source": "canonical", "confidence": "medium", "note": "Feedback path placeholder — compartment temperature response established via conditional temperature_sensor overlay." }
+  ],
+  "functionalDependencies": [
+    {
+      "id": "door_authorization",
+      "description": "Service-mode entry and door-light behavior require control readiness and door switch feedback.",
+      "requires": ["control_board", "door_switch"],
+      "enables": ["service_mode_entry"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "airflow_operation",
+      "description": "Compartment cooling airflow requires control command and fan actuation; fresh-food paths may require damper position.",
+      "requires": ["control_board", "evaporator_fan"],
+      "conditional": ["air_damper"],
+      "enables": ["compartment_cooling"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "defrost_operation",
+      "description": "Defrost heater actuation requires control command — termination sensing is platform overlay (defrost_sensor).",
+      "requires": ["control_board", "defrost_heater"],
+      "enables": ["defrost_cycle"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "refrigeration_operation",
+      "description": "Cooling requires control, airflow, and compressor (conditional overlay binding for drive implementation).",
+      "requires": ["control_board", "evaporator_fan"],
+      "conditional": ["compressor"],
+      "enables": ["compartment_cooling"],
+      "source": "canonical",
+      "confidence": "medium",
+      "note": "compressor is conditional — bind relay/inverter/linear implementation in platform overlay."
+    }
+  ],
+  "establishedFactSources": [
+    { "factId": "control_ready", "label": "Control board responsive", "source": "session", "confidence": "high" },
+    { "factId": "display_responsive", "label": "User interface responsive", "source": "session", "confidence": "high" },
+    { "factId": "door_closed_authorized", "label": "Door closed / authorized", "fromComponents": ["door_switch"], "source": "canonical", "confidence": "high" },
+    { "factId": "evap_fan_command_present", "label": "Evaporator fan command active", "source": "session", "confidence": "high" },
+    { "factId": "evap_fan_running", "label": "Evaporator fan operation observed", "source": "session", "confidence": "high" },
+    { "factId": "damper_position_verified", "label": "Air damper position verified", "fromComponents": ["air_damper"], "source": "canonical", "confidence": "medium" },
+    { "factId": "defrost_heater_command_present", "label": "Defrost heater command active", "source": "session", "confidence": "high" },
+    { "factId": "defrost_heater_load_present", "label": "Defrost heater load present", "source": "session", "confidence": "high" }
+  ],
+  "testTargets": [
+    {
+      "id": "door_switch_test",
+      "label": "Door switch / authorization",
+      "role": "prerequisite",
+      "testAliasId": "door_switch_test",
+      "establishesFacts": ["door_closed_authorized"],
+      "forGoals": ["door_authorization"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "display_communication_test",
+      "label": "User interface / display communication",
+      "role": "prerequisite",
+      "testAliasId": "display_communication_test",
+      "establishesFacts": ["display_responsive"],
+      "requires": { "facts": ["control_ready"] },
+      "forGoals": ["service_mode_entry"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "evaporator_fan_test",
+      "label": "Evaporator fan operation",
+      "role": "prerequisite",
+      "testAliasId": "evaporator_fan_test",
+      "establishesFacts": ["evap_fan_command_present", "evap_fan_running"],
+      "requires": { "facts": ["control_ready"] },
+      "forGoals": ["airflow_operation", "refrigeration_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "air_damper_test",
+      "label": "Air damper position / airflow control",
+      "role": "discriminator",
+      "testAliasId": "air_damper_test",
+      "establishesFacts": ["damper_position_verified"],
+      "requires": { "facts": ["control_ready"] },
+      "forGoals": ["airflow_operation"],
+      "source": "canonical",
+      "confidence": "medium"
+    },
+    {
+      "id": "defrost_heater_test",
+      "label": "Defrost heater load",
+      "role": "discriminator",
+      "testAliasId": "defrost_heater_test",
+      "establishesFacts": ["defrost_heater_command_present", "defrost_heater_load_present"],
+      "requires": { "facts": ["control_ready"] },
+      "forGoals": ["defrost_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    }
+  ],
+  "failureDomains": [
+    { "id": "control_failure", "label": "Control", "components": ["control_board"] },
+    { "id": "user_interface_failure", "label": "User interface", "components": ["user_interface"] },
+    { "id": "door_authorization_failure", "label": "Door / authorization", "components": ["door_switch"] },
+    { "id": "airflow_failure", "label": "Airflow / damper", "components": ["evaporator_fan", "air_damper"] },
+    { "id": "defrost_failure", "label": "Defrost heater", "components": ["defrost_heater"] },
+    { "id": "wiring_connection", "label": "Wiring / connection", "crossCutting": true }
+  ],
+  "diagnosticPrinciples": {
+    "general": [
+      { "id": "authorization_before_actuators", "rule": "Establish control readiness and door authorization before condemning cooling actuators." },
+      { "id": "command_before_load", "rule": "Separate control command evidence from load operation evidence." },
+      { "id": "airflow_before_sealed_system", "rule": "Verify fan and damper paths before treating sealed-system faults." },
+      { "id": "conditional_requires_overlay", "rule": "Do not instantiate conditional concepts as verified components without platform overlay scope." },
+      { "id": "preserve_uncertainty", "rule": "Negative or incomplete evidence should reduce candidate support without manufacturing verification." }
+    ]
+  },
+  "diagnosticEntryPoints": [
+    {
+      "id": "not_cooling",
+      "symptoms": ["not cooling", "warm", "too warm", "freezer thawing", "fridge warm"],
+      "initialDomains": ["airflow_failure", "control_failure"],
+      "activeGoals": ["refrigeration_operation", "airflow_operation"]
+    },
+    {
+      "id": "no_power",
+      "symptoms": ["no power", "dead", "no lights", "won't start"],
+      "initialDomains": ["control_failure", "user_interface_failure", "door_authorization_failure"],
+      "activeGoals": ["door_authorization"]
+    },
+    {
+      "id": "excessive_frost",
+      "symptoms": ["excessive frost", "ice buildup", "frost in freezer", "defrost failure"],
+      "initialDomains": ["defrost_failure", "airflow_failure", "control_failure"],
+      "activeGoals": ["defrost_operation", "airflow_operation"]
+    },
+    {
+      "id": "door_light_issue",
+      "symptoms": ["door light not working", "light stays on", "door switch"],
+      "initialDomains": ["door_authorization_failure"],
+      "activeGoals": ["door_authorization"]
+    }
+  ],
+  "freezeProvenance": {
+    "workstream": "CG-7",
+    "sourceCandidate": "french_door_refrigerator_cg7x_candidate_v1.json",
+    "freezeRecommendation": "FRENCH_DOOR_REFRIGERATOR_CG7_FREEZE_RECOMMENDATION_v1.json",
+    "evidenceManuals": ["W10322959", "SAMSUNG-RF23BB-FRIDGE", "LG-LRMVS-FRIDGE"],
+    "observationArtifacts": [
+      "W10322959_fd_cg7x_observation_v1.json",
+      "SAMSUNG_RF23BB_fd_cg7x_observation_v1.json",
+      "LG_LRMVS_fd_cg7x_observation_v1.json"
+    ],
+    "keep": ["control_board", "user_interface", "door_switch", "evaporator_fan", "air_damper", "defrost_heater"],
+    "conditional": ["temperature_sensor", "compressor", "condenser_fan", "ice_maker", "water_dispenser"],
+    "remove": ["airflow_path", "defrost_system", "cooling_system"],
+    "platformOnly": ["compressor_controller", "defrost_sensor", "water_inlet_valve", "sealed_system"],
+    "defer": ["power_supply", "condenser", "evaporator", "door_heater", "water_level_sensor", "humidity_control"],
+    "canonicalExpansion": 0,
+    "controlsTrioDispositionHistory": {
+      "control_board": [
+        { "stage": "R1", "disposition": "canonical_functional", "manual": "W10322959" },
+        { "stage": "R2", "disposition": "needs_second_manual", "manual": "SAMSUNG-RF23BB-FRIDGE", "note": "R2 withheld premature R1 promotion — Samsung boundary required third vote." },
+        { "stage": "R3", "disposition": "canonical_functional", "manual": "LG-LRMVS-FRIDGE", "freeze": "KEEP" }
+      ],
+      "user_interface": [
+        { "stage": "R1", "disposition": "canonical_functional", "manual": "W10322959" },
+        { "stage": "R2", "disposition": "needs_second_manual", "manual": "SAMSUNG-RF23BB-FRIDGE", "note": "HMI confirmed on Samsung; freeze blocked until R3." },
+        { "stage": "R3", "disposition": "canonical_functional", "manual": "LG-LRMVS-FRIDGE", "freeze": "KEEP" }
+      ],
+      "door_switch": [
+        { "stage": "R1", "disposition": "canonical_functional", "manual": "W10322959" },
+        { "stage": "R2", "disposition": "needs_second_manual", "manual": "SAMSUNG-RF23BB-FRIDGE", "note": "Multi-door Samsung switches — functional role held, naming differs." },
+        { "stage": "R3", "disposition": "canonical_functional", "manual": "LG-LRMVS-FRIDGE", "freeze": "KEEP" }
+      ]
+    },
+    "humanFreezeReview": {
+      "approvedAt": "2026-09-16T04:30:00+00:00",
+      "bucketCounts": { "KEEP": 6, "CONDITIONAL": 5, "PLATFORM_ONLY": 4, "REMOVE": 3, "DEFER": 6 },
+      "conditionalNotInComponents": true,
+      "conditionalOntologyContractRule": "Conditional concepts encoded in ontologyContract + conditionalConcepts[] — not promoted to components[] during rev1 authoring."
+    }
+  }
+}

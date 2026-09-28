@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "SAMSUNG-FL-BB8700-WASHER",
+  "platformFamilyId": "samsung_fl_bb8700_direct_drive",
+  "ontologyId": "front_load_washer",
+  "architectureBoundary": "Whirlpool FL corpus prior → Samsung platform (zero Whirlpool platform vocabulary inheritance)",
+  "corpusPriorManualIds": ["W8178558", "W11169652"],
+  "promotionId": "promo-SAMSUNG-FL-BB8700-WASHER-20260913142749",
+  "promotionGateMetrics": {
+    "newHumanDecisionCount": 6,
+    "inheritedCorpusKnowledge": 14,
+    "inheritedPlatformFamilyKnowledge": 0,
+    "newPlatformKnowledge": 1,
+    "newModelSpecificKnowledge": 0,
+    "newCanonicalKnowledge": 0,
+    "newHumanDecisionRate": 0.2069,
+    "note": "CG-5.6 gate — 5/6 corpus transfer, 1/6 Samsung platform (inverter_board), 0 canonical expansion."
+  },
+  "summary": {
+    "promotionGateDecisions": 6,
+    "inheritedFlCorpusConcepts": 14,
+    "inheritedWhirlpoolPlatform": 0,
+    "newPlatformKnowledge": 1,
+    "newModelSpecificKnowledge": 0,
+    "newCanonicalKnowledge": 0,
+    "procedureBindings": 9
+  },
+  "classifications": [
+    {
+      "oemTerm": "§4-3: PBA communication (AC, AC6)",
+      "canonicalId": "control_board",
+      "classification": "inherited_corpus_knowledge"
+    },
+    {
+      "oemTerm": "§4-3: Drain / leakage (LC, LC1)",
+      "canonicalId": "drain_pump",
+      "classification": "inherited_corpus_knowledge"
+    },
+    {
+      "oemTerm": "§4-2: Inlet valves (Co / Ho manual check)",
+      "canonicalId": "inlet_valve",
+      "classification": "inherited_corpus_knowledge"
+    },
+    {
+      "oemTerm": "§4-3: Washing motor (3C)",
+      "canonicalId": "drive_motor",
+      "classification": "inherited_corpus_knowledge"
+    },
+    {
+      "oemTerm": "§4-3: Overflow (OC)",
+      "canonicalId": "water_level_sensor",
+      "classification": "inherited_corpus_knowledge"
+    },
+    {
+      "oemTerm": "§4-3: Power / current sense (9C5)",
+      "canonicalId": "inverter_board",
+      "classification": "new_platform_knowledge",
+      "rationale": "Samsung platform-scoped additive component — 9C5 current sense on inverter PBA. Not universal canonical; strengthens Samsung platform case if repeated on future Samsung FL manuals."
+    }
+  ],
+  "notes": [
+    "inverter_board is platform additive (overlay add.components) — not promoted to front_load_washer canonical ontology.",
+    "Post-publish pipeline metrics (15 new platform) are inflated — use gate-preview only.",
+    "Whirlpool frozen baselines unchanged."
+  ]
+}

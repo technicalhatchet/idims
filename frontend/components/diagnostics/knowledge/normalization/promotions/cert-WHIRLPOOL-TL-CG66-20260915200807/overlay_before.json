@@ -1,0 +1,738 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "top_load_washer",
+  "manufacturer": "Whirlpool",
+  "label": "Whirlpool top-load washer family overlays",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "whirlpool_tl_dd_direct_drive",
+      "platformId": "whirlpool_tl_dd",
+      "manualId": "W10864849",
+      "label": "Whirlpool/Maytag 6.2 cu ft direct-drive top-load washer",
+      "appliesTo": {
+        "templateId": "washer",
+        "manufacturers": [
+          "Whirlpool",
+          "Maytag",
+          "Kenmore",
+          "Amana"
+        ],
+        "modelPatterns": [
+          "WTW95*",
+          "WTW49*",
+          "MVWB95*"
+        ],
+        "platformIds": [
+          "whirlpool_tl_dd"
+        ]
+      },
+      "oemTermAliases": {
+        "supply": "supply",
+        "TEST #1: Main Control (ACU)": "control_board",
+        "ACU": "control_board",
+        "inlet_valve": "inlet_valve",
+        "TEST #2: Valves": "inlet_valve",
+        "drive_motor": "drive_motor",
+        "TEST #3: Drive System (pre-test)": "drive_motor",
+        "TEST #3a: Drive System \u2014 Shifter": "mode_shifter",
+        "TEST #3b: Drive System \u2014 Motor": "drive_motor",
+        "hmi_control": "hmi_control",
+        "TEST #4: Keys and Encoders": "hmi_control",
+        "wash_ntc": "wash_ntc",
+        "TEST #5: Temperature Thermistor": "wash_ntc",
+        "water_level_sensor": "water_level_sensor",
+        "TEST #6: Water Level": "pressure_sensor",
+        "drain_pump": "drain_pump",
+        "TEST #7: Drain & Recirculation Pump": "drain_pump",
+        "door_lock": "lid_lock",
+        "TEST #8: Lid Lock": "lid_lock",
+        "wash_heater": "wash_heater",
+        "TEST #9: Heater Element": "wash_heater",
+        "TEST #10: Service LEDs": "hmi_control",
+        "TEST #11: Basket Light": "supply",
+        "bulk_level_switch": "bulk_level_switch",
+        "TEST #12: Bulk Dispense Pump and REX Board": "bulk_level_switch",
+        "TEST #1: Main Control": "control_board",
+        "TEST #4: Console and Indicators": "hmi_control",
+        "TEST #7: Drain Pump": "drain_pump"
+      },
+      "displayTerms": {
+        "control_board": "ACU (Appliance Control Unit)",
+        "lid_lock": "Lid Lock Assembly",
+        "drive_motor": "Drive Motor (BPM)",
+        "mode_shifter": "Mode Shifter / Clutch Coil"
+      },
+      "add": {
+        "components": [
+          {
+            "id": "mode_shifter",
+            "name": "Mode shifter / clutch coil",
+            "systemId": "drive",
+            "categoryId": "mode_shifter",
+            "type": "actuator",
+            "note": "OEM implementation of canonical transmission_or_shifter."
+          },
+          {
+            "id": "pressure_sensor",
+            "name": "Pressure sensor / water level switch",
+            "systemId": "water_level",
+            "categoryId": "water_level",
+            "type": "sensor",
+            "note": "OEM implementation path for canonical water_level_sensor."
+          },
+          {
+            "id": "supply",
+            "name": "Supply / line voltage",
+            "systemId": "power",
+            "categoryId": "electrical_supply",
+            "type": "external_input",
+            "note": "Legacy OEM alias id \u2014 canonical power_supply."
+          },
+          {
+            "id": "wash_ntc",
+            "name": "Wash temperature sensor",
+            "systemId": "temperature",
+            "categoryId": "wash_heating",
+            "type": "sensor",
+            "optional": true,
+            "note": "OEM alias for canonical temperature_sensor."
+          },
+          {
+            "id": "bulk_level_switch",
+            "name": "Bulk dispenser level switch",
+            "systemId": "water_inlet",
+            "categoryId": "dispenser",
+            "type": "sensor",
+            "optional": true,
+            "note": "Platform-only \u2014 not canonical rev1."
+          },
+          {
+            "id": "wash_heater",
+            "name": "Wash heater",
+            "systemId": "temperature",
+            "categoryId": "wash_heating",
+            "type": "actuator",
+            "optional": true,
+            "note": "Platform-only heating load \u2014 not canonical rev1."
+          }
+        ],
+        "establishedFactSources": [
+          {
+            "factId": "lid_lock_authorized",
+            "fromBranches": [
+              "ll_ok",
+              "ll_live_ok",
+              "lock_motor_pass",
+              "lid_lock_verified"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "drain_completion",
+            "fromBranches": [
+              "pump_live_ok",
+              "drain_pump_pass",
+              "dp_run"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_command_present",
+            "fromBranches": [
+              "motor_runs"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_output_abnormal",
+            "fromBranches": [
+              "motor_open",
+              "motor_crit",
+              "motor_warn"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          }
+        ],
+        "relationships": []
+      },
+      "overrides": [
+        {
+          "layer": "functionalDependency",
+          "action": "merge",
+          "match": {
+            "id": "drive_operation"
+          },
+          "value": {
+            "requires": [
+              "control_board",
+              "lid_lock",
+              "drive_motor",
+              "mode_shifter"
+            ]
+          },
+          "reason": "W10864849 TL DD \u2014 agitate/spin requires mode shifter in drive path"
+        }
+      ],
+      "procedureBindings": [
+        {
+          "procedureId": "w10864849-test-03-drive-system",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3: Drive System (pre-test)"
+        },
+        {
+          "procedureId": "w10864849-test-03a-shifter",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3a: Drive System \u2014 Shifter"
+        },
+        {
+          "procedureId": "w10864849-test-03b-motor",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3b: Drive System \u2014 Motor"
+        },
+        {
+          "procedureId": "w10864849-test-06-water-level",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #6: Water Level"
+        },
+        {
+          "procedureId": "w10864849-test-07-drain-recirc-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #7: Drain & Recirculation Pump"
+        },
+        {
+          "procedureId": "w10864849-test-08-lid-lock",
+          "testTargetId": "lid_lock_test",
+          "displayTitle": "TEST #8: Lid Lock"
+        },
+        {
+          "procedureId": "w11697231-test-03-drive-system",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3: Drive System (pre-test)"
+        },
+        {
+          "procedureId": "w11697231-test-03a-shifter",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3a: Drive System \u2014 Shifter"
+        },
+        {
+          "procedureId": "w11697231-test-03b-motor",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3b: Drive System \u2014 Motor"
+        },
+        {
+          "procedureId": "w11697231-test-06-water-level",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #6: Water Level"
+        },
+        {
+          "procedureId": "w11697231-test-07-drain-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #7: Drain Pump"
+        },
+        {
+          "procedureId": "w11697231-test-08-lid-lock",
+          "testTargetId": "lid_lock_test",
+          "displayTitle": "TEST #8: Lid Lock"
+        }
+      ],
+      "measurementBindings": [
+        {
+          "procedureId": "w10864849-test-03b-motor",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w10864849-test-03b-motor",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w10864849-test-07-drain-recirc-pump",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w10864849-test-07-drain-recirc-pump",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherRecircPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w10864849-test-07-drain-recirc-pump",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w10864849-test-08-lid-lock",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherLidLockMotorOhms",
+          "testTargetId": "lid_lock_test"
+        },
+        {
+          "procedureId": "w11697231-test-03a-shifter",
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherShifterOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w11697231-test-03b-motor",
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherMotorWindingOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w11697231-test-03b-motor",
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherMotorWindingOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w11697231-test-07-drain-pump",
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11697231-test-07-drain-pump",
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11697231-test-08-lid-lock",
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherLidLockSolenoidOhms",
+          "testTargetId": "lid_lock_test"
+        }
+      ]
+    },
+    {
+      "platformFamilyId": "whirlpool_tl_dd_5100_direct_drive",
+      "platformId": "whirlpool_tl_dd_5100",
+      "manualId": "W11416787",
+      "label": "Whirlpool/Maytag 4.7/5.3 cu ft direct-drive top-load washer (WTW5100)",
+      "appliesTo": {
+        "templateId": "washer",
+        "manufacturers": [
+          "Whirlpool",
+          "Maytag",
+          "Kenmore",
+          "Amana"
+        ],
+        "modelPatterns": [
+          "WTW51*",
+          "MVW51*"
+        ],
+        "platformIds": [
+          "whirlpool_tl_dd_5100"
+        ]
+      },
+      "oemTermAliases": {
+        "supply": "supply",
+        "TEST #1: Main Control (ACU)": "control_board",
+        "ACU": "control_board",
+        "inlet_valve": "inlet_valve",
+        "TEST #2: Valves": "inlet_valve",
+        "drive_motor": "drive_motor",
+        "TEST #3: Drive System (pre-test)": "drive_motor",
+        "TEST #3a: Drive System \u2014 Shifter": "mode_shifter",
+        "TEST #3b: Drive System \u2014 Motor": "drive_motor",
+        "hmi_control": "hmi_control",
+        "TEST #4: HMI": "hmi_control",
+        "wash_ntc": "wash_ntc",
+        "TEST #5: Temperature Thermistor": "wash_ntc",
+        "water_level_sensor": "water_level_sensor",
+        "TEST #6: Water Level": "pressure_sensor",
+        "drain_pump": "drain_pump",
+        "TEST #7: Drain & Recirculation Pump": "drain_pump",
+        "door_lock": "lid_lock",
+        "TEST #8: Lid Lock": "lid_lock",
+        "bulk_level_switch": "bulk_level_switch",
+        "TEST #9: Load & Go Detergent": "bulk_level_switch"
+      },
+      "displayTerms": {
+        "control_board": "ACU (Appliance Control Unit)",
+        "lid_lock": "Lid Lock Assembly",
+        "drive_motor": "Drive Motor (BPM)",
+        "mode_shifter": "Mode Shifter / Clutch Coil",
+        "bulk_level_switch": "Load & Go / Mini-Bulk Dispense"
+      },
+      "add": {
+        "components": [
+          {
+            "id": "mode_shifter",
+            "name": "Mode shifter / clutch coil",
+            "systemId": "drive",
+            "categoryId": "mode_shifter",
+            "type": "actuator",
+            "note": "OEM implementation of canonical transmission_or_shifter."
+          },
+          {
+            "id": "pressure_sensor",
+            "name": "Pressure sensor / water level switch",
+            "systemId": "water_level",
+            "categoryId": "water_level",
+            "type": "sensor",
+            "note": "OEM implementation path for canonical water_level_sensor."
+          },
+          {
+            "id": "supply",
+            "name": "Supply / line voltage",
+            "systemId": "power",
+            "categoryId": "electrical_supply",
+            "type": "external_input",
+            "note": "Legacy OEM alias id \u2014 canonical power_supply."
+          },
+          {
+            "id": "wash_ntc",
+            "name": "Wash temperature sensor",
+            "systemId": "temperature",
+            "categoryId": "wash_heating",
+            "type": "sensor",
+            "optional": true,
+            "note": "OEM alias for canonical temperature_sensor."
+          },
+          {
+            "id": "bulk_level_switch",
+            "name": "Bulk dispenser level switch",
+            "systemId": "water_inlet",
+            "categoryId": "dispenser",
+            "type": "sensor",
+            "optional": true,
+            "note": "Platform-only \u2014 not canonical rev1."
+          },
+          {
+            "id": "wash_heater",
+            "name": "Wash heater",
+            "systemId": "temperature",
+            "categoryId": "wash_heating",
+            "type": "actuator",
+            "optional": true,
+            "note": "Platform-only heating load \u2014 not canonical rev1."
+          }
+        ],
+        "establishedFactSources": [
+          {
+            "factId": "lid_lock_authorized",
+            "fromBranches": [
+              "ll_ok",
+              "ll_live_ok",
+              "lock_motor_pass",
+              "lid_lock_verified"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "drain_completion",
+            "fromBranches": [
+              "pump_live_ok",
+              "drain_pump_pass",
+              "dp_run"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_command_present",
+            "fromBranches": [
+              "motor_runs"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_output_abnormal",
+            "fromBranches": [
+              "motor_open",
+              "motor_crit",
+              "motor_warn"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          }
+        ],
+        "relationships": []
+      },
+      "overrides": [
+        {
+          "layer": "functionalDependency",
+          "action": "merge",
+          "match": {
+            "id": "drive_operation"
+          },
+          "value": {
+            "requires": [
+              "control_board",
+              "lid_lock",
+              "drive_motor",
+              "mode_shifter"
+            ]
+          },
+          "reason": "W11416787 TL 5100 DD \u2014 agitate/spin requires mode shifter in drive path"
+        }
+      ],
+      "procedureBindings": [
+        {
+          "procedureId": "w11416787-test-03-drive-system",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3: Drive System (pre-test)"
+        },
+        {
+          "procedureId": "w11416787-test-03a-shifter",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3a: Drive System \u2014 Shifter"
+        },
+        {
+          "procedureId": "w11416787-test-03b-motor",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3b: Drive System \u2014 Motor"
+        },
+        {
+          "procedureId": "w11416787-test-06-water-level",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #6: Water Level"
+        },
+        {
+          "procedureId": "w11416787-test-07-drain-recirc-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #7: Drain & Recirculation Pump"
+        },
+        {
+          "procedureId": "w11416787-test-08-lid-lock",
+          "testTargetId": "lid_lock_test",
+          "displayTitle": "TEST #8: Lid Lock"
+        }
+      ],
+      "measurementBindings": [
+        {
+          "procedureId": "w11416787-test-03b-motor",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w11416787-test-03b-motor",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w11416787-test-07-drain-recirc-pump",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11416787-test-07-drain-recirc-pump",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherRecircPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11416787-test-07-drain-recirc-pump",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11416787-test-08-lid-lock",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherLidLockSolenoidOhms",
+          "testTargetId": "lid_lock_test"
+        }
+      ]
+    }
+  ],
+  "gateArtifact": "WHIRLPOOL_TOP_LOAD_WASHER_CG66_overlay_mapping_table_v1.json",
+  "certificationLedgerArtifact": "WHIRLPOOL_TOP_LOAD_WASHER_CG66_gate_decision_ledger_v1.json",
+  "certificationManualIds": [
+    "W10864849",
+    "W11697231",
+    "W11416787"
+  ],
+  "certificationAt": "2026-09-15T20:07:28.659071+00:00",
+  "gateKind": "whirlpool_tl_corpus_rev1_certification",
+  "status": "published",
+  "certificationEvidence": {
+    "procedureRoleEvidence": [
+      {
+        "manualId": "W10864849",
+        "procedureId": "w10864849-test-08-lid-lock",
+        "stepId": "switch_states",
+        "roleId": "lid_switch_authorization",
+        "canonicalComponents": [
+          "lid_switch"
+        ],
+        "evidenceKind": "procedure_role_text",
+        "signalPhrases": [
+          "lid switch"
+        ],
+        "gateAction": "certify_procedure_role",
+        "doesNotFabricateMatcherAlias": true,
+        "rationale": "Explicit procedure-role evidence may bind lid_switch without manufacturing a matcher alias. Matcher-derived door_lock remains lid_lock only."
+      },
+      {
+        "manualId": "W10864849",
+        "procedureId": "w10864849-test-08-lid-lock",
+        "stepId": "switch_states",
+        "roleId": "lid_lock_spin_safety",
+        "canonicalComponents": [
+          "lid_lock"
+        ],
+        "evidenceKind": "procedure_role_text",
+        "signalPhrases": [
+          "lock switch",
+          "home"
+        ],
+        "gateAction": "certify_procedure_role",
+        "doesNotFabricateMatcherAlias": true,
+        "rationale": "Explicit procedure-role evidence may bind lid_switch without manufacturing a matcher alias. Matcher-derived door_lock remains lid_lock only."
+      },
+      {
+        "manualId": "W11697231",
+        "procedureId": "w11697231-test-08-lid-lock",
+        "stepId": "switch_states",
+        "roleId": "lid_switch_authorization",
+        "canonicalComponents": [
+          "lid_switch"
+        ],
+        "evidenceKind": "procedure_role_text",
+        "signalPhrases": [
+          "lid switch"
+        ],
+        "gateAction": "certify_procedure_role",
+        "doesNotFabricateMatcherAlias": true,
+        "rationale": "Explicit procedure-role evidence may bind lid_switch without manufacturing a matcher alias. Matcher-derived door_lock remains lid_lock only."
+      },
+      {
+        "manualId": "W11697231",
+        "procedureId": "w11697231-test-08-lid-lock",
+        "stepId": "switch_states",
+        "roleId": "lid_lock_spin_safety",
+        "canonicalComponents": [
+          "lid_lock"
+        ],
+        "evidenceKind": "procedure_role_text",
+        "signalPhrases": [
+          "lock switch",
+          "lock solenoid"
+        ],
+        "gateAction": "certify_procedure_role",
+        "doesNotFabricateMatcherAlias": true,
+        "rationale": "Explicit procedure-role evidence may bind lid_switch without manufacturing a matcher alias. Matcher-derived door_lock remains lid_lock only."
+      },
+      {
+        "manualId": "W11416787",
+        "procedureId": "w11416787-test-08-lid-lock",
+        "stepId": "switch_states",
+        "roleId": "lid_switch_authorization",
+        "canonicalComponents": [
+          "lid_switch"
+        ],
+        "evidenceKind": "procedure_role_text",
+        "signalPhrases": [
+          "lid switch"
+        ],
+        "gateAction": "certify_procedure_role",
+        "doesNotFabricateMatcherAlias": true,
+        "rationale": "Explicit procedure-role evidence may bind lid_switch without manufacturing a matcher alias. Matcher-derived door_lock remains lid_lock only."
+      },
+      {
+        "manualId": "W11416787",
+        "procedureId": "w11416787-test-08-lid-lock",
+        "stepId": "switch_states",
+        "roleId": "lid_lock_spin_safety",
+        "canonicalComponents": [
+          "lid_lock"
+        ],
+        "evidenceKind": "procedure_role_text",
+        "signalPhrases": [
+          "lock switch",
+          "lock solenoid"
+        ],
+        "gateAction": "certify_procedure_role",
+        "doesNotFabricateMatcherAlias": true,
+        "rationale": "Explicit procedure-role evidence may bind lid_switch without manufacturing a matcher alias. Matcher-derived door_lock remains lid_lock only."
+      }
+    ],
+    "canonicalContract": {
+      "graph": "top_load_washer",
+      "revision": "rev1",
+      "frozen": true,
+      "frozenAt": "2026-09-15T19:45:00+00:00",
+      "allowedCanonicalIds": [
+        "agitator_or_impeller",
+        "basket",
+        "control_board",
+        "drain_path",
+        "drain_pump",
+        "drive_motor",
+        "hmi_control",
+        "inlet_valve",
+        "lid_lock",
+        "lid_switch",
+        "power_supply",
+        "spin_system",
+        "suspension_system",
+        "temperature_sensor",
+        "transmission_or_shifter",
+        "tub",
+        "water_level_sensor"
+      ],
+      "conditionalCanonicalIds": [
+        "lid_switch"
+      ],
+      "forbiddenCanonicalIds": [
+        "drive_system"
+      ],
+      "overlayOnlyIds": [
+        "splutch",
+        "clutch",
+        "gearcase",
+        "capacitor",
+        "stator",
+        "rotor",
+        "manufacturer_motor_controller",
+        "mode_shifter",
+        "pressure_sensor",
+        "recirc_pump",
+        "wash_heater",
+        "bulk_level_switch",
+        "motor_controller",
+        "drum_bearing"
+      ],
+      "contractRule": "canonicalComponents[] lists rev1-permitted canonical targets for each artifact. The overlay may consume the canonical ontology; it cannot mutate or negotiate with it."
+    },
+    "accounting": {
+      "newSemanticDecisions": 0,
+      "certificationDecisions": 85,
+      "inheritedKnowledge": 58,
+      "deferredArtifacts": 17,
+      "contractRejections": 2,
+      "canonicalExpansion": 0
+    },
+    "historicalPromotionProvenance": {
+      "note": "Pre-rev1 compounding decisions \u2014 provenance only, not CG-6.6 teaching cost.",
+      "manuals": [
+        {
+          "manualId": "W10864849",
+          "promotionId": "promo-W10864849-20260913070539",
+          "historicalNewDecisions": 14
+        },
+        {
+          "manualId": "W11697231",
+          "promotionId": "promo-W11697231-20260913133238",
+          "historicalNewDecisions": 0
+        },
+        {
+          "manualId": "W11416787",
+          "promotionId": "promo-W11416787-20260913135602",
+          "historicalNewDecisions": 2
+        }
+      ]
+    },
+    "certifiedArtifactsSemantics": {
+      "certifiedArtifactsRepresented": 85,
+      "knowledgeArtifactsAdded": 0,
+      "overlaySemanticDelta": 0,
+      "note": "certifiedArtifactsRepresented counts gate-table artifacts certified in the publication record \u2014 not new knowledge added to the overlay."
+    },
+    "note": "CG-6.6 certification metadata only \u2014 semantic overlay content unchanged. Procedure-role lid_switch evidence is certified without matcher alias fabrication."
+  },
+  "certificationPromotionId": "cert-WHIRLPOOL-TL-CG66-20260915200728",
+  "dryRunReportArtifact": "promotion_dry_run_WHIRLPOOL_TOP_LOAD_WASHER_CG66.json",
+  "publicationArtifact": "publication_WHIRLPOOL_TOP_LOAD_WASHER_CG66.json",
+  "certificationEvidenceArtifact": "WHIRLPOOL_TOP_LOAD_WASHER_CG66_CERTIFICATION_EVIDENCE_v1.json"
+}

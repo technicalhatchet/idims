@@ -1,0 +1,419 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "canonical_gap_report",
+  "templateFilter": "dishwasher",
+  "manualCount": 1,
+  "generatedAt": "2026-09-14T20:22:21.857733+00:00",
+  "thresholds": {
+    "ontologyMinManuals": 3,
+    "ontologyMinManufacturers": 2,
+    "aliasMinManuals": 2
+  },
+  "rules": [
+    "Never add a canonical concept from a single unknown term.",
+    "Canonical ontology candidates require multi-manual + multi-manufacturer evidence.",
+    "Platform-specific concepts belong in OEM overlays, not canonical ontology."
+  ],
+  "summary": {
+    "canonicalAliasOpportunities": 0,
+    "canonicalOntologyCandidates": 0,
+    "platformSpecificConcepts": 0,
+    "unresolved": 6,
+    "humanReview": 1,
+    "conflicts": 1,
+    "observationCount": 21,
+    "clusterCount": 16
+  },
+  "conceptTable": [
+    {
+      "concept": "diverter position sensor",
+      "classification": "unresolved",
+      "clusterKey": "func:diverter position|sensor",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11633848"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "diverter position|sensor",
+      "sampleTerms": [
+        "\u00a73-14: Diverter Position Sensor"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "door gasket",
+      "classification": "unresolved",
+      "clusterKey": "func:door|gasket",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11633848"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "door|gasket",
+      "sampleTerms": [
+        "door_gasket"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "f500 triac load fuse",
+      "classification": "unresolved",
+      "clusterKey": "func:f500 triac load|fuse",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11633848"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "f500 triac load|fuse",
+      "sampleTerms": [
+        "\u00a73-3: F500 Triac Load Fuse"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "owi thermistor",
+      "classification": "unresolved",
+      "clusterKey": "func:owi|thermistor",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11633848"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "owi|thermistor",
+      "sampleTerms": [
+        "\u00a73-11: OWI / Thermistor"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "supply",
+      "classification": "human_review",
+      "clusterKey": "term:supply",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11633848"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "supply"
+      ],
+      "conflict": false,
+      "recommendedAction": "Mandatory human resolution before promotion"
+    },
+    {
+      "concept": "water heating heat dry",
+      "classification": "unresolved",
+      "clusterKey": "func:water|heating heat dry",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11633848"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "water|heating heat dry",
+      "sampleTerms": [
+        "\u00a73-10: Water Heating / Heat Dry"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a73-6: ACU Power & DC Supplies",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a73-6: acu power & dc supplies",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11633848"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a73-6: ACU Power & DC Supplies"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    }
+  ],
+  "buckets": {
+    "human_review": [
+      {
+        "concept": "supply",
+        "classification": "human_review",
+        "clusterKey": "term:supply",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11633848"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "supply"
+        ],
+        "conflict": false,
+        "recommendedAction": "Mandatory human resolution before promotion"
+      }
+    ],
+    "unresolved": [
+      {
+        "concept": "diverter position sensor",
+        "classification": "unresolved",
+        "clusterKey": "func:diverter position|sensor",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11633848"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "diverter position|sensor",
+        "sampleTerms": [
+          "\u00a73-14: Diverter Position Sensor"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "door gasket",
+        "classification": "unresolved",
+        "clusterKey": "func:door|gasket",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11633848"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "door|gasket",
+        "sampleTerms": [
+          "door_gasket"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "f500 triac load fuse",
+        "classification": "unresolved",
+        "clusterKey": "func:f500 triac load|fuse",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11633848"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "f500 triac load|fuse",
+        "sampleTerms": [
+          "\u00a73-3: F500 Triac Load Fuse"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "owi thermistor",
+        "classification": "unresolved",
+        "clusterKey": "func:owi|thermistor",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11633848"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "owi|thermistor",
+        "sampleTerms": [
+          "\u00a73-11: OWI / Thermistor"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "water heating heat dry",
+        "classification": "unresolved",
+        "clusterKey": "func:water|heating heat dry",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11633848"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "water|heating heat dry",
+        "sampleTerms": [
+          "\u00a73-10: Water Heating / Heat Dry"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a73-6: ACU Power & DC Supplies",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a73-6: acu power & dc supplies",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11633848"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a73-6: ACU Power & DC Supplies"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      }
+    ],
+    "canonical_alias": [],
+    "canonical_ontology_candidate": [],
+    "platform_overlay": []
+  },
+  "globalConflicts": [
+    {
+      "id": "conflict-topology-washer-family-mix",
+      "status": "CONFLICT_REQUIRES_REVIEW",
+      "conflictType": "RELATIONSHIP_CONFLICT",
+      "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+      "assertions": [
+        {
+          "topologySignature": "direct_drive_motor",
+          "manualIds": [
+            "W11169652",
+            "SAMSUNG-FL-BB8700-WASHER"
+          ]
+        },
+        {
+          "topologySignature": "ccu_mcu_motor",
+          "manualIds": [
+            "W8178558",
+            "SAMSUNG-FL-WF6000R-WASHER",
+            "SAMSUNG-FLEXWASH-WASHER"
+          ]
+        },
+        {
+          "topologySignature": "motor_present_unknown_path",
+          "manualIds": [
+            "W10864849",
+            "W11416787",
+            "W11800233",
+            "W11697231",
+            "W11455152",
+            "W11416395",
+            "W11428632",
+            "SAMSUNG-TL-A50-WASHER",
+            "SAMSUNG-TL-CG71-WASHER"
+          ]
+        },
+        {
+          "topologySignature": "unknown",
+          "manualIds": [
+            "W10785366A"
+          ]
+        }
+      ]
+    }
+  ]
+}

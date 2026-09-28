@@ -1,9 +1,15 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
   resolveSolomonDiagnosticStatus,
   SolomonDiagnosticStatusBadge,
 } from './solomonDiagnosticStatus';
+import {
+  normalizeMakeDraft,
+  normalizeModelDraft,
+  isDiagnosticEquipmentCommitted,
+  equipmentDraftKey,
+} from '../../utils/solomonEquipmentInput';
 import { uppercasePreserve } from '../../utils/solomonFieldSanitize';
 
 const inputClass =
@@ -15,6 +21,7 @@ function equipmentSummary(equipment) {
   return [
     equipment.equipment_make?.trim(),
     equipment.equipment_model?.trim(),
+    equipment.equipment_version?.trim(),
     equipment.equipment_serial?.trim(),
   ]
     .filter(Boolean)
@@ -30,10 +37,13 @@ function collapsedSummary(templateLabel, equipment, fallback) {
 
 /**
  * Collapsible equipment + template strip for Solomon diagnose — bar when filled, expand to edit.
+ * Draft text is local while typing; diagnostic hydration uses committed identity only (onEquipmentCommit).
  */
 export default function SolomonEquipmentBar({
   equipment,
   onEquipmentChange,
+  onEquipmentCommit,
+  committedEquipment = null,
   templateId,
   templateOptions = [],
   onTemplateChange,
@@ -44,24 +54,59 @@ export default function SolomonEquipmentBar({
   progressMessage,
   error,
   queuedMessage,
+  diagnosticsLinkLabels,
   diagnosticsLinkLabel,
   insightPeeks = null,
   lifecycleDiagnostic = null,
 }) {
+  const linkLabel = diagnosticsLinkLabel || diagnosticsLinkLabels;
+  const [draft, setDraft] = useState(equipment);
+  const [focusedField, setFocusedField] = useState(null);
+  const externalKeyRef = useRef(equipmentDraftKey(equipment));
+
+  useEffect(() => {
+    const externalKey = equipmentDraftKey(equipment);
+    if (externalKey === externalKeyRef.current) return;
+    externalKeyRef.current = externalKey;
+    if (!focusedField) {
+      setDraft(equipment);
+    }
+  }, [equipment, focusedField]);
+
+  const displayEquipment = committedEquipment || draft;
+
   const hasEquipment =
-    Boolean(equipment.equipment_make?.trim())
-    || Boolean(equipment.equipment_model?.trim())
-    || Boolean(equipment.equipment_serial?.trim());
+    Boolean(draft.equipment_make?.trim())
+    || Boolean(draft.equipment_model?.trim())
+    || Boolean(draft.equipment_serial?.trim());
 
   const isFilledOut =
-    Boolean(templateId) && Boolean(equipment.equipment_make?.trim()) && Boolean(equipment.equipment_model?.trim());
+    Boolean(templateId)
+    && Boolean(draft.equipment_make?.trim())
+    && Boolean(draft.equipment_model?.trim());
 
-  const [expanded, setExpanded] = useState(() => !isFilledOut);
+  const canCommitDiagnostic = isDiagnosticEquipmentCommitted(draft, templateId);
 
-  const summary = collapsedSummary(templateLabel, equipment, copy('equipmentOptional'));
+  const [expanded, setExpanded] = useState(() => !isFilledOut || !committedEquipment);
+
+  const summary = collapsedSummary(templateLabel, displayEquipment, copy('equipmentOptional'));
   const lifecycleStatus = lifecycleDiagnostic
     ? resolveSolomonDiagnosticStatus(lifecycleDiagnostic)
     : null;
+
+  const persistDraft = useCallback(
+    (nextDraft) => {
+      setDraft(nextDraft);
+      onEquipmentChange?.(nextDraft);
+    },
+    [onEquipmentChange],
+  );
+
+  const handleCommitDiagnostic = useCallback(() => {
+    if (!canCommitDiagnostic) return;
+    onEquipmentCommit?.(draft);
+    setExpanded(false);
+  }, [canCommitDiagnostic, draft, onEquipmentCommit]);
 
   return (
     <div className="mb-3 -mx-3 px-3 border-b border-white/10 pb-3 space-y-2">
@@ -119,35 +164,65 @@ export default function SolomonEquipmentBar({
               <label className={labelClass}>{copy('make')}</label>
               <input
                 type="text"
-                value={equipment.equipment_make}
-                onChange={(e) => onEquipmentChange({ ...equipment, equipment_make: e.target.value })}
+                value={draft.equipment_make || ''}
+                onFocus={() => setFocusedField('make')}
+                onBlur={() => setFocusedField(null)}
+                onChange={(e) => persistDraft({
+                  ...draft,
+                  equipment_make: normalizeMakeDraft(e.target.value),
+                })}
                 placeholder="Samsung"
                 className={inputClass}
+                autoComplete="off"
               />
             </div>
             <div>
               <label className={labelClass}>{copy('model')}</label>
               <input
                 type="text"
-                value={equipment.equipment_model}
-                onChange={(e) => onEquipmentChange({
-                  ...equipment,
-                  equipment_model: uppercasePreserve(e.target.value),
+                value={draft.equipment_model || ''}
+                onFocus={() => setFocusedField('model')}
+                onBlur={() => setFocusedField(null)}
+                onChange={(e) => persistDraft({
+                  ...draft,
+                  equipment_model: normalizeModelDraft(e.target.value),
                 })}
                 placeholder="Model #"
                 className={inputClass}
                 autoCapitalize="characters"
                 autoCorrect="off"
                 spellCheck={false}
+                autoComplete="off"
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Version / revision</label>
+              <input
+                type="text"
+                value={draft.equipment_version || ''}
+                onFocus={() => setFocusedField('version')}
+                onBlur={() => setFocusedField(null)}
+                onChange={(e) => persistDraft({
+                  ...draft,
+                  equipment_version: uppercasePreserve(e.target.value),
+                })}
+                placeholder="Optional"
+                className={inputClass}
+                autoCapitalize="characters"
+                autoCorrect="off"
+                spellCheck={false}
+                autoComplete="off"
               />
             </div>
             <div>
               <label className={labelClass}>{copy('serial')}</label>
               <input
                 type="text"
-                value={equipment.equipment_serial}
-                onChange={(e) => onEquipmentChange({
-                  ...equipment,
+                value={draft.equipment_serial || ''}
+                onFocus={() => setFocusedField('serial')}
+                onBlur={() => setFocusedField(null)}
+                onChange={(e) => persistDraft({
+                  ...draft,
                   equipment_serial: uppercasePreserve(e.target.value),
                 })}
                 placeholder="Optional"
@@ -155,13 +230,24 @@ export default function SolomonEquipmentBar({
                 autoCapitalize="characters"
                 autoCorrect="off"
                 spellCheck={false}
+                autoComplete="off"
               />
             </div>
           </div>
+          {onEquipmentCommit ? (
+            <button
+              type="button"
+              onClick={handleCommitDiagnostic}
+              disabled={!canCommitDiagnostic}
+              className="w-full rounded-lg border border-cyan-500/35 bg-cyan-500/10 px-3 py-2 text-sm font-medium text-cyan-100 hover:bg-cyan-500/15 transition-colors disabled:opacity-40"
+            >
+              Continue to diagnostic
+            </button>
+          ) : null}
           <button
             type="button"
             onClick={() => setExpanded(false)}
-            className="w-full rounded-lg border border-cyan-500/35 bg-cyan-500/10 px-3 py-2 text-sm font-medium text-cyan-100 hover:bg-cyan-500/15 transition-colors"
+            className="w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/[0.06] transition-colors"
           >
             Save and Hide
           </button>
@@ -183,7 +269,7 @@ export default function SolomonEquipmentBar({
             href="/solomon/diagnostics"
             className="inline-block text-sm text-cyan-400 hover:text-cyan-300"
           >
-            {diagnosticsLinkLabel}
+            {linkLabel}
           </Link>
         </div>
       ) : null}

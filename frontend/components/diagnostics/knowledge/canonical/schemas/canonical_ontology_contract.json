@@ -1,0 +1,156 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://idims.local/schemas/canonical-ontology-contract.json",
+  "title": "Solomon Canonical Diagnostic Ontology (CG-1)",
+  "description": "Physical topology + diagnostic topology. Procedural knowledge stays in OEM procedure seeds.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "ontology",
+    "systems",
+    "components",
+    "relationships",
+    "functionalDependencies",
+    "failureDomains",
+    "diagnosticEntryPoints"
+  ],
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "ontology": {
+      "type": "object",
+      "required": ["id", "name", "templateId", "variant"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "templateId": { "type": "string" },
+        "variant": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "systems": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/system" }
+    },
+    "components": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/component" }
+    },
+    "relationships": {
+      "type": "array",
+      "description": "PHYSICAL / functional topology — not test order",
+      "items": { "$ref": "#/definitions/relationship" }
+    },
+    "functionalDependencies": {
+      "type": "array",
+      "description": "DIAGNOSTIC topology — prerequisites for functions",
+      "items": { "$ref": "#/definitions/functionalDependency" }
+    },
+    "establishedFactSources": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/establishedFactSource" }
+    },
+    "testTargets": {
+      "type": "array",
+      "description": "Abstract diagnostic tests — map to OEM via testAliasId",
+      "items": { "$ref": "#/definitions/testTarget" }
+    },
+    "failureDomains": { "type": "array" },
+    "diagnosticEntryPoints": { "type": "array" }
+  },
+  "definitions": {
+    "knowledgeSource": {
+      "type": "string",
+      "enum": ["canonical", "service_manual", "observed", "technician_confirmed"]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low"]
+    },
+    "system": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "purpose": { "type": "string" },
+        "optional": { "type": "boolean" }
+      }
+    },
+    "component": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "systemId": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "type": { "type": "string" },
+        "optional": { "type": "boolean" },
+        "pendingEvidenceGraph": { "type": "boolean" }
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "required": ["from", "to", "type"],
+      "properties": {
+        "from": { "type": "string" },
+        "to": { "type": "string" },
+        "type": { "type": "string" },
+        "source": { "$ref": "#/definitions/knowledgeSource" },
+        "confidence": { "$ref": "#/definitions/confidence" },
+        "note": { "type": "string" }
+      }
+    },
+    "functionalDependency": {
+      "type": "object",
+      "required": ["id", "requires"],
+      "properties": {
+        "id": { "type": "string" },
+        "description": { "type": "string" },
+        "requires": { "type": "array", "items": { "type": "string" } },
+        "feedback": { "type": "array", "items": { "type": "string" } },
+        "conditional": { "type": "array", "items": { "type": "string" } },
+        "enables": { "type": "array", "items": { "type": "string" } },
+        "source": { "$ref": "#/definitions/knowledgeSource" },
+        "confidence": { "$ref": "#/definitions/confidence" }
+      }
+    },
+    "establishedFactSource": {
+      "type": "object",
+      "required": ["factId"],
+      "properties": {
+        "factId": { "type": "string" },
+        "label": { "type": "string" },
+        "fromComponents": { "type": "array", "items": { "type": "string" } },
+        "fromBranches": { "type": "array", "items": { "type": "string" } },
+        "source": { "$ref": "#/definitions/knowledgeSource" },
+        "confidence": { "$ref": "#/definitions/confidence" }
+      }
+    },
+    "testTarget": {
+      "type": "object",
+      "required": ["id", "role", "testAliasId"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "role": {
+          "type": "string",
+          "enum": ["prerequisite", "discriminator", "verification"]
+        },
+        "testAliasId": { "type": "string" },
+        "establishesFacts": { "type": "array", "items": { "type": "string" } },
+        "requires": {
+          "type": "object",
+          "properties": {
+            "facts": { "type": "array", "items": { "type": "string" } },
+            "dependencies": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "forGoals": { "type": "array", "items": { "type": "string" } },
+        "source": { "$ref": "#/definitions/knowledgeSource" },
+        "confidence": { "$ref": "#/definitions/confidence" }
+      }
+    }
+  }
+}

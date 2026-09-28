@@ -1,0 +1,504 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "SAMSUNG-RF23BB-FRIDGE",
+  "platformId": "samsung_fridge_bespoke",
+  "gateKind": "samsung_rf23bb_second_manual_compounding",
+  "gateArtifact": "SAMSUNG_RF23BB_FD_overlay_mapping_table_v1.json",
+  "generatedAt": "2026-09-16T06:24:22.288294+00:00",
+  "reviewer": "human_gate_cg8_wp2",
+  "compoundingPhase": "CG-8",
+  "priorPublishedManualIds": [
+    "W10322959"
+  ],
+  "entries": [
+    {
+      "artifactId": "samsung-control-board-engineer",
+      "gateQuestion": "Does RF23BB independently teach frozen control_board?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "control_board",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-engineer-mode-rf23bb-inner",
+        "samsungbespoke-fhub-engineer-entry",
+        "samsungbespoke-self-diagnosis-entry"
+      ],
+      "seedComponentIds": [],
+      "rationale": "Engineer mode / self-diagnosis entry on main PBA \u2014 Samsung-native control orchestration. Not inherited from Whirlpool Jazz overlay.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "samsung-user-interface-panel-comm",
+      "gateQuestion": "Does RF23BB independently teach frozen user_interface?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "user_interface",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-main-panel-comm"
+      ],
+      "seedComponentIds": [
+        "display_panel"
+      ],
+      "rationale": "41E main\u2194display communication \u2014 independent HMI diagnostic on RF23BB.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "samsung-door-switch-abstention",
+      "gateQuestion": "Does RF23BB independently teach frozen door_switch?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "Flex/freezer door switches documented in manual assembly sections but no standalone RF23BB door-switch service procedure. Abstain \u2014 do not inherit from Whirlpool Jazz procedure-role evidence.",
+      "independentEvidence": false
+    },
+    {
+      "artifactId": "samsung-defrost-heater-fz",
+      "gateQuestion": "Does RF23BB teach frozen defrost_heater?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "defrost_heater",
+      "conditionalConcept": null,
+      "instanceScope": "freezer",
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-freezer-defrost-heater"
+      ],
+      "seedComponentIds": [
+        "heater"
+      ],
+      "rationale": "Freezer defrost heater \u03a9 on CN20 \u2014 independent canonical inheritance.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "samsung-evaporator-fan-multi",
+      "gateQuestion": "Does RF23BB teach frozen evaporator_fan?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "evaporator_fan",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-freezer-fan",
+        "samsungbespoke-fridge-fan",
+        "samsungbespoke-convertible-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "rationale": "Three independent fan diagnostics (22E freezer, fridge, 22C convertible). Canonical evaporator_fan with multi-instance overlay; ice-room fan stays platform.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "samsung-air-damper-damper-heater",
+      "gateQuestion": "Does RF23BB independently teach frozen air_damper?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "air_damper",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-damper-heater-135",
+        "samsungbespoke-damper-heater-24"
+      ],
+      "seedComponentIds": [
+        "damper_motor"
+      ],
+      "rationale": "Damper heater \u03a9 checks on damper_motor seed \u2014 functional air_damper on Samsung with implementation overlay (distinct from Jazz position toggle).",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "samsung-compressor-inverter-conditional",
+      "gateQuestion": "What does RF23BB teach about conditional compressor?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "compressor",
+      "instanceScope": "inverter_pba_mediated",
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-compressor-inverter"
+      ],
+      "seedComponentIds": [
+        "inverter_board"
+      ],
+      "rationale": "44E/84C routes through inverter PBA \u2014 functional compressor role as conditionalConcept only. Inverter implementation stays platform layer.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-condenser-fan-abstention",
+      "gateQuestion": "Does RF23BB teach conditional condenser_fan?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "No condenser_fan procedure on RF23BB. 22C convertible fan is evaporator-path \u2014 does not satisfy 2/3 condenser_fan conditional from Jazz+LG.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-temp-fridge-conditional",
+      "gateQuestion": "RF23BB fridge cabinet NTC scope?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "fresh_food",
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-fridge-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-temp-freezer-conditional",
+      "gateQuestion": "RF23BB freezer cabinet NTC scope?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "freezer",
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-freezer-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-temp-flex-conditional",
+      "gateQuestion": "RF23BB flex-zone NTC scope?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "flex_zone",
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-flex-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-temp-ambient-conditional",
+      "gateQuestion": "RF23BB ambient NTC scope?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "ambient",
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-ambient-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-ice-maker-conditional",
+      "gateQuestion": "RF23BB optional ice_maker conditional binding?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "ice_maker",
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-ice-maker-sensor",
+        "samsungbespoke-ice-room-fan",
+        "samsungbespoke-ice-room-heater"
+      ],
+      "seedComponentIds": [
+        "ice_maker_module"
+      ],
+      "rationale": "Optional feature domain \u2014 conditionalConcept only, not components[] promotion.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-water-dispenser-conditional",
+      "gateQuestion": "RF23BB water_dispenser conditional binding?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "water_dispenser",
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-autofill-overflow"
+      ],
+      "seedComponentIds": [],
+      "rationale": "AutoFill/dispenser overflow path \u2014 optional conditional feature, not canonical.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-inverter-board-platform",
+      "gateQuestion": "Inverter PBA implementation vocabulary?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "compressor_controller",
+      "procedureIds": [
+        "samsungbespoke-compressor-inverter"
+      ],
+      "seedComponentIds": [
+        "inverter_board"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-main-inverter-comm-platform",
+      "gateQuestion": "Main\u2194inverter harness implementation?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "compressor_controller",
+      "procedureIds": [
+        "samsungbespoke-main-inverter-comm"
+      ],
+      "seedComponentIds": [
+        "inverter_board"
+      ],
+      "rationale": "44Er main\u2194inverter communication \u2014 platform drive path, not control_board canonical.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-defrost-sensor-platform",
+      "gateQuestion": "F-DEF/R-DEF defrost NTC vocabulary?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "defrost_sensor",
+      "procedureIds": [
+        "samsungbespoke-freezer-defrost-sensor",
+        "samsungbespoke-fridge-defrost-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-damper-motor-platform",
+      "gateQuestion": "Damper motor implementation?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-damper-heater-135",
+        "samsungbespoke-damper-heater-24"
+      ],
+      "seedComponentIds": [],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-ice-subsystem-platform",
+      "gateQuestion": "Ice duct/pipe heater platform vocabulary?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-ice-pipe-heater-72",
+        "samsungbespoke-ice-pipe-heater-24",
+        "samsungbespoke-ice-duct-heater"
+      ],
+      "seedComponentIds": [],
+      "rationale": "Ice subsystem hardware \u2014 implements conditional ice_maker, not canonical expansion.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-aggregate-resurrection-blocked",
+      "gateQuestion": "Do Samsung terms resurrect removed aggregates?",
+      "gateAction": "reject_canonical_promotion",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "Forced defrost test mode (Fd) and complaint routing decompose into members \u2014 defrost_system, cooling_system, airflow_path remain dead per CG-7 freeze.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-humidity-abstention",
+      "gateQuestion": "humidity_control on RF23BB?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-humidity-sensor"
+      ],
+      "seedComponentIds": [],
+      "rationale": "Humidity sensor procedure exists but CG-7 deferred humidity_control \u2014 abstain from canonical/conditional promotion until triangulation gate.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-water-level-abstention",
+      "gateQuestion": "water_level_sensor on RF23BB?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "AutoFill overflow is dispenser-feature sensing \u2014 not water_level_sensor canonical.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "samsung-ice-room-fan-platform",
+      "gateQuestion": "Ice room fan architecture?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": "ice_room",
+      "platformTarget": null,
+      "procedureIds": [
+        "samsungbespoke-ice-room-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "rationale": "Ice-room fan is compartment-specific platform detail under evaporator_fan family.",
+      "independentEvidence": null
+    }
+  ],
+  "summary": {
+    "canonicalInheritances": 5,
+    "conditionalBindings": 7,
+    "overlayLearningEvents": 7,
+    "intentionalAbstentions": 4,
+    "newOverlaySemanticDecisions": 7,
+    "canonicalExpansion": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0
+  },
+  "accounting": {
+    "canonicalInheritances": 5,
+    "conditionalBindings": 7,
+    "overlayLearningEvents": 7,
+    "intentionalAbstentions": 4,
+    "newOverlaySemanticDecisions": 7,
+    "canonicalExpansion": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0,
+    "semanticLearningFromRouting": 0
+  }
+}

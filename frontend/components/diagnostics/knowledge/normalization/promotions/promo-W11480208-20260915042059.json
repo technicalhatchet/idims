@@ -1,0 +1,153 @@
+{
+  "promotionId": "promo-W11480208-20260915042059",
+  "manualId": "W11480208",
+  "platformId": "whirlpool_dishwasher_acu",
+  "overlayFile": "whirlpool_dishwasher.json",
+  "platformFamilyId": "whirlpool_dishwasher_acu",
+  "status": "planned",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-W11480208-heater-heat_source",
+    "map-W11480208-compound-dc-fan-motor-(prodry)",
+    "map-W11480208-circulation_pump-circulation_pump",
+    "map-W11480208-compound-diverter-motor-(p6)",
+    "map-W11480208-compound-door-switch-circuit-(p12)",
+    "map-W11480208-acu-control_board",
+    "map-W11480208-drain_pump-drain_pump",
+    "map-W11480208-compound-drain-motor-(variable-speed-platform)",
+    "map-W11480208-inlet_valve-inlet_valve",
+    "map-W11480208-compound-overfill-float-switch-(p11)",
+    "map-W11480208-compound-wash-motor-(variable-speed)",
+    "overlay-W11480208-w11480208-dc-fan-heater_command_test",
+    "overlay-W11480208-w11480208-dc-fan-meas-whirlpoolDishwasherFiltrationDcFanOhms",
+    "overlay-W11480208-w11480208-diverter-motor-circulation_test",
+    "overlay-W11480208-w11480208-diverter-motor-meas-whirlpoolDishwasherFiltrationDiverterMotorOhms",
+    "overlay-W11480208-w11480208-door-switch-door_switch_test",
+    "overlay-W11480208-w11480208-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+    "overlay-W11480208-w11480208-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+    "overlay-W11480208-w11480208-drain-motor-vsm-drain_test",
+    "overlay-W11480208-w11480208-drain-motor-vsm-meas-whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+    "overlay-W11480208-w11480208-heater-heater_command_test",
+    "overlay-W11480208-w11480208-heater-meas-whirlpoolDishwasherAcuHeaterOhms",
+    "overlay-W11480208-w11480208-overfill-switch-fill_test",
+    "overlay-W11480208-w11480208-overfill-switch-meas-dishwasherFloatSwitchOhms",
+    "overlay-W11480208-w11480208-overfill-switch-meas-dishwasherFloatSwitchOhms",
+    "overlay-W11480208-w11480208-wash-motor-vsm-circulation_test",
+    "overlay-W11480208-w11480208-wash-motor-vsm-meas-whirlpoolDishwasherFiltrationVsmWashMotorOhms"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {
+        "\u00a73-20: DC Fan Motor (ProDry)": "drying_system",
+        "circulation_pump": "circulation_pump",
+        "\u00a73-14: Diverter Motor (P6)": "circulation_pump",
+        "\u00a73-8: Door Switch Circuit (P12)": "door_switch",
+        "drain_pump": "drain_pump",
+        "\u00a73-19: Drain Motor (Variable Speed platform)": "drain_pump",
+        "inlet_valve": "inlet_valve",
+        "\u00a73-13: Overfill Float Switch (P11)": "water_level_sensor",
+        "\u00a73-17: Wash Motor (Variable Speed)": "circulation_pump"
+      },
+      "skip": {
+        "heater": "heat_source",
+        "ACU": "control_board"
+      }
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [
+        {
+          "procedureId": "w11480208-dc-fan",
+          "testTargetId": "drying_airflow_test",
+          "displayTitle": "\u00a73-20: DC Fan Motor (ProDry)"
+        },
+        {
+          "procedureId": "w11480208-diverter-motor",
+          "testTargetId": "circulation_test",
+          "displayTitle": "\u00a73-14: Diverter Motor (P6)"
+        },
+        {
+          "procedureId": "w11480208-door-switch",
+          "testTargetId": "door_switch_test",
+          "displayTitle": "\u00a73-8: Door Switch Circuit (P12)"
+        },
+        {
+          "procedureId": "w11480208-drain-motor-vsm",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a73-19: Drain Motor (Variable Speed platform)"
+        },
+        {
+          "procedureId": "w11480208-heater",
+          "testTargetId": "heater_command_test",
+          "displayTitle": "\u00a73-11: Water Heating / Heat Dry"
+        },
+        {
+          "procedureId": "w11480208-overfill-switch",
+          "testTargetId": "water_level_test",
+          "displayTitle": "\u00a73-13: Overfill Float Switch (P11)"
+        },
+        {
+          "procedureId": "w11480208-wash-motor-vsm",
+          "testTargetId": "circulation_test",
+          "displayTitle": "\u00a73-17: Wash Motor (Variable Speed)"
+        }
+      ],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [
+        {
+          "procedureId": "w11480208-dc-fan",
+          "measurementKnowledgeId": "whirlpoolDishwasherFiltrationDcFanOhms",
+          "testTargetId": "drying_airflow_test"
+        },
+        {
+          "procedureId": "w11480208-diverter-motor",
+          "measurementKnowledgeId": "whirlpoolDishwasherFiltrationDiverterMotorOhms",
+          "testTargetId": "circulation_test"
+        },
+        {
+          "procedureId": "w11480208-door-switch",
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testTargetId": "door_switch_test"
+        },
+        {
+          "procedureId": "w11480208-door-switch",
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testTargetId": "door_switch_test"
+        },
+        {
+          "procedureId": "w11480208-drain-motor-vsm",
+          "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11480208-heater",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuHeaterOhms",
+          "testTargetId": "heater_command_test"
+        },
+        {
+          "procedureId": "w11480208-overfill-switch",
+          "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+          "testTargetId": "water_level_test"
+        },
+        {
+          "procedureId": "w11480208-overfill-switch",
+          "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+          "testTargetId": "water_level_test"
+        },
+        {
+          "procedureId": "w11480208-wash-motor-vsm",
+          "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmWashMotorOhms",
+          "testTargetId": "circulation_test"
+        }
+      ],
+      "skip": []
+    }
+  },
+  "plannedAt": "2026-09-15T04:20:59.799065+00:00"
+}

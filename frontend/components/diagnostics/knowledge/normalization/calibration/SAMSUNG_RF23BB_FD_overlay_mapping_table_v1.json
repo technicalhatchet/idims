@@ -1,0 +1,777 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg8_fd_overlay_mapping_gate_table",
+  "manualId": "SAMSUNG-RF23BB-FRIDGE",
+  "platformId": "samsung_fridge_bespoke",
+  "platformFamilyId": "samsung_fridge_bespoke",
+  "canonicalOntologyId": "french_door_refrigerator",
+  "proposedOverlayFile": "samsung_fridge_bespoke.json",
+  "priorPublishedManualIds": [
+    "W10322959"
+  ],
+  "status": "published",
+  "compoundingContract": "CG8_FRENCH_DOOR_COMPOUNDING_CONTRACT_v1.json",
+  "workPackage": "WP2",
+  "generatedAt": "2026-09-16T06:24:22.206794+00:00",
+  "gateFraming": {
+    "question": "What does this manual teach us about the frozen contract?",
+    "manufacturerBoundary": "stricter \u2014 RF23BB evidence independent of Whirlpool Jazz overlay",
+    "freezeReopenBlocked": true
+  },
+  "manufacturerIsolation": {
+    "priorOverlay": "whirlpool_jazz_french_door.json",
+    "rule": "Do not import Whirlpool Jazz aliases, procedure bindings, or topology.",
+    "whirlpoolOverlayDependentCount": 0
+  },
+  "pipelineCounts": {
+    "procedures": 18,
+    "mappingCandidates": 32,
+    "overlayCandidates": 0,
+    "conflicts": 0,
+    "extractionFiltered": 0
+  },
+  "normalizeRun": {
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "generatedAt": null
+  },
+  "gatePolicy": {
+    "gateKind": "manufacturer_boundary_second_manual",
+    "compoundingPhase": "CG-8",
+    "canonicalGraph": "french_door_refrigerator.json rev1 FROZEN",
+    "publishBlocked": false
+  },
+  "canonicalContract": {
+    "graph": "french_door_refrigerator",
+    "revision": "rev1",
+    "allowedCanonicalIds": [
+      "air_damper",
+      "control_board",
+      "defrost_heater",
+      "door_switch",
+      "evaporator_fan",
+      "user_interface"
+    ],
+    "forbiddenCanonicalIds": [
+      "airflow_path",
+      "cooling_system",
+      "defrost_system"
+    ],
+    "conditionalBindingIds": [
+      "temperature_sensor",
+      "compressor",
+      "condenser_fan",
+      "ice_maker",
+      "water_dispenser"
+    ]
+  },
+  "contractTeachingRows": [
+    {
+      "teachingId": "samsung-control-board-engineer",
+      "gateQuestion": "Does RF23BB independently teach frozen control_board?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "control_board",
+      "procedureIds": [
+        "samsungbespoke-engineer-mode-rf23bb-inner",
+        "samsungbespoke-fhub-engineer-entry",
+        "samsungbespoke-self-diagnosis-entry"
+      ],
+      "seedComponentIds": [],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "Engineer mode / self-diagnosis entry on main PBA \u2014 Samsung-native control orchestration. Not inherited from Whirlpool Jazz overlay.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-user-interface-panel-comm",
+      "gateQuestion": "Does RF23BB independently teach frozen user_interface?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "user_interface",
+      "procedureIds": [
+        "samsungbespoke-main-panel-comm"
+      ],
+      "seedComponentIds": [
+        "display_panel"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "41E main\u2194display communication \u2014 independent HMI diagnostic on RF23BB.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-door-switch-abstention",
+      "gateQuestion": "Does RF23BB independently teach frozen door_switch?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_insufficient_procedure_evidence",
+      "gateAction": "defer_human_review",
+      "independentEvidence": false,
+      "rationale": "Flex/freezer door switches documented in manual assembly sections but no standalone RF23BB door-switch service procedure. Abstain \u2014 do not inherit from Whirlpool Jazz procedure-role evidence.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-defrost-heater-fz",
+      "gateQuestion": "Does RF23BB teach frozen defrost_heater?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "defrost_heater",
+      "instanceScope": "freezer",
+      "procedureIds": [
+        "samsungbespoke-freezer-defrost-heater"
+      ],
+      "seedComponentIds": [
+        "heater"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "Freezer defrost heater \u03a9 on CN20 \u2014 independent canonical inheritance.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-evaporator-fan-multi",
+      "gateQuestion": "Does RF23BB teach frozen evaporator_fan?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "evaporator_fan",
+      "procedureIds": [
+        "samsungbespoke-freezer-fan",
+        "samsungbespoke-fridge-fan",
+        "samsungbespoke-convertible-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "Three independent fan diagnostics (22E freezer, fridge, 22C convertible). Canonical evaporator_fan with multi-instance overlay; ice-room fan stays platform.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-air-damper-damper-heater",
+      "gateQuestion": "Does RF23BB independently teach frozen air_damper?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "air_damper",
+      "procedureIds": [
+        "samsungbespoke-damper-heater-135",
+        "samsungbespoke-damper-heater-24"
+      ],
+      "seedComponentIds": [
+        "damper_motor"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "Damper heater \u03a9 checks on damper_motor seed \u2014 functional air_damper on Samsung with implementation overlay (distinct from Jazz position toggle).",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-compressor-inverter-conditional",
+      "gateQuestion": "What does RF23BB teach about conditional compressor?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "compressor",
+      "instanceScope": "inverter_pba_mediated",
+      "procedureIds": [
+        "samsungbespoke-compressor-inverter"
+      ],
+      "seedComponentIds": [
+        "inverter_board"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "44E/84C routes through inverter PBA \u2014 functional compressor role as conditionalConcept only. Inverter implementation stays platform layer.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-condenser-fan-abstention",
+      "gateQuestion": "Does RF23BB teach conditional condenser_fan?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_no_standalone_diagnostic",
+      "gateAction": "defer_human_review",
+      "rationale": "No condenser_fan procedure on RF23BB. 22C convertible fan is evaporator-path \u2014 does not satisfy 2/3 condenser_fan conditional from Jazz+LG.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-temp-fridge-conditional",
+      "gateQuestion": "RF23BB fridge cabinet NTC scope?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "fresh_food",
+      "procedureIds": [
+        "samsungbespoke-fridge-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-temp-freezer-conditional",
+      "gateQuestion": "RF23BB freezer cabinet NTC scope?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "freezer",
+      "procedureIds": [
+        "samsungbespoke-freezer-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-temp-flex-conditional",
+      "gateQuestion": "RF23BB flex-zone NTC scope?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "flex_zone",
+      "procedureIds": [
+        "samsungbespoke-flex-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-temp-ambient-conditional",
+      "gateQuestion": "RF23BB ambient NTC scope?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "ambient",
+      "procedureIds": [
+        "samsungbespoke-ambient-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-ice-maker-conditional",
+      "gateQuestion": "RF23BB optional ice_maker conditional binding?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "ice_maker",
+      "procedureIds": [
+        "samsungbespoke-ice-maker-sensor",
+        "samsungbespoke-ice-room-fan",
+        "samsungbespoke-ice-room-heater"
+      ],
+      "seedComponentIds": [
+        "ice_maker_module"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "Optional feature domain \u2014 conditionalConcept only, not components[] promotion.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-water-dispenser-conditional",
+      "gateQuestion": "RF23BB water_dispenser conditional binding?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "water_dispenser",
+      "procedureIds": [
+        "samsungbespoke-autofill-overflow"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "AutoFill/dispenser overflow path \u2014 optional conditional feature, not canonical.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-inverter-board-platform",
+      "gateQuestion": "Inverter PBA implementation vocabulary?",
+      "outcome": "overlay_knowledge",
+      "layer": "samsung_platform_implementation",
+      "platformTarget": "compressor_controller",
+      "procedureIds": [
+        "samsungbespoke-compressor-inverter"
+      ],
+      "seedComponentIds": [
+        "inverter_board"
+      ],
+      "implementationComponent": "inverter_board",
+      "gateAction": "approve_platform_implementation",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-main-inverter-comm-platform",
+      "gateQuestion": "Main\u2194inverter harness implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "samsung_platform_implementation",
+      "platformTarget": "compressor_controller",
+      "procedureIds": [
+        "samsungbespoke-main-inverter-comm"
+      ],
+      "seedComponentIds": [
+        "inverter_board"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "44Er main\u2194inverter communication \u2014 platform drive path, not control_board canonical.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-defrost-sensor-platform",
+      "gateQuestion": "F-DEF/R-DEF defrost NTC vocabulary?",
+      "outcome": "overlay_knowledge",
+      "layer": "samsung_platform_implementation",
+      "platformTarget": "defrost_sensor",
+      "procedureIds": [
+        "samsungbespoke-freezer-defrost-sensor",
+        "samsungbespoke-fridge-defrost-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-damper-motor-platform",
+      "gateQuestion": "Damper motor implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "samsung_platform_implementation",
+      "canonicalFunctionalRole": [
+        "air_damper"
+      ],
+      "implementationComponent": "damper_motor",
+      "procedureIds": [
+        "samsungbespoke-damper-heater-135",
+        "samsungbespoke-damper-heater-24"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-ice-subsystem-platform",
+      "gateQuestion": "Ice duct/pipe heater platform vocabulary?",
+      "outcome": "overlay_knowledge",
+      "layer": "samsung_platform_implementation",
+      "implementationComponents": [
+        "ice_pipe_heater",
+        "ice_maker_module"
+      ],
+      "procedureIds": [
+        "samsungbespoke-ice-pipe-heater-72",
+        "samsungbespoke-ice-pipe-heater-24",
+        "samsungbespoke-ice-duct-heater"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "Ice subsystem hardware \u2014 implements conditional ice_maker, not canonical expansion.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-aggregate-resurrection-blocked",
+      "gateQuestion": "Do Samsung terms resurrect removed aggregates?",
+      "outcome": "overlay_knowledge",
+      "layer": "reject_aggregate_resurrection",
+      "removedConcepts": [
+        "airflow_path",
+        "cooling_system",
+        "defrost_system"
+      ],
+      "gateAction": "reject_canonical_promotion",
+      "rationale": "Forced defrost test mode (Fd) and complaint routing decompose into members \u2014 defrost_system, cooling_system, airflow_path remain dead per CG-7 freeze.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-humidity-abstention",
+      "gateQuestion": "humidity_control on RF23BB?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_single_manufacturer_feature",
+      "procedureIds": [
+        "samsungbespoke-humidity-sensor"
+      ],
+      "gateAction": "defer_human_review",
+      "rationale": "Humidity sensor procedure exists but CG-7 deferred humidity_control \u2014 abstain from canonical/conditional promotion until triangulation gate.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-water-level-abstention",
+      "gateQuestion": "water_level_sensor on RF23BB?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_insufficient_cross_manual_evidence",
+      "gateAction": "defer_human_review",
+      "rationale": "AutoFill overflow is dispenser-feature sensing \u2014 not water_level_sensor canonical.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    },
+    {
+      "teachingId": "samsung-ice-room-fan-platform",
+      "gateQuestion": "Ice room fan architecture?",
+      "outcome": "overlay_knowledge",
+      "layer": "samsung_platform_implementation",
+      "canonicalFunctionalRole": [
+        "evaporator_fan"
+      ],
+      "instanceScope": "ice_room",
+      "procedureIds": [
+        "samsungbespoke-ice-room-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "Ice-room fan is compartment-specific platform detail under evaporator_fan family.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp2"
+    }
+  ],
+  "mappingCandidateDispositions": [
+    {
+      "candidateId": "map-samsung-rf23bb-fridge-unresolved-samsungbespoke-ambient-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "samsungbespoke-ambient-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-external-/-ambient-air-sensor",
+      "sourceTerm": "External / ambient air sensor",
+      "procedureId": "samsungbespoke-ambient-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-ice_maker_module",
+      "sourceTerm": "ice_maker_module",
+      "procedureId": "samsungbespoke-autofill-overflow",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-autofill-infuser-overflow",
+      "sourceTerm": "AutoFill infuser overflow",
+      "procedureId": "samsungbespoke-autofill-overflow",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-inverter_board",
+      "sourceTerm": "inverter_board",
+      "procedureId": "samsungbespoke-compressor-inverter",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-compressor-/-inverter-ipm-fault",
+      "sourceTerm": "Compressor / inverter IPM fault",
+      "procedureId": "samsungbespoke-compressor-inverter",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-evap_fan",
+      "sourceTerm": "evap_fan",
+      "procedureId": "samsungbespoke-convertible-fan",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-convertible-compartment-fan-(c-fan)",
+      "sourceTerm": "Convertible compartment fan (C-FAN)",
+      "procedureId": "samsungbespoke-convertible-fan",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-damper_motor",
+      "sourceTerm": "damper_motor",
+      "procedureId": "samsungbespoke-damper-heater-135",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-flex-zone-damper-heater-(135-\u03c9)",
+      "sourceTerm": "Flex-Zone damper heater (135 \u03a9)",
+      "procedureId": "samsungbespoke-damper-heater-135",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-samsung-rf23bb-fridge-unresolved-samsungbespoke-flex-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "samsungbespoke-flex-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-flex-zone-sensor-(optional)",
+      "sourceTerm": "Flex-Zone sensor (optional)",
+      "procedureId": "samsungbespoke-flex-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-samsung-rf23bb-fridge-unresolved-samsungbespoke-freezer-defrost-heater-heater",
+      "sourceTerm": "heater",
+      "procedureId": "samsungbespoke-freezer-defrost-heater",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-freezer-defrost-heater",
+      "sourceTerm": "Freezer defrost heater",
+      "procedureId": "samsungbespoke-freezer-defrost-heater",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-samsung-rf23bb-fridge-unresolved-samsungbespoke-freezer-defrost-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "samsungbespoke-freezer-defrost-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-freezer-defrost-sensor",
+      "sourceTerm": "Freezer defrost sensor",
+      "procedureId": "samsungbespoke-freezer-defrost-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-freezer-evaporator-fan-(f-fan)",
+      "sourceTerm": "Freezer evaporator fan (F-FAN)",
+      "procedureId": "samsungbespoke-freezer-fan",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-samsung-rf23bb-fridge-unresolved-samsungbespoke-freezer-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "samsungbespoke-freezer-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-freezer-compartment-sensor-(f)",
+      "sourceTerm": "Freezer compartment sensor (F)",
+      "procedureId": "samsungbespoke-freezer-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-samsung-rf23bb-fridge-unresolved-samsungbespoke-fridge-defrost-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "samsungbespoke-fridge-defrost-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-fridge-defrost-sensor",
+      "sourceTerm": "Fridge defrost sensor",
+      "procedureId": "samsungbespoke-fridge-defrost-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-fridge-compartment-fan",
+      "sourceTerm": "Fridge compartment fan",
+      "procedureId": "samsungbespoke-fridge-fan",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-samsung-rf23bb-fridge-unresolved-samsungbespoke-fridge-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "samsungbespoke-fridge-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-fridge-compartment-sensor-(r)",
+      "sourceTerm": "Fridge compartment sensor (R)",
+      "procedureId": "samsungbespoke-fridge-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-samsung-rf23bb-fridge-unresolved-samsungbespoke-humidity-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "samsungbespoke-humidity-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-humidity-sensor",
+      "sourceTerm": "Humidity sensor",
+      "procedureId": "samsungbespoke-humidity-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-ice-maker-temperature-sensor",
+      "sourceTerm": "Ice maker temperature sensor",
+      "procedureId": "samsungbespoke-ice-maker-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-ice_pipe_heater",
+      "sourceTerm": "ice_pipe_heater",
+      "procedureId": "samsungbespoke-ice-pipe-heater-72",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-freezer-ice-pipe-heater-(72-\u03c9-\u2014-rf23bb)",
+      "sourceTerm": "Freezer ice pipe heater (72 \u03a9 \u2014 RF23BB)",
+      "procedureId": "samsungbespoke-ice-pipe-heater-72",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-main-\u2194-inverter-communication",
+      "sourceTerm": "Main \u2194 inverter communication",
+      "procedureId": "samsungbespoke-main-inverter-comm",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-display_panel",
+      "sourceTerm": "display_panel",
+      "procedureId": "samsungbespoke-main-panel-comm",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RF23BB-FRIDGE-compound-main-\u2194-display-panel-communication",
+      "sourceTerm": "Main \u2194 display panel communication",
+      "procedureId": "samsungbespoke-main-panel-comm",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    }
+  ],
+  "auditBoundaries": {
+    "inverterMediatedCompressor": [
+      "samsung-compressor-inverter-conditional",
+      "samsung-inverter-board-platform",
+      "samsung-main-inverter-comm-platform"
+    ],
+    "compartmentThermistors": [
+      "samsung-temp-fridge-conditional",
+      "samsung-temp-freezer-conditional",
+      "samsung-temp-flex-conditional",
+      "samsung-temp-ambient-conditional"
+    ],
+    "multiFanTopology": [
+      "samsung-evaporator-fan-multi",
+      "samsung-ice-room-fan-platform"
+    ],
+    "aggregateResurrectionBlocked": [
+      "samsung-aggregate-resurrection-blocked"
+    ]
+  },
+  "accounting": {
+    "canonicalInheritance": 5,
+    "conditionalBinding": 7,
+    "overlayLearning": 7,
+    "intentionalAbstention": 4,
+    "canonicalExpansion": 0,
+    "mappingCandidatesTotal": 32,
+    "intentionalAbstentions": 4,
+    "overlayLearningEvents": 7
+  },
+  "outcomeHistogram": {
+    "canonical_inheritance": 5,
+    "intentional_abstention": 4,
+    "conditional_binding": 7,
+    "overlay_knowledge": 7
+  },
+  "humanGateApprovedAt": "2026-09-16T06:24:22.287793+00:00",
+  "humanGateReviewer": "human_gate_cg8_wp2",
+  "publishedAt": "2026-09-16T06:25:03.887721+00:00",
+  "promotionId": "promo-SAMSUNG-RF23BB-FD-CG8-20260916062503"
+}

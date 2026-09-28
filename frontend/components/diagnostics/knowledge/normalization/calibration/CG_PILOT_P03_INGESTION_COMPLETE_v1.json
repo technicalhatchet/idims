@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_pilot_prerequisite_ingestion_complete",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-PILOT",
+  "slotId": "P03",
+  "manualId": "LG-FL-WASHER",
+  "status": "ingestion_complete",
+  "completedAt": "2026-09-17T23:00:00+00:00",
+  "contract": "CG_PILOT_PREREQUISITE_INGESTION_CONTRACT_v1.json",
+  "artifacts": {
+    "sourcePdf": "backend/docs/manuals/lg wm4000h fl washer service manual.pdf",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md",
+    "generator": "backend/scripts/generate_lg_wm4000h_fl_washer_procedure_seeds.py",
+    "seedDir": "frontend/components/diagnostics/procedures/seed/lg_fl_washer_wm4000",
+    "candidatesDir": "frontend/components/diagnostics/knowledge/normalization/candidates/LG-FL-WASHER"
+  },
+  "ingestionSummary": {
+    "procedures": 12,
+    "mappingCandidates": 26,
+    "overlayCandidates": 6,
+    "conflicts": 0,
+    "frozenOntologyId": "front_load_washer",
+    "platformId": "lg_fl_washer_wm4000",
+    "smokeModel": "WM4000H*A",
+    "implementationTermsCaptured": [
+      "display_pwb",
+      "main_pwb",
+      "smart_diagnosis",
+      "thinq",
+      "circulation_pump",
+      "vibration_sensor"
+    ]
+  },
+  "pilotNote": "Evidence acquisition only — third-manufacturer FL witness. Does not close pilot or resolve P08.",
+  "doesNotModifyPilotOutcomeArtifacts": true
+}

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "W11169652",
+  "platformFamilyId": "whirlpool_fl_dd_direct_drive",
+  "description": "CG-5.4 controlled resolution pass — OEM TEST title compound aliases only. No new canonical ontology concepts.",
+  "resolutions": [
+    {
+      "candidateId": "map-W11169652-compound-acu-power-check",
+      "oemTerm": "TEST #1: ACU Power Check",
+      "canonicalId": "supply",
+      "classification": "existing_canonical_concept",
+      "rationale": "TEST #1 ACU power procedure; maps to established supply domain."
+    },
+    {
+      "candidateId": "map-W11169652-compound-human-machine-interface-(hmi)",
+      "oemTerm": "TEST #2: Human-Machine Interface (HMI)",
+      "canonicalId": "hmi_control",
+      "classification": "existing_canonical_concept",
+      "rationale": "OEM TEST title alias for hmi_control."
+    },
+    {
+      "candidateId": "map-W11169652-compound-motor-circuit",
+      "oemTerm": "TEST #3: Motor Circuit",
+      "canonicalId": "drive_motor",
+      "classification": "existing_canonical_concept",
+      "rationale": "Direct-drive motor circuit TEST; canonical drive_motor."
+    },
+    {
+      "candidateId": "map-W11169652-compound-drum-light",
+      "oemTerm": "TEST #5: Drum Light",
+      "canonicalId": "supply",
+      "classification": "existing_platform_concept",
+      "rationale": "Drum light TEST routed via supply/wiring path on this platform (reference overlay). Platform OEM alias only — not a new canonical component."
+    },
+    {
+      "candidateId": "map-W11169652-compound-water-inlet-valves",
+      "oemTerm": "TEST #6: Water Inlet Valves",
+      "canonicalId": "inlet_valve",
+      "classification": "existing_canonical_concept",
+      "rationale": "OEM TEST title alias for inlet_valve."
+    },
+    {
+      "candidateId": "map-W11169652-compound-single-dose-dispenser",
+      "oemTerm": "TEST #11A: Single Dose Dispenser",
+      "canonicalId": "dosing_pump",
+      "classification": "existing_canonical_concept",
+      "rationale": "Single-dose dispenser TEST maps to dosing_pump."
+    },
+    {
+      "candidateId": "map-W11169652-compound-optimal-dosing-pump",
+      "oemTerm": "TEST #11B: Optimal Dosing Pump",
+      "canonicalId": "dosing_pump",
+      "classification": "existing_canonical_concept",
+      "rationale": "Optimal dosing pump TEST maps to dosing_pump."
+    },
+    {
+      "candidateId": "map-W11169652-compound-drawer-bulk-dispenser",
+      "oemTerm": "TEST #12A: Drawer Bulk Dispenser",
+      "canonicalId": "bulk_level_switch",
+      "classification": "existing_canonical_concept",
+      "rationale": "Combo bulk dispenser uses established bulk_level_switch — canonical since Phase 2, platform overlay alias only."
+    },
+    {
+      "candidateId": "map-W11169652-compound-bulk-dispenser-level-sensing",
+      "oemTerm": "TEST #12B: Bulk Dispenser Level Sensing",
+      "canonicalId": "bulk_level_switch",
+      "classification": "existing_canonical_concept",
+      "rationale": "Bulk level sensing TEST maps to bulk_level_switch."
+    },
+    {
+      "candidateId": "map-W11169652-compound-door-lock-system",
+      "oemTerm": "TEST #4: Door Lock System",
+      "canonicalId": "door_lock",
+      "classification": "existing_canonical_concept",
+      "rationale": "Compound parser match; approve careful alias."
+    },
+    {
+      "candidateId": "map-W11169652-compound-drain/recirculation-pump",
+      "oemTerm": "TEST #8: Drain/Recirculation Pump",
+      "canonicalId": "drain_pump",
+      "classification": "existing_platform_concept",
+      "rationale": "Procedure seed tags drain_pump; OEM title covers recirc path on combo variants. Platform alias to drain_pump primary test target."
+    },
+    {
+      "candidateId": "map-W11169652-compound-wash-heating-element",
+      "oemTerm": "TEST #9: Wash Heating Element",
+      "canonicalId": "wash_heater",
+      "classification": "existing_canonical_concept",
+      "rationale": "Compound parser match; approve careful alias."
+    }
+  ]
+}

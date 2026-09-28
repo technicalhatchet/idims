@@ -1,0 +1,256 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "heat_pump_dryer_functional_contract_candidate",
+  "workstream": "CG-HEAT-PUMP-DRYER-DISCOVERY",
+  "status": "candidate_ready_for_freeze_review",
+  "generatedAt": "2026-09-17T15:10:00+00:00",
+  "discoveryContract": "CG_HEAT_PUMP_DRYER_DISCOVERY_CONTRACT_v1.json",
+  "discoveryTriangulation": "CG_HEAT_PUMP_DRYER_DISCOVERY_TRIANGULATION_v1.json",
+  "notCanonicalFile": true,
+  "note": "Discovery candidate — NOT heat_pump_dryer.json, NOT frozen. Minimum functional contract — not a refrigeration hardware ontology.",
+  "proposedOntologyId": "heat_pump_dryer",
+  "templateId": "electric_dryer",
+  "minimumOntologyAnswer": "Two new core functional domains plus reuse of seven vented_dryer domains: (1) heat_pump_thermal_system — dry heat and loop protection via sealed refrigerant heat-pump cycle; (2) sealed_moisture_rejection_path — ventless recirculating airflow, condensation dehumidification, and condensate rejection. Ordinary dryer functions (door, drive, moisture sense, lint restriction, control, UI, power) reuse vented_dryer without duplication.",
+  "minimalFunctionBudget": {
+    "newCoreFunctions": 2,
+    "reusedVentedDryerFunctions": 7,
+    "conditionalFunctions": 0,
+    "componentNodesPromoted": 0,
+    "refrigerationHardwareNodesRejected": 9
+  },
+  "reusedVentedDryerFunctions": [
+    {
+      "id": "door_switch",
+      "reuseMode": "unchanged",
+      "crossManufacturerSupport": "Samsung dC, LG door switch, Whirlpool TEST #7"
+    },
+    {
+      "id": "drive_motor",
+      "reuseMode": "unchanged",
+      "includes": "drum tumble",
+      "crossManufacturerSupport": "3C family, LG motor, TEST #3"
+    },
+    {
+      "id": "moisture_sensor",
+      "reuseMode": "unchanged",
+      "implementationVocabulary": ["touch_sensor", "humidity_electrode", "moisture_bars"]
+    },
+    {
+      "id": "lint_filter",
+      "reuseMode": "unchanged_with_platform_scope",
+      "note": "Restriction domain without exhaust_path terminal; evaporator/reed lint interlocks are platform implementation"
+    },
+    {
+      "id": "control_board",
+      "reuseMode": "unchanged"
+    },
+    {
+      "id": "hmi_control",
+      "reuseMode": "unchanged"
+    },
+    {
+      "id": "power_supply",
+      "reuseMode": "unchanged"
+    }
+  ],
+  "explicitlyNotReusedFromVentedDryer": [
+    {
+      "id": "heat_source",
+      "reason": "Resistive/gas air-stream heating contract — superseded by heat_pump_thermal_system for primary dry heat"
+    },
+    {
+      "id": "exhaust_path",
+      "reason": "External exhaust terminal absent as primary moisture rejection on HP ventless platforms"
+    },
+    {
+      "id": "heated_airflow_path",
+      "reason": "Requires exhaust_path terminal — incompatible without vented_dryer mutation"
+    },
+    {
+      "id": "thermal_fuse",
+      "reason": "Element-series protection model — partial overlap only where supplemental heater exists as implementation"
+    },
+    {
+      "id": "temperature_sensor",
+      "reuseAs": "partial",
+      "note": "Drum/outlet air temp may map when sensed on process air; refrigerant-loop thermistors belong under heat_pump_thermal_system not exhaust_path sensing"
+    }
+  ],
+  "proposedNewCanonicalFunctions": [
+    {
+      "id": "heat_pump_thermal_system",
+      "label": "Heat-pump thermal system",
+      "role": "core",
+      "discoveryDecision": "NEW_CORE",
+      "functionalResponsibility": "Generate and regulate drying heat via sealed refrigerant heat-pump cycle, including loop thermal protection and inverter/compressor fault contracts.",
+      "semanticBoundary": "Functional heat-pump thermal domain — NOT synonym for compressor, evaporator, condenser, expansion device, or individual refrigerant thermistors.",
+      "crossManufacturerClassification": "cross_manufacturer_convergent",
+      "provenance": [
+        { "witness": "W1", "source": "samsung heat pump dryer dv22n8650-extracted.txt", "sections": ["§4-1 3CA/HC/tC", "§2 6800 Heat Pump"] },
+        { "witness": "W2", "source": "lg dlhc1455 heat pump dryer manual-extracted.txt", "sections": ["§1 COMPRESSOR", "§7 inverter compressor", "§9 discharge/Hidden Error"] },
+        { "witness": "W3", "source": "jobaid-w10764068-reva-l-88wplheatpumpdryer-extracted.txt", "sections": ["§1-3 sealed system theory", "TEST #4B", "TEST #4c"] }
+      ],
+      "functionalBoundaryTest": {
+        "whyNotVentedDryer": "vented_dryer heat_source adds thermal energy to air stream via element/burner — different heat-generation and protection contract",
+        "rejectedAlternatives": [
+          "Four nodes for compressor+condenser+evaporator+expansion — rejected as hardware diagram encoding",
+          "Extend heat_source to include compressor — rejected as vented_dryer mutation"
+        ]
+      },
+      "implementationVocabularyNotPromoted": [
+        "compressor",
+        "evaporator",
+        "condenser",
+        "post_condenser",
+        "capillary_tube",
+        "expansion_valve",
+        "refrigerant_thermistor",
+        "eva_in",
+        "eva_out",
+        "discharge_pipe_thermistor",
+        "compressor_ipm",
+        "inverter_pba",
+        "supplemental_heater_element"
+      ],
+      "supplementalHeatNote": "Auxiliary/resistive dry heater (Whirlpool TEST #4a) is implementation realization within or alongside heat_pump_thermal_system — not vented_dryer heat_source primary path"
+    },
+    {
+      "id": "sealed_moisture_rejection_path",
+      "label": "Sealed moisture rejection path",
+      "role": "core",
+      "discoveryDecision": "NEW_CORE",
+      "functionalResponsibility": "Recirculate process air in a ventless sealed loop, remove load moisture via condensation/dehumidification, and reject water through condensate collection/drainage.",
+      "semanticBoundary": "End-to-end moisture rejection without external exhaust terminal — NOT synonym for evaporator, drain pump, or water tank as separate canonical nodes.",
+      "semanticSubResponsibilities": [
+        "sealed_recirculating_airflow",
+        "condensation_dehumidification",
+        "condensate_collection_drainage"
+      ],
+      "crossManufacturerClassification": "cross_manufacturer_convergent",
+      "provenance": [
+        { "witness": "W1", "source": "samsung heat pump dryer dv22n8650-extracted.txt", "sections": ["§4-1 5C", "§4-3 condenser check", "condenser cover disassembly"] },
+        { "witness": "W2", "source": "lg dlhc1455 heat pump dryer manual-extracted.txt", "sections": ["§1 Condensation(Heatpump)", "§5 no external duct", "§6 condensate container", "Condenser Care"] },
+        { "witness": "W3", "source": "jobaid-w10764068-reva-l-88wplheatpumpdryer-extracted.txt", "sections": ["§1-3 ventless", "sealed system step 5 evaporator dehumidification", "TEST #9 drain", "F9E1 float"] }
+      ],
+      "functionalBoundaryTest": {
+        "whyNotVentedDryer": "vented_dryer requires exhaust_path as moisture terminal; HP platforms explicitly ventless with condensate path",
+        "rejectedAlternatives": [
+          "Separate sealed_airflow + condensation + condensate as three canonical nodes — rejected as over-granular; diagnostically coupled in all witnesses",
+          "Map to exhaust_path with optional omission — rejected as vented_dryer mutation"
+        ]
+      },
+      "implementationVocabularyNotPromoted": [
+        "evaporator",
+        "condensate_pump",
+        "drain_pump",
+        "water_tank",
+        "sump_electrode",
+        "float_switch",
+        "reed_lint_switch",
+        "dehumidifying_kit_magnet"
+      ]
+    }
+  ],
+  "proposedCanonicalRelationships": [
+    {
+      "id": "control_commands_heat_pump_thermal",
+      "from": "control_board",
+      "type": "commands",
+      "to": "heat_pump_thermal_system",
+      "classification": "functionally_fundamental",
+      "crossManufacturer": true,
+      "provenance": "All three witnesses — main control commands compressor/inverter heat path"
+    },
+    {
+      "id": "control_commands_moisture_path",
+      "from": "control_board",
+      "type": "commands",
+      "to": "sealed_moisture_rejection_path",
+      "classification": "functionally_fundamental",
+      "crossManufacturer": true,
+      "provenance": "Drain pump, blower, condensate logic on all three"
+    },
+    {
+      "id": "thermal_heats_process_air",
+      "from": "heat_pump_thermal_system",
+      "type": "routed_through",
+      "to": "sealed_moisture_rejection_path",
+      "classification": "functionally_fundamental",
+      "note": "Causal chain — Whirlpool condenser heats process air to drum; not a merge of domains",
+      "provenance": "W10764068 §1-3 steps 2 and 5"
+    },
+    {
+      "id": "door_enables_dry_operation",
+      "from": "door_switch",
+      "type": "enables",
+      "to": "heat_pump_thermal_system",
+      "classification": "reused_vented_dryer_pattern",
+      "alsoEnables": "sealed_moisture_rejection_path"
+    }
+  ],
+  "rejectedRelationshipCandidates": [
+    {
+      "relationship": "compressor → evaporator → condenser as canonical edges",
+      "reason": "implementation_specific_hardware_chain — not frozen"
+    },
+    {
+      "relationship": "heat_pump_thermal_system → thermal_fuse",
+      "reason": "vented_dryer element protection model — use heat_pump loop protection within thermal_system"
+    }
+  ],
+  "rejectedAlternatives": [
+    {
+      "alternative": "Single node sealed_heat_pump_dryer_system",
+      "rejected": true,
+      "reason": "Collapses diagnostically separable no-heat vs condensate-fault paths — heat vs moisture rejection faults split across codes on all witnesses"
+    },
+    {
+      "alternative": "Five+ nodes mirroring refrigeration diagram",
+      "rejected": true,
+      "reason": "Hardware ontology — violates discovery constraint"
+    },
+    {
+      "alternative": "Extend vented_dryer with optional exhaust_path",
+      "rejected": true,
+      "reason": "Canonical mutation of frozen vented_dryer"
+    },
+    {
+      "alternative": "proven_variant of vented_dryer",
+      "rejected": true,
+      "reason": "Fit test architectural_divergence with three-manufacturer proof"
+    }
+  ],
+  "aioCompatibilityAssessment": {
+    "purpose": "Downstream check only — AIO candidate not modified",
+    "samsungWd53HpAio": {
+      "drySubsystemMapsTo": ["heat_pump_thermal_system", "sealed_moisture_rejection_path"],
+      "evidence": "CG_AIO_WD53DBA900_FIT_OBSERVATION_v1.json dry-path procedures",
+      "compatibility": "full_for_hp_aio_dry_portion",
+      "newHpConceptsFromAio": false
+    },
+    "whirlpoolWfw9620CondenserAio": {
+      "drySubsystemMapsTo": ["sealed_moisture_rejection_path_partial"],
+      "heatSubsystem": "resistive_dry_element_not_heat_pump",
+      "evidence": "CG_AIO_WFW9620_CORROBORATION_OBSERVATION_v1.json",
+      "compatibility": "partial — ventless condenser-resistive sibling may share sealed_moisture_rejection_path; does NOT use heat_pump_thermal_system",
+      "implicationForFutureAio": "AIO return gate may need broader sealed-ventless dry abstraction OR composed reference to HP + condenser-resistive platform scopes — out of scope for HP dryer discovery"
+    },
+    "aioOrchestration": {
+      "status": "deferred",
+      "note": "integrated_laundry_orchestration remains AIO-specific; not part of HP dryer candidate"
+    }
+  },
+  "unresolvedQuestions": [
+    "Freeze gate: whether templateId should include heat_pump_dryer distinct from electric_dryer routing",
+    "Supplemental heater as conditional sub-scope vs always implementation",
+    "Whether Whirlpool WFW9620 condenser-resistive AIO requires sibling canonical function at AIO return"
+  ],
+  "headlineMetrics": {
+    "newCanonicalFunctions": 2,
+    "reusedVentedDryerFunctions": 7,
+    "componentPromotionCount": 0,
+    "canonicalExpansion": 0,
+    "witnessCount": 3,
+    "crossManufacturerConvergentDomains": 2
+  }
+}

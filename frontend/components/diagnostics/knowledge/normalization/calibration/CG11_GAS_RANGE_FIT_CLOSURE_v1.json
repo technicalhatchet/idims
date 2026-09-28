@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg11_gas_range_fit_closure",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-16T15:49:00+00:00",
+  "phase": "CG-11",
+  "verdict": "CLOSED / GAS_FITS_ELECTRIC_CONTRACT",
+  "closureStatement": "Samsung NX60 gas R1 evidence fits the frozen electric_range rev1 contract without canonical expansion, divergence, or gas-side ontology. Bake/broil instance-scope abstraction survives radical implementation change (relay→element vs relay→HSI→valve→burner). Gas hardware remains platform overlay vocabulary. electric_range.json is unchanged. Organizational rename (electric_range → range_oven) and gas_range template routing remain separate human gates — not authorized by this closure.",
+  "approvedFitOutcome": {
+    "outcome": "A",
+    "label": "gas_fits_electric_contract",
+    "humanBoundaryApprovedAt": "2026-09-16T15:49:00+00:00",
+    "approvalIsNotCanonicalMutation": true,
+    "approvalIsNotOntologyRename": true
+  },
+  "governanceConclusion": {
+    "statement": "CG-11 demonstrates functional compatibility of the frozen electric-range ontology with a gas-range implementation. It does not establish that every gas-specific implementation detail belongs in the canonical ontology, nor does it authorize renaming the ontology.",
+    "functionalCompatibility": true,
+    "gasImplementationInCanonical": false,
+    "ontologyRenameAuthorized": false,
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0
+  },
+  "frozenContractUnderTest": {
+    "id": "electric_range",
+    "file": "frontend/components/diagnostics/knowledge/canonical/electric_range.json",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-16T15:26:00+00:00",
+    "hashAtCg11Open": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "hashAtCg11Close": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "hashMutatedDuringCg11": false,
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json"
+  },
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "canonicalHashMutationsDuringCg11": 0,
+    "classificationDiverges": 0,
+    "classificationInherits": 9,
+    "classificationConditional": 3,
+    "classificationNoEvidence": 1,
+    "classificationPlatformOnly": 8,
+    "gasHardwarePromotedToCanonical": false,
+    "r1Manuals": 1,
+    "r2Manuals": 0,
+    "r2Waived": true,
+    "cg11RegressionTestsPassing": 18
+  },
+  "centerpieceFinding": {
+    "id": "bake_broil_instance_scope_functional_equivalence",
+    "title": "Bake/broil instance-scope abstraction survives radical implementation change",
+    "physicalImplementationDelta": {
+      "electric": "control → relay → heating element",
+      "gas": "control → relay → HSI → gas valve / burner"
+    },
+    "diagnosticStructurePreserved": true,
+    "conclusion": "Implementation changes radically; diagnostic functions remain independently addressable. bake_heating_element and broil_heating_element carry as functional equivalence — not as electric-element canonical nodes."
+  },
+  "conditionalNoEvidenceSemantics": {
+    "conceptId": "convection_heating_element",
+    "classification": "NO_EVIDENCE",
+    "engineRule": "NO_EVIDENCE means this configuration does not bind the conditional scope — not that the conditional scope is false or that gas lacks convection capability."
+  },
+  "layerDispositionSummary": {
+    "components": "all five INHERITS",
+    "instanceScopes": "bake_heating_element INHERITS, broil_heating_element INHERITS",
+    "conditionalInstanceScopes": "convection_heating_element NO_EVIDENCE",
+    "conditionalConcepts": "convection_fan INHERITS; thermal_protection CONDITIONAL; oven_door_switch CONDITIONAL",
+    "gasHardware": "PLATFORM_ONLY — igniter, gas_valve, safety_valve, spark_module, burners not promoted"
+  },
+  "humanApproval": {
+    "fitAnalysisArtifact": "CG11_GAS_RANGE_FIT_ANALYSIS_v1.json",
+    "fitTestContract": "CG11_GAS_RANGE_FIT_TEST_CONTRACT_v1.json",
+    "humanBoundaryApprovedAt": "2026-09-16T15:49:00+00:00",
+    "approvedOutcome": "A",
+    "approvedOutcomeLabel": "gas_fits_electric_contract"
+  },
+  "evidenceChain": {
+    "priorPhase": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "fitHypothesis": "electric_range_gas_fit_hypothesis_v1.json",
+    "r1Observation": {
+      "manualId": "SAMSUNG-NX60-RANGE",
+      "platformId": "samsung_range_nx60",
+      "fuelFilter": "gas_range",
+      "artifact": "SAMSUNG_NX60_RANGE_gr_cg11x_observation_v1.json",
+      "role": "fit_falsification_r1"
+    },
+    "r2": {
+      "status": "waived",
+      "reason": "R1 produces zero DIVERGES across 11 probes with clear INHERITS on all five frozen components and both bake/broil instance scopes"
+    }
+  },
+  "validationProof": {
+    "canonicalGraphValidation": {
+      "tool": "backend/scripts/validate_canonical_graph.py",
+      "result": "pass",
+      "note": "electric_range.json unchanged — hash stable at CG-11 close"
+    },
+    "evidenceRegression": {
+      "result": "pass",
+      "testSuites": [
+        "cg11-gas-range-fit-test-contract.test.ts",
+        "cg11-samsung-nx60-r1-observation.test.ts",
+        "cg11-gas-range-fit-analysis.test.ts",
+        "cg11-gas-range-closure.test.ts",
+        "cg-range-family-workstream-sequence.test.ts"
+      ],
+      "testsPassing": 18,
+      "note": "5 contract + 4 R1 observation + 5 fit analysis + 3 closure + 1 workstream sequence"
+    }
+  },
+  "byteStabilityProof": {
+    "policy": "CG-11 closure requires zero canonical hash mutation. Fit analysis artifact preserved as evidence bridge.",
+    "canonicalHashAtCg11Open": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "canonicalHashAtCg11Close": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54"
+  },
+  "postClosureInvariants": [
+    "electric_range.json remains frozen rev1 — zero canonical expansion from CG-11",
+    "gas_range.json was not created",
+    "gas hardware (igniter, gas_valve, safety_valve, spark_module, burners) remains PLATFORM_ONLY vocabulary",
+    "bake_heating_element and broil_heating_element remain instanceScopes[] — not promoted to components[]",
+    "convection_heating_element NO_EVIDENCE on NX60 gas does not invalidate the conditional scope",
+    "gas_range template routing to electric_range ontology is deferred — separate organizational gate alongside rename",
+    "electric_range → range_oven rename is deferred — separate human gate; not authorized by Outcome A",
+    "instance-scope compounding machinery remains deferred until explicit next workstream"
+  ],
+  "demonstratedProperties": [
+    "functional_compatibility — frozen electric_range rev1 absorbs gas functional architecture without canonical change",
+    "instance_scope_survives_implementation_delta — bake/broil independently addressable despite element vs HSI→valve path",
+    "no_evidence_semantics — convection_heating_element unbound on fan-only gas convection, not invalidated",
+    "implementation_not_ontology — gas ignition hardware stays platform vocabulary",
+    "zero_canonical_expansion — fit test earned every classification; no automatic promotion"
+  ],
+  "hierarchy": {
+    "frozenContract": "electric_range rev1",
+    "priorPhaseClosed": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "fitTestContract": "CG11_GAS_RANGE_FIT_TEST_CONTRACT_v1.json",
+    "fitAnalysis": "CG11_GAS_RANGE_FIT_ANALYSIS_v1.json",
+    "workstreamSequence": "CG_RANGE_FAMILY_WORKSTREAM_SEQUENCE_v1.json",
+    "nextDisciplinedStep": "CG-12 induction_range fit test",
+    "nextOrganizationalGate": "electric_range_to_range_oven_rename",
+    "nextOrganizationalGateNote": "Rename/routing gate follows family boundary review and compounding — not normalization pipeline side effect",
+    "nextFitTestWorkstreams": ["CG-12 induction_range", "CG-13 dual_fuel"]
+  },
+  "futureWorkPolicy": {
+    "fitVsCompounding": "CG-11 proved compatibility only — NX60 gas procedures are not yet in Solomon's usable knowledge base; do not compound as immediate post-CG-11 gas extraction phase",
+    "disciplinedSequence": "CG-12 → CG-13 → family boundary review → range normalization → range compounding → organizational rename/routing gate",
+    "organizationalRenameGate": "electric_range → range_oven — after family boundary review; organizational cleanup based on completed evidence",
+    "gasRangeTemplateRouting": "deferred — same organizational gate as rename; not closure-authorized",
+    "nx60OverlayTarget": "Samsung manufacturer + NX60 platform/model overlay under electric_range — HSI, gas_valve, igniter, burner remain platform vocabulary (CG-5.3 single-manual rule)",
+    "instanceScopeCompounding": "deferred until range compounding phase after fit family boundary",
+    "manufacturerOverlayCompounding": "deferred — range corpus as family after CG-12/CG-13",
+    "pragmaticNormalizationException": "Manual ingest may proceed before all fit tests when operationally needed — gas concepts must stay platform/model classified",
+    "additionalGasTriangulation": "optional — R2 waived; additional gas manufacturer available if reviewers want triangulation before family review"
+  }
+}

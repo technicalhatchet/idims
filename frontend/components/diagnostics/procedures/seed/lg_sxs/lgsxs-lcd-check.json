@@ -1,0 +1,102 @@
+{
+  "id": "lgsxs-lcd-check",
+  "version": "1.0.0",
+  "title": "\u00a72-16: LCD / LED graphics check",
+  "platformId": "lg_sxs",
+  "componentIds": [
+    "display_panel"
+  ],
+  "tags": [
+    "hmi_check",
+    "user_interface",
+    "display_test"
+  ],
+  "source": {
+    "manualId": "LG-LSC27926-SXS",
+    "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "2-16",
+    "oemTestTitle": "LCD check function",
+    "pages": [
+      20,
+      21
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "lcd_check_enter"
+    },
+    {
+      "id": "lcd_check_enter",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter LCD check",
+      "body": "Simultaneously press Express Freezer + Freezer temp adjust ~1 s \u2014 all LCD/LED graphics and backlight turn on.",
+      "sourceExcerpt": "Simultaneously press Express Freezer + Freezer temp adjust ~1 s \u2014 all LCD/LED graphics and backlight turn on.",
+      "requiresInput": false,
+      "defaultNextStepId": "lcd_all_on"
+    },
+    {
+      "id": "lcd_all_on",
+      "order": 3,
+      "type": "visual_check",
+      "title": "All segments illuminate?",
+      "body": "Every LCD/LED graphic region (C\u2013G) should turn on. Hidden faults: R2, OptiChill, water tank, ice maker, ambient (Better1).",
+      "sourceExcerpt": "Every LCD/LED graphic region (C\u2013G) should turn on. Hidden faults: R2, OptiChill, water tank, ice maker, ambient (Better1).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "segments_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "lcd_ok"
+        },
+        {
+          "id": "segments_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "segment_fault",
+          "terminal": true,
+          "oemOutcome": "Segment(s) failed \u2014 note which region (C\u2013G) stayed off.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "ref_lg_kw_co_display"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "segment_fault",
+      "order": 4,
+      "type": "outcome",
+      "title": "Segment or sensor fault",
+      "oemOutcome": "Follow LCD check map: region C=R2/micom comm, D=OptiChill/water tank, E=ice sensor, F=ice unit, G=ambient.",
+      "requiresInput": false
+    },
+    {
+      "id": "lcd_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "LCD check passed",
+      "oemOutcome": "All display segments and backlight verified.",
+      "requiresInput": false
+    }
+  ]
+}

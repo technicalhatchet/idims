@@ -1,0 +1,189 @@
+{
+  "manualId": "W11633848",
+  "promotionId": "promo-W11633848-20260915040713",
+  "equivalent": true,
+  "checks": {
+    "canonicalAliases": true,
+    "procedureBindings": true,
+    "measurementBindings": true,
+    "topologyOverrides": true
+  },
+  "ledgerScope": {
+    "approvedMappings": 15,
+    "approvedProcedureBindings": 13,
+    "approvedMeasurementBindings": 7,
+    "rejected": 3,
+    "deferred": 3,
+    "dcFanGatedTarget": true,
+    "owiMeasGatedTarget": true,
+    "mappingsExactly15": true,
+    "procedureBindingsExactly13": true,
+    "measurementBindingsExactly7": true,
+    "wrongOverfillFillValveMeasRejected": true
+  },
+  "architecturePreservation": {
+    "dishwasher_ontology_unfrozen": true,
+    "no_diverter_valve_canonical": true,
+    "owi_not_manufacturer_alias": true,
+    "owi_dual_role_platform": true,
+    "owi_implements_level_and_temperature": true,
+    "f500_alias_thermal_protection": true,
+    "section_310_title_not_alias": true,
+    "heater_vs_dc_fan_split": true,
+    "platform_components_present": true,
+    "door_gasket_not_manufacturer_alias": true
+  },
+  "promotionDiff": {
+    "oemTermAliases": {
+      "add": {
+        "\u00a73-17: DC Fan Motor": "drying_system",
+        "inlet_valve": "inlet_valve",
+        "\u00a73-9: Dispenser Solenoid": "detergent_dispenser",
+        "circulation_pump": "circulation_pump",
+        "\u00a73-13: Diverter Motor": "circulation_pump",
+        "\u00a73-7: Door Switch Circuit": "door_switch",
+        "drain_pump": "drain_pump",
+        "\u00a73-16: Drain Motor": "drain_pump",
+        "\u00a73-8: Fill Valve Circuit": "inlet_valve",
+        "\u00a73-12: Overfill Float Switch": "water_level_sensor",
+        "\u00a73-3: F500 Triac Load Fuse": "thermal_protection",
+        "\u00a73-15: Wash Motor (SSM)": "circulation_pump"
+      },
+      "skip": {
+        "supply": "power_supply",
+        "ACU": "control_board",
+        "heater": "heat_source"
+      }
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [],
+      "skip": [
+        {
+          "procedureId": "w11633848-acu-power",
+          "testTargetId": "door_switch_test",
+          "displayTitle": "\u00a73-6: ACU Power & DC Supplies"
+        },
+        {
+          "procedureId": "w11633848-dc-fan",
+          "testTargetId": "drying_airflow_test",
+          "displayTitle": "\u00a73-17: DC Fan Motor"
+        },
+        {
+          "procedureId": "w11633848-dispenser",
+          "testTargetId": "detergent_dispenser_test",
+          "displayTitle": "\u00a73-9: Dispenser Solenoid"
+        },
+        {
+          "procedureId": "w11633848-diverter-motor",
+          "testTargetId": "circulation_test",
+          "displayTitle": "\u00a73-13: Diverter Motor"
+        },
+        {
+          "procedureId": "w11633848-diverter-sensor",
+          "testTargetId": "circulation_test",
+          "displayTitle": "\u00a73-14: Diverter Position Sensor"
+        },
+        {
+          "procedureId": "w11633848-door-switch",
+          "testTargetId": "door_switch_test",
+          "displayTitle": "\u00a73-7: Door Switch Circuit"
+        },
+        {
+          "procedureId": "w11633848-drain-motor",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a73-16: Drain Motor"
+        },
+        {
+          "procedureId": "w11633848-fill-valve",
+          "testTargetId": "fill_test",
+          "displayTitle": "\u00a73-8: Fill Valve Circuit"
+        },
+        {
+          "procedureId": "w11633848-heater",
+          "testTargetId": "heater_command_test",
+          "displayTitle": "\u00a73-10: Water Heating / Heat Dry"
+        },
+        {
+          "procedureId": "w11633848-overfill-switch",
+          "testTargetId": "water_level_test",
+          "displayTitle": "\u00a73-12: Overfill Float Switch"
+        },
+        {
+          "procedureId": "w11633848-owi-sensor",
+          "testTargetId": "water_level_test",
+          "displayTitle": "\u00a73-11: OWI / Thermistor"
+        },
+        {
+          "procedureId": "w11633848-triac-fuse",
+          "testTargetId": "thermal_protection_test",
+          "displayTitle": "\u00a73-3: F500 Triac Load Fuse"
+        },
+        {
+          "procedureId": "w11633848-wash-motor",
+          "testTargetId": "circulation_test",
+          "displayTitle": "\u00a73-15: Wash Motor (SSM)"
+        }
+      ]
+    },
+    "measurementBindings": {
+      "add": [],
+      "skip": [
+        {
+          "procedureId": "w11633848-door-switch",
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testTargetId": "door_switch_test"
+        },
+        {
+          "procedureId": "w11633848-door-switch",
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testTargetId": "door_switch_test"
+        },
+        {
+          "procedureId": "w11633848-drain-motor",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuDrainMotorOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11633848-fill-valve",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuFillValveOhms",
+          "testTargetId": "fill_test"
+        },
+        {
+          "procedureId": "w11633848-heater",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuHeaterOhms",
+          "testTargetId": "heater_command_test"
+        },
+        {
+          "procedureId": "w11633848-overfill-switch",
+          "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+          "testTargetId": "water_level_test"
+        },
+        {
+          "procedureId": "w11633848-overfill-switch",
+          "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+          "testTargetId": "water_level_test"
+        },
+        {
+          "procedureId": "w11633848-owi-sensor",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuOwiThermistorOhms",
+          "testTargetId": "water_level_test"
+        },
+        {
+          "procedureId": "w11633848-wash-motor",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+          "testTargetId": "circulation_test"
+        }
+      ]
+    }
+  },
+  "dishwasherOntologyFrozen": false,
+  "publish": false,
+  "notes": [
+    "Successful dry-run preserves first-manual architecture; dishwasher.json remains unfrozen.",
+    "OWI dual-role and \u00a73-10 heat/drying split verified in overlay + gated ledger."
+  ]
+}

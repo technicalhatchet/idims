@@ -1,0 +1,613 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "W11633848",
+  "platformId": "whirlpool_dishwasher_acu",
+  "platformFamilyId": "whirlpool_dishwasher_acu",
+  "canonicalOntologyId": "dishwasher",
+  "proposedOverlayFile": "whirlpool_dishwasher.json",
+  "status": "gated",
+  "generatedAt": "2026-09-14T20:30:00+00:00",
+  "pipelineManifest": "frontend/components/diagnostics/knowledge/normalization/candidates/W11633848/pipeline_manifest.json",
+  "baselineArtifact": "frontend/components/diagnostics/knowledge/normalization/calibration/W11633848_normalization_baseline_v1.json",
+  "gatePolicy": {
+    "canonicalGraph": "dishwasher.json UNFROZEN \u2014 do not promote new canonical components from W11633848 alone (CG-5.3).",
+    "implementationRule": "Diverter motor, diverter position sensor, OWI, DC fan, F500 triac, and SSM wash motor are ACU platform implementation \u2014 not canonical concepts.",
+    "proceduralTitleRule": "\u00a73-\u2026 OEM procedure titles are procedure identifiers \u2014 reject as oemTermAliases; bind by procedureId.",
+    "owiRule": "Do not force OWI \u2192 water_level_sensor. One physical OWI participates in fill-level and temperature diagnostics \u2014 teach dual role in platform overlay, not canonical alias.",
+    "dryingRule": "Preserve heat_source (water heating) vs drying_system (DC fan / heat-dry airflow) \u2014 do not collapse \u00a73-10 title into a single canonical target."
+  },
+  "gateSummary": {
+    "mappingCandidatesTotal": 21,
+    "bucket1_straightCanonical": 8,
+    "bucket2_compound": 5,
+    "bucket3_unresolved": 8,
+    "approved": 15,
+    "rejected": 3,
+    "deferredPlatform": 3,
+    "deferredModel": 0,
+    "newHumanSemanticDecisions": 11,
+    "canonicalAutoReuse": 4,
+    "newCanonicalConcepts": 0,
+    "overlayProcedureBindings": 13,
+    "overlayMeasurementBindings": 10,
+    "gatedAt": "2026-09-15T04:07:13.838575+00:00",
+    "procedureBindingsApproved": 13,
+    "measurementBindingsApproved": 7
+  },
+  "layerDefinitions": {
+    "canonical_reuse": "Seed componentId or ontology alias maps directly \u2014 no new semantic decision.",
+    "whirlpool_alias": "oemTermAliases entry \u2192 canonical id (Whirlpool ACU vocabulary on shared dishwasher ontology).",
+    "platform_implementation": "Overlay add.components / displayTerms \u2014 physical implementation below canonical function.",
+    "platform_defer": "Unresolved mapping candidate \u2014 platform overlay teaches implementation without canonical alias promotion.",
+    "model_specific": "Door gasket and similar \u2014 model/installation surface, not manufacturer platform vocabulary.",
+    "reject_procedural_title": "OEM \u00a7 section title only \u2014 bind procedure by procedureId, not by title alias.",
+    "procedure_binding": "procedureBindings \u2192 dishwasher testTargetId.",
+    "measurement_binding": "measurementBindings \u2192 dishwasher testTargetId + knowledge id."
+  },
+  "mappings": [
+    {
+      "bucket": "1_straight_canonical",
+      "manualConcept": "inlet_valve",
+      "layer": "canonical_reuse",
+      "candidate": "inlet_valve",
+      "seedComponentId": "inlet_valve",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W11633848-inlet_valve-inlet_valve"
+      ],
+      "rationale": "Seed componentId matches frozen dishwasher canonical concept."
+    },
+    {
+      "bucket": "1_straight_canonical",
+      "manualConcept": "circulation_pump",
+      "layer": "canonical_reuse",
+      "candidate": "circulation_pump",
+      "seedComponentId": "circulation_pump",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W11633848-circulation_pump-circulation_pump"
+      ],
+      "rationale": "Seed componentId on diverter-motor procedure \u2014 canonical circulation function."
+    },
+    {
+      "bucket": "1_straight_canonical",
+      "manualConcept": "drain_pump",
+      "layer": "canonical_reuse",
+      "candidate": "drain_pump",
+      "seedComponentId": "drain_pump",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W11633848-drain_pump-drain_pump"
+      ],
+      "rationale": "Seed componentId matches canonical drain function."
+    },
+    {
+      "bucket": "1_straight_canonical",
+      "manualConcept": "heater",
+      "layer": "canonical_reuse",
+      "candidate": "heat_source",
+      "seedComponentId": "heater",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W11633848-heater-heat_source"
+      ],
+      "rationale": "Fuel-agnostic canonical heat \u2014 ACU element implementation stays platform."
+    },
+    {
+      "bucket": "1_straight_canonical",
+      "manualConcept": "ACU",
+      "layer": "whirlpool_alias",
+      "candidate": "control_board",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11633848-acu-control_board"
+      ],
+      "proposedOemTermAlias": {
+        "ACU": "control_board",
+        "acu": "control_board"
+      },
+      "rationale": "Whirlpool ACU nomenclature \u2192 canonical control_board."
+    },
+    {
+      "bucket": "1_straight_canonical",
+      "manualConcept": "dispenser solenoid",
+      "layer": "whirlpool_alias",
+      "candidate": "detergent_dispenser",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11633848-dispenser-solenoid-detergent_dispenser"
+      ],
+      "proposedOemTermAlias": {
+        "dispenser solenoid": "detergent_dispenser"
+      },
+      "rationale": "\u00a73-9 dispenser maps to canonical detergent_dispenser."
+    },
+    {
+      "bucket": "1_straight_canonical",
+      "manualConcept": "diverter motor",
+      "layer": "whirlpool_alias",
+      "candidate": "circulation_pump",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11633848-diverter-motor-circulation_pump"
+      ],
+      "proposedOemTermAlias": {
+        "diverter motor": "circulation_pump"
+      },
+      "platformNote": "Diverter is ACU circulation-path implementation \u2014 not diverter_valve canonical.",
+      "rationale": "Functional circulation command path; diverter mechanics live in platform overlay."
+    },
+    {
+      "bucket": "1_straight_canonical",
+      "manualConcept": "drain motor",
+      "layer": "whirlpool_alias",
+      "candidate": "drain_pump",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11633848-drain-motor-drain_pump"
+      ],
+      "proposedOemTermAlias": {
+        "drain motor": "drain_pump"
+      },
+      "rationale": "OEM drain motor nomenclature \u2192 canonical drain_pump."
+    },
+    {
+      "bucket": "2_compound",
+      "manualConcept": "\u00a73-17: DC Fan Motor",
+      "layer": "whirlpool_alias",
+      "candidate": "drying_system",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11633848-compound-dc-fan-motor"
+      ],
+      "proposedOemTermAlias": {
+        "dc fan motor": "drying_system",
+        "dc fan": "drying_system"
+      },
+      "platformNote": "Platform add.components: dc_fan_motor implements drying_system.",
+      "rationale": "Drying airflow implementation \u2014 canonical drying_system only."
+    },
+    {
+      "bucket": "2_compound",
+      "manualConcept": "\u00a73-7: Door Switch Circuit",
+      "layer": "whirlpool_alias",
+      "candidate": "door_switch",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11633848-compound-door-switch-circuit"
+      ],
+      "proposedOemTermAlias": {
+        "door switch": "door_switch"
+      },
+      "rationale": "Door authorization \u2014 canonical door_switch."
+    },
+    {
+      "bucket": "2_compound",
+      "manualConcept": "\u00a73-8: Fill Valve Circuit",
+      "layer": "whirlpool_alias",
+      "candidate": "inlet_valve",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11633848-compound-fill-valve-circuit"
+      ],
+      "proposedOemTermAlias": {
+        "fill valve": "inlet_valve"
+      },
+      "rationale": "Fill path \u2014 canonical inlet_valve."
+    },
+    {
+      "bucket": "2_compound",
+      "manualConcept": "\u00a73-12: Overfill Float Switch",
+      "layer": "whirlpool_alias",
+      "candidate": "water_level_sensor",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11633848-compound-overfill-float-switch"
+      ],
+      "proposedOemTermAlias": {
+        "float switch": "water_level_sensor",
+        "overfill float switch": "water_level_sensor"
+      },
+      "platformNote": "Float implementation variant \u2014 canonical water_level_sensor function only.",
+      "rationale": "Fill/overfill level sensing \u2014 not pressure_sensor canonical."
+    },
+    {
+      "bucket": "2_compound",
+      "manualConcept": "\u00a73-15: Wash Motor (SSM)",
+      "layer": "whirlpool_alias",
+      "candidate": "circulation_pump",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11633848-compound-wash-motor-(ssm)"
+      ],
+      "proposedOemTermAlias": {
+        "wash motor": "circulation_pump"
+      },
+      "platformNote": "SSM motor architecture is platform displayTerm \u2014 canonical circulation_pump only.",
+      "rationale": "Wash/circulation motor \u2192 canonical circulation_pump."
+    },
+    {
+      "bucket": "3_unresolved",
+      "manualConcept": "supply",
+      "layer": "whirlpool_alias",
+      "candidate": "power_supply",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-w11633848-unresolved-w11633848-acu-power-supply"
+      ],
+      "proposedOemTermAlias": {
+        "supply": "power_supply"
+      },
+      "rationale": "ACU power procedure supply context \u2192 canonical power_supply."
+    },
+    {
+      "bucket": "3_unresolved",
+      "manualConcept": "\u00a73-3: F500 Triac Load Fuse",
+      "layer": "whirlpool_alias",
+      "candidate": "thermal_protection",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11633848-compound-f500-triac-load-fuse"
+      ],
+      "proposedOemTermAlias": {
+        "f500 triac load fuse": "thermal_protection",
+        "triac fuse": "thermal_protection"
+      },
+      "platformNote": "F500 is ACU-specific thermal protection implementation.",
+      "rationale": "Load-side fuse protects heat path \u2014 canonical thermal_protection."
+    }
+  ],
+  "deferredMappings": [
+    {
+      "bucket": "3_unresolved",
+      "manualConcept": "\u00a73-14: Diverter Position Sensor",
+      "layer": "platform_defer",
+      "gateAction": "defer_platform",
+      "candidateIds": [
+        "map-W11633848-compound-diverter-position-sensor"
+      ],
+      "proposedPlatformComponent": {
+        "id": "diverter_position_sensor",
+        "supportsCanonicalIds": [
+          "circulation_pump"
+        ],
+        "note": "Position feedback for diverter \u2014 not a canonical concept."
+      },
+      "rationale": "Platform-only sensor; do not invent diverter_valve canonical."
+    },
+    {
+      "bucket": "3_unresolved",
+      "manualConcept": "\u00a73-11: OWI / Thermistor",
+      "layer": "platform_defer",
+      "gateAction": "defer_platform",
+      "candidateIds": [
+        "map-W11633848-compound-owi-/-thermistor"
+      ],
+      "proposedPlatformComponent": {
+        "id": "owi_sensor",
+        "dualRole": {
+          "fillLevel": "water_level_sensor",
+          "temperature": "temperature_sensor"
+        },
+        "note": "One physical OWI serves multiple diagnostic functions \u2014 platform overlay explains; no forced canonical alias."
+      },
+      "rationale": "Preserve physical-vs-functional distinction \u2014 most valuable first-manual gate decision."
+    },
+    {
+      "bucket": "3_unresolved",
+      "manualConcept": "door_gasket",
+      "layer": "model_specific",
+      "gateAction": "defer_model",
+      "candidateIds": [
+        "map-W11633848-compound-door_gasket"
+      ],
+      "rationale": "Leak/installation surface on door-switch procedure \u2014 not manufacturer platform vocabulary."
+    }
+  ],
+  "rejectedProceduralTitles": [
+    {
+      "sourceTerm": "\u00a73-6: ACU Power & DC Supplies",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W11633848-compound-acu-power-&-dc-supplies"
+      ],
+      "rationale": "Procedural title \u2014 w11633848-acu-power binds by procedureId."
+    },
+    {
+      "sourceTerm": "\u00a73-10: Water Heating / Heat Dry",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W11633848-compound-water-heating-/-heat-dry"
+      ],
+      "rationale": "Compound title spans heat_source and drying_system \u2014 procedure binding splits; no title alias."
+    },
+    {
+      "sourceTerm": "supply (triac-fuse context)",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-w11633848-unresolved-w11633848-triac-fuse-supply"
+      ],
+      "rationale": "Ambiguous supply token on F500 procedure \u2014 use thermal_protection mapping only."
+    }
+  ],
+  "procedureBindings": [
+    {
+      "procedureId": "w11633848-door-switch",
+      "testTargetId": "door_switch_test",
+      "canonicalComponents": [
+        "door_switch"
+      ],
+      "overlayCandidateIds": [
+        "overlay-W11633848-w11633848-door-switch-door_switch_test"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-fill-valve",
+      "testTargetId": "fill_test",
+      "canonicalComponents": [
+        "inlet_valve"
+      ],
+      "overlayCandidateIds": [
+        "overlay-W11633848-w11633848-fill-valve-fill_test"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-overfill-switch",
+      "testTargetId": "water_level_test",
+      "canonicalComponents": [
+        "water_level_sensor"
+      ],
+      "matcherCorrection": "fill_test \u2192 water_level_test",
+      "overlayCandidateIds": [
+        "overlay-W11633848-w11633848-overfill-switch-fill_test"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-owi-sensor",
+      "testTargetId": "water_level_test",
+      "canonicalComponents": [
+        "water_level_sensor"
+      ],
+      "matcherCorrection": "heater_command_test \u2192 water_level_test (OWI fill context; temperature branch via platform)",
+      "overlayCandidateIds": [
+        "overlay-W11633848-w11633848-owi-sensor-heater_command_test"
+      ],
+      "gateAction": "approve_human",
+      "platformNote": "Dual-role OWI \u2014 temperature_response_test binding deferred to platform overlay."
+    },
+    {
+      "procedureId": "w11633848-wash-motor",
+      "testTargetId": "circulation_test",
+      "canonicalComponents": [
+        "circulation_pump"
+      ],
+      "overlayCandidateIds": [
+        "overlay-W11633848-w11633848-wash-motor-circulation_test"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-diverter-motor",
+      "testTargetId": "circulation_test",
+      "canonicalComponents": [
+        "circulation_pump"
+      ],
+      "overlayCandidateIds": [
+        "overlay-W11633848-w11633848-diverter-motor-circulation_test"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-diverter-sensor",
+      "testTargetId": "circulation_test",
+      "canonicalComponents": [
+        "circulation_pump"
+      ],
+      "implementationComponent": "diverter_position_sensor",
+      "overlayCandidateIds": [
+        "overlay-W11633848-w11633848-diverter-sensor-circulation_test"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-drain-motor",
+      "testTargetId": "drain_test",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "overlayCandidateIds": [
+        "overlay-W11633848-w11633848-drain-motor-drain_test"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-heater",
+      "testTargetId": "heater_command_test",
+      "canonicalComponents": [
+        "heat_source"
+      ],
+      "overlayCandidateIds": [
+        "overlay-W11633848-w11633848-heater-heater_command_test"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-dc-fan",
+      "testTargetId": "drying_airflow_test",
+      "canonicalComponents": [
+        "drying_system"
+      ],
+      "matcherCorrection": "heater_command_test \u2192 drying_airflow_test",
+      "overlayCandidateIds": [
+        "overlay-W11633848-w11633848-dc-fan-heater_command_test"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-dispenser",
+      "testTargetId": "detergent_dispenser_test",
+      "canonicalComponents": [
+        "detergent_dispenser"
+      ],
+      "matcherCorrection": "fill_test \u2192 detergent_dispenser_test",
+      "overlayCandidateIds": [
+        "overlay-W11633848-w11633848-dispenser-fill_test"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-triac-fuse",
+      "testTargetId": "thermal_protection_test",
+      "canonicalComponents": [
+        "thermal_protection"
+      ],
+      "matcherCorrection": "fill_test \u2192 thermal_protection_test",
+      "overlayCandidateIds": [
+        "overlay-W11633848-w11633848-triac-fuse-fill_test"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-acu-power",
+      "testTargetId": "door_switch_test",
+      "canonicalComponents": [
+        "control_board",
+        "power_supply"
+      ],
+      "matcherCorrection": "fill_test rejected \u2014 ACU power is prerequisite stack; bind to door_switch_test as cycle authorization proxy until dedicated control test exists",
+      "overlayCandidateIds": [
+        "overlay-W11633848-w11633848-acu-power-fill_test"
+      ],
+      "gateAction": "approve_human",
+      "note": "Interim binding \u2014 platform overlay may refine."
+    }
+  ],
+  "measurementBindings": [
+    {
+      "procedureId": "w11633848-door-switch",
+      "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+      "testTargetId": "door_switch_test",
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-fill-valve",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuFillValveOhms",
+      "testTargetId": "fill_test",
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-overfill-switch",
+      "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+      "testTargetId": "water_level_test",
+      "matcherCorrection": "fill_test \u2192 water_level_test",
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-owi-sensor",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuOwiThermistorOhms",
+      "testTargetId": "water_level_test",
+      "matcherCorrection": "heater_command_test \u2192 water_level_test",
+      "gateAction": "approve_human",
+      "platformNote": "OWI \u03a9 step in fill context \u2014 temperature interpretation via platform."
+    },
+    {
+      "procedureId": "w11633848-wash-motor",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+      "testTargetId": "circulation_test",
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-drain-motor",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuDrainMotorOhms",
+      "testTargetId": "drain_test",
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w11633848-heater",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuHeaterOhms",
+      "testTargetId": "heater_command_test",
+      "gateAction": "approve_human"
+    }
+  ],
+  "proposedOverlaySkeleton": {
+    "manufacturer": "Whirlpool",
+    "overlayFile": "whirlpool_dishwasher.json",
+    "platformFamilyId": "whirlpool_dishwasher_acu",
+    "platformId": "whirlpool_dishwasher_acu",
+    "manualId": "W11633848",
+    "label": "Whirlpool/Maytag/KitchenAid ACU dishwasher (W11633848 base)",
+    "hierarchyHypothesis": "dishwasher \u2192 whirlpool_dishwasher \u2192 whirlpool_dishwasher_acu",
+    "add": {
+      "components": [
+        {
+          "id": "diverter_motor",
+          "implementsCanonicalId": "circulation_pump",
+          "note": "ACU diverter motor \u2014 circulation path switching"
+        },
+        {
+          "id": "diverter_position_sensor",
+          "implementsCanonicalId": "circulation_pump",
+          "note": "Diverter feedback \u2014 platform only"
+        },
+        {
+          "id": "owi_sensor",
+          "implementsCanonicalId": "water_level_sensor",
+          "dualRoleCanonicalIds": [
+            "water_level_sensor",
+            "temperature_sensor"
+          ],
+          "note": "Optical water indicator \u2014 dual diagnostic role taught in overlay"
+        },
+        {
+          "id": "dc_fan_motor",
+          "implementsCanonicalId": "drying_system",
+          "note": "Heat-dry DC fan"
+        },
+        {
+          "id": "f500_triac_fuse",
+          "implementsCanonicalId": "thermal_protection",
+          "note": "ACU load-side triac fuse"
+        },
+        {
+          "id": "ssm_wash_motor",
+          "implementsCanonicalId": "circulation_pump",
+          "note": "Split-phase wash motor architecture label"
+        }
+      ]
+    }
+  },
+  "abstractionBoundaryReview": {
+    "circulation_pump": {
+      "verdict": "canonical_sufficient",
+      "gateEvidence": "Wash motor, diverter motor \u2192 circulation_pump; diverter position \u2192 platform defer"
+    },
+    "drying_system": {
+      "verdict": "canonical_sufficient",
+      "gateEvidence": "DC fan \u2192 drying_system; \u00a73-10 title rejected to preserve heat vs dry split"
+    },
+    "water_level_sensor": {
+      "verdict": "canonical_sufficient",
+      "gateEvidence": "Float switch \u2192 water_level_sensor; OWI deferred \u2014 dual role platform"
+    },
+    "freezeDishwasherOntology": false
+  },
+  "compoundingEvidence": {
+    "cohortRole": "baseline",
+    "newHumanSemanticDecisions": 11,
+    "canonicalAutoReuse": 4,
+    "newCanonicalConcepts": 0,
+    "deferredPlatformConcepts": 3,
+    "rejectedProceduralTitles": 3
+  },
+  "humanGateChecklist": [
+    "Confirm 4 canonical_reuse auto mappings \u2014 no dishwasher.json changes.",
+    "Approve 11 Whirlpool alias / compound mappings \u2014 0 new canonical concepts.",
+    "Defer diverter position sensor, OWI dual-role, and door_gasket \u2014 platform/model only.",
+    "Reject \u00a73-6, \u00a73-10 titles and ambiguous triac-fuse supply token.",
+    "Approve procedureBindings with matcher corrections (water_level, drying_airflow, thermal_protection).",
+    "Do not freeze dishwasher.json until architecture review after overlay promotion dry-run."
+  ]
+}

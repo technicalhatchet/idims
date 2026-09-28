@@ -49,6 +49,8 @@ export interface WizardProviderProps<TContext> {
   /** Restore visited step ids from persisted diagnostic progress. */
   initialVisitedStepIds?: string[];
   resetKey?: string | number;
+  /** When set, wizard navigates to this step id without a full reset (orchestrated journey). */
+  orchestratedNavigateStepId?: string | null;
   keyboardNavigation?: boolean;
   onStepChange?: (state: WizardNavigationState) => void;
   onAutoSave?: (state: WizardNavigationState) => void;

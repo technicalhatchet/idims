@@ -1,0 +1,546 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "LG-LSC27926-SXS",
+  "platformId": "lg_sxs",
+  "gateKind": "sxs_production_compounding_lg",
+  "gateArtifact": "LG_LSC27926_SXS_overlay_mapping_table_v1.json",
+  "generatedAt": "2026-09-16T13:46:48.152285+00:00",
+  "reviewer": "human_gate_cg95_wp3",
+  "compoundingPhase": "CG-9.5",
+  "workPackage": "WP3",
+  "entries": [
+    {
+      "artifactId": "lg-sxs-control-board",
+      "gateQuestion": "Does LSC27926 SxS independently teach frozen control_board?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "control_board",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-test-mode-entry"
+      ],
+      "seedComponentIds": [
+        "control_board"
+      ],
+      "rationale": "Main PCB MICOM test-mode orchestration (Test 1 all loads / Test 2 defrost) \u2014 LG SxS-native control. Not inherited from LRMVS linear or Samsung inverter SxS.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "lg-sxs-user-interface",
+      "gateQuestion": "Does LSC27926 SxS independently teach frozen user_interface?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "user_interface",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-lcd-check",
+        "lgsxs-display-communication"
+      ],
+      "seedComponentIds": [],
+      "rationale": "\u00a72-16 LCD/LED graphics check and \u00a71-11 main\u2194display MICOM communication \u2014 independent HMI diagnostic on LG SxS without LRMVS linear overlay.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "lg-sxs-door-switch",
+      "gateQuestion": "Does LSC27926 SxS independently teach frozen door_switch?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "door_switch",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-door-switch"
+      ],
+      "seedComponentIds": [
+        "door_switch"
+      ],
+      "rationale": "\u00a71-4 door switches A/B/C/D with Test 1 fan-stop evidence \u2014 independent procedure binding (contrast Samsung RS28 flowchart-only abstention).",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "lg-sxs-evaporator-fan",
+      "gateQuestion": "Does LSC27926 SxS teach frozen evaporator_fan?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "evaporator_fan",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-fz-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "rationale": "F-FAN BLDC freezer evaporator fan in Test 1 \u2014 single-evaporator SxS architecture, canonical evaporator_fan with BLDC platform overlay.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "lg-sxs-air-damper",
+      "gateQuestion": "Does LSC27926 SxS independently teach frozen air_damper?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "air_damper",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-damper"
+      ],
+      "seedComponentIds": [
+        "damper_motor"
+      ],
+      "rationale": "Stepping motor baffle Test 1 open / Test 2 closed \u2014 LG SxS air_damper implementation distinct from Samsung heater-only or Whirlpool stepper+heater.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "lg-sxs-defrost-heater",
+      "gateQuestion": "Does LSC27926 SxS teach frozen defrost_heater?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "defrost_heater",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-defrost-heater"
+      ],
+      "seedComponentIds": [
+        "defrost_heater"
+      ],
+      "rationale": "Test 2 forced defrost heater ON \u2014 direct canonical inheritance.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "lg-sxs-compressor-relay-conditional",
+      "gateQuestion": "What does LSC27926 teach about conditional compressor?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "compressor",
+      "instanceScope": "relay_drive_conventional",
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-compressor"
+      ],
+      "seedComponentIds": [
+        "compressor"
+      ],
+      "rationale": "Test 1 compressor relay RY2 drive \u2014 conventional AC relay path. conditionalConcept only; relay implementation stays platform layer. NOT LRMVS linear inverter or Samsung inverter PBA.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-condenser-fan-conditional",
+      "gateQuestion": "Does LSC27926 teach conditional condenser_fan?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "condenser_fan",
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-condenser-fan"
+      ],
+      "seedComponentIds": [
+        "condenser_fan"
+      ],
+      "rationale": "C-FAN BLDC runs with compressor in Test 1 \u2014 independent LG procedure evidence. Conditional binding only; NOT canonical promotion.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "lg-sxs-temp-freezer-conditional",
+      "gateQuestion": "LSC27926 freezer cabinet NTC scope?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "freezer",
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-freezer-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-temp-fresh-food-conditional",
+      "gateQuestion": "LSC27926 cold storage NTC scope?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "fresh_food",
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-fresh-food-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-temp-ambient-conditional",
+      "gateQuestion": "LSC27926 ambient NTC scope (Better1)?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "ambient",
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-ambient-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": "Better1 ambient sensor \u2014 conditional ambient scope, not cabinet NTC collapse.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-ice-maker-conditional",
+      "gateQuestion": "LSC27926 optional ice_maker conditional binding?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "ice_maker",
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-ice-maker"
+      ],
+      "seedComponentIds": [
+        "ice_maker_module"
+      ],
+      "rationale": "\u00a73 in-door ice maker \u2014 optional feature domain, conditionalConcept only.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-water-dispenser-conditional",
+      "gateQuestion": "LSC27926 water_dispenser conditional binding?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "water_dispenser",
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-water-dispenser"
+      ],
+      "seedComponentIds": [
+        "water_valve"
+      ],
+      "rationale": "\u00a72-18 water/ice dispenser valves \u2014 optional conditional feature, not canonical.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-defrost-sensor-platform",
+      "gateQuestion": "Defrost NTC vocabulary?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "defrost_sensor",
+      "procedureIds": [
+        "lgsxs-defrost-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": "Defrost sensor resistance flow \u2014 platform defrost_sensor vocabulary, not cabinet temperature_sensor conditional.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-micom-display-platform",
+      "gateQuestion": "Main\u2194display MICOM implementation?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "display_communication",
+      "procedureIds": [
+        "lgsxs-display-communication"
+      ],
+      "seedComponentIds": [],
+      "rationale": "4-wire main MICOM \u2194 display MICOM harness \u2014 platform HMI comm path, not canonical control_board expansion.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-compressor-relay-platform",
+      "gateQuestion": "RY2 conventional compressor relay implementation?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "compressor_controller",
+      "procedureIds": [
+        "lgsxs-compressor"
+      ],
+      "seedComponentIds": [],
+      "rationale": "Conventional relay-drive compressor path \u2014 platform compressor_controller. Distinct from LRMVS linear inverter and Samsung inverter PBA.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-damper-stepper-platform",
+      "gateQuestion": "Stepping motor damper implementation?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-damper"
+      ],
+      "seedComponentIds": [],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-bldc-fan-platform",
+      "gateQuestion": "BLDC F-FAN / C-FAN implementation?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-fz-fan",
+        "lgsxs-condenser-fan"
+      ],
+      "seedComponentIds": [],
+      "rationale": "BLDC fan drive on main MICOM \u2014 platform fan controller vocabulary for evaporator_fan canonical and condenser_fan conditional paths.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-dispenser-platform",
+      "gateQuestion": "Water/ice dispenser valve implementation?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-water-dispenser"
+      ],
+      "seedComponentIds": [],
+      "rationale": "RY4/RY5/RY7/RY12 dispenser relays \u2014 implements conditional water_dispenser.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-sealed-system-routing",
+      "gateQuestion": "Sealed-system complaint routing?",
+      "gateAction": "reject_canonical_promotion",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "Not-cooling complaint vocabulary routes to compressor relay + condenser_fan + cabinet NTCs \u2014 not a canonical aggregate node.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-aggregate-resurrection-blocked",
+      "gateQuestion": "Do LSC27926 terms resurrect removed aggregates?",
+      "gateAction": "reject_canonical_promotion",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "Test-mode steps decompose into members \u2014 defrost_system, cooling_system, airflow_path remain dead per CG-7 freeze.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-cg9-r2-evidence-isolation",
+      "gateQuestion": "Does CG-9 R2 boundary observation auto-approve overlay rows?",
+      "gateAction": "reject_canonical_promotion",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "CG-9 R2 triangulation closed family boundary \u2014 calibration only. Each teaching row requires independent LSC27926 procedure evidence in this gate.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-optichill-damper-platform",
+      "gateQuestion": "OptiChill stepping damper implementation?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lgsxs-damper"
+      ],
+      "seedComponentIds": [],
+      "rationale": "OptiChill stepping damper Test 1 closed / Test 2 closed \u2014 LG-specific platform instance alongside main baffle damper_motor.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-r2-sensor-abstention",
+      "gateQuestion": "R2 / OptiChill sensor procedure coverage?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "LCD check reveals hidden R2/OptiChill sensor faults but no standalone R2-sensor procedure seed \u2014 deferred until seed exists.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-humidity-abstention",
+      "gateQuestion": "humidity_control on LSC27926?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "No humidity sensor on LSC27926 SxS \u2014 CG-7 deferred humidity_control.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sxs-water-tank-abstention",
+      "gateQuestion": "Water tank sensor on LSC27926?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "LCD check reveals hidden water-tank fault display but no water-tank procedure seed \u2014 dispenser bound via water_valve only.",
+      "independentEvidence": null
+    }
+  ],
+  "summary": {
+    "canonicalInheritances": 6,
+    "conditionalBindings": 7,
+    "overlayLearningEvents": 10,
+    "intentionalAbstentions": 3,
+    "newOverlaySemanticDecisions": 10,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0
+  },
+  "accounting": {
+    "canonicalInheritances": 6,
+    "conditionalBindings": 7,
+    "overlayLearningEvents": 10,
+    "intentionalAbstentions": 3,
+    "newOverlaySemanticDecisions": 10,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0,
+    "semanticLearningFromRouting": 0
+  }
+}

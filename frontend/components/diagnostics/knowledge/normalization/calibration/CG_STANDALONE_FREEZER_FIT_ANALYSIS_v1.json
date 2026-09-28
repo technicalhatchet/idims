@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_standalone_freezer_fit_analysis",
+  "workstream": "CG-STANDALONE-FREEZER-FIT-TEST",
+  "status": "complete",
+  "generatedAt": "2026-09-17T18:15:00+00:00",
+  "contract": "CG_STANDALONE_FREEZER_FIT_TEST_CONTRACT_v1.json",
+  "hardOutcome": "composition",
+  "hardOutcomeGate": {
+    "permittedOutcomes": ["proven_variant", "composition", "architectural_divergence", "insufficient_evidence"],
+    "selected": "composition",
+    "exactlyOne": true
+  },
+  "evidenceChain": {
+    "contract": "CG_STANDALONE_FREEZER_FIT_TEST_CONTRACT_v1.json",
+    "observation": "CG_MIDEA_UZ21_FIT_OBSERVATION_v1.json",
+    "triangulation": "CG_STANDALONE_FREEZER_FIT_TRIANGULATION_v1.json"
+  },
+  "fitAgainstFrenchDoorRefrigerator": {
+    "verdict": "fits_via_freezer_only_composition",
+    "fitsWithoutMutation": true,
+    "hostFamily": "french_door_refrigerator",
+    "rationale": "NS-UZ21 upright freezer implements a single-compartment subset of the frozen french_door_refrigerator refrigeration functional contract. All seven ingested OEM procedures map to existing canonical nodes or documented conditional/overlay bindings: control_board, user_interface, evaporator_fan (freezer instance), defrost_heater (freezer instance), temperature_sensor instances (cabinet/defrost/ambient), compressor (conditional overlay), defrost_sensor (platform overlay). E9 high-temp ladder exercises refrigeration_operation dependencies without inventing new canonical domains.",
+    "functionalMappings": [
+      { "freezerDomain": "cabinet temperature control", "hostBinding": "temperature_sensor[freezer] + control_board + refrigeration_operation" },
+      { "freezerDomain": "defrost heater/sensor", "hostBinding": "defrost_heater[freezer] + defrost_sensor overlay + defrost_operation" },
+      { "freezerDomain": "evaporator airflow", "hostBinding": "evaporator_fan[freezer] + airflow_operation" },
+      { "freezerDomain": "display communication", "hostBinding": "user_interface + control_board" },
+      { "freezerDomain": "compressor drive", "hostBinding": "conditionalConcept.compressor (fixed-speed overlay)" },
+      { "freezerDomain": "door/service mode", "hostBinding": "door_switch + door_authorization" }
+    ],
+    "refrigeratorSpecificDomainsNotInstantiated": [
+      "air_damper",
+      "ice_maker",
+      "water_dispenser",
+      "fresh_food temperature_sensor instances",
+      "multi-compartment fan routing"
+    ],
+    "notRequiredForFit": "air_damper is conditional in airflow_operation — standalone freezer omits fresh-food damper without canonical mutation"
+  },
+  "rejectedDivergenceHypotheses": [
+    {
+      "hypothesis": "Standalone freezer needs standalone_freezer.json because product category differs",
+      "rejection": "Product marketing category is not ontology evidence — functional responsibilities subset existing host"
+    },
+    {
+      "hypothesis": "Missing fresh-food compartment creates new architecture",
+      "rejection": "Optional/unused refrigerator domains are not instantiated — same as optional ice_maker absent on Jazz"
+    },
+    {
+      "hypothesis": "Compressor/evaporator/condenser hardware requires new canonical nodes",
+      "rejection": "french_door_refrigerator rev1 explicitly defers physical components; compressor is conditionalConcept with overlay binding"
+    },
+    {
+      "hypothesis": "Single-compartment airflow is fundamentally different",
+      "rejection": "evaporator_fan already supports freezer instance scope — single fan is degenerate instance binding"
+    }
+  ],
+  "genuineDivergencesFound": [],
+  "witnessLimitation": {
+    "standaloneFreezerWitnessCount": 1,
+    "missingCandidates": ["Whirlpool WZF79R20DW", "Whirlpool WZF56R16DW", "Samsung RZ11M7074SA/AA", "Samsung RZ11T7474AP/AA"],
+    "impact": "Would require additional witnesses before claiming cross-manufacturer recurrence of any NEW functional domain — not blocking composition into existing host"
+  },
+  "implementationOverlaysRemainingPlatformLevel": [
+    "compressor EZ90H1A fixed-speed",
+    "B3839 thermistor network",
+    "defrost_sensor termination",
+    "E-family fault code table",
+    "test mode / forced defrost entry bundles"
+  ],
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "standaloneFreezerJsonCreated": false,
+    "overlayCreated": false,
+    "discoveryAuthorized": false,
+    "procedureCount": 7,
+    "frenchDoorRefrigeratorClassifications": 7,
+    "unresolvedClassifications": 0,
+    "genuineDivergenceCount": 0
+  },
+  "architecturalDisposition": {
+    "categoryId": "standalone_freezer",
+    "disposition": "composition_of_french_door_refrigerator",
+    "hostCanonicalOntologyId": "french_door_refrigerator",
+    "compartmentScope": "freezer_only",
+    "newCanonicalGraphRequired": false
+  },
+  "stopCondition": "FIT closure — no discovery/freeze for standalone_freezer.json. Normalization/compounding deferred until architecture-complete STOP."
+}

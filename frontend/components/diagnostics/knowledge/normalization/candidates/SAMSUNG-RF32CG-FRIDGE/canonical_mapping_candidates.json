@@ -1,0 +1,1678 @@
+{
+  "manualId": "SAMSUNG-RF32CG-FRIDGE",
+  "candidates": [
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-thermistor-wash_ntc",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": "wash_ntc",
+      "confidence": 0.85,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-ambient-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-ambient-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "global_hint"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-external-/-ambient-air-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "External / ambient air sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "external ambient air",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-ambient-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-ambient-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "external ambient air",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-ice_maker_module",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ice_maker_module",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "ice maker",
+        "actuator": "module"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-autofill-overflow",
+        "pages": [
+          92,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-autofill-overflow",
+            "pages": [
+              92,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice maker",
+              "actuator": "module"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-autofill-infuser-overflow",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "AutoFill infuser overflow",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-autofill-overflow",
+        "pages": [
+          92,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-autofill-overflow",
+            "pages": [
+              92,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-inverter_board",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inverter_board",
+      "canonicalId": "motor_controller",
+      "confidence": 0.88,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "inverter",
+        "actuator": "board"
+      },
+      "matchedPhrase": "inverter board",
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-compressor-inverter",
+        "pages": [
+          91,
+          125
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-compressor-inverter",
+            "pages": [
+              91,
+              125
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+            "matchedPhrase": "inverter board",
+            "decomposition": {
+              "domain": null,
+              "component": "inverter",
+              "actuator": "board"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-compressor-/-inverter-ipm-fault",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Compressor / inverter IPM fault",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-compressor-inverter",
+        "pages": [
+          91,
+          125
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-compressor-inverter",
+            "pages": [
+              91,
+              125
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-evap_fan",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "evap_fan",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-convertible-fan",
+        "pages": [
+          89,
+          126
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-convertible-fan",
+            "pages": [
+              89,
+              126
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-convertible-compartment-fan-(c-fan)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Convertible compartment fan (C-FAN)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-convertible-fan",
+        "pages": [
+          89,
+          126
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-convertible-fan",
+            "pages": [
+              89,
+              126
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-damper_motor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "damper_motor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "damper",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-damper-heater-135",
+        "pages": [
+          90,
+          91
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-damper-heater-135",
+            "pages": [
+              90,
+              91
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "damper",
+              "actuator": "motor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-flex-zone-damper-heater-(135-\u03c9)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Flex-Zone damper heater (135 \u03a9)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "flex zone damper",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-damper-heater-135",
+        "pages": [
+          90,
+          91
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-damper-heater-135",
+            "pages": [
+              90,
+              91
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "flex zone damper",
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-damper-heater-(24-\u03c9-\u2014-rf32cg)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Damper heater (24 \u03a9 \u2014 RF32CG)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "damper",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-damper-heater-24",
+        "pages": [
+          98,
+          99
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-damper-heater-24",
+            "pages": [
+              98,
+              99
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "damper",
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-flex-zone-sensor-(optional)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Flex-Zone sensor (optional)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "flex zone",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-flex-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-flex-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "flex zone",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-samsung-rf32cg-fridge-unresolved-samsungbespoke-freezer-defrost-heater-heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "heater",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-freezer-defrost-heater",
+        "pages": [
+          89,
+          123
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-freezer-defrost-heater",
+            "pages": [
+              89,
+              123
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-freezer-defrost-heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Freezer defrost heater",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "freezer defrost",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-freezer-defrost-heater",
+        "pages": [
+          89,
+          123
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-freezer-defrost-heater",
+            "pages": [
+              89,
+              123
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "freezer defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-freezer-defrost-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Freezer defrost sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "freezer defrost",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-freezer-defrost-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-freezer-defrost-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "freezer defrost",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-freezer-evaporator-fan-(f-fan)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Freezer evaporator fan (F-FAN)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-freezer-fan",
+        "pages": [
+          89,
+          120
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-freezer-fan",
+            "pages": [
+              89,
+              120
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-freezer-compartment-sensor-(f)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Freezer compartment sensor (F)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "freezer compartment",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-freezer-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-freezer-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "freezer compartment",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-fridge-defrost-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Fridge defrost sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "fridge defrost",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-fridge-defrost-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-fridge-defrost-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "fridge defrost",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-fridge-compartment-fan",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Fridge compartment fan",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-fridge-fan",
+        "pages": [
+          89,
+          120
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-fridge-fan",
+            "pages": [
+              89,
+              120
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-fridge-compartment-sensor-(r)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Fridge compartment sensor (R)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "fridge compartment",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-fridge-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-fridge-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "fridge compartment",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-humidity-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Humidity sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "humidity",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-humidity-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-humidity-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "humidity",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-ice_pipe_heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ice_pipe_heater",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "ice pipe",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-ice-duct-heater",
+        "pages": [
+          100,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-ice-duct-heater",
+            "pages": [
+              100,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice pipe",
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-fridge-ice-duct-heater-(63-\u03c9)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Fridge ice duct heater (63 \u03a9)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "fridge ice duct",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-ice-duct-heater",
+        "pages": [
+          100,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-ice-duct-heater",
+            "pages": [
+              100,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "fridge ice duct",
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-ice-maker-temperature-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Ice maker temperature sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "ice maker temperature",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-ice-maker-sensor",
+        "pages": [
+          89,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-ice-maker-sensor",
+            "pages": [
+              89,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice maker temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-ice-pipe-heater-(24-\u03c9-\u2014-rf32cg)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Ice pipe heater (24 \u03a9 \u2014 RF32CG)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "ice pipe",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-ice-pipe-heater-24",
+        "pages": [
+          98,
+          99
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-ice-pipe-heater-24",
+            "pages": [
+              98,
+              99
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice pipe",
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-freezer-ice-pipe-heater-(72-\u03c9-\u2014-rf23bb)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Freezer ice pipe heater (72 \u03a9 \u2014 RF23BB)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "freezer ice pipe",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-ice-pipe-heater-72",
+        "pages": [
+          90,
+          91
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-ice-pipe-heater-72",
+            "pages": [
+              90,
+              91
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "freezer ice pipe",
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-ice-room-fan",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Ice room fan",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-ice-room-fan",
+        "pages": [
+          97,
+          128
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-ice-room-fan",
+            "pages": [
+              97,
+              128
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-samsung-rf32cg-fridge-unresolved-samsungbespoke-ice-room-heater-heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "heater",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-ice-room-heater",
+        "pages": [
+          100,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-ice-room-heater",
+            "pages": [
+              100,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-ice-room-heater-(135-\u03c9)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Ice room heater (135 \u03a9)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "ice room",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-ice-room-heater",
+        "pages": [
+          100,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-ice-room-heater",
+            "pages": [
+              100,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice room",
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-main-\u2194-inverter-communication",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Main \u2194 inverter communication",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "main",
+        "component": "inverter communication",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-main-inverter-comm",
+        "pages": [
+          91,
+          125
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-main-inverter-comm",
+            "pages": [
+              91,
+              125
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "main",
+              "component": "inverter communication",
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-display_panel",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "display_panel",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-main-panel-comm",
+        "pages": [
+          91,
+          137
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-main-panel-comm",
+            "pages": [
+              91,
+              137
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RF32CG-FRIDGE-compound-main-\u2194-display-panel-communication",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Main \u2194 display panel communication",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "main",
+        "component": "display panel communication",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RF32CG-FRIDGE",
+        "platformId": "samsung_fridge_bespoke",
+        "procedureId": "samsungbespoke-main-panel-comm",
+        "pages": [
+          91,
+          137
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF32CG-FRIDGE",
+            "platformId": "samsung_fridge_bespoke"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbespoke-main-panel-comm",
+            "pages": [
+              91,
+              137
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "main",
+              "component": "display panel communication",
+              "actuator": null
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

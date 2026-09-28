@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_heat_pump_dryer_discovery_closure",
+  "workstream": "CG-HEAT-PUMP-DRYER-DISCOVERY",
+  "status": "closed_discovery_complete",
+  "lockedAt": "2026-09-17T15:10:00+00:00",
+  "verdict": "CLOSED / HEAT_PUMP_DRYER_CANDIDATE_READY_FOR_FREEZE_REVIEW",
+  "discoveryOutcome": "candidate_ready_for_freeze",
+  "closureStatement": "Discovery complete. Minimum manufacturer-neutral contract: 2 new core functions (heat_pump_thermal_system, sealed_moisture_rejection_path) + 7 reused vented_dryer functions. Zero refrigeration hardware promoted to canonical. Three-manufacturer convergence (Samsung DV22N, LG DLHC1455, Whirlpool HybridCare). NOT a copy of the physical refrigeration loop. STOP before freeze — heat_pump_dryer.json remains blocked. AIO workstream remains paused.",
+  "approvedFunctionalContract": {
+    "artifact": "heat_pump_dryer_functional_contract_candidate_v1.json",
+    "status": "candidate_ready_for_freeze_review",
+    "newCoreFunctions": 2,
+    "reusedVentedDryerFunctions": 7,
+    "componentPromotionCount": 0,
+    "ontologyId": "heat_pump_dryer",
+    "notProductionCanonical": true
+  },
+  "discoveryDecisions": {
+    "refrigerationHardwareOntology": "REJECTED — compressor/eva/cond/expansion not canonical nodes",
+    "heatVsMoistureSplit": "TWO FUNCTIONS — diagnostically separable fault families across all witnesses",
+    "airflowCondensateCollapse": "sealed_moisture_rejection_path subsumes airflow+condensation+condensate as one functional path",
+    "ventedDryerReuse": "door, drive, moisture_sensor, lint_filter, control, hmi, power — unchanged",
+    "ventedDryerHeatSource": "NOT reused for primary HP dry heat",
+    "supplementalHeater": "implementation_realization — not separate canonical function"
+  },
+  "crossManufacturerConvergence": {
+    "witnesses": ["Samsung DV22N6850", "LG DLHC1455", "Whirlpool W10764068"],
+    "convergentNewDomains": 2,
+    "whirlpoolCorroboratesWithoutSamsungLgTerminology": true
+  },
+  "aioCompatibilitySummary": {
+    "samsungWd53": "HP dry maps fully to proposed contract",
+    "whirlpoolWfw9620": "partial — moisture path overlap; resistive heat not heat_pump_thermal_system",
+    "aioCandidateModified": false,
+    "aioWorkstream": "PAUSED per CG_AIO_LAUNDRY_COMBO_WORKSTREAM_STATUS_v1.json"
+  },
+  "governanceConclusion": {
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0,
+    "heatPumpDryerJsonCreated": false,
+    "overlayCreated": false,
+    "freezeExecuted": false,
+    "aioArtifactsMutated": false
+  },
+  "headlineMetrics": {
+    "newCoreFunctions": 2,
+    "reusedFunctions": 7,
+    "rejectedHardwareNodes": 9,
+    "manufacturers": 3,
+    "fitArtifactsMutated": 0
+  },
+  "evidenceChain": {
+    "fitDivergencePackage": "CG_HEAT_PUMP_DRYER_FIT_DIVERGENCE_PACKAGE_v1.json",
+    "discoveryContract": "CG_HEAT_PUMP_DRYER_DISCOVERY_CONTRACT_v1.json",
+    "discoveryTriangulation": "CG_HEAT_PUMP_DRYER_DISCOVERY_TRIANGULATION_v1.json",
+    "candidate": "heat_pump_dryer_functional_contract_candidate_v1.json"
+  },
+  "authorizedNextWorkstream": "CG-HEAT-PUMP-DRYER-FREEZE",
+  "nextDisciplinedStep": "Human freeze gate — author heat_pump_dryer.json rev1 from approved functional contract; do not auto-resume AIO",
+  "explicitNonActions": [
+    "No heat_pump_dryer.json from discovery closure",
+    "No vented_dryer mutation",
+    "No manufacturer overlays",
+    "No corpus normalization/compounding",
+    "No automatic AIO return"
+  ],
+  "stopCondition": "STOP — await human architectural review for freeze authorization"
+}

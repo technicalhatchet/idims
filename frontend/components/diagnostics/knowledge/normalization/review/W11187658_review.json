@@ -1,0 +1,1057 @@
+{
+  "manualId": "W11187658",
+  "platformId": "whirlpool_dishwasher_ada",
+  "templateId": "dishwasher",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:16.996377+00:00",
+  "records": [
+    {
+      "candidateId": "map-W11187658-compound-drain_pump",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "drain_pump",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "drain pump",
+        "decomposition": {
+          "domain": "drain",
+          "component": null,
+          "actuator": "pump"
+        },
+        "summary": "alias: drain_pump \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-drain-pump",
+        "pages": [
+          40,
+          16
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drain_pump": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-drain-pump",
+        "pages": [
+          40,
+          16
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-drain-pump",
+            "pages": [
+              40,
+              16
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "drain pump",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11187658-compound-drain-pump-\u2014-25\u201335-\u03c9-(con2)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "Drain pump \u2014 25\u201335 \u03a9 (CON2)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "drain pump",
+        "decomposition": {
+          "domain": "drain",
+          "component": null,
+          "actuator": "pump"
+        },
+        "summary": "alias: Drain pump \u2014 25\u201335 \u03a9 (CON2) \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-drain-pump",
+        "pages": [
+          40,
+          16
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Drain pump \u2014 25\u201335 \u03a9 (CON2)": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-drain-pump",
+        "pages": [
+          40,
+          16
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-drain-pump",
+            "pages": [
+              40,
+              16
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "drain pump",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11187658-compound-inlet_valve",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "inlet_valve",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "inlet valve",
+        "decomposition": {
+          "domain": "inlet",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: inlet_valve \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-fill-valve",
+        "pages": [
+          32,
+          8
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_valve": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-fill-valve",
+        "pages": [
+          32,
+          8
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-fill-valve",
+            "pages": [
+              32,
+              8
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "inlet valve",
+            "decomposition": {
+              "domain": "inlet",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11187658-compound-water-inlet-valve-\u2014-~24-\u03c9-(cn5)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "Water inlet valve \u2014 ~24 \u03a9 (CN5)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "inlet valve",
+        "decomposition": {
+          "domain": "water",
+          "component": "inlet",
+          "actuator": "valve"
+        },
+        "summary": "alias: Water inlet valve \u2014 ~24 \u03a9 (CN5) \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-fill-valve",
+        "pages": [
+          32,
+          8
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Water inlet valve \u2014 ~24 \u03a9 (CN5)": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-fill-valve",
+        "pages": [
+          32,
+          8
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-fill-valve",
+            "pages": [
+              32,
+              8
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "inlet valve",
+            "decomposition": {
+              "domain": "water",
+              "component": "inlet",
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11187658-unresolved-w11187658-heater-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-heater",
+        "pages": [
+          34,
+          18
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-heater",
+        "pages": [
+          34,
+          18
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-heater",
+            "pages": [
+              34,
+              18
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11187658-compound-e3-\u2014-tub-heater-~14-\u03c9",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "E3 \u2014 Tub heater ~14 \u03a9",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "e3 tub",
+          "actuator": "heater"
+        },
+        "summary": "alias: E3 \u2014 Tub heater ~14 \u03a9 \u2192 None"
+      },
+      "source": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-heater",
+        "pages": [
+          34,
+          18
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "E3 \u2014 Tub heater ~14 \u03a9": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-heater",
+        "pages": [
+          34,
+          18
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-heater",
+            "pages": [
+              34,
+              18
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "e3 tub",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11187658-compound-e1-\u2014-water-inlet-failure-(4-min-fill)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "E1 \u2014 Water inlet failure (4 min fill)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: E1 \u2014 Water inlet failure (4 min fill) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-inlet-fill",
+        "pages": [
+          18,
+          32,
+          38
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "E1 \u2014 Water inlet failure (4 min fill)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-inlet-fill",
+        "pages": [
+          18,
+          32,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-inlet-fill",
+            "pages": [
+              18,
+              32,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11187658-compound-e4-\u2014-overflow-/-base-pan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "E4 \u2014 Overflow / base pan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: E4 \u2014 Overflow / base pan \u2192 None"
+      },
+      "source": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-overflow",
+        "pages": [
+          37,
+          18,
+          40
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "E4 \u2014 Overflow / base pan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-overflow",
+        "pages": [
+          37,
+          18,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-overflow",
+            "pages": [
+              37,
+              18,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11187658-unresolved-w11187658-tub-thermistor-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-tub-thermistor",
+        "pages": [
+          36,
+          18
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-tub-thermistor",
+        "pages": [
+          36,
+          18
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-tub-thermistor",
+            "pages": [
+              36,
+              18
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11187658-compound-tub-thermistor-\u2014-e6/e7-ntc",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Tub thermistor \u2014 E6/E7 NTC",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "tub",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Tub thermistor \u2014 E6/E7 NTC \u2192 None"
+      },
+      "source": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-tub-thermistor",
+        "pages": [
+          36,
+          18
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Tub thermistor \u2014 E6/E7 NTC": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-tub-thermistor",
+        "pages": [
+          36,
+          18
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-tub-thermistor",
+            "pages": [
+              36,
+              18
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "tub",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11187658-w11187658-drain-pump-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11187658-drain-pump",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11187658-drain-pump \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-drain-pump",
+        "pages": [
+          40,
+          16
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11187658-drain-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "Drain pump \u2014 25\u201335 \u03a9 (CON2)",
+          "componentIds": [
+            "drain_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-drain-pump",
+        "pages": [
+          40,
+          16
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-drain-pump",
+            "pages": [
+              40,
+              16
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11187658-w11187658-drain-pump-meas-insigniaDishwasherDrainPumpOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11187658-drain-pump",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: insigniaDishwasherDrainPumpOhms \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-drain-pump",
+        "pages": [
+          40,
+          16
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11187658-drain-pump",
+          "measurementKnowledgeId": "insigniaDishwasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-drain-pump",
+        "pages": [
+          40,
+          16
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-drain-pump",
+            "pages": [
+              40,
+              16
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "insigniaDishwasherDrainPumpOhms",
+            "stepTitle": "Drain pump winding resistance"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11187658-w11187658-overflow-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11187658-overflow",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11187658-overflow \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-overflow",
+        "pages": [
+          37,
+          18,
+          40
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11187658-overflow",
+          "testTargetId": "drain_test",
+          "displayTitle": "E4 \u2014 Overflow / base pan",
+          "componentIds": [
+            "drain_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-overflow",
+        "pages": [
+          37,
+          18,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-overflow",
+            "pages": [
+              37,
+              18,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 13,
+    "byStatus": {
+      "COMPOUND_TERM_CANDIDATE": 4,
+      "needs_review": 6,
+      "candidate": 3
+    },
+    "byApprovalLevel": {
+      "careful": 4,
+      "blocked": 6,
+      "normal": 3
+    },
+    "byType": {
+      "canonicalMapping": 10,
+      "procedureTestBinding": 2,
+      "measurementBinding": 1
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 0,
+      "medium_0.80_0.94": 3,
+      "low_lt_0.80": 4,
+      "unresolved": 6
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 2
+    }
+  }
+}

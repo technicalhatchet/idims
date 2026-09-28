@@ -1,0 +1,158 @@
+{
+  "id": "lgsxs-condenser-fan",
+  "version": "1.0.0",
+  "title": "\u00a72-17: Condenser BLDC fan (C-FAN)",
+  "platformId": "lg_sxs",
+  "componentIds": [
+    "condenser_fan"
+  ],
+  "tags": [
+    "C-FAN",
+    "condenser_fan",
+    "airflow",
+    "not_cooling"
+  ],
+  "source": {
+    "manualId": "LG-LSC27926-SXS",
+    "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "2-17",
+    "oemTestTitle": "C-FAN fan voltage (Test 1)",
+    "pages": [
+      21,
+      24
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "test_mode_1"
+    },
+    {
+      "id": "test_mode_1",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Test Mode 1",
+      "body": "Push main PCB test button once \u2014 compressor, F-FAN, C-FAN run; main damper opens; all display segments on.",
+      "sourceExcerpt": "Push main PCB test button once \u2014 compressor, F-FAN, C-FAN run; main damper opens; all display segments on.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_voltage"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "PCB test mode entered. Continue with component-specific checks below.",
+      "sourceExcerpt": "After \u00a72-17 test mode entry, proceed with OEM component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "fan_voltage"
+    },
+    {
+      "id": "fan_voltage",
+      "order": 4,
+      "type": "measurement",
+      "title": "C-FAN fan supply voltage",
+      "body": "Measure C-FAN harness supply \u2194 GND vs GND \u2014 11.4\u201312.6 V in Test Mode 1 per LG BLDC fan spec.",
+      "sourceExcerpt": "Measure C-FAN harness supply \u2194 GND vs GND \u2014 11.4\u201312.6 V in Test Mode 1 per LG BLDC fan spec.",
+      "measurementKnowledgeId": "lgRefrigeratorFanVoltage",
+      "testPoint": {
+        "connector": "C-FAN harness",
+        "pins": "supply \u2194 GND",
+        "label": "C-FAN fan supply voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "condenser_fan",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "condenser_fan",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "condenser_fan",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "fan_pass",
+          "label": "11.4\u201312.6 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_fan",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace fan or PCB",
+      "oemOutcome": "Replace C-FAN BLDC fan when voltage low; main PCB if motor verified good.",
+      "requiresInput": false
+    },
+    {
+      "id": "fan_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Fan verified",
+      "oemOutcome": "C-FAN fan supply verified in Test Mode 1.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "lgsxs-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

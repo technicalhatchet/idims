@@ -1,0 +1,90 @@
+{
+  "manualId": "W11169652",
+  "equivalent": true,
+  "checks": {
+    "canonicalAliases": true,
+    "procedureBindings": true,
+    "measurementBindings": true,
+    "topologyOverrides": true
+  },
+  "aliasComparison": {
+    "equivalent": true,
+    "referenceCount": 0,
+    "generatedCount": 36,
+    "mismatches": [],
+    "extraGenerated": [
+      "acu",
+      "bulk_level_switch",
+      "door_lock",
+      "dosing_pump",
+      "drain_pump",
+      "drive_motor",
+      "dry_blower",
+      "dry_heater",
+      "dry_ntc",
+      "hmi_control",
+      "inlet_valve",
+      "supply",
+      "test #10: wash temperature sensor",
+      "test #11a: single dose dispenser",
+      "test #11b: optimal dosing pump",
+      "test #12a: drawer bulk dispenser",
+      "test #12b: bulk dispenser level sensing",
+      "test #13: vent fan motor",
+      "test #14: vent baffle solenoid",
+      "test #15: dry heating element",
+      "test #16: dry temperature sensor",
+      "test #17: dry blower motor",
+      "test #1: acu power check",
+      "test #2: human-machine interface (hmi)",
+      "test #3: motor circuit",
+      "test #4: door lock system",
+      "test #5: drum light",
+      "test #6: water inlet valves",
+      "test #7: water level sensor",
+      "test #8: drain/recirculation pump",
+      "test #9: wash heating element",
+      "vent_baffle",
+      "vent_fan",
+      "wash_heater",
+      "wash_ntc",
+      "water_level_sensor"
+    ]
+  },
+  "procedureBindingComparison": {
+    "label": "procedureBindings",
+    "equivalent": true,
+    "referenceCount": 0,
+    "generatedCount": 4,
+    "mismatches": [],
+    "extraGenerated": [
+      "w11169652-test-03-motor-circuit",
+      "w11169652-test-04-door-lock",
+      "w11169652-test-07-water-level-sensor",
+      "w11169652-test-08-drain-pump"
+    ]
+  },
+  "measurementBindingComparison": {
+    "label": "measurementBindings",
+    "equivalent": true,
+    "referenceCount": 0,
+    "generatedCount": 6,
+    "mismatches": [],
+    "extraGenerated": [
+      "w11169652-test-03-motor-circuit:whirlpoolFlWasherMotorOhms",
+      "w11169652-test-04-door-lock:whirlpoolFlWasherDoorLockSolenoidOhms",
+      "w11169652-test-04-door-lock:whirlpoolFlWasherDoorLockSwitchLockedOhms",
+      "w11169652-test-07-water-level-sensor:whirlpoolFlWasherAps5Vdc",
+      "w11169652-test-08-drain-pump:whirlpoolFlWasherDrainPumpOhms",
+      "w11169652-test-08-drain-pump:whirlpoolFlWasherRecircPumpOhms"
+    ]
+  },
+  "provenance": "generated",
+  "notes": [
+    "Semantic equivalence: reference CG-2 mappings must be preserved.",
+    "Extra generated aliases/bindings are allowed.",
+    "Topology overrides remain hand-authored and must not drift."
+  ],
+  "promotionId": "promo-W11169652-20260913062949",
+  "approvedCandidateCount": 0
+}

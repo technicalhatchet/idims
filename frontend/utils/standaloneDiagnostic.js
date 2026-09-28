@@ -42,6 +42,7 @@ export function buildStandaloneDiagnosticBody(payload, equipmentMeta = {}) {
       || templateIdToEquipmentSubtype(templateId)
       || null,
     equipment_serial: uppercasePreserve(equipmentMeta.equipment_serial) || null,
+    equipment_version: equipmentMeta.equipment_version?.trim() || null,
     customer_complaint: equipmentMeta.customer_complaint?.trim() || complaintFromPayload(payload),
     payload: cleanPayload,
     outcome_id: equipmentMeta.outcome_id || null,

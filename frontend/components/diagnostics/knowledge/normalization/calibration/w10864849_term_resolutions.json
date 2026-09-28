@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "W10864849",
+  "platformFamilyId": "whirlpool_tl_dd_direct_drive",
+  "ontologyId": "top_load_washer",
+  "description": "CG-5.5 controlled resolution pass — OEM TEST title compound aliases for Whirlpool TL DD. No new canonical ontology concepts.",
+  "resolutions": [
+    {
+      "candidateId": "map-W10864849-compound-main-control-(acu)",
+      "oemTerm": "TEST #1: Main Control (ACU)",
+      "canonicalId": "control_board",
+      "classification": "existing_canonical_concept",
+      "rationale": "ACU main control maps to canonical control_board on TL ontology."
+    },
+    {
+      "candidateId": "map-w10864849-unresolved-w10864849-test-02-valves-test-#2:-valves",
+      "oemTerm": "TEST #2: Valves",
+      "canonicalId": "inlet_valve",
+      "classification": "existing_canonical_concept",
+      "rationale": "Valve TEST maps to inlet_valve."
+    },
+    {
+      "candidateId": "map-w10864849-unresolved-w11697231-test-02-valves-test-#2:-valves",
+      "oemTerm": "TEST #2: Valves (W11697231 procedure alias)",
+      "canonicalId": "inlet_valve",
+      "classification": "existing_canonical_concept",
+      "rationale": "Shared TL family valve TEST — same canonical mapping as W10864849."
+    },
+    {
+      "candidateId": "map-W10864849-compound-drive-system-(pre-test)",
+      "oemTerm": "TEST #3: Drive System (pre-test)",
+      "canonicalId": "drive_motor",
+      "classification": "existing_platform_concept",
+      "rationale": "Drive-system orchestration parent TEST; platform routes to motor + shifter procedures."
+    },
+    {
+      "candidateId": "map-W10864849-compound-drive-system-\u2014-shifter",
+      "oemTerm": "TEST #3a: Drive System \u2014 Shifter",
+      "canonicalId": "mode_shifter",
+      "classification": "existing_canonical_concept",
+      "rationale": "Shifter sub-TEST on TL DD platform; mode_shifter is canonical on top_load_washer."
+    },
+    {
+      "candidateId": "map-W10864849-compound-drive-system-\u2014-motor",
+      "oemTerm": "TEST #3b: Drive System \u2014 Motor",
+      "canonicalId": "drive_motor",
+      "classification": "existing_canonical_concept",
+      "rationale": "BPM motor circuit TEST maps to drive_motor."
+    },
+    {
+      "candidateId": "map-W10864849-compound-keys-and-encoders",
+      "oemTerm": "TEST #4: Keys and Encoders",
+      "canonicalId": "hmi_control",
+      "classification": "existing_canonical_concept",
+      "rationale": "Capacitive glass UI keys/encoders map to hmi_control."
+    },
+    {
+      "candidateId": "map-W10864849-compound-console-and-indicators",
+      "oemTerm": "TEST #4: Console and Indicators",
+      "canonicalId": "hmi_control",
+      "classification": "existing_canonical_concept",
+      "rationale": "Console/indicators variant of HMI TEST on related TL family procedure."
+    },
+    {
+      "candidateId": "map-W10864849-compound-temperature-thermistor",
+      "oemTerm": "TEST #5: Temperature Thermistor",
+      "canonicalId": "wash_ntc",
+      "classification": "existing_canonical_concept",
+      "rationale": "Wash temperature NTC TEST."
+    },
+    {
+      "candidateId": "map-W10864849-compound-water-level",
+      "oemTerm": "TEST #6: Water Level",
+      "canonicalId": "pressure_sensor",
+      "classification": "existing_canonical_concept",
+      "rationale": "Human-reviewed: Whirlpool TL OEM TEST #6 maps to pressure_sensor (seed/OEM term), not water_level_sensor."
+    },
+    {
+      "candidateId": "map-W10864849-compound-drain-&-recirculation-pump",
+      "oemTerm": "TEST #7: Drain & Recirculation Pump",
+      "canonicalId": "drain_pump",
+      "classification": "existing_platform_concept",
+      "rationale": "Combined drain/recirc TEST; primary diagnostic path is drain_pump (recirc_pump sub-path in procedure seeds)."
+    },
+    {
+      "candidateId": "map-W10864849-compound-lid-lock",
+      "oemTerm": "TEST #8: Lid Lock",
+      "canonicalId": "lid_lock",
+      "classification": "existing_canonical_concept",
+      "rationale": "TL interlock uses lid_lock on top_load_washer ontology (not door_lock)."
+    },
+    {
+      "candidateId": "map-W10864849-compound-heater-element",
+      "oemTerm": "TEST #9: Heater Element",
+      "canonicalId": "wash_heater",
+      "classification": "existing_canonical_concept",
+      "rationale": "Optional wash heater TEST."
+    },
+    {
+      "candidateId": "map-W10864849-compound-service-leds",
+      "oemTerm": "TEST #10: Service LEDs",
+      "canonicalId": "hmi_control",
+      "classification": "existing_platform_concept",
+      "rationale": "Service LED diagnostic is UI/control path on this platform."
+    },
+    {
+      "candidateId": "map-W10864849-compound-basket-light",
+      "oemTerm": "TEST #11: Basket Light",
+      "canonicalId": "supply",
+      "classification": "existing_platform_concept",
+      "rationale": "Basket light routed via supply/wiring path (same pattern as FL drum light)."
+    },
+    {
+      "candidateId": "map-W10864849-compound-bulk-dispense-pump-and-rex-board",
+      "oemTerm": "TEST #12: Bulk Dispense Pump and REX Board",
+      "canonicalId": "bulk_level_switch",
+      "classification": "existing_canonical_concept",
+      "rationale": "Bulk dispense level sensing maps to bulk_level_switch."
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg11_gas_range_fit_analysis",
+  "workstream": "CG-11",
+  "stage": "fit_falsification_analysis",
+  "status": "human_boundary_approved",
+  "generatedAt": "2026-09-16T15:45:00+00:00",
+  "contract": "CG11_GAS_RANGE_FIT_TEST_CONTRACT_v1.json",
+  "humanBoundaryApprovalRequired": true,
+  "humanBoundaryApprovedAt": "2026-09-16T15:49:00+00:00",
+  "humanBoundaryApprovedOutcome": "A",
+  "closureArtifact": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json",
+  "canonicalMutationAuthorized": false,
+  "canonicalRenameAuthorized": false,
+  "recommendedOutcome": "A",
+  "recommendedOutcomeLabel": "gas_fits_electric_contract",
+  "r2Required": false,
+  "r2WaivedReason": "R1 Samsung NX60 produces zero DIVERGES across 11 probes with clear INHERITS on all five frozen components and both bake/broil instance scopes.",
+  "frozenContractUnderTest": {
+    "id": "electric_range",
+    "file": "frontend/components/diagnostics/knowledge/canonical/electric_range.json",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-16T15:26:00+00:00",
+    "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "hashMutatedDuringCg11": false,
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json"
+  },
+  "evidenceChain": {
+    "r1Observation": "SAMSUNG_NX60_RANGE_gr_cg11x_observation_v1.json",
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "platformId": "samsung_range_nx60",
+    "fuelFilter": "gas_range",
+    "fitHypothesis": "electric_range_gas_fit_hypothesis_v1.json",
+    "cg10FrozenContract": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json"
+  },
+  "classificationSummary": {
+    "INHERITS": 9,
+    "CONDITIONAL": 3,
+    "DIVERGES": 0,
+    "PLATFORM_ONLY": 8,
+    "NO_EVIDENCE": 1,
+    "DEFERRED": 0,
+    "allFiveCanonicalComponentsInherit": true,
+    "bothInstanceScopesInherit": true,
+    "gasHardwarePromotedToCanonical": false
+  },
+  "layerDisposition": {
+    "components": {
+      "power_supply": "INHERITS",
+      "control_board": "INHERITS",
+      "user_interface": "INHERITS",
+      "temperature_sensor": "INHERITS",
+      "surface_heating_system": "INHERITS"
+    },
+    "instanceScopes": {
+      "bake_heating_element": "INHERITS",
+      "broil_heating_element": "INHERITS"
+    },
+    "conditionalInstanceScopes": {
+      "convection_heating_element": "NO_EVIDENCE"
+    },
+    "conditionalConcepts": {
+      "convection_fan": "INHERITS",
+      "thermal_protection": "CONDITIONAL",
+      "oven_door_switch": "CONDITIONAL"
+    },
+    "removedConcepts": {
+      "oven_heating_system": "remains_removed"
+    }
+  },
+  "centerpieceFinding": {
+    "id": "bake_broil_instance_scope_functional_equivalence",
+    "title": "Bake/broil instance-scope abstraction survives radical implementation change",
+    "physicalImplementationDelta": {
+      "electric": "control → relay → heating element",
+      "gas": "control → relay → HSI → gas valve / burner"
+    },
+    "diagnosticStructurePreserved": {
+      "bake": {
+        "separateProcedure": true,
+        "separateControlPath": "bake relay TB204–TB205",
+        "separateIgnitionTestPoints": "T504–T505",
+        "procedureIds": ["samsungnx60-bake-ignitor", "samsungnx60-heater-relays"]
+      },
+      "broil": {
+        "separateProcedure": true,
+        "separateControlPath": "broil relay TB202–TB203",
+        "separateIgnitionTestPoints": "T504–T503",
+        "procedureIds": ["samsungnx60-broil-ignitor", "samsungnx60-heater-relays"]
+      }
+    },
+    "conclusion": "Implementation changes radically; diagnostic functions remain independently addressable. Strong evidence for CG-10 instance-scope abstraction — bake_heating_element and broil_heating_element carry as functional equivalence, not as electric-element canonical nodes.",
+    "platformVocabularyNotCanonical": ["hsi", "igniter", "safety_valve", "gas_valve", "bake_burner", "broil_burner"]
+  },
+  "conditionalNoEvidenceSemantics": {
+    "conceptId": "convection_heating_element",
+    "classification": "NO_EVIDENCE",
+    "correctInterpretation": "This frozen conditional instance scope is not evidenced by this gas configuration — NX60 convection is fan-mediated without a separate heating-element test path.",
+    "incorrectInterpretations": [
+      "gas does not support convection",
+      "convection_heating_element is invalid",
+      "frozen contract must be revised because gas lacks convection element"
+    ],
+    "engineRule": "NO_EVIDENCE means this configuration does not bind the conditional scope — not that the conditional scope is false or that gas lacks convection capability."
+  },
+  "centerpieceQuestionAnswer": {
+    "questionId": "electric_vs_range_oven_contract",
+    "answer": "On Samsung NX60 gas R1 evidence, the frozen electric_range rev1 contract behaves as a range/oven functional ontology — not merely an electric-only ontology.",
+    "confidence": "high_single_manual_r2_waived",
+    "singleManualCaveat": "R2 waived because R1 is unambiguous; additional gas manufacturer remains available if human reviewers want triangulation before closure."
+  },
+  "governanceConclusion": {
+    "statement": "CG-11 demonstrates functional compatibility of the frozen electric-range ontology with a gas-range implementation. It does not establish that every gas-specific implementation detail belongs in the canonical ontology, nor does it authorize renaming the ontology.",
+    "functionalCompatibility": true,
+    "gasImplementationInCanonical": false,
+    "ontologyRenameAuthorized": false,
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0,
+    "doesNotAuthorize": [
+      "mutating electric_range.json",
+      "creating gas_range.json",
+      "promoting igniter, gas_valve, safety_valve, spark_module to canonical",
+      "automatic rename electric_range → range_oven",
+      "instance-scope compounding machinery",
+      "manufacturer overlay compounding"
+    ]
+  },
+  "surfaceHeatFinding": {
+    "classification": "INHERITS",
+    "summary": "surface_heating_system survives gas burners + spark ignition — cooktop heat generation remains an independently meaningful diagnostic function; spark module and burners are platform vocabulary."
+  },
+  "fitOutcomeRecommendation": {
+    "outcome": "A",
+    "label": "gas_fits_electric_contract",
+    "description": "Frozen electric_range rev1 absorbs Samsung gas functional architecture without canonical expansion, divergence, or gas-side ontology. Gas hardware remains platform overlay vocabulary bound to frozen layers.",
+    "automaticClosure": false,
+    "requiresHumanBoundaryApproval": true
+  },
+  "deferredOrganizationalQuestion": {
+    "id": "electric_range_to_range_oven_rename",
+    "question": "Should the broader contract be renamed from electric_range to range_oven (or similar)?",
+    "trigger": "Outcome A approval — fit proves behavioral scope is broader than the name suggests",
+    "authorizedByThisAnalysis": false,
+    "separateHumanGate": true,
+    "note": "Rename is organizational/metadata — not implied by functional compatibility alone. CG-11 closure does not include rename."
+  },
+  "postApprovalSequence": [
+    "Human reviews CG11_GAS_RANGE_FIT_ANALYSIS_v1.json and layer dispositions",
+    "Human approves Outcome A, B, or C",
+    "If Outcome A approved: author CG11_GAS_RANGE_FIT_CLOSURE_v1.json (or freeze lock artifact)",
+    "CG-11 CLOSED — electric_range.json remains immutable until separate rename gate",
+    "Deferred: organizational rename gate; instance-scope compounding; gas manufacturer overlays"
+  ],
+  "futureWork": {
+    "cg12": "induction_range fit test — same frozen contract, separate workstream",
+    "cg13": "dual_fuel fit test",
+    "organizationalRenameGate": "electric_range → range_oven — only after CG-11 closure and separate human decision"
+  }
+}

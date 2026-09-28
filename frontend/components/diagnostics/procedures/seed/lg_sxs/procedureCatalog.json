@@ -1,0 +1,137 @@
+{
+  "manualId": "LG-LSC27926-SXS",
+  "platformId": "lg_sxs",
+  "templateId": "refrigerator",
+  "label": "LG LSC27926 side-by-side refrigerator",
+  "notes": "\u00a72-17 PCB test modes, \u00a71-12 NTC table, \u00a71-11 display MICOM. Separate from lg_lrmvs linear platform.",
+  "plannedProcedures": [
+    {
+      "id": "lgsxs-freezer-sensor",
+      "oemSection": "1-12",
+      "title": "\u00a71-12: Freezer cabinet sensor (CON7)",
+      "status": "generated",
+      "knowledgeIds": [
+        "cabinetThermistorOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgsxs-fresh-food-sensor",
+      "oemSection": "1-12",
+      "title": "\u00a71-12: Cold storage sensors 1 & 2 (CON8)",
+      "status": "generated",
+      "knowledgeIds": [
+        "cabinetThermistorOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgsxs-defrost-sensor",
+      "oemSection": "defrost-sensor",
+      "title": "\u00a78 flow: Defrost sensor resistance",
+      "status": "generated",
+      "knowledgeIds": [
+        "cabinetThermistorOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgsxs-ambient-sensor",
+      "oemSection": "2-16-ambient",
+      "title": "\u00a72-16: Ambient sensor (Better1 models)",
+      "status": "generated",
+      "knowledgeIds": [
+        "cabinetThermistorOhms"
+      ],
+      "relatedCodes": [
+        "Er"
+      ]
+    },
+    {
+      "id": "lgsxs-fz-fan",
+      "oemSection": "2-17",
+      "title": "\u00a72-17: Freezer BLDC fan (F-FAN)",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRefrigeratorFanVoltage"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgsxs-condenser-fan",
+      "oemSection": "2-17",
+      "title": "\u00a72-17: Condenser BLDC fan (C-FAN)",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRefrigeratorFanVoltage"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgsxs-damper",
+      "oemSection": "2-17-damper",
+      "title": "\u00a72-17: Stepping damper + OptiChill (Test 1/2)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgsxs-defrost-heater",
+      "oemSection": "2-17-defrost",
+      "title": "\u00a72-17: Defrost heater (Test Mode 2)",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgDefrostHeaterVoltage"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgsxs-compressor",
+      "oemSection": "2-17-comp",
+      "title": "\u00a72-17: Compressor relay drive (Test Mode 1)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgsxs-door-switch",
+      "oemSection": "1-4",
+      "title": "\u00a71-4: Door switches A/B/C/D (Test 1 fan stop)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgsxs-display-communication",
+      "oemSection": "1-11",
+      "title": "\u00a71-11: Main \u2194 display MICOM communication",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgsxs-lcd-check",
+      "oemSection": "2-16",
+      "title": "\u00a72-16: LCD / LED graphics check",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgsxs-ice-maker",
+      "oemSection": "3-ice",
+      "title": "\u00a73: Ice maker electrical (LSC27926**)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "lgsxs-water-dispenser",
+      "oemSection": "2-18",
+      "title": "\u00a72-18: Water / ice dispenser valves",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    }
+  ]
+}

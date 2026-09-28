@@ -1,0 +1,3123 @@
+{
+  "manualId": "W11803249",
+  "procedures": [
+    {
+      "procedureId": "w11803249-test-10-fc-evap-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "title": "Service Test 10: FC evaporator thermistor",
+      "purpose": "FC evaporator Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Manual control mode active. Advance to the test step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+        },
+        {
+          "id": "select_test_10",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to manual test 10",
+          "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 10. Confirm with 1st button.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual test 10 \u2014 FC evaporator thermistor"
+        },
+        {
+          "id": "read_ntc",
+          "order": 4,
+          "type": "visual_check",
+          "title": "FC evaporator reading",
+          "body": "Displays \u00b0C/\u00b0F or oC (open) / sC (short). Valid temp?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench",
+              "terminal": true,
+              "oemOutcome": "FC evaporator thermistor fault."
+            }
+          ],
+          "sourceExcerpt": "Displays \u00b0C/\u00b0F or oC (open) / sC (short). Valid temp?"
+        },
+        {
+          "id": "bench",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench ohms",
+          "body": "Power off. P5 P5-3 \u2194 P5-4 \u2014 2700 \u03a9 @ 77\u00b0F (2692\u20132858 \u03a9).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. P5 P5-3 \u2194 P5-4 \u2014 2700 \u03a9 @ 77\u00b0F (2692\u20132858 \u03a9)."
+        },
+        {
+          "id": "ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "FC evaporator resistance",
+          "body": "2.7k NTC chart.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolTheseusCdfdThermistorOhms",
+              "testPoint": {
+                "connector": "P5",
+                "pins": "P5-3 \u2194 P5-4",
+                "label": "FC evaporator resistance"
+              },
+              "title": "FC evaporator resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "2700 \u03a9 @ 77\u00b0F",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "2.7k NTC chart."
+        },
+        {
+          "id": "replace",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace FC evaporator thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "FC evaporator verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolTheseusCdfdThermistorOhms",
+          "testPoint": {
+            "connector": "P5",
+            "pins": "P5-3 \u2194 P5-4",
+            "label": "FC evaporator resistance"
+          },
+          "title": "FC evaporator resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_ntc"
+        },
+        {
+          "id": "bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench",
+          "terminal": true,
+          "oemOutcome": "FC evaporator thermistor fault.",
+          "stepId": "read_ntc"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "2700 \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11803249",
+        "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+        "oemTestNumber": "10",
+        "oemTestTitle": "FC evaporator Thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-10-fc-evap-thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-10-fc-evap-thermistor",
+            "pages": [
+              77,
+              122
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11803249-test-111-fc-evap-fan",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "title": "Service Test 111: FC evaporator fan",
+      "purpose": "FC Evap Fan",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "evap_fan",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Manual control mode active. Advance to the test step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+        },
+        {
+          "id": "select_test_111",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to manual test 111",
+          "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 111. Confirm with 1st button.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual test 111 \u2014 FC evap fan"
+        },
+        {
+          "id": "fan",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Fan runs",
+          "body": "Display on \u2014 P8-6/P8-4 = 12.7 VDC; P8-5 PWM.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": "FC evap fan failed."
+            }
+          ],
+          "sourceExcerpt": "Display on \u2014 P8-6/P8-4 = 12.7 VDC; P8-5 PWM."
+        },
+        {
+          "id": "replace",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace FC evap fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "FC evap fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "FC evap fan failed.",
+          "stepId": "fan"
+        }
+      ],
+      "source": {
+        "manualId": "W11803249",
+        "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+        "oemTestNumber": "111",
+        "oemTestTitle": "FC Evap Fan",
+        "pages": [
+          78,
+          119
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-111-fc-evap-fan",
+        "pages": [
+          78,
+          119
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-111-fc-evap-fan",
+            "pages": [
+              78,
+              119
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11803249-test-113-condenser-fan",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "title": "Service Test 113: Condenser fan",
+      "purpose": "Condenser Fan Test",
+      "prerequisites": [],
+      "componentIds": [
+        "condenser_fan"
+      ],
+      "tags": [
+        "condenser_fan",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Manual control mode active. Advance to the test step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+        },
+        {
+          "id": "select_test_113",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to manual test 113",
+          "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 113. Confirm with 1st button.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual test 113 \u2014 Condenser fan"
+        },
+        {
+          "id": "cfan",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Fan runs",
+          "body": "Display on \u2014 P9-1 to P9-3 = 12.7 VDC; P9-2 PWM.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": "Condenser fan failed."
+            }
+          ],
+          "sourceExcerpt": "Display on \u2014 P9-1 to P9-3 = 12.7 VDC; P9-2 PWM."
+        },
+        {
+          "id": "replace",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace condenser fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Condenser fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cfan"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "Condenser fan failed.",
+          "stepId": "cfan"
+        }
+      ],
+      "source": {
+        "manualId": "W11803249",
+        "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+        "oemTestNumber": "113",
+        "oemTestTitle": "Condenser Fan Test",
+        "pages": [
+          78,
+          118
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-113-condenser-fan",
+        "pages": [
+          78,
+          118
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-113-condenser-fan",
+            "pages": [
+              78,
+              118
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11803249-test-12-fc-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "title": "Service Test 12: FC compartment thermistor",
+      "purpose": "FC compartment Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Manual control mode active. Advance to the test step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+        },
+        {
+          "id": "select_test_12",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to manual test 12",
+          "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 12. Confirm with 1st button.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual test 12 \u2014 FC compartment thermistor"
+        },
+        {
+          "id": "read_ntc",
+          "order": 4,
+          "type": "visual_check",
+          "title": "FC compartment reading",
+          "body": "Displays \u00b0C/\u00b0F or oC (open) / sC (short). Valid temp?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench",
+              "terminal": true,
+              "oemOutcome": "FC compartment thermistor fault."
+            }
+          ],
+          "sourceExcerpt": "Displays \u00b0C/\u00b0F or oC (open) / sC (short). Valid temp?"
+        },
+        {
+          "id": "bench",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench ohms",
+          "body": "Power off. P10 P10-6 \u2194 P10-7 \u2014 2700 \u03a9 @ 77\u00b0F (2692\u20132858 \u03a9).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. P10 P10-6 \u2194 P10-7 \u2014 2700 \u03a9 @ 77\u00b0F (2692\u20132858 \u03a9)."
+        },
+        {
+          "id": "ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "FC compartment resistance",
+          "body": "2.7k NTC chart.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolTheseusCdfdThermistorOhms",
+              "testPoint": {
+                "connector": "P10",
+                "pins": "P10-6 \u2194 P10-7",
+                "label": "FC compartment resistance"
+              },
+              "title": "FC compartment resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "2700 \u03a9 @ 77\u00b0F",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "2.7k NTC chart."
+        },
+        {
+          "id": "replace",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace FC compartment thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "FC compartment verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolTheseusCdfdThermistorOhms",
+          "testPoint": {
+            "connector": "P10",
+            "pins": "P10-6 \u2194 P10-7",
+            "label": "FC compartment resistance"
+          },
+          "title": "FC compartment resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_ntc"
+        },
+        {
+          "id": "bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench",
+          "terminal": true,
+          "oemOutcome": "FC compartment thermistor fault.",
+          "stepId": "read_ntc"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "2700 \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11803249",
+        "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+        "oemTestNumber": "12",
+        "oemTestTitle": "FC compartment Thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-12-fc-thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-12-fc-thermistor",
+            "pages": [
+              77,
+              122
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11803249-test-13-rc-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "title": "Service Test 13: RC compartment thermistor",
+      "purpose": "RC compartment Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Manual control mode active. Advance to the test step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+        },
+        {
+          "id": "select_test_13",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to manual test 13",
+          "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 13. Confirm with 1st button.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual test 13 \u2014 RC compartment thermistor"
+        },
+        {
+          "id": "read_ntc",
+          "order": 4,
+          "type": "visual_check",
+          "title": "RC compartment reading",
+          "body": "Displays \u00b0C/\u00b0F or oC (open) / sC (short). Valid temp?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench",
+              "terminal": true,
+              "oemOutcome": "RC compartment thermistor fault."
+            }
+          ],
+          "sourceExcerpt": "Displays \u00b0C/\u00b0F or oC (open) / sC (short). Valid temp?"
+        },
+        {
+          "id": "bench",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench ohms",
+          "body": "Power off. P5 P5-1 \u2194 P5-2 \u2014 2700 \u03a9 @ 77\u00b0F (2692\u20132858 \u03a9).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. P5 P5-1 \u2194 P5-2 \u2014 2700 \u03a9 @ 77\u00b0F (2692\u20132858 \u03a9)."
+        },
+        {
+          "id": "ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "RC compartment resistance",
+          "body": "2.7k NTC chart.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolTheseusCdfdThermistorOhms",
+              "testPoint": {
+                "connector": "P5",
+                "pins": "P5-1 \u2194 P5-2",
+                "label": "RC compartment resistance"
+              },
+              "title": "RC compartment resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "2700 \u03a9 @ 77\u00b0F",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "2.7k NTC chart."
+        },
+        {
+          "id": "replace",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace RC compartment thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "RC compartment verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolTheseusCdfdThermistorOhms",
+          "testPoint": {
+            "connector": "P5",
+            "pins": "P5-1 \u2194 P5-2",
+            "label": "RC compartment resistance"
+          },
+          "title": "RC compartment resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_ntc"
+        },
+        {
+          "id": "bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench",
+          "terminal": true,
+          "oemOutcome": "RC compartment thermistor fault.",
+          "stepId": "read_ntc"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "2700 \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11803249",
+        "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+        "oemTestNumber": "13",
+        "oemTestTitle": "RC compartment Thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-13-rc-thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-13-rc-thermistor",
+            "pages": [
+              77,
+              122
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11803249-test-13-water-valve",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "title": "Test 13: Water dispenser / ISO valve",
+      "purpose": "Water Dispenser / ISO Valve",
+      "prerequisites": [],
+      "componentIds": [
+        "water_valve"
+      ],
+      "tags": [
+        "no_water",
+        "water_valve_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "paddle",
+          "order": 2,
+          "type": "instruction",
+          "title": "Depress water paddle",
+          "body": "Verify supply on. Collect water \u2014 energizes iso + dispenser valve.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify supply on. Collect water \u2014 energizes iso + dispenser valve."
+        },
+        {
+          "id": "voltage",
+          "order": 3,
+          "type": "instruction",
+          "title": "Check valve voltage",
+          "body": "P2-6 to P1-2 = 115 VAC at ACU while dispensing.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "P2-6 to P1-2 = 115 VAC at ACU while dispensing."
+        },
+        {
+          "id": "flows",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Water flows",
+          "body": "Water dispenses with 115 VAC present?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": "Valve or line blockage."
+            }
+          ],
+          "sourceExcerpt": "Water dispenses with 115 VAC present?"
+        },
+        {
+          "id": "replace",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Water valve verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "flows"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "Valve or line blockage.",
+          "stepId": "flows"
+        }
+      ],
+      "source": {
+        "manualId": "W11803249",
+        "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+        "oemTestNumber": "13",
+        "oemTestTitle": "Water Dispenser / ISO Valve",
+        "pages": [
+          129
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-13-water-valve",
+        "pages": [
+          129
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-13-water-valve",
+            "pages": [
+              129
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11803249-test-131-defrost",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "title": "Service Test 131: FC defrost heater",
+      "purpose": "FC Defrost Heater",
+      "prerequisites": [],
+      "componentIds": [
+        "defrost_heater"
+      ],
+      "tags": [
+        "defrost_heater",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Manual control mode active. Advance to the test step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+        },
+        {
+          "id": "select_test_131",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to manual test 131",
+          "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 131. Confirm with 1st button.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual test 131 \u2014 Defrost heater"
+        },
+        {
+          "id": "heat",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Heater on",
+          "body": "Display on \u2014 P2-7 to P1-2 = 115 VAC.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench",
+              "terminal": true,
+              "oemOutcome": "No heat at board."
+            }
+          ],
+          "sourceExcerpt": "Display on \u2014 P2-7 to P1-2 = 115 VAC."
+        },
+        {
+          "id": "bench",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench heater ohms",
+          "body": "43 \u03a9 FC defrost heater.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "43 \u03a9 FC defrost heater."
+        },
+        {
+          "id": "ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Defrost heater",
+          "body": "43 \u03a9 spec.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolTheseusCdfdDefrostHeaterOhms",
+              "testPoint": {
+                "connector": "P2",
+                "pins": "P2-7 \u2194 P1-2",
+                "label": "Defrost heater"
+              },
+              "title": "Defrost heater"
+            }
+          ],
+          "branches": [
+            {
+              "id": "h_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "h_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "h_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "h_pass",
+              "label": "43 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "43 \u03a9 spec."
+        },
+        {
+          "id": "replace",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace defrost heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Defrost verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolTheseusCdfdDefrostHeaterOhms",
+          "testPoint": {
+            "connector": "P2",
+            "pins": "P2-7 \u2194 P1-2",
+            "label": "Defrost heater"
+          },
+          "title": "Defrost heater"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heat"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench",
+          "terminal": true,
+          "oemOutcome": "No heat at board.",
+          "stepId": "heat"
+        },
+        {
+          "id": "h_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "h_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "h_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "h_pass",
+          "label": "43 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11803249",
+        "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+        "oemTestNumber": "131",
+        "oemTestTitle": "FC Defrost Heater",
+        "pages": [
+          79,
+          121
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-131-defrost",
+        "pages": [
+          79,
+          121
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-131-defrost",
+            "pages": [
+              79,
+              121
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11803249-test-15-heaters",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "title": "Service Test 134/144: Mullion & fill tube heaters",
+      "purpose": "Heaters",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "heater_check",
+        "moisture",
+        "no_ice"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Manual control mode active. Advance to the test step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+        },
+        {
+          "id": "select_test_134",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to manual test 134",
+          "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 134. Confirm with 1st button.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual test 134 \u2014 Flipper mullion heater"
+        },
+        {
+          "id": "mullion",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Mullion heater on",
+          "body": "Test 134 \u2014 J4-3/J4-2 = 12.7 VDC. Heater warms?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "m_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fill_tube",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "m_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_m",
+              "terminal": true,
+              "oemOutcome": "Mullion heater failed."
+            }
+          ],
+          "sourceExcerpt": "Test 134 \u2014 J4-3/J4-2 = 12.7 VDC. Heater warms?"
+        },
+        {
+          "id": "fill_tube",
+          "order": 5,
+          "type": "instruction",
+          "title": "Fill tube heater",
+          "body": "Test 144 \u2014 P11-4/P11-5 = 12.7 VDC.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test 144 \u2014 P11-4/P11-5 = 12.7 VDC."
+        },
+        {
+          "id": "bench_m",
+          "order": 6,
+          "type": "instruction",
+          "title": "Bench ohms",
+          "body": "Mullion 15 \u03a9; fill tube 32 \u03a9.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Mullion 15 \u03a9; fill tube 32 \u03a9."
+        },
+        {
+          "id": "m_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "Fill tube heater",
+          "body": "32 \u03a9 spec.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolTheseusCdfdFillTubeHeaterOhms",
+              "testPoint": {
+                "connector": "P11",
+                "pins": "P11-4 \u2194 P11-5",
+                "label": "Fill tube heater"
+              },
+              "title": "Fill tube heater"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ft_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ft_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ft_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ft_pass",
+              "label": "32 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "32 \u03a9 spec."
+        },
+        {
+          "id": "replace",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Heaters verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolTheseusCdfdFillTubeHeaterOhms",
+          "testPoint": {
+            "connector": "P11",
+            "pins": "P11-4 \u2194 P11-5",
+            "label": "Fill tube heater"
+          },
+          "title": "Fill tube heater"
+        }
+      ],
+      "branches": [
+        {
+          "id": "m_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fill_tube",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "mullion"
+        },
+        {
+          "id": "m_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_m",
+          "terminal": true,
+          "oemOutcome": "Mullion heater failed.",
+          "stepId": "mullion"
+        },
+        {
+          "id": "ft_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "m_ohms"
+        },
+        {
+          "id": "ft_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "m_ohms"
+        },
+        {
+          "id": "ft_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "m_ohms"
+        },
+        {
+          "id": "ft_pass",
+          "label": "32 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "m_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11803249",
+        "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+        "oemTestNumber": "15",
+        "oemTestTitle": "Heaters",
+        "pages": [
+          79,
+          131
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-15-heaters",
+        "pages": [
+          79,
+          131
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-15-heaters",
+            "pages": [
+              79,
+              131
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11803249-test-17-pantry-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "title": "Service Test 17: Pantry thermistor",
+      "purpose": "Pantry Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Manual control mode active. Advance to the test step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+        },
+        {
+          "id": "select_test_17",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to manual test 17",
+          "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 17. Confirm with 1st button.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual test 17 \u2014 Pantry thermistor"
+        },
+        {
+          "id": "read_ntc",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Pantry reading",
+          "body": "Displays \u00b0C/\u00b0F or oC (open) / sC (short). Valid temp?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench",
+              "terminal": true,
+              "oemOutcome": "Pantry thermistor fault."
+            }
+          ],
+          "sourceExcerpt": "Displays \u00b0C/\u00b0F or oC (open) / sC (short). Valid temp?"
+        },
+        {
+          "id": "bench",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench ohms",
+          "body": "Power off. P70 P70-1 \u2194 P70-2 \u2014 2700 \u03a9 @ 77\u00b0F (2692\u20132858 \u03a9).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. P70 P70-1 \u2194 P70-2 \u2014 2700 \u03a9 @ 77\u00b0F (2692\u20132858 \u03a9)."
+        },
+        {
+          "id": "ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Pantry resistance",
+          "body": "2.7k NTC chart.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolTheseusCdfdThermistorOhms",
+              "testPoint": {
+                "connector": "P70",
+                "pins": "P70-1 \u2194 P70-2",
+                "label": "Pantry resistance"
+              },
+              "title": "Pantry resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "2700 \u03a9 @ 77\u00b0F",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "2.7k NTC chart."
+        },
+        {
+          "id": "replace",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace Pantry thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Pantry verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolTheseusCdfdThermistorOhms",
+          "testPoint": {
+            "connector": "P70",
+            "pins": "P70-1 \u2194 P70-2",
+            "label": "Pantry resistance"
+          },
+          "title": "Pantry resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_ntc"
+        },
+        {
+          "id": "bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench",
+          "terminal": true,
+          "oemOutcome": "Pantry thermistor fault.",
+          "stepId": "read_ntc"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "2700 \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11803249",
+        "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+        "oemTestNumber": "17",
+        "oemTestTitle": "Pantry Thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-17-pantry-thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-17-pantry-thermistor",
+            "pages": [
+              77,
+              122
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11803249-test-181-fc-ice-maker",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "title": "Service Test 181: FC ice maker harvest",
+      "purpose": "FC IM Harvest Test",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker"
+      ],
+      "tags": [
+        "no_ice",
+        "ice_maker"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "im_on",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enable IM switch",
+          "body": "Verify FC IM switch ON at ice maker.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify FC IM switch ON at ice maker."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Manual control mode active. Advance to the test step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+        },
+        {
+          "id": "select_test_181",
+          "order": 4,
+          "type": "instruction",
+          "title": "Navigate to manual test 181",
+          "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 181. Confirm with 1st button.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual test 181 \u2014 IM harvest"
+        },
+        {
+          "id": "harvest",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Harvest completes",
+          "body": "Display on then oF \u2014 P11-1/P11-2 motor; P70-3/P70-4 position switch. Bale arm up at home?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_im",
+              "terminal": true,
+              "oemOutcome": "Replace IM \u2014 motor or bale arm down at home."
+            }
+          ],
+          "sourceExcerpt": "Display on then oF \u2014 P11-1/P11-2 motor; P70-3/P70-4 position switch. Bale arm up at home?"
+        },
+        {
+          "id": "replace_im",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace ice maker",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "FC ice maker verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harvest"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_im",
+          "terminal": true,
+          "oemOutcome": "Replace IM \u2014 motor or bale arm down at home.",
+          "stepId": "harvest"
+        }
+      ],
+      "source": {
+        "manualId": "W11803249",
+        "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+        "oemTestNumber": "181",
+        "oemTestTitle": "FC IM Harvest Test",
+        "pages": [
+          79,
+          128
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-181-fc-ice-maker",
+        "pages": [
+          79,
+          128
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-181-fc-ice-maker",
+            "pages": [
+              79,
+              128
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11803249-test-29-rh-sensor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "title": "Service Test 29: External RH sensor",
+      "purpose": "Relative Humidity Sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "humidity_sensor"
+      ],
+      "tags": [
+        "sensor_fault",
+        "moisture"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Manual control mode active. Advance to the test step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+        },
+        {
+          "id": "select_test_29",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to manual test 29",
+          "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 29. Confirm with 1st button.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual test 29 \u2014 RH sensor"
+        },
+        {
+          "id": "read_rh",
+          "order": 4,
+          "type": "visual_check",
+          "title": "RH percentage",
+          "body": "Reads RH % or oC/sC fault.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "rh_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "rh_ok_out",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "rh_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "rh_voltage",
+              "terminal": true,
+              "oemOutcome": "RH sensor fault \u2014 may force mullion heater 100%."
+            }
+          ],
+          "sourceExcerpt": "Reads RH % or oC/sC fault."
+        },
+        {
+          "id": "rh_voltage",
+          "order": 5,
+          "type": "instruction",
+          "title": "Check RH voltage",
+          "body": "HMI J4-4 to J3-3 = 12.7 VDC power; J4-2 to J3-3 = signal per RH table.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "HMI J4-4 to J3-3 = 12.7 VDC power; J4-2 to J3-3 = signal per RH table."
+        },
+        {
+          "id": "rh_ok_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "RH sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "rh_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "rh_ok_out",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_rh"
+        },
+        {
+          "id": "rh_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "rh_voltage",
+          "terminal": true,
+          "oemOutcome": "RH sensor fault \u2014 may force mullion heater 100%.",
+          "stepId": "read_rh"
+        }
+      ],
+      "source": {
+        "manualId": "W11803249",
+        "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+        "oemTestNumber": "29",
+        "oemTestTitle": "Relative Humidity Sensor",
+        "pages": [
+          77,
+          124
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-29-rh-sensor",
+        "pages": [
+          77,
+          124
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-29-rh-sensor",
+            "pages": [
+              77,
+              124
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11803249-test-72-compressor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "title": "Service Test 72/75: Compressor & inverter",
+      "purpose": "Compressor Cooling Test",
+      "prerequisites": [],
+      "componentIds": [
+        "compressor"
+      ],
+      "tags": [
+        "not_cooling",
+        "compressor_check",
+        "sealed_system"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Manual control mode active. Advance to the test step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+        },
+        {
+          "id": "select_test_72",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to manual test 72",
+          "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 72. Confirm with 1st button.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual test 72 \u2014 Compressor cooling"
+        },
+        {
+          "id": "comp_test",
+          "order": 4,
+          "type": "instruction",
+          "title": "Run compressor test",
+          "body": "Test 72: compressor + condenser fan 100% until exit. Test 75: step speeds with Enter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test 72: compressor + condenser fan 100% until exit. Test 75: step speeds with Enter."
+        },
+        {
+          "id": "comp_runs",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Compressor runs",
+          "body": "120 VAC black-white and 12.7 VDC orange-blue at inverter?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench",
+              "terminal": true,
+              "oemOutcome": "Check inverter LED fault codes."
+            }
+          ],
+          "sourceExcerpt": "120 VAC black-white and 12.7 VDC orange-blue at inverter?"
+        },
+        {
+          "id": "bench",
+          "order": 6,
+          "type": "instruction",
+          "title": "Bench windings",
+          "body": "Power off. Compressor = 24.7 \u03a9.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Compressor = 24.7 \u03a9."
+        },
+        {
+          "id": "ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "Compressor windings",
+          "body": "24.7 \u03a9 \u2014 if good, replace inverter.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolTheseusCdfdCompressorOhms",
+              "testPoint": {
+                "connector": "compressor",
+                "pins": "windings",
+                "label": "Compressor windings"
+              },
+              "title": "Compressor windings"
+            }
+          ],
+          "branches": [
+            {
+              "id": "c_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_comp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "c_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_comp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "c_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_comp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "c_pass",
+              "label": "24.7 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "24.7 \u03a9 \u2014 if good, replace inverter."
+        },
+        {
+          "id": "replace_comp",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace compressor/inverter",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Compressor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolTheseusCdfdCompressorOhms",
+          "testPoint": {
+            "connector": "compressor",
+            "pins": "windings",
+            "label": "Compressor windings"
+          },
+          "title": "Compressor windings"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_runs"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench",
+          "terminal": true,
+          "oemOutcome": "Check inverter LED fault codes.",
+          "stepId": "comp_runs"
+        },
+        {
+          "id": "c_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "c_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "c_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        },
+        {
+          "id": "c_pass",
+          "label": "24.7 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11803249",
+        "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+        "oemTestNumber": "72",
+        "oemTestTitle": "Compressor Cooling Test",
+        "pages": [
+          78,
+          117
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-72-compressor",
+        "pages": [
+          78,
+          117
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-72-compressor",
+            "pages": [
+              78,
+              117
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11803249-test-80-rc-damper",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "title": "Service Test 80/81: RC & pantry dampers",
+      "purpose": "RC Damper",
+      "prerequisites": [],
+      "componentIds": [
+        "damper_motor"
+      ],
+      "tags": [
+        "damper_check",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Manual control mode active. Advance to the test step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+        },
+        {
+          "id": "select_test_80",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to manual test 80",
+          "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 80. Confirm with 1st button.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual test 80 \u2014 RC damper"
+        },
+        {
+          "id": "damper",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Damper cycles",
+          "body": "Test 80 RC or 81 pantry \u2014 display oP/CL or FF feedback fault. P70/P12 = 6.4 VDC stepper.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": "Damper motor failed."
+            }
+          ],
+          "sourceExcerpt": "Test 80 RC or 81 pantry \u2014 display oP/CL or FF feedback fault. P70/P12 = 6.4 VDC stepper."
+        },
+        {
+          "id": "replace",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace damper",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Damper verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "damper"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "Damper motor failed.",
+          "stepId": "damper"
+        }
+      ],
+      "source": {
+        "manualId": "W11803249",
+        "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+        "oemTestNumber": "80",
+        "oemTestTitle": "RC Damper",
+        "pages": [
+          78,
+          120
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-80-rc-damper",
+        "pages": [
+          78,
+          120
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-80-rc-damper",
+            "pages": [
+              78,
+              120
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

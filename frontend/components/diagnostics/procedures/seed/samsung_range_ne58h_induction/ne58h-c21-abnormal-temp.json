@@ -1,0 +1,80 @@
+{
+  "id": "ne58h-c21-abnormal-temp",
+  "version": "1.0.0",
+  "title": "C-21: Abnormal internal temperature",
+  "platformId": "samsung_range_ne58",
+  "templateIds": [
+    "induction_range"
+  ],
+  "componentIds": [
+    "bake_element",
+    "broil_element",
+    "thermistor"
+  ],
+  "tags": [
+    "C-21",
+    "no_bake"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+    "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+    "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Oven over-temperature",
+    "pages": [
+      37
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the range.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_ohms"
+    },
+    {
+      "id": "sensor_ohms",
+      "order": 2,
+      "type": "instruction",
+      "title": "Oven sensor ~1080 \u03a9",
+      "body": "Measure oven sensor at room temperature.",
+      "sourceExcerpt": "Measure oven sensor at room temperature.",
+      "requiresInput": false,
+      "defaultNextStepId": "relay_check"
+    },
+    {
+      "id": "relay_check",
+      "order": 3,
+      "type": "instruction",
+      "title": "Bake/broil/convection relays",
+      "body": "Verify DLB, bake, broil, convection relays on main PCB.",
+      "sourceExcerpt": "Verify DLB, bake, broil, convection relays on main PCB.",
+      "requiresInput": false,
+      "defaultNextStepId": "temp_ok"
+    },
+    {
+      "id": "replace_main",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace main PCB",
+      "oemOutcome": "Replace main PCB when heaters and sensor verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "temp_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Thermal path OK",
+      "oemOutcome": "Abnormal temp path cleared.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "frozen_canonical_hashes",
+  "status": "production_locked",
+  "lockedAt": "2026-09-17T20:00:00+00:00",
+  "authorizedBy": "CG_CANONICAL_ARCHITECTURE_COMPLETE_LOCK_v1.json",
+  "governedBy": "CG_PRODUCTION_INGESTION_GOVERNANCE_CONTRACT_v1.json",
+  "description": "Single source of truth for frozen canonical ontology byte hashes. Production ingestion pipeline must not mutate these files without an authorized architecture-gate freeze workflow.",
+  "mutationPolicy": {
+    "productionPipelineMayMutate": false,
+    "authorizedMutationPath": "architecture_gate_fit_discovery_freeze_only",
+    "hashChangeRequires": [
+      "new freeze lock artifact",
+      "regression suite update",
+      "this registry update with human authorization"
+    ]
+  },
+  "frozenOntologies": {
+    "range_oven": {
+      "file": "frontend/components/diagnostics/knowledge/canonical/range_oven.json",
+      "hash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+      "frozenRevision": "rev1",
+      "familyLock": "CG_RANGE_FAMILY_LOCK_v1.json"
+    },
+    "electric_range": {
+      "file": "frontend/components/diagnostics/knowledge/canonical/electric_range.json",
+      "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+      "frozenRevision": "rev1",
+      "note": "legacy alias — organizational primary is range_oven"
+    },
+    "microwave": {
+      "file": "frontend/components/diagnostics/knowledge/canonical/microwave.json",
+      "hash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+      "frozenRevision": "rev1",
+      "familyLock": "CG_MICROWAVE_FAMILY_LOCK_v1.json"
+    },
+    "french_door_refrigerator": {
+      "file": "frontend/components/diagnostics/knowledge/canonical/french_door_refrigerator.json",
+      "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+      "frozenRevision": "rev1",
+      "familyLock": "CG95_REFRIGERATOR_FAMILY_LOCK_v1.json"
+    },
+    "vented_dryer": {
+      "file": "frontend/components/diagnostics/knowledge/canonical/vented_dryer.json",
+      "hash": "db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714",
+      "frozenRevision": "rev1"
+    },
+    "heat_pump_dryer": {
+      "file": "frontend/components/diagnostics/knowledge/canonical/heat_pump_dryer.json",
+      "hash": "d7a98c826d011a9fdef4b8c91ebd4d66ff88629f7d7b91357d43fee42c32d3bb",
+      "frozenRevision": "rev1",
+      "familyLock": "CG_HEAT_PUMP_DRYER_FREEZE_LOCK_v1.json"
+    },
+    "aio_laundry_combo": {
+      "file": "frontend/components/diagnostics/knowledge/canonical/aio_laundry_combo.json",
+      "hash": "be3799a991b3d778b62e60a7ec3d91dfd6fe82432e3f9ac8663d607008081183",
+      "frozenRevision": "rev1",
+      "familyLock": "CG_AIO_LAUNDRY_COMBO_FREEZE_LOCK_v1.json"
+    },
+    "front_load_washer": {
+      "file": "frontend/components/diagnostics/knowledge/canonical/front_load_washer.json",
+      "hash": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05",
+      "frozenRevision": "rev1"
+    },
+    "top_load_washer": {
+      "file": "frontend/components/diagnostics/knowledge/canonical/top_load_washer.json",
+      "hash": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+      "frozenRevision": "rev1"
+    },
+    "dishwasher": {
+      "file": "frontend/components/diagnostics/knowledge/canonical/dishwasher.json",
+      "hash": "35c16418b91045a7ed458a9c6e9722872369a656752f89e0dd2f0e5aaf760ef2",
+      "frozenRevision": "rev1",
+      "familyLock": "CG65_DISHWASHER_FAMILY_LOCK_v1.json"
+    }
+  },
+  "nonOntologyCanonicalFiles": {
+    "component_aliases.json": {
+      "file": "frontend/components/diagnostics/knowledge/canonical/component_aliases.json",
+      "hash": "0c49a78a265d4d636b3dae9fa1c19986c59ac3bb2443f118f1a2ebf0f0cd0817",
+      "note": "alias index — not a functional ontology graph"
+    }
+  }
+}

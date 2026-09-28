@@ -1,0 +1,2253 @@
+{
+  "manualId": "LG-LRMVS-FRIDGE",
+  "platformId": "lg_lrmvs",
+  "templateId": "refrigerator",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:16.744879+00:00",
+  "records": [
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-evap_fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "evap_fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: evap_fan \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-condenser-fan",
+        "pages": [
+          56,
+          57
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "evap_fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-condenser-fan",
+        "pages": [
+          56,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-condenser-fan",
+            "pages": [
+              56,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-condenser-fan-(e-cf)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-11: Condenser fan (E CF)",
+      "extractedTerm": "Condenser fan (E CF)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a78-11: Condenser fan (E CF) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-condenser-fan",
+        "pages": [
+          56,
+          57
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-11: Condenser fan (E CF)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-condenser-fan",
+        "pages": [
+          56,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-condenser-fan",
+            "pages": [
+              56,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-thermistor-wash_ntc",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.85,
+      "what": "thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "wash_ntc",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "global_hint",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: thermistor \u2192 wash_ntc"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-convert-sensor",
+        "pages": [
+          78,
+          79
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermistor": "wash_ntc"
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-convert-sensor",
+        "pages": [
+          78,
+          79
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-convert-sensor",
+            "pages": [
+              78,
+              79
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "global_hint"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-convert-drawer-sensor-(e-cs)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-22: Convert drawer sensor (E CS)",
+      "extractedTerm": "Convert drawer sensor (E CS)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "convert drawer",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a78-22: Convert drawer sensor (E CS) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-convert-sensor",
+        "pages": [
+          78,
+          79
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-22: Convert drawer sensor (E CS)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-convert-sensor",
+        "pages": [
+          78,
+          79
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-convert-sensor",
+            "pages": [
+              78,
+              79
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "convert drawer",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-display_panel",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "display_panel",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: display_panel \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-display-communication",
+        "pages": [
+          58,
+          59
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "display_panel": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-display-communication",
+        "pages": [
+          58,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-display-communication",
+            "pages": [
+              58,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-main_control-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.96,
+      "what": "main_control",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.96,
+        "matcherLayer": "platform_overlay:samsung_fl_washer_wf6000r",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: main_control \u2192 control_board"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-display-communication",
+        "pages": [
+          58,
+          59
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "main_control": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-display-communication",
+        "pages": [
+          58,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-display-communication",
+            "pages": [
+              58,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-main-\u2194-display-communication-(e-co)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-12: Main \u2194 display communication (E CO)",
+      "extractedTerm": "Main \u2194 display communication (E CO)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "main",
+          "component": "display communication e co",
+          "actuator": null
+        },
+        "summary": "alias: \u00a78-12: Main \u2194 display communication (E CO) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-display-communication",
+        "pages": [
+          58,
+          59
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-12: Main \u2194 display communication (E CO)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-display-communication",
+        "pages": [
+          58,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-display-communication",
+            "pages": [
+              58,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "main",
+              "component": "display communication e co",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound--15:-display-/-demo-mode-(off)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a713-1-15: Display / demo mode (OFF)",
+      "extractedTerm": "-15: Display / demo mode (OFF)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a713-1-15: Display / demo mode (OFF) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-display-mode",
+        "pages": [
+          127
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a713-1-15: Display / demo mode (OFF)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-display-mode",
+        "pages": [
+          127
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-display-mode",
+            "pages": [
+              127
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-lg-lrmvs-fridge-unresolved-lglrmvs-ff-defrost-heater-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ff-defrost-heater",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ff-defrost-heater",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-ff-defrost-heater",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-fresh-food-defrost-heater-(r-dh)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-7: Fresh-food defrost heater (r dH)",
+      "extractedTerm": "Fresh-food defrost heater (r dH)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "fresh food defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a78-7: Fresh-food defrost heater (r dH) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ff-defrost-heater",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-7: Fresh-food defrost heater (r dH)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ff-defrost-heater",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-ff-defrost-heater",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "fresh food defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-fresh-food-defrost-sensor-(r-ds)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-5: Fresh-food defrost sensor (r dS)",
+      "extractedTerm": "Fresh-food defrost sensor (r dS)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "fresh food defrost",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a78-5: Fresh-food defrost sensor (r dS) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ff-defrost-sensor",
+        "pages": [
+          44,
+          45
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-5: Fresh-food defrost sensor (r dS)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ff-defrost-sensor",
+        "pages": [
+          44,
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-ff-defrost-sensor",
+            "pages": [
+              44,
+              45
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "fresh food defrost",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-refrigerator-evaporator-fan-(e-rf)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-8: Refrigerator evaporator fan (E rF)",
+      "extractedTerm": "Refrigerator evaporator fan (E rF)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a78-8: Refrigerator evaporator fan (E rF) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ff-fan",
+        "pages": [
+          50,
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-8: Refrigerator evaporator fan (E rF)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ff-fan",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-ff-fan",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-fresh-food-cabinet-sensor-(e-rs)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-2: Fresh-food cabinet sensor (E rS)",
+      "extractedTerm": "Fresh-food cabinet sensor (E rS)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "fresh food cabinet",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a78-2: Fresh-food cabinet sensor (E rS) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ff-sensor",
+        "pages": [
+          38,
+          39
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-2: Fresh-food cabinet sensor (E rS)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ff-sensor",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-ff-sensor",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "fresh food cabinet",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-lg-lrmvs-fridge-unresolved-lglrmvs-fz-defrost-heater-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-fz-defrost-heater",
+        "pages": [
+          46,
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-fz-defrost-heater",
+        "pages": [
+          46,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-fz-defrost-heater",
+            "pages": [
+              46,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-freezer-defrost-heater-(f-dh)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-6: Freezer defrost heater (F dH)",
+      "extractedTerm": "Freezer defrost heater (F dH)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "freezer defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a78-6: Freezer defrost heater (F dH) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-fz-defrost-heater",
+        "pages": [
+          46,
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-6: Freezer defrost heater (F dH)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-fz-defrost-heater",
+        "pages": [
+          46,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-fz-defrost-heater",
+            "pages": [
+              46,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "freezer defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-freezer-defrost-sensor-(f-ds)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-4: Freezer defrost sensor (F dS)",
+      "extractedTerm": "Freezer defrost sensor (F dS)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "freezer defrost",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a78-4: Freezer defrost sensor (F dS) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-fz-defrost-sensor",
+        "pages": [
+          42,
+          43
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-4: Freezer defrost sensor (F dS)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-fz-defrost-sensor",
+        "pages": [
+          42,
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-fz-defrost-sensor",
+            "pages": [
+              42,
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "freezer defrost",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-freezer-evaporator-fan-(e-ff)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-9: Freezer evaporator fan (E FF)",
+      "extractedTerm": "Freezer evaporator fan (E FF)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a78-9: Freezer evaporator fan (E FF) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-fz-fan",
+        "pages": [
+          52,
+          53
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-9: Freezer evaporator fan (E FF)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-fz-fan",
+        "pages": [
+          52,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-fz-fan",
+            "pages": [
+              52,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-freezer-cabinet-sensor-(e-fs)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-1: Freezer cabinet sensor (E FS)",
+      "extractedTerm": "Freezer cabinet sensor (E FS)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "freezer cabinet",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a78-1: Freezer cabinet sensor (E FS) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-fz-sensor",
+        "pages": [
+          36,
+          37
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-1: Freezer cabinet sensor (E FS)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-fz-sensor",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-fz-sensor",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "freezer cabinet",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-ice_maker_module",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "ice_maker_module",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "ice maker",
+          "actuator": "module"
+        },
+        "summary": "alias: ice_maker_module \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ice-maker-electrical",
+        "pages": [
+          33,
+          34
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ice_maker_module": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ice-maker-electrical",
+        "pages": [
+          33,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-ice-maker-electrical",
+            "pages": [
+              33,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice maker",
+              "actuator": "module"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-ice-maker-kit-electrical-(e-id-/-e-iu)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-24: Ice maker kit electrical (E ID / E IU)",
+      "extractedTerm": "Ice maker kit electrical (E ID / E IU)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a78-24: Ice maker kit electrical (E ID / E IU) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ice-maker-electrical",
+        "pages": [
+          33,
+          34
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-24: Ice maker kit electrical (E ID / E IU)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-ice-maker-electrical",
+        "pages": [
+          33,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-ice-maker-electrical",
+            "pages": [
+              33,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-icing-compartment-fan-(e-if)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-10: Icing compartment fan (E IF)",
+      "extractedTerm": "Icing compartment fan (E IF)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a78-10: Icing compartment fan (E IF) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-icing-fan",
+        "pages": [
+          54,
+          55
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-10: Icing compartment fan (E IF)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-icing-fan",
+        "pages": [
+          54,
+          55
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-icing-fan",
+            "pages": [
+              54,
+              55
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-icing-room-sensor-(e-is)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-3: Icing room sensor (E IS)",
+      "extractedTerm": "Icing room sensor (E IS)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "icing room",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a78-3: Icing room sensor (E IS) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-icing-sensor",
+        "pages": [
+          40,
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-3: Icing room sensor (E IS)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-icing-sensor",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-icing-sensor",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "icing room",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-sealed_system",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "sealed_system",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: sealed_system \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-sealed-system",
+        "pages": [
+          80,
+          87
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "sealed_system": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-sealed-system",
+        "pages": [
+          80,
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-sealed-system",
+            "pages": [
+              80,
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-lg-lrmvs-fridge-unresolved-lglrmvs-sealed-system-compressor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "compressor",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: compressor \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-sealed-system",
+        "pages": [
+          80,
+          87
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "compressor": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-sealed-system",
+        "pages": [
+          80,
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-sealed-system",
+            "pages": [
+              80,
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-sealed-system-leak-cycle-(e-ch-/-e-cl)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-22: Sealed-system leak cycle (E CH / E CL)",
+      "extractedTerm": "Sealed-system leak cycle (E CH / E CL)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a78-22: Sealed-system leak cycle (E CH / E CL) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-sealed-system",
+        "pages": [
+          80,
+          87
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-22: Sealed-system leak cycle (E CH / E CL)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-sealed-system",
+        "pages": [
+          80,
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-sealed-system",
+            "pages": [
+              80,
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "control_board",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "control",
+          "actuator": "board"
+        },
+        "summary": "alias: control_board \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-wifi-modem",
+        "pages": [
+          77,
+          78
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "control_board": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-wifi-modem",
+        "pages": [
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-wifi-modem",
+            "pages": [
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "control",
+              "actuator": "board"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-wi-fi-modem-communication-(e-od)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a78-20: Wi-Fi modem communication (E Od)",
+      "extractedTerm": "Wi-Fi modem communication (E Od)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a78-20: Wi-Fi modem communication (E Od) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-wifi-modem",
+        "pages": [
+          77,
+          78
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a78-20: Wi-Fi modem communication (E Od)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-wifi-modem",
+        "pages": [
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-wifi-modem",
+            "pages": [
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-LG-LRMVS-FRIDGE-lglrmvs-wifi-modem-motor_command_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "lglrmvs-wifi-modem",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_command_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: lglrmvs-wifi-modem \u2192 motor_command_test"
+      },
+      "source": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-wifi-modem",
+        "pages": [
+          77,
+          78
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "lglrmvs-wifi-modem",
+          "testTargetId": "motor_command_test",
+          "displayTitle": "\u00a78-20: Wi-Fi modem communication (E Od)",
+          "componentIds": [
+            "control_board"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-wifi-modem",
+        "pages": [
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-wifi-modem",
+            "pages": [
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 28,
+    "byStatus": {
+      "needs_review": 25,
+      "candidate": 3
+    },
+    "byApprovalLevel": {
+      "blocked": 25,
+      "normal": 2,
+      "easy": 1
+    },
+    "byType": {
+      "canonicalMapping": 27,
+      "procedureTestBinding": 1
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 1,
+      "medium_0.80_0.94": 2,
+      "low_lt_0.80": 0,
+      "unresolved": 25
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 2,
+      "UNRESOLVED_COMPONENT": 1
+    }
+  }
+}

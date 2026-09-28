@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "compounding_baseline",
+  "version": "v1_samsung_fl2",
+  "frozen": true,
+  "frozenAt": "2026-09-13T19:45:00+00:00",
+  "description": "FROZEN — SAMSUNG-FL-WF6000R-WASHER CG-5.6 Samsung FL #2. Raw gate-preview preserved separately from human-resolved classification.",
+  "experiment": "CG-5.6",
+  "corpusPriorManualIds": ["W8178558", "W11169652"],
+  "platformPriorManualIds": ["SAMSUNG-FL-BB8700-WASHER"],
+  "rawGatePreview": {
+    "artifact": "compounding_samsung_fl2_gate_preview_SAMSUNG-FL-WF6000R-WASHER.json",
+    "note": "Automated matcher recognition BEFORE human adjudication — do not overwrite.",
+    "inheritedCorpusKnowledge": 0,
+    "inheritedPlatformFamilyKnowledge": 16,
+    "inheritedWhirlpoolPlatform": 0,
+    "newPlatformKnowledge": 0,
+    "newModelSpecificKnowledge": 7,
+    "newCanonicalKnowledge": 0,
+    "newHumanDecisionCount": 7,
+    "newHumanDecisionRate": 0.1944,
+    "killerCase": "inverter_board blocked at gate on OEM title mismatch (9C5 vs 9C1/9C2) — matching limitation, not compounding failure."
+  },
+  "humanResolvedGatePreview": {
+    "artifact": "samsung-fl-wf6000r-washer_human_classification.json",
+    "note": "Knowledge hierarchy AFTER human adjudication of 7 gate decisions.",
+    "inheritedCorpusKnowledge": 3,
+    "inheritedPlatformFamilyKnowledge": 1,
+    "inheritedWhirlpoolPlatform": 0,
+    "newPlatformKnowledge": 1,
+    "newModelSpecificKnowledge": 2,
+    "newCanonicalKnowledge": 0,
+    "newHumanDecisionCount": 7,
+    "gateTermResolutions": {
+      "inherited_corpus_knowledge": 3,
+      "inherited_platform_family": 1,
+      "new_platform_knowledge": 1,
+      "new_model_specific": 2
+    },
+    "autoInheritedPlatformExactMatch": ["§4-3: Washing motor (3C)", "§4-3: Overflow (OC)"],
+    "killerMetric": "inverter_board classified inherited_platform_family — first clean Samsung platform compounding across models."
+  },
+  "postPublish": {
+    "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+    "platformId": "samsung_fl_washer_wf6000r",
+    "platformFamilyId": "samsung_fl_wf6000r_direct_drive",
+    "ontologyId": "front_load_washer",
+    "published": true,
+    "promotionId": "promo-SAMSUNG-FL-WF6000R-WASHER-20260913194211",
+    "reviewRecords": 36,
+    "termResolutions": {
+      "applied": 9,
+      "gateDecisions": 7,
+      "autoInheritedPlatform": 2,
+      "classifications": {
+        "inherited_corpus_knowledge": 3,
+        "inherited_platform_family": 3,
+        "new_platform_knowledge": 1,
+        "new_model_specific": 2
+      }
+    },
+    "procedureBindingsApproved": 12,
+    "equivalence": "PASS",
+    "canonicalGraphValidation": "PASS",
+    "architectureBoundaryTest": "cg5-samsung-fl-architecture-boundary.test.ts",
+    "humanClassification": "samsung-fl-wf6000r-washer_human_classification.json",
+    "platformScopedComponents": ["inverter_board", "mems_sensor"]
+  },
+  "hierarchyExample": {
+    "inheritedCorpus": ["control_board", "drain_pump", "inlet_valve"],
+    "inheritedSamsungPlatform": ["inverter_board"],
+    "newSamsungPlatform": ["mems_sensor"],
+    "modelSpecific": ["hmi_control (BC2)", "suspension (UV/UB)"],
+    "newCanonical": []
+  },
+  "headline": "Canonical transfer + Samsung platform compounding + model isolation + zero Whirlpool leakage + zero ontology inflation.",
+  "architecturalNote": "Raw gate preview (16 platform auto-inherit) vs human gate (inverter_board reclassified) demonstrates matcher vs hierarchy distinction.",
+  "frozenBaselineFl1": "compounding_baseline_v1_samsung_fl1.json"
+}

@@ -1,0 +1,63 @@
+{
+  "promotionId": "promo-W8178558-20260912212918",
+  "manualId": "W8178558",
+  "platformId": "whirlpool_duet_sport",
+  "overlayFile": "whirlpool_front_load_washer.json",
+  "platformFamilyId": "whirlpool_duet_sport_ccu_mcu",
+  "status": "planned",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-W8178558-ccu-control_board",
+    "map-W8178558-dosing_pump-dosing_pump",
+    "map-W8178558-door_lock-door_lock",
+    "map-W8178558-dp2-drain_pump",
+    "map-W8178558-drain_pump-drain_pump",
+    "map-W8178558-inlet_valve-inlet_valve",
+    "map-W8178558-supply-supply",
+    "map-W8178558-mcu-motor_controller",
+    "map-W8178558-ms2-drive_motor",
+    "map-W8178558-drive_motor-drive_motor",
+    "map-W8178558-pr6-water_level_sensor",
+    "map-W8178558-pressure-switch-water_level_sensor",
+    "map-W8178558-water_level_sensor-water_level_sensor",
+    "map-W8178558-wash_heater-wash_heater",
+    "map-W8178558-wash_ntc-wash_ntc"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {
+        "dosing_pump": "dosing_pump",
+        "door_lock": "door_lock",
+        "drain_pump": "drain_pump",
+        "inlet_valve": "inlet_valve",
+        "supply": "supply",
+        "drive_motor": "drive_motor",
+        "water_level_sensor": "water_level_sensor",
+        "wash_heater": "wash_heater",
+        "wash_ntc": "wash_ntc"
+      },
+      "skip": {
+        "CCU": "control_board",
+        "DP2": "drain_pump",
+        "MCU": "motor_controller",
+        "MS2": "drive_motor",
+        "PR6": "water_level_sensor",
+        "Pressure Switch": "water_level_sensor"
+      }
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [],
+      "skip": []
+    }
+  },
+  "plannedAt": "2026-09-12T21:29:18.291877+00:00"
+}

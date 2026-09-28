@@ -1,0 +1,375 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg13_dual_fuel_range_r1_fit_observation",
+  "experiment": "CG-13 R1 — Samsung NY63T8751SS dual-fuel range fit observation against frozen electric_range rev1. Strictly observational — record manual evidence per probe; fit analysis and family conclusions deferred.",
+  "workstream": "CG-13",
+  "stage": "R1_dual_fuel_fit_observation",
+  "status": "r1_observation_complete",
+  "observationMode": "strictly_observational",
+  "ontologyConclusionsDeferred": true,
+  "fitAnalysisDeferred": false,
+  "fitAnalysisArtifact": "CG13_DUAL_FUEL_FIT_ANALYSIS_v1.json",
+  "manualId": "SAMSUNG-NY63-DUAL-FUEL",
+  "platformId": "samsung_range_ny63",
+  "smokeModel": "NY63T8751SS/AA",
+  "manualFamilyCoverage": {
+    "sourceDocument": "samsungny64dualfuel.pdf",
+    "modelPattern": "NY63T8751*",
+    "modelCodeOnCover": "NY63T8751*",
+    "witnessNote": "Service manual MODEL CODES NY63T8751* — NY63T8751SS/AA is within documented family; SS suffix is finish variant. Repo filename samsungny64dualfuel.pdf; manual content is NY63 dual-fuel (gas cooktop + electric oven)."
+  },
+  "fuelFilter": "dual_fuel_range",
+  "templateFilter": "dual_fuel_range",
+  "ontologyUnderTest": {
+    "id": "electric_range",
+    "revision": "rev1",
+    "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "immutable": true
+  },
+  "contract": "CG13_DUAL_FUEL_FIT_TEST_CONTRACT_v1.json",
+  "fitEligible": false,
+  "canonicalPromotionBlocked": true,
+  "canonicalMutationBlocked": true,
+  "generatedAt": "2026-09-16T19:50:00+00:00",
+  "r1DecisionGate": {
+    "question": "What does the NY63 dual-fuel service manual show for each frozen layer — and can gas surface + electric oven coexist as independently addressable domains without canonical divergence?",
+    "notAsked": "Does dual-fuel match pure-electric CG-10 corpus?",
+    "evaluatedAgainst": "frozen_electric_range_rev1_layers",
+    "notCreating": "dual_fuel_range.json or parallel dual-fuel ontology"
+  },
+  "classificationVocabulary": [
+    "INHERITS",
+    "CONDITIONAL",
+    "DIVERGES",
+    "NO_EVIDENCE",
+    "DEFERRED"
+  ],
+  "probeFieldSchema": {
+    "implementationEvidence": "What the manual actually shows.",
+    "functionalMapping": "Whether evidence can be represented by the frozen layer.",
+    "implementationSpecificAdditions": "Gas/electric hardware/terminology below canonical.",
+    "fitStatus": "INHERITS | CONDITIONAL | NO_EVIDENCE | DIVERGES | DEFERRED",
+    "crossManufacturerConsistency": "PENDING until R2/R3.",
+    "sourceProvenance": "Procedure/section/page evidence."
+  },
+  "graphArtifacts": {
+    "extractionDoc": null,
+    "sourcePdf": "backend/docs/manuals/samsungny64dualfuel.pdf",
+    "extractedText": "backend/docs/manuals/samsungny64dualfuel-extracted.txt",
+    "extractedMeta": "backend/docs/manuals/samsungny64dualfuel-extracted-meta.json",
+    "procedureSeedDir": null,
+    "manualStatus": "in_repo",
+    "fitWitnessOnly": true,
+    "notNormalizationTarget": true,
+    "excludedObservationArtifacts": [
+      {
+        "artifact": "SAMSUNG_NX60_RANGE_gr_cg11x_observation_v1.json",
+        "reason": "CG-11 full gas — not dual-fuel surface+oven split"
+      },
+      {
+        "artifact": "SAMSUNG_NE58R9560WS_IR_CG12X_OBSERVATION_v1.json",
+        "reason": "CG-12 induction surface — different surface energy domain"
+      }
+    ]
+  },
+  "dualEnergyArchitectureEvidence": {
+    "description": "Manual documents gas cooktop and electric oven as separately serviceable domains under shared control architecture",
+    "diagramObserved": "Main PCB / Display PCB orchestrate oven electric relays (bake/broil/convection) while cooktop gas path routes through spark module, valve cooktop, ignition switches, and burners",
+    "surfacePath": "knob → switch ignition (LITE) → spark module → electrode → valve cooktop → burner",
+    "ovenPath": "touch/knob UI → Main PCB relays (RY202 broil, RY203 bake, RY207 convection heater, SSR200/201 convection fan) → electric heaters",
+    "sharedLayer": "terminal block power, Main PCB + Sub/Display PCB, CNS600 sensor/switch bus, thermal/ door-lock paths",
+    "falsificationQuestion": "Does combining gas surface and electric oven create a functional dependency the frozen contract cannot represent?",
+    "observationalAnswer": "Not evidenced on R1 — troubleshooting decomposes into §4-2 control/oven paths vs §4-3 cooktop gas paths without requiring a new canonical node"
+  },
+  "boundaryProbes": {
+    "power_supply_dual_fuel": {
+      "probeId": "power_supply_dual_fuel",
+      "frozenContractNode": "power_supply",
+      "layer": "components[]",
+      "energyDomain": "shared",
+      "implementationEvidence": "§4-1 symptom matrix p.64: measure input voltage 240/120V or 208/120V at terminal block (L1 BLK, N WHT, L2 RED); CNP100 L1~N 120V on main PCB; gas supply valve prerequisite for cooktop (§4-3 p.72–73). Safety: disconnect gas and electric before service (§1-2 p.4).",
+      "functionalMapping": "Dual supply prerequisite (electric branch + gas line) is independently verified before PCB/heater/ignition paths — maps to frozen power_supply functional role.",
+      "implementationSpecificAdditions": ["terminal_block", "gas_supply_valve", "cnp100_power_connector"],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§4-1 Oven not operating p.64", "§4-3 Cooktop parts p.72–73", "§1-2 Safety p.4"]
+    },
+    "control_board_dual_fuel": {
+      "probeId": "control_board_dual_fuel",
+      "frozenContractNode": "control_board",
+      "layer": "components[]",
+      "energyDomain": "shared",
+      "criticalProbe": true,
+      "implementationEvidence": "Main PCB + Display/Sub PCB architecture; §6-3 Main PCB relay map p.88–89: RY202 broil, RY203 bake, RY207 convection heater, SSR200/201 convection fan, RY210 door lock; §6-4 CNS200 Main-Sub communication p.90; cooktop gas path separate: §3-9 Spark Module p.29, §3-17 Valve Cooktop p.37–38, §3-18 Switch Ignition p.39; §4-2 control parts p.69–71; C-21 checks bake/broil/convection relays separately from cooktop faults.",
+      "functionalMapping": "control_board orchestrates both domains but manual keeps gas surface ignition/valve/burner diagnostics separate from oven electric relay/heater diagnostics — no collapse into single inseparable function.",
+      "implementationSpecificAdditions": [
+        "main_pcb",
+        "display_sub_pcb",
+        "cns200_main_sub_communication",
+        "spark_module",
+        "valve_cooktop",
+        "switch_ignition",
+        "bake_relay_ry203",
+        "broil_relay_ry202",
+        "convection_heater_relay_ry207",
+        "dlb_relay_ry200"
+      ],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": [
+        "§6-3 Main PCB parts p.88–89",
+        "§6-4 Display PCB parts p.90",
+        "§4-2 Control parts p.69–71",
+        "§4-1 C-21 p.56–57",
+        "§3-9 Spark Module p.29",
+        "§3-17 Valve Cooktop p.37–38"
+      ],
+      "topologyNotCanonical": "control_board → spark module/valve cooktop (gas surface) AND control_board → bake/broil/convection relays (electric oven) recorded as implementation — not promoted to canonical topology."
+    },
+    "user_interface_dual_fuel": {
+      "probeId": "user_interface_dual_fuel",
+      "frozenContractNode": "user_interface",
+      "layer": "components[]",
+      "energyDomain": "shared",
+      "implementationEvidence": "§2-3/2-4 control panels p.10–11: glass touch oven UI + physical cooktop knobs; §6-2 Touch Keypad p.87; C-d0 key short / knob jam (p.58); §4-2 touch keypad flows p.70; CNS801 touch film, CNS550 knob dial.",
+      "functionalMapping": "UI/command interaction spans oven touch and cooktop knobs but remains a representable user_interface domain — separate from heater and ignition hardware paths.",
+      "implementationSpecificAdditions": ["glass_touch_panel", "knob_dial_cns550", "touch_film_cns801", "cooktop_knobs"],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§2-3 p.10", "§2-4 p.11", "§6-2 p.87", "§4-1 C-d0 p.58", "§4-2 p.70"]
+    },
+    "temperature_sensor_dual_fuel": {
+      "probeId": "temperature_sensor_dual_fuel",
+      "frozenContractNode": "temperature_sensor",
+      "layer": "components[]",
+      "energyDomain": "oven",
+      "implementationEvidence": "C-20 oven sensor open/short (p.54–55): 1080Ω at room temp at sensor and CNS600 on Main PCB; §3-23 Sensor-Thermistor p.45; oven sensor resistance chart p.54; upper/lower sensor pins on CNS600 (pins 4-6 / 8-10).",
+      "functionalMapping": "Electric oven cavity temperature feedback is independently measured and fault-routed — same functional role as frozen temperature_sensor on the oven domain.",
+      "implementationSpecificAdditions": ["oven_sensor_thermistor", "cns600", "upper_lower_sensor_pins"],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§4-1 C-20 p.54–55", "§3-23 p.45"]
+    },
+    "surface_heating_system_dual_fuel": {
+      "probeId": "surface_heating_system_dual_fuel",
+      "frozenContractNode": "surface_heating_system",
+      "layer": "components[]",
+      "energyDomain": "surface",
+      "criticalProbe": true,
+      "implementationEvidence": "Gas cooktop: 5 burners, electronic ignition (§2-4 p.11, §464–473 p.11); §3-6 Assy Cooktop Burner p.25; §3-9 Spark Module p.29; §3-17 Valve Cooktop p.37–38; §3-18 Switch Ignition p.39; §4-3 Cooktop parts p.72–77: spark module voltage, ignition switch LITE position, electrode, gas pressure regulator, manifold, orifice cleaning — separate from oven electric heater troubleshooting.",
+      "functionalMapping": "Cooktop heat generation remains independently diagnosable functional domain — manual decomposes surface problems into ignition/spark/valve/burner/orifice paths. Frozen surface_heating_system expresses gas surface heating; valve, spark module, igniter, burner, GPR are platform vocabulary.",
+      "implementationSpecificAdditions": [
+        "valve_cooktop",
+        "switch_ignition",
+        "spark_module",
+        "electrode",
+        "surface_burner",
+        "burner_cup",
+        "gas_orifice_nozzle",
+        "gas_pressure_regulator",
+        "assy_cooktop_burner"
+      ],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": [
+        "§2-4 Gas Surface Burners p.11",
+        "§3-6 Assy Cooktop Burner p.25",
+        "§3-9 Spark Module p.29",
+        "§3-17 Valve Cooktop p.37–38",
+        "§3-18 Switch Ignition p.39",
+        "§4-3 Cooktop parts p.72–77"
+      ],
+      "scrutinyNotes": {
+        "notEquivalentBecause": "Gas surface spark-ignition/valve/burner path is not equivalent to electric radiant or induction — manual tests gas-specific hardware.",
+        "falsificationQuestion": "Does dual-fuel architecture require a canonical node beyond surface_heating_system for gas cooktop?",
+        "observationalAnswer": "Not evidenced on R1 — cooktop faults addressable as surface heat-generation failures with platform gas vocabulary; oven electric paths remain separate.",
+        "topologyNotCanonical": "control → ignition switch → spark module → valve → burner recorded as implementation — not canonical topology."
+      }
+    },
+    "bake_instance_scope_dual_fuel": {
+      "probeId": "bake_instance_scope_dual_fuel",
+      "frozenContractNode": "bake_heating_element",
+      "layer": "instanceScopes[]",
+      "energyDomain": "oven",
+      "implementationEvidence": "§3-27 Heater-Bake p.52; §2-5 Bake Element 3000W p.12; §4-1 C-21 checks bake heater resistance; §4-1 symptom p.64: Bake Heater 19Ω, separate from broil 13Ω and conv 44Ω; §6-3 RY203 Bake Relay p.88.",
+      "functionalMapping": "Electric bake oven heat function is independently testable (separate heater, relay, resistance spec) while cooktop is gas — maps to bake_heating_element instance scope.",
+      "implementationSpecificAdditions": ["heater_bake", "bake_relay_ry203", "tb207_bake_terminal"],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§3-27 p.52", "§2-5 p.12", "§4-1 C-21 p.56", "§4-1 symptom p.64", "§6-3 p.88"]
+    },
+    "broil_instance_scope_dual_fuel": {
+      "probeId": "broil_instance_scope_dual_fuel",
+      "frozenContractNode": "broil_heating_element",
+      "layer": "instanceScopes[]",
+      "energyDomain": "oven",
+      "implementationEvidence": "§3-26 Heater-Broil p.51; §2-5 Broil Element 4200W p.12; §4-1 symptom p.64: Broil Heater 13Ω; §6-3 RY202 Broil Relay p.88; C-A2 uses Broil Hi mode to verify cooling fan p.63.",
+      "functionalMapping": "Electric broil oven heat function is independently testable — separate from bake and from gas cooktop — maps to broil_heating_element instance scope.",
+      "implementationSpecificAdditions": ["heater_broil", "broil_relay_ry202", "tb203_broil_terminal"],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§3-26 p.51", "§2-5 p.12", "§4-1 symptom p.64", "§6-3 p.88"]
+    },
+    "convection_heating_element_dual_fuel": {
+      "probeId": "convection_heating_element_dual_fuel",
+      "frozenContractNode": "convection_heating_element",
+      "layer": "conditionalInstanceScopes[]",
+      "energyDomain": "oven",
+      "implementationEvidence": "§2-5 Convection Heater 1,300W True Convection p.12; §4-1 symptom p.64: Conv.Heater 44Ω; §6-3 RY207 Convection Heater Relay p.88; Convection Bake/Roast modes p.13.",
+      "functionalMapping": "Dedicated electric convection heating element with separate resistance test and relay path — conditional instance scope binds on this platform.",
+      "implementationSpecificAdditions": ["convection_heater", "convection_relay_ry207", "tb211_conv_heater_terminal"],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§2-5 p.12", "§2-5 cooking modes p.13", "§4-1 symptom p.64", "§6-3 p.88"],
+      "conditionalScopeNote": "Evidenced on this configuration — distinct from CG-11 gas NO_EVIDENCE case."
+    },
+    "convection_fan_dual_fuel": {
+      "probeId": "convection_fan_dual_fuel",
+      "frozenContractNode": "convection_fan",
+      "layer": "conditionalConcepts[]",
+      "energyDomain": "oven",
+      "implementationEvidence": "§4-1 symptom p.65: Convection fan not spinning — CNP200 harness, SSR200/RY211 and SSR201/RY212 relays, fan motor 25–30Ω; §6-3 SSR200/SSR201 Upper/Lower Convection Fan relays p.88.",
+      "functionalMapping": "Convection fan actuator is independently diagnosable from convection heater relay — frozen convection_fan conditional concept applies.",
+      "implementationSpecificAdditions": ["upper_convection_fan", "lower_convection_fan", "ssr200_ssr201_fan_relays"],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§4-1 symptom p.65", "§6-3 p.88"]
+    },
+    "thermal_protection_dual_fuel": {
+      "probeId": "thermal_protection_dual_fuel",
+      "frozenContractNode": "thermal_protection",
+      "layer": "conditionalConcepts[]",
+      "energyDomain": "shared",
+      "implementationEvidence": "C-21 oven heating over (p.56–57): sensor, bake/broil/convection heater and relay checks; C-A2 display PCB ambient overtemp with cooling fan check (p.63); §4-1 thermostat 0Ω normal (p.64); information codes reference Control PBA NTC sensor and cooling system (p.54).",
+      "functionalMapping": "Thermal protection evidenced through multiple platform-specific paths (oven overtemp, display PCB overtemp/cooling fan, thermostat) — fits frozen CONDITIONAL posture without assuming single implementation across gas surface + electric oven.",
+      "implementationSpecificAdditions": [
+        "c21_safety_error_path",
+        "c_a2_display_pcb_overtemp",
+        "cooling_fan_motor",
+        "thermostat",
+        "control_pba_ntc"
+      ],
+      "fitStatus": "CONDITIONAL",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§4-1 C-21 p.56–57", "§4-1 C-A2 p.63", "§4-1 symptom p.64", "§4-1 information codes p.54"]
+    },
+    "oven_door_switch_dual_fuel": {
+      "probeId": "oven_door_switch_dual_fuel",
+      "frozenContractNode": "oven_door_switch",
+      "layer": "conditionalConcepts[]",
+      "energyDomain": "shared",
+      "implementationEvidence": "C-d1 door lock malfunction (p.59–60): lock motor resistance 1.75–1.95kΩ, AC 120V at motor, door lock switch; §3-20 Assy Door Latch p.42; §3-21 Switch-Door Plunger p.43; RY210 Door Lock Relay on Main PCB p.88.",
+      "functionalMapping": "Door-state authorization evidenced via latch motor + lock switch packaging — same conditional posture as electric/gas/induction witnesses.",
+      "implementationSpecificAdditions": ["door_lock_motor", "door_lock_switch", "door_plunger_switch", "door_lock_relay_ry210"],
+      "fitStatus": "CONDITIONAL",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§4-1 C-d1 p.59–60", "§3-20 p.42", "§3-21 p.43", "§6-3 p.88"]
+    }
+  },
+  "platformImplementationEvidence": {
+    "classification": "PLATFORM_ONLY — recorded faithfully; not promoted to canonical",
+    "observed": [
+      {
+        "oemConcept": "valve_cooktop",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "surface_heating_system",
+        "sourceProvenance": ["§3-17 p.37–38", "§4-3 p.72–77"]
+      },
+      {
+        "oemConcept": "spark_module",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "surface_heating_system",
+        "sourceProvenance": ["§3-9 p.29", "§4-3 p.73–74"]
+      },
+      {
+        "oemConcept": "switch_ignition",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "surface_heating_system",
+        "sourceProvenance": ["§3-18 p.39", "§4-3 p.74"]
+      },
+      {
+        "oemConcept": "electrode",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "surface_heating_system",
+        "sourceProvenance": ["§3-12 p.32", "§4-3 p.74"]
+      },
+      {
+        "oemConcept": "gas_pressure_regulator",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "surface_heating_system",
+        "sourceProvenance": ["§4-3 p.72–73"]
+      },
+      {
+        "oemConcept": "surface_burner",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "surface_heating_system",
+        "sourceProvenance": ["§3-6 p.25", "§2-4 p.11"]
+      },
+      {
+        "oemConcept": "heater_bake",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "instanceScopes.bake_heating_element",
+        "sourceProvenance": ["§3-27 p.52", "§4-1 p.64"]
+      },
+      {
+        "oemConcept": "heater_broil",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "instanceScopes.broil_heating_element",
+        "sourceProvenance": ["§3-26 p.51", "§4-1 p.64"]
+      },
+      {
+        "oemConcept": "convection_heater",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "conditionalInstanceScopes.convection_heating_element",
+        "sourceProvenance": ["§2-5 p.12", "§4-1 p.64"]
+      },
+      {
+        "oemConcept": "door_lock_motor",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "conditionalConcepts.oven_door_switch",
+        "sourceProvenance": ["§4-1 C-d1 p.59–60"]
+      }
+    ]
+  },
+  "pipelineCounts": {
+    "boundaryProbes": 11,
+    "probesPopulated": 11,
+    "probesDeferred": 0,
+    "platformHardwareRecorded": 10
+  },
+  "classificationHistogram": {
+    "INHERITS": 9,
+    "CONDITIONAL": 2,
+    "DIVERGES": 0,
+    "NO_EVIDENCE": 0,
+    "DEFERRED": 0
+  },
+  "crossManufacturerMatrixR1Contribution": {
+    "manufacturer": "Samsung",
+    "smokeModel": "NY63T8751SS/AA",
+    "manualDocument": "samsungny64dualfuel.pdf",
+    "status": "r1_populated",
+    "allCellsCrossManufacturerConsistency": "PENDING"
+  },
+  "observationalTallyOnly": {
+    "note": "Histogram is probe-level observation tally — not final human boundary verdict. R2/R3 and human gate required before CG-13 closure.",
+    "divergenceCount": 0,
+    "allFiveCanonicalComponentsInherit": true,
+    "bothInstanceScopesInherit": true,
+    "convectionHeatingElementEvidenced": true,
+    "gasHardwarePromotedToCanonical": false,
+    "dualEnergyDomainsIndependentlyAddressable": true
+  },
+  "nextSteps": [
+    "Review CG13_DUAL_FUEL_FIT_ANALYSIS_v1.json — human boundary gate",
+    "Optional R2 LG LSDL6336F / R3 Whirlpool for cross_manufacturer_consistency matrix",
+    "Do not compound/normalize until family boundary review after CG-13 closure"
+  ],
+  "explicitlyOmittedUntilHumanGate": [
+    "humanBoundaryApproval",
+    "closureArtifact",
+    "ontology rename or routing conclusions",
+    "normalization compounding authorization"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "id": "samsungne58-door-switch",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Door plunger switch",
+  "platformId": "samsung_range_ne58",
+  "componentIds": [
+    "door_switch"
+  ],
+  "tags": [
+    "door_switch_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58-RANGE",
+    "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+    "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "cg10-r4-assisted-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Door plunger switch continuity",
+    "pages": [
+      46
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+      "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range.",
+      "requiresInput": false,
+      "defaultNextStepId": "plunger_check"
+    },
+    {
+      "id": "plunger_check",
+      "order": 2,
+      "type": "instruction",
+      "title": "Door plunger switch",
+      "body": "Check plunger switch normal-close state. Inspect wire, housing, and terminals for damage.",
+      "sourceExcerpt": "Check plunger switch normal-close state. Inspect wire, housing, and terminals for damage.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_sw_ok"
+    },
+    {
+      "id": "replace_plunger",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "oemOutcome": "Replace or repair door plunger switch or harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "door_sw_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Door switch OK",
+      "oemOutcome": "Door plunger switch verified.",
+      "requiresInput": false
+    }
+  ]
+}

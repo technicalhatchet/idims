@@ -1,0 +1,92 @@
+{
+  "manualId": "W10864849",
+  "equivalent": true,
+  "checks": {
+    "canonicalAliases": true,
+    "procedureBindings": true,
+    "measurementBindings": true,
+    "topologyOverrides": true
+  },
+  "aliasComparison": {
+    "equivalent": true,
+    "referenceCount": 0,
+    "generatedCount": 28,
+    "mismatches": [],
+    "extraGenerated": [
+      "acu",
+      "bulk_level_switch",
+      "door_lock",
+      "drain_pump",
+      "drive_motor",
+      "hmi_control",
+      "inlet_valve",
+      "supply",
+      "test #10: service leds",
+      "test #11: basket light",
+      "test #12: bulk dispense pump and rex board",
+      "test #1: main control",
+      "test #1: main control (acu)",
+      "test #2: valves",
+      "test #3: drive system (pre-test)",
+      "test #3a: drive system \u2014 shifter",
+      "test #3b: drive system \u2014 motor",
+      "test #4: console and indicators",
+      "test #4: keys and encoders",
+      "test #5: temperature thermistor",
+      "test #6: water level",
+      "test #7: drain & recirculation pump",
+      "test #7: drain pump",
+      "test #8: lid lock",
+      "test #9: heater element",
+      "wash_heater",
+      "wash_ntc",
+      "water_level_sensor"
+    ]
+  },
+  "procedureBindingComparison": {
+    "label": "procedureBindings",
+    "equivalent": true,
+    "referenceCount": 0,
+    "generatedCount": 12,
+    "mismatches": [],
+    "extraGenerated": [
+      "w10864849-test-03-drive-system",
+      "w10864849-test-03a-shifter",
+      "w10864849-test-03b-motor",
+      "w10864849-test-06-water-level",
+      "w10864849-test-07-drain-recirc-pump",
+      "w10864849-test-08-lid-lock",
+      "w11697231-test-03-drive-system",
+      "w11697231-test-03a-shifter",
+      "w11697231-test-03b-motor",
+      "w11697231-test-06-water-level",
+      "w11697231-test-07-drain-pump",
+      "w11697231-test-08-lid-lock"
+    ]
+  },
+  "measurementBindingComparison": {
+    "label": "measurementBindings",
+    "equivalent": true,
+    "referenceCount": 0,
+    "generatedCount": 8,
+    "mismatches": [],
+    "extraGenerated": [
+      "w10864849-test-03b-motor:whirlpoolTlDdWasherMotorOhms",
+      "w10864849-test-07-drain-recirc-pump:whirlpoolTlDdWasherDrainPumpOhms",
+      "w10864849-test-07-drain-recirc-pump:whirlpoolTlDdWasherRecircPumpOhms",
+      "w10864849-test-08-lid-lock:whirlpoolTlDdWasherLidLockMotorOhms",
+      "w11697231-test-03a-shifter:whirlpoolWtw4950WasherShifterOhms",
+      "w11697231-test-03b-motor:whirlpoolWtw4950WasherMotorWindingOhms",
+      "w11697231-test-07-drain-pump:whirlpoolWtw4950WasherDrainPumpOhms",
+      "w11697231-test-08-lid-lock:whirlpoolWtw4950WasherLidLockSolenoidOhms"
+    ]
+  },
+  "provenance": "generated",
+  "notes": [
+    "Semantic equivalence: reference CG-2 mappings must be preserved.",
+    "Extra generated aliases/bindings are allowed.",
+    "Topology overrides remain hand-authored and must not drift."
+  ],
+  "promotionId": "promo-W10864849-20260913070539",
+  "approvedCandidateCount": 0
+}

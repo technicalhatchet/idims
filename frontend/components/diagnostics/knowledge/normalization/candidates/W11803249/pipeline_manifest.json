@@ -1,0 +1,85 @@
+{
+  "manualId": "W11803249",
+  "platformId": "whirlpool_theseus_cdfd",
+  "templateId": "refrigerator",
+  "label": "Whirlpool Theseus counter-depth French door 24 cu ft (W11803249)",
+  "status": "candidate",
+  "ontologyId": null,
+  "generatedAt": "2026-09-12T22:21:05.816877+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 13,
+    "mappingCandidates": 24,
+    "overlayCandidates": 0,
+    "conflicts": 0,
+    "extractionFiltered": 10
+  },
+  "extractionFilters": {
+    "proceduralNoise": 9,
+    "structuralNoise": 1,
+    "invalidExtraction": 0,
+    "totalFiltered": 10,
+    "samples": [
+      {
+        "rawTerm": "Service Test 10",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11803249-test-10-fc-evap-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 111",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11803249-test-111-fc-evap-fan",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 113",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11803249-test-113-condenser-fan",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 12",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11803249-test-12-fc-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 13",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11803249-test-13-rc-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Test 13",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11803249-test-13-water-valve",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 131",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11803249-test-131-defrost",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 17",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11803249-test-17-pantry-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 181",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11803249-test-181-fc-ice-maker",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 29",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11803249-test-29-rh-sensor",
+        "source": "title_token"
+      }
+    ]
+  }
+}

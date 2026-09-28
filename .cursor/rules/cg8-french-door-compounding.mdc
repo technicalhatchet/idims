@@ -1,0 +1,68 @@
+# CG-8 — French-Door Refrigerator Manufacturer Compounding
+
+**CG-7 is CLOSED.** `french_door_refrigerator.json` rev1 is frozen. CG-8 is compounding only — not ontology discovery.
+
+Canonical contract: `frontend/components/diagnostics/knowledge/normalization/calibration/CG8_FRENCH_DOOR_COMPOUNDING_CONTRACT_v1.json`  
+Lock: `CG7_FRENCH_DOOR_REFRIGERATOR_LOCK_v1.json`
+
+## Immutable canonical truth
+
+Load `french_door_refrigerator.json` rev1 as byte-stable. **Zero canonical expansion** through compounding.
+
+| Bucket | IDs | CG-8 rule |
+|--------|-----|-----------|
+| **KEEP** (6) | control_board, user_interface, door_switch, evaporator_fan, air_damper, defrost_heater | Direct canonical inheritance |
+| **CONDITIONAL** (5) | temperature_sensor, compressor, condenser_fan, ice_maker, water_dispenser | Overlay `conditionalConcept` binding + instance scope — **not** `components[]` promotion |
+| **PLATFORM_ONLY** (4) | compressor_controller, defrost_sensor, water_inlet_valve, sealed_system | Overlay vocabulary only |
+| **REMOVE** (3) | airflow_path, defrost_system, cooling_system | Do not resurrect in overlay |
+| **DEFER** (6) | power_supply, condenser, evaporator, door_heater, water_level_sensor, humidity_control | Defer until evidence gate — not canonical |
+
+**Conditional becoming common across manufacturers does NOT auto-promote.** Re-freeze gate required.
+
+## Compounding order
+
+1. **Whirlpool** — W10322959 / `whirlpool_jazz_french_door` — **WP1 PUBLISHED** (`whirlpool_jazz_french_door.json`, promotion `promo-WHIRLPOOL-JAZZ-FD-CG8-*`)
+2. **Samsung** — SAMSUNG-RF23BB-FRIDGE / `samsung_fridge_bespoke`
+3. **LG** — LG-LRMVS-FRIDGE / `lg_lrmvs`
+
+Each manufacturer: gate table → human review → overlay publish → promotion ID. Match CG-6.7 audit discipline.
+
+## Layer distinction (preserve)
+
+```
+canonical function          → 6 KEEP components
+conditional concept binding → scoped overlay (compartment / feature / drive path)
+manufacturer implementation → oemTermAliases, Jazz/Samsung/LG vocabulary
+platform implementation     → inverter PBA, relay drive, linear compressor, F-DEF/R-DEF, sealed_system
+model-specific behavior     → defer — not manufacturer vocabulary
+```
+
+## Discovery corpus = reference only
+
+R1/R2/R3 observation artifacts and `french_door_refrigerator.reference.json` inform human review. **Not** auto-inheritance for overlay mappings.
+
+## Do not reopen freeze
+
+When Whirlpool (or any manual) exposes compressor/inverter/thermistor/multi-NTC architecture:
+
+- Route to **conditional** or **platform-only** overlay binding
+- Do **not** reopen CG-7 freeze or add canonical components
+
+The six KEEP nodes are the stable cross-manufacturer control group.
+
+## Gate framing (per manual)
+
+**Question:** What does this manual teach us about the frozen contract?  
+**Not:** What components does this manual contain?
+
+Valid outcomes: `canonical_inheritance` | `conditional_binding` | `overlay_knowledge` | `unresolved`
+
+Generator: `python backend/scripts/generate_whirlpool_jazz_fd_cg8_gate_table.py` (Whirlpool Jazz first)
+
+## Ship gates (per manual)
+
+- Gate table populated with `contractTeachingRows` + explicit layer per row
+- `canonicalExpansion: 0` in accounting
+- Fresh CG-3 normalize for target manual
+- Overlay registered in `resolveDiagnosticGraph.ts` only after publish
+- `validate_procedure_seed.py` + `npx tsc --noEmit` unchanged ship gates for procedure layer

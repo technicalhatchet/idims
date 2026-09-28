@@ -1,0 +1,76 @@
+{
+  "manualId": "SAMSUNG-DISHWASHER",
+  "equivalent": true,
+  "checks": {
+    "canonicalAliases": true,
+    "procedureBindings": true,
+    "measurementBindings": true,
+    "topologyOverrides": true,
+    "topologyAdditiveOnly": true
+  },
+  "aliasComparison": {
+    "equivalent": true,
+    "referenceCount": 0,
+    "generatedCount": 17,
+    "mismatches": [],
+    "extraGenerated": [
+      "circulation motor",
+      "dispenser",
+      "distributor motor",
+      "door latch",
+      "door sensing switch",
+      "drain_pump",
+      "dry fan",
+      "float switch",
+      "heater",
+      "inlet_valve",
+      "main control",
+      "main pba",
+      "overflow sensor",
+      "thermistor",
+      "touch panel",
+      "user interface",
+      "vent"
+    ]
+  },
+  "procedureBindingComparison": {
+    "label": "procedureBindings",
+    "equivalent": true,
+    "referenceCount": 0,
+    "generatedCount": 10,
+    "mismatches": [],
+    "extraGenerated": [
+      "samsungdw-circulation-motor",
+      "samsungdw-dispenser",
+      "samsungdw-distributor",
+      "samsungdw-door-switch",
+      "samsungdw-drain-pump",
+      "samsungdw-dry-system",
+      "samsungdw-fill-valve",
+      "samsungdw-heater",
+      "samsungdw-overflow",
+      "samsungdw-thermistor"
+    ]
+  },
+  "measurementBindingComparison": {
+    "label": "measurementBindings",
+    "equivalent": true,
+    "referenceCount": 0,
+    "generatedCount": 5,
+    "mismatches": [],
+    "extraGenerated": [
+      "samsungdw-circulation-motor:samsungDishwasherCirculationMotorOhms",
+      "samsungdw-dispenser:samsungDishwasherDispenserOhms",
+      "samsungdw-dry-system:samsungDishwasherDryFanOhms",
+      "samsungdw-dry-system:samsungDishwasherThermalActuatorOhms",
+      "samsungdw-thermistor:samsungDishwasherThermistorOhms"
+    ]
+  },
+  "provenance": "generated",
+  "notes": [
+    "Semantic equivalence: reference CG-2 mappings must be preserved.",
+    "Extra generated aliases/bindings are allowed.",
+    "Topology overrides remain hand-authored and must not drift."
+  ],
+  "note": "First-manual publish \u2014 additive Samsung platform topology from skeleton."
+}

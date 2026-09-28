@@ -1,0 +1,4377 @@
+{
+  "manualId": "SAMSUNG-NX60-RANGE",
+  "procedures": [
+    {
+      "procedureId": "samsungnx60-bake-element",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-4: Bake element (electric NE63)",
+      "purpose": "Electric bake element \u2014 NE63 family",
+      "prerequisites": [],
+      "componentIds": [
+        "bake_element"
+      ],
+      "tags": [
+        "no_bake_heat_issue",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "disconnect_bake",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect bake element",
+          "body": "Power off. Access bake element terminals.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Access bake element terminals."
+        },
+        {
+          "id": "bake_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Bake element resistance",
+          "body": "Measure bake element terminals \u2014 verify continuity per element wattage.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "bakeElementOhms",
+              "testPoint": {
+                "connector": "Bake element",
+                "pins": "terminals",
+                "label": "Bake element resistance"
+              },
+              "title": "Bake element resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "bake_el_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_bake_el",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_el_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_bake_el",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_el_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_bake_el",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_el_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "bake_el_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure bake element terminals \u2014 verify continuity per element wattage."
+        },
+        {
+          "id": "replace_bake_el",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace bake element",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "bake_el_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Bake element OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "bakeElementOhms",
+          "testPoint": {
+            "connector": "Bake element",
+            "pins": "terminals",
+            "label": "Bake element resistance"
+          },
+          "title": "Bake element resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "bake_el_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bake_el",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        },
+        {
+          "id": "bake_el_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bake_el",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        },
+        {
+          "id": "bake_el_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bake_el",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        },
+        {
+          "id": "bake_el_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bake_el_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Electric bake element \u2014 NE63 family",
+        "pages": [
+          84
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-bake-element",
+        "pages": [
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-bake-element",
+            "pages": [
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-bake-ignitor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-4: Bake burner HSI",
+      "purpose": "Oven burner will not light \u2014 bake HSI",
+      "prerequisites": [],
+      "componentIds": [
+        "igniter"
+      ],
+      "tags": [
+        "igniter_check",
+        "ignition_issue",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "gas_supply",
+          "order": 2,
+          "type": "instruction",
+          "title": "Confirm gas supply",
+          "body": "Turn on cooktop burners to verify gas supply. Open gas valve if needed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn on cooktop burners to verify gas supply. Open gas valve if needed."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode entered. Continue with component-specific OEM checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests."
+        },
+        {
+          "id": "bake_hsi_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Bake HSI resistance",
+          "body": "Power off. Measure bake hot surface ignitor \u2014 40\u2013400 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungNx60OvenIgnitorOhms",
+              "testPoint": {
+                "connector": "Bake HSI",
+                "pins": "terminals",
+                "label": "Bake HSI resistance"
+              },
+              "title": "Bake HSI resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "bake_hsi_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_bake_hsi",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_hsi_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_bake_hsi",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_hsi_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_bake_hsi",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_hsi_pass",
+              "label": "40\u2013400 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "bake_hsi_glow",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure bake hot surface ignitor \u2014 40\u2013400 \u03a9."
+        },
+        {
+          "id": "bake_hsi_glow",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Bake HSI glow",
+          "body": "Power on. Verify HSI heats/glows. Check 120 V at T504\u2013T505.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "glow_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bake_ign_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_bake_hsi2",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pcb",
+              "terminal": true,
+              "oemOutcome": "Replace bake HSI."
+            }
+          ],
+          "sourceExcerpt": "Power on. Verify HSI heats/glows. Check 120 V at T504\u2013T505."
+        },
+        {
+          "id": "replace_bake_hsi",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace bake HSI",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_bake_hsi2",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace bake HSI",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pcb",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace Main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "bake_ign_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Bake ignitor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungNx60OvenIgnitorOhms",
+          "testPoint": {
+            "connector": "Bake HSI",
+            "pins": "terminals",
+            "label": "Bake HSI resistance"
+          },
+          "title": "Bake HSI resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "bake_hsi_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bake_hsi",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_hsi_ohms"
+        },
+        {
+          "id": "bake_hsi_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bake_hsi",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_hsi_ohms"
+        },
+        {
+          "id": "bake_hsi_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bake_hsi",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_hsi_ohms"
+        },
+        {
+          "id": "bake_hsi_pass",
+          "label": "40\u2013400 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bake_hsi_glow",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bake_hsi_ohms"
+        },
+        {
+          "id": "glow_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bake_ign_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bake_hsi_glow"
+        },
+        {
+          "id": "replace_bake_hsi2",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": true,
+          "oemOutcome": "Replace bake HSI.",
+          "stepId": "bake_hsi_glow"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Oven burner will not light \u2014 bake HSI",
+        "pages": [
+          83,
+          84
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-bake-ignitor",
+        "pages": [
+          83,
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-bake-ignitor",
+            "pages": [
+              83,
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-broil-element",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-4: Broil element (electric NE63)",
+      "purpose": "Electric broil element \u2014 NE63 family",
+      "prerequisites": [],
+      "componentIds": [
+        "broil_element"
+      ],
+      "tags": [
+        "no_broil_heat_issue",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "disconnect_broil",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect broil element",
+          "body": "Power off. Access broil element terminals.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Access broil element terminals."
+        },
+        {
+          "id": "broil_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Broil element resistance",
+          "body": "Measure broil element terminals \u2014 verify continuity per element wattage.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "broilElementOhms",
+              "testPoint": {
+                "connector": "Broil element",
+                "pins": "terminals",
+                "label": "Broil element resistance"
+              },
+              "title": "Broil element resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "broil_el_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_broil_el",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_el_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_broil_el",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_el_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_broil_el",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_el_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "broil_el_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure broil element terminals \u2014 verify continuity per element wattage."
+        },
+        {
+          "id": "replace_broil_el",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace broil element",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "broil_el_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Broil element OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "broilElementOhms",
+          "testPoint": {
+            "connector": "Broil element",
+            "pins": "terminals",
+            "label": "Broil element resistance"
+          },
+          "title": "Broil element resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "broil_el_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_broil_el",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        },
+        {
+          "id": "broil_el_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_broil_el",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        },
+        {
+          "id": "broil_el_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_broil_el",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        },
+        {
+          "id": "broil_el_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "broil_el_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Electric broil element \u2014 NE63 family",
+        "pages": [
+          84
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-broil-element",
+        "pages": [
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-broil-element",
+            "pages": [
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-broil-ignitor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-4: Broil burner HSI",
+      "purpose": "Oven burner will not light \u2014 broil HSI",
+      "prerequisites": [],
+      "componentIds": [
+        "igniter"
+      ],
+      "tags": [
+        "igniter_check",
+        "ignition_issue",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "broil_gas",
+          "order": 2,
+          "type": "instruction",
+          "title": "Confirm gas supply",
+          "body": "Verify cooktop burners light. Open gas supply valve.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify cooktop burners light. Open gas supply valve."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode entered. Continue with component-specific OEM checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests."
+        },
+        {
+          "id": "broil_hsi_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Broil HSI resistance",
+          "body": "Power off. Measure broil hot surface ignitor \u2014 40\u2013400 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungNx60OvenIgnitorOhms",
+              "testPoint": {
+                "connector": "Broil HSI",
+                "pins": "terminals",
+                "label": "Broil HSI resistance"
+              },
+              "title": "Broil HSI resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "broil_hsi_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_broil_hsi",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_hsi_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_broil_hsi",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_hsi_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_broil_hsi",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_hsi_pass",
+              "label": "40\u2013400 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "broil_hsi_glow",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure broil hot surface ignitor \u2014 40\u2013400 \u03a9."
+        },
+        {
+          "id": "broil_hsi_glow",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Broil HSI glow",
+          "body": "Power on. Verify broil HSI glows. Check 120 V at T504\u2013T503.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "broil_glow_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "broil_ign_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_broil_hsi2",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pcb_broil",
+              "terminal": true,
+              "oemOutcome": "Replace broil HSI."
+            }
+          ],
+          "sourceExcerpt": "Power on. Verify broil HSI glows. Check 120 V at T504\u2013T503."
+        },
+        {
+          "id": "replace_broil_hsi",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace broil HSI",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_broil_hsi2",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace broil HSI",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pcb_broil",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace Main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "broil_ign_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Broil ignitor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungNx60OvenIgnitorOhms",
+          "testPoint": {
+            "connector": "Broil HSI",
+            "pins": "terminals",
+            "label": "Broil HSI resistance"
+          },
+          "title": "Broil HSI resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "broil_hsi_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_broil_hsi",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_hsi_ohms"
+        },
+        {
+          "id": "broil_hsi_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_broil_hsi",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_hsi_ohms"
+        },
+        {
+          "id": "broil_hsi_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_broil_hsi",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_hsi_ohms"
+        },
+        {
+          "id": "broil_hsi_pass",
+          "label": "40\u2013400 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "broil_hsi_glow",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "broil_hsi_ohms"
+        },
+        {
+          "id": "broil_glow_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "broil_ign_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "broil_hsi_glow"
+        },
+        {
+          "id": "replace_broil_hsi2",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcb_broil",
+          "terminal": true,
+          "oemOutcome": "Replace broil HSI.",
+          "stepId": "broil_hsi_glow"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Oven burner will not light \u2014 broil HSI",
+        "pages": [
+          83,
+          84
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-broil-ignitor",
+        "pages": [
+          83,
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-broil-ignitor",
+            "pages": [
+              83,
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-convection-fan",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-3: Convection fan motor",
+      "purpose": "Convection fan not spinning",
+      "prerequisites": [],
+      "componentIds": [
+        "convection_fan"
+      ],
+      "tags": [
+        "fan_motor_check",
+        "convection_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "disconnect_fan",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access fan motor",
+          "body": "Power off. Disconnect convection fan motor leads.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Disconnect convection fan motor leads."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode entered. Continue with component-specific OEM checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests."
+        },
+        {
+          "id": "fan_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Fan motor resistance",
+          "body": "Measure across fan motor terminals \u2014 25\u201330 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungNx60ConvectionFanOhms",
+              "testPoint": {
+                "connector": "Fan motor",
+                "pins": "terminals",
+                "label": "Fan motor resistance"
+              },
+              "title": "Fan motor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fan_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "25\u201330 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_harness",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure across fan motor terminals \u2014 25\u201330 \u03a9."
+        },
+        {
+          "id": "fan_harness",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Fan harness and relay",
+          "body": "Check CN204 pin 1 harness and SSR200/RY204 relay on Main PCB.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fan_harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fan_motor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_fan_harness",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pcb_fan",
+              "terminal": true,
+              "oemOutcome": "Repair fan harness."
+            }
+          ],
+          "sourceExcerpt": "Check CN204 pin 1 harness and SSR200/RY204 relay on Main PCB."
+        },
+        {
+          "id": "replace_fan_motor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace fan motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "repair_fan_harness",
+          "order": 7,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pcb_fan",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace Main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_motor_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Convection fan OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungNx60ConvectionFanOhms",
+          "testPoint": {
+            "connector": "Fan motor",
+            "pins": "terminals",
+            "label": "Fan motor resistance"
+          },
+          "title": "Fan motor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "fan_pass",
+          "label": "25\u201330 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "fan_harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_motor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_harness"
+        },
+        {
+          "id": "repair_fan_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcb_fan",
+          "terminal": true,
+          "oemOutcome": "Repair fan harness.",
+          "stepId": "fan_harness"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Convection fan not spinning",
+        "pages": [
+          70,
+          87
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-convection-fan",
+        "pages": [
+          70,
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-convection-fan",
+            "pages": [
+              70,
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-cooling-fan",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-1: Display cooling fan (C-A2)",
+      "purpose": "C-A2 ambient temperature very hot",
+      "prerequisites": [],
+      "componentIds": [
+        "convection_fan"
+      ],
+      "tags": [
+        "C-A2",
+        "fan_motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "broil_hi",
+          "order": 2,
+          "type": "instruction",
+          "title": "Command broil for fan test",
+          "body": "Operate oven in Broil Hi. Cooling fan should spin to cool display PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Operate oven in Broil Hi. Cooling fan should spin to cool display PCB."
+        },
+        {
+          "id": "fan_spin",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Cooling fan rotation",
+          "body": "Is cooling fan rotating? Check white\u2013yellow conductors for AC 120 V.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fan_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_fan",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_fan_out",
+              "terminal": true,
+              "oemOutcome": "Replace cooling fan."
+            }
+          ],
+          "sourceExcerpt": "Is cooling fan rotating? Check white\u2013yellow conductors for AC 120 V."
+        },
+        {
+          "id": "fan_wiring",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Fan wiring seated",
+          "body": "Verify cooling fan wire connected to housing.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "wire_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "connect_fan",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "connect_fan_out",
+              "terminal": true,
+              "oemOutcome": "Connect fan to housing."
+            }
+          ],
+          "sourceExcerpt": "Verify cooling fan wire connected to housing."
+        },
+        {
+          "id": "replace_fan_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace cooling fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "connect_fan_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Connect fan wiring",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Cooling fan OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "fan_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_spin"
+        },
+        {
+          "id": "replace_fan",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fan_out",
+          "terminal": true,
+          "oemOutcome": "Replace cooling fan.",
+          "stepId": "fan_spin"
+        },
+        {
+          "id": "wire_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_wiring"
+        },
+        {
+          "id": "connect_fan",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "connect_fan_out",
+          "terminal": true,
+          "oemOutcome": "Connect fan to housing.",
+          "stepId": "fan_wiring"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "C-A2 ambient temperature very hot",
+        "pages": [
+          66
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-cooling-fan",
+        "pages": [
+          66
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-cooling-fan",
+            "pages": [
+              66
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-door-lock",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-1: Door lock motor (C-d1)",
+      "purpose": "C-d1 door locking information",
+      "prerequisites": [],
+      "componentIds": [
+        "door_lock"
+      ],
+      "tags": [
+        "C-d1",
+        "door_latch_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "disconnect_lock",
+          "order": 2,
+          "type": "instruction",
+          "title": "Isolate lock motor",
+          "body": "Disconnect power. Disconnect harness from lock motor. Check lock switch COM\u2013NO.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Disconnect harness from lock motor. Check lock switch COM\u2013NO."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode entered. Continue with component-specific OEM checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests."
+        },
+        {
+          "id": "lock_motor_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Lock motor coil resistance",
+          "body": "Lock motor coil \u2014 1750\u20131950 \u03a9 at room temperature.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungNx60DoorLockMotorOhms",
+              "testPoint": {
+                "connector": "Lock motor",
+                "pins": "coil",
+                "label": "Lock motor coil resistance"
+              },
+              "title": "Lock motor coil resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "lock_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_lock",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lock_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_lock",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lock_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_lock",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lock_pass",
+              "label": "1750\u20131950 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "lock_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Lock motor coil \u2014 1750\u20131950 \u03a9 at room temperature."
+        },
+        {
+          "id": "lock_voltage",
+          "order": 5,
+          "type": "instruction",
+          "title": "Lock motor voltage",
+          "body": "Restore power. Command door lock. Measure AC 120 V at lock motor harness when activated.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Restore power. Command door lock. Measure AC 120 V at lock motor harness when activated."
+        },
+        {
+          "id": "replace_lock",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace lock motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "lock_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Door lock OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungNx60DoorLockMotorOhms",
+          "testPoint": {
+            "connector": "Lock motor",
+            "pins": "coil",
+            "label": "Lock motor coil resistance"
+          },
+          "title": "Lock motor coil resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "lock_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lock",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_motor_ohms"
+        },
+        {
+          "id": "lock_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lock",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_motor_ohms"
+        },
+        {
+          "id": "lock_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lock",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_motor_ohms"
+        },
+        {
+          "id": "lock_pass",
+          "label": "1750\u20131950 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lock_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lock_motor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "C-d1 door locking information",
+        "pages": [
+          63,
+          64
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-door-lock",
+        "pages": [
+          63,
+          64
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-door-lock",
+            "pages": [
+              63,
+              64
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-heater-relays",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-1: Heater relays \u2014 DLB / bake / broil (C-21)",
+      "purpose": "C-21 oven heating over \u2014 relay check",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control",
+        "heater"
+      ],
+      "tags": [
+        "C-21",
+        "no_heat",
+        "relay_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "access_relays",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access relay terminals",
+          "body": "Power off. Remove Assy Display PCB access. Locate DLB TB200\u2013TB201, broil TB202\u2013TB203, bake TB204\u2013TB205.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Remove Assy Display PCB access. Locate DLB TB200\u2013TB201, broil TB202\u2013TB203, bake TB204\u2013TB205."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode entered. Continue with component-specific OEM checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests."
+        },
+        {
+          "id": "dlb_relay",
+          "order": 4,
+          "type": "measurement",
+          "title": "DLB relay contacts",
+          "body": "Measure DLB relay contacts TB200\u2013TB201 \u2014 open (\u221e \u03a9) when de-energized.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungNx60HeaterRelayContactsOhms",
+              "testPoint": {
+                "connector": "TB200",
+                "pins": "TB200 \u2194 TB201",
+                "label": "DLB relay contacts"
+              },
+              "title": "DLB relay contacts"
+            }
+          ],
+          "branches": [
+            {
+              "id": "dlb_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_pcb_dlb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "dlb_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_pcb_dlb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "dlb_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_pcb_dlb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "dlb_pass",
+              "label": "Open (\u221e \u03a9)",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "broil_relay",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure DLB relay contacts TB200\u2013TB201 \u2014 open (\u221e \u03a9) when de-energized."
+        },
+        {
+          "id": "broil_relay",
+          "order": 5,
+          "type": "measurement",
+          "title": "Broil relay contacts",
+          "body": "TB202\u2013TB203 \u2014 open (\u221e \u03a9) when relay off.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungNx60HeaterRelayContactsOhms",
+              "testPoint": {
+                "connector": "TB202",
+                "pins": "TB202 \u2194 TB203",
+                "label": "Broil relay contacts"
+              },
+              "title": "Broil relay contacts"
+            }
+          ],
+          "branches": [
+            {
+              "id": "broil_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_pcb_broil",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_pcb_broil",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_pcb_broil",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_pass",
+              "label": "Open (\u221e \u03a9)",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "bake_relay",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "TB202\u2013TB203 \u2014 open (\u221e \u03a9) when relay off."
+        },
+        {
+          "id": "bake_relay",
+          "order": 6,
+          "type": "measurement",
+          "title": "Bake relay contacts",
+          "body": "TB204\u2013TB205 \u2014 open (\u221e \u03a9) when relay off.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungNx60HeaterRelayContactsOhms",
+              "testPoint": {
+                "connector": "TB204",
+                "pins": "TB204 \u2194 TB205",
+                "label": "Bake relay contacts"
+              },
+              "title": "Bake relay contacts"
+            }
+          ],
+          "branches": [
+            {
+              "id": "bake_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_pcb_bake",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_pcb_bake",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_pcb_bake",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_pass",
+              "label": "Open (\u221e \u03a9)",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "relays_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "TB204\u2013TB205 \u2014 open (\u221e \u03a9) when relay off."
+        },
+        {
+          "id": "replace_pcb_dlb",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace Main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pcb_broil",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace Main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pcb_bake",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace Main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "relays_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "Relays OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungNx60HeaterRelayContactsOhms",
+          "testPoint": {
+            "connector": "TB200",
+            "pins": "TB200 \u2194 TB201",
+            "label": "DLB relay contacts"
+          },
+          "title": "DLB relay contacts"
+        },
+        {
+          "measurementKnowledgeId": "samsungNx60HeaterRelayContactsOhms",
+          "testPoint": {
+            "connector": "TB202",
+            "pins": "TB202 \u2194 TB203",
+            "label": "Broil relay contacts"
+          },
+          "title": "Broil relay contacts"
+        },
+        {
+          "measurementKnowledgeId": "samsungNx60HeaterRelayContactsOhms",
+          "testPoint": {
+            "connector": "TB204",
+            "pins": "TB204 \u2194 TB205",
+            "label": "Bake relay contacts"
+          },
+          "title": "Bake relay contacts"
+        }
+      ],
+      "branches": [
+        {
+          "id": "dlb_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pcb_dlb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "dlb_relay"
+        },
+        {
+          "id": "dlb_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pcb_dlb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "dlb_relay"
+        },
+        {
+          "id": "dlb_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pcb_dlb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "dlb_relay"
+        },
+        {
+          "id": "dlb_pass",
+          "label": "Open (\u221e \u03a9)",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "broil_relay",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dlb_relay"
+        },
+        {
+          "id": "broil_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pcb_broil",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_relay"
+        },
+        {
+          "id": "broil_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pcb_broil",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_relay"
+        },
+        {
+          "id": "broil_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pcb_broil",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_relay"
+        },
+        {
+          "id": "broil_pass",
+          "label": "Open (\u221e \u03a9)",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bake_relay",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "broil_relay"
+        },
+        {
+          "id": "bake_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pcb_bake",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_relay"
+        },
+        {
+          "id": "bake_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pcb_bake",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_relay"
+        },
+        {
+          "id": "bake_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pcb_bake",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_relay"
+        },
+        {
+          "id": "bake_pass",
+          "label": "Open (\u221e \u03a9)",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "relays_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bake_relay"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "C-21 oven heating over \u2014 relay check",
+        "pages": [
+          61,
+          62
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-heater-relays",
+        "pages": [
+          61,
+          62
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-heater-relays",
+            "pages": [
+              61,
+              62
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-hmi-touch",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-2: Touch keypad",
+      "purpose": "Touch control keypads not working",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel"
+      ],
+      "tags": [
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "child_lock",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Child lock / Sabbath off",
+          "body": "Hold lock key 3+ s to clear child lock. Bake+1 (Sabbath) 3+ s to exit Sabbath mode.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "lock_clear",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "cn701_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "clear_lock",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "clear_lock_out",
+              "terminal": true,
+              "oemOutcome": "Clear lock or Sabbath mode."
+            }
+          ],
+          "sourceExcerpt": "Hold lock key 3+ s to clear child lock. Bake+1 (Sabbath) 3+ s to exit Sabbath mode."
+        },
+        {
+          "id": "cn701_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "CN701 touch tail",
+          "body": "Verify Sub PCB CN701 and touch film tail CNS701/CN701 fully connected.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cn_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "touch_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reseat_tail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_sub_touch",
+              "terminal": true,
+              "oemOutcome": "Reseat touch film tail."
+            }
+          ],
+          "sourceExcerpt": "Verify Sub PCB CN701 and touch film tail CNS701/CN701 fully connected."
+        },
+        {
+          "id": "clear_lock_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Clear lock modes",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "reseat_tail",
+          "order": 5,
+          "type": "outcome",
+          "title": "Reseat tail",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_sub_touch",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace Sub PCB / touch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "touch_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Touch OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "lock_clear",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cn701_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "child_lock"
+        },
+        {
+          "id": "clear_lock",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_lock_out",
+          "terminal": true,
+          "oemOutcome": "Clear lock or Sabbath mode.",
+          "stepId": "child_lock"
+        },
+        {
+          "id": "cn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "touch_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cn701_check"
+        },
+        {
+          "id": "reseat_tail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sub_touch",
+          "terminal": true,
+          "oemOutcome": "Reseat touch film tail.",
+          "stepId": "cn701_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Touch control keypads not working",
+        "pages": [
+          70,
+          75
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-hmi-touch",
+        "pages": [
+          70,
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-hmi-touch",
+            "pages": [
+              70,
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-oven-lamp",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-3: Oven lamp",
+      "purpose": "Oven lamp not working",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "light_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "lockout_off",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Control lockout off",
+          "body": "Hold lock keypad 3+ seconds with door open to disable control lockout.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "lock_off",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bulb_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "unlock",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "unlock_out",
+              "terminal": true,
+              "oemOutcome": "Disable control lock."
+            }
+          ],
+          "sourceExcerpt": "Hold lock keypad 3+ seconds with door open to disable control lockout."
+        },
+        {
+          "id": "bulb_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Bulb condition",
+          "body": "Remove lamp cover. Replace with 40 W appliance bulb if burned out.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "bulb_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "socket_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_bulb",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_bulb_out",
+              "terminal": true,
+              "oemOutcome": "Replace 40 W appliance bulb."
+            }
+          ],
+          "sourceExcerpt": "Remove lamp cover. Replace with 40 W appliance bulb if burned out."
+        },
+        {
+          "id": "socket_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Lamp socket resistance",
+          "body": "Bulb removed. Measure across socket \u2014 open (\u221e \u03a9) normal.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungNx60OvenLampSocketOhms",
+              "testPoint": {
+                "connector": "Lamp socket",
+                "pins": "terminals",
+                "label": "Lamp socket resistance"
+              },
+              "title": "Lamp socket resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "lamp_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_socket",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lamp_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_socket",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lamp_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_socket",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lamp_pass",
+              "label": "Open (\u221e \u03a9)",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "lamp_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Bulb removed. Measure across socket \u2014 open (\u221e \u03a9) normal."
+        },
+        {
+          "id": "unlock_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Unlock controls",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_bulb_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace bulb",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_socket",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace socket",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "lamp_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Oven lamp OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungNx60OvenLampSocketOhms",
+          "testPoint": {
+            "connector": "Lamp socket",
+            "pins": "terminals",
+            "label": "Lamp socket resistance"
+          },
+          "title": "Lamp socket resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "lock_off",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bulb_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lockout_off"
+        },
+        {
+          "id": "unlock",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "unlock_out",
+          "terminal": true,
+          "oemOutcome": "Disable control lock.",
+          "stepId": "lockout_off"
+        },
+        {
+          "id": "bulb_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "socket_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bulb_check"
+        },
+        {
+          "id": "replace_bulb",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_bulb_out",
+          "terminal": true,
+          "oemOutcome": "Replace 40 W appliance bulb.",
+          "stepId": "bulb_check"
+        },
+        {
+          "id": "lamp_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_socket",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "socket_ohms"
+        },
+        {
+          "id": "lamp_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_socket",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "socket_ohms"
+        },
+        {
+          "id": "lamp_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_socket",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "socket_ohms"
+        },
+        {
+          "id": "lamp_pass",
+          "label": "Open (\u221e \u03a9)",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lamp_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "socket_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Oven lamp not working",
+        "pages": [
+          70,
+          87
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-oven-lamp",
+        "pages": [
+          70,
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-oven-lamp",
+            "pages": [
+              70,
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-oven-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-1: Oven temperature sensor (C-20 / C-21)",
+      "purpose": "Failure display \u2014 oven sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "C-20",
+        "C-21",
+        "sensor_check",
+        "temp_accuracy_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "disconnect_sensor",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access oven sensor",
+          "body": "Open back cover. Disconnect oven sensor harness from Sub PCB CN100.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Open back cover. Disconnect oven sensor harness from Sub PCB CN100."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode entered. Continue with component-specific OEM checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests."
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Oven sensor resistance",
+          "body": "Measure sensor leads or CN100 pins 11\u201313 \u2014 1080 \u03a9 at room temperature.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungNx60OvenSensorOhms",
+              "testPoint": {
+                "connector": "CN100",
+                "pins": "11 \u2194 13",
+                "label": "Oven sensor resistance"
+              },
+              "title": "Oven sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "sensor_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sensor_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sensor_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sensor_pass",
+              "label": "1080 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "harness_check",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure sensor leads or CN100 pins 11\u201313 \u2014 1080 \u03a9 at room temperature."
+        },
+        {
+          "id": "harness_check",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Sensor harness integrity",
+          "body": "Inspect harness from sensor to CN100 for damage. Reconnect if loose.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_good",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_harness",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_harness_out",
+              "terminal": true,
+              "oemOutcome": "Repair or replace sensor harness."
+            }
+          ],
+          "sourceExcerpt": "Inspect harness from sensor to CN100 for damage. Reconnect if loose."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace oven sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "repair_harness_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungNx60OvenSensorOhms",
+          "testPoint": {
+            "connector": "CN100",
+            "pins": "11 \u2194 13",
+            "label": "Oven sensor resistance"
+          },
+          "title": "Oven sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "sensor_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "sensor_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "sensor_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "sensor_pass",
+          "label": "1080 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "harness_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "harness_good",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_check"
+        },
+        {
+          "id": "repair_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness_out",
+          "terminal": true,
+          "oemOutcome": "Repair or replace sensor harness.",
+          "stepId": "harness_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Failure display \u2014 oven sensor",
+        "pages": [
+          59,
+          62
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-oven-sensor",
+        "pages": [
+          59,
+          62
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-oven-sensor",
+            "pages": [
+              59,
+              62
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-oven-vent",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-1: Oven vent blocked (C-24)",
+      "purpose": "C-24 oven vent blocked",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "C-24"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "vent_clear",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Vent and cover air clear",
+          "body": "Open oven door 60+ seconds. Check oven vent and cover air for foil or blockage.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "vent_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ignition_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "clear_vent",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "clear_vent_out",
+              "terminal": true,
+              "oemOutcome": "Remove blockage from vent."
+            }
+          ],
+          "sourceExcerpt": "Open oven door 60+ seconds. Check oven vent and cover air for foil or blockage."
+        },
+        {
+          "id": "ignition_ok",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Broil delayed ignition",
+          "body": "Check delayed ignition of broil burner and HSI condition.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ign_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "vent_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "service_burner",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "service_burner_out",
+              "terminal": true,
+              "oemOutcome": "Service broil burner and HSI."
+            }
+          ],
+          "sourceExcerpt": "Check delayed ignition of broil burner and HSI condition."
+        },
+        {
+          "id": "clear_vent_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Clear vent",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_burner_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Service burner",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "vent_path_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Vent OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "vent_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ignition_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "vent_clear"
+        },
+        {
+          "id": "clear_vent",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_vent_out",
+          "terminal": true,
+          "oemOutcome": "Remove blockage from vent.",
+          "stepId": "vent_clear"
+        },
+        {
+          "id": "ign_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "vent_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ignition_ok"
+        },
+        {
+          "id": "service_burner",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_burner_out",
+          "terminal": true,
+          "oemOutcome": "Service broil burner and HSI.",
+          "stepId": "ignition_ok"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "C-24 oven vent blocked",
+        "pages": [
+          67
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-oven-vent",
+        "pages": [
+          67
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-oven-vent",
+            "pages": [
+              67
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-power",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-2: No power / no display",
+      "purpose": "Control parts \u2014 no display",
+      "prerequisites": [],
+      "componentIds": [
+        "supply",
+        "main_control"
+      ],
+      "tags": [
+        "no_power",
+        "display_dead",
+        "supply_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "apply_power_check",
+          "order": 2,
+          "type": "instruction",
+          "title": "Restore power for voltage test",
+          "body": "Plug in cord or reset breaker. Measure input voltage at plug \u2014 120 VAC L\u2013N.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Plug in cord or reset breaker. Measure input voltage at plug \u2014 120 VAC L\u2013N."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode entered. Continue with component-specific OEM checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests."
+        },
+        {
+          "id": "board_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Main PCB supply voltage",
+          "body": "CNP100 on Main PCB pin 5\u20137 \u2014 120 VAC with power applied.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "supplyVoltage120",
+              "testPoint": {
+                "connector": "CNP100",
+                "pins": "5 \u2194 7",
+                "label": "Main PCB supply voltage"
+              },
+              "title": "Main PCB supply voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "pwr_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_cord",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pwr_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_cord",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pwr_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_cord",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pwr_pass",
+              "label": "120 VAC",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "harness_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CNP100 on Main PCB pin 5\u20137 \u2014 120 VAC with power applied."
+        },
+        {
+          "id": "harness_ok",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Harness and display connections",
+          "body": "Verify CN220/CN430 display harness and CN100 sub\u2194main connections seated.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "display_5v",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "harness_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_harness",
+              "terminal": true,
+              "oemOutcome": "Repair or replace loose harness."
+            }
+          ],
+          "sourceExcerpt": "Verify CN220/CN430 display harness and CN100 sub\u2194main connections seated."
+        },
+        {
+          "id": "display_5v",
+          "order": 6,
+          "type": "measurement",
+          "title": "Display 5 V supply",
+          "body": "CN430 pins 1\u20132 \u2014 5 VDC on Sub PCB when powered.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "supplyVoltage120",
+              "testPoint": {
+                "connector": "CN430",
+                "pins": "1 \u2194 2 (5 VDC)",
+                "label": "Display 5 V supply"
+              },
+              "title": "Display 5 V supply"
+            }
+          ],
+          "branches": [
+            {
+              "id": "5v_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sub_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "5v_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sub_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "5v_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sub_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "5v_pass",
+              "label": "5 V present",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "power_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN430 pins 1\u20132 \u2014 5 VDC on Sub PCB when powered."
+        },
+        {
+          "id": "replace_cord",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace cord",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "repair_harness",
+          "order": 8,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_sub_pcb",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace Sub PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "power_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "Power path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "supplyVoltage120",
+          "testPoint": {
+            "connector": "CNP100",
+            "pins": "5 \u2194 7",
+            "label": "Main PCB supply voltage"
+          },
+          "title": "Main PCB supply voltage"
+        },
+        {
+          "measurementKnowledgeId": "supplyVoltage120",
+          "testPoint": {
+            "connector": "CN430",
+            "pins": "1 \u2194 2 (5 VDC)",
+            "label": "Display 5 V supply"
+          },
+          "title": "Display 5 V supply"
+        }
+      ],
+      "branches": [
+        {
+          "id": "pwr_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_cord",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "board_voltage"
+        },
+        {
+          "id": "pwr_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_cord",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "board_voltage"
+        },
+        {
+          "id": "pwr_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_cord",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "board_voltage"
+        },
+        {
+          "id": "pwr_pass",
+          "label": "120 VAC",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "harness_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "board_voltage"
+        },
+        {
+          "id": "harness_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "display_5v",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_ok"
+        },
+        {
+          "id": "harness_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace loose harness.",
+          "stepId": "harness_ok"
+        },
+        {
+          "id": "5v_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sub_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "display_5v"
+        },
+        {
+          "id": "5v_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sub_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "display_5v"
+        },
+        {
+          "id": "5v_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sub_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "display_5v"
+        },
+        {
+          "id": "5v_pass",
+          "label": "5 V present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "power_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "display_5v"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Control parts \u2014 no display",
+        "pages": [
+          68,
+          74
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-power",
+        "pages": [
+          68,
+          74
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-power",
+            "pages": [
+              68,
+              74
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-safety-valve",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-4: Oven gas safety valve",
+      "purpose": "Safety valve current check",
+      "prerequisites": [],
+      "componentIds": [
+        "gas_valve",
+        "igniter"
+      ],
+      "tags": [
+        "gas_valve_check",
+        "ignition_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "valve_test_setup",
+          "order": 2,
+          "type": "instruction",
+          "title": "Ignition sequence",
+          "body": "Start bake or broil. Confirm HSI glowing before clamping safety valve circuit.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Start bake or broil. Confirm HSI glowing before clamping safety valve circuit."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode entered. Continue with component-specific OEM checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests."
+        },
+        {
+          "id": "valve_amps",
+          "order": 4,
+          "type": "measurement",
+          "title": "Safety valve current",
+          "body": "Clamp safety valve terminal \u2014 3.3\u20133.6 A when HSI glowing.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungNx60GasSafetyValveAmps",
+              "testPoint": {
+                "connector": "Safety valve",
+                "pins": "terminal",
+                "label": "Safety valve current"
+              },
+              "title": "Safety valve current"
+            }
+          ],
+          "branches": [
+            {
+              "id": "valve_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_pass",
+              "label": "3.3\u20133.6 A",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "valve_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Clamp safety valve terminal \u2014 3.3\u20133.6 A when HSI glowing."
+        },
+        {
+          "id": "valve_voltage",
+          "order": 5,
+          "type": "instruction",
+          "title": "Valve supply voltage",
+          "body": "Verify 120 VAC at TB201\u2013TB204 (bake) or TB201\u2013CN202 (broil) during call.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify 120 VAC at TB201\u2013TB204 (bake) or TB201\u2013CN202 (broil) during call."
+        },
+        {
+          "id": "replace_valve",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace safety valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "valve_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Safety valve OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungNx60GasSafetyValveAmps",
+          "testPoint": {
+            "connector": "Safety valve",
+            "pins": "terminal",
+            "label": "Safety valve current"
+          },
+          "title": "Safety valve current"
+        }
+      ],
+      "branches": [
+        {
+          "id": "valve_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_amps"
+        },
+        {
+          "id": "valve_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_amps"
+        },
+        {
+          "id": "valve_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_amps"
+        },
+        {
+          "id": "valve_pass",
+          "label": "3.3\u20133.6 A",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_amps"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Safety valve current check",
+        "pages": [
+          83,
+          84
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-safety-valve",
+        "pages": [
+          83,
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-safety-valve",
+            "pages": [
+              83,
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-spark-module",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-3: Cooktop spark module",
+      "purpose": "No cooktop burners will light",
+      "prerequisites": [],
+      "componentIds": [
+        "surface_ignition"
+      ],
+      "tags": [
+        "ignition_issue",
+        "surface_burner"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "power_gas",
+          "order": 2,
+          "type": "instruction",
+          "title": "Power and gas supply",
+          "body": "Verify 120 VAC to range and gas supply valve open.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify 120 VAC to range and gas supply valve open."
+        },
+        {
+          "id": "spark_voltage",
+          "order": 3,
+          "type": "instruction",
+          "title": "Spark module voltage",
+          "body": "Check each surface burner terminal on spark module for voltage when knob turned.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check each surface burner terminal on spark module for voltage when knob turned."
+        },
+        {
+          "id": "replace_spark",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace spark module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "spark_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Spark module OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "No cooktop burners will light",
+        "pages": [
+          71,
+          78
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-spark-module",
+        "pages": [
+          71,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-spark-module",
+            "pages": [
+              71,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungnx60-touch-comm",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "title": "\u00a74-1: Sub \u2194 touch communication (C-F2)",
+      "purpose": "C-F2 touch communication",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel",
+        "main_control"
+      ],
+      "tags": [
+        "C-F2",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and gas",
+          "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode entered. Continue with component-specific OEM checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests."
+        },
+        {
+          "id": "touch_tail",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Touch film tail connection",
+          "body": "Verify touch film tail fully seated on Sub PCB connector.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "tail_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_cleared",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_tail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_sub",
+              "terminal": true,
+              "oemOutcome": "Reconnect touch film tail."
+            }
+          ],
+          "sourceExcerpt": "Verify touch film tail fully seated on Sub PCB connector."
+        },
+        {
+          "id": "comm_cleared",
+          "order": 4,
+          "type": "visual_check",
+          "title": "C-F2 cleared",
+          "body": "After reseat or Sub PCB replacement, is C-F2 cleared?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_touch",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_touch_out",
+              "terminal": true,
+              "oemOutcome": "Replace Assy Touch panel."
+            }
+          ],
+          "sourceExcerpt": "After reseat or Sub PCB replacement, is C-F2 cleared?"
+        },
+        {
+          "id": "replace_sub",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace Sub PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_touch_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace touch panel",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "tail_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_cleared",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "touch_tail"
+        },
+        {
+          "id": "reconnect_tail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sub",
+          "terminal": true,
+          "oemOutcome": "Reconnect touch film tail.",
+          "stepId": "touch_tail"
+        },
+        {
+          "id": "comm_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_cleared"
+        },
+        {
+          "id": "replace_touch",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_touch_out",
+          "terminal": true,
+          "oemOutcome": "Replace Assy Touch panel.",
+          "stepId": "comm_cleared"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "C-F2 touch communication",
+        "pages": [
+          65
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "platformId": "samsung_range_nx60",
+        "procedureId": "samsungnx60-touch-comm",
+        "pages": [
+          65
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "platformId": "samsung_range_nx60"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungnx60-touch-comm",
+            "pages": [
+              65
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

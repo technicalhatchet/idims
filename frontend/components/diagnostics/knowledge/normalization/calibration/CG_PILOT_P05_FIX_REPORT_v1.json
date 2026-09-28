@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_pilot_p05_fix_report",
+  "workstream": "CG-PILOT-P05-FIX-THEN-RERUN",
+  "status": "targeted_validation_complete",
+  "generatedAt": "2026-09-17T20:15:00+00:00",
+  "inspectionReference": "CG_PILOT_CLASSIFIER_INSPECTION_P05_P08_v1.json",
+  "pilotBaselineReference": "CG_PRODUCTION_NORMALIZATION_PILOT_RESULTS_v1.json (2026-09-17T19:33:10Z — pre-fix)",
+  "fixScope": "Production normalization routing only — reconnect induction_range → range_oven ontology and CG-12 samsung_range_ne58 manufacturer overlay. No canonical mutation. P08 untouched.",
+  "pilotGateVerdict": "HOLD",
+  "freshPilotRunAuthorized": false,
+  "rootCause": "Production normalization matcher had no range_oven path. canonical_matcher._canonical_ontology_path() returned null for induction_range; load_canonical_component_ids() yielded an empty set; extend_alias_registry_for_platform() only extended washer overlays — so CG-12-approved manufacturer_overlays/samsung_range_ne58.json (igbt→surface_heating_system, assy_inverter_module→surface_heating_system, etc.) was never loaded. overlay_candidate_builder._ontology_path_for_template() also omitted range templates, leaving cooktop procedures without range test-target validation. Result: 0 candidate mappings → unresolved_block instead of implementation_specific.",
+  "filesChanged": [
+    {
+      "path": "backend/scripts/normalization/range_matcher_scope.py",
+      "change": "NEW — range_oven canonical path resolution, matchable id loader, RANGE_SEED_COMPONENT_ALIASES, samsung_range_ne58 overlay merge (washer-pattern mirror)"
+    },
+    {
+      "path": "backend/scripts/normalization/paths.py",
+      "change": "Added CANONICAL_RANGE_OVEN_PATH → canonical/range_oven.json"
+    },
+    {
+      "path": "backend/scripts/normalization/canonical_matcher.py",
+      "change": "Wired resolve_range_canonical_path() into _canonical_ontology_path(); load_range_matchable_canonical_ids() in load_canonical_component_ids(); extend_range_alias_registry_for_platform() in alias registry builder"
+    },
+    {
+      "path": "backend/scripts/normalization/overlay_candidate_builder.py",
+      "change": "Wired range ontology path in _ontology_path_for_template(); RANGE_COMPONENT_TO_TEST_TARGET map; range tag heuristics (igbt_check, surface_burner → surface_heat_test)"
+    },
+    {
+      "path": "frontend/components/diagnostics/session/__tests__/scenarios/cg-pilot-p05-range-routing.test.ts",
+      "change": "NEW — targeted P05 routing assertions (4 tests)"
+    },
+    {
+      "path": "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-NE58H-INDUCTION-RANGE/",
+      "change": "Regenerated pipeline artifacts via run_normalization_pipeline.py --manual SAMSUNG-NE58H-INDUCTION-RANGE"
+    }
+  ],
+  "exactRoutingChange": {
+    "ontologyResolution": "induction_range + samsung_range_ne58 → ontologyId range_oven via existing ontology_resolver.RANGE_IMPLEMENTATION_TEMPLATE_IDS (unchanged)",
+    "canonicalPath": "_canonical_ontology_path() now returns canonical/range_oven.json for range templates after washer check, before dryer/dishwasher fallback",
+    "matchableIds": "load_range_matchable_canonical_ids() — core components + instanceScopes + conditionalInstanceScopes + conditionalConcepts from frozen range_oven.json",
+    "seedAliases": "RANGE_SEED_COMPONENT_ALIASES: surface_element→surface_heating_system, main_control→control_board, display_panel→user_interface, supply→power_supply, door_lock→oven_door_switch, thermistor→temperature_sensor, bake_element→bake_heating_element, broil_element→broil_heating_element, convection_fan→convection_fan",
+    "overlayLoading": "extend_range_alias_registry_for_platform() loads manufacturer_overlays/samsung_range_ne58.json oemTermAliases for platformIds samsung_range_ne58*, matching washer overlay pattern",
+    "overlayBuilder": "_ontology_path_for_template() + RANGE_COMPONENT_TO_TEST_TARGET + range tag heuristics enable surface_heat_test and display_communication_test bindings for induction cooktop procedures"
+  },
+  "cg12TermsRecovered": {
+    "canonicalHost": "surface_heating_system",
+    "overlayArtifact": "frontend/components/diagnostics/knowledge/canonical/manufacturer_overlays/samsung_range_ne58.json",
+    "registryAliasesVerified": [
+      { "term": "igbt", "canonicalId": "surface_heating_system", "provenance": "manufacturer_overlay:samsung_range_ne58" },
+      { "term": "igbt_sensor", "canonicalId": "surface_heating_system", "provenance": "manufacturer_overlay:samsung_range_ne58" },
+      { "term": "assy_inverter_module", "canonicalId": "surface_heating_system", "provenance": "manufacturer_overlay:samsung_range_ne58" },
+      { "term": "inverter_pcb", "canonicalId": "surface_heating_system", "provenance": "manufacturer_overlay:samsung_range_ne58" },
+      { "term": "surface_element", "canonicalId": "surface_heating_system", "provenance": "range_seed_alias" }
+    ],
+    "procedureOverlayBindings": [
+      {
+        "procedureId": "ne58h-induction-igbt-sensor",
+        "canonicalTestTarget": "surface_heat_test",
+        "stressTerm": "Cooktop: IGBT sensor open/short",
+        "routingPath": "surface_element seed alias → surface_heating_system + igbt_check tag heuristic"
+      },
+      {
+        "procedureId": "ne58h-induction-pan-detection",
+        "canonicalTestTarget": "surface_heat_test",
+        "stressTerm": "Cooktop: Pan detection / unsuitable cookware",
+        "routingPath": "surface_element seed alias → surface_heating_system + surface_burner tag heuristic"
+      },
+      {
+        "procedureId": "ne58h-induction-comm-inverter",
+        "canonicalTestTarget": "display_communication_test",
+        "stressTerm": "Cooktop: Display ↔ inverter communication",
+        "routingPath": "surface_element + display_panel seed aliases + hmi_check tag heuristic"
+      }
+    ],
+    "compoundTitleTermsStillUnresolved": [
+      "Cooktop: IGBT sensor open/short",
+      "Cooktop: Display ↔ inverter communication",
+      "Cooktop: Pan detection / unsuitable cookware"
+    ],
+    "compoundNote": "Procedure title compounds remain UNRESOLVED_TERM (compound parser limitation). Implementation routing is recovered via seed componentIds + overlay test bindings — acceptable per inspection scope; does not block implementation_specific disposition."
+  },
+  "p05DispositionComparison": {
+    "before": {
+      "pipelineDisposition": "unresolved_block",
+      "mappingCandidates": 0,
+      "unresolvedTerms": 21,
+      "overlayCandidates": 1,
+      "ontologyId": null
+    },
+    "after": {
+      "pipelineDisposition": "implementation_specific",
+      "mappingCandidates": 9,
+      "unresolvedTerms": 8,
+      "compoundTermCandidates": 3,
+      "overlayCandidates": 11,
+      "ontologyId": "range_oven",
+      "conflicts": 0
+    }
+  },
+  "canonicalMutationCheck": {
+    "canonicalJsonModified": false,
+    "rangeOvenJsonModified": false,
+    "newCanonicalNodesCreated": false,
+    "architectureExceptionModified": false,
+    "dualLoadAbstractionCreated": false,
+    "dispositionClassifierModified": false,
+    "promotionBlockedSemanticsChanged": false,
+    "p08Touched": false,
+    "verifiedFiles": [
+      "frontend/components/diagnostics/knowledge/canonical/range_oven.json",
+      "frontend/components/diagnostics/knowledge/canonical/manufacturer_overlays/samsung_range_ne58.json",
+      "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json"
+    ]
+  },
+  "frozenHashCheck": {
+    "verified": true,
+    "method": "SHA-256 against frozen_canonical_hashes_v1.json + validate_canonical_graph.py",
+    "ontologiesVerified": [
+      "range_oven",
+      "electric_range",
+      "microwave",
+      "french_door_refrigerator",
+      "vented_dryer",
+      "heat_pump_dryer",
+      "aio_laundry_combo",
+      "front_load_washer",
+      "top_load_washer",
+      "dishwasher"
+    ],
+    "allMatch": true
+  },
+  "targetedValidation": {
+    "pipelineCommand": "python backend/scripts/run_normalization_pipeline.py --manual SAMSUNG-NE58H-INDUCTION-RANGE",
+    "classifierCheck": "pilot_batch._classify_manual_slot(P05) → implementation_specific",
+    "ontologyRecognized": "pipeline_manifest.json ontologyId = range_oven",
+    "overlayLoaded": "extend_range_alias_registry_for_platform confirms samsung_range_ne58 oemTermAliases in matcher registry",
+    "tests": [
+      {
+        "file": "cg-pilot-p05-range-routing.test.ts",
+        "result": "4/4 PASS"
+      }
+    ]
+  },
+  "regressionValidation": {
+    "cgProductionNormalizationPilotTest": {
+      "file": "cg-production-normalization-pilot.test.ts",
+      "result": "11/11 PASS"
+    },
+    "validateCanonicalGraph": {
+      "command": "python backend/scripts/validate_canonical_graph.py",
+      "result": "OK — frozen_hashes=10 verified"
+    },
+    "freshPilot8of8Rerun": {
+      "executed": false,
+      "reason": "Deferred per CG-PILOT-P05-FIX-THEN-RERUN gate — await user authorization after targeted P05 validation"
+    }
+  },
+  "explicitlyNotDone": [
+    "Fresh 8/8 pilot rerun (run_pilot_batch.py --write)",
+    "P08 architecture resolution or dual_load_integrated_orchestration",
+    "Disposition classifier/schema cleanup",
+    "70-manual production batch",
+    "Pilot closure",
+    "Canonical ontology mutation",
+    "Production overlay publish"
+  ],
+  "nextAuthorizedStep": "Fresh 8/8 pilot rerun to confirm P05 fix reconnects pipeline to frozen CG-12 architecture without regressions on P01–P07; P08 architecture gate remains separate human triage."
+}

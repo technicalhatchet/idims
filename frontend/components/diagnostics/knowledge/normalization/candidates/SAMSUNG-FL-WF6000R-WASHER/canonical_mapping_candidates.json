@@ -1,0 +1,1163 @@
+{
+  "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+  "candidates": [
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-main_control-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "main_control",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-communication",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-communication",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-inverter-motor_controller",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inverter",
+      "extractedTerm": null,
+      "canonicalId": "motor_controller",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-communication",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-communication",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-compound-pba-communication-(ac,-ac3\u2013ac6)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: PBA communication (AC, AC3\u2013AC6)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-communication",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-communication",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "PBA communication (AC, AC3\u2013AC6)"
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-door_lock-door_lock",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_lock",
+      "extractedTerm": null,
+      "canonicalId": "door_lock",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-door-lock",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-door-lock",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-compound-door-lock-and-switch-(dc,-dc1)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Door lock and switch (DC, DC1)",
+      "canonicalId": "door_lock",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": "lock and",
+        "actuator": "switch"
+      },
+      "matchedPhrase": "door lock",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-door-lock",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-door-lock",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "door lock",
+            "decomposition": {
+              "domain": "door",
+              "component": "lock and",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Door lock and switch (DC, DC1)"
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-drain_pump-drain_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drain_pump",
+      "extractedTerm": null,
+      "canonicalId": "drain_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-drain-pump",
+        "pages": [
+          30,
+          31
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-drain-pump",
+            "pages": [
+              30,
+              31
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-compound-drain-/-leakage-(lc,-5c)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Drain / leakage (LC, 5C)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "drain",
+        "component": "leakage lc 5c",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-drain-pump",
+        "pages": [
+          30,
+          31
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-drain-pump",
+            "pages": [
+              30,
+              31
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "drain",
+              "component": "leakage lc 5c",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drain / leakage (LC, 5C)"
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-compound-switch-error-(bc2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-1: Switch error (BC2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": "switch"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-hmi-switch",
+        "pages": [
+          27,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-hmi-switch",
+            "pages": [
+              27,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Switch error (BC2)"
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-inlet_valve-inlet_valve",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inlet_valve",
+      "extractedTerm": null,
+      "canonicalId": "inlet_valve",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-inlet-valves",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-inlet-valves",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-compound-inlet-valves-(4c,-co/ho-manual-check)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Inlet valves (4C, Co/Ho manual check)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "inlet",
+        "component": "valves 4c co ho manual check",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-inlet-valves",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-inlet-valves",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "inlet",
+              "component": "valves 4c co ho manual check",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Inlet valves (4C, Co/Ho manual check)"
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-compound-mems-pba-(8c,-8c1,-8c2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-1: MEMS PBA (8C, 8C1, 8C2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-mems-sensor",
+        "pages": [
+          28,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-mems-sensor",
+            "pages": [
+              28,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "MEMS PBA (8C, 8C1, 8C2)"
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-drive_motor-drive_motor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drive_motor",
+      "extractedTerm": null,
+      "canonicalId": "drive_motor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-motor-circuit",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-motor-circuit",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-compound-washing-motor-(3c)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Washing motor (3C)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "washing",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-motor-circuit",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-motor-circuit",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "washing",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Washing motor (3C)"
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-water_level_sensor-water_level_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "water_level_sensor",
+      "extractedTerm": null,
+      "canonicalId": "water_level_sensor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-overflow",
+        "pages": [
+          29,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-overflow",
+            "pages": [
+              29,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-compound-overflow-(oc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Overflow (OC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-overflow",
+        "pages": [
+          29,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-overflow",
+            "pages": [
+              29,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Overflow (OC)"
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-supply-supply",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": "supply",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-power-supply",
+        "pages": [
+          28,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-power-supply",
+            "pages": [
+              28,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-compound-power-/-voltage-(9c1,-9c2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-1: Power / voltage (9C1, 9C2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-power-supply",
+        "pages": [
+          28,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-power-supply",
+            "pages": [
+              28,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Power / voltage (9C1, 9C2)"
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-suspension-suspension",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "suspension",
+      "extractedTerm": null,
+      "canonicalId": "suspension",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-unbalance",
+        "pages": [
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-unbalance",
+            "pages": [
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-compound-unbalance-(uv,-ub)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Unbalance (UV, UB)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-unbalance",
+        "pages": [
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-unbalance",
+            "pages": [
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Unbalance (UV, UB)"
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-wash_heater-wash_heater",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_heater",
+      "extractedTerm": null,
+      "canonicalId": "wash_heater",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-wash-heater",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-wash-heater",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-wash_ntc-wash_ntc",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_ntc",
+      "extractedTerm": null,
+      "canonicalId": "wash_ntc",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-wash-heater",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-wash-heater",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-compound-wash-heater-(hc,-hc1)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Wash heater (HC, HC1)",
+      "canonicalId": "wash_heater",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": null,
+        "actuator": "heater"
+      },
+      "matchedPhrase": "wash heater",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-wash-heater",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-wash-heater",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash heater",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Wash heater (HC, HC1)"
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-compound-wash-temperature-sensor-(tc1)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Wash temperature sensor (TC1)",
+      "canonicalId": "wash_ntc",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": "temperature",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": "wash temperature sensor",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-wash-thermistor",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-wash-thermistor",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash temperature sensor",
+            "decomposition": {
+              "domain": "wash",
+              "component": "temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Wash temperature sensor (TC1)"
+    },
+    {
+      "id": "map-SAMSUNG-FL-WF6000R-WASHER-compound-water-level-sensor-(1c)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Water level sensor (1C)",
+      "canonicalId": "water_level_sensor",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "level",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": "water level sensor",
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-water-level-sensor",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-water-level-sensor",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "water level sensor",
+            "decomposition": {
+              "domain": "water",
+              "component": "level",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water level sensor (1C)"
+    }
+  ]
+}

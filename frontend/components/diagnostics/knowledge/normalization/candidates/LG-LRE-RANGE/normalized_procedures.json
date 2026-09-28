@@ -1,0 +1,3909 @@
+{
+  "manualId": "LG-LRE-RANGE",
+  "procedures": [
+    {
+      "procedureId": "lg-range-bake-element",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-4: Bake element",
+      "purpose": "Bake element",
+      "prerequisites": [],
+      "componentIds": [
+        "bake_element"
+      ],
+      "tags": [
+        "no_heat",
+        "F9",
+        "bake_element"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "cool_bake",
+          "order": 2,
+          "type": "instruction",
+          "title": "Cool bake element",
+          "body": "Allow bake element to cool before resistance check.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Allow bake element to cool before resistance check."
+        },
+        {
+          "id": "bake_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Bake element resistance",
+          "body": "Disconnect element leads. R \u00d7 1 \u2014 expect \u224814 \u03a9 \u00b110% at room temperature.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeBakeElementOhms",
+              "testPoint": {
+                "connector": "Bake element",
+                "pins": "terminals",
+                "label": "Bake element resistance"
+              },
+              "title": "Bake element resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "bake_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_bake",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_bake",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_bake",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "bake_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect element leads. R \u00d7 1 \u2014 expect \u224814 \u03a9 \u00b110% at room temperature."
+        },
+        {
+          "id": "replace_bake",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace bake element",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "bake_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Bake element OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRangeBakeElementOhms",
+          "testPoint": {
+            "connector": "Bake element",
+            "pins": "terminals",
+            "label": "Bake element resistance"
+          },
+          "title": "Bake element resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "bake_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        },
+        {
+          "id": "bake_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        },
+        {
+          "id": "bake_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        },
+        {
+          "id": "bake_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bake_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Bake element",
+        "pages": [
+          39,
+          40
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-bake-element",
+        "pages": [
+          39,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-bake-element",
+            "pages": [
+              39,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-broil-element",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-4: Broil element",
+      "purpose": "Broil element",
+      "prerequisites": [],
+      "componentIds": [
+        "broil_element"
+      ],
+      "tags": [
+        "no_heat",
+        "broil_element"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "cool_broil",
+          "order": 2,
+          "type": "instruction",
+          "title": "Cool broil element",
+          "body": "Allow broil element to cool before measuring.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Allow broil element to cool before measuring."
+        },
+        {
+          "id": "broil_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Broil element resistance",
+          "body": "Disconnect leads. R \u00d7 1 \u2014 expect \u224817 \u03a9 \u00b110%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeBroilElementOhms",
+              "testPoint": {
+                "connector": "Broil element",
+                "pins": "terminals",
+                "label": "Broil element resistance"
+              },
+              "title": "Broil element resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "broil_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_broil",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_broil",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_broil",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "broil_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect leads. R \u00d7 1 \u2014 expect \u224817 \u03a9 \u00b110%."
+        },
+        {
+          "id": "replace_broil",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace broil element",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "broil_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Broil element OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRangeBroilElementOhms",
+          "testPoint": {
+            "connector": "Broil element",
+            "pins": "terminals",
+            "label": "Broil element resistance"
+          },
+          "title": "Broil element resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "broil_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_broil",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        },
+        {
+          "id": "broil_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_broil",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        },
+        {
+          "id": "broil_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_broil",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        },
+        {
+          "id": "broil_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "broil_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Broil element",
+        "pages": [
+          39,
+          40
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-broil-element",
+        "pages": [
+          39,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-broil-element",
+            "pages": [
+              39,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-convection-element",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-4: Convection element",
+      "purpose": "Convection element",
+      "prerequisites": [],
+      "componentIds": [
+        "convection_element"
+      ],
+      "tags": [
+        "no_heat",
+        "convection_element"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "cool_conv_el",
+          "order": 2,
+          "type": "instruction",
+          "title": "Cool convection element",
+          "body": "Cool element before \u03a9 test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Cool element before \u03a9 test."
+        },
+        {
+          "id": "conv_el_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Convection element resistance",
+          "body": "Disconnect leads. R \u00d7 1 \u2014 expect \u224817 \u03a9 \u00b110%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeConvectionElementOhms",
+              "testPoint": {
+                "connector": "Convection element",
+                "pins": "terminals",
+                "label": "Convection element resistance"
+              },
+              "title": "Convection element resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "conv_el_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_conv_el",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "conv_el_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_conv_el",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "conv_el_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_conv_el",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "conv_el_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "conv_el_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect leads. R \u00d7 1 \u2014 expect \u224817 \u03a9 \u00b110%."
+        },
+        {
+          "id": "replace_conv_el",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace convection element",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "conv_el_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Convection element OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRangeConvectionElementOhms",
+          "testPoint": {
+            "connector": "Convection element",
+            "pins": "terminals",
+            "label": "Convection element resistance"
+          },
+          "title": "Convection element resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "conv_el_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_conv_el",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "conv_el_ohms"
+        },
+        {
+          "id": "conv_el_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_conv_el",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "conv_el_ohms"
+        },
+        {
+          "id": "conv_el_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_conv_el",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "conv_el_ohms"
+        },
+        {
+          "id": "conv_el_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "conv_el_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "conv_el_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Convection element",
+        "pages": [
+          39,
+          40
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-convection-element",
+        "pages": [
+          39,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-convection-element",
+            "pages": [
+              39,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-convection-motor",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-1: Convection fan motor",
+      "purpose": "Convection Motor",
+      "prerequisites": [],
+      "componentIds": [
+        "convection_fan"
+      ],
+      "tags": [
+        "convection_fan",
+        "motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "conv_motor_ohms",
+          "order": 2,
+          "type": "measurement",
+          "title": "Convection motor resistance",
+          "body": "Disconnect motor leads. R \u00d7 1 \u2014 expect \u224833.5 \u03a9 \u00b110%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeConvectionMotorOhms",
+              "testPoint": {
+                "connector": "Convection motor",
+                "pins": "leads",
+                "label": "Convection motor resistance"
+              },
+              "title": "Convection motor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "conv_motor_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_conv_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "conv_motor_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_conv_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "conv_motor_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_conv_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "conv_motor_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "conv_motor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect motor leads. R \u00d7 1 \u2014 expect \u224833.5 \u03a9 \u00b110%."
+        },
+        {
+          "id": "replace_conv_motor",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace convection motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "conv_motor_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Convection motor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRangeConvectionMotorOhms",
+          "testPoint": {
+            "connector": "Convection motor",
+            "pins": "leads",
+            "label": "Convection motor resistance"
+          },
+          "title": "Convection motor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "conv_motor_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_conv_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "conv_motor_ohms"
+        },
+        {
+          "id": "conv_motor_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_conv_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "conv_motor_ohms"
+        },
+        {
+          "id": "conv_motor_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_conv_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "conv_motor_ohms"
+        },
+        {
+          "id": "conv_motor_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "conv_motor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "conv_motor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Convection Motor",
+        "pages": [
+          36,
+          37
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-convection-motor",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-convection-motor",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-cooktop-single",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-6: Single surface elements (LF/LR/RR)",
+      "purpose": "Single surface units",
+      "prerequisites": [],
+      "componentIds": [
+        "surface_element"
+      ],
+      "tags": [
+        "cooktop_element",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "disconnect_cooktop",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect cooktop element leads",
+          "body": "Remove back cover. Disconnect wires from target element (LF, LR, or RR).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove back cover. Disconnect wires from target element (LF, LR, or RR)."
+        },
+        {
+          "id": "element_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Element coil resistance",
+          "body": "R \u00d7 1 at element terminal to 1A \u2014 expect \u224846 \u03a9 \u00b110%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeCooktopElementOhms",
+              "testPoint": {
+                "connector": "Surface element",
+                "pins": "terminal\u20131A",
+                "label": "Element coil resistance"
+              },
+              "title": "Element coil resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "surf_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_element",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "surf_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_element",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "surf_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_element",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "surf_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "limiter_check",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "R \u00d7 1 at element terminal to 1A \u2014 expect \u224846 \u03a9 \u00b110%."
+        },
+        {
+          "id": "limiter_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Limiter continuity (1A\u20132A, 1B\u20132B)",
+          "body": "1A\u20132A: continuity. 1B\u20132B: open below 150\u00b0F, continuity above 150\u00b0F.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "lim_ok",
+              "label": "Limiters OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "cooktop_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "lim_bad",
+              "label": "Limiter fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_element",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "1A\u20132A: continuity. 1B\u20132B: open below 150\u00b0F, continuity above 150\u00b0F."
+        },
+        {
+          "id": "replace_element",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace surface element",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "cooktop_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Surface element OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRangeCooktopElementOhms",
+          "testPoint": {
+            "connector": "Surface element",
+            "pins": "terminal\u20131A",
+            "label": "Element coil resistance"
+          },
+          "title": "Element coil resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "surf_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "element_ohms"
+        },
+        {
+          "id": "surf_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "element_ohms"
+        },
+        {
+          "id": "surf_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "element_ohms"
+        },
+        {
+          "id": "surf_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "limiter_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "element_ohms"
+        },
+        {
+          "id": "lim_ok",
+          "label": "Limiters OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cooktop_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "limiter_check"
+        },
+        {
+          "id": "lim_bad",
+          "label": "Limiter fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_element",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "limiter_check"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Single surface units",
+        "pages": [
+          41,
+          42
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-cooktop-single",
+        "pages": [
+          41,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-cooktop-single",
+            "pages": [
+              41,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-door-latch",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-2: Door latch motor & micro switch",
+      "purpose": "Door locking Motor / Micro Switch",
+      "prerequisites": [],
+      "componentIds": [
+        "door_lock"
+      ],
+      "tags": [
+        "door_latch_check",
+        "F2"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "latch_motor_ohms",
+          "order": 2,
+          "type": "measurement",
+          "title": "Door latch motor resistance",
+          "body": "Disconnect latch motor leads. R \u00d7 1 \u2014 expect \u224827 \u03a9 \u00b110%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeDoorLatchMotorOhms",
+              "testPoint": {
+                "connector": "Latch motor",
+                "pins": "leads",
+                "label": "Door latch motor resistance"
+              },
+              "title": "Door latch motor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "latch_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_latch",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "latch_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_latch",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "latch_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_latch",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "latch_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "micro_switch_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect latch motor leads. R \u00d7 1 \u2014 expect \u224827 \u03a9 \u00b110%."
+        },
+        {
+          "id": "micro_switch_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Latch micro switch (NO)",
+          "body": "R \u00d7 1000 at NO\u2013COM \u2014 \u22482.6 k\u03a9 \u00b110%. Latch open = infinite; locked = continuity.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeMicroSwitchOhms",
+              "testPoint": {
+                "connector": "Micro switch",
+                "pins": "NO\u2013COM",
+                "label": "Latch micro switch (NO)"
+              },
+              "title": "Latch micro switch (NO)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "micro_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_latch",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "micro_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_latch",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "micro_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_latch",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "micro_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "latch_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "R \u00d7 1000 at NO\u2013COM \u2014 \u22482.6 k\u03a9 \u00b110%. Latch open = infinite; locked = continuity."
+        },
+        {
+          "id": "replace_latch",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace door latch assembly",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "latch_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Door latch OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRangeDoorLatchMotorOhms",
+          "testPoint": {
+            "connector": "Latch motor",
+            "pins": "leads",
+            "label": "Door latch motor resistance"
+          },
+          "title": "Door latch motor resistance"
+        },
+        {
+          "measurementKnowledgeId": "lgRangeMicroSwitchOhms",
+          "testPoint": {
+            "connector": "Micro switch",
+            "pins": "NO\u2013COM",
+            "label": "Latch micro switch (NO)"
+          },
+          "title": "Latch micro switch (NO)"
+        }
+      ],
+      "branches": [
+        {
+          "id": "latch_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "latch_motor_ohms"
+        },
+        {
+          "id": "latch_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "latch_motor_ohms"
+        },
+        {
+          "id": "latch_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "latch_motor_ohms"
+        },
+        {
+          "id": "latch_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "micro_switch_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "latch_motor_ohms"
+        },
+        {
+          "id": "micro_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "micro_switch_ohms"
+        },
+        {
+          "id": "micro_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "micro_switch_ohms"
+        },
+        {
+          "id": "micro_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "micro_switch_ohms"
+        },
+        {
+          "id": "micro_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "latch_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "micro_switch_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Door locking Motor / Micro Switch",
+        "pages": [
+          37,
+          38
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-door-latch",
+        "pages": [
+          37,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-door-latch",
+            "pages": [
+              37,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-door-switch",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-3: Oven door switch",
+      "purpose": "Door switch",
+      "prerequisites": [],
+      "componentIds": [
+        "door_switch"
+      ],
+      "tags": [
+        "door_switch_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "door_switch_states",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Door switch continuity",
+          "body": "Power off. Door open = infinite \u03a9; door closed = continuity (0 \u03a9) at door switch.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "sw_ok",
+              "label": "States correct",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "switch_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "sw_bad",
+              "label": "Wrong state",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_switch",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Door open = infinite \u03a9; door closed = continuity (0 \u03a9) at door switch."
+        },
+        {
+          "id": "replace_switch",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace door switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "switch_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "Door switch OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "sw_ok",
+          "label": "States correct",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "switch_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_switch_states"
+        },
+        {
+          "id": "sw_bad",
+          "label": "Wrong state",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_switch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_switch_states"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Door switch",
+        "pages": [
+          38,
+          39
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-door-switch",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-door-switch",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-dual-rf-element",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-8: Dual surface element (RF)",
+      "purpose": "Dual surface element Right Front",
+      "prerequisites": [],
+      "componentIds": [
+        "surface_element"
+      ],
+      "tags": [
+        "dual_element",
+        "cooktop_element",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "rf_inner_ohms",
+          "order": 2,
+          "type": "measurement",
+          "title": "RF inner coil (E1\u20131A)",
+          "body": "R \u00d7 1 \u2014 expect \u224832 \u03a9 \u00b110%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeDualSurfaceInnerOhms",
+              "testPoint": {
+                "connector": "RF dual",
+                "pins": "E1\u20131A",
+                "label": "RF inner coil (E1\u20131A)"
+              },
+              "title": "RF inner coil (E1\u20131A)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "rf_in_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_rf",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "rf_in_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_rf",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "rf_in_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_rf",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "rf_in_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "rf_outer_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "R \u00d7 1 \u2014 expect \u224832 \u03a9 \u00b110%."
+        },
+        {
+          "id": "rf_outer_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "RF outer coil (E2\u20131A)",
+          "body": "R \u00d7 1 \u2014 expect \u224855 \u03a9 \u00b110%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeDualSurfaceOuterOhms",
+              "testPoint": {
+                "connector": "RF dual",
+                "pins": "E2\u20131A",
+                "label": "RF outer coil (E2\u20131A)"
+              },
+              "title": "RF outer coil (E2\u20131A)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "rf_out_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_rf",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "rf_out_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_rf",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "rf_out_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_rf",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "rf_out_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "rf_limiter",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "R \u00d7 1 \u2014 expect \u224855 \u03a9 \u00b110%."
+        },
+        {
+          "id": "rf_limiter",
+          "order": 4,
+          "type": "visual_check",
+          "title": "RF limiter continuity",
+          "body": "Check 1A\u20132A continuity and 1B\u20132B thermal limiter per \u00a74-6.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "rf_lim_ok",
+              "label": "OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "rf_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "rf_lim_bad",
+              "label": "Fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_rf",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Check 1A\u20132A continuity and 1B\u20132B thermal limiter per \u00a74-6."
+        },
+        {
+          "id": "replace_rf",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace dual RF element",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "rf_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Dual RF element OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRangeDualSurfaceInnerOhms",
+          "testPoint": {
+            "connector": "RF dual",
+            "pins": "E1\u20131A",
+            "label": "RF inner coil (E1\u20131A)"
+          },
+          "title": "RF inner coil (E1\u20131A)"
+        },
+        {
+          "measurementKnowledgeId": "lgRangeDualSurfaceOuterOhms",
+          "testPoint": {
+            "connector": "RF dual",
+            "pins": "E2\u20131A",
+            "label": "RF outer coil (E2\u20131A)"
+          },
+          "title": "RF outer coil (E2\u20131A)"
+        }
+      ],
+      "branches": [
+        {
+          "id": "rf_in_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_rf",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "rf_inner_ohms"
+        },
+        {
+          "id": "rf_in_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_rf",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "rf_inner_ohms"
+        },
+        {
+          "id": "rf_in_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_rf",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "rf_inner_ohms"
+        },
+        {
+          "id": "rf_in_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "rf_outer_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "rf_inner_ohms"
+        },
+        {
+          "id": "rf_out_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_rf",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "rf_outer_ohms"
+        },
+        {
+          "id": "rf_out_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_rf",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "rf_outer_ohms"
+        },
+        {
+          "id": "rf_out_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_rf",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "rf_outer_ohms"
+        },
+        {
+          "id": "rf_out_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "rf_limiter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "rf_outer_ohms"
+        },
+        {
+          "id": "rf_lim_ok",
+          "label": "OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "rf_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "rf_limiter"
+        },
+        {
+          "id": "rf_lim_bad",
+          "label": "Fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_rf",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "rf_limiter"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-8",
+        "oemTestTitle": "Dual surface element Right Front",
+        "pages": [
+          43,
+          44
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-dual-rf-element",
+        "pages": [
+          43,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-dual-rf-element",
+            "pages": [
+              43,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-ignition-switch",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-3: Surface ignition switch",
+      "purpose": "Ignition switch",
+      "prerequisites": [],
+      "componentIds": [
+        "surface_ignition"
+      ],
+      "tags": [
+        "surface_burner",
+        "no_heat",
+        "spark_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "ign_switch_cam",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Ignition switch cam continuity",
+          "body": "Rotate cam slowly. Continuity at \u224840\u00b0\u201380\u00b0; infinite at other positions (R \u00d7 1).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cam_ok",
+              "label": "Switch OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ign_sw_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cam_bad",
+              "label": "Switch failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_ign_sw",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Rotate cam slowly. Continuity at \u224840\u00b0\u201380\u00b0; infinite at other positions (R \u00d7 1)."
+        },
+        {
+          "id": "replace_ign_sw",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace ignition switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ign_sw_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Ignition switch OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "cam_ok",
+          "label": "Switch OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ign_sw_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ign_switch_cam"
+        },
+        {
+          "id": "cam_bad",
+          "label": "Switch failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ign_sw",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ign_switch_cam"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Ignition switch",
+        "pages": [
+          37,
+          38
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-ignition-switch",
+        "pages": [
+          37,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-ignition-switch",
+            "pages": [
+              37,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-no-power",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a76-1: No display / no power",
+      "purpose": "No display (No power)",
+      "prerequisites": [],
+      "componentIds": [
+        "supply",
+        "main_control"
+      ],
+      "tags": [
+        "no_power",
+        "display_dead",
+        "supply_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "check_connections",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Inspect connections and corrosion",
+          "body": "Power off. Disconnect and reconnect all Main PCB and harness connectors. Check for corrosion.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Connections OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "supply_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "conn_bad",
+              "label": "Corrosion/loose",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_harness",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Disconnect and reconnect all Main PCB and harness connectors. Check for corrosion."
+        },
+        {
+          "id": "repair_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Repair terminals and reseat connectors.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Repair terminals and reseat connectors."
+        },
+        {
+          "id": "supply_voltage",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Line voltage at outlet",
+          "body": "Restore power. Verify 120/240 VAC at wall outlet and range cord per tech sheet.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "vac_ok",
+              "label": "Voltage OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "pcb_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "vac_bad",
+              "label": "No/low voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_supply",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Restore power. Verify 120/240 VAC at wall outlet and range cord per tech sheet."
+        },
+        {
+          "id": "fix_supply",
+          "order": 5,
+          "type": "outcome",
+          "title": "Correct supply issue",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "pcb_check",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Main PCB power LED / display",
+          "body": "If supply OK but no display \u2014 inspect Main PCB (6871W1N009A) and cooktop display PCB.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pcb_bad",
+              "label": "PCB fault",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "replace_pcb",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "pcb_ok",
+              "label": "PCB appears OK",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "power_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "If supply OK but no display \u2014 inspect Main PCB (6871W1N009A) and cooktop display PCB."
+        },
+        {
+          "id": "replace_pcb",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace Main PCB or display PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "power_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Power path verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "supply_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_connections"
+        },
+        {
+          "id": "conn_bad",
+          "label": "Corrosion/loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_connections"
+        },
+        {
+          "id": "vac_ok",
+          "label": "Voltage OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pcb_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "supply_voltage"
+        },
+        {
+          "id": "vac_bad",
+          "label": "No/low voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "supply_voltage"
+        },
+        {
+          "id": "pcb_bad",
+          "label": "PCB fault",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pcb_check"
+        },
+        {
+          "id": "pcb_ok",
+          "label": "PCB appears OK",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "power_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pcb_check"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "6-1",
+        "oemTestTitle": "No display (No power)",
+        "pages": [
+          69,
+          72
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-no-power",
+        "pages": [
+          69,
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-no-power",
+            "pages": [
+              69,
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-oven-gas-valve",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-3: Oven safety valve",
+      "purpose": "Oven (safety) valve",
+      "prerequisites": [],
+      "componentIds": [
+        "gas_valve"
+      ],
+      "tags": [
+        "gas_valve_check",
+        "F9",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "gas_off",
+          "order": 2,
+          "type": "instruction",
+          "title": "Turn off gas supply",
+          "body": "Shut gas supply before disconnecting valve coils.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Shut gas supply before disconnecting valve coils."
+        },
+        {
+          "id": "valve_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Oven safety valve coil resistance",
+          "body": "R \u00d7 1 upside/downside coil \u2014 expect \u22481\u20133 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeOvenGasValveOhms",
+              "testPoint": {
+                "connector": "Oven valve",
+                "pins": "coil",
+                "label": "Oven safety valve coil resistance"
+              },
+              "title": "Oven safety valve coil resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "valve_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "valve_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "R \u00d7 1 upside/downside coil \u2014 expect \u22481\u20133 \u03a9."
+        },
+        {
+          "id": "replace_valve",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace oven safety valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "valve_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Oven gas valve OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRangeOvenGasValveOhms",
+          "testPoint": {
+            "connector": "Oven valve",
+            "pins": "coil",
+            "label": "Oven safety valve coil resistance"
+          },
+          "title": "Oven safety valve coil resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "valve_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Oven (safety) valve",
+        "pages": [
+          37,
+          38
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-oven-gas-valve",
+        "pages": [
+          37,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-oven-gas-valve",
+            "pages": [
+              37,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-oven-igniter",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-3: Oven bake/broil igniter",
+      "purpose": "Broil or bake igniter",
+      "prerequisites": [],
+      "componentIds": [
+        "igniter"
+      ],
+      "tags": [
+        "igniter_check",
+        "F9",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "cool_igniter",
+          "order": 2,
+          "type": "instruction",
+          "title": "Cool igniter",
+          "body": "Allow igniter to cool to room temperature.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Allow igniter to cool to room temperature."
+        },
+        {
+          "id": "igniter_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Oven igniter resistance",
+          "body": "Disconnect igniter. R \u00d7 1 \u2014 expect 45\u2013400 \u03a9 at room temperature.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeOvenIgniterOhms",
+              "testPoint": {
+                "connector": "Oven igniter",
+                "pins": "terminals",
+                "label": "Oven igniter resistance"
+              },
+              "title": "Oven igniter resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ign_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_igniter",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ign_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_igniter",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ign_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_igniter",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ign_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "igniter_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect igniter. R \u00d7 1 \u2014 expect 45\u2013400 \u03a9 at room temperature."
+        },
+        {
+          "id": "replace_igniter",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace oven igniter",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "igniter_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Oven igniter OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRangeOvenIgniterOhms",
+          "testPoint": {
+            "connector": "Oven igniter",
+            "pins": "terminals",
+            "label": "Oven igniter resistance"
+          },
+          "title": "Oven igniter resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ign_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_igniter",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "igniter_ohms"
+        },
+        {
+          "id": "ign_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_igniter",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "igniter_ohms"
+        },
+        {
+          "id": "ign_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_igniter",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "igniter_ohms"
+        },
+        {
+          "id": "ign_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "igniter_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "igniter_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Broil or bake igniter",
+        "pages": [
+          37,
+          38
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-oven-igniter",
+        "pages": [
+          37,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-oven-igniter",
+            "pages": [
+              37,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-oven-lamp",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-5: Oven lamp",
+      "purpose": "Oven lamp",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "oven_lamp"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "lamp_ohms",
+          "order": 2,
+          "type": "measurement",
+          "title": "Oven lamp resistance",
+          "body": "Cool lamp. Measure resistance \u2014 expect below 5 \u03a9 (gas manual \u22485 \u03a9 \u00b110%).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeOvenLampOhms",
+              "testPoint": {
+                "connector": "Oven lamp",
+                "pins": "terminals",
+                "label": "Oven lamp resistance"
+              },
+              "title": "Oven lamp resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "lamp_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_lamp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lamp_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_lamp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lamp_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_lamp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lamp_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "lamp_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Cool lamp. Measure resistance \u2014 expect below 5 \u03a9 (gas manual \u22485 \u03a9 \u00b110%)."
+        },
+        {
+          "id": "replace_lamp",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace oven lamp",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "lamp_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Oven lamp OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRangeOvenLampOhms",
+          "testPoint": {
+            "connector": "Oven lamp",
+            "pins": "terminals",
+            "label": "Oven lamp resistance"
+          },
+          "title": "Oven lamp resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "lamp_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lamp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lamp_ohms"
+        },
+        {
+          "id": "lamp_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lamp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lamp_ohms"
+        },
+        {
+          "id": "lamp_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lamp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lamp_ohms"
+        },
+        {
+          "id": "lamp_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lamp_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lamp_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-5",
+        "oemTestTitle": "Oven lamp",
+        "pages": [
+          40,
+          41
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-oven-lamp",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-oven-lamp",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-oven-sensor",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-3: Main oven temperature sensor",
+      "purpose": "Oven Sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "temp_sensor"
+      ],
+      "tags": [
+        "sensor_check",
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F6",
+        "sensing_fail"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "cool_sensor",
+          "order": 2,
+          "type": "instruction",
+          "title": "Allow sensor to cool",
+          "body": "Oven sensor is temperature-sensitive. Allow cavity and sensor to cool to room temp before measuring.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Oven sensor is temperature-sensitive. Allow cavity and sensor to cool to room temp before measuring."
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Oven sensor resistance",
+          "body": "Disconnect sensor harness. Measure at connector \u2014 expect \u22481.09 k\u03a9 \u00b110% at 77\u00b0F (25\u00b0C).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeOvenSensorOhms",
+              "testPoint": {
+                "connector": "Oven sensor",
+                "pins": "terminals",
+                "label": "Oven sensor resistance"
+              },
+              "title": "Oven sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "sensor_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sensor_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sensor_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sensor_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect sensor harness. Measure at connector \u2014 expect \u22481.09 k\u03a9 \u00b110% at 77\u00b0F (25\u00b0C)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace oven sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Oven sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRangeOvenSensorOhms",
+          "testPoint": {
+            "connector": "Oven sensor",
+            "pins": "terminals",
+            "label": "Oven sensor resistance"
+          },
+          "title": "Oven sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "sensor_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "sensor_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "sensor_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "sensor_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Oven Sensor",
+        "pages": [
+          38,
+          39
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-oven-sensor",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-oven-sensor",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-warming-drawer",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-3/4: Warming drawer sensor & element",
+      "purpose": "Warming Drawer Sensor / element",
+      "prerequisites": [],
+      "componentIds": [
+        "warming_drawer"
+      ],
+      "tags": [
+        "warming_drawer",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "model_check",
+          "order": 2,
+          "type": "instruction",
+          "title": "Confirm LRE30755 warming drawer",
+          "body": "Warming drawer element (95 \u03a9) applies to LRE30755 only. Skip element if not equipped.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Warming drawer element (95 \u03a9) applies to LRE30755 only. Skip element if not equipped."
+        },
+        {
+          "id": "wd_sensor_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Warming drawer sensor",
+          "body": "Cool sensor. R \u00d7 1000 \u2014 expect \u22484.6 k\u03a9 \u00b110% at room temp.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeWarmingDrawerSensorOhms",
+              "testPoint": {
+                "connector": "Warming drawer sensor",
+                "pins": "terminals",
+                "label": "Warming drawer sensor"
+              },
+              "title": "Warming drawer sensor"
+            }
+          ],
+          "branches": [
+            {
+              "id": "wd_sen_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_wd_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wd_sen_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_wd_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wd_sen_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_wd_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wd_sen_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "wd_element_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Cool sensor. R \u00d7 1000 \u2014 expect \u22484.6 k\u03a9 \u00b110% at room temp."
+        },
+        {
+          "id": "wd_element_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Warming drawer element",
+          "body": "R \u00d7 1 \u2014 expect \u224895 \u03a9 \u00b110% (LRE30755).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeWarmingDrawerElementOhms",
+              "testPoint": {
+                "connector": "Warming drawer element",
+                "pins": "terminals",
+                "label": "Warming drawer element"
+              },
+              "title": "Warming drawer element"
+            }
+          ],
+          "branches": [
+            {
+              "id": "wd_el_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_wd_element",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wd_el_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_wd_element",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wd_el_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_wd_element",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wd_el_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "wd_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "R \u00d7 1 \u2014 expect \u224895 \u03a9 \u00b110% (LRE30755)."
+        },
+        {
+          "id": "replace_wd_sensor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace warming drawer sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_wd_element",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace warming drawer element",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "wd_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Warming drawer OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRangeWarmingDrawerSensorOhms",
+          "testPoint": {
+            "connector": "Warming drawer sensor",
+            "pins": "terminals",
+            "label": "Warming drawer sensor"
+          },
+          "title": "Warming drawer sensor"
+        },
+        {
+          "measurementKnowledgeId": "lgRangeWarmingDrawerElementOhms",
+          "testPoint": {
+            "connector": "Warming drawer element",
+            "pins": "terminals",
+            "label": "Warming drawer element"
+          },
+          "title": "Warming drawer element"
+        }
+      ],
+      "branches": [
+        {
+          "id": "wd_sen_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wd_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wd_sensor_ohms"
+        },
+        {
+          "id": "wd_sen_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_wd_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wd_sensor_ohms"
+        },
+        {
+          "id": "wd_sen_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wd_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wd_sensor_ohms"
+        },
+        {
+          "id": "wd_sen_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wd_element_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wd_sensor_ohms"
+        },
+        {
+          "id": "wd_el_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wd_element",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wd_element_ohms"
+        },
+        {
+          "id": "wd_el_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_wd_element",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wd_element_ohms"
+        },
+        {
+          "id": "wd_el_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wd_element",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wd_element_ohms"
+        },
+        {
+          "id": "wd_el_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wd_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wd_element_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Warming Drawer Sensor / element",
+        "pages": [
+          38,
+          40
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-warming-drawer",
+        "pages": [
+          38,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-warming-drawer",
+            "pages": [
+              38,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lg-range-warming-zone",
+      "manufacturer": "LG",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "title": "\u00a74-7: Center warming zone (CR)",
+      "purpose": "Warming Zone",
+      "prerequisites": [],
+      "componentIds": [
+        "warming_zone"
+      ],
+      "tags": [
+        "warming_zone",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power (and gas if applicable)",
+          "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet."
+        },
+        {
+          "id": "wz_ohms",
+          "order": 2,
+          "type": "measurement",
+          "title": "Warming zone element",
+          "body": "Disconnect CR element. R \u00d7 1 terminal to 1A \u2014 expect \u2248565 \u03a9 \u00b110%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRangeWarmingZoneOhms",
+              "testPoint": {
+                "connector": "CR element",
+                "pins": "terminal\u20131A",
+                "label": "Warming zone element"
+              },
+              "title": "Warming zone element"
+            }
+          ],
+          "branches": [
+            {
+              "id": "wz_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_wz",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wz_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_wz",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wz_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_wz",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wz_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "wz_limiter",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect CR element. R \u00d7 1 terminal to 1A \u2014 expect \u2248565 \u03a9 \u00b110%."
+        },
+        {
+          "id": "wz_limiter",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Warming zone limiters",
+          "body": "Verify 1A\u20132A continuity and 1B\u20132B thermal limiter same as single elements.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "wz_lim_ok",
+              "label": "OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "wz_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "wz_lim_bad",
+              "label": "Fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_wz",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Verify 1A\u20132A continuity and 1B\u20132B thermal limiter same as single elements."
+        },
+        {
+          "id": "replace_wz",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace warming zone element",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "wz_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Warming zone OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRangeWarmingZoneOhms",
+          "testPoint": {
+            "connector": "CR element",
+            "pins": "terminal\u20131A",
+            "label": "Warming zone element"
+          },
+          "title": "Warming zone element"
+        }
+      ],
+      "branches": [
+        {
+          "id": "wz_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wz",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wz_ohms"
+        },
+        {
+          "id": "wz_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_wz",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wz_ohms"
+        },
+        {
+          "id": "wz_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wz",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wz_ohms"
+        },
+        {
+          "id": "wz_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wz_limiter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wz_ohms"
+        },
+        {
+          "id": "wz_lim_ok",
+          "label": "OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wz_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wz_limiter"
+        },
+        {
+          "id": "wz_lim_bad",
+          "label": "Fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_wz",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wz_limiter"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LRE-RANGE",
+        "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+        "oemTestNumber": "4-7",
+        "oemTestTitle": "Warming Zone",
+        "pages": [
+          42,
+          43
+        ],
+        "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-warming-zone",
+        "pages": [
+          42,
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-warming-zone",
+            "pages": [
+              42,
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "manualId": "LG-LRE-RANGE",
+  "candidates": [
+    {
+      "id": "overlay-LG-LRE-RANGE-lg-range-convection-motor-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "lg-range-convection-motor",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-1: Convection fan motor",
+      "componentIds": [
+        "convection_fan"
+      ],
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-convection-motor",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-convection-motor",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-LG-LRE-RANGE-lg-range-convection-motor-meas-lgRangeConvectionMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "lg-range-convection-motor",
+      "measurementKnowledgeId": "lgRangeConvectionMotorOhms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-convection-motor",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-convection-motor",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "lgRangeConvectionMotorOhms",
+            "stepTitle": "Convection motor resistance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-LG-LRE-RANGE-lg-range-door-latch-door_lock_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "lg-range-door-latch",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-2: Door latch motor & micro switch",
+      "componentIds": [
+        "door_lock"
+      ],
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-door-latch",
+        "pages": [
+          37,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-door-latch",
+            "pages": [
+              37,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-LG-LRE-RANGE-lg-range-door-latch-meas-lgRangeDoorLatchMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "lg-range-door-latch",
+      "measurementKnowledgeId": "lgRangeDoorLatchMotorOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-door-latch",
+        "pages": [
+          37,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-door-latch",
+            "pages": [
+              37,
+              38
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "lgRangeDoorLatchMotorOhms",
+            "stepTitle": "Door latch motor resistance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-LG-LRE-RANGE-lg-range-door-latch-meas-lgRangeMicroSwitchOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "lg-range-door-latch",
+      "measurementKnowledgeId": "lgRangeMicroSwitchOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "procedureId": "lg-range-door-latch",
+        "pages": [
+          37,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRE-RANGE",
+            "platformId": "lg_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lg-range-door-latch",
+            "pages": [
+              37,
+              38
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "lgRangeMicroSwitchOhms",
+            "stepTitle": "Latch micro switch (NO)"
+          }
+        ]
+      }
+    }
+  ]
+}

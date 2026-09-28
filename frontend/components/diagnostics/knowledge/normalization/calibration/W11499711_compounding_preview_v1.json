@@ -1,0 +1,378 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg6_dishwasher_compounding_preview",
+  "experiment": "CG-6.5 narrow post-publication inheritance validation (not a third full-manual validation)",
+  "documentation": "W11499711 provides narrow post-publication inheritance validation: its sole native diagnostic delta was semantically inherited with zero new human decisions, while correctly selecting the published SSM path rather than the subsequently published VSM implementation.",
+  "evidenceKinds": {
+    "W11633848": "11 human decisions \u2014 establishes dishwasher functional vocabulary",
+    "W11480208": "5 human decisions \u2014 establishes platform compounding (VSM / diverter / ProDry)",
+    "W11499711": "0 human decisions \u2014 validates downstream inheritance (SSM distinguished from VSM)"
+  },
+  "manualId": "W11499711",
+  "platformId": "whirlpool_dishwasher_acu",
+  "platformFamilyId": "whirlpool_dishwasher_acu",
+  "ontologyId": "dishwasher",
+  "ontologyFrozen": true,
+  "ontologyFrozenRevision": "rev1",
+  "priorManualIds": [
+    "W11633848",
+    "W11480208"
+  ],
+  "manufacturerOverlay": "whirlpool_dishwasher.json",
+  "manufacturerOverlayPublishedThrough": "W11480208",
+  "generatedAt": "2026-09-15T05:52:17.508094+00:00",
+  "metricsSource": "compounding_preview",
+  "publishBlocked": true,
+  "pipelineCounts": {
+    "procedures": 1,
+    "mappingCandidates": 2,
+    "overlayCandidates": 2,
+    "conflicts": 0,
+    "extractionFiltered": 1
+  },
+  "baselineComparison": {
+    "W11633848": {
+      "role": "first_manual_baseline",
+      "newHumanSemanticDecisions": 11
+    },
+    "W11480208": {
+      "role": "second_manual_compounding",
+      "newHumanSemanticDecisions": 5,
+      "priorCompoundingPreview": {
+        "inherited": 12,
+        "new_platform": 10,
+        "new_model": 2,
+        "unresolved": 1,
+        "rejected": 6
+      }
+    },
+    "nativeCohortFilter": "source.manualId === W11499711 (1 delta procedure: w11499711-wash-motor-ssm; not shared-platform 30)"
+  },
+  "classificationSummary": {
+    "mappingCandidates": {
+      "inherited": 2
+    },
+    "overlayCandidates": {
+      "inherited": 2
+    },
+    "combined": {
+      "inherited": 4
+    },
+    "new_canonical": 0
+  },
+  "teachingCostCurve": {
+    "W11633848": 11,
+    "W11480208": 5,
+    "W11499711_projected": 0,
+    "reductionVsW11633848": 1.0,
+    "reductionVsW11480208": 1.0
+  },
+  "inheritanceDepth": {
+    "layers": [
+      "dishwasher rev1 (frozen canonical)",
+      "whirlpool_dishwasher.json (W11633848 + W11480208 published)",
+      "whirlpool_dishwasher_acu platform components + implements relationships",
+      "W11499711 native SSM wash-motor delta"
+    ],
+    "evidence": {
+      "ssmNotVsm": "Native procedure titles SSM; matcher selected whirlpoolDishwasherAcuWashMotorOhms (not FiltrationVsmWashMotorOhms).",
+      "publishedPlatformComponentsUsed": [
+        "dc_fan_motor",
+        "diverter_motor",
+        "diverter_position_sensor",
+        "f500_triac_fuse",
+        "owi_sensor",
+        "ssm_wash_motor",
+        "vsm_drain_motor",
+        "vsm_wash_motor"
+      ],
+      "compoundingManualIds": [
+        "W11633848",
+        "W11480208"
+      ]
+    }
+  },
+  "hierarchyShape": {
+    "canonical": "dishwasher rev1 (frozen, unchanged)",
+    "manufacturer": "whirlpool_dishwasher.json (W11633848 + W11480208 published)",
+    "platformFamily": "whirlpool_dishwasher_acu",
+    "manualDelta": "W11499711 WDT750 microfiltration \u2014 SSM wash motor \u00a73-15 only",
+    "flow": [
+      "W11633848 gated baseline",
+      "\u2192 Whirlpool dishwasher vocabulary",
+      "\u2192 W11480208 published VSM/platform implementation",
+      "\u2192 W11499711",
+      "   inherited: 4",
+      "   new_platform: 0",
+      "   new_model: 0",
+      "   unresolved: 0",
+      "   new_canonical: 0",
+      "   rejected (matcher evidence): 0"
+    ]
+  },
+  "compoundingBuckets": {
+    "inherited": [
+      {
+        "id": "map-W11499711-circulation_pump-circulation_pump",
+        "sourceTerm": "circulation_pump",
+        "canonicalId": "circulation_pump",
+        "matcherStatus": "candidate",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "matchedPhrase": null,
+        "classification": "inherited",
+        "rationale": "Seed componentId matches frozen canonical concept.",
+        "matcherLayers": [
+          "canonical_component_id"
+        ],
+        "publishedPlatformComponent": null
+      },
+      {
+        "id": "map-W11499711-compound-wash-motor-(ssm,-wdt750)",
+        "sourceTerm": "\u00a73-15: Wash Motor (SSM, WDT750)",
+        "canonicalId": "circulation_pump",
+        "matcherStatus": "COMPOUND_TERM_CANDIDATE",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "matchedPhrase": "wash motor",
+        "classification": "inherited",
+        "rationale": "Matched published alias 'wash motor' \u2192 circulation_pump; SSM wash motor architecture already on platform (ssm_wash_motor).",
+        "matcherLayers": [
+          "compound:canonical_alias_suffix"
+        ],
+        "publishedPlatformComponent": "ssm_wash_motor"
+      },
+      {
+        "id": "overlay-W11499711-w11499711-wash-motor-ssm-circulation_test",
+        "candidateType": "procedureTestBinding",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "canonicalTestTarget": "circulation_test",
+        "measurementKnowledgeId": null,
+        "displayTitle": "\u00a73-15: Wash Motor (SSM, WDT750)",
+        "classification": "inherited",
+        "rationale": "SSM wash motor \u2192 circulation_test compounds w11633848-wash-motor / ssm_wash_motor (not VSM filtration path)."
+      },
+      {
+        "id": "overlay-W11499711-w11499711-wash-motor-ssm-meas-whirlpoolDishwasherAcuWashMotorOhms",
+        "candidateType": "measurementBinding",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "canonicalTestTarget": "circulation_test",
+        "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+        "displayTitle": "",
+        "classification": "inherited",
+        "rationale": "Reuses published W11633848 measurement semantics (whirlpoolDishwasherAcuWashMotorOhms \u2192 circulation_test); new procedureId registration only."
+      }
+    ],
+    "new_platform": [],
+    "new_model": [],
+    "new_canonical": [],
+    "unresolved": [],
+    "rejected": []
+  },
+  "inheritedAliases": [
+    {
+      "sourceTerm": "circulation_pump",
+      "canonicalId": "circulation_pump",
+      "matchedPhrase": null,
+      "publishedAlias": null
+    },
+    {
+      "sourceTerm": "\u00a73-15: Wash Motor (SSM, WDT750)",
+      "canonicalId": "circulation_pump",
+      "matchedPhrase": "wash motor",
+      "publishedAlias": "circulation_pump"
+    }
+  ],
+  "inheritedProcedureBindings": [
+    {
+      "id": "overlay-W11499711-w11499711-wash-motor-ssm-circulation_test",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11499711-wash-motor-ssm",
+      "canonicalTestTarget": "circulation_test",
+      "measurementKnowledgeId": null,
+      "displayTitle": "\u00a73-15: Wash Motor (SSM, WDT750)",
+      "classification": "inherited",
+      "rationale": "SSM wash motor \u2192 circulation_test compounds w11633848-wash-motor / ssm_wash_motor (not VSM filtration path)."
+    }
+  ],
+  "inheritedMeasurementBindings": [
+    {
+      "id": "overlay-W11499711-w11499711-wash-motor-ssm-meas-whirlpoolDishwasherAcuWashMotorOhms",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11499711-wash-motor-ssm",
+      "canonicalTestTarget": "circulation_test",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+      "displayTitle": "",
+      "classification": "inherited",
+      "rationale": "Reuses published W11633848 measurement semantics (whirlpoolDishwasherAcuWashMotorOhms \u2192 circulation_test); new procedureId registration only."
+    }
+  ],
+  "overlayRegistrationOnly": [
+    {
+      "procedureId": "w11499711-wash-motor-ssm",
+      "semanticAnchor": "w11633848-wash-motor",
+      "implementationComponent": "ssm_wash_motor",
+      "note": "Mechanical overlay registration \u2014 semantics fully inherited; not a new teaching decision."
+    }
+  ],
+  "genuinelyNewHumanReviewCandidates": [],
+  "newPlatformCandidates": [],
+  "newModelCandidates": [],
+  "canonicalOntologyCandidates": [],
+  "matcherRejections": [],
+  "conflicts": [],
+  "focusAreaReview": {
+    "vsm_terminology": {
+      "observed": 0,
+      "verdict": "contained \u2014 native cohort uses SSM only",
+      "misroutes": []
+    },
+    "circulation_wash_motor": {
+      "mapping": "\u00a73-15 Wash Motor (SSM, WDT750) \u2192 circulation_pump",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+      "implementationComponent": "ssm_wash_motor",
+      "notRoutedTo": "whirlpoolDishwasherFiltrationVsmWashMotorOhms / vsm_wash_motor",
+      "classification": "inherited"
+    },
+    "drain_motor": {
+      "observed": 0,
+      "verdict": "not_in_native_cohort \u2014 reuses w11633848-drain-motor via shared platform"
+    },
+    "diverter": {
+      "observed": 0,
+      "verdict": "not_in_native_cohort \u2014 reuses w11480208-diverter-motor via shared platform"
+    },
+    "prodry_dc_fan": {
+      "observed": 0,
+      "verdict": "not_in_native_cohort \u2014 reuses w11480208-dc-fan via shared platform"
+    },
+    "measurement_inheritance": {
+      "inheritedIds": [
+        "whirlpoolDishwasherAcuWashMotorOhms"
+      ],
+      "vsmIdsAvoided": [
+        "whirlpoolDishwasherFiltrationDcFanOhms",
+        "whirlpoolDishwasherFiltrationDiverterMotorOhms",
+        "whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+        "whirlpoolDishwasherFiltrationVsmWashMotorOhms"
+      ]
+    },
+    "washer_dryer_overlay_leak": {
+      "hits": 0,
+      "verdict": "none",
+      "details": []
+    },
+    "canonical_expansion": {
+      "watchlistHits": [],
+      "gapOntologyCandidates": 3,
+      "verdict": "contained"
+    }
+  },
+  "measurementBindingDelta": {
+    "inheritedFromPublished": [
+      "whirlpoolDishwasherAcuWashMotorOhms"
+    ],
+    "vsmPlatformAvoided": [
+      "whirlpoolDishwasherFiltrationDcFanOhms",
+      "whirlpoolDishwasherFiltrationDiverterMotorOhms",
+      "whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+      "whirlpoolDishwasherFiltrationVsmWashMotorOhms"
+    ],
+    "note": "W11499711 SSM P5 1&2 (10\u201315 \u03a9) correctly binds whirlpoolDishwasherAcuWashMotorOhms published with ssm_wash_motor \u2014 not W11480208 VSM filtration knowledge."
+  },
+  "gapAnalysis": {
+    "artifact": "canonical_gap_report_compounding_W11499711_dishwasher.json",
+    "buckets": {
+      "human_review": 7,
+      "unresolved": 20,
+      "canonical_alias": 8,
+      "canonical_ontology_candidate": 3,
+      "platform_overlay": 26
+    },
+    "note": "Corpus-wide dishwasher gap analyzer; canonical_ontology_candidate clusters are NOT W11499711 promotion triggers while rev1 frozen."
+  },
+  "mappingCandidates": [
+    {
+      "id": "map-W11499711-circulation_pump-circulation_pump",
+      "sourceTerm": "circulation_pump",
+      "canonicalId": "circulation_pump",
+      "matcherStatus": "candidate",
+      "procedureId": "w11499711-wash-motor-ssm",
+      "matchedPhrase": null,
+      "classification": "inherited",
+      "rationale": "Seed componentId matches frozen canonical concept.",
+      "matcherLayers": [
+        "canonical_component_id"
+      ],
+      "publishedPlatformComponent": null
+    },
+    {
+      "id": "map-W11499711-compound-wash-motor-(ssm,-wdt750)",
+      "sourceTerm": "\u00a73-15: Wash Motor (SSM, WDT750)",
+      "canonicalId": "circulation_pump",
+      "matcherStatus": "COMPOUND_TERM_CANDIDATE",
+      "procedureId": "w11499711-wash-motor-ssm",
+      "matchedPhrase": "wash motor",
+      "classification": "inherited",
+      "rationale": "Matched published alias 'wash motor' \u2192 circulation_pump; SSM wash motor architecture already on platform (ssm_wash_motor).",
+      "matcherLayers": [
+        "compound:canonical_alias_suffix"
+      ],
+      "publishedPlatformComponent": "ssm_wash_motor"
+    }
+  ],
+  "overlayCandidates": [
+    {
+      "id": "overlay-W11499711-w11499711-wash-motor-ssm-circulation_test",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11499711-wash-motor-ssm",
+      "canonicalTestTarget": "circulation_test",
+      "measurementKnowledgeId": null,
+      "displayTitle": "\u00a73-15: Wash Motor (SSM, WDT750)",
+      "classification": "inherited",
+      "rationale": "SSM wash motor \u2192 circulation_test compounds w11633848-wash-motor / ssm_wash_motor (not VSM filtration path)."
+    },
+    {
+      "id": "overlay-W11499711-w11499711-wash-motor-ssm-meas-whirlpoolDishwasherAcuWashMotorOhms",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11499711-wash-motor-ssm",
+      "canonicalTestTarget": "circulation_test",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+      "displayTitle": "",
+      "classification": "inherited",
+      "rationale": "Reuses published W11633848 measurement semantics (whirlpoolDishwasherAcuWashMotorOhms \u2192 circulation_test); new procedureId registration only."
+    }
+  ],
+  "existingPlatformComponents": [
+    "dc_fan_motor",
+    "diverter_motor",
+    "diverter_position_sensor",
+    "f500_triac_fuse",
+    "owi_sensor",
+    "ssm_wash_motor",
+    "vsm_drain_motor",
+    "vsm_wash_motor"
+  ],
+  "publishedProcedureBindingCount": 20,
+  "publishedMeasurementBindingCount": 14,
+  "projectedOverlayRegistrations": 1,
+  "watchlistCanonicalLeaks": [],
+  "hardGates": {
+    "canonicalOntologyMutated": false,
+    "dishwasherJsonUnchanged": true,
+    "whirlpoolDishwasherJsonUnchanged": true,
+    "newCanonicalCount": 0,
+    "autoPublish": false,
+    "autoApprove": false
+  },
+  "artifacts": {
+    "candidatesDir": "normalization/candidates/W11499711/",
+    "gapReport": "canonical_gap_report_compounding_W11499711_dishwasher.json",
+    "priorGate": "W11480208_overlay_mapping_table_v1.json",
+    "priorPublication": "publication_W11480208.json",
+    "priorCompoundingPreview": "W11480208_compounding_preview_v1.json"
+  },
+  "nextDecisionPoint": [
+    "Confirm w11499711-wash-motor-ssm procedure binding registers under ssm_wash_motor",
+    "Verify zero VSM/filtration measurement misroutes on WDT750 SSM cohort",
+    "Human gate only if inherited classifications disagree with published overlay semantics"
+  ]
+}

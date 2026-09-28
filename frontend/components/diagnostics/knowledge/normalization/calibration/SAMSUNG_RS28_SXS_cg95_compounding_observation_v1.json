@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg9_5_sxs_compounding_observation",
+  "workstream": "CG-9.5",
+  "workPackage": "WP1",
+  "manualId": "SAMSUNG-RS28-SXS",
+  "platformId": "samsung_sxs",
+  "compoundingSequence": 1,
+  "verdict": {
+    "canonicalInheritances": 5,
+    "conditionalBindings": 7,
+    "overlayLearningEvents": 10,
+    "intentionalAbstentions": 4,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0
+  },
+  "verdictNote": "First SxS production compounding against frozen refrigerator contract. Inverter PBA, IO expander, multi-NTC scopes, and C-fan ambiguity absorbed by conditional/platform layers. door_switch and condenser_fan withheld. RF23BB french-door overlay not imported. CG-9 boundary evidence informative only.",
+  "gateArtifact": "SAMSUNG_RS28_SXS_overlay_mapping_table_v1.json",
+  "ledgerArtifact": "SAMSUNG_RS28_SXS_gate_decision_ledger_v1.json",
+  "generatedAt": "2026-09-16T13:18:58.824281+00:00",
+  "canonicalOntology": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "immutable": true,
+    "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9"
+  }
+}

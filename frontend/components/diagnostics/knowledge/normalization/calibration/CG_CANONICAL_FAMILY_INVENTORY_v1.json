@@ -1,0 +1,495 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_canonical_family_inventory",
+  "workstream": "CG-CANONICAL-FAMILY-INVENTORY",
+  "status": "closed",
+  "verdict": "GREEN / CANONICAL_FAMILY_INVENTORY_COMPLETE",
+  "authoredAt": "2026-09-17T08:00:00+00:00",
+  "closedAt": "2026-09-17T08:15:00+00:00",
+  "closureAudit": "CG_CANONICAL_FAMILY_INVENTORY_AUDIT_v1.json",
+  "priorWorkstreamClosed": "CG_RANGE_FAMILY_CLOSURE_v1.json",
+  "coreConstraint": "Discovery/classification gate only. Inventory classification does not authorize canonical promotion, fit-test execution, or ontology freeze. Categories marked requires_fit_test need a bounded fit contract; requires_new_canonical_graph needs discovery/freeze work.",
+  "classificationBuckets": [
+    "existing_canonical_family",
+    "variant_of_existing_graph",
+    "requires_fit_test",
+    "requires_new_canonical_graph",
+    "out_of_scope"
+  ],
+  "bucketSemantics": {
+    "existing_canonical_family": "Frozen or operational canonical graph exists; compounding/coverage may continue but architecture is not reopened from inventory.",
+    "variant_of_existing_graph": "Variant hypothesis only — NOT a proven variant. An appliance category may map to an existing contract, but proven-variant status requires a closed bounded fit test with fits_existing_contract outcome. Until then, treat as hypothesis pending fit test.",
+    "requires_fit_test": "Unknown whether existing contract absorbs category; bounded fit contract required before any graph decision.",
+    "requires_new_canonical_graph": "Preliminary hypothesis that no existing contract plausibly hosts category — still requires discovery/freeze; inventory alone does not create a graph.",
+    "out_of_scope": "Not a Solomon major-appliance canonical target at this time."
+  },
+  "variantLifecycle": {
+    "stages": ["variant_hypothesis", "fit_test", "proven_variant"],
+    "rule": "Inventory variant_of_existing_graph entries are variant hypotheses unless provenVariant: true with fitTestClosed: true and closure evidence cited.",
+    "provenVariantRequires": "Closed bounded fit contract with outcome fits_existing_contract — not inventory classification alone."
+  },
+  "existingCanonicalFamilies": {
+    "count": 7,
+    "operationalPrimaryCount": 7,
+    "legacyAliasOnly": ["electric_range"],
+    "families": [
+      {
+        "canonicalOntologyId": "range_oven",
+        "label": "Range / Oven",
+        "domain": "cooking",
+        "classification": "existing_canonical_family",
+        "architectureStatus": "LOCKED — DO NOT REOPEN",
+        "frozenRevision": "rev1",
+        "familyLock": "CG_RANGE_FAMILY_LOCK_v1.json",
+        "legacyAliasId": "electric_range",
+        "implementationTemplates": ["electric_range", "gas_range", "induction_range", "dual_fuel_range"],
+        "inventoryPolicy": "Additional range manuals are coverage work only. No fit tests, normalization architecture, or compounding sequences may be reopened from this inventory.",
+        "doNotReopen": true
+      },
+      {
+        "canonicalOntologyId": "french_door_refrigerator",
+        "label": "Refrigerator (generic functional contract)",
+        "domain": "refrigeration",
+        "classification": "existing_canonical_family",
+        "architectureStatus": "closed_successful",
+        "frozenRevision": "rev1",
+        "familyLock": "CG95_REFRIGERATOR_FAMILY_LOCK_v1.json",
+        "operationalRole": "generic_refrigerator_functional_contract",
+        "wizardTemplateId": "refrigerator",
+        "doNotReopen": false
+      },
+      {
+        "canonicalOntologyId": "dishwasher",
+        "label": "Dishwasher",
+        "domain": "dishwashing",
+        "classification": "existing_canonical_family",
+        "architectureStatus": "closed_successful",
+        "frozenRevision": "rev1",
+        "familyLock": "CG65_DISHWASHER_FAMILY_LOCK_v1.json",
+        "wizardTemplateId": "dishwasher",
+        "doNotReopen": false
+      },
+      {
+        "canonicalOntologyId": "vented_dryer",
+        "label": "Vented dryer (resistive / gas-vented heat path)",
+        "domain": "laundry",
+        "classification": "existing_canonical_family",
+        "architectureStatus": "frozen_rev2 — family closure artifact pending",
+        "frozenRevision": "rev2",
+        "familyLock": null,
+        "wizardTemplateIds": ["electric_dryer", "gas_dryer"],
+        "doNotReopen": false
+      },
+      {
+        "canonicalOntologyId": "top_load_washer",
+        "label": "Top-load washer",
+        "domain": "laundry",
+        "classification": "existing_canonical_family",
+        "architectureStatus": "frozen_rev1 — partial family certification (Whirlpool CG66)",
+        "frozenRevision": "rev1",
+        "familyLock": "CG66_WHIRLPOOL_TOP_LOAD_WASHER_FAMILY_LOCK_v1.json",
+        "wizardTemplateId": "washer",
+        "platformRoutingNote": "whirlpool_tl, whirlpool_mvw, samsung_tl prefixes",
+        "doNotReopen": false
+      },
+      {
+        "canonicalOntologyId": "front_load_washer",
+        "label": "Front-load washer",
+        "domain": "laundry",
+        "classification": "existing_canonical_family",
+        "architectureStatus": "operational — not frozen; compounding baselines published",
+        "frozenRevision": null,
+        "familyLock": null,
+        "wizardTemplateId": "washer",
+        "platformRoutingNote": "Default washer fallback in resolver until platform classified",
+        "doNotReopen": false
+      },
+      {
+        "canonicalOntologyId": "microwave",
+        "label": "Microwave (countertop and OTR)",
+        "domain": "cooking",
+        "classification": "existing_canonical_family",
+        "architectureStatus": "LOCKED",
+        "frozenRevision": "rev1",
+        "familyLock": "CG_MICROWAVE_FREEZE_LOCK_v1.json",
+        "wizardTemplateId": "microwave",
+        "inventoryPolicy": "Additional microwave manuals are coverage work only. Normalization/compounding deferred until explicitly authorized.",
+        "doNotReopen": true
+      }
+    ]
+  },
+  "categoryInventory": [
+    {
+      "categoryId": "range_oven_freestanding",
+      "label": "Freestanding range / oven (all fuel types)",
+      "domain": "cooking",
+      "classification": "existing_canonical_family",
+      "hostCanonicalOntologyId": "range_oven",
+      "architectureStatus": "LOCKED — DO NOT REOPEN",
+      "wizardTemplateIds": ["electric_range", "gas_range", "induction_range", "dual_fuel_range"],
+      "evidence": ["CG_RANGE_FAMILY_LOCK_v1.json", "CG10–CG13 fit closures", "4 compounding overlays"],
+      "doNotReopen": true,
+      "inventoryNote": "Terminal closed family. Not a fit-test candidate."
+    },
+    {
+      "categoryId": "wall_oven",
+      "label": "Wall oven (built-in oven only)",
+      "domain": "cooking",
+      "classification": "requires_fit_test",
+      "hostHypothesis": "range_oven",
+      "hostHypothesisRationale": "Oven cavity, bake/broil, door switch, and control_board map to range_oven oven compartment functions; missing surface_heating_system slice.",
+      "wizardTemplateId": null,
+      "platformRegistryPresence": false,
+      "oEMProcedurePresence": false,
+      "boundedNextStep": "CG-WALL-OVEN-FIT — bounded fit contract against frozen range_oven oven-compartment subgraph",
+      "promotionBlocked": true
+    },
+    {
+      "categoryId": "cooktop_only",
+      "label": "Cooktop / rangetop (surface only)",
+      "domain": "cooking",
+      "classification": "requires_fit_test",
+      "hostHypothesis": "range_oven",
+      "hostHypothesisRationale": "surface_heating_system, spark/gas valve, and induction inverter vocabulary already absorbed in range compounding; no separate oven cavity.",
+      "wizardTemplateId": null,
+      "platformRegistryPresence": false,
+      "oEMProcedurePresence": false,
+      "evidence": ["Range overlay vocabulary: valve_cooktop, cooktop spark modules"],
+      "boundedNextStep": "CG-COOKTOP-FIT — bounded fit contract against frozen range_oven surface_heating_system",
+      "promotionBlocked": true
+    },
+    {
+      "categoryId": "microwave",
+      "label": "Microwave (countertop and OTR)",
+      "domain": "cooking",
+      "classification": "existing_canonical_family",
+      "hostCanonicalOntologyId": "microwave",
+      "architectureStatus": "LOCKED",
+      "wizardTemplateId": "microwave",
+      "platformRegistryPresence": true,
+      "oEMProcedurePresence": true,
+      "procedureManualCount": 2,
+      "evidence": ["CG_MICROWAVE_FREEZE_LOCK_v1.json", "lg_microwave_otr", "samsung_microwave_otr platforms"],
+      "familyLock": "CG_MICROWAVE_FREEZE_LOCK_v1.json",
+      "inventoryPolicy": "Fit/discovery/freeze complete. Additional manuals are coverage work — not architecture validation.",
+      "doNotReopen": true
+    },
+    {
+      "categoryId": "refrigerator_all_configs",
+      "label": "Refrigerator (all door configurations)",
+      "domain": "refrigeration",
+      "classification": "existing_canonical_family",
+      "hostCanonicalOntologyId": "french_door_refrigerator",
+      "wizardTemplateId": "refrigerator",
+      "evidence": ["CG95_REFRIGERATOR_FAMILY_LOCK_v1.json", "CG-9 SxS configuration boundary"],
+      "doNotReopen": false
+    },
+    {
+      "categoryId": "refrigerator_sxs_config",
+      "label": "Side-by-side refrigerator configuration",
+      "domain": "refrigeration",
+      "classification": "variant_of_existing_graph",
+      "hostCanonicalOntologyId": "french_door_refrigerator",
+      "hostHypothesisRationale": "CG-9 R2 triangulation: configuration is overlay concern, not separate canonical family.",
+      "evidence": ["CG9_SXS_REFRIGERATOR_FAMILY_BOUNDARY_R2_TRIANGULATION_v1.json"],
+      "fitTestClosed": true,
+      "provenVariant": true,
+      "promotionBlocked": false
+    },
+    {
+      "categoryId": "refrigerator_top_mount",
+      "label": "Top-mount / top-freezer refrigerator",
+      "domain": "refrigeration",
+      "classification": "variant_of_existing_graph",
+      "hostCanonicalOntologyId": "french_door_refrigerator",
+      "hostHypothesisRationale": "WRT platforms route to refrigerator template; sealed-system and defrost functions align with frozen contract.",
+      "platformExamples": ["whirlpool_wrt_top_mount", "whirlpool_wrt311_adc"],
+      "fitTestClosed": false,
+      "provenVariant": false,
+      "boundedNextStep": "Optional CG-TOP-MOUNT-FIT corroboration — not architecture blocker if CG-9 pattern holds",
+      "promotionBlocked": true
+    },
+    {
+      "categoryId": "standalone_freezer",
+      "label": "Standalone freezer (upright and chest)",
+      "domain": "food_preservation",
+      "classification": "requires_fit_test",
+      "hostHypothesis": "french_door_refrigerator",
+      "alternateHypothesis": "requires_new_canonical_graph",
+      "hostHypothesisRationale": "Shares compressor/defrost/fan sealed-system topology with refrigerator; lacks fresh-food compartment and multi-door routing.",
+      "wizardTemplateId": "standalone_freezer",
+      "platformRegistryPresence": true,
+      "oEMProcedurePresence": true,
+      "platformExamples": ["midea_uz21"],
+      "evidence": ["INVENTORY_STANDALONE_FREEZER.md"],
+      "boundedNextStep": "CG-STANDALONE-FREEZER-FIT — test absorption by french_door_refrigerator sealed-system subgraph",
+      "promotionBlocked": true
+    },
+    {
+      "categoryId": "wine_cooler",
+      "label": "Wine cooler / beverage center",
+      "domain": "food_preservation",
+      "classification": "out_of_scope",
+      "rationale": "No wizard template, platform registry entry, or OEM procedure corpus in repo; defer until field demand and manual corpus exist.",
+      "promotionBlocked": true
+    },
+    {
+      "categoryId": "compact_refrigerator",
+      "label": "Compact / dorm refrigerator",
+      "domain": "refrigeration",
+      "classification": "requires_fit_test",
+      "hostHypothesis": "french_door_refrigerator",
+      "hostHypothesisRationale": "Single-compartment cooling likely maps to refrigerator sealed-system functions at reduced complexity.",
+      "wizardTemplateId": null,
+      "platformRegistryPresence": false,
+      "boundedNextStep": "CG-COMPACT-REFRIGERATOR-FIT — defer until manual corpus; low priority vs standalone_freezer",
+      "promotionBlocked": true
+    },
+    {
+      "categoryId": "dishwasher_built_in",
+      "label": "Built-in dishwasher",
+      "domain": "dishwashing",
+      "classification": "existing_canonical_family",
+      "hostCanonicalOntologyId": "dishwasher",
+      "wizardTemplateId": "dishwasher",
+      "evidence": ["CG65_DISHWASHER_FAMILY_LOCK_v1.json"],
+      "doNotReopen": false
+    },
+    {
+      "categoryId": "dishwasher_portable",
+      "label": "Portable dishwasher",
+      "domain": "dishwashing",
+      "classification": "variant_of_existing_graph",
+      "hostCanonicalOntologyId": "dishwasher",
+      "hostHypothesisRationale": "Same wash pump, heater, valve, and door-interlock functional topology; installation and faucet adapter are platform concerns.",
+      "fitTestClosed": false,
+      "provenVariant": false,
+      "boundedNextStep": "Absorb under dishwasher overlay when manual corpus appears — fit test optional",
+      "promotionBlocked": true
+    },
+    {
+      "categoryId": "vented_electric_dryer",
+      "label": "Vented electric dryer",
+      "domain": "laundry",
+      "classification": "existing_canonical_family",
+      "hostCanonicalOntologyId": "vented_dryer",
+      "wizardTemplateId": "electric_dryer",
+      "evidence": ["vented_dryer.json rev2", "compounding_dryer_curve_v1.json"],
+      "doNotReopen": false
+    },
+    {
+      "categoryId": "vented_gas_dryer",
+      "label": "Vented gas dryer",
+      "domain": "laundry",
+      "classification": "variant_of_existing_graph",
+      "hostCanonicalOntologyId": "vented_dryer",
+      "wizardTemplateId": "gas_dryer",
+      "hostHypothesisRationale": "Gas ignition path is implementation realization of vented_dryer heat_circuit — same pattern as gas_range → range_oven.",
+      "fitTestClosed": true,
+      "provenVariant": true,
+      "evidence": ["CG-6.4 dryer canonical graph", "gas_dryer template routes to vented_dryer"],
+      "promotionBlocked": false
+    },
+    {
+      "categoryId": "heat_pump_dryer",
+      "label": "Heat-pump dryer (standalone ventless)",
+      "domain": "laundry",
+      "classification": "requires_fit_test",
+      "hostHypothesis": "vented_dryer",
+      "alternateHypothesis": "requires_new_canonical_graph",
+      "hostHypothesisRationale": "Samsung DV22N-class heat-pump uses refrigerant loop + condenser fan — explicitly excluded from vented_dryer in compounding curve.",
+      "wizardTemplateId": null,
+      "platformRegistryPresence": false,
+      "oEMProcedurePresence": true,
+      "evidence": ["compounding_samsung_dryer_curve_v1.json excludedArchitecture", "samsung heat pump dryer manual in repo"],
+      "boundedNextStep": "CG-HEAT-PUMP-DRYER-FIT — bounded fit against vented_dryer; preliminary lean is new graph",
+      "promotionBlocked": true
+    },
+    {
+      "categoryId": "aio_laundry_combo",
+      "label": "All-in-one washer-dryer combo (heat-pump)",
+      "domain": "laundry",
+      "classification": "requires_fit_test",
+      "hostHypothesis": null,
+      "alternateHypothesis": "requires_new_canonical_graph",
+      "hostHypothesisRationale": "Integrated wash + heat-pump dry sealed system; excluded from vented_dryer and does not match FL/TL washer chassis alone.",
+      "wizardTemplateId": "aio_laundry",
+      "platformRegistryPresence": true,
+      "oEMProcedurePresence": true,
+      "platformExamples": ["samsung_laundry_combo"],
+      "evidence": ["INVENTORY_AIO_LAUNDRY.md", "compounding_samsung_dryer_curve_v1.json"],
+      "boundedNextStep": "CG-AIO-LAUNDRY-FIT — bounded fit contract; do not route to vented_dryer or front_load_washer without fit",
+      "promotionBlocked": true
+    },
+    {
+      "categoryId": "stacked_laundry_center",
+      "label": "Stacked laundry center / unitized washer-dryer",
+      "domain": "laundry",
+      "classification": "requires_fit_test",
+      "hostHypothesis": null,
+      "alternateHypothesis": "variant_of_existing_graph",
+      "hostHypothesisRationale": "GE GUD27 couples washer + vented dryer in one cabinet with shared power; may decompose to front_load_washer + vented_dryer sections rather than new ontology.",
+      "wizardTemplateId": "stacked_laundry",
+      "platformRegistryPresence": true,
+      "oEMProcedurePresence": true,
+      "platformExamples": ["ge_gud27_stacked"],
+      "evidence": ["INVENTORY_STACKED_LAUNDRY.md"],
+      "boundedNextStep": "CG-STACKED-LAUNDRY-FIT — test decomposability vs integrated-unit ontology",
+      "promotionBlocked": true
+    },
+    {
+      "categoryId": "front_load_washer",
+      "label": "Front-load washer",
+      "domain": "laundry",
+      "classification": "existing_canonical_family",
+      "hostCanonicalOntologyId": "front_load_washer",
+      "wizardTemplateId": "washer",
+      "architectureGap": "freeze + family closure artifact not yet published",
+      "doNotReopen": false
+    },
+    {
+      "categoryId": "top_load_washer",
+      "label": "Top-load washer",
+      "domain": "laundry",
+      "classification": "existing_canonical_family",
+      "hostCanonicalOntologyId": "top_load_washer",
+      "wizardTemplateId": "washer",
+      "doNotReopen": false
+    },
+    {
+      "categoryId": "washer_dryer_pedestal",
+      "label": "Washer/dryer pedestal / storage drawer",
+      "domain": "laundry",
+      "classification": "out_of_scope",
+      "rationale": "Accessory only — no independent diagnostic topology.",
+      "promotionBlocked": true
+    },
+    {
+      "categoryId": "trash_compactor",
+      "label": "Trash compactor",
+      "domain": "specialty",
+      "classification": "out_of_scope",
+      "rationale": "No wizard, platform, procedure corpus, or field demand signal in Solomon scope.",
+      "promotionBlocked": true
+    },
+    {
+      "categoryId": "range_hood",
+      "label": "Range hood / ventilation hood",
+      "domain": "cooking",
+      "classification": "out_of_scope",
+      "rationale": "Ventilation accessory; OTR microwave vent fan partially covered under microwave wizard when combo unit.",
+      "promotionBlocked": true
+    },
+    {
+      "categoryId": "warming_drawer",
+      "label": "Warming drawer (standalone or range-integrated)",
+      "domain": "cooking",
+      "classification": "variant_of_existing_graph",
+      "hostCanonicalOntologyId": "range_oven",
+      "hostHypothesisRationale": "W11174814 compounding kept warming drawer as platform-only knowledge under range_oven — not canonical expansion.",
+      "evidence": ["CG_RANGE_W11174814_COMPOUNDING_AUDIT_v1.json platform-only items"],
+      "fitTestClosed": true,
+      "provenVariant": true,
+      "promotionBlocked": false
+    },
+    {
+      "categoryId": "modular_ice_maker",
+      "label": "Modular / field-installed ice maker kit",
+      "domain": "refrigeration",
+      "classification": "variant_of_existing_graph",
+      "hostCanonicalOntologyId": "french_door_refrigerator",
+      "hostHypothesisRationale": "Ice maker subsystem procedures exist (2225623-ICE) as overlay/platform knowledge on refrigerator family.",
+      "evidence": ["procedureManualManifest 2225623-ICE"],
+      "fitTestClosed": false,
+      "provenVariant": false,
+      "promotionBlocked": true
+    }
+  ],
+  "wizardTemplateCoverage": {
+    "description": "Every DIAGNOSTIC_TEMPLATES appliance templateId must appear in categoryInventory or existingCanonicalFamilies",
+    "templateIds": [
+      "refrigerator",
+      "standalone_freezer",
+      "washer",
+      "electric_dryer",
+      "gas_dryer",
+      "stacked_laundry",
+      "aio_laundry",
+      "dishwasher",
+      "electric_range",
+      "gas_range",
+      "induction_range",
+      "dual_fuel_range",
+      "microwave"
+    ],
+    "allAccountedFor": true
+  },
+  "minimumAdditionalCanonicalGraphs": {
+    "description": "Preliminary count after inventory classification — subject to fit-test outcomes; inventory does not authorize graph creation.",
+    "confirmedRequired": 0,
+    "delivered": [
+      {
+        "ontologyId": "microwave",
+        "deliveredBy": "CG_MICROWAVE_FREEZE_LOCK_v1.json",
+        "note": "Fit Outcome B → discovery 7+2 → freeze rev1"
+      }
+    ],
+    "likelyAfterFitTests": [
+      {
+        "hypothesisId": "heat_pump_laundry",
+        "confidence": "medium-high",
+        "rationale": "aio_laundry and heat_pump_dryer excluded from vented_dryer; sealed-system + integrated wash path",
+        "blockedBy": "CG-AIO-LAUNDRY-FIT and/or CG-HEAT-PUMP-DRYER-FIT"
+      }
+    ],
+    "mayAbsorbAsVariants": [
+      "wall_oven → range_oven",
+      "cooktop_only → range_oven",
+      "standalone_freezer → french_door_refrigerator",
+      "stacked_laundry_center → front_load_washer + vented_dryer decomposition",
+      "gas_dryer → vented_dryer (proven)"
+    ],
+    "workingEstimate": {
+      "lowerBound": 1,
+      "upperBound": 3,
+      "note": "microwave delivered; +0–2 if heat-pump laundry and/or stacked center cannot decompose or absorb"
+    }
+  },
+  "classificationSummary": {
+    "existing_canonical_family": 7,
+    "variant_of_existing_graph": 6,
+    "requires_fit_test": 7,
+    "requires_new_canonical_graph": 0,
+    "out_of_scope": 4
+  },
+  "explicitNonGoals": [
+    "Reopen range_oven architecture or schedule range fit tests from inventory",
+    "Promote any category to canonical from classification alone",
+    "Create gas_range.json, induction_range.json, or other fuel-specific canonical graphs",
+    "Execute fit tests inside this inventory gate",
+    "Remaining-appliance manual ingestion before fit contracts are authored"
+  ],
+  "microwaveWorkstream": {
+    "fitClosed": "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+    "fitOutcome": "B_genuine_divergence_documented",
+    "discoveryClosed": "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json",
+    "discoveryOutcome": "7_core_2_conditional_approved",
+    "freezeClosed": "CG_MICROWAVE_FREEZE_CLOSURE_v1.json",
+    "freezeLock": "CG_MICROWAVE_FREEZE_LOCK_v1.json",
+    "normalizationClosed": "CG_MICROWAVE_NORMALIZATION_AUDIT_v1.json",
+    "normalizationOutcome": "approved",
+    "metadataGovernanceClosed": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+    "compoundingClosed": "CG_MICROWAVE_COMPOUNDING_v1.json",
+    "compoundingOutcome": "green_lg_and_samsung_audited",
+    "platformExtensions": [
+      "CG_MICROWAVE_SAMSUNG_ME21_PLATFORM_EXTENSION_v1.json",
+      "CG_MICROWAVE_LG_LMVM_PLATFORM_EXTENSION_v1.json"
+    ],
+    "familyClosurePlanningClosed": "CG_MICROWAVE_FAMILY_CLOSURE_PLAN_v1.json",
+    "familyClosureAudit": "CG_MICROWAVE_FAMILY_CLOSURE_AUDIT_v1.json",
+    "familyLock": "CG_MICROWAVE_FAMILY_LOCK_v1.json",
+    "familyClosureClosed": "CG_MICROWAVE_FAMILY_CLOSURE_v1.json",
+    "familyClosureOutcome": "green_microwave_family_architecture_complete"
+  },
+  "nextDisciplinedStep": "Microwave family terminally closed — proceed to broader canonical graph queue (next family TBD)"
+}

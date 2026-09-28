@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg9_5_sxs_refrigerator_compounding_contract",
+  "status": "closed",
+  "closedAt": "2026-09-16T14:00:00+00:00",
+  "closureArtifact": "CG95_REFRIGERATOR_FAMILY_LOCK_v1.json",
+  "verdict": "sxs_production_compounding_complete",
+  "phase": "CG-9.5",
+  "activatedAt": "2026-09-16T13:00:00+00:00",
+  "priorPhase": "CG-9",
+  "priorPhaseVerdict": "family_boundary_closed_sxs_maps_to_frozen_refrigerator_contract",
+  "boundaryEvidence": "CG9_SXS_REFRIGERATOR_FAMILY_BOUNDARY_R2_TRIANGULATION_v1.json",
+  "canonicalOntology": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "file": "frontend/components/diagnostics/knowledge/canonical/french_door_refrigerator.json",
+    "immutable": true,
+    "operationalRole": "generic_refrigerator_functional_contract",
+    "namingDebt": "artifact id says french_door; CG-9 proved configuration-agnostic functional model",
+    "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9"
+  },
+  "notCreating": [
+    "side_by_side_refrigerator.json",
+    "canonical ontology expansion",
+    "cg9_calibration_to_runtime_promotion_without_gate"
+  ],
+  "compoundingOrder": [
+    {
+      "sequence": 1,
+      "workPackage": "WP1",
+      "manufacturer": "Samsung",
+      "configuration": "side_by_side",
+      "manualId": "SAMSUNG-RS28-SXS",
+      "platformId": "samsung_sxs",
+      "overlayFile": "samsung_sxs.json",
+      "gateTable": "SAMSUNG_RS28_SXS_overlay_mapping_table_v1.json",
+      "gateKind": "sxs_production_compounding_samsung",
+      "boundaryProbe": "SAMSUNG_RS28_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json"
+    },
+    {
+      "sequence": 2,
+      "workPackage": "WP2",
+      "manufacturer": "Whirlpool",
+      "configuration": "side_by_side",
+      "manualId": "W11296289",
+      "platformId": "whirlpool_sxs_w11296289",
+      "overlayFile": "whirlpool_sxs_w11296289.json",
+      "gateTable": "W11296289_SXS_overlay_mapping_table_v1.json",
+      "gateKind": "sxs_production_compounding_whirlpool",
+      "boundaryProbe": "W11296289_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json"
+    },
+    {
+      "sequence": 3,
+      "workPackage": "WP3",
+      "manufacturer": "LG",
+      "configuration": "side_by_side",
+      "manualId": "LG-LSC27926-SXS",
+      "platformId": "lg_sxs",
+      "overlayFile": "lg_sxs.json",
+      "gateTable": "LG_LSC27926_SXS_overlay_mapping_table_v1.json",
+      "gateKind": "sxs_production_compounding_lg",
+      "boundaryProbe": "LG_LSC27926_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json"
+    },
+    {
+      "sequence": 4,
+      "workPackage": "WP4",
+      "manufacturer": "Midea/Insignia",
+      "configuration": "side_by_side",
+      "manualId": "MIDEA-RSS-FRIDGE",
+      "platformId": "midea_rss",
+      "overlayFile": "midea_rss.json",
+      "gateTable": "MIDEA_RSS_SXS_overlay_mapping_table_v1.json",
+      "gateKind": "sxs_production_compounding_midea",
+      "boundaryProbe": "MIDEA_RSS_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json"
+    }
+  ],
+  "immutableRules": [
+    "CG-9 boundary evidence informs human gate review — it does not auto-approve overlay rows.",
+    "Compounding target is frozen french_door_refrigerator rev1 — not a new SxS ontology.",
+    "canonicalExpansion must remain 0 for every work package.",
+    "CG-8 french-door overlays (Jazz, RF23BB, LRMVS) must remain byte-stable across CG-9.5 publish.",
+    "CG-9 calibration artifacts are not runtime knowledge until gate + publish completes.",
+    "Configuration (SxS vs french-door) is overlay/instance scope — not canonical components[]."
+  ],
+  "headlineMetric": {
+    "canonicalExpansion": 0,
+    "perWorkPackage": "canonical_inherit / conditional_bind / overlay_learning / intentional_abstention / 0 expansion"
+  },
+  "productionVsAudit": {
+    "cg9": "family-boundary audit — calibration only",
+    "cg9_5": "manufacturer/platform compounding — published overlays in manufacturer_overlays/"
+  },
+  "deferredOrganizational": {
+    "rename": "french_door_refrigerator → refrigerator",
+    "when": "future human re-freeze gate",
+    "blocks": "nothing in CG-9.5 compounding pipeline"
+  }
+}

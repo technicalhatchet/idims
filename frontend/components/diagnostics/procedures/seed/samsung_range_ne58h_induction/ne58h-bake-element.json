@@ -1,0 +1,68 @@
+{
+  "id": "ne58h-bake-element",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Bake element component test",
+  "platformId": "samsung_range_ne58",
+  "templateIds": [
+    "induction_range"
+  ],
+  "componentIds": [
+    "bake_element"
+  ],
+  "tags": [
+    "no_bake",
+    "heating_element_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+    "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+    "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Bake heater",
+    "pages": [
+      44
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the range.",
+      "requiresInput": false,
+      "defaultNextStepId": "bake_disconnect"
+    },
+    {
+      "id": "bake_disconnect",
+      "order": 2,
+      "type": "instruction",
+      "title": "Bake harness",
+      "body": "Disconnect bake element harness.",
+      "sourceExcerpt": "Disconnect bake element harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "bake_ok"
+    },
+    {
+      "id": "replace_bake",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace bake element",
+      "oemOutcome": "Replace bake element when out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "bake_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Bake element OK",
+      "oemOutcome": "Bake element verified.",
+      "requiresInput": false
+    }
+  ]
+}

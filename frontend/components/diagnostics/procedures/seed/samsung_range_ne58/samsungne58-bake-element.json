@@ -1,0 +1,154 @@
+{
+  "id": "samsungne58-bake-element",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Bake element",
+  "platformId": "samsung_range_ne58",
+  "componentIds": [
+    "bake_element"
+  ],
+  "tags": [
+    "no_bake_heat_issue",
+    "heating_element_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58-RANGE",
+    "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+    "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "cg10-r4-assisted-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Bake heater harness and voltage",
+    "pages": [
+      44
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+      "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range.",
+      "requiresInput": false,
+      "defaultNextStepId": "bake_off"
+    },
+    {
+      "id": "bake_off",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect bake harness",
+      "body": "Power off. Access bake element harness terminals.",
+      "sourceExcerpt": "Power off. Access bake element harness terminals.",
+      "requiresInput": false,
+      "defaultNextStepId": "bake_ohms"
+    },
+    {
+      "id": "bake_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Bake element resistance",
+      "body": "Measure bake element harness resistance at room temperature.",
+      "sourceExcerpt": "Measure bake element harness resistance at room temperature.",
+      "measurementKnowledgeId": "bakeElementOhms",
+      "testPoint": {
+        "connector": "Bake heater",
+        "pins": "terminals",
+        "label": "Bake element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bake_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bake_voltage",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bake_element",
+              "evidenceId": "eliminate_bake_element_ol_bake_element_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bake_voltage",
+      "order": 4,
+      "type": "instruction",
+      "title": "Bake terminal voltage",
+      "body": "Press bake keypad. Measure bake heater terminals \u2014 AC 240 V (allow >1 min on-off cycling).",
+      "sourceExcerpt": "Press bake keypad. Measure bake heater terminals \u2014 AC 240 V (allow >1 min on-off cycling).",
+      "requiresInput": false,
+      "defaultNextStepId": "bake_ok"
+    },
+    {
+      "id": "replace_bake",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace bake element or sub PCB",
+      "oemOutcome": "Replace open bake element, harness, or sub PCB relay path.",
+      "requiresInput": false
+    },
+    {
+      "id": "bake_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Bake path OK",
+      "oemOutcome": "Bake element and relay path verified.",
+      "requiresInput": false
+    }
+  ]
+}

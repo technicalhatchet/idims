@@ -1,0 +1,67 @@
+{
+  "manualId": "SAMSUNG-DISHWASHER",
+  "promotionId": "promo-SAMSUNG-DISHWASHER-20260915130538",
+  "published": false,
+  "equivalence": {
+    "manualId": "SAMSUNG-DISHWASHER",
+    "equivalent": true,
+    "checks": {
+      "canonicalAliases": true,
+      "procedureBindings": true,
+      "measurementBindings": true,
+      "topologyOverrides": true
+    },
+    "aliasComparison": {
+      "equivalent": true,
+      "referenceCount": 0,
+      "generatedCount": 11,
+      "mismatches": [],
+      "extraGenerated": [
+        "dispenser",
+        "door_latch",
+        "drain_pump",
+        "float_switch",
+        "heater",
+        "inlet_valve",
+        "main_control",
+        "thermistor",
+        "user_interface",
+        "vent",
+        "wash_motor"
+      ]
+    },
+    "procedureBindingComparison": {
+      "label": "procedureBindings",
+      "equivalent": true,
+      "referenceCount": 0,
+      "generatedCount": 5,
+      "mismatches": [],
+      "extraGenerated": [
+        "samsungdw-circulation-motor",
+        "samsungdw-door-switch",
+        "samsungdw-drain-pump",
+        "samsungdw-fill-valve",
+        "samsungdw-heater"
+      ]
+    },
+    "measurementBindingComparison": {
+      "label": "measurementBindings",
+      "equivalent": true,
+      "referenceCount": 0,
+      "generatedCount": 1,
+      "mismatches": [],
+      "extraGenerated": [
+        "samsungdw-circulation-motor:samsungDishwasherCirculationMotorOhms"
+      ]
+    },
+    "provenance": "generated",
+    "notes": [
+      "Semantic equivalence: reference CG-2 mappings must be preserved.",
+      "Extra generated aliases/bindings are allowed.",
+      "Topology overrides remain hand-authored and must not drift."
+    ],
+    "promotionId": "promo-SAMSUNG-DISHWASHER-20260915130538",
+    "approvedCandidateCount": 0
+  },
+  "approvedCandidateIds": []
+}

@@ -1,0 +1,885 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg8_fd_overlay_mapping_gate_table",
+  "manualId": "W10322959",
+  "platformId": "whirlpool_jazz_french_door",
+  "platformFamilyId": "whirlpool_jazz_french_door",
+  "canonicalOntologyId": "french_door_refrigerator",
+  "proposedOverlayFile": "whirlpool_jazz_french_door.json",
+  "priorPublishedManualIds": [],
+  "status": "published",
+  "compoundingContract": "CG8_FRENCH_DOOR_COMPOUNDING_CONTRACT_v1.json",
+  "generatedAt": "2026-09-16T06:02:16.578798+00:00",
+  "gateFraming": {
+    "question": "What does this manual teach us about the frozen contract?",
+    "not": "What components does this manual contain?",
+    "validOutcomes": [
+      "canonical_inheritance",
+      "conditional_binding",
+      "overlay_knowledge",
+      "unresolved"
+    ]
+  },
+  "pipelineManifest": "frontend\\components\\diagnostics\\knowledge\\normalization\\candidates\\W10322959\\pipeline_manifest.json",
+  "observationArtifact": "W10322959_fd_cg7x_observation_v1.json",
+  "discoveryReferenceOnly": "CG-7 R1 observation \u2014 context only, not auto-inheritance",
+  "normalizeRun": {
+    "manualId": "W10322959",
+    "generatedAt": null
+  },
+  "pipelineCounts": {
+    "procedures": 10,
+    "mappingCandidates": 19,
+    "overlayCandidates": 4,
+    "conflicts": 0,
+    "extractionFiltered": 9
+  },
+  "gatePolicy": {
+    "gateKind": "manufacturer_boundary_first_manual",
+    "compoundingPhase": "CG-8",
+    "canonicalGraph": "french_door_refrigerator.json rev1 FROZEN \u2014 zero new canonical concepts.",
+    "freezeReopenBlocked": true,
+    "publishBlocked": false
+  },
+  "canonicalContract": {
+    "graph": "french_door_refrigerator",
+    "revision": "rev1",
+    "frozen": true,
+    "allowedCanonicalIds": [
+      "air_damper",
+      "control_board",
+      "defrost_heater",
+      "door_switch",
+      "evaporator_fan",
+      "user_interface"
+    ],
+    "conditionalBindingIds": [
+      "compressor",
+      "condenser_fan",
+      "ice_maker",
+      "temperature_sensor",
+      "water_dispenser"
+    ],
+    "overlayOnlyIds": [
+      "compressor_controller",
+      "defrost_sensor",
+      "sealed_system",
+      "water_inlet_valve"
+    ],
+    "contractRule": "Conditional concepts bind in overlay \u2014 never promote to components[]."
+  },
+  "layerDefinitions": {
+    "canonical_reuse": "Maps to one of 6 frozen KEEP components.",
+    "conditional_concept_binding": "Maps to conditionalConcept with instance/drive scope \u2014 not components[].",
+    "whirlpool_platform_implementation": "Jazz implementation vocabulary \u2014 overlay add.components / oemTermAliases.",
+    "whirlpool_manufacturer_vocabulary": "Whirlpool OEM seed-id aliases independent of Samsung/LG.",
+    "defer_platform_calibration": "Board calibration/scheduling \u2014 valid unresolved.",
+    "defer_overlay_scheduling": "Adaptive defrost interval \u2014 not defrost_system aggregate.",
+    "defer_optional_feature": "Optional equipped feature \u2014 insufficient procedure evidence.",
+    "reject_procedural_title": "Service test title noise \u2014 procedureId binding only."
+  },
+  "contractTeachingRows": [
+    {
+      "teachingId": "jazz-control-board-vocabulary",
+      "gateQuestion": "What does Jazz teach about frozen control_board?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "control_board",
+      "procedureIds": [
+        "w10322959-programming-mode",
+        "w10322959-service-test-entry"
+      ],
+      "seedComponentIds": [
+        "control_board"
+      ],
+      "proposedAliases": {
+        "jazz control board": "control_board",
+        "programming mode": "control_board",
+        "service test mode": "control_board"
+      },
+      "gateAction": "approve_human",
+      "rationale": "P-E programming, S-E orchestration, and service-test entry are independent control-domain diagnostics on Jazz \u2014 maps to frozen control_board.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031287+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-door-switch-service-entry",
+      "gateQuestion": "What does Jazz teach about frozen door_switch?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "door_switch",
+      "procedureIds": [
+        "w10322959-service-test-entry",
+        "w10322959-forced-defrost-entry"
+      ],
+      "procedureRoleEvidence": true,
+      "signalPhrases": [
+        "door light switch",
+        "hold door switch",
+        "release door switch"
+      ],
+      "gateAction": "approve_procedure_role_evidence",
+      "rationale": "No standalone door-switch component test \u2014 door authorization role evidenced in S-E / F-d / P-E entry steps. Maps to frozen door_switch; distinct from lock/latch.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031287+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-user-interface-keypad",
+      "gateQuestion": "What does Jazz teach about frozen user_interface?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "user_interface",
+      "procedureIds": [
+        "w10322959-service-test-entry",
+        "w10322959-programming-mode"
+      ],
+      "procedureRoleEvidence": true,
+      "signalPhrases": [
+        "refrigerator up",
+        "freezer down",
+        "keypad",
+        "display shows"
+      ],
+      "gateAction": "approve_procedure_role_evidence",
+      "rationale": "Jazz HMI is door keypad + segment display codes (S-E, F-d, P-E) \u2014 no separate display-panel comm procedure. Functional user_interface via entry/test interaction.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031287+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-defrost-heater-test1",
+      "gateQuestion": "What does Jazz teach about frozen defrost_heater?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "defrost_heater",
+      "procedureIds": [
+        "w10322959-test-01-defrost"
+      ],
+      "seedComponentIds": [
+        "defrost_heater"
+      ],
+      "gateAction": "approve_human",
+      "rationale": "Service test 1 heater path with cu-ft \u03a9 specs \u2014 direct frozen defrost_heater inheritance.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031287+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-defrost-bimetal-platform",
+      "gateQuestion": "What does Jazz teach about defrost termination sensing?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_platform_implementation",
+      "platformTarget": "defrost_sensor",
+      "conditionalConceptBinding": null,
+      "procedureIds": [
+        "w10322959-test-01-defrost"
+      ],
+      "seedComponentIds": [
+        "defrost_thermostat"
+      ],
+      "implementationComponent": "defrost_thermostat",
+      "gateAction": "approve_platform_implementation",
+      "rationale": "Jazz bimetal/defrost_thermostat seed is platform termination vocabulary \u2014 maps to PLATFORM_ONLY defrost_sensor, not canonical expansion.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-compressor-relay-conditional",
+      "gateQuestion": "What does Jazz teach about frozen conditional compressor?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "compressor",
+      "instanceScope": "relay_drive_em2y60",
+      "procedureIds": [
+        "w10322959-test-02-compressor"
+      ],
+      "seedComponentIds": [
+        "compressor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "Service test 2 exercises compressor actuator via relay-drive EM2Y60 path \u2014 conditionalConcept binding with Jazz relay/cap implementation overlay. Does NOT promote compressor to components[].",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-compressor-relay-platform",
+      "gateQuestion": "What does Jazz teach about compressor drive electronics?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_platform_implementation",
+      "platformTarget": "compressor_controller",
+      "procedureIds": [
+        "w10322959-test-02-compressor"
+      ],
+      "implementationComponents": [
+        "relay",
+        "start_capacitor",
+        "em2y60"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "Relay/cap/start-winding diagnostics on won't-run complaints \u2014 Jazz implementation of drive path. PLATFORM_ONLY compressor_controller \u2014 not canonical compressor.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-condenser-fan-conditional",
+      "gateQuestion": "What does Jazz teach about conditional condenser_fan?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "condenser_fan",
+      "procedureIds": [
+        "w10322959-test-02-compressor"
+      ],
+      "seedComponentIds": [
+        "condenser_fan"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "Bundled with compressor test 2 \u2014 conditionalConcept condenser_fan binding. 2/3 triangulation posture preserved; not unconditional canonical.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-evaporator-fan-test3",
+      "gateQuestion": "What does Jazz teach about frozen evaporator_fan?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "evaporator_fan",
+      "instanceScope": "freezer",
+      "procedureIds": [
+        "w10322959-test-03-evap-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "proposedAliases": {
+        "evap_fan": "evaporator_fan",
+        "freezer fan": "evaporator_fan"
+      },
+      "gateAction": "approve_human",
+      "rationale": "Service test 3 freezer/evaporator fan actuator \u2014 frozen evaporator_fan with freezer instance scope (multi-fan overlay later).",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-ff-thermistor-conditional",
+      "gateQuestion": "What does Jazz teach about conditional temperature_sensor (FF)?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "fresh_food",
+      "procedureIds": [
+        "w10322959-test-04-ff-thermistor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "FF thermistor service test 4 \u2014 compartment-scoped conditionalConcept binding. Generic undifferentiated temperature_sensor not created in canonical graph.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-fz-thermistor-conditional",
+      "gateQuestion": "What does Jazz teach about conditional temperature_sensor (FZ)?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "freezer",
+      "procedureIds": [
+        "w10322959-test-05-fz-thermistor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "FZ thermistor service test 5 \u2014 separate instance scope under same conditionalConcept.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-air-damper-test6",
+      "gateQuestion": "What does Jazz teach about frozen air_damper?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "air_damper",
+      "procedureIds": [
+        "w10322959-test-06-damper"
+      ],
+      "seedComponentIds": [
+        "damper_motor"
+      ],
+      "gateAction": "approve_human",
+      "rationale": "Service test 6 damper open/close toggle \u2014 functional air_damper. damper_motor seed is Jazz implementation surface in overlay.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-damper-motor-platform",
+      "gateQuestion": "What does Jazz teach about damper implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_platform_implementation",
+      "canonicalFunctionalRole": [
+        "air_damper"
+      ],
+      "implementationComponent": "damper_motor",
+      "procedureIds": [
+        "w10322959-test-06-damper"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "damper_motor seed implements frozen air_damper on Jazz \u2014 platform vocabulary.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-ff-performance-calibration",
+      "gateQuestion": "What does test 7 teach about the frozen contract?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_platform_calibration",
+      "procedureIds": [
+        "w10322959-test-07-ff-performance"
+      ],
+      "gateAction": "defer_human_review",
+      "rationale": "FF performance offset is control-board calibration parameter \u2014 not a new canonical or conditional component. Valid unresolved outcome.",
+      "abstentionKind": "defer_platform_calibration",
+      "abstentionNote": "Intentional abstention \u2014 outside frozen canonical contract; not matcher failure or missing ontology.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-fz-performance-calibration",
+      "gateQuestion": "What does test 8 teach about the frozen contract?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_platform_calibration",
+      "procedureIds": [
+        "w10322959-test-08-fz-performance"
+      ],
+      "gateAction": "defer_human_review",
+      "rationale": "FZ performance offset \u2014 board calibration, not ontology expansion.",
+      "abstentionKind": "defer_platform_calibration",
+      "abstentionNote": "Intentional abstention \u2014 outside frozen canonical contract; not matcher failure or missing ontology.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-defrost-interval-scheduling",
+      "gateQuestion": "What does test 9 teach about the frozen contract?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_overlay_scheduling",
+      "procedureIds": [
+        "w10322959-test-09-defrost-interval"
+      ],
+      "gateAction": "defer_human_review",
+      "rationale": "Adaptive vs fixed defrost interval is control-board scheduling knowledge \u2014 does NOT resurrect removed defrost_system aggregate.",
+      "abstentionKind": "defer_overlay_scheduling",
+      "abstentionNote": "Intentional abstention \u2014 outside frozen canonical contract; not matcher failure or missing ontology.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-sealed-system-complaint-routing",
+      "gateQuestion": "Does Jazz warm-both routing teach sealed_system canonical?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_model_specific",
+      "platformTarget": "sealed_system",
+      "gateAction": "reject_canonical_promotion",
+      "rationale": "Complaint routing mentions sealed system on warm-both \u2014 PLATFORM_ONLY vocabulary per CG-7 freeze. No procedure aggregate test; do not promote.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    },
+    {
+      "teachingId": "jazz-water-dispenser-gap",
+      "gateQuestion": "Does optional water path teach conditional water_dispenser?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_optional_feature",
+      "gateAction": "defer_human_review",
+      "rationale": "Extraction notes dual valve on equipped models only \u2014 insufficient Jazz procedure evidence to bind conditional water_dispenser. Unresolved is valid.",
+      "abstentionKind": "defer_optional_feature",
+      "abstentionNote": "Intentional abstention \u2014 outside frozen canonical contract; not matcher failure or missing ontology.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp1"
+    }
+  ],
+  "mappings": [
+    {
+      "teachingId": "jazz-control-board-vocabulary",
+      "gateQuestion": "What does Jazz teach about frozen control_board?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "gateAction": "approve_human",
+      "rationale": "P-E programming, S-E orchestration, and service-test entry are independent control-domain diagnostics on Jazz \u2014 maps to frozen control_board.",
+      "procedureIds": [
+        "w10322959-programming-mode",
+        "w10322959-service-test-entry"
+      ],
+      "candidateIds": [],
+      "manualConcept": "control_board",
+      "candidate": "control_board"
+    },
+    {
+      "teachingId": "jazz-door-switch-service-entry",
+      "gateQuestion": "What does Jazz teach about frozen door_switch?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "gateAction": "approve_procedure_role_evidence",
+      "rationale": "No standalone door-switch component test \u2014 door authorization role evidenced in S-E / F-d / P-E entry steps. Maps to frozen door_switch; distinct from lock/latch.",
+      "procedureIds": [
+        "w10322959-service-test-entry",
+        "w10322959-forced-defrost-entry"
+      ],
+      "candidateIds": [],
+      "manualConcept": "door_switch",
+      "candidate": "door_switch"
+    },
+    {
+      "teachingId": "jazz-user-interface-keypad",
+      "gateQuestion": "What does Jazz teach about frozen user_interface?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "gateAction": "approve_procedure_role_evidence",
+      "rationale": "Jazz HMI is door keypad + segment display codes (S-E, F-d, P-E) \u2014 no separate display-panel comm procedure. Functional user_interface via entry/test interaction.",
+      "procedureIds": [
+        "w10322959-service-test-entry",
+        "w10322959-programming-mode"
+      ],
+      "candidateIds": [],
+      "manualConcept": "user_interface",
+      "candidate": "user_interface"
+    },
+    {
+      "teachingId": "jazz-defrost-heater-test1",
+      "gateQuestion": "What does Jazz teach about frozen defrost_heater?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "gateAction": "approve_human",
+      "rationale": "Service test 1 heater path with cu-ft \u03a9 specs \u2014 direct frozen defrost_heater inheritance.",
+      "procedureIds": [
+        "w10322959-test-01-defrost"
+      ],
+      "candidateIds": [],
+      "manualConcept": "defrost_heater",
+      "candidate": "defrost_heater"
+    },
+    {
+      "teachingId": "jazz-defrost-bimetal-platform",
+      "gateQuestion": "What does Jazz teach about defrost termination sensing?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_platform_implementation",
+      "gateAction": "approve_platform_implementation",
+      "rationale": "Jazz bimetal/defrost_thermostat seed is platform termination vocabulary \u2014 maps to PLATFORM_ONLY defrost_sensor, not canonical expansion.",
+      "procedureIds": [
+        "w10322959-test-01-defrost"
+      ],
+      "candidateIds": [],
+      "manualConcept": "defrost_thermostat",
+      "platformTarget": "defrost_sensor"
+    },
+    {
+      "teachingId": "jazz-compressor-relay-conditional",
+      "gateQuestion": "What does Jazz teach about frozen conditional compressor?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "gateAction": "approve_conditional_binding",
+      "rationale": "Service test 2 exercises compressor actuator via relay-drive EM2Y60 path \u2014 conditionalConcept binding with Jazz relay/cap implementation overlay. Does NOT promote compressor to components[].",
+      "procedureIds": [
+        "w10322959-test-02-compressor"
+      ],
+      "candidateIds": [],
+      "manualConcept": "compressor",
+      "conditionalConcept": "compressor",
+      "instanceScope": "relay_drive_em2y60"
+    },
+    {
+      "teachingId": "jazz-compressor-relay-platform",
+      "gateQuestion": "What does Jazz teach about compressor drive electronics?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_platform_implementation",
+      "gateAction": "approve_platform_implementation",
+      "rationale": "Relay/cap/start-winding diagnostics on won't-run complaints \u2014 Jazz implementation of drive path. PLATFORM_ONLY compressor_controller \u2014 not canonical compressor.",
+      "procedureIds": [
+        "w10322959-test-02-compressor"
+      ],
+      "candidateIds": [],
+      "manualConcept": "compressor_controller",
+      "platformTarget": "compressor_controller"
+    },
+    {
+      "teachingId": "jazz-condenser-fan-conditional",
+      "gateQuestion": "What does Jazz teach about conditional condenser_fan?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "gateAction": "approve_conditional_binding",
+      "rationale": "Bundled with compressor test 2 \u2014 conditionalConcept condenser_fan binding. 2/3 triangulation posture preserved; not unconditional canonical.",
+      "procedureIds": [
+        "w10322959-test-02-compressor"
+      ],
+      "candidateIds": [],
+      "manualConcept": "condenser_fan",
+      "conditionalConcept": "condenser_fan",
+      "instanceScope": null
+    },
+    {
+      "teachingId": "jazz-evaporator-fan-test3",
+      "gateQuestion": "What does Jazz teach about frozen evaporator_fan?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "gateAction": "approve_human",
+      "rationale": "Service test 3 freezer/evaporator fan actuator \u2014 frozen evaporator_fan with freezer instance scope (multi-fan overlay later).",
+      "procedureIds": [
+        "w10322959-test-03-evap-fan"
+      ],
+      "candidateIds": [],
+      "manualConcept": "evap_fan",
+      "candidate": "evaporator_fan"
+    },
+    {
+      "teachingId": "jazz-ff-thermistor-conditional",
+      "gateQuestion": "What does Jazz teach about conditional temperature_sensor (FF)?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "gateAction": "approve_conditional_binding",
+      "rationale": "FF thermistor service test 4 \u2014 compartment-scoped conditionalConcept binding. Generic undifferentiated temperature_sensor not created in canonical graph.",
+      "procedureIds": [
+        "w10322959-test-04-ff-thermistor"
+      ],
+      "candidateIds": [],
+      "manualConcept": "thermistor",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "fresh_food"
+    },
+    {
+      "teachingId": "jazz-fz-thermistor-conditional",
+      "gateQuestion": "What does Jazz teach about conditional temperature_sensor (FZ)?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "gateAction": "approve_conditional_binding",
+      "rationale": "FZ thermistor service test 5 \u2014 separate instance scope under same conditionalConcept.",
+      "procedureIds": [
+        "w10322959-test-05-fz-thermistor"
+      ],
+      "candidateIds": [],
+      "manualConcept": "thermistor",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "freezer"
+    },
+    {
+      "teachingId": "jazz-air-damper-test6",
+      "gateQuestion": "What does Jazz teach about frozen air_damper?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "gateAction": "approve_human",
+      "rationale": "Service test 6 damper open/close toggle \u2014 functional air_damper. damper_motor seed is Jazz implementation surface in overlay.",
+      "procedureIds": [
+        "w10322959-test-06-damper"
+      ],
+      "candidateIds": [],
+      "manualConcept": "damper_motor",
+      "candidate": "air_damper"
+    },
+    {
+      "teachingId": "jazz-damper-motor-platform",
+      "gateQuestion": "What does Jazz teach about damper implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_platform_implementation",
+      "gateAction": "approve_platform_implementation",
+      "rationale": "damper_motor seed implements frozen air_damper on Jazz \u2014 platform vocabulary.",
+      "procedureIds": [
+        "w10322959-test-06-damper"
+      ],
+      "candidateIds": [],
+      "manualConcept": "jazz-damper-motor-platform"
+    },
+    {
+      "teachingId": "jazz-ff-performance-calibration",
+      "gateQuestion": "What does test 7 teach about the frozen contract?",
+      "outcome": "unresolved",
+      "layer": "defer_platform_calibration",
+      "gateAction": "defer_human_review",
+      "rationale": "FF performance offset is control-board calibration parameter \u2014 not a new canonical or conditional component. Valid unresolved outcome.",
+      "procedureIds": [
+        "w10322959-test-07-ff-performance"
+      ],
+      "candidateIds": [],
+      "manualConcept": "jazz-ff-performance-calibration"
+    },
+    {
+      "teachingId": "jazz-fz-performance-calibration",
+      "gateQuestion": "What does test 8 teach about the frozen contract?",
+      "outcome": "unresolved",
+      "layer": "defer_platform_calibration",
+      "gateAction": "defer_human_review",
+      "rationale": "FZ performance offset \u2014 board calibration, not ontology expansion.",
+      "procedureIds": [
+        "w10322959-test-08-fz-performance"
+      ],
+      "candidateIds": [],
+      "manualConcept": "jazz-fz-performance-calibration"
+    },
+    {
+      "teachingId": "jazz-defrost-interval-scheduling",
+      "gateQuestion": "What does test 9 teach about the frozen contract?",
+      "outcome": "unresolved",
+      "layer": "defer_overlay_scheduling",
+      "gateAction": "defer_human_review",
+      "rationale": "Adaptive vs fixed defrost interval is control-board scheduling knowledge \u2014 does NOT resurrect removed defrost_system aggregate.",
+      "procedureIds": [
+        "w10322959-test-09-defrost-interval"
+      ],
+      "candidateIds": [],
+      "manualConcept": "jazz-defrost-interval-scheduling"
+    },
+    {
+      "teachingId": "jazz-sealed-system-complaint-routing",
+      "gateQuestion": "Does Jazz warm-both routing teach sealed_system canonical?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_model_specific",
+      "gateAction": "reject_canonical_promotion",
+      "rationale": "Complaint routing mentions sealed system on warm-both \u2014 PLATFORM_ONLY vocabulary per CG-7 freeze. No procedure aggregate test; do not promote.",
+      "procedureIds": [],
+      "candidateIds": [],
+      "manualConcept": "sealed_system",
+      "platformTarget": "sealed_system"
+    },
+    {
+      "teachingId": "jazz-water-dispenser-gap",
+      "gateQuestion": "Does optional water path teach conditional water_dispenser?",
+      "outcome": "unresolved",
+      "layer": "defer_optional_feature",
+      "gateAction": "defer_human_review",
+      "rationale": "Extraction notes dual valve on equipped models only \u2014 insufficient Jazz procedure evidence to bind conditional water_dispenser. Unresolved is valid.",
+      "procedureIds": [],
+      "candidateIds": [],
+      "manualConcept": "jazz-water-dispenser-gap"
+    }
+  ],
+  "mappingCandidateDispositions": [
+    {
+      "candidateId": "map-W10322959-compound-control_board",
+      "sourceTerm": "control_board",
+      "procedureId": "w10322959-programming-mode",
+      "disposition": "canonical_reuse",
+      "outcome": "canonical_inheritance",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W10322959-compound-programming-mode-(p-e):-program-code",
+      "sourceTerm": "Programming mode (P-E): Program code",
+      "procedureId": "w10322959-programming-mode",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title",
+      "rationale": "OEM service-test title \u2014 bind by procedureId via contract teaching rows."
+    },
+    {
+      "candidateId": "map-W10322959-compound-defrost_heater",
+      "sourceTerm": "defrost_heater",
+      "procedureId": "w10322959-test-01-defrost",
+      "disposition": "canonical_reuse",
+      "outcome": "canonical_inheritance",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W10322959-compound-defrost_thermostat",
+      "sourceTerm": "defrost_thermostat",
+      "procedureId": "w10322959-test-01-defrost",
+      "disposition": "whirlpool_platform_implementation",
+      "outcome": "overlay_knowledge",
+      "platformTarget": "defrost_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W10322959-compound-service-test-1:-defrost-thermostat-&-heater",
+      "sourceTerm": "Service Test 1: Defrost thermostat & heater",
+      "procedureId": "w10322959-test-01-defrost",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title",
+      "rationale": "OEM service-test title \u2014 bind by procedureId via contract teaching rows."
+    },
+    {
+      "candidateId": "map-w10322959-unresolved-w10322959-test-02-compressor-compressor",
+      "sourceTerm": "compressor",
+      "procedureId": "w10322959-test-02-compressor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W10322959-compound-condenser_fan",
+      "sourceTerm": "condenser_fan",
+      "procedureId": "w10322959-test-02-compressor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W10322959-compound-service-test-2:-compressor-&-condenser-fan",
+      "sourceTerm": "Service Test 2: Compressor & condenser fan",
+      "procedureId": "w10322959-test-02-compressor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title",
+      "rationale": "OEM service-test title \u2014 bind by procedureId via contract teaching rows."
+    },
+    {
+      "candidateId": "map-W10322959-compound-evap_fan",
+      "sourceTerm": "evap_fan",
+      "procedureId": "w10322959-test-03-evap-fan",
+      "disposition": "canonical_reuse",
+      "outcome": "canonical_inheritance",
+      "canonicalTarget": "evaporator_fan",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W10322959-compound-service-test-3:-evaporator-/-freezer-fan",
+      "sourceTerm": "Service Test 3: Evaporator / freezer fan",
+      "procedureId": "w10322959-test-03-evap-fan",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title",
+      "rationale": "OEM service-test title \u2014 bind by procedureId via contract teaching rows."
+    },
+    {
+      "candidateId": "map-w10322959-unresolved-w10322959-test-04-ff-thermistor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "w10322959-test-04-ff-thermistor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W10322959-compound-service-test-4:-fresh-food-thermistor",
+      "sourceTerm": "Service Test 4: Fresh food thermistor",
+      "procedureId": "w10322959-test-04-ff-thermistor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title",
+      "rationale": "OEM service-test title \u2014 bind by procedureId via contract teaching rows."
+    },
+    {
+      "candidateId": "map-w10322959-unresolved-w10322959-test-05-fz-thermistor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "w10322959-test-05-fz-thermistor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W10322959-compound-service-test-5:-freezer-thermistor",
+      "sourceTerm": "Service Test 5: Freezer thermistor",
+      "procedureId": "w10322959-test-05-fz-thermistor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title",
+      "rationale": "OEM service-test title \u2014 bind by procedureId via contract teaching rows."
+    },
+    {
+      "candidateId": "map-W10322959-compound-damper_motor",
+      "sourceTerm": "damper_motor",
+      "procedureId": "w10322959-test-06-damper",
+      "disposition": "whirlpool_platform_implementation",
+      "outcome": "overlay_knowledge",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W10322959-compound-service-test-6:-fresh-food-damper",
+      "sourceTerm": "Service Test 6: Fresh food damper",
+      "procedureId": "w10322959-test-06-damper",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title",
+      "rationale": "OEM service-test title \u2014 bind by procedureId via contract teaching rows."
+    },
+    {
+      "candidateId": "map-W10322959-compound-service-test-7:-ff-performance-offset",
+      "sourceTerm": "Service Test 7: FF performance offset",
+      "procedureId": "w10322959-test-07-ff-performance",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title",
+      "rationale": "OEM service-test title \u2014 bind by procedureId via contract teaching rows."
+    },
+    {
+      "candidateId": "map-W10322959-compound-service-test-8:-fz-performance-offset",
+      "sourceTerm": "Service Test 8: FZ performance offset",
+      "procedureId": "w10322959-test-08-fz-performance",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title",
+      "rationale": "OEM service-test title \u2014 bind by procedureId via contract teaching rows."
+    },
+    {
+      "candidateId": "map-W10322959-compound-service-test-9:-defrost-interval",
+      "sourceTerm": "Service Test 9: Defrost interval",
+      "procedureId": "w10322959-test-09-defrost-interval",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title",
+      "rationale": "OEM service-test title \u2014 bind by procedureId via contract teaching rows."
+    }
+  ],
+  "auditBoundaries": {
+    "compressorRelayPath": [
+      "jazz-compressor-relay-conditional",
+      "jazz-compressor-relay-platform"
+    ],
+    "compartmentThermistors": [
+      "jazz-ff-thermistor-conditional",
+      "jazz-fz-thermistor-conditional"
+    ],
+    "jazzControlVocabulary": [
+      "jazz-control-board-vocabulary",
+      "jazz-user-interface-keypad",
+      "jazz-door-switch-service-entry"
+    ]
+  },
+  "accounting": {
+    "contractTeachingRows": 18,
+    "canonicalInheritance": 6,
+    "conditionalBinding": 4,
+    "overlayKnowledge": 4,
+    "unresolved": 4,
+    "mappingCandidatesTotal": 19,
+    "mappingCandidatesProceduralNoise": 10,
+    "semanticLearningDecisions": 0,
+    "matcherRoutingCorrections": 0,
+    "canonicalExpansion": 0,
+    "intentionalAbstentions": 4,
+    "overlayLearningEvents": 4
+  },
+  "outcomeHistogram": {
+    "canonical_inheritance": 6,
+    "overlay_knowledge": 4,
+    "conditional_binding": 4,
+    "intentional_abstention": 4
+  },
+  "layerHistogram": {
+    "canonical_reuse": 6,
+    "whirlpool_platform_implementation": 3,
+    "conditional_concept_binding": 4,
+    "defer_platform_calibration": 2,
+    "defer_overlay_scheduling": 1,
+    "whirlpool_model_specific": 1,
+    "defer_optional_feature": 1
+  },
+  "humanGateApprovedAt": "2026-09-16T06:15:09.031787+00:00",
+  "humanGateReviewer": "human_gate_cg8_wp1",
+  "publishedAt": "2026-09-16T06:15:09.199297+00:00",
+  "promotionId": "promo-WHIRLPOOL-JAZZ-FD-CG8-20260916061509"
+}

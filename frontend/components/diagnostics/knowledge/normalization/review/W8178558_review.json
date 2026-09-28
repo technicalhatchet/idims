@@ -1,0 +1,5269 @@
+{
+  "manualId": "W8178558",
+  "platformId": "whirlpool_duet_sport",
+  "templateId": "washer",
+  "ontologyId": "front_load_washer",
+  "materializedAt": "2026-09-13T04:59:19.100339+00:00",
+  "records": [
+    {
+      "candidateId": "map-W8178558-dosing_pump-dosing_pump",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "dosing_pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "dosing_pump",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: dosing_pump \u2192 dosing_pump"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-dispenser-motor",
+        "pages": [
+          74
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "dosing_pump": "dosing_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-dispenser-motor",
+        "pages": [
+          74
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-dispenser-motor",
+            "pages": [
+              74
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-12T21:29:18.156377+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "auto-easy",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-compound-detergent-dispenser-motor",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.86,
+      "what": "\u00a75-4: Detergent Dispenser Motor",
+      "extractedTerm": "Detergent Dispenser Motor",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "dosing_pump",
+      "why": {
+        "confidence": 0.86,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "dispenser motor",
+        "decomposition": {
+          "domain": "detergent",
+          "component": "dispenser",
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a75-4: Detergent Dispenser Motor \u2192 dosing_pump"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-dispenser-motor",
+        "pages": [
+          74
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-4: Detergent Dispenser Motor": "dosing_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-dispenser-motor",
+        "pages": [
+          74
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-dispenser-motor",
+            "pages": [
+              74
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "dispenser motor",
+            "decomposition": {
+              "domain": "detergent",
+              "component": "dispenser",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.454384+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-ccu-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.98,
+      "what": "CCU",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.98,
+        "matcherLayer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: CCU \u2192 control_board"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-dispenser-motor",
+        "pages": [
+          74
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "CCU": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-dispenser-motor",
+        "pages": [
+          74
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-dispenser-motor",
+            "pages": [
+              74
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-12T21:29:18.154877+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "auto-easy",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-door_lock-door_lock",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "door_lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: door_lock \u2192 door_lock"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_lock": "door_lock"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-12T21:29:18.157378+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "auto-easy",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-compound-door-lock-/-switch-circuit",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.85,
+      "what": "\u00a75-5: Door Lock / Switch Circuit",
+      "extractedTerm": "Door Lock / Switch Circuit",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "door lock",
+        "decomposition": {
+          "domain": "door",
+          "component": "lock",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a75-5: Door Lock / Switch Circuit \u2192 door_lock"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-5: Door Lock / Switch Circuit": "door_lock"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "door lock",
+            "decomposition": {
+              "domain": "door",
+              "component": "lock",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.455885+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "DL3",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: DL3 \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "DL3": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "DL3",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: DL3 \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "DL3": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "DL3",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: DL3 \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "DL3": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "DL3",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: DL3 \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "DL3": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "DL3",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: DL3 \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "DL3": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "DL3",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: DL3 \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "DL3": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "DL3",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: DL3 \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "DL3": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "DL3",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: DL3 \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "DL3": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178558-drain_pump-drain_pump",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "drain_pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: drain_pump \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drain_pump": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-drain-pump",
+            "pages": [
+              76
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-12T21:29:18.159878+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "auto-easy",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-compound-drain-pump-circuit",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.85,
+      "what": "\u00a75-6: Drain Pump Circuit",
+      "extractedTerm": "Drain Pump Circuit",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "drain pump",
+        "decomposition": {
+          "domain": "drain",
+          "component": null,
+          "actuator": "pump"
+        },
+        "summary": "alias: \u00a75-6: Drain Pump Circuit \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-6: Drain Pump Circuit": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-drain-pump",
+            "pages": [
+              76
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "drain pump",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.456884+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-dp2-drain_pump",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.98,
+      "what": "DP2",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 0.98,
+        "matcherLayer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: DP2 \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "DP2": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-drain-pump",
+            "pages": [
+              76
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-12T21:29:18.158877+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "auto-easy",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-inlet_valve-inlet_valve",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "inlet_valve",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: inlet_valve \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-inlet-valves",
+        "pages": [
+          71
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_valve": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-inlet-valves",
+        "pages": [
+          71
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-inlet-valves",
+            "pages": [
+              71
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-12T21:29:18.160878+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "auto-easy",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-compound-water-inlet-valve-solenoids",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.85,
+      "what": "\u00a75-1: Water Inlet Valve Solenoids",
+      "extractedTerm": "Water Inlet Valve Solenoids",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "inlet valve",
+        "decomposition": {
+          "domain": "water",
+          "component": "inlet",
+          "actuator": "valve"
+        },
+        "summary": "alias: \u00a75-1: Water Inlet Valve Solenoids \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-inlet-valves",
+        "pages": [
+          71
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-1: Water Inlet Valve Solenoids": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-inlet-valves",
+        "pages": [
+          71
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-inlet-valves",
+            "pages": [
+              71
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "inlet valve",
+            "decomposition": {
+              "domain": "water",
+              "component": "inlet",
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.458384+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-supply-supply",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "supply",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 supply"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-interlock-switch",
+        "pages": [
+          78
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": "supply"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-interlock-switch",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-interlock-switch",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-12T21:29:18.161878+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "auto-easy",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-compound-interlock-switch-(nc-ground)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-8: Interlock Switch (NC ground)",
+      "extractedTerm": "Interlock Switch (NC ground)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "interlock",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a75-8: Interlock Switch (NC ground) \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-interlock-switch",
+        "pages": [
+          78
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-8: Interlock Switch (NC ground)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-interlock-switch",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-interlock-switch",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "interlock",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178558-drive_motor-drive_motor",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "drive_motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: drive_motor \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drive_motor": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-motor-circuit",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-12T21:29:18.165379+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "auto-easy",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-compound-drive-motor-circuit",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.85,
+      "what": "\u00a75-8: Drive Motor Circuit",
+      "extractedTerm": "Drive Motor Circuit",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "drive motor",
+        "decomposition": {
+          "domain": null,
+          "component": "drive",
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a75-8: Drive Motor Circuit \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-8: Drive Motor Circuit": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-motor-circuit",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "drive motor",
+            "decomposition": {
+              "domain": null,
+              "component": "drive",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.459886+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-mcu-motor_controller",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.98,
+      "what": "MCU",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_controller",
+      "why": {
+        "confidence": 0.98,
+        "matcherLayer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: MCU \u2192 motor_controller"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "MCU": "motor_controller"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-motor-circuit",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-12T21:29:18.162878+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "auto-easy",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-ms2-drive_motor",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.98,
+      "what": "MS2",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 0.98,
+        "matcherLayer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: MS2 \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "MS2": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-motor-circuit",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-12T21:29:18.164378+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "auto-easy",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-water_level_sensor-water_level_sensor",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "water_level_sensor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_sensor",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: water_level_sensor \u2192 water_level_sensor"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-pressure-switch",
+        "pages": [
+          72
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "water_level_sensor": "water_level_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-pressure-switch",
+        "pages": [
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-pressure-switch",
+            "pages": [
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-12T21:29:18.169377+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "auto-easy",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-compound-pressure-switch-(f20)",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.86,
+      "what": "\u00a75-2: Pressure Switch (F20)",
+      "extractedTerm": "Pressure Switch (F20)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_sensor",
+      "why": {
+        "confidence": 0.86,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "pressure switch",
+        "decomposition": {
+          "domain": "pressure",
+          "component": null,
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a75-2: Pressure Switch (F20) \u2192 water_level_sensor"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-pressure-switch",
+        "pages": [
+          72
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-2: Pressure Switch (F20)": "water_level_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-pressure-switch",
+        "pages": [
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-pressure-switch",
+            "pages": [
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "pressure switch",
+            "decomposition": {
+              "domain": "pressure",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.460884+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-pr6-water_level_sensor",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.98,
+      "what": "PR6",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_sensor",
+      "why": {
+        "confidence": 0.98,
+        "matcherLayer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: PR6 \u2192 water_level_sensor"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-pressure-switch",
+        "pages": [
+          72
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "PR6": "water_level_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-pressure-switch",
+        "pages": [
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-pressure-switch",
+            "pages": [
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-12T21:29:18.166878+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "auto-easy",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-wash_heater-wash_heater",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "wash_heater",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "wash_heater",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: wash_heater \u2192 wash_heater"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-wash-heater",
+        "pages": [
+          77
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "wash_heater": "wash_heater"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-wash-heater",
+        "pages": [
+          77
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-wash-heater",
+            "pages": [
+              77
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-12T21:29:18.170377+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "auto-easy",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-compound-wash-heater-(ht-models)",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.85,
+      "what": "\u00a75-7: Wash Heater (Ht models)",
+      "extractedTerm": "Wash Heater (Ht models)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "wash_heater",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "wash heater",
+        "decomposition": {
+          "domain": "wash",
+          "component": null,
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a75-7: Wash Heater (Ht models) \u2192 wash_heater"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-wash-heater",
+        "pages": [
+          77
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-7: Wash Heater (Ht models)": "wash_heater"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-wash-heater",
+        "pages": [
+          77
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-wash-heater",
+            "pages": [
+              77
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash heater",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.461886+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-wash_ntc-wash_ntc",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "wash_ntc",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "wash_ntc",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: wash_ntc \u2192 wash_ntc"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-wash-ntc",
+        "pages": [
+          77
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "wash_ntc": "wash_ntc"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-wash-ntc",
+        "pages": [
+          77
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-wash-ntc",
+            "pages": [
+              77
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-12T21:29:18.171878+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "auto-easy",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "map-W8178558-compound-wash-ntc-(th2)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-7: Wash NTC (TH2)",
+      "extractedTerm": "Wash NTC (TH2)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "wash",
+          "component": "ntc th2",
+          "actuator": null
+        },
+        "summary": "alias: \u00a75-7: Wash NTC (TH2) \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-wash-ntc",
+        "pages": [
+          77
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-7: Wash NTC (TH2)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-wash-ntc",
+        "pages": [
+          77
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-wash-ntc",
+            "pages": [
+              77
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "wash",
+              "component": "ntc th2",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W8178558-w8178558-door-lock-door_lock_test",
+      "candidateType": "procedureTestBinding",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.99,
+      "what": "w8178558-door-lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.99,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w8178558-door-lock \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178558-door-lock",
+          "testTargetId": "door_lock_test",
+          "displayTitle": "\u00a75-5: Door Lock / Switch Circuit",
+          "componentIds": [
+            "door_lock"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.463386+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "overlay-W8178558-w8178558-door-lock-meas-whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+      "candidateType": "measurementBinding",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w8178558-door-lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDuetSportWasherDoorLockSolenoidOhms \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178558-door-lock",
+          "measurementKnowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+          "testTargetId": "door_lock_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+            "stepTitle": "Door lock solenoid DL3 pins 1 & 3"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.464386+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T00:39:59.465385+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "overlay-W8178558-w8178558-door-lock-meas-whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+      "candidateType": "measurementBinding",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w8178558-door-lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDuetSportWasherDoorLockSolenoidOhms \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178558-door-lock",
+          "measurementKnowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+          "testTargetId": "door_lock_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+            "stepTitle": "Door unlock solenoid DL3 pins 2 & 3"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.464386+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T00:39:59.465385+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "overlay-W8178558-w8178558-drain-pump-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.99,
+      "what": "w8178558-drain-pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.99,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w8178558-drain-pump \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178558-drain-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a75-6: Drain Pump Circuit",
+          "componentIds": [
+            "drain_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-drain-pump",
+            "pages": [
+              76
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.466885+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "overlay-W8178558-w8178558-drain-pump-meas-whirlpoolDuetSportWasherDrainPumpOhms",
+      "candidateType": "measurementBinding",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w8178558-drain-pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDuetSportWasherDrainPumpOhms \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178558-drain-pump",
+          "measurementKnowledgeId": "whirlpoolDuetSportWasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-drain-pump",
+            "pages": [
+              76
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDuetSportWasherDrainPumpOhms",
+            "stepTitle": "Drain pump resistance at component"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.468385+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T00:39:59.469385+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "overlay-W8178558-w8178558-drain-pump-meas-whirlpoolDuetSportWasherDrainPumpOhms",
+      "candidateType": "measurementBinding",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w8178558-drain-pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDuetSportWasherDrainPumpOhms \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178558-drain-pump",
+          "measurementKnowledgeId": "whirlpoolDuetSportWasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-drain-pump",
+            "pages": [
+              76
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDuetSportWasherDrainPumpOhms",
+            "stepTitle": "Drain pump resistance at DP2"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.468385+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T00:39:59.469385+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "overlay-W8178558-w8178558-interlock-switch-door_lock_test",
+      "candidateType": "procedureTestBinding",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.99,
+      "what": "w8178558-interlock-switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.99,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w8178558-interlock-switch \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-interlock-switch",
+        "pages": [
+          78
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178558-interlock-switch",
+          "testTargetId": "door_lock_test",
+          "displayTitle": "\u00a75-8: Interlock Switch (NC ground)",
+          "componentIds": [
+            "supply"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-interlock-switch",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-interlock-switch",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.470385+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "overlay-W8178558-w8178558-motor-circuit-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.99,
+      "what": "w8178558-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.99,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w8178558-motor-circuit \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178558-motor-circuit",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a75-8: Drive Motor Circuit",
+          "componentIds": [
+            "drive_motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-motor-circuit",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.471384+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "overlay-W8178558-w8178558-motor-circuit-meas-whirlpoolDuetSportWasherMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w8178558-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDuetSportWasherMotorOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178558-motor-circuit",
+          "measurementKnowledgeId": "whirlpoolDuetSportWasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-motor-circuit",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDuetSportWasherMotorOhms",
+            "stepTitle": "Motor winding resistance at motor connector"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.472884+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    },
+    {
+      "candidateId": "overlay-W8178558-w8178558-pressure-switch-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.99,
+      "what": "w8178558-pressure-switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.99,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w8178558-pressure-switch \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-pressure-switch",
+        "pages": [
+          72
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178558-pressure-switch",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a75-2: Pressure Switch (F20)",
+          "componentIds": [
+            "water_level_sensor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-pressure-switch",
+        "pages": [
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-pressure-switch",
+            "pages": [
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T00:39:59.473885+00:00",
+          "status": "approved",
+          "reviewer": "compiler_loop",
+          "reason": null
+        },
+        {
+          "at": "2026-09-13T04:58:09.175484+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W8178558-20260913045809"
+        }
+      ],
+      "reviewer": "compiler_loop",
+      "promotedAt": "2026-09-13T04:58:09.175484+00:00"
+    }
+  ],
+  "summary": {
+    "total": 41,
+    "byStatus": {
+      "promoted": 31,
+      "needs_review": 10
+    },
+    "byApprovalLevel": {
+      "easy": 14,
+      "careful": 7,
+      "blocked": 10,
+      "normal": 10
+    },
+    "byType": {
+      "canonicalMapping": 31,
+      "procedureTestBinding": 5,
+      "measurementBinding": 5
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 19,
+      "medium_0.80_0.94": 12,
+      "low_lt_0.80": 0,
+      "unresolved": 10
+    },
+    "byBlockedReason": {
+      "UNRESOLVED_COMPONENT": 8
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "manualId": "W11633848",
+  "equivalent": true,
+  "checks": {
+    "canonicalAliases": true,
+    "procedureBindings": true,
+    "measurementBindings": true,
+    "topologyOverrides": true
+  },
+  "aliasComparison": {
+    "equivalent": true,
+    "referenceCount": 15,
+    "generatedCount": 27,
+    "mismatches": [],
+    "extraGenerated": [
+      "circulation_pump",
+      "drain_pump",
+      "inlet_valve",
+      "\u00a73-12: overfill float switch",
+      "\u00a73-13: diverter motor",
+      "\u00a73-15: wash motor (ssm)",
+      "\u00a73-16: drain motor",
+      "\u00a73-17: dc fan motor",
+      "\u00a73-3: f500 triac load fuse",
+      "\u00a73-7: door switch circuit",
+      "\u00a73-8: fill valve circuit",
+      "\u00a73-9: dispenser solenoid"
+    ]
+  },
+  "procedureBindingComparison": {
+    "label": "procedureBindings",
+    "equivalent": true,
+    "referenceCount": 13,
+    "generatedCount": 13,
+    "mismatches": [],
+    "extraGenerated": []
+  },
+  "measurementBindingComparison": {
+    "label": "measurementBindings",
+    "equivalent": true,
+    "referenceCount": 7,
+    "generatedCount": 7,
+    "mismatches": [],
+    "extraGenerated": []
+  },
+  "provenance": "generated",
+  "notes": [
+    "Semantic equivalence: reference CG-2 mappings must be preserved.",
+    "Extra generated aliases/bindings are allowed.",
+    "Topology overrides remain hand-authored and must not drift."
+  ],
+  "promotionId": "promo-W11633848-20260915040713",
+  "approvedCandidateCount": 0
+}

@@ -38,6 +38,17 @@ const ALL_PROCEDURES: ServiceProcedure[] = PROCEDURE_SEEDS.map((seed) =>
 
 const PROCEDURE_BY_ID = new Map(ALL_PROCEDURES.map((procedure) => [procedure.id, procedure]));
 
+/** Test/dev harness procedures not in generated seeds. */
+const HARNESS_PROCEDURE_BY_ID = new Map<string, ServiceProcedure>();
+
+export function registerHarnessServiceProcedure(procedure: ServiceProcedure): void {
+  HARNESS_PROCEDURE_BY_ID.set(procedure.id, procedure);
+}
+
+export function clearHarnessServiceProcedures(): void {
+  HARNESS_PROCEDURE_BY_ID.clear();
+}
+
 export function getAllServiceModeBundles(): ServiceModeBundle[] {
   return SERVICE_MODE_BUNDLES;
 }
@@ -78,7 +89,7 @@ export function getAllServiceProcedures(): ServiceProcedure[] {
 
 export function getServiceProcedure(id: string | null | undefined): ServiceProcedure | null {
   if (!id) return null;
-  return PROCEDURE_BY_ID.get(id) ?? null;
+  return HARNESS_PROCEDURE_BY_ID.get(id) ?? PROCEDURE_BY_ID.get(id) ?? null;
 }
 
 export function getServiceProceduresForPlatform(platformId: string): ServiceProcedure[] {

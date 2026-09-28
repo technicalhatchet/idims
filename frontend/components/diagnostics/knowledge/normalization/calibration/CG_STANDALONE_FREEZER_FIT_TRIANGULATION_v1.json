@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_standalone_freezer_fit_triangulation",
+  "workstream": "CG-STANDALONE-FREEZER-FIT-TEST",
+  "status": "complete",
+  "generatedAt": "2026-09-17T18:10:00+00:00",
+  "contract": "CG_STANDALONE_FREEZER_FIT_TEST_CONTRACT_v1.json",
+  "witnessCount": 1,
+  "crossManufacturerTriangulation": false,
+  "witnesses": [
+    {
+      "id": "W1",
+      "manufacturer": "Midea/Insignia",
+      "model": "NS-UZ21WH0",
+      "platformId": "midea_uz21",
+      "observation": "CG_MIDEA_UZ21_FIT_OBSERVATION_v1.json"
+    }
+  ],
+  "candidateWitnessesRejected": {
+    "reason": "Not present in ingested corpus — no substitution performed",
+    "models": [
+      "Whirlpool WZF79R20DW",
+      "Whirlpool WZF56R16DW",
+      "Samsung RZ11M7074SA/AA",
+      "Samsung RZ11T7474AP/AA"
+    ]
+  },
+  "limitation": {
+    "statement": "Only one standalone-freezer service manual ingested (Midea/Insignia NS-UZ21). Whirlpool and Samsung candidate models absent from corpus.",
+    "impactOnCompositionConclusion": "Moderate — single-manufacturer witness; composition conclusion supported by alignment with existing french_door_refrigerator freezer-compartment instance semantics and parallel Midea RSS26 freezer-scoped refrigerator procedures",
+    "doesNotBlockFit": true,
+    "wouldBlockNewCanonicalDomain": true
+  },
+  "supplementaryPatternCorroboration": {
+    "source": "midea_rss refrigerator (MIDEA-RSS-FRIDGE)",
+    "note": "Not a standalone-freezer witness — demonstrates E2/E5/E6/E7/E9 freezer-scoped diagnostics already modeled within french_door_refrigerator host on multi-compartment product",
+    "countsAsSecondStandaloneWitness": false
+  },
+  "functionalDomainTriangulation": {
+    "refrigeration_thermal_system": { "mapsToHost": true, "witnesses": ["W1"] },
+    "compressor_role": { "mapsToHost": true, "binding": "conditionalConcept.compressor overlay", "witnesses": ["W1"] },
+    "evaporator_airflow": { "mapsToHost": true, "canonicalNode": "evaporator_fan[freezer]", "witnesses": ["W1"] },
+    "defrost_system": { "mapsToHost": true, "canonicalNodes": ["defrost_heater[freezer]", "defrost_sensor overlay"], "witnesses": ["W1"] },
+    "temperature_sensing_control": { "mapsToHost": true, "binding": "temperature_sensor overlay instances", "witnesses": ["W1"] },
+    "control_and_ui": { "mapsToHost": true, "canonicalNodes": ["control_board", "user_interface"], "witnesses": ["W1"] },
+    "door_authorization": { "mapsToHost": true, "canonicalNode": "door_switch", "evidence": "Test mode LOCK entry — implied", "witnesses": ["W1"] },
+    "fresh_food_domains": { "required": false, "instantiated": false, "blocksFit": false },
+    "freezer_only_divergence": { "found": false, "witnesses": ["W1"] }
+  },
+  "triangulationVerdict": {
+    "recommendAnalysisOutcome": "composition",
+    "rationale": "All W1 procedures map to french_door_refrigerator with freezer-only compartment scope; no freezer-specific canonical domain identified that host cannot represent",
+    "discoveryNotRequired": true
+  }
+}

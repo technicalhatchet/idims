@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_fit_analysis",
+  "workstream": "CG-AIO-LAUNDRY-COMBO-FIT-TEST",
+  "status": "complete",
+  "generatedAt": "2026-09-17T13:55:00+00:00",
+  "contract": "CG_AIO_LAUNDRY_COMBO_FIT_TEST_CONTRACT_v1.json",
+  "hardOutcome": "architectural_divergence",
+  "hardOutcomeGate": {
+    "permittedOutcomes": ["proven_variant", "architectural_divergence", "insufficient_evidence"],
+    "selected": "architectural_divergence",
+    "exactlyOne": true
+  },
+  "evidenceChain": {
+    "contract": "CG_AIO_LAUNDRY_COMBO_FIT_TEST_CONTRACT_v1.json",
+    "observation": "CG_AIO_WD53DBA900_FIT_OBSERVATION_v1.json",
+    "triangulation": "CG_AIO_LAUNDRY_COMBO_FIT_TRIANGULATION_v1.json"
+  },
+  "fitAgainstFrontLoadWasher": {
+    "verdict": "partial_fit_wash_portion_only",
+    "fitsWithoutMutation": true,
+    "washPortionIsProvenVariant": true,
+    "wholeApplianceIsProvenVariant": false,
+    "rationale": "Nine wash-path procedures (inlet, drain, level, motor wash codes, wash heater/thermistor, overflow, unbalance, leak) map to front_load_washer functional systems: water_inlet, drain, water_level, drive, door_interlock, heating. Samsung-specific MEMS and drawer lock are implementation_specific overlays — no FL washer canonical mutation required for wash domain representation.",
+    "functionalDomainsMapped": [
+      "water_supply_fill",
+      "drain",
+      "wash_agitation_tumble",
+      "water_level_load_sensing",
+      "temperature_heating_wash",
+      "safety_interlock_wash",
+      "control_logic_wash_codes"
+    ],
+    "gaps": [
+      "Shared motor also serves dry tumble — FL washer contract alone does not model post-wash dry authorization on same drive",
+      "Integrated Smart Install spans wash and dry — exceeds standalone FL washer service-mode scope"
+    ]
+  },
+  "fitAgainstVentedDryer": {
+    "verdict": "does_not_fit",
+    "fitsWithoutMutation": false,
+    "casualInheritanceRejected": true,
+    "rationale": "WD53 dry architecture is heat-pump ventless condenser — not a variant of vented_dryer. vented_dryer rev2 functional model requires heated_airflow_path: heat_source → drum → lint_filter → blower → exhaust_path, with distinct lint_filter vs exhaust_path restriction domains and heat_source protected by thermal_fuse/cutoff on the heating element/burner path. WD53 uses BLDC compressor (3CA), refrigerant thermistors (EVA IN/OUT, discharge, compressor top), dehumidifying-kit magnet interlock (NC), condensation-based moisture rejection, supplemental dry heater auxiliary to heat pump, and auto-open door (DC5). None of these are optional implementation details of exhaust-based vented drying — they are a different moisture-rejection and heat-generation contract.",
+    "heatPumpEvaluation": {
+      "question": "Is heat-pump drying a variant of vented_dryer because both dry clothes?",
+      "answer": false,
+      "reason": "vented_dryer canonical graph models exhaust-rejected moisture and fuel-agnostic heat_source on air stream — not sealed refrigerant loop with evaporator/condenser thermistor network"
+    },
+    "condenserVentlessEvaluation": {
+      "question": "Could condenser drying fit vented_dryer by omitting exhaust_path?",
+      "answer": false,
+      "reason": "Omitting exhaust_path would break vented_dryer functional dependencies (airflow_operation, heated_airflow_path, exhaust_path_failure domain) — that is canonical mutation, not variant fit"
+    },
+    "rejectedSuperficialMappings": [
+      { "aio": "dry heater element 35.6–39.4 Ω", "ventedDryer": "heat_source", "rejection": "Supplemental to heat pump — not primary heated-air-stream heat_source" },
+      { "aio": "drum rotation during dry", "ventedDryer": "drum + blower", "rejection": "Tumble present but airflow path is sealed dehumidification, not lint→exhaust" },
+      { "aio": "duct/discharge thermistor", "ventedDryer": "temperature_sensor on exhaust_path", "rejection": "Refrigerant circuit sensing — different sensed medium and control purpose" }
+    ]
+  },
+  "fitAgainstTopLoadWasher": {
+    "verdict": "not_applicable",
+    "evaluated": false,
+    "rationale": "WD53 is horizontal front-load single-drum architecture. No impeller, agitator, or TL suspension domains implicated. top_load_washer not a candidate host."
+  },
+  "composedImplementationHypothesis": {
+    "hypothesis": "AIO = front_load_washer (wash) + vented_dryer (dry) composed variant",
+    "result": "rejected",
+    "reason": "Wash portion partial-fits front_load_washer; dry portion fails vented_dryer fit. Composed hypothesis requires both domains to satisfy existing contracts without mutation."
+  },
+  "integrationAnalysis": {
+    "sharedControlArchitecture": true,
+    "sharedMotorDrive": true,
+    "sharedDrum": true,
+    "separateModesOneController": true,
+    "crossModeFunctionalRelationships": [
+      "ULC foam from wash contaminating dehumidification path",
+      "Smart Install unified diagnostic spanning wash steps 1–8 and dry steps 9–10",
+      "Door lock authorization across wash and dry with dry-specific auto-open exit"
+    ],
+    "conclusion": "Integration layer adds functional relationships neither front_load_washer nor vented_dryer represents — even if dry had fit vented, orchestration would still require explicit composed-contract documentation"
+  },
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0,
+    "frozenContractsMutated": 0,
+    "aioLaundryComboJsonCreated": false,
+    "overlayCreated": false,
+    "witnessCount": 1,
+    "proceduresClassified": 21,
+    "frontLoadWasherClassifications": 9,
+    "ventedDryerClassifications": 0,
+    "implementationSpecificClassifications": 7,
+    "sharedFunctionClassifications": 5
+  },
+  "explicitNonActions": [
+    "No aio_laundry_combo.json",
+    "No frozen graph mutation",
+    "No discovery contract execution",
+    "No freeze or family lock",
+    "No corpus-wide normalization/compounding",
+    "No proven_variant closure — dry divergence blocks whole-appliance variant classification"
+  ],
+  "authorizedNextGate": {
+    "requiresHumanAuthorization": true,
+    "workstream": "CG-AIO-LAUNDRY-COMBO-DISCOVERY",
+    "blockedUntil": "Human architectural gate approves discovery after reviewing divergence package",
+    "note": "Fit test STOP — discovery is separate workstream"
+  },
+  "divergencePackage": "CG_AIO_LAUNDRY_COMBO_FIT_DIVERGENCE_PACKAGE_v1.json"
+}

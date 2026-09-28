@@ -1,0 +1,49 @@
+{
+  "manualId": "SAMSUNG-FL-BB8700-DRYER",
+  "platformId": "samsung_fl_dryer_bb8700",
+  "templateId": "electric_dryer",
+  "label": "Samsung FL dryer BB8700 (DVE/DVG 53/50BB)",
+  "status": "candidate",
+  "ontologyId": "vented_dryer",
+  "generatedAt": "2026-09-14T05:25:30.593634+00:00",
+  "topologySignature": "motor_present_unknown_path",
+  "counts": {
+    "procedures": 11,
+    "mappingCandidates": 25,
+    "overlayCandidates": 2,
+    "conflicts": 0,
+    "extractionFiltered": 4
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 4,
+    "invalidExtraction": 0,
+    "totalFiltered": 4,
+    "samples": [
+      {
+        "rawTerm": "M01A",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungbb8700-dryer-gas-valve",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "bC2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungbb8700-dryer-hmi",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungbb8700-dryer-power",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "tC5",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungbb8700-dryer-thermistor",
+        "source": "title_token"
+      }
+    ]
+  }
+}

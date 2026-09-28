@@ -1,0 +1,73 @@
+{
+  "manualId": "W11480208",
+  "promotionId": "promo-W11480208-20260915042059",
+  "published": false,
+  "equivalence": {
+    "manualId": "W11480208",
+    "equivalent": true,
+    "checks": {
+      "canonicalAliases": true,
+      "procedureBindings": true,
+      "measurementBindings": true,
+      "topologyOverrides": true
+    },
+    "aliasComparison": {
+      "equivalent": true,
+      "referenceCount": 15,
+      "generatedCount": 24,
+      "mismatches": [],
+      "extraGenerated": [
+        "circulation_pump",
+        "drain_pump",
+        "inlet_valve",
+        "\u00a73-13: overfill float switch (p11)",
+        "\u00a73-14: diverter motor (p6)",
+        "\u00a73-17: wash motor (variable speed)",
+        "\u00a73-19: drain motor (variable speed platform)",
+        "\u00a73-20: dc fan motor (prodry)",
+        "\u00a73-8: door switch circuit (p12)"
+      ]
+    },
+    "procedureBindingComparison": {
+      "label": "procedureBindings",
+      "equivalent": true,
+      "referenceCount": 13,
+      "generatedCount": 20,
+      "mismatches": [],
+      "extraGenerated": [
+        "w11480208-dc-fan",
+        "w11480208-diverter-motor",
+        "w11480208-door-switch",
+        "w11480208-drain-motor-vsm",
+        "w11480208-heater",
+        "w11480208-overfill-switch",
+        "w11480208-wash-motor-vsm"
+      ]
+    },
+    "measurementBindingComparison": {
+      "label": "measurementBindings",
+      "equivalent": true,
+      "referenceCount": 7,
+      "generatedCount": 14,
+      "mismatches": [],
+      "extraGenerated": [
+        "w11480208-dc-fan:whirlpoolDishwasherFiltrationDcFanOhms",
+        "w11480208-diverter-motor:whirlpoolDishwasherFiltrationDiverterMotorOhms",
+        "w11480208-door-switch:dishwasherDoorLatchSwitchOhms",
+        "w11480208-drain-motor-vsm:whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+        "w11480208-heater:whirlpoolDishwasherAcuHeaterOhms",
+        "w11480208-overfill-switch:dishwasherFloatSwitchOhms",
+        "w11480208-wash-motor-vsm:whirlpoolDishwasherFiltrationVsmWashMotorOhms"
+      ]
+    },
+    "provenance": "generated",
+    "notes": [
+      "Semantic equivalence: reference CG-2 mappings must be preserved.",
+      "Extra generated aliases/bindings are allowed.",
+      "Topology overrides remain hand-authored and must not drift."
+    ],
+    "promotionId": "promo-W11480208-20260915042059",
+    "approvedCandidateCount": 0
+  },
+  "approvedCandidateIds": []
+}

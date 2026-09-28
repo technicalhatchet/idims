@@ -1,0 +1,95 @@
+{
+  "manualId": "SAMSUNG-DISHWASHER",
+  "gateKind": "manufacturer_boundary_first_manual",
+  "gatedAt": "2026-09-15T13:58:11.557071+00:00",
+  "classificationCounts": {
+    "approved": 17,
+    "rejected": 3,
+    "deferred": 17
+  },
+  "mappingApprovals": 11,
+  "mappingRejections": 1,
+  "mappingDeferred": 17,
+  "procedureBindingsApprovedLedger": 5,
+  "procedureBindingsApprovedGateTable": 10,
+  "procedureBindingsDeferred": 3,
+  "measurementBindingsApprovedLedger": 1,
+  "measurementBindingsApprovedGateTable": 5,
+  "overlayBindingsRejected": 3,
+  "newHumanSemanticDecisions": 15,
+  "canonicalAutoReuse": 6,
+  "newSamsungManufacturerVocabulary": 7,
+  "newSamsungPlatformKnowledge": 5,
+  "newSamsungModelSpecificKnowledge": 0,
+  "matcherBindingCorrections": 2,
+  "matcherMappingRejections": 1,
+  "deferredProceduralTitles": 14,
+  "deferredPlatformConcepts": 4,
+  "deferredProcedureBindings": 3,
+  "newCanonicalConcepts": 0,
+  "whirlpoolIsolationVerdict": "clean",
+  "crossTemplateLeakCount": 1,
+  "conflicts": 0,
+  "publishBlocked": true,
+  "reviewPackageSummary": {
+    "total": 37,
+    "byStatus": {
+      "approved": 17,
+      "COMPOUND_TERM_CANDIDATE": 4,
+      "needs_review": 12,
+      "candidate": 1,
+      "rejected": 3
+    },
+    "byApprovalLevel": {
+      "careful": 9,
+      "easy": 3,
+      "blocked": 12,
+      "normal": 13
+    },
+    "byType": {
+      "canonicalMapping": 29,
+      "procedureTestBinding": 7,
+      "measurementBinding": 1
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 3,
+      "medium_0.80_0.94": 22,
+      "low_lt_0.80": 0,
+      "unresolved": 12
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 1
+    }
+  },
+  "matcherEvidencePreserved": [
+    {
+      "procedureId": "samsungdw-communication",
+      "matcherOutput": "heater_command_test",
+      "expectedCorrection": "defer \u2014 control_board communication diagnostic"
+    },
+    {
+      "procedureId": "samsungdw-power-supply",
+      "matcherOutput": "fill_test",
+      "expectedCorrection": "reject \u2014 power_supply diagnostic, not fill_test"
+    }
+  ],
+  "deferredMappings": [
+    "fan_motor",
+    "leak_sensor",
+    "supply",
+    "\u00a74-1: Circulation Motor & Nozzle",
+    "\u00a74-1: Detergent Dispenser",
+    "\u00a74-1: Distributor Motor (PC)",
+    "\u00a74-1: Door Sensing Switch",
+    "\u00a74-1: Drain Pump (5C)",
+    "\u00a74-1: Dry Fan & Thermal Actuator (FC / dC3)",
+    "\u00a74-1: Fill Valve & Flow Meter (4C)",
+    "\u00a74-1: Heater Operation (HC / HC1)",
+    "\u00a74-1: Leak Sensor (LC)",
+    "\u00a74-1: Main PBA Power & DC Supplies",
+    "\u00a74-1: Overflow Sensor (OC)",
+    "\u00a74-1: PBA Communication (AC / AC6)",
+    "\u00a74-1: Touch Panel & Sub PBA (bC2 / bC3)",
+    "\u00a74-1: Water Thermistor (tC)"
+  ]
+}

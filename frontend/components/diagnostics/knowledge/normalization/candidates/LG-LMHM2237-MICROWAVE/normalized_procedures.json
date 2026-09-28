@@ -1,0 +1,4126 @@
+{
+  "manualId": "LG-LMHM2237-MICROWAVE",
+  "procedures": [
+    {
+      "procedureId": "lgotrmw-door-interlock",
+      "manufacturer": "LG",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "title": "\u00a79-2: Door Interlock Switches",
+      "purpose": "Interlock continuity test",
+      "prerequisites": [],
+      "componentIds": [
+        "door_interlock"
+      ],
+      "tags": [
+        "door_switch_check",
+        "safety_switch",
+        "no_heat",
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and discharge HV",
+          "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE."
+        },
+        {
+          "id": "primary_open",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Primary switch open with door open?",
+          "body": "Disconnect primary switch leads. COM\u2013NO must read open circuit with door open.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "primary_closed_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "primary_closed",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "primary_closed_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "adjust_primary",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect primary switch leads. COM\u2013NO must read open circuit with door open."
+        },
+        {
+          "id": "adjust_primary",
+          "order": 3,
+          "type": "instruction",
+          "title": "Adjust or replace primary switch",
+          "body": "Adjust latch board (\u00a79-1) or replace primary interlock switch.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Adjust latch board (\u00a79-1) or replace primary interlock switch."
+        },
+        {
+          "id": "primary_closed",
+          "order": 4,
+          "type": "measurement",
+          "title": "Primary switch closed with door shut",
+          "body": "With door closed, COM\u2013NO on primary switch should read closed circuit.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+              "testPoint": {
+                "connector": "Primary interlock",
+                "pins": "COM-NO",
+                "label": "Primary switch closed with door shut"
+              },
+              "title": "Primary switch closed with door shut"
+            }
+          ],
+          "branches": [
+            {
+              "id": "secondary_open_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "secondary_open",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "secondary_open_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "adjust_primary",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "secondary_open_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "adjust_primary",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "secondary_open_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "adjust_primary",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "When the door is closed, the meter should indicate a closed circuit."
+        },
+        {
+          "id": "secondary_open",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Secondary switch open with door open?",
+          "body": "COM\u2013NO on secondary switch must read open with door open.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "secondary_closed_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "secondary_closed",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "secondary_closed_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "adjust_secondary",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "COM\u2013NO on secondary switch must read open with door open."
+        },
+        {
+          "id": "adjust_secondary",
+          "order": 6,
+          "type": "instruction",
+          "title": "Adjust or replace secondary switch",
+          "body": "Adjust latch board or replace secondary interlock switch.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Adjust latch board or replace secondary interlock switch."
+        },
+        {
+          "id": "secondary_closed",
+          "order": 7,
+          "type": "measurement",
+          "title": "Secondary switch closed with door shut",
+          "body": "With door closed, COM\u2013NO on secondary must read closed circuit.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+              "testPoint": {
+                "connector": "Secondary interlock",
+                "pins": "COM-NO",
+                "label": "Secondary switch closed with door shut"
+              },
+              "title": "Secondary switch closed with door shut"
+            }
+          ],
+          "branches": [
+            {
+              "id": "monitor_open_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "monitor_open",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "monitor_open_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "adjust_secondary",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "monitor_open_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "adjust_secondary",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "monitor_open_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "adjust_secondary",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With door closed, COM\u2013NO on secondary must read closed circuit."
+        },
+        {
+          "id": "monitor_open",
+          "order": 8,
+          "type": "visual_check",
+          "title": "Monitor switch closed with door open?",
+          "body": "COM\u2013NC on monitor switch must read closed circuit with door open.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "monitor_closed_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "monitor_closed",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "monitor_closed_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_monitor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "COM\u2013NC on monitor switch must read closed circuit with door open."
+        },
+        {
+          "id": "replace_monitor",
+          "order": 9,
+          "type": "instruction",
+          "title": "Replace monitor switch",
+          "body": "Replace interlock monitor switch (NC must close when door opens).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Replace interlock monitor switch (NC must close when door opens)."
+        },
+        {
+          "id": "monitor_closed",
+          "order": 10,
+          "type": "measurement",
+          "title": "Monitor switch open with door shut",
+          "body": "With door closed, COM\u2013NC on monitor must read open circuit.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+              "testPoint": {
+                "connector": "Monitor interlock",
+                "pins": "COM-NC",
+                "label": "Monitor switch open with door shut"
+              },
+              "title": "Monitor switch open with door shut"
+            }
+          ],
+          "branches": [
+            {
+              "id": "interlock_verified_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "interlock_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "interlock_verified_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_monitor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "interlock_verified_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_monitor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "interlock_verified_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_monitor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With door closed, COM\u2013NC on monitor must read open circuit."
+        },
+        {
+          "id": "interlock_verified",
+          "order": 11,
+          "type": "outcome",
+          "title": "Interlock switches verified",
+          "body": "All three interlock switches operate per OEM sequence.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+          "testPoint": {
+            "connector": "Primary interlock",
+            "pins": "COM-NO",
+            "label": "Primary switch closed with door shut"
+          },
+          "title": "Primary switch closed with door shut"
+        },
+        {
+          "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+          "testPoint": {
+            "connector": "Secondary interlock",
+            "pins": "COM-NO",
+            "label": "Secondary switch closed with door shut"
+          },
+          "title": "Secondary switch closed with door shut"
+        },
+        {
+          "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+          "testPoint": {
+            "connector": "Monitor interlock",
+            "pins": "COM-NC",
+            "label": "Monitor switch open with door shut"
+          },
+          "title": "Monitor switch open with door shut"
+        }
+      ],
+      "branches": [
+        {
+          "id": "primary_closed_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "primary_closed",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "primary_open"
+        },
+        {
+          "id": "primary_closed_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "adjust_primary",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "primary_open"
+        },
+        {
+          "id": "secondary_open_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "secondary_open",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "primary_closed"
+        },
+        {
+          "id": "secondary_open_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "adjust_primary",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "primary_closed"
+        },
+        {
+          "id": "secondary_open_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "adjust_primary",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "primary_closed"
+        },
+        {
+          "id": "secondary_open_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "adjust_primary",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "primary_closed"
+        },
+        {
+          "id": "secondary_closed_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "secondary_closed",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "secondary_open"
+        },
+        {
+          "id": "secondary_closed_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "adjust_secondary",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "secondary_open"
+        },
+        {
+          "id": "monitor_open_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "monitor_open",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "secondary_closed"
+        },
+        {
+          "id": "monitor_open_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "adjust_secondary",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "secondary_closed"
+        },
+        {
+          "id": "monitor_open_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "adjust_secondary",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "secondary_closed"
+        },
+        {
+          "id": "monitor_open_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "adjust_secondary",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "secondary_closed"
+        },
+        {
+          "id": "monitor_closed_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "monitor_closed",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "monitor_open"
+        },
+        {
+          "id": "monitor_closed_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_monitor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "monitor_open"
+        },
+        {
+          "id": "interlock_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "interlock_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "monitor_closed"
+        },
+        {
+          "id": "interlock_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_monitor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "monitor_closed"
+        },
+        {
+          "id": "interlock_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_monitor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "monitor_closed"
+        },
+        {
+          "id": "interlock_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_monitor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "monitor_closed"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+        "oemTestNumber": "9-2",
+        "oemTestTitle": "Interlock continuity test",
+        "pages": [
+          29,
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-door-interlock",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-door-interlock",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgotrmw-humidity-sensor",
+      "manufacturer": "LG",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "title": "\u00a76-3: Humidity Sensor (F-4)",
+      "purpose": "Self diagnosis \u2014 humidity sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "supply"
+      ],
+      "tags": [
+        "F-4",
+        "F4",
+        "sensor_check",
+        "humidity_sensor"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and discharge HV",
+          "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE."
+        },
+        {
+          "id": "service_mode_before_self_test",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue after self-test entry",
+          "body": "Self-test mode entered (Defrost weight/time 2 sec \u2192 TEST). Continue with fault interpretation below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "\u00a76-3 Self diagnosis \u2014 humidity sensor and PCB thermistor check."
+        },
+        {
+          "id": "humidity_test",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Service test shows F-4?",
+          "body": "Enter service test (Defrost weight/time 2 sec \u2192 TEST). Did display show F-4 (humidity sensor open or short)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "inspect_humidity_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "inspect_humidity",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "inspect_humidity_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "humidity_pass",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "F-4 Humidity sensor open or short."
+        },
+        {
+          "id": "humidity_pass",
+          "order": 4,
+          "type": "outcome",
+          "title": "Humidity sensor verified",
+          "body": "Service test PASS \u2014 humidity sensor circuit normal.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "inspect_humidity",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Humidity sensor connector seated?",
+          "body": "Inspect humidity sensor connector and wiring at PCB. Reseat or repair harness.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "replace_humidity_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "replace_humidity",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_humidity_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_connector",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Inspect humidity sensor connector and wiring at PCB. Reseat or repair harness."
+        },
+        {
+          "id": "repair_connector",
+          "order": 6,
+          "type": "instruction",
+          "title": "Repair humidity harness",
+          "body": "Repair connector or harness and retest service mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Repair connector or harness and retest service mode."
+        },
+        {
+          "id": "replace_humidity",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace humidity sensor or PCB",
+          "body": "Replace humidity sensor assembly or main PCB (EBR75341201).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "inspect_humidity_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inspect_humidity",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "humidity_test"
+        },
+        {
+          "id": "inspect_humidity_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "humidity_pass",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "humidity_test"
+        },
+        {
+          "id": "replace_humidity_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_humidity",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inspect_humidity"
+        },
+        {
+          "id": "replace_humidity_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_connector",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inspect_humidity"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+        "oemTestNumber": "6-3-humidity",
+        "oemTestTitle": "Self diagnosis \u2014 humidity sensor",
+        "pages": [
+          12,
+          13
+        ],
+        "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-humidity-sensor",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-humidity-sensor",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgotrmw-hv-capacitor",
+      "manufacturer": "LG",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "title": "\u00a710: High-Voltage Capacitor",
+      "purpose": "HV capacitor test",
+      "prerequisites": [],
+      "componentIds": [
+        "hv_capacitor"
+      ],
+      "tags": [
+        "no_heat",
+        "hv_capacitor_check",
+        "high_voltage_safety"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and discharge HV",
+          "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE."
+        },
+        {
+          "id": "cap_connector",
+          "order": 2,
+          "type": "visual_check",
+          "title": "HV capacitor connector seated?",
+          "body": "Verify connector to HV capacitor assembly.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cap_leakage_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "cap_leakage",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cap_leakage_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reseat_cap",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Verify connector to HV capacitor assembly."
+        },
+        {
+          "id": "reseat_cap",
+          "order": 3,
+          "type": "instruction",
+          "title": "Reseat capacitor connector",
+          "body": "Reconnect HV capacitor leads.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect HV capacitor leads."
+        },
+        {
+          "id": "cap_leakage",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Capacitor terminal-to-terminal leakage OK?",
+          "body": "Rx1000: terminal-to-terminal momentarily infinite, then ~10 M\u03a9. Terminal-to-case must be infinite.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cap_verified_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "cap_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cap_verified_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_cap",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Momentarily Infinite and then soon reach 10 mega. ohms"
+        },
+        {
+          "id": "replace_cap",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace HV capacitor",
+          "body": "Replace high-voltage capacitor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "cap_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "HV capacitor verified",
+          "body": "Capacitor leakage test within OEM limits.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "cap_leakage_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cap_leakage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cap_connector"
+        },
+        {
+          "id": "cap_leakage_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_cap",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cap_connector"
+        },
+        {
+          "id": "cap_verified_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cap_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cap_leakage"
+        },
+        {
+          "id": "cap_verified_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cap",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cap_leakage"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+        "oemTestNumber": "10-capacitor",
+        "oemTestTitle": "HV capacitor test",
+        "pages": [
+          31,
+          32
+        ],
+        "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-hv-capacitor",
+        "pages": [
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-hv-capacitor",
+            "pages": [
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgotrmw-hv-diode",
+      "manufacturer": "LG",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "title": "\u00a710: High-Voltage Diode",
+      "purpose": "HV diode check",
+      "prerequisites": [],
+      "componentIds": [
+        "magnetron"
+      ],
+      "tags": [
+        "no_heat",
+        "hv_diode_check",
+        "high_voltage_safety"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and discharge HV",
+          "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE."
+        },
+        {
+          "id": "diode_connector",
+          "order": 2,
+          "type": "visual_check",
+          "title": "HV diode connector seated?",
+          "body": "Verify connector to HV diode assembly.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "diode_check_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "diode_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "diode_check_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reseat_diode",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Verify connector to HV diode assembly."
+        },
+        {
+          "id": "reseat_diode",
+          "order": 3,
+          "type": "instruction",
+          "title": "Reseat diode connector",
+          "body": "Reconnect HV diode leads.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect HV diode leads."
+        },
+        {
+          "id": "diode_check",
+          "order": 4,
+          "type": "measurement",
+          "title": "HV diode forward / reverse",
+          "body": "Forward continuity (Rx1000) then reverse \u2014 reverse must be open.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "microwaveHVDiodeCheck",
+              "testPoint": {
+                "connector": "HV diode",
+                "pins": "anode-cathode",
+                "label": "HV diode forward / reverse"
+              },
+              "title": "HV diode forward / reverse"
+            }
+          ],
+          "branches": [
+            {
+              "id": "diode_verified_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "diode_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "diode_verified_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_diode",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "diode_verified_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_diode",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "diode_verified_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_diode",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Forward continuity (Rx1000) then reverse \u2014 reverse must be open."
+        },
+        {
+          "id": "replace_diode",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace HV diode",
+          "body": "Replace high-voltage diode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "diode_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "HV diode verified",
+          "body": "Diode blocks in reverse direction.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "microwaveHVDiodeCheck",
+          "testPoint": {
+            "connector": "HV diode",
+            "pins": "anode-cathode",
+            "label": "HV diode forward / reverse"
+          },
+          "title": "HV diode forward / reverse"
+        }
+      ],
+      "branches": [
+        {
+          "id": "diode_check_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "diode_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diode_connector"
+        },
+        {
+          "id": "diode_check_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_diode",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diode_connector"
+        },
+        {
+          "id": "diode_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "diode_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diode_check"
+        },
+        {
+          "id": "diode_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_diode",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diode_check"
+        },
+        {
+          "id": "diode_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_diode",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diode_check"
+        },
+        {
+          "id": "diode_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_diode",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diode_check"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+        "oemTestNumber": "10-diode",
+        "oemTestTitle": "HV diode check",
+        "pages": [
+          31,
+          32
+        ],
+        "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-hv-diode",
+        "pages": [
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-hv-diode",
+            "pages": [
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgotrmw-hv-fuse",
+      "manufacturer": "LG",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "title": "\u00a710: High-Voltage Fuse",
+      "purpose": "HV fuse continuity",
+      "prerequisites": [],
+      "componentIds": [
+        "line_fuse"
+      ],
+      "tags": [
+        "no_heat",
+        "fuse_check",
+        "high_voltage_safety"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and discharge HV",
+          "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE."
+        },
+        {
+          "id": "hv_fuse_ohms",
+          "order": 2,
+          "type": "measurement",
+          "title": "HV fuse resistance",
+          "body": "Remove leads. HV fuse should read under 10 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgMicrowaveOtrHvFuseOhms",
+              "testPoint": {
+                "connector": "HV fuse",
+                "pins": "both ends",
+                "label": "HV fuse resistance"
+              },
+              "title": "HV fuse resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "hv_fuse_verified_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "hv_fuse_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hv_fuse_verified_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_hv_fuse",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hv_fuse_verified_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_hv_fuse",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hv_fuse_verified_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_hv_fuse",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Normal : under 10ohm"
+        },
+        {
+          "id": "replace_hv_fuse",
+          "order": 3,
+          "type": "instruction",
+          "title": "Replace HV fuse",
+          "body": "Replace blown HV fuse; inspect door switches and HV circuit before energizing.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Replace blown HV fuse; inspect door switches and HV circuit before energizing."
+        },
+        {
+          "id": "hv_fuse_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "HV fuse verified",
+          "body": "HV fuse continuity OK.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgMicrowaveOtrHvFuseOhms",
+          "testPoint": {
+            "connector": "HV fuse",
+            "pins": "both ends",
+            "label": "HV fuse resistance"
+          },
+          "title": "HV fuse resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "hv_fuse_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "hv_fuse_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "hv_fuse_ohms"
+        },
+        {
+          "id": "hv_fuse_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_hv_fuse",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "hv_fuse_ohms"
+        },
+        {
+          "id": "hv_fuse_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_hv_fuse",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "hv_fuse_ohms"
+        },
+        {
+          "id": "hv_fuse_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_hv_fuse",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "hv_fuse_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+        "oemTestNumber": "10-hv-fuse",
+        "oemTestTitle": "HV fuse continuity",
+        "pages": [
+          32,
+          33
+        ],
+        "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-hv-fuse",
+        "pages": [
+          32,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-hv-fuse",
+            "pages": [
+              32,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgotrmw-hv-transformer",
+      "manufacturer": "LG",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "title": "\u00a710: High-Voltage Transformer",
+      "purpose": "HV transformer resistance",
+      "prerequisites": [],
+      "componentIds": [
+        "magnetron"
+      ],
+      "tags": [
+        "no_heat",
+        "magnetron_check",
+        "high_voltage_safety"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and discharge HV",
+          "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE."
+        },
+        {
+          "id": "xformer_connector",
+          "order": 2,
+          "type": "visual_check",
+          "title": "HV transformer connector seated?",
+          "body": "Verify connector to HV transformer is connected.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "primary_ohms_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "primary_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "primary_ohms_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reseat_xformer",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Verify connector to HV transformer is connected."
+        },
+        {
+          "id": "reseat_xformer",
+          "order": 3,
+          "type": "instruction",
+          "title": "Reseat transformer connector",
+          "body": "Reconnect HV transformer leads.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect HV transformer leads."
+        },
+        {
+          "id": "primary_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Transformer primary winding",
+          "body": "Remove leads. Primary winding 0.2\u20130.5 \u03a9 (Rx1).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgMicrowaveOtrHvTransformerPrimaryOhms",
+              "testPoint": {
+                "connector": "HV transformer",
+                "pins": "primary",
+                "label": "Transformer primary winding"
+              },
+              "title": "Transformer primary winding"
+            }
+          ],
+          "branches": [
+            {
+              "id": "secondary_ohms_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "secondary_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "secondary_ohms_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_xformer",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "secondary_ohms_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_xformer",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "secondary_ohms_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_xformer",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Primary winding: 0.2 ~ 0.5 Ohm"
+        },
+        {
+          "id": "secondary_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Transformer secondary winding",
+          "body": "Secondary winding 50\u2013120 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgMicrowaveOtrHvTransformerSecondaryOhms",
+              "testPoint": {
+                "connector": "HV transformer",
+                "pins": "secondary",
+                "label": "Transformer secondary winding"
+              },
+              "title": "Transformer secondary winding"
+            }
+          ],
+          "branches": [
+            {
+              "id": "filament_ohms_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "filament_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "filament_ohms_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_xformer",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "filament_ohms_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_xformer",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "filament_ohms_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_xformer",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Secondary: 50 ~ 120 Ohm"
+        },
+        {
+          "id": "filament_ohms",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Filament winding ~0 \u03a9?",
+          "body": "Filament winding should read approximately 0 \u03a9.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "xformer_verified_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "xformer_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "xformer_verified_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_xformer",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Filament winding: 0 ohm"
+        },
+        {
+          "id": "replace_xformer",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace HV transformer",
+          "body": "Replace high-voltage transformer.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "xformer_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "HV transformer verified",
+          "body": "Transformer windings within OEM spec.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgMicrowaveOtrHvTransformerPrimaryOhms",
+          "testPoint": {
+            "connector": "HV transformer",
+            "pins": "primary",
+            "label": "Transformer primary winding"
+          },
+          "title": "Transformer primary winding"
+        },
+        {
+          "measurementKnowledgeId": "lgMicrowaveOtrHvTransformerSecondaryOhms",
+          "testPoint": {
+            "connector": "HV transformer",
+            "pins": "secondary",
+            "label": "Transformer secondary winding"
+          },
+          "title": "Transformer secondary winding"
+        }
+      ],
+      "branches": [
+        {
+          "id": "primary_ohms_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "primary_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "xformer_connector"
+        },
+        {
+          "id": "primary_ohms_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_xformer",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "xformer_connector"
+        },
+        {
+          "id": "secondary_ohms_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "secondary_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "primary_ohms"
+        },
+        {
+          "id": "secondary_ohms_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_xformer",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "primary_ohms"
+        },
+        {
+          "id": "secondary_ohms_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_xformer",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "primary_ohms"
+        },
+        {
+          "id": "secondary_ohms_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_xformer",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "primary_ohms"
+        },
+        {
+          "id": "filament_ohms_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "filament_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "secondary_ohms"
+        },
+        {
+          "id": "filament_ohms_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_xformer",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "secondary_ohms"
+        },
+        {
+          "id": "filament_ohms_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_xformer",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "secondary_ohms"
+        },
+        {
+          "id": "filament_ohms_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_xformer",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "secondary_ohms"
+        },
+        {
+          "id": "xformer_verified_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "xformer_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "filament_ohms"
+        },
+        {
+          "id": "xformer_verified_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_xformer",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "filament_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+        "oemTestNumber": "10-transformer",
+        "oemTestTitle": "HV transformer resistance",
+        "pages": [
+          30,
+          31
+        ],
+        "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-hv-transformer",
+        "pages": [
+          30,
+          31
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-hv-transformer",
+            "pages": [
+              30,
+              31
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgotrmw-keypad",
+      "manufacturer": "LG",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "title": "\u00a76-4: Keypad Failure",
+      "purpose": "Keypad / touch failure",
+      "prerequisites": [],
+      "componentIds": [
+        "supply"
+      ],
+      "tags": [
+        "hmi_check",
+        "touch_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and discharge HV",
+          "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE."
+        },
+        {
+          "id": "start_ezon_only",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Only START and EZ-ON keys work (door closed)?",
+          "body": "With door closed, do only START and EZ-ON keys operate?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "latch_beep_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "latch_beep",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "latch_beep_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "full_keypad_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With door closed, do only START and EZ-ON keys operate?"
+        },
+        {
+          "id": "full_keypad_ok",
+          "order": 3,
+          "type": "outcome",
+          "title": "Keypad operates",
+          "body": "All keys respond \u2014 keypad path verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "latch_beep",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Latch board continuity (door closed)?",
+          "body": "Continuity across secondary switch on latch board with door closed.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_sense_voltage_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_sense_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_sense_voltage_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "adjust_latch_keypad",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Continuity across secondary switch on latch board with door closed."
+        },
+        {
+          "id": "adjust_latch_keypad",
+          "order": 5,
+          "type": "instruction",
+          "title": "Adjust latch board",
+          "body": "Adjust latch board per \u00a79-1/9-2.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Adjust latch board per \u00a79-1/9-2."
+        },
+        {
+          "id": "door_sense_voltage",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Door sense voltage over 4 V (door open)?",
+          "body": "With door open, CN3 Pin1\u2013Pin2 door sensing voltage over 4 V?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "keypad_connector_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "keypad_connector",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "keypad_connector_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_door_sense",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With door open, CN3 Pin1\u2013Pin2 door sensing voltage over 4 V?"
+        },
+        {
+          "id": "repair_door_sense",
+          "order": 7,
+          "type": "instruction",
+          "title": "Repair door sense circuit",
+          "body": "Repair door sensing harness or replace PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Repair door sensing harness or replace PCB."
+        },
+        {
+          "id": "keypad_connector",
+          "order": 8,
+          "type": "visual_check",
+          "title": "Keypad FPC connector seated?",
+          "body": "Verify KEY CONNECTOR FPC is properly engaged on plastic fastener.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "replace_keypad_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "replace_keypad",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_keypad_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reseat_keypad",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Verify KEY CONNECTOR FPC is properly engaged on plastic fastener."
+        },
+        {
+          "id": "reseat_keypad",
+          "order": 9,
+          "type": "instruction",
+          "title": "Reseat keypad connector",
+          "body": "Reseat touch key FPC connector.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat touch key FPC connector."
+        },
+        {
+          "id": "replace_keypad",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace keypad",
+          "body": "Replace touch key board / membrane.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "latch_beep_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "latch_beep",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "start_ezon_only"
+        },
+        {
+          "id": "latch_beep_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "full_keypad_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "start_ezon_only"
+        },
+        {
+          "id": "door_sense_voltage_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_sense_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "latch_beep"
+        },
+        {
+          "id": "door_sense_voltage_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "adjust_latch_keypad",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "latch_beep"
+        },
+        {
+          "id": "keypad_connector_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "keypad_connector",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_sense_voltage"
+        },
+        {
+          "id": "keypad_connector_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_door_sense",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_sense_voltage"
+        },
+        {
+          "id": "replace_keypad_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_keypad",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "keypad_connector"
+        },
+        {
+          "id": "replace_keypad_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_keypad",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "keypad_connector"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+        "oemTestNumber": "6-4-keypad",
+        "oemTestTitle": "Keypad / touch failure",
+        "pages": [
+          16,
+          18
+        ],
+        "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-keypad",
+        "pages": [
+          16,
+          18
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-keypad",
+            "pages": [
+              16,
+              18
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgotrmw-line-power",
+      "manufacturer": "LG",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "title": "\u00a76-4: No Display / Dead Unit",
+      "purpose": "No display or dead",
+      "prerequisites": [],
+      "componentIds": [
+        "line_fuse"
+      ],
+      "tags": [
+        "no_power",
+        "fuse_check",
+        "supply_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and discharge HV",
+          "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE."
+        },
+        {
+          "id": "key_beep",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Key press produces beep or display activity?",
+          "body": "Push any key \u2014 is there beeping or display response?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pcb_check_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "pcb_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "pcb_check_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "connector_check",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Push any key \u2014 is there beeping or display response?"
+        },
+        {
+          "id": "pcb_check",
+          "order": 3,
+          "type": "instruction",
+          "title": "Check PCB",
+          "body": "Inspect main PCB \u2014 unit responds to keys but may have display fault.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect main PCB \u2014 unit responds to keys but may have display fault."
+        },
+        {
+          "id": "connector_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "PCB connectors seated?",
+          "body": "Verify all PCB connectors are connected. Reseat if loose.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cord_continuity_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "cord_continuity",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cord_continuity_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reseat_connectors",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Verify all PCB connectors are connected. Reseat if loose."
+        },
+        {
+          "id": "reseat_connectors",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reseat connectors",
+          "body": "Reconnect PCB connectors and retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect PCB connectors and retest."
+        },
+        {
+          "id": "cord_continuity",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Power cord continuity OK?",
+          "body": "Continuity test: Line (L) to pin 1, Neutral (N) to pin 3 at power connector.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "line_fuse_test_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "line_fuse_test",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "line_fuse_test_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_cord",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Continuity test: Line (L) to pin 1, Neutral (N) to pin 3 at power connector."
+        },
+        {
+          "id": "repair_cord",
+          "order": 7,
+          "type": "instruction",
+          "title": "Repair power cord",
+          "body": "Repair or replace power cord.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Repair or replace power cord."
+        },
+        {
+          "id": "line_fuse_test",
+          "order": 8,
+          "type": "measurement",
+          "title": "Line fuse continuity",
+          "body": "Continuity between both ends of the line fuse.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "microwaveLineFuseOhms",
+              "testPoint": {
+                "connector": "Line fuse",
+                "pins": "both ends",
+                "label": "Line fuse continuity"
+              },
+              "title": "Line fuse continuity"
+            }
+          ],
+          "branches": [
+            {
+              "id": "noise_filter_test_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "noise_filter_test",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "noise_filter_test_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_line_fuse",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "noise_filter_test_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_line_fuse",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "noise_filter_test_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_line_fuse",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Continuity between both ends of the line fuse."
+        },
+        {
+          "id": "replace_line_fuse",
+          "order": 9,
+          "type": "instruction",
+          "title": "Replace line fuse",
+          "body": "Replace blown line fuse; find root cause before energizing.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Replace blown line fuse; find root cause before energizing."
+        },
+        {
+          "id": "noise_filter_test",
+          "order": 10,
+          "type": "measurement",
+          "title": "Noise filter coil resistance",
+          "body": "Measure noise filter L(1)\u2013L(2) and N(1)\u2013N(2) coils \u2014 spec less than 1 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgMicrowaveOtrNoiseFilterCoilOhms",
+              "testPoint": {
+                "connector": "Noise filter",
+                "pins": "L1-L2 / N1-N2",
+                "label": "Noise filter coil resistance"
+              },
+              "title": "Noise filter coil resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "power_verified_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "power_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "power_verified_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_noise_filter",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "power_verified_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_noise_filter",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "power_verified_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_noise_filter",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Nmornal: L(1)-L(2)(coil):Less than 1 ohm"
+        },
+        {
+          "id": "replace_noise_filter",
+          "order": 11,
+          "type": "instruction",
+          "title": "Replace noise filter",
+          "body": "Replace noise filter assembly.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Replace noise filter assembly."
+        },
+        {
+          "id": "power_verified",
+          "order": 12,
+          "type": "outcome",
+          "title": "Line power path verified",
+          "body": "Fuse and noise filter OK \u2014 suspect main PCB (EBR75341201) if still dead.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "microwaveLineFuseOhms",
+          "testPoint": {
+            "connector": "Line fuse",
+            "pins": "both ends",
+            "label": "Line fuse continuity"
+          },
+          "title": "Line fuse continuity"
+        },
+        {
+          "measurementKnowledgeId": "lgMicrowaveOtrNoiseFilterCoilOhms",
+          "testPoint": {
+            "connector": "Noise filter",
+            "pins": "L1-L2 / N1-N2",
+            "label": "Noise filter coil resistance"
+          },
+          "title": "Noise filter coil resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "pcb_check_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pcb_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "key_beep"
+        },
+        {
+          "id": "pcb_check_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "connector_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "key_beep"
+        },
+        {
+          "id": "cord_continuity_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cord_continuity",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "connector_check"
+        },
+        {
+          "id": "cord_continuity_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_connectors",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "connector_check"
+        },
+        {
+          "id": "line_fuse_test_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "line_fuse_test",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cord_continuity"
+        },
+        {
+          "id": "line_fuse_test_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_cord",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cord_continuity"
+        },
+        {
+          "id": "noise_filter_test_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "noise_filter_test",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "line_fuse_test"
+        },
+        {
+          "id": "noise_filter_test_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_line_fuse",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "line_fuse_test"
+        },
+        {
+          "id": "noise_filter_test_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_line_fuse",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "line_fuse_test"
+        },
+        {
+          "id": "noise_filter_test_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_line_fuse",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "line_fuse_test"
+        },
+        {
+          "id": "power_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "power_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "noise_filter_test"
+        },
+        {
+          "id": "power_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_noise_filter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "noise_filter_test"
+        },
+        {
+          "id": "power_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_noise_filter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "noise_filter_test"
+        },
+        {
+          "id": "power_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_noise_filter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "noise_filter_test"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+        "oemTestNumber": "6-4-dead",
+        "oemTestTitle": "No display or dead",
+        "pages": [
+          14,
+          15
+        ],
+        "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-line-power",
+        "pages": [
+          14,
+          15
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-line-power",
+            "pages": [
+              14,
+              15
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgotrmw-magnetron",
+      "manufacturer": "LG",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "title": "\u00a710: Magnetron",
+      "purpose": "Magnetron resistance",
+      "prerequisites": [],
+      "componentIds": [
+        "magnetron"
+      ],
+      "tags": [
+        "no_heat",
+        "magnetron_check",
+        "high_voltage_safety"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and discharge HV",
+          "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE."
+        },
+        {
+          "id": "mag_connector",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Magnetron connector seated?",
+          "body": "Verify lead wire to magnetron is connected. Gasket in good condition.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "filament_ohms_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "filament_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "filament_ohms_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reseat_mag",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Verify lead wire to magnetron is connected. Gasket in good condition."
+        },
+        {
+          "id": "reseat_mag",
+          "order": 3,
+          "type": "instruction",
+          "title": "Reseat magnetron lead",
+          "body": "Reconnect magnetron filament lead.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect magnetron filament lead."
+        },
+        {
+          "id": "filament_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Magnetron filament resistance",
+          "body": "Filament terminal less than 1 \u03a9 (Rx1). Filament to chassis must be infinite (Rx1000).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "microwaveMagnetronFilamentOhms",
+              "testPoint": {
+                "connector": "Magnetron",
+                "pins": "filament",
+                "label": "Magnetron filament resistance"
+              },
+              "title": "Magnetron filament resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "mag_verified_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "mag_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "mag_verified_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_magnetron",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "mag_verified_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_magnetron",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "mag_verified_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_magnetron",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Normal: Less than 1 ohm"
+        },
+        {
+          "id": "replace_magnetron",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace magnetron",
+          "body": "Replace magnetron; verify waveguide and gasket; leakage test after repair.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "mag_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Magnetron verified",
+          "body": "Magnetron filament within spec.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "microwaveMagnetronFilamentOhms",
+          "testPoint": {
+            "connector": "Magnetron",
+            "pins": "filament",
+            "label": "Magnetron filament resistance"
+          },
+          "title": "Magnetron filament resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "filament_ohms_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "filament_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "mag_connector"
+        },
+        {
+          "id": "filament_ohms_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_mag",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "mag_connector"
+        },
+        {
+          "id": "mag_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "mag_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "filament_ohms"
+        },
+        {
+          "id": "mag_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_magnetron",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "filament_ohms"
+        },
+        {
+          "id": "mag_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_magnetron",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "filament_ohms"
+        },
+        {
+          "id": "mag_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_magnetron",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "filament_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+        "oemTestNumber": "10-magnetron",
+        "oemTestTitle": "Magnetron resistance",
+        "pages": [
+          30,
+          31
+        ],
+        "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-magnetron",
+        "pages": [
+          30,
+          31
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-magnetron",
+            "pages": [
+              30,
+              31
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgotrmw-no-heat",
+      "manufacturer": "LG",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "title": "\u00a76-4: No Heat / No Cook",
+      "purpose": "No heat troubleshooting",
+      "prerequisites": [],
+      "componentIds": [
+        "magnetron"
+      ],
+      "tags": [
+        "no_heat",
+        "magnetron_check",
+        "door_switch_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and discharge HV",
+          "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE."
+        },
+        {
+          "id": "service_mode_before_self_test",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue after self-test entry",
+          "body": "Self-test mode entered (Defrost weight/time 2 sec \u2192 TEST). Continue with fault interpretation below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "\u00a76-3 Self diagnosis \u2014 humidity sensor and PCB thermistor check."
+        },
+        {
+          "id": "door_cycle",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Unit operates after door open/close \u00d73?",
+          "body": "Repeat door open and close at least three times. Does product operate after power on?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "thermal_cutout_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "thermal_cutout",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "thermal_cutout_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "door_interlock_path",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Repeat door open and close at least three times. Does product operate after power on?"
+        },
+        {
+          "id": "door_interlock_path",
+          "order": 4,
+          "type": "instruction",
+          "title": "Run door interlock procedure",
+          "body": "Complete \u00a79-2 door interlock continuity and latch adjustment.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Complete \u00a79-2 door interlock continuity and latch adjustment."
+        },
+        {
+          "id": "thermal_cutout",
+          "order": 5,
+          "type": "measurement",
+          "title": "Thermal cutout continuity (TAB1\u2013TAB2)",
+          "body": "Continuity between TAB1 and TAB2 on thermal cutout.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "microwaveThermalCutoutOhms",
+              "testPoint": {
+                "connector": "Thermal cutout",
+                "pins": "TAB1-TAB2",
+                "label": "Thermal cutout continuity (TAB1\u2013TAB2)"
+              },
+              "title": "Thermal cutout continuity (TAB1\u2013TAB2)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "latch_continuity_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "latch_continuity",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "latch_continuity_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_cutout",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "latch_continuity_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_cutout",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "latch_continuity_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_cutout",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Is there any beeping sound in the continuity test between TAB1 and TAB2?"
+        },
+        {
+          "id": "replace_cutout",
+          "order": 6,
+          "type": "instruction",
+          "title": "Replace thermal cutout",
+          "body": "Replace open thermal cutout; verify vent path and fan.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Replace open thermal cutout; verify vent path and fan."
+        },
+        {
+          "id": "latch_continuity",
+          "order": 7,
+          "type": "visual_check",
+          "title": "Latch board continuity (door closed)?",
+          "body": "With door closed and power off, continuity across latch board secondary switch.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "relay_voltage_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "relay_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "relay_voltage_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "adjust_latch",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With door closed and power off, continuity across latch board secondary switch."
+        },
+        {
+          "id": "adjust_latch",
+          "order": 8,
+          "type": "instruction",
+          "title": "Adjust latch board",
+          "body": "Adjust latch board per \u00a79-1/9-2.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Adjust latch board per \u00a79-1/9-2."
+        },
+        {
+          "id": "relay_voltage",
+          "order": 9,
+          "type": "visual_check",
+          "title": "Relay 2 voltage over 8 V during EZ-ON?",
+          "body": "While operating under EZ-ON start, is voltage across D35 over 8 V?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "no_heat_hv_path_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "no_heat_hv_path",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "no_heat_hv_path_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_relay2",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "While operating under EZ-ON start, is voltage across D35 over 8 V?"
+        },
+        {
+          "id": "replace_relay2",
+          "order": 10,
+          "type": "instruction",
+          "title": "Replace Relay 2",
+          "body": "Replace Relay 2 on PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Replace Relay 2 on PCB."
+        },
+        {
+          "id": "no_heat_hv_path",
+          "order": 11,
+          "type": "outcome",
+          "title": "Continue HV component tests",
+          "body": "Door switches and relay OK \u2014 run HV transformer, capacitor, diode, magnetron, and HV fuse procedures (\u00a710).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "microwaveThermalCutoutOhms",
+          "testPoint": {
+            "connector": "Thermal cutout",
+            "pins": "TAB1-TAB2",
+            "label": "Thermal cutout continuity (TAB1\u2013TAB2)"
+          },
+          "title": "Thermal cutout continuity (TAB1\u2013TAB2)"
+        }
+      ],
+      "branches": [
+        {
+          "id": "thermal_cutout_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "thermal_cutout",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_cycle"
+        },
+        {
+          "id": "thermal_cutout_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "door_interlock_path",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_cycle"
+        },
+        {
+          "id": "latch_continuity_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "latch_continuity",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermal_cutout"
+        },
+        {
+          "id": "latch_continuity_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_cutout",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermal_cutout"
+        },
+        {
+          "id": "latch_continuity_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_cutout",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermal_cutout"
+        },
+        {
+          "id": "latch_continuity_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_cutout",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermal_cutout"
+        },
+        {
+          "id": "relay_voltage_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "relay_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "latch_continuity"
+        },
+        {
+          "id": "relay_voltage_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "adjust_latch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "latch_continuity"
+        },
+        {
+          "id": "no_heat_hv_path_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "no_heat_hv_path",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "relay_voltage"
+        },
+        {
+          "id": "no_heat_hv_path_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_relay2",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "relay_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+        "oemTestNumber": "6-4-no-heat",
+        "oemTestTitle": "No heat troubleshooting",
+        "pages": [
+          18,
+          21
+        ],
+        "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-no-heat",
+        "pages": [
+          18,
+          21
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-no-heat",
+            "pages": [
+              18,
+              21
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgotrmw-pcb-thermistor",
+      "manufacturer": "LG",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "title": "\u00a76-3: PCB Thermistor (F-1 / F-2)",
+      "purpose": "Self diagnosis \u2014 PCB thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermal_cutout"
+      ],
+      "tags": [
+        "F-1",
+        "F-2",
+        "F1",
+        "F2",
+        "no_heat",
+        "thermistor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and discharge HV",
+          "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE."
+        },
+        {
+          "id": "service_mode_before_self_test",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue after self-test entry",
+          "body": "Self-test mode entered (Defrost weight/time 2 sec \u2192 TEST). Continue with fault interpretation below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "\u00a76-3 Self diagnosis \u2014 humidity sensor and PCB thermistor check."
+        },
+        {
+          "id": "self_test_result",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Service test result for thermistor?",
+          "body": "Enter service test (Defrost weight/time 2 sec \u2192 TEST). Unit checks PCB thermistor and humidity sensor. Did display show F-1 (thermistor short) or F-2 (thermistor open)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "inspect_thermistor_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "inspect_thermistor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "inspect_thermistor_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "thermistor_pass",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "F-1 PCB thermistor short; F-2 PCB thermistor open."
+        },
+        {
+          "id": "thermistor_pass",
+          "order": 4,
+          "type": "outcome",
+          "title": "Thermistor path verified",
+          "body": "Service test PASS \u2014 PCB thermistor circuit normal.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "inspect_thermistor",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Cabinet thermistor harness OK?",
+          "body": "Inspect cabinet thermistor and harness at PCB. Repair open/shorted harness if found.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "replace_pcb_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "replace_pcb",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_pcb_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_harness",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Inspect cabinet thermistor and harness at PCB. Repair open/shorted harness if found."
+        },
+        {
+          "id": "repair_harness",
+          "order": 6,
+          "type": "instruction",
+          "title": "Repair thermistor harness",
+          "body": "Repair or replace thermistor harness and retest service mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Repair or replace thermistor harness and retest service mode."
+        },
+        {
+          "id": "replace_pcb",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace thermistor or PCB",
+          "body": "Replace cabinet thermistor or main PCB (EBR75341201) per fault.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "inspect_thermistor_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inspect_thermistor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "self_test_result"
+        },
+        {
+          "id": "inspect_thermistor_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "thermistor_pass",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "self_test_result"
+        },
+        {
+          "id": "replace_pcb_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inspect_thermistor"
+        },
+        {
+          "id": "replace_pcb_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inspect_thermistor"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+        "oemTestNumber": "6-3-thermistor",
+        "oemTestTitle": "Self diagnosis \u2014 PCB thermistor",
+        "pages": [
+          12,
+          13
+        ],
+        "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-pcb-thermistor",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-pcb-thermistor",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgotrmw-turntable",
+      "manufacturer": "LG",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "title": "\u00a710: Turntable Motor",
+      "purpose": "Turntable motor",
+      "prerequisites": [],
+      "componentIds": [
+        "magnetron"
+      ],
+      "tags": [
+        "motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and discharge HV",
+          "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE."
+        },
+        {
+          "id": "turntable_runs",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Turntable motor operates?",
+          "body": "Start cook cycle \u2014 does turntable rotate?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "turntable_verified_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "turntable_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "turntable_verified_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "lamp_check",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Start cook cycle \u2014 does turntable rotate?"
+        },
+        {
+          "id": "turntable_verified",
+          "order": 3,
+          "type": "outcome",
+          "title": "Turntable OK",
+          "body": "Turntable motor operates normally.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "lamp_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Oven lamp on with door closed?",
+          "body": "With door closed, does oven lamp turn on?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "motor_ohms_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_ohms_no",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "adjust_primary_latch",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With door closed, does oven lamp turn on?"
+        },
+        {
+          "id": "adjust_primary_latch",
+          "order": 5,
+          "type": "instruction",
+          "title": "Adjust primary latch",
+          "body": "Adjust primary latch board per \u00a79-1.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Adjust primary latch board per \u00a79-1."
+        },
+        {
+          "id": "motor_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Turntable motor resistance",
+          "body": "Disconnect leads. Motor approximately 2.5\u20133.5 k\u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgMicrowaveOtrTurntableMotorOhms",
+              "testPoint": {
+                "connector": "Turntable motor",
+                "pins": "terminals",
+                "label": "Turntable motor resistance"
+              },
+              "title": "Turntable motor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "turntable_motor_ok_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "turntable_motor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "turntable_motor_ok_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_turntable",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "turntable_motor_ok_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_turntable",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "turntable_motor_ok_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_turntable",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect leads. Motor approximately 2.5\u20133.5 k\u03a9."
+        },
+        {
+          "id": "replace_turntable",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace turntable motor",
+          "body": "Replace turntable motor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "turntable_motor_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Motor OK \u2014 check PCB relay",
+          "body": "Motor ohms OK \u2014 check RY1 relay and PCB if still no rotation.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgMicrowaveOtrTurntableMotorOhms",
+          "testPoint": {
+            "connector": "Turntable motor",
+            "pins": "terminals",
+            "label": "Turntable motor resistance"
+          },
+          "title": "Turntable motor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "turntable_verified_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "turntable_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "turntable_runs"
+        },
+        {
+          "id": "turntable_verified_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "lamp_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "turntable_runs"
+        },
+        {
+          "id": "motor_ohms_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lamp_check"
+        },
+        {
+          "id": "motor_ohms_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "adjust_primary_latch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lamp_check"
+        },
+        {
+          "id": "turntable_motor_ok_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "turntable_motor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "turntable_motor_ok_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_turntable",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "turntable_motor_ok_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_turntable",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "turntable_motor_ok_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_turntable",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+        "oemTestNumber": "10-turntable",
+        "oemTestTitle": "Turntable motor",
+        "pages": [
+          22,
+          23
+        ],
+        "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-turntable",
+        "pages": [
+          22,
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-turntable",
+            "pages": [
+              22,
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

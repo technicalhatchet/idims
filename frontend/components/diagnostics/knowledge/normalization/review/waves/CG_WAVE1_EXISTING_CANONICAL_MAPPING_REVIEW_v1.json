@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "reportType": "candidate_review_wave",
+  "waveId": "wave1-existing-canonical-mapping",
+  "label": "Wave 1 — Existing canonical mapping",
+  "reviewClass": "existingCanonicalMapping",
+  "sourceIndex": "normalization/review/CG_PRODUCTION_NORMALIZATION_CANDIDATE_REVIEW_INDEX_v1.json",
+  "expectedCandidateCount": 370,
+  "orderingRule": {
+    "description": "Deterministic review order without confidence or priority scoring",
+    "keys": [
+      "manualId",
+      "procedureId",
+      "candidateId"
+    ]
+  },
+  "allowedDecisions": [
+    "accepted",
+    "rejected",
+    "deferred"
+  ],
+  "decisionSemantics": {
+    "accepted": "Human confirms the source term maps to the proposed frozen canonical function for this manual/platform context. Does not promote canonical knowledge.",
+    "rejected": "Human rejects the proposed mapping as incorrect or unsupported by evidence. Does not delete or mutate candidate artifacts.",
+    "deferred": "Human defers review pending more evidence. Does not mutate candidate artifacts."
+  },
+  "promotionExcluded": true,
+  "canonicalMutationAllowed": false,
+  "decisionsArtifact": "normalization/review/CG_PRODUCTION_NORMALIZATION_CANDIDATE_REVIEW_DECISIONS_v1.json",
+  "preflightScript": "backend/scripts/run_wave1_review_preflight.py",
+  "governanceNote": "Review decision is orthogonal to canonical promotion. This wave validates mappings to already-frozen canonical vocabulary only."
+}

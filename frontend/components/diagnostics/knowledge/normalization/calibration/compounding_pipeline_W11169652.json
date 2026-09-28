@@ -1,0 +1,184 @@
+{
+  "manualId": "W11169652",
+  "platformFamilyId": "whirlpool_fl_dd_direct_drive",
+  "overlayFile": "whirlpool_front_load_washer.json",
+  "gapSummary": {
+    "canonical_alias": 12,
+    "canonical_ontology_candidate": 0,
+    "platform_overlay": 26,
+    "human_review": 1,
+    "unresolved": 44
+  },
+  "gapReportPath": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\calibration\\canonical_gap_report_compounding_W11169652.json",
+  "reviewSummary": {
+    "total": 49,
+    "byStatus": {
+      "candidate": 25,
+      "needs_review": 9,
+      "approved": 12,
+      "COMPOUND_TERM_CANDIDATE": 3
+    },
+    "byApprovalLevel": {
+      "easy": 16,
+      "blocked": 9,
+      "normal": 21,
+      "careful": 3
+    },
+    "byType": {
+      "canonicalMapping": 36,
+      "procedureTestBinding": 4,
+      "measurementBinding": 9
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 16,
+      "medium_0.80_0.94": 24,
+      "low_lt_0.80": 0,
+      "unresolved": 9
+    },
+    "byBlockedReason": {}
+  },
+  "metrics": {
+    "manualId": "W11169652",
+    "platformId": "whirlpool_fl_dd",
+    "priorManualIds": [
+      "W8178558"
+    ],
+    "totalReviewRecords": 49,
+    "byApprovalLevel": {
+      "easy": 16,
+      "blocked": 9,
+      "normal": 21,
+      "careful": 3
+    },
+    "byStatus": {
+      "candidate": 25,
+      "needs_review": 9,
+      "approved": 12,
+      "COMPOUND_TERM_CANDIDATE": 3
+    },
+    "byType": {
+      "canonicalMapping": 36,
+      "procedureTestBinding": 4,
+      "measurementBinding": 9
+    },
+    "approved": 12,
+    "rejected": 0,
+    "needsReview": 9,
+    "promoted": 0,
+    "autoApprovals": 12,
+    "humanApprovals": 0,
+    "humanRejections": 0,
+    "manualResolutionsRequired": 9,
+    "humanDecisionCount": 9,
+    "newHumanDecisionCount": 33,
+    "inheritedResolvedAutomatically": 16,
+    "newManualResolutions": 9,
+    "inheritedManualResolutions": 0,
+    "corpusKnowledgeSize": {
+      "canonicalMappings": 47,
+      "procedureBindings": 5,
+      "measurementBindings": 3
+    }
+  },
+  "compoundingComparison": {
+    "schemaVersion": "1.0.0",
+    "reportType": "compounding_comparison",
+    "generatedAt": "2026-09-13T05:07:04.450852+00:00",
+    "baselineManualId": "W8178558",
+    "targetManualId": "W11169652",
+    "priorManualIds": [
+      "W8178558"
+    ],
+    "baseline": {
+      "manualId": "W8178558",
+      "platformId": "whirlpool_duet_sport",
+      "priorManualIds": [],
+      "totalReviewRecords": 41,
+      "byApprovalLevel": {
+        "easy": 14,
+        "careful": 7,
+        "blocked": 10,
+        "normal": 10
+      },
+      "byStatus": {
+        "promoted": 31,
+        "needs_review": 10
+      },
+      "byType": {
+        "canonicalMapping": 31,
+        "procedureTestBinding": 5,
+        "measurementBinding": 5
+      },
+      "approved": 31,
+      "rejected": 0,
+      "needsReview": 10,
+      "promoted": 31,
+      "autoApprovals": 31,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 10,
+      "humanDecisionCount": 10,
+      "newHumanDecisionCount": 10,
+      "inheritedResolvedAutomatically": 20,
+      "newManualResolutions": 10,
+      "inheritedManualResolutions": 0,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 46,
+        "procedureBindings": 0,
+        "measurementBindings": 0
+      }
+    },
+    "target": {
+      "manualId": "W11169652",
+      "platformId": "whirlpool_fl_dd",
+      "priorManualIds": [
+        "W8178558"
+      ],
+      "totalReviewRecords": 49,
+      "byApprovalLevel": {
+        "easy": 16,
+        "blocked": 9,
+        "normal": 21,
+        "careful": 3
+      },
+      "byStatus": {
+        "candidate": 25,
+        "needs_review": 9,
+        "approved": 12,
+        "COMPOUND_TERM_CANDIDATE": 3
+      },
+      "byType": {
+        "canonicalMapping": 36,
+        "procedureTestBinding": 4,
+        "measurementBinding": 9
+      },
+      "approved": 12,
+      "rejected": 0,
+      "needsReview": 9,
+      "promoted": 0,
+      "autoApprovals": 12,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 9,
+      "humanDecisionCount": 9,
+      "newHumanDecisionCount": 33,
+      "inheritedResolvedAutomatically": 16,
+      "newManualResolutions": 9,
+      "inheritedManualResolutions": 0,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 47,
+        "procedureBindings": 5,
+        "measurementBindings": 3
+      }
+    },
+    "delta": {
+      "reviewRecords": 8,
+      "humanDecisionCount": -1,
+      "newHumanDecisionCount": 23,
+      "manualResolutionsRequired": -1,
+      "inheritedResolvedAutomatically": -4
+    }
+  },
+  "promotion": null,
+  "published": false
+}

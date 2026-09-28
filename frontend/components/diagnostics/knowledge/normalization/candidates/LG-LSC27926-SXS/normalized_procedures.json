@@ -1,0 +1,3138 @@
+{
+  "manualId": "LG-LSC27926-SXS",
+  "procedures": [
+    {
+      "procedureId": "lgsxs-ambient-sensor",
+      "manufacturer": "LG",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a72-16: Ambient sensor (Better1 models)",
+      "purpose": "Ambient sensor (Better1 models)",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor",
+        "Er",
+        "ambient",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "check_connector",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness seated at main PCB?",
+          "body": "Verify ambient harness is fully seated before resistance tests.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_conn",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_conn_out",
+              "terminal": true,
+              "oemOutcome": "Repair or reconnect harness at main PCB."
+            }
+          ],
+          "sourceExcerpt": "Verify ambient harness is fully seated before resistance tests."
+        },
+        {
+          "id": "repair_conn",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Reseat or repair connector, then retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat or repair connector, then retest."
+        },
+        {
+          "id": "repair_conn_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Thermistor resistance",
+          "body": "Power off. Disconnect ambient. Measure NTC \u2194 GND \u2014 compare to \u00a71-12 NTC table at measured cabinet temperature.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "ambient",
+                "pins": "NTC \u2194 GND",
+                "label": "Thermistor resistance"
+              },
+              "title": "Thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In table range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Disconnect ambient. Measure NTC \u2194 GND \u2014 compare to \u00a71-12 NTC table at measured cabinet temperature."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "ambient",
+            "pins": "NTC \u2194 GND",
+            "label": "Thermistor resistance"
+          },
+          "title": "Thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_connector"
+        },
+        {
+          "id": "repair_conn",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_conn_out",
+          "terminal": true,
+          "oemOutcome": "Repair or reconnect harness at main PCB.",
+          "stepId": "check_connector"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LSC27926-SXS",
+        "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+        "oemTestNumber": "2-16-ambient",
+        "oemTestTitle": "Ambient sensor (Better1 models)",
+        "pages": [
+          20,
+          21
+        ],
+        "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LSC27926-SXS",
+        "platformId": "lg_sxs",
+        "procedureId": "lgsxs-ambient-sensor",
+        "pages": [
+          20,
+          21
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LSC27926-SXS",
+            "platformId": "lg_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgsxs-ambient-sensor",
+            "pages": [
+              20,
+              21
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgsxs-compressor",
+      "manufacturer": "LG",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a72-17: Compressor relay drive (Test Mode 1)",
+      "purpose": "Conventional compressor relay",
+      "prerequisites": [],
+      "componentIds": [
+        "compressor"
+      ],
+      "tags": [
+        "compressor",
+        "not_cooling",
+        "relay"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "test1_comp",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter Test Mode 1",
+          "body": "Press main PCB test button once \u2014 compressor runs continuously with F-FAN and C-FAN (conventional relay, not linear inverter).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press main PCB test button once \u2014 compressor runs continuously with F-FAN and C-FAN (conventional relay, not linear inverter)."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "PCB test mode entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After \u00a72-17 test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "comp_running",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Compressor running?",
+          "body": "Confirm compressor starts in Test Mode 1 (7-minute delay may apply after recent stop).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comp_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comp_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "comp_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "check_relay",
+              "terminal": true,
+              "oemOutcome": "Compressor did not start in Test Mode 1."
+            }
+          ],
+          "sourceExcerpt": "Confirm compressor starts in Test Mode 1 (7-minute delay may apply after recent stop)."
+        },
+        {
+          "id": "check_relay",
+          "order": 5,
+          "type": "instruction",
+          "title": "Check relay RY2",
+          "body": "Power off. Inspect compressor relay RY2 and AC converting relay per load driving circuit \u00a71-4.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Inspect compressor relay RY2 and AC converting relay per load driving circuit \u00a71-4."
+        },
+        {
+          "id": "replace_relay",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace relay or PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comp_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Compressor path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "comp_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comp_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_running"
+        },
+        {
+          "id": "comp_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_relay",
+          "terminal": true,
+          "oemOutcome": "Compressor did not start in Test Mode 1.",
+          "stepId": "comp_running"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LSC27926-SXS",
+        "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+        "oemTestNumber": "2-17-comp",
+        "oemTestTitle": "Conventional compressor relay",
+        "pages": [
+          21,
+          24
+        ],
+        "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LSC27926-SXS",
+        "platformId": "lg_sxs",
+        "procedureId": "lgsxs-compressor",
+        "pages": [
+          21,
+          24
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LSC27926-SXS",
+            "platformId": "lg_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgsxs-compressor",
+            "pages": [
+              21,
+              24
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgsxs-condenser-fan",
+      "manufacturer": "LG",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a72-17: Condenser BLDC fan (C-FAN)",
+      "purpose": "C-FAN fan voltage (Test 1)",
+      "prerequisites": [],
+      "componentIds": [
+        "condenser_fan"
+      ],
+      "tags": [
+        "C-FAN",
+        "condenser_fan",
+        "airflow",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "test_mode_1",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter Test Mode 1",
+          "body": "Push main PCB test button once \u2014 compressor, F-FAN, C-FAN run; main damper opens; all display segments on.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Push main PCB test button once \u2014 compressor, F-FAN, C-FAN run; main damper opens; all display segments on."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "PCB test mode entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After \u00a72-17 test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "fan_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "C-FAN fan supply voltage",
+          "body": "Measure C-FAN harness supply \u2194 GND vs GND \u2014 11.4\u201312.6 V in Test Mode 1 per LG BLDC fan spec.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRefrigeratorFanVoltage",
+              "testPoint": {
+                "connector": "C-FAN harness",
+                "pins": "supply \u2194 GND",
+                "label": "C-FAN fan supply voltage"
+              },
+              "title": "C-FAN fan supply voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "11.4\u201312.6 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure C-FAN harness supply \u2194 GND vs GND \u2014 11.4\u201312.6 V in Test Mode 1 per LG BLDC fan spec."
+        },
+        {
+          "id": "replace_fan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace fan or PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRefrigeratorFanVoltage",
+          "testPoint": {
+            "connector": "C-FAN harness",
+            "pins": "supply \u2194 GND",
+            "label": "C-FAN fan supply voltage"
+          },
+          "title": "C-FAN fan supply voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_pass",
+          "label": "11.4\u201312.6 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LSC27926-SXS",
+        "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+        "oemTestNumber": "2-17",
+        "oemTestTitle": "C-FAN fan voltage (Test 1)",
+        "pages": [
+          21,
+          24
+        ],
+        "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LSC27926-SXS",
+        "platformId": "lg_sxs",
+        "procedureId": "lgsxs-condenser-fan",
+        "pages": [
+          21,
+          24
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LSC27926-SXS",
+            "platformId": "lg_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgsxs-condenser-fan",
+            "pages": [
+              21,
+              24
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgsxs-damper",
+      "manufacturer": "LG",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a72-17: Stepping damper + OptiChill (Test 1/2)",
+      "purpose": "Stepping motor damper",
+      "prerequisites": [],
+      "componentIds": [
+        "damper_motor"
+      ],
+      "tags": [
+        "damper",
+        "airflow",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "test1_damper",
+          "order": 2,
+          "type": "instruction",
+          "title": "Test Mode 1 \u2014 damper open",
+          "body": "Press main PCB test button once \u2014 main stepping damper fully OPEN (baffle open); OptiChill damper CLOSED.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press main PCB test button once \u2014 main stepping damper fully OPEN (baffle open); OptiChill damper CLOSED."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "PCB test mode entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After \u00a72-17 test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "damper_open_ok",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Main damper open?",
+          "body": "Verify fresh-food airflow increases when main damper opens in Test Mode 1.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "open_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "test2_damper",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "open_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_damper_out",
+              "terminal": true,
+              "oemOutcome": "Replace stepping damper motor or main PCB driver."
+            }
+          ],
+          "sourceExcerpt": "Verify fresh-food airflow increases when main damper opens in Test Mode 1."
+        },
+        {
+          "id": "test2_damper",
+          "order": 5,
+          "type": "instruction",
+          "title": "Test Mode 2 \u2014 damper closed",
+          "body": "From Test 1, press test button once \u2014 compressor and fans OFF, defrost heater ON, main damper CLOSED.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "From Test 1, press test button once \u2014 compressor and fans OFF, defrost heater ON, main damper CLOSED."
+        },
+        {
+          "id": "damper_closed_ok",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Main damper closed?",
+          "body": "Verify damper closes in Test Mode 2 (forced defrost).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "closed_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "damper_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "closed_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_damper_out",
+              "terminal": true,
+              "oemOutcome": "Replace stepping damper motor when stuck open/closed."
+            }
+          ],
+          "sourceExcerpt": "Verify damper closes in Test Mode 2 (forced defrost)."
+        },
+        {
+          "id": "replace_damper_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace damper",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "damper_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Damper verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "open_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "test2_damper",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "damper_open_ok"
+        },
+        {
+          "id": "open_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_damper_out",
+          "terminal": true,
+          "oemOutcome": "Replace stepping damper motor or main PCB driver.",
+          "stepId": "damper_open_ok"
+        },
+        {
+          "id": "closed_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "damper_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "damper_closed_ok"
+        },
+        {
+          "id": "closed_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_damper_out",
+          "terminal": true,
+          "oemOutcome": "Replace stepping damper motor when stuck open/closed.",
+          "stepId": "damper_closed_ok"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LSC27926-SXS",
+        "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+        "oemTestNumber": "2-17-damper",
+        "oemTestTitle": "Stepping motor damper",
+        "pages": [
+          21,
+          22
+        ],
+        "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LSC27926-SXS",
+        "platformId": "lg_sxs",
+        "procedureId": "lgsxs-damper",
+        "pages": [
+          21,
+          22
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LSC27926-SXS",
+            "platformId": "lg_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgsxs-damper",
+            "pages": [
+              21,
+              22
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgsxs-defrost-heater",
+      "manufacturer": "LG",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a72-17: Defrost heater (Test Mode 2)",
+      "purpose": "Forced defrost heater",
+      "prerequisites": [],
+      "componentIds": [
+        "defrost_heater"
+      ],
+      "tags": [
+        "defrost_heater",
+        "frost_buildup",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "enter_test2",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter Test Mode 2",
+          "body": "Press test button once (Test 1), then once more \u2014 forced defrost: heater ON, compressor/fans OFF, damper closed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press test button once (Test 1), then once more \u2014 forced defrost: heater ON, compressor/fans OFF, damper closed."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "PCB test mode entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After \u00a72-17 test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "heater_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Defrost heater voltage",
+          "body": "Measure CON2 pin 1 \u2194 7 \u2014 112\u2013116 VAC when heater energized in Test Mode 2. Should read 0 V in Test Mode 1.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgDefrostHeaterVoltage",
+              "testPoint": {
+                "connector": "CON2",
+                "pins": "1 \u2194 7",
+                "label": "Defrost heater voltage"
+              },
+              "title": "Defrost heater voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "defrost_v_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "defrost_v_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "defrost_v_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "defrost_v_pass",
+              "label": "112\u2013116 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure CON2 pin 1 \u2194 7 \u2014 112\u2013116 VAC when heater energized in Test Mode 2. Should read 0 V in Test Mode 1."
+        },
+        {
+          "id": "replace_heater_pcb",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace heater or PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Defrost heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgDefrostHeaterVoltage",
+          "testPoint": {
+            "connector": "CON2",
+            "pins": "1 \u2194 7",
+            "label": "Defrost heater voltage"
+          },
+          "title": "Defrost heater voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "defrost_v_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        },
+        {
+          "id": "defrost_v_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        },
+        {
+          "id": "defrost_v_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        },
+        {
+          "id": "defrost_v_pass",
+          "label": "112\u2013116 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LSC27926-SXS",
+        "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+        "oemTestNumber": "2-17-defrost",
+        "oemTestTitle": "Forced defrost heater",
+        "pages": [
+          21,
+          22
+        ],
+        "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LSC27926-SXS",
+        "platformId": "lg_sxs",
+        "procedureId": "lgsxs-defrost-heater",
+        "pages": [
+          21,
+          22
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LSC27926-SXS",
+            "platformId": "lg_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgsxs-defrost-heater",
+            "pages": [
+              21,
+              22
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgsxs-defrost-sensor",
+      "manufacturer": "LG",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a78 flow: Defrost sensor resistance",
+      "purpose": "Defrost sensor resistance",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor",
+        "defrost",
+        "frost_buildup",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "check_connector",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness seated at main PCB?",
+          "body": "Verify defrost sensor harness is fully seated before resistance tests.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_conn",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_conn_out",
+              "terminal": true,
+              "oemOutcome": "Repair or reconnect harness at main PCB."
+            }
+          ],
+          "sourceExcerpt": "Verify defrost sensor harness is fully seated before resistance tests."
+        },
+        {
+          "id": "repair_conn",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Reseat or repair connector, then retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat or repair connector, then retest."
+        },
+        {
+          "id": "repair_conn_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Thermistor resistance",
+          "body": "Power off. Disconnect defrost sensor. Measure NTC \u2194 GND \u2014 compare to \u00a71-12 NTC table at measured cabinet temperature.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "defrost sensor",
+                "pins": "NTC \u2194 GND",
+                "label": "Thermistor resistance"
+              },
+              "title": "Thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In table range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Disconnect defrost sensor. Measure NTC \u2194 GND \u2014 compare to \u00a71-12 NTC table at measured cabinet temperature."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "defrost sensor",
+            "pins": "NTC \u2194 GND",
+            "label": "Thermistor resistance"
+          },
+          "title": "Thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_connector"
+        },
+        {
+          "id": "repair_conn",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_conn_out",
+          "terminal": true,
+          "oemOutcome": "Repair or reconnect harness at main PCB.",
+          "stepId": "check_connector"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LSC27926-SXS",
+        "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+        "oemTestNumber": "defrost-sensor",
+        "oemTestTitle": "Defrost sensor resistance",
+        "pages": [
+          73,
+          74
+        ],
+        "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LSC27926-SXS",
+        "platformId": "lg_sxs",
+        "procedureId": "lgsxs-defrost-sensor",
+        "pages": [
+          73,
+          74
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LSC27926-SXS",
+            "platformId": "lg_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgsxs-defrost-sensor",
+            "pages": [
+              73,
+              74
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgsxs-display-communication",
+      "manufacturer": "LG",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a71-11: Main \u2194 display MICOM communication",
+      "purpose": "Display MICOM communication",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel",
+        "main_control"
+      ],
+      "tags": [
+        "hmi_check",
+        "display_dead",
+        "comm_fault"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "display_partial",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Display fault or partial segments?",
+          "body": "Poor main\u2194display MICOM exchange >2 min causes display faults \u2014 check 4-wire L/Wire FD/H harness at door hinge.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "comm_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "comm_ok",
+              "terminal": true,
+              "oemOutcome": "Display communication appears normal."
+            }
+          ],
+          "sourceExcerpt": "Poor main\u2194display MICOM exchange >2 min causes display faults \u2014 check 4-wire L/Wire FD/H harness at door hinge."
+        },
+        {
+          "id": "check_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Inspect display harness",
+          "body": "Verify 4-wire harness between main PCB and display PCB \u2014 12 V and 5 V supplies plus TX/RX per \u00a71-11.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify 4-wire harness between main PCB and display PCB \u2014 12 V and 5 V supplies plus TX/RX per \u00a71-11."
+        },
+        {
+          "id": "comm_restored",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Display restored?",
+          "body": "After harness repair and power cycle, is display fully functional?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "restored_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_pcbs",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pcbs_out",
+              "terminal": true,
+              "oemOutcome": "Replace main and/or display PCB."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, is display fully functional?"
+        },
+        {
+          "id": "comm_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "No comm fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pcbs_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace PCB(s)",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_path_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "comm_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "display_partial"
+        },
+        {
+          "id": "comm_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "comm_ok",
+          "terminal": true,
+          "oemOutcome": "Display communication appears normal.",
+          "stepId": "display_partial"
+        },
+        {
+          "id": "restored_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_restored"
+        },
+        {
+          "id": "replace_pcbs",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcbs_out",
+          "terminal": true,
+          "oemOutcome": "Replace main and/or display PCB.",
+          "stepId": "comm_restored"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LSC27926-SXS",
+        "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+        "oemTestNumber": "1-11",
+        "oemTestTitle": "Display MICOM communication",
+        "pages": [
+          33,
+          34
+        ],
+        "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LSC27926-SXS",
+        "platformId": "lg_sxs",
+        "procedureId": "lgsxs-display-communication",
+        "pages": [
+          33,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LSC27926-SXS",
+            "platformId": "lg_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgsxs-display-communication",
+            "pages": [
+              33,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgsxs-door-switch",
+      "manufacturer": "LG",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a71-4: Door switches A/B/C/D (Test 1 fan stop)",
+      "purpose": "Door open sensing",
+      "prerequisites": [],
+      "componentIds": [
+        "door_switch"
+      ],
+      "tags": [
+        "door_switch",
+        "door_left_open",
+        "fan_stops"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "test1_door",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter Test Mode 1",
+          "body": "Press main PCB test button once \u2014 F-FAN runs continuously.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press main PCB test button once \u2014 F-FAN runs continuously."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "PCB test mode entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After \u00a72-17 test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "door_open_test",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Fan stops when door opens?",
+          "body": "Open freezer or refrigerator door during Test 1 \u2014 F-FAN should stop; resumes when door closes (switches A/B/C/D in parallel).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fan_stops_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_stops_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_switch",
+              "terminal": true,
+              "oemOutcome": "Replace door switch or repair harness to main PCB."
+            }
+          ],
+          "sourceExcerpt": "Open freezer or refrigerator door during Test 1 \u2014 F-FAN should stop; resumes when door closes (switches A/B/C/D in parallel)."
+        },
+        {
+          "id": "replace_switch",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace door switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "door_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Door switch OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "fan_stops_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_open_test"
+        },
+        {
+          "id": "fan_stops_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_switch",
+          "terminal": true,
+          "oemOutcome": "Replace door switch or repair harness to main PCB.",
+          "stepId": "door_open_test"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LSC27926-SXS",
+        "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+        "oemTestNumber": "1-4",
+        "oemTestTitle": "Door open sensing",
+        "pages": [
+          24,
+          25
+        ],
+        "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LSC27926-SXS",
+        "platformId": "lg_sxs",
+        "procedureId": "lgsxs-door-switch",
+        "pages": [
+          24,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LSC27926-SXS",
+            "platformId": "lg_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgsxs-door-switch",
+            "pages": [
+              24,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgsxs-freezer-sensor",
+      "manufacturer": "LG",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a71-12: Freezer cabinet sensor (CON7)",
+      "purpose": "Freezer cabinet sensor (CON7)",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor",
+        "not_cooling",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "check_connector",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness seated at main PCB?",
+          "body": "Verify CON7 harness is fully seated before resistance tests.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_conn",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_conn_out",
+              "terminal": true,
+              "oemOutcome": "Repair or reconnect harness at main PCB."
+            }
+          ],
+          "sourceExcerpt": "Verify CON7 harness is fully seated before resistance tests."
+        },
+        {
+          "id": "repair_conn",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Reseat or repair connector, then retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat or repair connector, then retest."
+        },
+        {
+          "id": "repair_conn_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Thermistor resistance",
+          "body": "Power off. Disconnect CON7. Measure sensor \u2194 GND \u2014 compare to \u00a71-12 NTC table at measured cabinet temperature.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "CON7",
+                "pins": "sensor \u2194 GND",
+                "label": "Thermistor resistance"
+              },
+              "title": "Thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In table range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Disconnect CON7. Measure sensor \u2194 GND \u2014 compare to \u00a71-12 NTC table at measured cabinet temperature."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "CON7",
+            "pins": "sensor \u2194 GND",
+            "label": "Thermistor resistance"
+          },
+          "title": "Thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_connector"
+        },
+        {
+          "id": "repair_conn",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_conn_out",
+          "terminal": true,
+          "oemOutcome": "Repair or reconnect harness at main PCB.",
+          "stepId": "check_connector"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LSC27926-SXS",
+        "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+        "oemTestNumber": "1-12",
+        "oemTestTitle": "Freezer cabinet sensor (CON7)",
+        "pages": [
+          34,
+          35
+        ],
+        "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LSC27926-SXS",
+        "platformId": "lg_sxs",
+        "procedureId": "lgsxs-freezer-sensor",
+        "pages": [
+          34,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LSC27926-SXS",
+            "platformId": "lg_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgsxs-freezer-sensor",
+            "pages": [
+              34,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgsxs-fresh-food-sensor",
+      "manufacturer": "LG",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a71-12: Cold storage sensors 1 & 2 (CON8)",
+      "purpose": "Cold storage sensors 1 & 2 (CON8)",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor",
+        "weak_cooling_ff",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "check_connector",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness seated at main PCB?",
+          "body": "Verify CON8 harness is fully seated before resistance tests.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_conn",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_conn_out",
+              "terminal": true,
+              "oemOutcome": "Repair or reconnect harness at main PCB."
+            }
+          ],
+          "sourceExcerpt": "Verify CON8 harness is fully seated before resistance tests."
+        },
+        {
+          "id": "repair_conn",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Reseat or repair connector, then retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat or repair connector, then retest."
+        },
+        {
+          "id": "repair_conn_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Thermistor resistance",
+          "body": "Power off. Disconnect CON8. Measure sensor \u2194 GND \u2014 compare to \u00a71-12 NTC table at measured cabinet temperature.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "CON8",
+                "pins": "sensor \u2194 GND",
+                "label": "Thermistor resistance"
+              },
+              "title": "Thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In table range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Disconnect CON8. Measure sensor \u2194 GND \u2014 compare to \u00a71-12 NTC table at measured cabinet temperature."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "CON8",
+            "pins": "sensor \u2194 GND",
+            "label": "Thermistor resistance"
+          },
+          "title": "Thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_connector"
+        },
+        {
+          "id": "repair_conn",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_conn_out",
+          "terminal": true,
+          "oemOutcome": "Repair or reconnect harness at main PCB.",
+          "stepId": "check_connector"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LSC27926-SXS",
+        "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+        "oemTestNumber": "1-12",
+        "oemTestTitle": "Cold storage sensors 1 & 2 (CON8)",
+        "pages": [
+          34,
+          35
+        ],
+        "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LSC27926-SXS",
+        "platformId": "lg_sxs",
+        "procedureId": "lgsxs-fresh-food-sensor",
+        "pages": [
+          34,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LSC27926-SXS",
+            "platformId": "lg_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgsxs-fresh-food-sensor",
+            "pages": [
+              34,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgsxs-fz-fan",
+      "manufacturer": "LG",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a72-17: Freezer BLDC fan (F-FAN)",
+      "purpose": "F-FAN fan voltage (Test 1)",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "F-FAN",
+        "evap_fan",
+        "airflow",
+        "not_cooling",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "test_mode_1",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter Test Mode 1",
+          "body": "Push main PCB test button once \u2014 compressor, F-FAN, C-FAN run; main damper opens; all display segments on.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Push main PCB test button once \u2014 compressor, F-FAN, C-FAN run; main damper opens; all display segments on."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "PCB test mode entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After \u00a72-17 test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "fan_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "F-FAN fan supply voltage",
+          "body": "Measure F-FAN harness supply \u2194 GND vs GND \u2014 11.4\u201312.6 V in Test Mode 1 per LG BLDC fan spec.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "lgRefrigeratorFanVoltage",
+              "testPoint": {
+                "connector": "F-FAN harness",
+                "pins": "supply \u2194 GND",
+                "label": "F-FAN fan supply voltage"
+              },
+              "title": "F-FAN fan supply voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "11.4\u201312.6 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure F-FAN harness supply \u2194 GND vs GND \u2014 11.4\u201312.6 V in Test Mode 1 per LG BLDC fan spec."
+        },
+        {
+          "id": "replace_fan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace fan or PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "lgRefrigeratorFanVoltage",
+          "testPoint": {
+            "connector": "F-FAN harness",
+            "pins": "supply \u2194 GND",
+            "label": "F-FAN fan supply voltage"
+          },
+          "title": "F-FAN fan supply voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_pass",
+          "label": "11.4\u201312.6 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LSC27926-SXS",
+        "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+        "oemTestNumber": "2-17",
+        "oemTestTitle": "F-FAN fan voltage (Test 1)",
+        "pages": [
+          21,
+          24
+        ],
+        "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LSC27926-SXS",
+        "platformId": "lg_sxs",
+        "procedureId": "lgsxs-fz-fan",
+        "pages": [
+          21,
+          24
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LSC27926-SXS",
+            "platformId": "lg_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgsxs-fz-fan",
+            "pages": [
+              21,
+              24
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgsxs-ice-maker",
+      "manufacturer": "LG",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a73: Ice maker electrical (LSC27926**)",
+      "purpose": "Ice maker unit and test switch",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "ice_maker",
+        "no_ice",
+        "LSC27926"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "no_ice",
+          "order": 2,
+          "type": "visual_check",
+          "title": "No ice production?",
+          "body": "LSC27926** models \u2014 verify ice maker harness, test switch on ice maker unit, and LCD check region F (ice maker unit).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ice_fault_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_im",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ice_fault_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "ice_ok",
+              "terminal": true,
+              "oemOutcome": "Ice maker path not faulting."
+            }
+          ],
+          "sourceExcerpt": "LSC27926** models \u2014 verify ice maker harness, test switch on ice maker unit, and LCD check region F (ice maker unit)."
+        },
+        {
+          "id": "check_im",
+          "order": 3,
+          "type": "instruction",
+          "title": "Ice maker harness and test switch",
+          "body": "Verify ice maker connector seating. Press ice maker test switch \u2014 ice should eject when kit healthy. Check relays RY4/RY5/RY12.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify ice maker connector seating. Press ice maker test switch \u2014 ice should eject when kit healthy. Check relays RY4/RY5/RY12."
+        },
+        {
+          "id": "replace_im",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace ice maker parts",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ice_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Ice maker OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ice_fault_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_im",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "no_ice"
+        },
+        {
+          "id": "ice_fault_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "ice_ok",
+          "terminal": true,
+          "oemOutcome": "Ice maker path not faulting.",
+          "stepId": "no_ice"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LSC27926-SXS",
+        "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+        "oemTestNumber": "3-ice",
+        "oemTestTitle": "Ice maker unit and test switch",
+        "pages": [
+          42,
+          49
+        ],
+        "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LSC27926-SXS",
+        "platformId": "lg_sxs",
+        "procedureId": "lgsxs-ice-maker",
+        "pages": [
+          42,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LSC27926-SXS",
+            "platformId": "lg_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgsxs-ice-maker",
+            "pages": [
+              42,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgsxs-lcd-check",
+      "manufacturer": "LG",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a72-16: LCD / LED graphics check",
+      "purpose": "LCD check function",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel"
+      ],
+      "tags": [
+        "hmi_check",
+        "user_interface",
+        "display_test"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "lcd_check_enter",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter LCD check",
+          "body": "Simultaneously press Express Freezer + Freezer temp adjust ~1 s \u2014 all LCD/LED graphics and backlight turn on.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Simultaneously press Express Freezer + Freezer temp adjust ~1 s \u2014 all LCD/LED graphics and backlight turn on."
+        },
+        {
+          "id": "lcd_all_on",
+          "order": 3,
+          "type": "visual_check",
+          "title": "All segments illuminate?",
+          "body": "Every LCD/LED graphic region (C\u2013G) should turn on. Hidden faults: R2, OptiChill, water tank, ice maker, ambient (Better1).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "segments_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "lcd_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "segments_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "segment_fault",
+              "terminal": true,
+              "oemOutcome": "Segment(s) failed \u2014 note which region (C\u2013G) stayed off."
+            }
+          ],
+          "sourceExcerpt": "Every LCD/LED graphic region (C\u2013G) should turn on. Hidden faults: R2, OptiChill, water tank, ice maker, ambient (Better1)."
+        },
+        {
+          "id": "segment_fault",
+          "order": 4,
+          "type": "outcome",
+          "title": "Segment or sensor fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "lcd_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "LCD check passed",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "segments_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "lcd_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lcd_all_on"
+        },
+        {
+          "id": "segments_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "segment_fault",
+          "terminal": true,
+          "oemOutcome": "Segment(s) failed \u2014 note which region (C\u2013G) stayed off.",
+          "stepId": "lcd_all_on"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LSC27926-SXS",
+        "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+        "oemTestNumber": "2-16",
+        "oemTestTitle": "LCD check function",
+        "pages": [
+          20,
+          21
+        ],
+        "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LSC27926-SXS",
+        "platformId": "lg_sxs",
+        "procedureId": "lgsxs-lcd-check",
+        "pages": [
+          20,
+          21
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LSC27926-SXS",
+            "platformId": "lg_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgsxs-lcd-check",
+            "pages": [
+              20,
+              21
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgsxs-water-dispenser",
+      "manufacturer": "LG",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a72-18: Water / ice dispenser valves",
+      "purpose": "Dispenser water and ice solenoids",
+      "prerequisites": [],
+      "componentIds": [
+        "water_valve"
+      ],
+      "tags": [
+        "water_dispenser",
+        "no_water",
+        "dispenser"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "no_water",
+          "order": 2,
+          "type": "visual_check",
+          "title": "No water or ice dispense?",
+          "body": "Select water/cube/crushed at dispenser \u2014 pressing rubber button opens solenoids. Stops when freezer door open.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "disp_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_valve",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "disp_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "disp_ok",
+              "terminal": true,
+              "oemOutcome": "Dispenser functions normally."
+            }
+          ],
+          "sourceExcerpt": "Select water/cube/crushed at dispenser \u2014 pressing rubber button opens solenoids. Stops when freezer door open."
+        },
+        {
+          "id": "check_valve",
+          "order": 3,
+          "type": "instruction",
+          "title": "Water valve and relays",
+          "body": "Verify water solenoid on back plate and relay RY7 (water), RY4/RY5/RY12 (ice) per \u00a72-18 and troubleshooting.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify water solenoid on back plate and relay RY7 (water), RY4/RY5/RY12 (ice) per \u00a72-18 and troubleshooting."
+        },
+        {
+          "id": "replace_valve",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace valve or relay",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "disp_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Dispenser OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "disp_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "no_water"
+        },
+        {
+          "id": "disp_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "disp_ok",
+          "terminal": true,
+          "oemOutcome": "Dispenser functions normally.",
+          "stepId": "no_water"
+        }
+      ],
+      "source": {
+        "manualId": "LG-LSC27926-SXS",
+        "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+        "oemTestNumber": "2-18",
+        "oemTestTitle": "Dispenser water and ice solenoids",
+        "pages": [
+          22,
+          23
+        ],
+        "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-LSC27926-SXS",
+        "platformId": "lg_sxs",
+        "procedureId": "lgsxs-water-dispenser",
+        "pages": [
+          22,
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LSC27926-SXS",
+            "platformId": "lg_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgsxs-water-dispenser",
+            "pages": [
+              22,
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "id": "lgwm4000-smart-diagnosis",
+  "version": "1.0.0",
+  "title": "\u00a72: Smart Diagnosis / ThinQ",
+  "platformId": "lg_fl_washer_wm4000",
+  "componentIds": [
+    "hmi_control"
+  ],
+  "tags": [
+    "hmi_check",
+    "smart_diagnosis"
+  ],
+  "source": {
+    "manualId": "LG-FL-WASHER",
+    "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+    "sourcePdf": "backend/docs/manuals/lg wm4000h fl washer service manual.pdf",
+    "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "2",
+    "oemTestTitle": "SMART DIAGNOSIS and Wi-Fi",
+    "pages": [
+      4,
+      6,
+      15
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "wifi_check"
+    },
+    {
+      "id": "wifi_check",
+      "order": 2,
+      "type": "instruction",
+      "title": "Wi-Fi and ThinQ",
+      "body": "Verify 2.4 GHz Wi-Fi connection and ThinQ registration.",
+      "sourceExcerpt": "Verify 2.4 GHz Wi-Fi connection and ThinQ registration.",
+      "requiresInput": false,
+      "defaultNextStepId": "smart_diag"
+    },
+    {
+      "id": "smart_diag",
+      "order": 3,
+      "type": "instruction",
+      "title": "Smart Diagnosis",
+      "body": "Run Smart Diagnosis from control panel or ThinQ app.",
+      "sourceExcerpt": "Run Smart Diagnosis from control panel or ThinQ app.",
+      "requiresInput": false,
+      "defaultNextStepId": "diag_ok"
+    },
+    {
+      "id": "replace_wifi",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace Wi-Fi module",
+      "oemOutcome": "Replace Wi-Fi module or DISPLAY PWB when Smart Diagnosis fails.",
+      "requiresInput": false
+    },
+    {
+      "id": "diag_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Smart Diagnosis OK",
+      "oemOutcome": "Connected diagnostics path verified \u2014 LG implementation overlay.",
+      "requiresInput": false
+    }
+  ]
+}

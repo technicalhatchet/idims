@@ -1,0 +1,240 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "microwave_functional_contract_candidate",
+  "workstream": "CG-MICROWAVE-DISCOVERY",
+  "status": "approved_for_freeze_preparation",
+  "generatedAt": "2026-09-17T09:00:00+00:00",
+  "approvedAt": "2026-09-17T09:25:00+00:00",
+  "discoveryContract": "CG_MICROWAVE_DISCOVERY_CONTRACT_v1.json",
+  "discoveryClosure": "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json",
+  "fitClosure": "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+  "notCanonicalFile": true,
+  "note": "Discovery-approved functional contract candidate — feeds CG-MICROWAVE-FREEZE only. Not microwave.json, not frozen, not production.",
+  "proposedOntologyId": "microwave",
+  "templateId": "microwave",
+  "humanDiscoveryReview": {
+    "status": "approved",
+    "verdict": "APPROVED — candidate architecture accepted for freeze preparation",
+    "approvedAt": "2026-09-17T09:25:00+00:00",
+    "functionBudgetApproved": true,
+    "componentPromotionCount": 0
+  },
+  "minimalFunctionBudget": {
+    "coreCount": 7,
+    "conditionalCount": 2,
+    "hardCapEnforced": true,
+    "rationale": "Resist component laundry-listing from 26 triangulated procedures — function budget must not expand toward component count"
+  },
+  "approvedArchitecture": {
+    "coreFunctions": [
+      "power_supply",
+      "control_board",
+      "user_interface",
+      "door_interlock_chain",
+      "hv_generation",
+      "rf_cavity",
+      "thermal_protection"
+    ],
+    "conditionalFunctions": ["control_and_sensing", "ventilation_otr"],
+    "hierarchy": [
+      "microwave",
+      "├── control_board",
+      "├── user_interface",
+      "├── power_supply",
+      "├── door_interlock_chain",
+      "├── hv_generation",
+      "├── rf_cavity",
+      "├── thermal_protection",
+      "├── [conditional] control_and_sensing",
+      "└── [conditional] ventilation_otr"
+    ]
+  },
+  "semanticBoundaries": {
+    "hv_generation": {
+      "definition": "Generation and conditioning of the electrical energy required for microwave generation — not the individual HV components.",
+      "notSynonymFor": ["magnetron", "hv_transformer", "hv_capacitor", "hv_diode", "hv_fuse"],
+      "diagnosticSeparability": "A failure in the HV generation chain can exist while the RF/cavity path is intact. Service procedures demonstrate this separability.",
+      "mergeWithRfCavity": false,
+      "discoveryDecision": "KEEP SPLIT — causal relationship does not collapse distinct diagnostic domains"
+    },
+    "rf_cavity": {
+      "definition": "Functional energy-delivery and containment domain for microwave RF energy — not a synonym for the physical cavity enclosure.",
+      "notSynonymFor": ["physical_cavity_enclosure", "waveguide_cover", "turntable_motor", "stirrer"],
+      "diagnosticSeparability": "The HV system can produce expected behavior while RF energy is not being delivered correctly. Service procedures demonstrate this separability.",
+      "mergeWithHvGeneration": false,
+      "discoveryDecision": "KEEP SPLIT — protects ontology from physical-component modeling during normalization"
+    },
+    "thermal_protection": {
+      "definition": "Cross-manufacturer protective thermal network function — LG TCO/thermistor and Samsung multi-TCO topologies are implementation realizations.",
+      "conditionalInstanceScopes": false,
+      "discoveryDecision": "Single canonical function — device locations, thresholds, and topology belong in overlays/platform knowledge"
+    },
+    "control_and_sensing": {
+      "definition": "Cook-control environmental sensing when platform implements sensor-cook paths.",
+      "universality": "not_asserted",
+      "discoveryDecision": "CONDITIONAL — recurrent evidence but insufficient to assert humidity/cabinet sensing is universal to all microwaves"
+    },
+    "ventilation_otr": {
+      "definition": "Over-range ventilation function when OTR configuration applies.",
+      "universality": "otr_configuration_only",
+      "discoveryDecision": "CONDITIONAL — must not become canonical requirement for countertop/built-in microwave"
+    }
+  },
+  "hvRfCausalChain": {
+    "description": "Causal ordering between split diagnostic domains — not a merge authorization",
+    "chain": ["control_board", "hv_generation", "rf_cavity"],
+    "note": "control_board enables hv_generation; hv_generation excites rf_cavity — each remains independently diagnosable"
+  },
+  "proposedCanonicalFunctions": [
+    {
+      "id": "power_supply",
+      "label": "Line power prerequisite",
+      "role": "core",
+      "discoveryDecision": "CORE",
+      "discoveryRationale": "Fundamental prerequisite/diagnostic layer",
+      "triangulationSupport": "superficial_overlap_all_families"
+    },
+    {
+      "id": "control_board",
+      "label": "Control orchestration",
+      "role": "core",
+      "discoveryDecision": "CORE",
+      "discoveryRationale": "Orchestration/control function recurs across both witnesses",
+      "triangulationSupport": "HV relay enable + self-test on both manufacturers",
+      "implementationVocabulary": ["main_pcb", "sub_pcb", "relay_2", "power_relay", "ry206"]
+    },
+    {
+      "id": "user_interface",
+      "label": "User interface / service mode",
+      "role": "core",
+      "discoveryDecision": "CORE",
+      "discoveryRationale": "User-command interface recurs",
+      "triangulationSupport": "Keypad/touch + service test entry both manuals",
+      "implementationVocabulary": ["touch_panel", "membrane", "keypad"]
+    },
+    {
+      "id": "door_interlock_chain",
+      "label": "HV safety interlock chain",
+      "role": "core",
+      "discoveryDecision": "CORE",
+      "discoveryRationale": "Independent safety/control contract demonstrated by both manufacturers",
+      "triangulationSupport": "CROSS_MANUFACTURER_SAFETY_CONTRACT",
+      "diagnosticBehavior": "Independently sequenced multi-switch monitor chain gating HV enable",
+      "implementationVocabulary": ["primary_switch", "secondary_switch", "monitor_switch", "door_sensing_switch", "latch_board"],
+      "notPromotedFrom": ["oven_door_switch"]
+    },
+    {
+      "id": "hv_generation",
+      "label": "High-voltage excitation path",
+      "role": "core",
+      "discoveryDecision": "CORE",
+      "discoveryRationale": "Cross-manufacturer diagnostic cascade with no existing host",
+      "semanticBoundary": "Generation/conditioning of electrical energy for microwave generation — not individual HV components",
+      "triangulationSupport": "CROSS_MANUFACTURER_FUNCTIONAL_DOMAIN",
+      "diagnosticBehavior": "Relay-gated cascade with per-node isolation tests",
+      "implementationVocabulary": ["hv_transformer", "hv_capacitor", "hv_diode", "magnetron", "hv_fuse"],
+      "notPromotedAsSeparateCanonicalNodes": ["magnetron", "hv_capacitor", "hv_diode", "hv_transformer", "hv_fuse"]
+    },
+    {
+      "id": "rf_cavity",
+      "label": "RF energy delivery / containment",
+      "role": "core",
+      "discoveryDecision": "CORE",
+      "discoveryRationale": "Distinct RF-energy delivery/cavity diagnostic domain — kept split from hv_generation",
+      "semanticBoundary": "Functional energy-delivery/containment domain — not synonym for physical cavity enclosure",
+      "triangulationSupport": "CROSS_MANUFACTURER_RF_CAVITY_DOMAIN",
+      "diagnosticBehavior": "Waveguide/arcing/turntable field uniformity — distinct from HV excitation function",
+      "implementationVocabulary": ["waveguide_cover", "turntable_motor", "stirrer", "gasket", "waveguide"],
+      "notPromotedAsSeparateCanonicalNodes": ["waveguide", "waveguide_cover", "turntable_motor"]
+    },
+    {
+      "id": "thermal_protection",
+      "label": "Thermal protection network",
+      "role": "core",
+      "discoveryDecision": "CORE",
+      "discoveryRationale": "Cross-manufacturer protective thermal network — single function, overlay realizations",
+      "triangulationSupport": "CROSS_MANUFACTURER_THERMAL_NETWORK",
+      "diagnosticBehavior": "Multi-node TCO + cabinet thermistor fault routing — not single fuse semantics",
+      "implementationVocabulary": ["magnetron_tco", "cavity_tco", "hood_tco", "pcb_thermistor", "thermal_cutout"],
+      "conditionalInstanceScopesRejected": true
+    },
+    {
+      "id": "control_and_sensing",
+      "label": "Cook-control sensing",
+      "role": "conditional",
+      "discoveryDecision": "CONDITIONAL",
+      "discoveryRationale": "Evidence recurrent but not strong enough to assert sensor architecture is universal",
+      "triangulationSupport": "PARTIAL_RECURRENCE",
+      "diagnosticBehavior": "Humidity + temperature sensor fault families on sensor-cook paths",
+      "implementationVocabulary": ["humidity_sensor", "temp_sensor", "gas_sensor"],
+      "instantiationNote": "Samsung/LG may instantiate without forcing every future microwave to possess it"
+    }
+  ],
+  "proposedConditionalFunctions": [
+    {
+      "id": "ventilation_otr",
+      "label": "Over-range ventilation",
+      "role": "conditional",
+      "discoveryDecision": "CONDITIONAL",
+      "discoveryRationale": "Explicitly tied to OTR configuration — not universal microwave requirement",
+      "conditionalOn": "otr_configuration",
+      "triangulationSupport": "OTR_CONDITIONAL_LAYER",
+      "implementationVocabulary": ["vent_blower_motor", "run_capacitor", "vent_fan", "damper"],
+      "mustNotMergeInto": "range_oven.surface_heating_system"
+    }
+  ],
+  "implementationRealizationTrees": {
+    "hv_generation": ["transformer", "capacitor", "diode", "fuse", "magnetron"],
+    "rf_cavity": ["waveguide", "cavity", "turntable_realization"],
+    "thermal_protection": ["tco_a", "tco_b", "thermistor_realization"],
+    "note": "Implementation realizations and evidence — not canonical ontology nodes"
+  },
+  "rejectedAsCanonicalNodes": [
+    "magnetron",
+    "hv_transformer",
+    "hv_capacitor",
+    "hv_diode",
+    "hv_fuse",
+    "waveguide",
+    "waveguide_cover",
+    "turntable_motor",
+    "humidity_sensor",
+    "individual_tcos",
+    "monitor_switch"
+  ],
+  "rejectionRationale": "OEM-testable components are implementation realizations under functional domains. Fit triangulation supports function-level domains, not a 30-node component graph.",
+  "causalOrderingHypothesis": [
+    "power_supply → control_board readiness",
+    "door_interlock_chain → hv_generation enable",
+    "thermal_protection → hv_generation / control gating",
+    "control_board → hv_generation → rf_cavity",
+    "control_and_sensing → cook-mode modulation (conditional)"
+  ],
+  "resolvedDiscoveryQuestions": [
+    {
+      "id": "hv_vs_rf_split",
+      "decision": "KEEP SPLIT",
+      "rationale": "Distinct diagnostic domains with demonstrated separability in service procedures"
+    },
+    {
+      "id": "thermal_network_shape",
+      "decision": "SINGLE CANONICAL FUNCTION",
+      "rationale": "LG and Samsung TCO networks are realizations of same protective domain — overlay vocabulary"
+    },
+    {
+      "id": "control_and_sensing_scope",
+      "decision": "CONDITIONAL",
+      "rationale": "Insufficient evidence for universality across all microwave configurations"
+    },
+    {
+      "id": "ventilation_otr_scope",
+      "decision": "CONDITIONAL",
+      "rationale": "OTR-specific — must not contaminate countertop/built-in configurations"
+    },
+    {
+      "id": "function_budget",
+      "decision": "HARD CAP APPROVED",
+      "rationale": "7 core + 2 conditional — restraint validated; no expansion toward component count"
+    }
+  ]
+}

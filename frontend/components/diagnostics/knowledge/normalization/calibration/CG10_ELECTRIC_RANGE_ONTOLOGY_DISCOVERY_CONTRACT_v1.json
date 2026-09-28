@@ -1,0 +1,194 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg10_electric_range_ontology_discovery_contract",
+  "status": "closed",
+  "phase": "CG-10",
+  "closedAt": "2026-09-16T15:26:00+00:00",
+  "closureArtifact": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+  "closureVerdict": "CLOSED / ELECTRIC_RANGE_ARCHITECTURE_COMPLETE",
+  "activatedAt": "2026-09-16T14:15:00+00:00",
+  "priorPhaseClosed": "CG95_REFRIGERATOR_FAMILY_LOCK_v1.json",
+  "priorPhaseVerdict": "refrigerator_family_architecture_complete",
+  "discoveryMode": "ontology_boundary_discovery",
+  "notCreating": [
+    "range_oven.json",
+    "canonical freeze (frozen:true)",
+    "manufacturer overlay compounding",
+    "ingestion_workbench_ui"
+  ],
+  "canonicalAuthoring": {
+    "status": "frozen_locked",
+    "ontologyFile": "electric_range.json",
+    "revision": "rev1",
+    "frozen": true,
+    "frozenAt": "2026-09-16T15:26:00+00:00",
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "sourceRecommendation": "CG10_ELECTRIC_RANGE_FREEZE_RECOMMENDATION_v1.json",
+    "humanFreezeApprovedAt": "2026-09-16T15:01:00+00:00",
+    "note": "Recommendation artifact preserved as evidence-to-freeze bridge — not overwritten by canonical file."
+  },
+  "candidateGraph": "electric_range_oven_cg10x_candidate_v1.json",
+  "fuelScope": "electric_range_only",
+  "futureFitTests": {
+    "CG-11": "gas_range — does it fit CG-10 contract?",
+    "CG-12": "induction_range — does it fit CG-10 contract?",
+    "CG-13": "dual_fuel — does it fit CG-10 contract?"
+  },
+  "discoveryCorpus": {
+    "R1": {
+      "manualId": "W11746350",
+      "platformId": "whirlpool_freestanding_range",
+      "manufacturer": "Whirlpool",
+      "role": "first_manual_observation",
+      "fuelFilter": "electric_range",
+      "observationArtifact": "W11746350_er_cg10x_observation_v1.json"
+    },
+    "R2": {
+      "manualId": "LG-LRE-RANGE",
+      "platformId": "lg_freestanding_range",
+      "manufacturer": "LG",
+      "role": "manufacturer_boundary_test",
+      "fuelFilter": "electric_range",
+      "observationArtifact": "LG_LRE_RANGE_er_cg10x_observation_v1.json"
+    },
+    "R3": {
+      "manualId": "W11174426",
+      "platformId": "whirlpool_freestanding_range",
+      "manufacturer": "Whirlpool",
+      "role": "platform_architecture_falsification_probe",
+      "fuelFilter": "electric_range",
+      "observationArtifact": "W11174426_er_cg10x_observation_v1.json",
+      "note": "Interim R3 — LCX/LCC infinite-switch cooktop vs Copernicus ACU. Third electric manufacturer (Samsung electric absent from corpus; NX60 is gas) deferred until manual ingested."
+    }
+  },
+  "manufacturerBoundaryValidation": {
+    "status": "active",
+    "note": "R4 is NOT part of the R1–R3 discovery corpus — it validates the provisional post-R3 hypothesis before human freeze gate",
+    "R4": {
+      "manualId": "SAMSUNG-NE58-RANGE",
+      "platformId": "samsung_range_ne58",
+      "smokeModel": "NE58F9710WS",
+      "manufacturer": "Samsung",
+      "role": "manufacturer_boundary_validation",
+      "fuelFilter": "electric_range",
+      "excludedFromDiscoveryCorpus": true,
+      "evaluatedAgainst": "post_r3_triangulation_synthesis",
+      "observationArtifact": "SAMSUNG_NE58_RANGE_er_cg10x_observation_v1.json",
+      "notUsed": "samsung_range_nx60 (gas-primary NX60 — wrong family for electric boundary)"
+    }
+  },
+  "thirdManufacturerGap": {
+    "status": "closed_by_r4",
+    "reason": "R4 Samsung NE58F9710WS electric ingested as manufacturer-boundary probe (not discovery corpus member)",
+    "corpusHas": [
+      "Whirlpool W11746350/W11174426 electric",
+      "LG LRE electric",
+      "Samsung NE58F9710WS electric (R4)"
+    ],
+    "corpusMissing": ["Frigidaire/GE electric range — optional future fit tests only"]
+  },
+  "boundaryQuestions": [
+    {
+      "id": "oven_heating_abstraction",
+      "question": "Does oven_heating_system survive as one functional abstraction, or do bake/broil/convection require separate canonical concepts or instance scopes?",
+      "cg10EvidenceRequired": "R1+R2+R3"
+    },
+    {
+      "id": "surface_heating_abstraction",
+      "question": "Is surface_heating_system diagnostically sufficient, or does electric-element vs infinite-switch vs bridge-element architecture require finer canonical decomposition?",
+      "cg10EvidenceRequired": "R1+R2+R3"
+    },
+    {
+      "id": "temperature_feedback_unification",
+      "question": "Does one temperature_sensor abstraction work across manufacturers for oven cavity feedback?",
+      "cg10EvidenceRequired": "R1+R2+R3"
+    },
+    {
+      "id": "convection_canonical_role",
+      "question": "Is convection_fan consistently canonical, and does its diagnostic relationship to oven heating matter at canonical level?",
+      "cg10EvidenceRequired": "R1+R2+R3"
+    },
+    {
+      "id": "thermal_protection_abstraction",
+      "question": "Does thermal_protection remain functional like refrigerator conditionals, or do fuse/cutout/limit architectures imply different diagnostic roles?",
+      "cg10EvidenceRequired": "R1+R2+R3"
+    },
+    {
+      "id": "range_wide_contract",
+      "question": "Can electric/gas/induction/dual-fuel eventually share one range/oven functional contract, or does electric discovery prove split ontologies are required?",
+      "cg10EvidenceRequired": "CG-11+ fit tests after freeze"
+    }
+  ],
+  "immutableRules": [
+    "CG-10 is discovery only — candidate graph may be deleted, merged, split, or rejected by manual evidence.",
+    "Success includes proving the candidate wrong — not defending the hypothesis skeleton.",
+    "No writes to frontend/components/diagnostics/knowledge/canonical/ except via future human freeze gate after R1+R2+R3.",
+    "No gate tables, no overlay publish, no compounding in CG-10.",
+    "Procedure seeds and CG-3 normalization inform observations — they do not auto-promote candidate concepts.",
+    "Refrigerator family lock remains authoritative — no refrigerator ontology reopen from range discovery."
+  ],
+  "decisionGates": {
+    "afterR2": {
+      "ask": "Which functional relationships remain invariant despite LG implementation?",
+      "doNotAsk": "Does LG match Whirlpool?",
+      "artifact": "LG_LRE_RANGE_er_cg10x_observation_v1.json"
+    },
+    "afterR3": {
+      "ask": "Which apparent Whirlpool concepts disappear when surface-control architecture changes (LCX infinite-switch vs Copernicus ACU)?",
+      "doNotAsk": "Does LCX validate Copernicus?",
+      "artifact": "W11174426_er_cg10x_observation_v1.json"
+    },
+    "afterR4": {
+      "ask": "Does the post-R3 functional model survive Samsung electric architecture before freeze?",
+      "doNotAsk": "Does Samsung match Whirlpool?",
+      "doNotPromote": "Samsung OEM hardware names (sub PCB, DLB relay, infinite switch) to canonical",
+      "artifact": "SAMSUNG_NE58_RANGE_er_cg10x_observation_v1.json",
+      "then": "human_freeze_gate — CG10_ELECTRIC_RANGE_FREEZE_RECOMMENDATION_v1.json"
+    }
+  },
+  "freezeOutcomes": {
+    "A": {
+      "label": "candidate_survives_with_refinement",
+      "description": "Functional model works; bake/broil/convection become instance scopes; surface zones overlay when evidenced"
+    },
+    "B": {
+      "label": "candidate_needs_structural_revision",
+      "description": "One or more candidate abstractions do not survive the platform probe"
+    },
+    "C": {
+      "label": "electric_range_not_one_canonical_functional_model",
+      "description": "Evidence reveals genuinely different functional architectures — allowed discovery outcome"
+    },
+    "policy": "Human freeze gate earns every node — automatic freeze prohibited"
+  },
+  "r3PlatformProbes": [
+    "surface_control",
+    "surface_heating_zones",
+    "thermal_protection",
+    "cooling_vs_convection"
+  ],
+  "r4ManufacturerBoundaryProbes": [
+    "oven_heat",
+    "surface_heat",
+    "temperature",
+    "convection",
+    "thermal_protection",
+    "door",
+    "control"
+  ],
+  "successCriteria": {
+    "minimum": "R1+R2+R3 discovery complete; R4 manufacturer-boundary validation complete before freeze recommendation",
+    "freezeGate": "Human freeze recommendation artifact (CG10_ELECTRIC_RANGE_FREEZE_RECOMMENDATION_v1.json) — after R4, not automatic",
+    "freezeRecommendationArtifact": "CG10_ELECTRIC_RANGE_FREEZE_RECOMMENDATION_v1.json",
+    "freezeRecommendationStatus": "human_approved",
+    "canonicalOntologyFile": "electric_range.json",
+    "canonicalOntologyRevision": "rev1",
+    "canonicalFreezeStatus": "frozen_locked",
+    "closureArtifact": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "canonicalExpansion": 0
+  },
+  "deferredWork": {
+    "ingestionWorkbenchUi": "After additional families proven — UI calls same CLI pipeline",
+    "refrigeratorCoverage": "On-demand manual ingest only — family architecture closed"
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg9_sxs_family_boundary_r2_triangulation",
+  "phase": "CG-9",
+  "stage": "R2_falsification_probe",
+  "status": "family_boundary_closed",
+  "generatedAt": "2026-09-16T12:55:37.116789+00:00",
+  "canonicalExpansion": 0,
+  "canonicalMutation": 0,
+  "freezeReopened": false,
+  "newCanonicalConcepts": 0,
+  "discoveryCorpusInheritance": 0,
+  "cg8CompoundingPerformed": false,
+  "architecturalConclusion": "The frozen french_door_refrigerator contract behaves as a generic refrigerator functional ontology across side-by-side configuration. Configuration differences (door layout, fan count, ice placement, harness naming) are overlay/instance concerns \u2014 not a separate canonical family. Ontology rename (e.g. to 'refrigerator') is an organizational re-freeze decision, not required for continued compounding.",
+  "frozenContractReference": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+    "hashVerified": true,
+    "components": [
+      "control_board",
+      "user_interface",
+      "door_switch",
+      "evaporator_fan",
+      "air_damper",
+      "defrost_heater"
+    ],
+    "conditionalConcepts": [
+      "temperature_sensor",
+      "compressor",
+      "condenser_fan",
+      "ice_maker",
+      "water_dispenser"
+    ],
+    "testedAs": "operational_refrigerator_functional_contract"
+  },
+  "evidenceChain": {
+    "frozenFdContract": "french_door_refrigerator.json rev1",
+    "r1SamsungSxS": "SAMSUNG_RS28_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+    "r2WhirlpoolSxS": "W11296289_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json"
+  },
+  "crossManufacturerFunctionalIntersection": {
+    "sixKeepFunctions": {
+      "control_board": {
+        "samsungSxS": "shared_function",
+        "whirlpoolSxS": "maps_to_frozen_contract",
+        "intersection": true
+      },
+      "user_interface": {
+        "samsungSxS": "shared_function",
+        "whirlpoolSxS": "maps_to_frozen_contract",
+        "intersection": true
+      },
+      "door_switch": {
+        "samsungSxS": "shared_function",
+        "whirlpoolSxS": "maps_to_frozen_contract",
+        "intersection": true
+      },
+      "evaporator_fan": {
+        "samsungSxS": "shared_function",
+        "whirlpoolSxS": "maps_to_frozen_contract",
+        "intersection": true
+      },
+      "air_damper": {
+        "samsungSxS": "shared_function",
+        "whirlpoolSxS": "maps_to_frozen_contract",
+        "intersection": true
+      },
+      "defrost_heater": {
+        "samsungSxS": "shared_function",
+        "whirlpoolSxS": "maps_to_frozen_contract",
+        "intersection": true
+      }
+    },
+    "fiveConditionalConcepts": {
+      "temperature_sensor": {
+        "samsungSxS": "shared_function",
+        "whirlpoolSxS": "maps_to_frozen_contract",
+        "intersection": true,
+        "note": null
+      },
+      "compressor": {
+        "samsungSxS": "shared_function",
+        "whirlpoolSxS": "maps_to_frozen_contract",
+        "intersection": true,
+        "note": null
+      },
+      "condenser_fan": {
+        "samsungSxS": "needs_second_manual",
+        "whirlpoolSxS": "maps_to_frozen_contract",
+        "intersection": true,
+        "note": "condenser_fan: Samsung ambiguous (22C); Whirlpool step 7 confirms role \u2014 stays conditional, not promoted."
+      },
+      "ice_maker": {
+        "samsungSxS": "shared_function",
+        "whirlpoolSxS": "maps_to_frozen_contract",
+        "intersection": true,
+        "note": null
+      },
+      "water_dispenser": {
+        "samsungSxS": "shared_function",
+        "whirlpoolSxS": "maps_to_frozen_contract",
+        "intersection": true,
+        "note": null
+      }
+    },
+    "allKeepFunctionsIntersect": true,
+    "allConditionalConceptsIntersect": true
+  },
+  "layerSeparationConfirmed": {
+    "functional": [
+      "control_board",
+      "user_interface",
+      "door_switch",
+      "evaporator_fan",
+      "air_damper",
+      "defrost_heater",
+      "temperature_sensor",
+      "compressor",
+      "condenser_fan",
+      "ice_maker",
+      "water_dispenser"
+    ],
+    "configuration": [
+      "vertical_ff_fz_door_layout",
+      "single_vs_multi_evaporator_fan_topology",
+      "ice_maker_placement",
+      "compartment_naming_ff_fz_rc_fc"
+    ],
+    "implementation": [
+      "theseus_athena_minotaur_board_variants",
+      "inverter_pba_vs_relay_compressor",
+      "damper_stepper_vs_heater_only",
+      "connector_pin_maps"
+    ]
+  },
+  "unresolvedCarryForward": [
+    {
+      "concept": "condenser_fan",
+      "status": "conditional_unresolved_on_samsung_only",
+      "action": "Do not force into ontology; Whirlpool R2 confirms role fits conditional contract."
+    }
+  ],
+  "familyBoundaryVerdict": {
+    "hypothesisA_shareFrozenContract": "confirmed",
+    "hypothesisB_broaderRefrigeratorOntologyNaming": "supported_organizational_only",
+    "hypothesisC_distinctSideBySideOntology": "falsified",
+    "hypothesisD_insufficientEvidence": "falsified_by_r2",
+    "familyBoundaryClosed": true,
+    "recommendedNextStep": "stop_digging_use_frozen_contract_for_sxs_compounding_when_needed",
+    "deferredOrganizationalRefactor": "rename french_door_refrigerator \u2192 refrigerator at future human re-freeze gate"
+  },
+  "isolationGuards": {
+    "cg7DiscoveryCorpusInheritance": false,
+    "cg8OverlaysUsedAsSxSEvidence": false,
+    "sideBySideCanonicalOntologyCreated": false,
+    "overlayPublished": false,
+    "priorOverlayHashes": {
+      "whirlpool_jazz_french_door.json": "9c06e8ddfe925bbd6a0565d4193b46f4a21384ec88924520ba2684d33c2de2f2",
+      "samsung_fridge_bespoke.json": "7f75acf87d811d650e3c830ef32a5f72b43e8bae1588d2bed50be6223992bf9c",
+      "lg_lrmvs.json": "89624805c0b5805baedd7123f9a209ca4fe641db90c17fd34d9f6113b04d2b9b"
+    }
+  },
+  "r1Summary": {
+    "manualId": "SAMSUNG-RS28-SXS",
+    "keepShared": 6
+  },
+  "r2Summary": {
+    "manualId": "W11296289",
+    "keepMapped": 6
+  }
+}

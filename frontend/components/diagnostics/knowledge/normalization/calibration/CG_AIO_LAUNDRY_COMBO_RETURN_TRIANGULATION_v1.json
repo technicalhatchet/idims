@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_return_triangulation",
+  "workstream": "CG-AIO-LAUNDRY-COMBO-RETURN",
+  "status": "complete",
+  "generatedAt": "2026-09-17T16:35:00+00:00",
+  "contract": "CG_AIO_LAUNDRY_COMBO_RETURN_CONTRACT_v1.json",
+  "method": "post_hp_freeze_composition_analysis_two_witness",
+  "witnesses": [
+    { "id": "W1", "manufacturer": "Samsung", "model": "WD53DBA900HZA1" },
+    { "id": "W2", "manufacturer": "Whirlpool", "model": "WFW9620HC0", "manual": "W11169652" }
+  ],
+  "washSideTriangulation": {
+    "classification": "cross_manufacturer_convergent",
+    "reuse": "front_load_washer domains by composition — unchanged from fit/corroboration",
+    "w1": "9/21 procedures map FL washer domains",
+    "w2": "TEST #3–#10 wash path — strong_fit_wash_domains, mutationRequired false"
+  },
+  "integrationTriangulation": {
+    "classification": "cross_manufacturer_convergent",
+    "function": "integrated_laundry_orchestration",
+    "w1": "Smart Install steps 1–10; ULC cross-mode foam; shared 3C motor",
+    "w2": "QSC steps 1–14; F5E4 between cycles; single ACU wash+dry loads; component activation dry heater + combo fan",
+    "note": "Independently corroborated in prior corroboration — preserved"
+  },
+  "moistureRejectionTriangulation": {
+    "candidateFunction": "sealed_moisture_rejection_path",
+    "sourceFamily": "heat_pump_dryer (frozen)",
+    "classification": "cross_manufacturer_convergent",
+    "w1": "WD53 dehumidifying kit NC, 5C condensate, sealed heat-pump dry path — maps to frozen HP function",
+    "w2": "Condenser duct sealed ventless condensation — no external exhaust terminal; F4E4 dry blower path",
+    "functionalBoundaryTest": {
+      "diagnosticResponsibility": "Reject moisture via ventless condensation/recirculation without exhaust_path terminal",
+      "sharedAcrossHpAndResistive": true,
+      "notHpExclusive": true,
+      "reuseMode": "composition_reference_to_frozen_heat_pump_dryer.sealed_moisture_rejection_path"
+    }
+  },
+  "thermalModalityTriangulation": {
+    "classification": "implementation_divergence_requires_sibling_functions",
+    "w1": {
+      "modality": "refrigerant_heat_pump",
+      "mapsTo": "heat_pump_dryer.heat_pump_thermal_system",
+      "reuseMode": "composition_reference_frozen_hp_dryer",
+      "notAioOwned": true
+    },
+    "w2": {
+      "modality": "resistive_element_on_condenser_duct",
+      "mapsTo": "condenser_resistive_dry_heat (proposed AIO-owned sibling)",
+      "evidence": "TEST #15 dry heater J4; condenser duct §4-13; no compressor/refrigerant",
+      "mustNotMapTo": "heat_pump_thermal_system"
+    }
+  },
+  "sealedVentlessDryingParentEvaluation": {
+    "proposedStructure": "sealed_ventless_drying → { heat_pump_thermal_system, condenser_resistive_dry_heat }",
+    "classification": "rejected_as_canonical_parent",
+    "boundaryTest": {
+      "diagnosticResponsibilityAdded": false,
+      "reason": "Parent would only organize thermal modality siblings + already-separated moisture path — no fault routing that children do not already provide",
+      "descriptiveUmbrellaRisk": "high",
+      "verdict": "Organizational node without independent diagnostic contract — reject"
+    },
+    "alternative": "Platform-scoped thermal modality selection + shared sealed_moisture_rejection_path reference"
+  },
+  "condenserResistiveDisposition": {
+    "proposedId": "condenser_resistive_dry_heat",
+    "classification": "cross_manufacturer_convergent_as_functional_class",
+    "manufacturerNeutralRationale": "Describes dry-heat responsibility (resistive element heating recirculated process air through condenser heat-exchange path) — not Whirlpool part numbers; W2 establishes witness, modality is industry-recurring on ventless AIO/combo",
+    "notSynonymFor": ["vented_dryer.heat_source", "heat_pump_thermal_system", "dry_blower", "vent_fan"],
+    "implementationVocabulary": ["dry_heater_element", "vent_fan", "dry_blower", "vent_baffle_solenoid", "condenser_duct_assembly"]
+  },
+  "priorCandidateDisposition": {
+    "sealed_heat_pump_drying": {
+      "status": "superseded_obsolete",
+      "reason": "Over-specific for generic AIO dry; duplicates frozen heat_pump_dryer; incorrectly implies Whirlpool uses heat pump",
+      "replacement": "composition_reference heat_pump_dryer + condenser_resistive_dry_heat + sealed_moisture_rejection_path"
+    }
+  },
+  "rejectedCanonicalNodes": [
+    "sealed_ventless_drying",
+    "compressor",
+    "evaporator",
+    "condenser",
+    "dry_blower",
+    "vent_fan",
+    "condensate_pump",
+    "dry_heater_element"
+  ]
+}

@@ -1,0 +1,777 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg8_fd_overlay_mapping_gate_table",
+  "manualId": "LG-LRMVS-FRIDGE",
+  "platformId": "lg_lrmvs",
+  "platformFamilyId": "lg_lrmvs",
+  "canonicalOntologyId": "french_door_refrigerator",
+  "proposedOverlayFile": "lg_lrmvs.json",
+  "priorPublishedManualIds": [
+    "W10322959",
+    "SAMSUNG-RF23BB-FRIDGE"
+  ],
+  "status": "published",
+  "compoundingContract": "CG8_FRENCH_DOOR_COMPOUNDING_CONTRACT_v1.json",
+  "workPackage": "WP3",
+  "generatedAt": "2026-09-16T06:46:19.164792+00:00",
+  "gateFraming": {
+    "question": "What does this manual teach us about the frozen contract?",
+    "manufacturerBoundary": "strict \u2014 LRMVS procedure evidence only; CG-7 discovery corpus reference-only",
+    "freezeReopenBlocked": true
+  },
+  "manufacturerIsolation": {
+    "priorOverlays": [
+      "whirlpool_jazz_french_door.json",
+      "samsung_fridge_bespoke.json"
+    ],
+    "rule": "Do not import Whirlpool/Samsung aliases, bindings, or CG-7 triangulation verdicts.",
+    "whirlpoolOverlayDependentCount": 0,
+    "samsungOverlayDependentCount": 0,
+    "discoveryCorpusInheritanceCount": 0
+  },
+  "discoveryCorpusPolicy": {
+    "referenceOnly": true,
+    "forbiddenInheritanceArtifacts": [
+      "LG_LRMVS_fd_cg7x_observation_v1.json",
+      "SAMSUNG_RF23BB_fd_cg7x_observation_v1.json",
+      "W10322959_fd_cg7x_observation_v1.json",
+      "french_door_refrigerator.reference.json",
+      "french_door_refrigerator_cg7x_candidate_v1.json"
+    ],
+    "allowedPriorManualAccounting": [
+      "W10322959",
+      "SAMSUNG-RF23BB-FRIDGE"
+    ]
+  },
+  "pipelineCounts": {
+    "procedures": 17,
+    "mappingCandidates": 32,
+    "overlayCandidates": 1,
+    "conflicts": 0,
+    "extractionFiltered": 0
+  },
+  "normalizeRun": {
+    "manualId": "LG-LRMVS-FRIDGE",
+    "generatedAt": null
+  },
+  "gatePolicy": {
+    "gateKind": "manufacturer_boundary_third_manual",
+    "compoundingPhase": "CG-8",
+    "canonicalGraph": "french_door_refrigerator.json rev1 FROZEN",
+    "publishBlocked": false
+  },
+  "canonicalContract": {
+    "graph": "french_door_refrigerator",
+    "revision": "rev1",
+    "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+    "allowedCanonicalIds": [
+      "air_damper",
+      "control_board",
+      "defrost_heater",
+      "door_switch",
+      "evaporator_fan",
+      "user_interface"
+    ],
+    "forbiddenCanonicalIds": [
+      "airflow_path",
+      "cooling_system",
+      "defrost_system"
+    ],
+    "conditionalBindingIds": [
+      "temperature_sensor",
+      "compressor",
+      "condenser_fan",
+      "ice_maker",
+      "water_dispenser"
+    ]
+  },
+  "contractTeachingRows": [
+    {
+      "teachingId": "lg-control-board-test-mode",
+      "gateQuestion": "Does LRMVS independently teach frozen control_board?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "control_board",
+      "procedureIds": [
+        "lglrmvs-test-mode-entry",
+        "lglrmvs-display-communication",
+        "lglrmvs-display-mode"
+      ],
+      "seedComponentIds": [
+        "main_control"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "Main PCB test modes (\u00d71/\u00d72/\u00d73) and E CO flowchart \u2014 LG-native control orchestration from procedure seeds only.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-user-interface-display",
+      "gateQuestion": "Does LRMVS independently teach frozen user_interface?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "user_interface",
+      "procedureIds": [
+        "lglrmvs-display-communication",
+        "lglrmvs-display-mode"
+      ],
+      "seedComponentIds": [
+        "display_panel"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "E CO main\u2194display comm and demo/OFF display mode \u2014 independent HMI diagnostics.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-door-switch-abstention",
+      "gateQuestion": "Does LRMVS independently teach frozen door_switch?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_insufficient_procedure_evidence",
+      "gateAction": "defer_human_review",
+      "independentEvidence": false,
+      "rationale": "Manual assembly \u00a710-3 documents R/F/HomeBar door switches but no LRMVS door-switch service procedure seed. Abstain \u2014 do not inherit Jazz procedure evidence or CG-7 triangulation phrases.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-evaporator-fan-multi",
+      "gateQuestion": "Does LRMVS teach frozen evaporator_fan?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "evaporator_fan",
+      "procedureIds": [
+        "lglrmvs-ff-fan",
+        "lglrmvs-fz-fan",
+        "lglrmvs-icing-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "E rF / E FF / E IF evaporator-path fan diagnostics \u2014 canonical with multi-instance overlay; condenser fan (E CF) stays conditional.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-air-damper-test-mode",
+      "gateQuestion": "Does LRMVS independently teach frozen air_damper?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "air_damper",
+      "procedureIds": [
+        "lglrmvs-damper-test",
+        "lglrmvs-test-mode-entry"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "Test Mode \u00d72 (display 22 22) closes damper \u2014 functional airflow control on LG.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-defrost-heater-ff-fz",
+      "gateQuestion": "Does LRMVS teach frozen defrost_heater?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "defrost_heater",
+      "procedureIds": [
+        "lglrmvs-fz-defrost-heater",
+        "lglrmvs-ff-defrost-heater"
+      ],
+      "seedComponentIds": [
+        "heater"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "F dH / r dH separate heater procedures \u2014 FF/FZ instance scopes on canonical.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-compressor-linear-conditional",
+      "gateQuestion": "What does LRMVS teach about conditional compressor?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "compressor",
+      "instanceScope": "linear_compressor_r600a",
+      "procedureIds": [
+        "lglrmvs-sealed-system"
+      ],
+      "seedComponentIds": [
+        "compressor",
+        "sealed_system"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "E CH/E CL sealed-system path references linear compressor \u2014 conditionalConcept only; linear drive stays platform layer.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-condenser-fan-conditional",
+      "gateQuestion": "Does LRMVS teach conditional condenser_fan?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "condenser_fan",
+      "procedureIds": [
+        "lglrmvs-condenser-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "Standalone E CF procedure on CON3 \u2014 conditional binding (2/3 with Jazz; Samsung abstains).",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-temp-ff-conditional",
+      "gateQuestion": "LRMVS fresh-food cabinet NTC scope?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "fresh_food",
+      "procedureIds": [
+        "lglrmvs-ff-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-temp-fz-conditional",
+      "gateQuestion": "LRMVS freezer cabinet NTC scope?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "freezer",
+      "procedureIds": [
+        "lglrmvs-fz-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-temp-convert-conditional",
+      "gateQuestion": "LRMVS convert-drawer NTC scope?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "convert_drawer",
+      "procedureIds": [
+        "lglrmvs-convert-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-temp-icing-conditional",
+      "gateQuestion": "LRMVS icing-room NTC scope?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "icing_room",
+      "procedureIds": [
+        "lglrmvs-icing-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-ice-maker-conditional",
+      "gateQuestion": "LRMVS optional ice_maker conditional binding?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "ice_maker",
+      "procedureIds": [
+        "lglrmvs-ice-maker-electrical"
+      ],
+      "seedComponentIds": [
+        "ice_maker_module"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "E ID/E IU ice maker kit electrical \u2014 conditionalConcept only.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-water-dispenser-abstention",
+      "gateQuestion": "LRMVS water_dispenser conditional binding?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_no_standalone_diagnostic",
+      "gateAction": "defer_human_review",
+      "rationale": "No LRMVS water-dispenser service procedure seed in manual pipeline.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-linear-compressor-platform",
+      "gateQuestion": "Linear compressor implementation vocabulary?",
+      "outcome": "overlay_knowledge",
+      "layer": "lg_platform_implementation",
+      "platformTarget": "compressor_controller",
+      "procedureIds": [
+        "lglrmvs-sealed-system"
+      ],
+      "seedComponentIds": [
+        "compressor"
+      ],
+      "implementationComponent": "linear_compressor",
+      "gateAction": "approve_platform_implementation",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-defrost-sensor-platform",
+      "gateQuestion": "F dS/r dS defrost NTC vocabulary?",
+      "outcome": "overlay_knowledge",
+      "layer": "lg_platform_implementation",
+      "platformTarget": "defrost_sensor",
+      "procedureIds": [
+        "lglrmvs-fz-defrost-sensor",
+        "lglrmvs-ff-defrost-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-icing-fan-platform",
+      "gateQuestion": "Icing compartment fan architecture?",
+      "outcome": "overlay_knowledge",
+      "layer": "lg_platform_implementation",
+      "canonicalFunctionalRole": [
+        "evaporator_fan"
+      ],
+      "instanceScope": "icing_room",
+      "procedureIds": [
+        "lglrmvs-icing-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "E IF icing fan \u2014 platform detail under evaporator_fan family.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-wifi-modem-platform",
+      "gateQuestion": "Wi-Fi modem (E Od) implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "lg_platform_implementation",
+      "procedureIds": [
+        "lglrmvs-wifi-modem"
+      ],
+      "seedComponentIds": [
+        "main_control"
+      ],
+      "implementationComponent": "wifi_modem",
+      "gateAction": "approve_platform_implementation",
+      "rationale": "ThinQ modem comm \u2014 platform connectivity, not canonical user_interface expansion.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-sealed-system-routing",
+      "gateQuestion": "Sealed-system complaint routing on LRMVS?",
+      "outcome": "overlay_knowledge",
+      "layer": "reject_canonical_promotion",
+      "platformTarget": "sealed_system",
+      "procedureIds": [
+        "lglrmvs-sealed-system"
+      ],
+      "gateAction": "reject_canonical_promotion",
+      "rationale": "E CH/E CL routing is PLATFORM_ONLY per CG-7 freeze \u2014 not canonical expansion.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-aggregate-resurrection-blocked",
+      "gateQuestion": "Do LG terms resurrect removed aggregates?",
+      "outcome": "overlay_knowledge",
+      "layer": "reject_aggregate_resurrection",
+      "removedConcepts": [
+        "airflow_path",
+        "cooling_system",
+        "defrost_system"
+      ],
+      "gateAction": "reject_canonical_promotion",
+      "rationale": "Test modes and \u00a78 flowcharts decompose into members \u2014 defrost_system, cooling_system, airflow_path remain dead per CG-7 freeze.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-humidity-abstention",
+      "gateQuestion": "humidity_control on LRMVS?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_single_manufacturer_feature",
+      "gateAction": "defer_human_review",
+      "rationale": "Humidity crisper mentioned in manual but CG-7 deferred humidity_control.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-power-supply-abstention",
+      "gateQuestion": "power_supply on LRMVS?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_cg7_deferred_concept",
+      "gateAction": "defer_human_review",
+      "rationale": "CG-7 deferred power_supply \u2014 no standalone LRMVS supply diagnostic procedure seed.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    },
+    {
+      "teachingId": "lg-discovery-corpus-isolation",
+      "gateQuestion": "Does compounding import CG-7 discovery corpus?",
+      "outcome": "overlay_knowledge",
+      "layer": "discovery_corpus_isolation_guard",
+      "gateAction": "reject_canonical_promotion",
+      "rationale": "CG-7 R3 observation artifacts are reference-only \u2014 LG bindings must come from LRMVS procedure seeds, not triangulation verdict inheritance.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+      "humanGateReviewer": "human_gate_cg8_wp3"
+    }
+  ],
+  "mappingCandidateDispositions": [
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-evap_fan",
+      "sourceTerm": "evap_fan",
+      "procedureId": "lglrmvs-condenser-fan",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-condenser-fan-(e-cf)",
+      "sourceTerm": "\u00a78-11: Condenser fan (E CF)",
+      "procedureId": "lglrmvs-condenser-fan",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-lg-lrmvs-fridge-unresolved-lglrmvs-convert-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "lglrmvs-convert-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-convert-drawer-sensor-(e-cs)",
+      "sourceTerm": "\u00a78-22: Convert drawer sensor (E CS)",
+      "procedureId": "lglrmvs-convert-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-display_panel",
+      "sourceTerm": "display_panel",
+      "procedureId": "lglrmvs-display-communication",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-main_control",
+      "sourceTerm": "main_control",
+      "procedureId": "lglrmvs-display-communication",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-main-\u2194-display-communication-(e-co)",
+      "sourceTerm": "\u00a78-12: Main \u2194 display communication (E CO)",
+      "procedureId": "lglrmvs-display-communication",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound--15:-display-/-demo-mode-(off)",
+      "sourceTerm": "\u00a713-1-15: Display / demo mode (OFF)",
+      "procedureId": "lglrmvs-display-mode",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-lg-lrmvs-fridge-unresolved-lglrmvs-ff-defrost-heater-heater",
+      "sourceTerm": "heater",
+      "procedureId": "lglrmvs-ff-defrost-heater",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-fresh-food-defrost-heater-(r-dh)",
+      "sourceTerm": "\u00a78-7: Fresh-food defrost heater (r dH)",
+      "procedureId": "lglrmvs-ff-defrost-heater",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-lg-lrmvs-fridge-unresolved-lglrmvs-ff-defrost-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "lglrmvs-ff-defrost-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-fresh-food-defrost-sensor-(r-ds)",
+      "sourceTerm": "\u00a78-5: Fresh-food defrost sensor (r dS)",
+      "procedureId": "lglrmvs-ff-defrost-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-refrigerator-evaporator-fan-(e-rf)",
+      "sourceTerm": "\u00a78-8: Refrigerator evaporator fan (E rF)",
+      "procedureId": "lglrmvs-ff-fan",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-lg-lrmvs-fridge-unresolved-lglrmvs-ff-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "lglrmvs-ff-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-fresh-food-cabinet-sensor-(e-rs)",
+      "sourceTerm": "\u00a78-2: Fresh-food cabinet sensor (E rS)",
+      "procedureId": "lglrmvs-ff-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-lg-lrmvs-fridge-unresolved-lglrmvs-fz-defrost-heater-heater",
+      "sourceTerm": "heater",
+      "procedureId": "lglrmvs-fz-defrost-heater",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-freezer-defrost-heater-(f-dh)",
+      "sourceTerm": "\u00a78-6: Freezer defrost heater (F dH)",
+      "procedureId": "lglrmvs-fz-defrost-heater",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-lg-lrmvs-fridge-unresolved-lglrmvs-fz-defrost-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "lglrmvs-fz-defrost-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-freezer-defrost-sensor-(f-ds)",
+      "sourceTerm": "\u00a78-4: Freezer defrost sensor (F dS)",
+      "procedureId": "lglrmvs-fz-defrost-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-freezer-evaporator-fan-(e-ff)",
+      "sourceTerm": "\u00a78-9: Freezer evaporator fan (E FF)",
+      "procedureId": "lglrmvs-fz-fan",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-lg-lrmvs-fridge-unresolved-lglrmvs-fz-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "lglrmvs-fz-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-freezer-cabinet-sensor-(e-fs)",
+      "sourceTerm": "\u00a78-1: Freezer cabinet sensor (E FS)",
+      "procedureId": "lglrmvs-fz-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-ice_maker_module",
+      "sourceTerm": "ice_maker_module",
+      "procedureId": "lglrmvs-ice-maker-electrical",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-ice-maker-kit-electrical-(e-id-/-e-iu)",
+      "sourceTerm": "\u00a78-24: Ice maker kit electrical (E ID / E IU)",
+      "procedureId": "lglrmvs-ice-maker-electrical",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-icing-compartment-fan-(e-if)",
+      "sourceTerm": "\u00a78-10: Icing compartment fan (E IF)",
+      "procedureId": "lglrmvs-icing-fan",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-lg-lrmvs-fridge-unresolved-lglrmvs-icing-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "lglrmvs-icing-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-icing-room-sensor-(e-is)",
+      "sourceTerm": "\u00a78-3: Icing room sensor (E IS)",
+      "procedureId": "lglrmvs-icing-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-sealed_system",
+      "sourceTerm": "sealed_system",
+      "procedureId": "lglrmvs-sealed-system",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-lg-lrmvs-fridge-unresolved-lglrmvs-sealed-system-compressor",
+      "sourceTerm": "compressor",
+      "procedureId": "lglrmvs-sealed-system",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-sealed-system-leak-cycle-(e-ch-/-e-cl)",
+      "sourceTerm": "\u00a78-22: Sealed-system leak cycle (E CH / E CL)",
+      "procedureId": "lglrmvs-sealed-system",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-control_board",
+      "sourceTerm": "control_board",
+      "procedureId": "lglrmvs-wifi-modem",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-LG-LRMVS-FRIDGE-compound-wi-fi-modem-communication-(e-od)",
+      "sourceTerm": "\u00a78-20: Wi-Fi modem communication (E Od)",
+      "procedureId": "lglrmvs-wifi-modem",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    }
+  ],
+  "auditBoundaries": {
+    "linearCompressorSplit": [
+      "lg-compressor-linear-conditional",
+      "lg-linear-compressor-platform",
+      "lg-sealed-system-routing"
+    ],
+    "compartmentThermistors": [
+      "lg-temp-ff-conditional",
+      "lg-temp-fz-conditional",
+      "lg-temp-convert-conditional",
+      "lg-temp-icing-conditional"
+    ],
+    "discoveryIsolation": [
+      "lg-discovery-corpus-isolation"
+    ],
+    "aggregateResurrectionBlocked": [
+      "lg-aggregate-resurrection-blocked"
+    ]
+  },
+  "accounting": {
+    "canonicalInheritance": 5,
+    "conditionalBinding": 7,
+    "overlayLearning": 7,
+    "intentionalAbstention": 4,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "mappingCandidatesTotal": 32,
+    "intentionalAbstentions": 4,
+    "overlayLearningEvents": 7
+  },
+  "outcomeHistogram": {
+    "canonical_inheritance": 5,
+    "intentional_abstention": 4,
+    "conditional_binding": 7,
+    "overlay_knowledge": 7
+  },
+  "humanGateApprovedAt": "2026-09-16T06:46:19.246792+00:00",
+  "humanGateReviewer": "human_gate_cg8_wp3",
+  "publishedAt": "2026-09-16T06:46:19.436792+00:00",
+  "promotionId": "promo-LG-LRMVS-FD-CG8-20260916064619"
+}

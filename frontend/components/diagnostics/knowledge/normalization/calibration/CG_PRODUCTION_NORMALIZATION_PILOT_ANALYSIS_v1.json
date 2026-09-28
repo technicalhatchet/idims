@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_pilot_analysis",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-PILOT",
+  "status": "executed",
+  "generatedAt": "2026-09-17T20:07:40.152783+00:00",
+  "analysisSummary": "Pilot batch classification executed. Batch status: stopped. Stop reason: architecture_exception on SAMSUNG-FLEXWASH-WASHER \u2014 batch STOP per pilot contract.",
+  "lifecycleProof": {
+    "canonical_mapping_continue": {
+      "required": true,
+      "observed": true,
+      "evidenceManualIds": []
+    },
+    "implementation_specific_overlay": {
+      "required": true,
+      "observed": true,
+      "evidenceManualIds": [
+        "W11169652",
+        "SAMSUNG-FL-BB8700-WASHER",
+        "LG-FL-WASHER",
+        "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "SAMSUNG-HP-DRYER-DV22N"
+      ]
+    },
+    "unresolved_block": {
+      "required": true,
+      "observed": true,
+      "evidenceManualIds": [
+        "W11169652",
+        "SAMSUNG-FL-BB8700-WASHER",
+        "LG-FL-WASHER",
+        "W11746350",
+        "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "LG-LMHM2237-MICROWAVE",
+        "SAMSUNG-HP-DRYER-DV22N",
+        "SAMSUNG-FLEXWASH-WASHER"
+      ]
+    },
+    "architecture_exception_stop": {
+      "required": true,
+      "observed": true,
+      "evidenceManualIds": [
+        "SAMSUNG-FLEXWASH-WASHER"
+      ]
+    },
+    "prerequisite_block_no_silent_skip": {
+      "required": true,
+      "observed": false,
+      "evidenceManualIds": []
+    }
+  },
+  "failureModesChecked": {
+    "silent_canonical_promotion": {
+      "observed": false
+    },
+    "silent_unresolved_guessing": {
+      "observed": false
+    },
+    "continued_past_architecture_exception": {
+      "observed": false
+    },
+    "frozen_hash_mutation": {
+      "observed": false
+    }
+  },
+  "deferredPilotTargets": [
+    {
+      "id": "generic_architecture_exception_batch_stop",
+      "pilotVerdict": "partially_proven",
+      "note": "STOP demonstrated via pilot_batch.py; generic module still deferred"
+    },
+    {
+      "id": "file_level_canonical_write_interceptor",
+      "pilotVerdict": "deferred",
+      "note": "Hash gate + write-target tests; file interceptor not in pilot scope"
+    }
+  ],
+  "gateRecommendation": {
+    "verdict": "GREEN / PILOT_GATE_CLOSED",
+    "closureAnalysis": "CG_PRODUCTION_NORMALIZATION_PILOT_CLOSURE_ANALYSIS_v1.json",
+    "closedAt": "2026-09-17T23:00:00+00:00",
+    "prerequisiteBlockNote": "prerequisite_block_no_silent_skip observed:false is expected when all prerequisites resolved — see closure analysis interpretation"
+  }
+}

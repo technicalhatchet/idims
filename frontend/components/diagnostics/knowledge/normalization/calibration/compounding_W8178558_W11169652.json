@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "compounding_comparison",
+  "generatedAt": "2026-09-13T06:29:58.929863+00:00",
+  "baselineManualId": "W8178558",
+  "targetManualId": "W11169652",
+  "priorManualIds": [
+    "W8178558"
+  ],
+  "baseline": {
+    "manualId": "W8178558",
+    "platformId": "whirlpool_duet_sport",
+    "priorManualIds": [],
+    "totalReviewRecords": 41,
+    "byApprovalLevel": {
+      "easy": 14,
+      "careful": 7,
+      "blocked": 10,
+      "normal": 10
+    },
+    "byStatus": {
+      "promoted": 31,
+      "needs_review": 10
+    },
+    "byType": {
+      "canonicalMapping": 31,
+      "procedureTestBinding": 5,
+      "measurementBinding": 5
+    },
+    "approved": 31,
+    "rejected": 0,
+    "needsReview": 10,
+    "promoted": 31,
+    "autoApprovals": 31,
+    "humanApprovals": 0,
+    "humanRejections": 0,
+    "manualResolutionsRequired": 10,
+    "humanDecisionCount": 10,
+    "newHumanDecisionCount": 10,
+    "inheritedResolvedAutomatically": 20,
+    "newManualResolutions": 10,
+    "inheritedManualResolutions": 0,
+    "newHumanDecisionRate": 0.2439,
+    "inheritedResolutionRate": 0.6667,
+    "corpusKnowledgeSize": {
+      "canonicalMappings": 46,
+      "procedureBindings": 0,
+      "measurementBindings": 0
+    }
+  },
+  "target": {
+    "manualId": "W11169652",
+    "platformId": "whirlpool_fl_dd",
+    "priorManualIds": [
+      "W8178558"
+    ],
+    "totalReviewRecords": 49,
+    "byApprovalLevel": {
+      "easy": 16,
+      "blocked": 9,
+      "normal": 21,
+      "careful": 3
+    },
+    "byStatus": {
+      "approved": 49
+    },
+    "byType": {
+      "canonicalMapping": 36,
+      "procedureTestBinding": 4,
+      "measurementBinding": 9
+    },
+    "approved": 49,
+    "rejected": 0,
+    "needsReview": 0,
+    "promoted": 0,
+    "autoApprovals": 37,
+    "humanApprovals": 12,
+    "humanRejections": 0,
+    "manualResolutionsRequired": 0,
+    "humanDecisionCount": 12,
+    "newHumanDecisionCount": 12,
+    "inheritedResolvedAutomatically": 13,
+    "newManualResolutions": 0,
+    "inheritedManualResolutions": 0,
+    "newHumanDecisionRate": 0.2449,
+    "inheritedResolutionRate": 0.52,
+    "corpusKnowledgeSize": {
+      "canonicalMappings": 47,
+      "procedureBindings": 5,
+      "measurementBindings": 3
+    }
+  },
+  "delta": {
+    "reviewRecords": 8,
+    "humanDecisionCount": 2,
+    "newHumanDecisionCount": 2,
+    "manualResolutionsRequired": -10,
+    "inheritedResolvedAutomatically": -7
+  }
+}

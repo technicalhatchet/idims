@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_cooktop_fit_closure",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T19:35:00+00:00",
+  "phase": "CG-COOKTOP-FIT-TEST",
+  "verdict": "CLOSED / COOKTOP_COMPOSITION_OF_RANGE_OVEN",
+  "closureStatement": "Standalone cooktop fits frozen range_oven via surface-only composition — no new canonical graph. Whirlpool W11461580 induction cooktop witness: all eleven classified diagnostic paths map to existing range_oven surface_heating_system, control_board, user_interface, power_supply, and conditional thermal_protection domains. IPC/IGBT/coil/inverter remain platform overlays — not canonical promotion. Oven domains (oven_heat_generation, cavity temperature_sensor, oven_door_switch) not instantiated. No standalone gas or radiant electric cooktop manuals in corpus — documented limitation; does not block composition conclusion for witnessed induction implementation. cooktop.json not authorized.",
+  "approvedFitOutcome": {
+    "outcome": "composition",
+    "label": "surface_only_composition_of_range_oven",
+    "humanBoundaryApprovedAt": "2026-09-17T19:35:00+00:00"
+  },
+  "governanceConclusion": {
+    "functionalCompatibility": true,
+    "fitsExistingFrozenContracts": true,
+    "hostFamily": "range_oven",
+    "hostFamilyProven": true,
+    "newCanonicalGraphRequired": false,
+    "discoveryAuthorized": false,
+    "freezeAuthorized": false,
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0,
+    "normalizationAuthorized": false,
+    "compoundingAuthorized": false,
+    "fitConclusive": true
+  },
+  "architecturalDisposition": {
+    "categoryId": "cooktop_only",
+    "inventoryClassificationUpdate": "composition_of_range_oven — surface-only scope",
+    "hostCanonicalOntologyId": "range_oven",
+    "compartmentScope": "surface_only",
+    "rangeDomainsOmitted": ["oven_heat_generation", "temperature_sensor_cavity", "oven_door_switch", "convection_fan"],
+    "implementationRemainsOverlay": true
+  },
+  "evidenceWitnesses": {
+    "used": [
+      {
+        "witnessId": "W1",
+        "manufacturer": "Whirlpool/KitchenAid/JennAir",
+        "model": "Induction Cooktop",
+        "manualId": "W11461580",
+        "sourcePdf": "backend/docs/manuals/technical-manual-w11461580-revAwplinductioncktp.pdf",
+        "thermalImplementation": "induction"
+      }
+    ],
+    "notInCorpus": [
+      "Standalone gas cooktop service manual",
+      "Standalone electric radiant cooktop service manual",
+      "Samsung/LG standalone cooktop service manual",
+      "Downdraft cooktop service manual"
+    ],
+    "explicitlyExcludedSubstitutes": [
+      "samsunginductionne58h slide-in range",
+      "samsungny64 dual-fuel range",
+      "W11174426 freestanding range",
+      "W11174814 freestanding range",
+      "Samsung NX60 freestanding range"
+    ]
+  },
+  "functionalMappings": [
+    { "domain": "surface_heating_system", "host": "surface_heating_system (induction IPC realization)" },
+    { "domain": "induction_power_conversion", "host": "overlayOnlyConcepts.surface_control — not canonical IPC/IGBT" },
+    { "domain": "user_interface", "host": "user_interface + service diagnostics mode" },
+    { "domain": "control_board", "host": "control_board (IPC orchestration)" },
+    { "domain": "thermal_protection", "host": "conditionalConcept.thermal_protection" },
+    { "domain": "power_supply", "host": "power_supply" },
+    { "domain": "electronics_cooling", "host": "deferredConcept.cooling_fan platform overlay" }
+  ],
+  "genuineDivergences": [],
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "cooktopJsonCreated": false,
+    "witnessCount": 1,
+    "diagnosticPathClassifications": 11,
+    "frozenGraphMutations": 0
+  },
+  "frozenContractsPreserved": {
+    "range_oven": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+    "electric_range": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "french_door_refrigerator": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+    "vented_dryer": "db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714",
+    "heat_pump_dryer": "d7a98c826d011a9fdef4b8c91ebd4d66ff88629f7d7b91357d43fee42c32d3bb",
+    "aio_laundry_combo": "be3799a991b3d778b62e60a7ec3d91dfd6fe82432e3f9ac8663d607008081183",
+    "microwave": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d"
+  },
+  "evidenceChain": {
+    "inventory": "CG_CANONICAL_FAMILY_INVENTORY_v1.json",
+    "fitContract": "CG_COOKTOP_FIT_TEST_CONTRACT_v1.json",
+    "observation": "CG_W11461580_FIT_OBSERVATION_v1.json",
+    "triangulation": "CG_COOKTOP_FIT_TRIANGULATION_v1.json",
+    "fitAnalysis": "CG_COOKTOP_FIT_ANALYSIS_v1.json"
+  },
+  "immutableFitArtifacts": [
+    "CG_W11461580_FIT_OBSERVATION_v1.json",
+    "CG_COOKTOP_FIT_TRIANGULATION_v1.json",
+    "CG_COOKTOP_FIT_ANALYSIS_v1.json"
+  ],
+  "authorizedNextWorkstream": "CG-CANONICAL-ARCHITECTURE-COMPLETE",
+  "nextDisciplinedStep": "STOP — cooktop fit gate closed GREEN. Execute CANONICAL ARCHITECTURE COMPLETE closure — not normalization."
+}

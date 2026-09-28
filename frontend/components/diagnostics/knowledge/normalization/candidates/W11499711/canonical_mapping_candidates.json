@@ -1,0 +1,101 @@
+{
+  "manualId": "W11499711",
+  "candidates": [
+    {
+      "id": "map-W11499711-circulation_pump-circulation_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "circulation_pump",
+      "extractedTerm": null,
+      "canonicalId": "circulation_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11499711",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "pages": [
+          53,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11499711",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11499711-wash-motor-ssm",
+            "pages": [
+              53,
+              54
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11499711_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11499711-compound-wash-motor-(ssm,-wdt750)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-15: Wash Motor (SSM, WDT750)",
+      "canonicalId": "circulation_pump",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": null,
+        "actuator": "motor"
+      },
+      "matchedPhrase": "wash motor",
+      "provenance": {
+        "manualId": "W11499711",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "pages": [
+          53,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11499711",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11499711-wash-motor-ssm",
+            "pages": [
+              53,
+              54
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11499711_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash motor",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Wash Motor (SSM, WDT750)"
+    }
+  ]
+}

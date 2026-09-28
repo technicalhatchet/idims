@@ -1,0 +1,417 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_batch_contract",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-BATCH",
+  "status": "defined_not_executed",
+  "activatedAt": "2026-09-17T23:45:00+00:00",
+  "priorPhaseClosed": "CG_PRODUCTION_NORMALIZATION_PILOT_CLOSURE_v1.json",
+  "priorPhaseVerdict": "GREEN / PILOT_GATE_CLOSED",
+  "phaseIntent": "Define how the production normalization corpus is processed at scale — deterministically, in isolation, with auditability. This gate authorizes the batch CONTRACT only. Batch EXECUTION is NOT authorized.",
+  "batchQuestion": "How do we safely process the remaining production corpus at scale?",
+  "pilotQuestionAnsweredSeparately": "Does the pipeline behave safely when it encounters different knowledge outcomes? — YES (pilot GREEN)",
+  "notAuthorizingYet": [
+    "Batch execution against 72-manual cohort",
+    "70-manual automatic processing",
+    "FlexWash production normalization",
+    "FlexWash overlay publication",
+    "WV60 procedure ingestion",
+    "Production UI build",
+    "New canonical ontology authoring",
+    "Automatic canonical promotion",
+    "Automatic overlay publication",
+    "Cross-manufacturer inference",
+    "Topology inference from single manual",
+    "Deletion or rewrite of architecture_exception.json",
+    "Pilot re-run or pilot closure reversal"
+  ],
+  "authorizingOnBatchExecutionGreen": [
+    "CG-PRODUCTION-NORMALIZATION-BATCH-EXECUTION (separate gate — not this artifact)"
+  ],
+  "cohortArtifact": "CG_PRODUCTION_NORMALIZATION_BATCH_COHORT_v1.json",
+  "cohortSize": 72,
+  "cohortSourceOfTruth": "frontend/components/diagnostics/procedures/procedureManualManifest.json",
+  "cohortManifestFreeze": {
+    "requiredBeforeExecution": true,
+    "rule": "Cohort manifest must be immutable for the run via content hash — manifest edits between authorization and execution invalidate the batchRunId",
+    "flow": [
+      "BATCH AUTHORIZATION (locked execution artifact)",
+      "freeze cohort manifest",
+      "compute manifestHash + cohortHash",
+      "record batchRunId + manifestHash",
+      "verify frozen canonical hashes",
+      "execute"
+    ],
+    "sources": [
+      "frontend/components/diagnostics/procedures/procedureManualManifest.json",
+      "CG_PRODUCTION_NORMALIZATION_BATCH_COHORT_v1.json"
+    ],
+    "recordedFields": ["batchRunId", "manifestHash", "cohortHash", "manifestFreeze.frozenAt"],
+    "resumeRule": "Resume rejects manifestHash or cohortHash mismatch — HARD STOP",
+    "implementation": "backend/scripts/normalization/batch_orchestrator.py — freeze_cohort_manifest()"
+  },
+  "immutableUpstream": {
+    "governanceLock": "CG_PRODUCTION_INGESTION_GOVERNANCE_LOCK_v1.json",
+    "pilotClosure": "CG_PRODUCTION_NORMALIZATION_PILOT_CLOSURE_v1.json",
+    "frozenHashRegistry": "frozen_canonical_hashes_v1.json",
+    "flexwashIntegrationBoundary": "flexwash_integration_boundary_functional_contract_frozen_v1.json"
+  },
+  "perManualLifecycle": {
+    "stages": ["INGEST", "NORMALIZE", "CLASSIFY"],
+    "ingest": {
+      "scope": "PDF extract, extraction doc, procedure seeds where applicable",
+      "writeTargets": [
+        "backend/docs/manuals/*-extracted.txt",
+        "frontend/components/diagnostics/procedures/seed/{platformId}/",
+        "frontend/components/diagnostics/knowledge/pattern-catalog/*_EXTRACTION.md"
+      ],
+      "mustNotWrite": ["frontend/components/diagnostics/knowledge/canonical/*.json"]
+    },
+    "normalize": {
+      "scope": "Candidate extraction per manual into isolated candidate directory",
+      "writeTarget": "frontend/components/diagnostics/knowledge/normalization/candidates/{manualId}/",
+      "mustNotWrite": ["frontend/components/diagnostics/knowledge/canonical/*.json"]
+    },
+    "classify": {
+      "branches": [
+        {
+          "id": "canonical_mapping",
+          "label": "canonical_mapping",
+          "description": "One or more mapping candidates bind to frozen canonical vocabulary without distortion",
+          "promotionAllowed": false,
+          "note": "Candidate only — human gate required for any promotion"
+        },
+        {
+          "id": "implementation_specific",
+          "label": "implementation_specific",
+          "description": "Overlay candidates and/or compound terms — OEM implementation vocabulary",
+          "promotionAllowed": false,
+          "overlayPath": "authorized_human_gate_only"
+        },
+        {
+          "id": "unresolved",
+          "label": "unresolved",
+          "description": "UNRESOLVED_TERM or conflicts block promotion",
+          "promotionAllowed": false
+        },
+        {
+          "id": "architecture_exception",
+          "label": "architecture_exception",
+          "description": "Cannot map without canonical distortion — STOP forward batch progress",
+          "artifact": "candidates/{manualId}/architecture_exception.json",
+          "promotionAllowed": false,
+          "nextRoute": "fit → discovery → freeze (architecture gate only)"
+        }
+      ]
+    }
+  },
+  "manualDispositionModel": {
+    "replacesPilotField": "pipelineDisposition alone is insufficient for production audit",
+    "requiredFields": {
+      "primaryDisposition": {
+        "type": "enum",
+        "values": [
+          "canonical_mapping",
+          "implementation_specific",
+          "unresolved",
+          "architecture_exception",
+          "prerequisite_block",
+          "pending",
+          "skipped_authorized"
+        ],
+        "rule": "Single primary outcome for batch ordering and STOP semantics — the highest-precedence terminal state for the manual"
+      },
+      "hasCanonicalMappings": {
+        "type": "boolean",
+        "rule": "true when candidate mapping count > 0 — orthogonal to primaryDisposition"
+      },
+      "hasOverlayCandidates": {
+        "type": "boolean",
+        "rule": "true when overlay candidate count > 0"
+      },
+      "hasUnresolvedTerms": {
+        "type": "boolean",
+        "rule": "true when UNRESOLVED_TERM count > 0 or conflicts present"
+      },
+      "hasArchitectureException": {
+        "type": "boolean",
+        "rule": "true when architecture_exception.json exists or is detected"
+      },
+      "promotionBlocked": {
+        "type": "boolean",
+        "rule": "true when unresolved, conflicts, or architecture_exception"
+      }
+    },
+    "precedenceForPrimaryDisposition": [
+      "architecture_exception",
+      "prerequisite_block",
+      "unresolved",
+      "implementation_specific",
+      "canonical_mapping"
+    ],
+    "pilotSemanticFix": {
+      "problem": "Pilot allowed implementation_specific while also having canonical candidate mappings and unresolved terms",
+      "resolution": "primaryDisposition uses precedence; boolean flags preserve full audit trail",
+      "example": "P05: primaryDisposition=implementation_specific, hasCanonicalMappings=true, hasUnresolvedTerms=true"
+    }
+  },
+  "auditManifestSchema": {
+    "perManualRequired": {
+      "manualId": "string",
+      "platformId": "string",
+      "templateId": "string",
+      "expectedFrozenOntologyId": "string|null",
+      "primaryDisposition": "enum",
+      "hasCanonicalMappings": "boolean",
+      "hasOverlayCandidates": "boolean",
+      "hasUnresolvedTerms": "boolean",
+      "hasArchitectureException": "boolean",
+      "counts": {
+        "canonicalMappings": "integer — candidate status count",
+        "implementationSpecific": "integer — COMPOUND_TERM_CANDIDATE count",
+        "unresolved": "integer — UNRESOLVED_TERM count",
+        "architectureException": "0|1",
+        "candidateCount": "integer — total mapping candidates",
+        "overlayCandidateCount": "integer",
+        "conflictCount": "integer",
+        "promotionBlocked": "boolean"
+      },
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "string|null",
+        "candidateDir": "normalization/candidates/{manualId}/",
+        "processedAt": "ISO-8601",
+        "batchRunId": "string",
+        "contentHash": "SHA-256 of normalized candidate inputs — idempotency key"
+      },
+      "batchState": "completed|stopped_trigger|pending|skipped"
+    },
+    "batchLevelRequired": {
+      "batchRunId": "string",
+      "cohortArtifact": "CG_PRODUCTION_NORMALIZATION_BATCH_COHORT_v1.json",
+      "startedAt": "ISO-8601",
+      "finishedAt": "ISO-8601|null",
+      "batchStatus": "completed|stopped|in_progress",
+      "stopReason": "string|null",
+      "stoppedAtManualId": "string|null",
+      "manualsCompleted": "integer",
+      "manualsPending": "integer",
+      "frozenHashesVerifiedBefore": "boolean",
+      "frozenHashesVerifiedAfter": "boolean"
+    }
+  },
+  "isolationRules": {
+    "candidateDirectoryIsolation": {
+      "rule": "Each manual writes only to normalization/candidates/{manualId}/",
+      "crossManualContamination": "FORBIDDEN"
+    },
+    "unresolvedIsolation": {
+      "rule": "UNRESOLVED_TERM in manual A must not alter mapping candidates in manual B",
+      "enforcement": "Per-manual candidate files; no shared mutable normalization state"
+    },
+    "architectureExceptionIsolation": {
+      "rule": "architecture_exception on manual A must not be copied, inferred, or applied to manual B",
+      "enforcement": "Exception artifact scoped to manualId directory only",
+      "flexwashExample": "SAMSUNG-FLEXWASH-WASHER STOP does not imply STOP for other Samsung washers"
+    },
+    "frozenCanonicalImmutability": {
+      "rule": "frozen canonical graphs remain immutable during batch",
+      "enforcement": [
+        "frozen_canonical_hashes_v1.json",
+        "validate_canonical_graph.py pre/post gate",
+        "batch hard STOP on hash mutation"
+      ]
+    },
+    "noCrossManufacturerInference": {
+      "rule": "Mapping evidence from manufacturer A must not auto-resolve terms for manufacturer B",
+      "enforcement": "Per-manual provenance; no batch-wide term promotion"
+    },
+    "noTopologyInference": {
+      "rule": "Product topology (dual-load, AIO, stacked) must not be inferred from make/model string alone",
+      "enforcement": "architecture_exception route when distortion detected — not silent multi-instance mapping"
+    }
+  },
+  "promotionRules": {
+    "candidatesOnly": true,
+    "overlayOnlyThroughAuthorizedPath": true,
+    "automaticCanonicalPromotion": false,
+    "automaticOverlayPublication": false,
+    "crossManufacturerInference": false,
+    "topologyInference": false,
+    "unresolvedBlocksPromotion": true,
+    "conflictsBlockPromotion": true,
+    "architectureExceptionBlocksPromotion": true,
+    "writeTargets": {
+      "allowed": [
+        "normalization/candidates/{manualId}/",
+        "normalization/review/",
+        "normalization/calibration/"
+      ],
+      "forbidden": [
+        "canonical/*.json",
+        "manufacturer_overlays/*.json without separate overlay publish gate"
+      ]
+    }
+  },
+  "batchStopSemantics": {
+    "summary": "Architecture exception stops FORWARD batch progress. Completed manuals are retained. Pending manuals are not processed. No silent continuation.",
+    "deterministicBehavior": {
+      "onArchitectureException": {
+        "trigger": "hasArchitectureException=true for current manual during batch run",
+        "wholeCorpusAborted": false,
+        "forwardProgressHalted": true,
+        "currentManual": {
+          "primaryDisposition": "architecture_exception",
+          "batchState": "stopped_trigger",
+          "artifactWritten": "architecture_exception.json if not already present",
+          "promotionBlocked": true,
+          "humanReviewRequired": true
+        },
+        "priorCompletedManuals": {
+          "retained": true,
+          "mutatedOnStop": false,
+          "dispositionFrozen": true,
+          "note": "Already-safe results from earlier manuals in the same batch run are immutable"
+        },
+        "subsequentManuals": {
+          "processed": false,
+          "batchState": "pending",
+          "reason": "Batch run halted — await human review and explicit resume authorization"
+        },
+        "batchRunStatus": "stopped",
+        "stopReasonTemplate": "architecture_exception on {manualId} — batch forward progress STOP per batch contract"
+      },
+      "onUnresolved": {
+        "trigger": "primaryDisposition=unresolved with zero safe mappings",
+        "forwardProgressHalted": false,
+        "batchContinues": true,
+        "promotionBlocked": true
+      },
+      "onImplementationSpecificOrCanonicalMapping": {
+        "forwardProgressHalted": false,
+        "batchContinues": true,
+        "promotionBlocked": "true if hasUnresolvedTerms or conflicts"
+      }
+    },
+    "pilotBehaviorDifference": {
+      "pilot": "pilot_batch.py breaks loop on first architecture_exception — same forward halt semantics",
+      "batch": "Explicit retention of completed manuals + pending queue + human review — not implicit",
+      "improvementRequired": "Batch orchestrator must emit per-manual audit manifest and batch checkpoint — not only aggregate results"
+    },
+    "flexwashSpecialCase": {
+      "manualId": "SAMSUNG-FLEXWASH-WASHER",
+      "expectedBehavior": "architecture_exception STOP — even though integration boundary is frozen",
+      "rationale": "Production pipeline must not bypass historical exception; FlexWash normalization is separate authorized workstream",
+      "frozenArchitectureReference": "flexwash_integration_boundary_functional_contract_frozen_v1.json"
+    }
+  },
+  "resumeAndIdempotency": {
+    "batchRunId": {
+      "format": "batch-{ISO-date}-{cohortHash8}",
+      "required": true
+    },
+    "manualProcessingKey": {
+      "format": "{manualId}+{contentHash}",
+      "rule": "Same inputs → skip re-normalization unless --force-manual flag with human authorization"
+    },
+    "completedManualRerun": {
+      "rule": "Rerunning a completed manual must not duplicate candidates",
+      "behavior": "Skip if audit manifest shows batchState=completed and contentHash unchanged",
+      "forceRequires": "explicit --force-manual + human authorization recorded in batch audit"
+    },
+    "resumeAfterStop": {
+      "rule": "Resume must not mutate prior approved results",
+      "behavior": "Start from first pending manual; stopped_trigger manual requires human clearance before reprocessing",
+      "checkpointArtifact": "CG_PRODUCTION_NORMALIZATION_BATCH_CHECKPOINT_{batchRunId}.json — defined at execution gate"
+    },
+    "deterministicIdentity": [
+      "batchRunId",
+      "manualId",
+      "contentHash",
+      "candidate file paths under manualId directory"
+    ]
+  },
+  "frozenHashVerification": {
+    "timing": ["before_batch_start", "after_each_manual_optional", "after_batch_end"],
+    "required": ["before_batch_start", "after_batch_end"],
+    "registry": "frozen_canonical_hashes_v1.json",
+    "validator": "backend/scripts/validate_canonical_graph.py",
+    "onMutation": {
+      "behavior": "HARD_STOP",
+      "batchStatus": "failed",
+      "authorizedMutationPath": "architecture_gate_fit_discovery_freeze_only"
+    }
+  },
+  "humanReviewQueue": {
+    "required": true,
+    "triggers": [
+      "hasArchitectureException",
+      "primaryDisposition=unresolved with promotionBlocked",
+      "conflictCount > 0",
+      "stopped batch resume request"
+    ],
+    "queueArtifact": "normalization/review/batch_human_review_queue.json — created at execution gate",
+    "dispositionFieldsForReview": [
+      "primaryDisposition",
+      "hasCanonicalMappings",
+      "hasOverlayCandidates",
+      "hasUnresolvedTerms",
+      "hasArchitectureException"
+    ]
+  },
+  "specialCohortHandling": [
+    {
+      "manualId": "SAMSUNG-FLEXWASH-WASHER",
+      "expectedPrimaryDisposition": "architecture_exception",
+      "batchContinuesAfter": false,
+      "normalizationAuthorized": false,
+      "architectureFrozen": true
+    },
+    {
+      "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+      "expectedFrozenOntologyId": "aio_laundry_combo",
+      "note": "Frozen AIO composition — map by reference, not duplication"
+    }
+  ],
+  "pilotCheckpointManuals": {
+    "description": "Eight pilot manuals have baseline dispositions from CG_PRODUCTION_NORMALIZATION_PILOT_RESULTS_v1.json — batch must not silently overwrite without explicit force",
+    "manualIds": [
+      "W11169652",
+      "SAMSUNG-FL-BB8700-WASHER",
+      "LG-FL-WASHER",
+      "W11746350",
+      "SAMSUNG-NE58H-INDUCTION-RANGE",
+      "LG-LMHM2237-MICROWAVE",
+      "SAMSUNG-HP-DRYER-DV22N",
+      "SAMSUNG-FLEXWASH-WASHER"
+    ]
+  },
+  "codePathRegistry": {
+    "pilotOrchestratorReference": "backend/scripts/normalization/pilot_batch.py",
+    "batchOrchestrator": "backend/scripts/normalization/batch_orchestrator.py",
+    "batchOrchestratorCli": "backend/scripts/run_production_normalization_batch.py",
+    "executionLock": "CG_PRODUCTION_NORMALIZATION_BATCH_EXECUTION_LOCK_v1.json",
+    "normalizationPipeline": "backend/scripts/normalization/pipeline.py",
+    "canonicalValidator": "backend/scripts/validate_canonical_graph.py",
+    "frozenHashRegistry": "frozen_canonical_hashes_v1.json",
+    "regressionSuite": "cg-production-normalization-batch-contract.test.ts"
+  },
+  "executionGateCriteria": {
+    "note": "Orchestrator implemented — explicit human authorization for batch execution remains the only open gate",
+    "required": [
+      "Batch orchestrator implements batchStopSemantics deterministically",
+      "Per-manual audit manifest emitted",
+      "Resume/idempotency checkpoint artifacts",
+      "frozen hash before/after verification",
+      "Human review queue integration",
+      "Regression suite for batch contract + execution",
+      "Explicit human authorization for batch execution"
+    ],
+    "status": {
+      "orchestratorImplemented": true,
+      "regressionSuitePassing": true,
+      "manifestFreezeEncoded": true,
+      "explicitHumanAuthorization": false
+    }
+  },
+  "stopCondition": "Contract definition GREEN authorizes batch EXECUTION gate design — not batch execution itself."
+}

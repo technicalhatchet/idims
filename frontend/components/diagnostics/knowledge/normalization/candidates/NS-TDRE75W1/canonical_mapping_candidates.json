@@ -1,0 +1,1293 @@
+{
+  "manualId": "NS-TDRE75W1",
+  "candidates": [
+    {
+      "id": "map-NS-TDRE75W1-motor-drive_motor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "motor",
+      "extractedTerm": null,
+      "canonicalId": "drive_motor",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-belt-safety",
+        "pages": [
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-belt-safety",
+            "pages": [
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-belt-safety-switch",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Belt safety switch",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "belt safety",
+        "actuator": "switch"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-belt-safety",
+        "pages": [
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-belt-safety",
+            "pages": [
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "belt safety",
+              "actuator": "switch"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-mig-efmm-cda9def45dce-user_interface",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "user_interface",
+      "extractedTerm": null,
+      "canonicalId": "hmi_control",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-communication",
+        "pages": [
+          24,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-communication",
+            "pages": [
+              24,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-cda9def45dce",
+            "matchedSurface": "user_interface",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
+          }
+        ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "NS-TDRE75W1::canonical_mapping::map-NS-TDRE75W1-mig-efmm-cda9def45dce-user_interface",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:10:56.263Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.604522+00:00"
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-acu-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "acu",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.85,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-communication",
+        "pages": [
+          24,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-communication",
+            "pages": [
+              24,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "global_hint"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-display-communication-\u2014-c9-fault",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Display communication \u2014 C9 fault",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-communication",
+        "pages": [
+          24,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-communication",
+            "pages": [
+              24,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-door_switch-door_switch",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_switch",
+      "extractedTerm": null,
+      "canonicalId": "door_switch",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-door-switch",
+        "pages": [
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-door-switch",
+            "pages": [
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-door-switch-\u2014-com-to-no",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Door switch \u2014 COM to NO",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": null,
+        "actuator": "switch"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-door-switch",
+        "pages": [
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-door-switch",
+            "pages": [
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-flame_sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "flame_sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "flame",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-flame-sensor",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-flame-sensor",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "flame",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-flame-sensor-\u2014-continuity",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Flame sensor \u2014 continuity",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "flame",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-flame-sensor",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-flame-sensor",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "flame",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-ns-tdre75w1-unresolved-nstdre75w1-gas-ignitor-igniter",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "igniter",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-gas-ignitor",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-gas-ignitor",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-gas-ignitor-\u2014-40\u2013400-\u03c9",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Gas ignitor \u2014 40\u2013400 \u03a9",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "gas",
+        "component": "ignitor 40 400",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-gas-ignitor",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-gas-ignitor",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": "ignitor 40 400",
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-gas_valve",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "gas_valve",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "gas",
+        "component": null,
+        "actuator": "valve"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-gas-valve",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-gas-valve",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-gas-valve-coils",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Gas valve coils",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "gas",
+        "component": null,
+        "actuator": "valve"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-gas-valve",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-gas-valve",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-heating_element-heat_source",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "heating_element",
+      "extractedTerm": null,
+      "canonicalId": "heat_source",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-heater-electric",
+        "pages": [
+          25,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-heater-electric",
+            "pages": [
+              25,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-thermal_cutoff-thermal_cutoff",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermal_cutoff",
+      "extractedTerm": null,
+      "canonicalId": "thermal_cutoff",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-heater-electric",
+        "pages": [
+          25,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-heater-electric",
+            "pages": [
+              25,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-thermal_fuse-thermal_fuse",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermal_fuse",
+      "extractedTerm": null,
+      "canonicalId": "thermal_fuse",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-heater-electric",
+        "pages": [
+          25,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-heater-electric",
+            "pages": [
+              25,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-electric-heater-element-\u2014-20-\u03c9",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Electric heater element \u2014 20 \u03a9",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "electric",
+        "component": null,
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-heater-electric",
+        "pages": [
+          25,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-heater-electric",
+            "pages": [
+              25,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "electric",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-gas-heat-path-\u2014-thermal-devices",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Gas heat path \u2014 thermal devices",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "gas",
+        "component": "heat path thermal devices",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-heater-gas",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-heater-gas",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": "heat path thermal devices",
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-service-test-\u2014-knob-&-key-check",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Service test \u2014 knob & key check",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-hmi-test",
+        "pages": [
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-hmi-test",
+            "pages": [
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-moisture_sensor-moisture_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "moisture_sensor",
+      "extractedTerm": null,
+      "canonicalId": "moisture_sensor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-humidity-sensor",
+        "pages": [
+          24,
+          25,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-humidity-sensor",
+            "pages": [
+              24,
+              25,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-humidity-sensor-\u2014-e4-timed-dry-fallback",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Humidity sensor \u2014 E4 timed-dry fallback",
+      "canonicalId": "moisture_sensor",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "humidity",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": "humidity sensor",
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-humidity-sensor",
+        "pages": [
+          24,
+          25,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-humidity-sensor",
+            "pages": [
+              24,
+              25,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "humidity sensor",
+            "decomposition": {
+              "domain": null,
+              "component": "humidity",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-motor-\u2014-belt-switch-&-centrifugal",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Motor \u2014 belt switch & centrifugal",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "motor belt",
+        "actuator": "switch"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-motor-circuit",
+        "pages": [
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-motor-circuit",
+            "pages": [
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "motor belt",
+              "actuator": "switch"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-exhaust_thermistor",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "exhaust_thermistor",
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "exhaust",
+        "actuator": "thermistor"
+      },
+      "matchedPhrase": "exhaust thermistor",
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-outlet-thermistor",
+        "pages": [
+          23,
+          24,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-outlet-thermistor",
+            "pages": [
+              23,
+              24,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "exhaust thermistor",
+            "decomposition": {
+              "domain": null,
+              "component": "exhaust",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-outlet-ntc-\u2014-service-test-04-&-bench",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Outlet NTC \u2014 service test 04 & bench",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "outlet",
+        "component": "ntc service test 04 bench",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-outlet-thermistor",
+        "pages": [
+          23,
+          24,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-outlet-thermistor",
+            "pages": [
+              23,
+              24,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "outlet",
+              "component": "ntc service test 04 bench",
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-thermal-cut-off-\u2014-continuity",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Thermal cut-off \u2014 continuity",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-thermal-cutoff",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-thermal-cutoff",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-NS-TDRE75W1-compound-regulating-thermostat-&-hi-limit",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Regulating thermostat & hi-limit",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-thermal-hi-limit",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-thermal-hi-limit",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

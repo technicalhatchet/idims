@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg8_fd_compounding_evidence",
+  "manualId": "W10322959",
+  "platformId": "whirlpool_jazz_french_door",
+  "compoundingPhase": "CG-8",
+  "compoundingSequence": 1,
+  "generatedAt": "2026-09-16T06:02:16.578798+00:00",
+  "canonicalOntology": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "immutable": true
+  },
+  "gateArtifact": "WHIRLPOOL_JAZZ_FD_overlay_mapping_table_v1.json",
+  "compoundingCurve": {
+    "framing": "contract_teaching_rows",
+    "canonicalInheritance": 6,
+    "conditionalBinding": 4,
+    "overlayKnowledge": 4,
+    "unresolved": 4,
+    "canonicalExpansion": 0,
+    "note": "First refrigerator compounding against frozen rev1 \u2014 compare curve shape to washer/dryer/dishwasher gate previews after human publish."
+  },
+  "hierarchyTest": {
+    "frozenKeepStable": true,
+    "conditionalAbsorbsArchitecture": true,
+    "platformAbsorbsImplementation": true,
+    "unresolvedAllowed": true,
+    "verdict": "Jazz gate separates reusable functional knowledge (6 KEEP inheritance paths) from relay/thermistor/bimetal implementation (conditional + platform) without canonical expansion \u2014 hierarchy behaving as designed."
+  },
+  "nextSteps": [
+    "Human review contractTeachingRows",
+    "Approve gate actions",
+    "Scaffold whirlpool_jazz_french_door.json overlay from approved rows",
+    "Promotion dry-run then publish with promotion ID"
+  ]
+}

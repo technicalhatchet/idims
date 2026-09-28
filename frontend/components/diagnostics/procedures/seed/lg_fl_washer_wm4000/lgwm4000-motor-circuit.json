@@ -1,0 +1,66 @@
+{
+  "id": "lgwm4000-motor-circuit",
+  "version": "1.0.0",
+  "title": "\u00a78: Direct-drive motor",
+  "platformId": "lg_fl_washer_wm4000",
+  "componentIds": [
+    "drive_motor"
+  ],
+  "tags": [
+    "motor_check"
+  ],
+  "source": {
+    "manualId": "LG-FL-WASHER",
+    "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+    "sourcePdf": "backend/docs/manuals/lg wm4000h fl washer service manual.pdf",
+    "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "8",
+    "oemTestTitle": "Motor circuit (U/V/W)",
+    "pages": [
+      4,
+      33,
+      53
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_harness"
+    },
+    {
+      "id": "motor_harness",
+      "order": 2,
+      "type": "instruction",
+      "title": "Motor U/V/W harness",
+      "body": "Verify MOTOR connector at MAIN PWB \u2014 Direct Drive System.",
+      "sourceExcerpt": "Verify MOTOR connector at MAIN PWB \u2014 Direct Drive System.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_ok"
+    },
+    {
+      "id": "replace_motor",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace stator/motor",
+      "oemOutcome": "Replace drive motor when harness verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Motor circuit OK",
+      "oemOutcome": "Direct-drive motor path verified.",
+      "requiresInput": false
+    }
+  ]
+}

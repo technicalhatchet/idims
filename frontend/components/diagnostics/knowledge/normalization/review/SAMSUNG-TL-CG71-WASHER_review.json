@@ -1,0 +1,4915 @@
+{
+  "manualId": "SAMSUNG-TL-CG71-WASHER",
+  "platformId": "samsung_tl_washer_cg71",
+  "templateId": "washer",
+  "ontologyId": "front_load_washer",
+  "materializedAt": "2026-09-13T04:57:59.156984+00:00",
+  "records": [
+    {
+      "candidateId": "map-samsung-tl-cg71-washer-unresolved-samsungtlcg71-clutch-clutch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "clutch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: clutch \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-clutch",
+        "pages": [
+          30,
+          32
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "clutch": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-clutch",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-clutch",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-clutch-position-(pc,-pc1)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-2: Clutch position (PC, PC1)",
+      "extractedTerm": "Clutch position (PC, PC1)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a75-2: Clutch position (PC, PC1) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-clutch",
+        "pages": [
+          30,
+          32
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-2: Clutch position (PC, PC1)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-clutch",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-clutch",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-main_control-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.96,
+      "what": "main_control",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.96,
+        "matcherLayer": "platform_overlay:samsung_fl_washer_wf6000r",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: main_control \u2192 control_board"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-communication",
+        "pages": [
+          31,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "main_control": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-communication",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-communication",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:57.840984+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-pba-communication-(ac)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-3: PBA communication (AC)",
+      "extractedTerm": "PBA communication (AC)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a75-3: PBA communication (AC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-communication",
+        "pages": [
+          31,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-3: PBA communication (AC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-communication",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-communication",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-tl-cg71-washer-unresolved-samsungtlcg71-detergent-drawer-dispenser",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "dispenser",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "CROSS_APPLIANCE_TERM",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: dispenser \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-detergent-drawer",
+        "pages": [
+          32,
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "dispenser": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-detergent-drawer",
+        "pages": [
+          32,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-detergent-drawer",
+            "pages": [
+              32,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-detergent-drawer-(sdc)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-2: Detergent drawer (SDC)",
+      "extractedTerm": "Detergent drawer (SDC)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "detergent",
+          "component": "drawer sdc",
+          "actuator": null
+        },
+        "summary": "alias: \u00a75-2: Detergent drawer (SDC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-detergent-drawer",
+        "pages": [
+          32,
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-2: Detergent drawer (SDC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-detergent-drawer",
+        "pages": [
+          32,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-detergent-drawer",
+            "pages": [
+              32,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "detergent",
+              "component": "drawer sdc",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-door_lock-door_lock",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "door_lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: door_lock \u2192 door_lock"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_lock": "door_lock"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:57.982484+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-door-lock-(dc,-dc1,-dc2)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.85,
+      "what": "\u00a75-3: Door lock (DC, DC1, DC2)",
+      "extractedTerm": "Door lock (DC, DC1, DC2)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "door lock",
+        "decomposition": {
+          "domain": "door",
+          "component": null,
+          "actuator": "lock"
+        },
+        "summary": "alias: \u00a75-3: Door lock (DC, DC1, DC2) \u2192 door_lock"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-3: Door lock (DC, DC1, DC2)": "door_lock"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "door lock",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "lock"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-drain_pump-drain_pump",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "drain_pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: drain_pump \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drain_pump": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-drain-pump",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.148074+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-drain-pump-(5c)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.85,
+      "what": "\u00a75-3: Drain pump (5C)",
+      "extractedTerm": "Drain pump (5C)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "drain pump",
+        "decomposition": {
+          "domain": "drain",
+          "component": null,
+          "actuator": "pump"
+        },
+        "summary": "alias: \u00a75-3: Drain pump (5C) \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-3: Drain pump (5C)": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-drain-pump",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "drain pump",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-seed-user_interface-hmi_control",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "user_interface",
+      "extractedTerm": null,
+      "seedComponentId": "user_interface",
+      "blockedReason": null,
+      "mapsTo": "hmi_control",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": "seed_component_registry",
+        "mappingType": "seed_component_id",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: user_interface \u2192 hmi_control"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-hmi-check",
+        "pages": [
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "user_interface": "hmi_control"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-hmi-check",
+        "pages": [
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-hmi-check",
+            "pages": [
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "seed_component_registry",
+            "seedComponentId": "user_interface",
+            "notes": "Seed id for UI/console procedures"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.807986+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-control-panel-(bc2)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.86,
+      "what": "\u00a75-3: Control panel (BC2)",
+      "extractedTerm": "Control panel (BC2)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "hmi_control",
+      "why": {
+        "confidence": 0.86,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "control panel",
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a75-3: Control panel (BC2) \u2192 hmi_control"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-hmi-check",
+        "pages": [
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-3: Control panel (BC2)": "hmi_control"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-hmi-check",
+        "pages": [
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-hmi-check",
+            "pages": [
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "control panel",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-inlet_valve-inlet_valve",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "inlet_valve",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: inlet_valve \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-inlet-valves",
+        "pages": [
+          31,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_valve": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-inlet-valves",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-inlet-valves",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.496985+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-water-supply-(4c)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-3: Water supply (4C)",
+      "extractedTerm": "Water supply (4C)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "water",
+          "component": "supply 4c",
+          "actuator": null
+        },
+        "summary": "alias: \u00a75-3: Water supply (4C) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-inlet-valves",
+        "pages": [
+          31,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-3: Water supply (4C)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-inlet-valves",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-inlet-valves",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "supply 4c",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-water-leakage-(lc,-lc1)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-3: Water leakage (LC, LC1)",
+      "extractedTerm": "Water leakage (LC, LC1)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "water",
+          "component": "leakage lc lc1",
+          "actuator": null
+        },
+        "summary": "alias: \u00a75-3: Water leakage (LC, LC1) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-leak-check",
+        "pages": [
+          33,
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-3: Water leakage (LC, LC1)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-leak-check",
+        "pages": [
+          33,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-leak-check",
+            "pages": [
+              33,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "leakage lc lc1",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-mems-sensor-(8c)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-3: MEMS sensor (8C)",
+      "extractedTerm": "MEMS sensor (8C)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "mems",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a75-3: MEMS sensor (8C) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-mems-sensor",
+        "pages": [
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-3: MEMS sensor (8C)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-mems-sensor",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-mems-sensor",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "mems",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-drive_motor-drive_motor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "drive_motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: drive_motor \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drive_motor": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-motor-circuit",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.346985+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-washing-motor-(3c)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-3: Washing motor (3C)",
+      "extractedTerm": "Washing motor (3C)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "washing",
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a75-3: Washing motor (3C) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-3: Washing motor (3C)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-motor-circuit",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "washing",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-water_level_sensor-water_level_sensor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "water_level_sensor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_sensor",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: water_level_sensor \u2192 water_level_sensor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-overflow",
+        "pages": [
+          34,
+          36
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "water_level_sensor": "water_level_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-overflow",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-overflow",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.653985+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-overflow-(oc)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-3: Overflow (OC)",
+      "extractedTerm": "Overflow (OC)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a75-3: Overflow (OC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-overflow",
+        "pages": [
+          34,
+          36
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-3: Overflow (OC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-overflow",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-overflow",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-supply-supply",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "supply",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 supply"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-power-supply",
+        "pages": [
+          34,
+          36
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": "supply"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-power-supply",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-power-supply",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-power-(uc,-9c1,-9c2)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-3: Power (UC, 9C1, 9C2)",
+      "extractedTerm": "Power (UC, 9C1, 9C2)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a75-3: Power (UC, 9C1, 9C2) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-power-supply",
+        "pages": [
+          34,
+          36
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-3: Power (UC, 9C1, 9C2)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-power-supply",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-power-supply",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-unbalance-(ub)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-2: Unbalance (UB)",
+      "extractedTerm": "Unbalance (UB)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a75-2: Unbalance (UB) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-unbalance",
+        "pages": [
+          30,
+          32
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-2: Unbalance (UB)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-unbalance",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-unbalance",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-wash_heater-wash_heater",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "wash_heater",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "wash_heater",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: wash_heater \u2192 wash_heater"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-wash-heater",
+        "pages": [
+          34,
+          36
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "wash_heater": "wash_heater"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-wash-heater",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-wash-heater",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:59.097486+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-wash_ntc-wash_ntc",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "wash_ntc",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "wash_ntc",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: wash_ntc \u2192 wash_ntc"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-wash-heater",
+        "pages": [
+          34,
+          36
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "wash_ntc": "wash_ntc"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-wash-heater",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-wash-heater",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.963488+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-wash-heater-(hc,-hc1)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.85,
+      "what": "\u00a75-3: Wash heater (HC, HC1)",
+      "extractedTerm": "Wash heater (HC, HC1)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "wash_heater",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "wash heater",
+        "decomposition": {
+          "domain": "wash",
+          "component": null,
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a75-3: Wash heater (HC, HC1) \u2192 wash_heater"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-wash-heater",
+        "pages": [
+          34,
+          36
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-3: Wash heater (HC, HC1)": "wash_heater"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-wash-heater",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-wash-heater",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash heater",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-temperature-sensors-(tc1\u2013tc4)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-3: Temperature sensors (TC1\u2013TC4)",
+      "extractedTerm": "Temperature sensors (TC1\u2013TC4)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a75-3: Temperature sensors (TC1\u2013TC4) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-wash-thermistor",
+        "pages": [
+          34,
+          36
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-3: Temperature sensors (TC1\u2013TC4)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-wash-thermistor",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-wash-thermistor",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-CG71-WASHER-compound-water-level-sensor-(1c)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.86,
+      "what": "\u00a75-3: Water level sensor (1C)",
+      "extractedTerm": "Water level sensor (1C)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_sensor",
+      "why": {
+        "confidence": 0.86,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "water level sensor",
+        "decomposition": {
+          "domain": "water",
+          "component": "level",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a75-3: Water level sensor (1C) \u2192 water_level_sensor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-water-level-sensor",
+        "pages": [
+          31,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-3: Water level sensor (1C)": "water_level_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-water-level-sensor",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-water-level-sensor",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "water level sensor",
+            "decomposition": {
+              "domain": "water",
+              "component": "level",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-door-lock-door_lock_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungtlcg71-door-lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungtlcg71-door-lock \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71-door-lock",
+          "testTargetId": "door_lock_test",
+          "displayTitle": "\u00a75-3: Door lock (DC, DC1, DC2)",
+          "componentIds": [
+            "door_lock"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-door-lock-meas-samsungTlA50WasherDoorReedOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungtlcg71-door-lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungTlA50WasherDoorReedOhms \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71-door-lock",
+          "measurementKnowledgeId": "samsungTlA50WasherDoorReedOhms",
+          "testTargetId": "door_lock_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlA50WasherDoorReedOhms",
+            "stepTitle": "Reed switch (White\u2013Green)"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-door-lock-meas-samsungTlA50WasherDoorLockMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungtlcg71-door-lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungTlA50WasherDoorLockMotorOhms \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71-door-lock",
+          "measurementKnowledgeId": "samsungTlA50WasherDoorLockMotorOhms",
+          "testTargetId": "door_lock_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlA50WasherDoorLockMotorOhms",
+            "stepTitle": "Lock motor (Black\u2013Brown)"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-door-lock-meas-samsungTlA50WasherDoorLockContactOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungtlcg71-door-lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungTlA50WasherDoorLockContactOhms \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71-door-lock",
+          "measurementKnowledgeId": "samsungTlA50WasherDoorLockContactOhms",
+          "testTargetId": "door_lock_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlA50WasherDoorLockContactOhms",
+            "stepTitle": "Lock/unlock contacts"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-drain-pump-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungtlcg71-drain-pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungtlcg71-drain-pump \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71-drain-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a75-3: Drain pump (5C)",
+          "componentIds": [
+            "drain_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-drain-pump",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-drain-pump-meas-samsungTlA50WasherDrainPumpOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungtlcg71-drain-pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungTlA50WasherDrainPumpOhms \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71-drain-pump",
+          "measurementKnowledgeId": "samsungTlA50WasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-drain-pump",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlA50WasherDrainPumpOhms",
+            "stepTitle": "Drain pump resistance"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-leak-check-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungtlcg71-leak-check",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungtlcg71-leak-check \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-leak-check",
+        "pages": [
+          33,
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71-leak-check",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a75-3: Water leakage (LC, LC1)",
+          "componentIds": [
+            "drain_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-leak-check",
+        "pages": [
+          33,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-leak-check",
+            "pages": [
+              33,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-motor-circuit-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungtlcg71-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungtlcg71-motor-circuit \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71-motor-circuit",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a75-3: Washing motor (3C)",
+          "componentIds": [
+            "drive_motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-motor-circuit",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-motor-circuit-meas-samsungTlA50WasherMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungtlcg71-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungTlA50WasherMotorOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71-motor-circuit",
+          "measurementKnowledgeId": "samsungTlA50WasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-motor-circuit",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlA50WasherMotorOhms",
+            "stepTitle": "Motor winding resistance"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-overflow-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungtlcg71-overflow",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungtlcg71-overflow \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-overflow",
+        "pages": [
+          34,
+          36
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71-overflow",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a75-3: Overflow (OC)",
+          "componentIds": [
+            "water_level_sensor",
+            "inlet_valve"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-overflow",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-overflow",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-unbalance-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungtlcg71-unbalance",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungtlcg71-unbalance \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-unbalance",
+        "pages": [
+          30,
+          32
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71-unbalance",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a75-2: Unbalance (UB)",
+          "componentIds": [
+            "drive_motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-unbalance",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-unbalance",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-water-level-sensor-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungtlcg71-water-level-sensor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungtlcg71-water-level-sensor \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-water-level-sensor",
+        "pages": [
+          31,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtlcg71-water-level-sensor",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a75-3: Water level sensor (1C)",
+          "componentIds": [
+            "water_level_sensor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-water-level-sensor",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-water-level-sensor",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 40,
+    "byStatus": {
+      "needs_review": 13,
+      "approved": 9,
+      "COMPOUND_TERM_CANDIDATE": 5,
+      "candidate": 13
+    },
+    "byApprovalLevel": {
+      "blocked": 13,
+      "easy": 9,
+      "careful": 5,
+      "normal": 13
+    },
+    "byType": {
+      "canonicalMapping": 28,
+      "procedureTestBinding": 7,
+      "measurementBinding": 5
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 9,
+      "medium_0.80_0.94": 18,
+      "low_lt_0.80": 0,
+      "unresolved": 13
+    },
+    "byBlockedReason": {
+      "UNRESOLVED_COMPONENT": 1,
+      "CROSS_APPLIANCE_TERM": 1
+    }
+  }
+}

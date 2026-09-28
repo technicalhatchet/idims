@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_freeze_closure",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T17:00:00+00:00",
+  "phase": "CG-AIO-LAUNDRY-COMBO-FREEZE",
+  "verdict": "GREEN / AIO_LAUNDRY_COMBO_FAMILY_FROZEN",
+  "closureStatement": "AIO laundry combo canonical family frozen at rev1, registered in resolver, and locked. Fit → discovery → corroboration → return → freeze workstream complete. Minimum stable composition: FL washer reuse + HP moisture reuse + optional HP thermal reuse + AIO-owned condenser_resistive_dry_heat + integrated_laundry_orchestration. sealed_ventless_drying rejected. Normalization/compounding deferred.",
+  "freezeLock": "CG_AIO_LAUNDRY_COMBO_FREEZE_LOCK_v1.json",
+  "canonicalOntology": {
+    "id": "aio_laundry_combo",
+    "frozenRevision": "rev1",
+    "frozenHash": "be3799a991b3d778b62e60a7ec3d91dfd6fe82432e3f9ac8663d607008081183",
+    "registryRegistered": true
+  },
+  "finalArchitecture": {
+    "compositionByReference": [
+      "front_load_washer",
+      "heat_pump_dryer.sealed_moisture_rejection_path",
+      "heat_pump_dryer.heat_pump_thermal_system"
+    ],
+    "aioOwnedFunctions": [
+      "integrated_laundry_orchestration",
+      "condenser_resistive_dry_heat"
+    ],
+    "rejectedParents": ["sealed_ventless_drying"],
+    "supersededFunctions": ["sealed_heat_pump_drying"],
+    "notPromotedHardware": [
+      "compressor",
+      "evaporator",
+      "condenser",
+      "dry_heater_element",
+      "dry_blower",
+      "vent_fan",
+      "condensate_pump"
+    ]
+  },
+  "governanceConclusion": {
+    "aioLaundryComboFamilyLocked": true,
+    "canonicalExpansion": 1,
+    "componentPromotionCount": 0,
+    "frozenSourceGraphHashesMutated": false,
+    "returnClosurePreserved": true,
+    "corroborationArtifactsPreserved": true,
+    "normalizationAuthorized": false,
+    "compoundingAuthorized": false,
+    "overlayBindingAuthorized": false
+  },
+  "workstreamChain": [
+    "CG-AIO-LAUNDRY-COMBO-FIT — architectural_divergence (Samsung WD53)",
+    "CG-AIO-LAUNDRY-COMBO-DISCOVERY — 2-function single-witness candidate",
+    "CG-AIO-LAUNDRY-COMBO-CORROBORATION — Whirlpool WFW9620 witness",
+    "CG-AIO-LAUNDRY-COMBO-RETURN — composition-by-reference revised candidate",
+    "CG-AIO-LAUNDRY-COMBO-FREEZE — rev1 frozen and locked"
+  ],
+  "nextDisciplinedStep": "TERMINAL HUMAN GATE — aio_laundry_combo architecture immutable. Remaining inventory architecture gates → architecture-complete STOP. Normalization/compounding only when explicitly opened."
+}

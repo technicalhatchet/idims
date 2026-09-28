@@ -1,0 +1,4855 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "canonical_gap_report",
+  "templateFilter": "washer",
+  "manualCount": 15,
+  "generatedAt": "2026-09-13T05:07:04.340351+00:00",
+  "thresholds": {
+    "ontologyMinManuals": 3,
+    "ontologyMinManufacturers": 2,
+    "aliasMinManuals": 2
+  },
+  "rules": [
+    "Never add a canonical concept from a single unknown term.",
+    "Canonical ontology candidates require multi-manual + multi-manufacturer evidence.",
+    "Platform-specific concepts belong in OEM overlays, not canonical ontology."
+  ],
+  "summary": {
+    "canonicalAliasOpportunities": 12,
+    "canonicalOntologyCandidates": 0,
+    "platformSpecificConcepts": 26,
+    "unresolved": 44,
+    "humanReview": 1,
+    "conflicts": 1,
+    "observationCount": 357,
+    "clusterCount": 92
+  },
+  "conceptTable": [
+    {
+      "concept": "control board",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:control_board",
+      "manualCount": 15,
+      "manufacturerCount": 2,
+      "platformCount": 14,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER",
+        "SAMSUNG-FL-WF6000R-WASHER",
+        "SAMSUNG-FLEXWASH-WASHER",
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER",
+        "W10785366A",
+        "W10864849",
+        "W11169652",
+        "W11416395",
+        "W11416787",
+        "W11428632",
+        "W11455152",
+        "W11697231",
+        "W11800233",
+        "W8178558"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700",
+        "samsung_fl_washer_wf6000r",
+        "samsung_flexwash",
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71",
+        "whirlpool_connected_smart_gen3",
+        "whirlpool_duet_sport",
+        "whirlpool_fl_dd",
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_4100",
+        "whirlpool_tl_dd_5100",
+        "whirlpool_tl_dd_6157",
+        "whirlpool_tl_psc_washer"
+      ],
+      "canonicalId": "control_board",
+      "functionalSignature": "main|control acu",
+      "sampleTerms": [
+        "ACU",
+        "CCU",
+        "TEST #1: Main Control",
+        "TEST #1: Main Control (ACU)",
+        "main_control"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "door lock",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:door_lock",
+      "manualCount": 14,
+      "manufacturerCount": 2,
+      "platformCount": 13,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER",
+        "SAMSUNG-FL-WF6000R-WASHER",
+        "SAMSUNG-FLEXWASH-WASHER",
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER",
+        "W10864849",
+        "W11169652",
+        "W11416395",
+        "W11416787",
+        "W11428632",
+        "W11455152",
+        "W11697231",
+        "W11800233",
+        "W8178558"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700",
+        "samsung_fl_washer_wf6000r",
+        "samsung_flexwash",
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71",
+        "whirlpool_duet_sport",
+        "whirlpool_fl_dd",
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_4100",
+        "whirlpool_tl_dd_5100",
+        "whirlpool_tl_dd_6157",
+        "whirlpool_tl_psc_washer"
+      ],
+      "canonicalId": "door_lock",
+      "functionalSignature": "door|lock and|switch",
+      "sampleTerms": [
+        "TEST #4: Door Lock System",
+        "door_lock",
+        "\u00a74-3: Door lock and switch (DC, DC1)",
+        "\u00a74-3: Lower door lock (DC, DC1)",
+        "\u00a75-3: Door lock (DC, DC1, DC2)",
+        "\u00a75-5: Door Lock / Switch Circuit"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "drain pump",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:drain_pump",
+      "manualCount": 14,
+      "manufacturerCount": 2,
+      "platformCount": 13,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER",
+        "SAMSUNG-FL-WF6000R-WASHER",
+        "SAMSUNG-FLEXWASH-WASHER",
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER",
+        "W10864849",
+        "W11169652",
+        "W11416395",
+        "W11416787",
+        "W11428632",
+        "W11455152",
+        "W11697231",
+        "W11800233",
+        "W8178558"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700",
+        "samsung_fl_washer_wf6000r",
+        "samsung_flexwash",
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71",
+        "whirlpool_duet_sport",
+        "whirlpool_fl_dd",
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_4100",
+        "whirlpool_tl_dd_5100",
+        "whirlpool_tl_dd_6157",
+        "whirlpool_tl_psc_washer"
+      ],
+      "canonicalId": "drain_pump",
+      "functionalSignature": "drain|pump",
+      "sampleTerms": [
+        "DP2",
+        "TEST #6: Drain Pump",
+        "TEST #7: Drain Pump",
+        "drain_pump",
+        "\u00a74-3: Drain pump (5C)",
+        "\u00a75-3: Drain pump (5C)",
+        "\u00a75-6: Drain Pump Circuit"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "drive motor",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:drive_motor",
+      "manualCount": 14,
+      "manufacturerCount": 2,
+      "platformCount": 13,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER",
+        "SAMSUNG-FL-WF6000R-WASHER",
+        "SAMSUNG-FLEXWASH-WASHER",
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER",
+        "W10864849",
+        "W11169652",
+        "W11416395",
+        "W11416787",
+        "W11428632",
+        "W11455152",
+        "W11697231",
+        "W11800233",
+        "W8178558"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700",
+        "samsung_fl_washer_wf6000r",
+        "samsung_flexwash",
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71",
+        "whirlpool_duet_sport",
+        "whirlpool_fl_dd",
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_4100",
+        "whirlpool_tl_dd_5100",
+        "whirlpool_tl_dd_6157",
+        "whirlpool_tl_psc_washer"
+      ],
+      "canonicalId": "drive_motor",
+      "functionalSignature": "drive|motor",
+      "sampleTerms": [
+        "MS2",
+        "drive_motor",
+        "\u00a75-8: Drive Motor Circuit"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "inlet valve",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:inlet_valve",
+      "manualCount": 14,
+      "manufacturerCount": 2,
+      "platformCount": 13,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER",
+        "SAMSUNG-FL-WF6000R-WASHER",
+        "SAMSUNG-FLEXWASH-WASHER",
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER",
+        "W10864849",
+        "W11169652",
+        "W11416395",
+        "W11416787",
+        "W11428632",
+        "W11455152",
+        "W11697231",
+        "W11800233",
+        "W8178558"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700",
+        "samsung_fl_washer_wf6000r",
+        "samsung_flexwash",
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71",
+        "whirlpool_duet_sport",
+        "whirlpool_fl_dd",
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_4100",
+        "whirlpool_tl_dd_5100",
+        "whirlpool_tl_dd_6157",
+        "whirlpool_tl_psc_washer"
+      ],
+      "canonicalId": "inlet_valve",
+      "functionalSignature": "water|inlet|valve",
+      "sampleTerms": [
+        "inlet_valve",
+        "\u00a75-1: Water Inlet Valve Solenoids"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "water level sensor",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:water_level_sensor",
+      "manualCount": 14,
+      "manufacturerCount": 2,
+      "platformCount": 13,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER",
+        "SAMSUNG-FL-WF6000R-WASHER",
+        "SAMSUNG-FLEXWASH-WASHER",
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER",
+        "W10864849",
+        "W11169652",
+        "W11416395",
+        "W11416787",
+        "W11428632",
+        "W11455152",
+        "W11697231",
+        "W11800233",
+        "W8178558"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700",
+        "samsung_fl_washer_wf6000r",
+        "samsung_flexwash",
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71",
+        "whirlpool_duet_sport",
+        "whirlpool_fl_dd",
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_4100",
+        "whirlpool_tl_dd_5100",
+        "whirlpool_tl_dd_6157",
+        "whirlpool_tl_psc_washer"
+      ],
+      "canonicalId": "water_level_sensor",
+      "functionalSignature": "water|level|sensor",
+      "sampleTerms": [
+        "PR6",
+        "TEST #7: Water Level Sensor",
+        "water_level_sensor",
+        "\u00a74-3: Water level sensor (1C)",
+        "\u00a75-2: Pressure Switch (F20)",
+        "\u00a75-3: Water level sensor (1C)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "hmi control",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:hmi_control",
+      "manualCount": 12,
+      "manufacturerCount": 2,
+      "platformCount": 11,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER",
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER",
+        "W10785366A",
+        "W10864849",
+        "W11169652",
+        "W11416395",
+        "W11416787",
+        "W11428632",
+        "W11455152",
+        "W11697231",
+        "W11800233"
+      ],
+      "platformIds": [
+        "samsung_flexwash",
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71",
+        "whirlpool_connected_smart_gen3",
+        "whirlpool_fl_dd",
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_4100",
+        "whirlpool_tl_dd_5100",
+        "whirlpool_tl_dd_6157",
+        "whirlpool_tl_psc_washer"
+      ],
+      "canonicalId": "hmi_control",
+      "functionalSignature": null,
+      "sampleTerms": [
+        "hmi_control",
+        "\u00a74-3: Control panel (BC2)",
+        "\u00a75-3: Control panel (BC2)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "wash ntc",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:wash_ntc",
+      "manualCount": 11,
+      "manufacturerCount": 2,
+      "platformCount": 10,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER",
+        "SAMSUNG-FL-WF6000R-WASHER",
+        "SAMSUNG-FLEXWASH-WASHER",
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER",
+        "W10864849",
+        "W11169652",
+        "W11416395",
+        "W11416787",
+        "W11697231",
+        "W8178558"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700",
+        "samsung_fl_washer_wf6000r",
+        "samsung_flexwash",
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71",
+        "whirlpool_duet_sport",
+        "whirlpool_fl_dd",
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_5100"
+      ],
+      "canonicalId": "wash_ntc",
+      "functionalSignature": "wash|temperature|sensor",
+      "sampleTerms": [
+        "TEST #10: Wash Temperature Sensor",
+        "wash_ntc",
+        "\u00a74-3: Wash temperature sensor (TC1)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "wash heater",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:wash_heater",
+      "manualCount": 9,
+      "manufacturerCount": 2,
+      "platformCount": 8,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER",
+        "SAMSUNG-FL-WF6000R-WASHER",
+        "SAMSUNG-FLEXWASH-WASHER",
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER",
+        "W10864849",
+        "W11169652",
+        "W11697231",
+        "W8178558"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700",
+        "samsung_fl_washer_wf6000r",
+        "samsung_flexwash",
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71",
+        "whirlpool_duet_sport",
+        "whirlpool_fl_dd",
+        "whirlpool_tl_dd"
+      ],
+      "canonicalId": "wash_heater",
+      "functionalSignature": "wash|heater",
+      "sampleTerms": [
+        "TEST #9: Wash Heating Element",
+        "wash_heater",
+        "\u00a74-3: Wash heater (HC, HC1)",
+        "\u00a75-3: Wash heater (HC, HC1)",
+        "\u00a75-7: Wash Heater (Ht models)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "TEST #2: Valves",
+      "classification": "platform_overlay",
+      "clusterKey": "term:test #2: valves",
+      "manualCount": 7,
+      "manufacturerCount": 1,
+      "platformCount": 6,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10864849",
+        "W11416395",
+        "W11416787",
+        "W11428632",
+        "W11455152",
+        "W11697231",
+        "W11800233"
+      ],
+      "platformIds": [
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_4100",
+        "whirlpool_tl_dd_5100",
+        "whirlpool_tl_dd_6157",
+        "whirlpool_tl_psc_washer"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "TEST #2: Valves"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "TEST #3: Drive System (pre-test)",
+      "classification": "platform_overlay",
+      "clusterKey": "term:test #3: drive system (pre-test)",
+      "manualCount": 7,
+      "manufacturerCount": 1,
+      "platformCount": 6,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10864849",
+        "W11416395",
+        "W11416787",
+        "W11428632",
+        "W11455152",
+        "W11697231",
+        "W11800233"
+      ],
+      "platformIds": [
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_4100",
+        "whirlpool_tl_dd_5100",
+        "whirlpool_tl_dd_6157",
+        "whirlpool_tl_psc_washer"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "TEST #3: Drive System (pre-test)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "TEST #3a: Drive System \u2014 Shifter",
+      "classification": "platform_overlay",
+      "clusterKey": "term:test #3a: drive system \u2014 shifter",
+      "manualCount": 7,
+      "manufacturerCount": 1,
+      "platformCount": 6,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10864849",
+        "W11416395",
+        "W11416787",
+        "W11428632",
+        "W11455152",
+        "W11697231",
+        "W11800233"
+      ],
+      "platformIds": [
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_4100",
+        "whirlpool_tl_dd_5100",
+        "whirlpool_tl_dd_6157",
+        "whirlpool_tl_psc_washer"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "TEST #3a: Drive System \u2014 Shifter"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "drive system motor",
+      "classification": "platform_overlay",
+      "clusterKey": "func:drive system|motor",
+      "manualCount": 7,
+      "manufacturerCount": 1,
+      "platformCount": 6,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10864849",
+        "W11416395",
+        "W11416787",
+        "W11428632",
+        "W11455152",
+        "W11697231",
+        "W11800233"
+      ],
+      "platformIds": [
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_4100",
+        "whirlpool_tl_dd_5100",
+        "whirlpool_tl_dd_6157",
+        "whirlpool_tl_psc_washer"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "drive system|motor",
+      "sampleTerms": [
+        "TEST #3b: Drive System \u2014 Motor"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "lid lock",
+      "classification": "platform_overlay",
+      "clusterKey": "func:lid|lock",
+      "manualCount": 7,
+      "manufacturerCount": 1,
+      "platformCount": 6,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10864849",
+        "W11416395",
+        "W11416787",
+        "W11428632",
+        "W11455152",
+        "W11697231",
+        "W11800233"
+      ],
+      "platformIds": [
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_4100",
+        "whirlpool_tl_dd_5100",
+        "whirlpool_tl_dd_6157",
+        "whirlpool_tl_psc_washer"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "lid|lock",
+      "sampleTerms": [
+        "TEST #7: Lid Lock",
+        "TEST #8: Lid Lock"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "water level",
+      "classification": "platform_overlay",
+      "clusterKey": "func:water|level",
+      "manualCount": 7,
+      "manufacturerCount": 1,
+      "platformCount": 6,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10864849",
+        "W11416395",
+        "W11416787",
+        "W11428632",
+        "W11455152",
+        "W11697231",
+        "W11800233"
+      ],
+      "platformIds": [
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_4100",
+        "whirlpool_tl_dd_5100",
+        "whirlpool_tl_dd_6157",
+        "whirlpool_tl_psc_washer"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "water|level",
+      "sampleTerms": [
+        "TEST #5: Water Level",
+        "TEST #6: Water Level"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "TEST #4: HMI",
+      "classification": "platform_overlay",
+      "clusterKey": "term:test #4: hmi",
+      "manualCount": 5,
+      "manufacturerCount": 1,
+      "platformCount": 5,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11416395",
+        "W11416787",
+        "W11428632",
+        "W11455152",
+        "W11800233"
+      ],
+      "platformIds": [
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd_4100",
+        "whirlpool_tl_dd_5100",
+        "whirlpool_tl_dd_6157",
+        "whirlpool_tl_psc_washer"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "TEST #4: HMI"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "motor controller",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:motor_controller",
+      "manualCount": 4,
+      "manufacturerCount": 2,
+      "platformCount": 4,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER",
+        "SAMSUNG-FL-WF6000R-WASHER",
+        "SAMSUNG-FLEXWASH-WASHER",
+        "W8178558"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700",
+        "samsung_fl_washer_wf6000r",
+        "samsung_flexwash",
+        "whirlpool_duet_sport"
+      ],
+      "canonicalId": "motor_controller",
+      "functionalSignature": null,
+      "sampleTerms": [
+        "MCU",
+        "inverter"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "recirc pump",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:recirc_pump",
+      "manualCount": 4,
+      "manufacturerCount": 1,
+      "platformCount": 3,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10864849",
+        "W11169652",
+        "W11416787",
+        "W11697231"
+      ],
+      "platformIds": [
+        "whirlpool_fl_dd",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_5100"
+      ],
+      "canonicalId": "recirc_pump",
+      "functionalSignature": "drain|recirculation|pump",
+      "sampleTerms": [
+        "TEST #7: Drain & Recirculation Pump",
+        "TEST #8: Drain/Recirculation Pump"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "temperature thermistor",
+      "classification": "platform_overlay",
+      "clusterKey": "func:temperature|thermistor",
+      "manualCount": 4,
+      "manufacturerCount": 1,
+      "platformCount": 3,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10864849",
+        "W11416395",
+        "W11416787",
+        "W11697231"
+      ],
+      "platformIds": [
+        "whirlpool_mvw6200",
+        "whirlpool_tl_dd",
+        "whirlpool_tl_dd_5100"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "temperature|thermistor",
+      "sampleTerms": [
+        "TEST #5: Temperature Thermistor"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "washing motor",
+      "classification": "platform_overlay",
+      "clusterKey": "func:washing|motor",
+      "manualCount": 4,
+      "manufacturerCount": 1,
+      "platformCount": 4,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER",
+        "SAMSUNG-FL-WF6000R-WASHER",
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700",
+        "samsung_fl_washer_wf6000r",
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "washing|motor",
+      "sampleTerms": [
+        "\u00a74-3: Washing motor (3C)",
+        "\u00a75-3: Washing motor (3C)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "mems sensor",
+      "classification": "platform_overlay",
+      "clusterKey": "func:mems|sensor",
+      "manualCount": 3,
+      "manufacturerCount": 1,
+      "platformCount": 3,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER",
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "platformIds": [
+        "samsung_flexwash",
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "mems|sensor",
+      "sampleTerms": [
+        "\u00a74-3: MEMS sensor (8C, 8C1, 8C2)",
+        "\u00a75-3: MEMS sensor (8C)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "water leakage lc lc1",
+      "classification": "platform_overlay",
+      "clusterKey": "func:water|leakage lc lc1",
+      "manualCount": 3,
+      "manufacturerCount": 1,
+      "platformCount": 3,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER",
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "platformIds": [
+        "samsung_flexwash",
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "water|leakage lc lc1",
+      "sampleTerms": [
+        "\u00a74-3: Water leakage (LC, LC1)",
+        "\u00a75-3: Water leakage (LC, LC1)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "\u00a74-3: Overflow (OC)",
+      "classification": "platform_overlay",
+      "clusterKey": "term:\u00a74-3: overflow (oc)",
+      "manualCount": 3,
+      "manufacturerCount": 1,
+      "platformCount": 3,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER",
+        "SAMSUNG-FL-WF6000R-WASHER",
+        "SAMSUNG-FLEXWASH-WASHER"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700",
+        "samsung_fl_washer_wf6000r",
+        "samsung_flexwash"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: Overflow (OC)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "TEST #10: Service LEDs",
+      "classification": "platform_overlay",
+      "clusterKey": "term:test #10: service leds",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10864849",
+        "W11697231"
+      ],
+      "platformIds": [
+        "whirlpool_tl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "TEST #10: Service LEDs"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "TEST #11: Basket Light",
+      "classification": "platform_overlay",
+      "clusterKey": "term:test #11: basket light",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10864849",
+        "W11697231"
+      ],
+      "platformIds": [
+        "whirlpool_tl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "TEST #11: Basket Light"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "TEST #4: Console and Indicators",
+      "classification": "platform_overlay",
+      "clusterKey": "term:test #4: console and indicators",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10864849",
+        "W11697231"
+      ],
+      "platformIds": [
+        "whirlpool_tl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "TEST #4: Console and Indicators"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "TEST #4: Keys and Encoders",
+      "classification": "platform_overlay",
+      "clusterKey": "term:test #4: keys and encoders",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10864849",
+        "W11697231"
+      ],
+      "platformIds": [
+        "whirlpool_tl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "TEST #4: Keys and Encoders"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "bulk dispense pump and rex board",
+      "classification": "platform_overlay",
+      "clusterKey": "func:bulk|dispense pump and rex|board",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10864849",
+        "W11697231"
+      ],
+      "platformIds": [
+        "whirlpool_tl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "bulk|dispense pump and rex|board",
+      "sampleTerms": [
+        "TEST #12: Bulk Dispense Pump and REX Board"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "clutch",
+      "classification": "platform_overlay",
+      "clusterKey": "term:clutch",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "platformIds": [
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "clutch"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "dosing pump",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:dosing_pump",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11169652",
+        "W8178558"
+      ],
+      "platformIds": [
+        "whirlpool_duet_sport",
+        "whirlpool_fl_dd"
+      ],
+      "canonicalId": "dosing_pump",
+      "functionalSignature": "detergent|dispenser|motor",
+      "sampleTerms": [
+        "dosing_pump",
+        "\u00a75-4: Detergent Dispenser Motor"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "heater",
+      "classification": "platform_overlay",
+      "clusterKey": "func:heater",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10864849",
+        "W11697231"
+      ],
+      "platformIds": [
+        "whirlpool_tl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "heater",
+      "sampleTerms": [
+        "TEST #9: Heater Element"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "water supply 4c",
+      "classification": "platform_overlay",
+      "clusterKey": "func:water|supply 4c",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "platformIds": [
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "water|supply 4c",
+      "sampleTerms": [
+        "\u00a75-3: Water supply (4C)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "wifi module",
+      "classification": "human_review",
+      "clusterKey": "func:wifi|module",
+      "manualCount": 2,
+      "manufacturerCount": 2,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER",
+        "W10785366A"
+      ],
+      "platformIds": [
+        "samsung_flexwash",
+        "whirlpool_connected_smart_gen3"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "wifi|module",
+      "sampleTerms": [
+        "wifi_module",
+        "\u00a74-14: WiFi module diagnostics",
+        "\u00a74-3: WiFi module communication (AC4)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Mandatory human resolution before promotion"
+    },
+    {
+      "concept": "\u00a75-2: Clutch position (PC, PC1)",
+      "classification": "platform_overlay",
+      "clusterKey": "term:\u00a75-2: clutch position (pc, pc1)",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "platformIds": [
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a75-2: Clutch position (PC, PC1)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "\u00a75-2: Unbalance (UB)",
+      "classification": "platform_overlay",
+      "clusterKey": "term:\u00a75-2: unbalance (ub)",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "platformIds": [
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a75-2: Unbalance (UB)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "\u00a75-3: Overflow (OC)",
+      "classification": "platform_overlay",
+      "clusterKey": "term:\u00a75-3: overflow (oc)",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "platformIds": [
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a75-3: Overflow (OC)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "\u00a75-3: PBA communication (AC)",
+      "classification": "platform_overlay",
+      "clusterKey": "term:\u00a75-3: pba communication (ac)",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "platformIds": [
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a75-3: PBA communication (AC)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "\u00a75-3: Power (UC, 9C1, 9C2)",
+      "classification": "platform_overlay",
+      "clusterKey": "term:\u00a75-3: power (uc, 9c1, 9c2)",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "platformIds": [
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a75-3: Power (UC, 9C1, 9C2)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "\u00a75-3: Temperature sensors (TC1\u2013TC4)",
+      "classification": "platform_overlay",
+      "clusterKey": "term:\u00a75-3: temperature sensors (tc1\u2013tc4)",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "platformIds": [
+        "samsung_tl_washer_a50",
+        "samsung_tl_washer_cg71"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a75-3: Temperature sensors (TC1\u2013TC4)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "DL3",
+      "classification": "unresolved",
+      "clusterKey": "term:dl3",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W8178558"
+      ],
+      "platformIds": [
+        "whirlpool_duet_sport"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "DL3"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "TEST #11A: Single Dose Dispenser",
+      "classification": "unresolved",
+      "clusterKey": "term:test #11a: single dose dispenser",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11169652"
+      ],
+      "platformIds": [
+        "whirlpool_fl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "TEST #11A: Single Dose Dispenser"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "TEST #12A: Drawer Bulk Dispenser",
+      "classification": "unresolved",
+      "clusterKey": "term:test #12a: drawer bulk dispenser",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11169652"
+      ],
+      "platformIds": [
+        "whirlpool_fl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "TEST #12A: Drawer Bulk Dispenser"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "TEST #1: ACU Power Check",
+      "classification": "unresolved",
+      "clusterKey": "term:test #1: acu power check",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11169652"
+      ],
+      "platformIds": [
+        "whirlpool_fl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "TEST #1: ACU Power Check"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "TEST #2: Human-Machine Interface (HMI)",
+      "classification": "unresolved",
+      "clusterKey": "term:test #2: human-machine interface (hmi)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11169652"
+      ],
+      "platformIds": [
+        "whirlpool_fl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "TEST #2: Human-Machine Interface (HMI)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "TEST #5: Drum Light",
+      "classification": "unresolved",
+      "clusterKey": "term:test #5: drum light",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11169652"
+      ],
+      "platformIds": [
+        "whirlpool_fl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "TEST #5: Drum Light"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "TEST #9: Load & Go Detergent",
+      "classification": "unresolved",
+      "clusterKey": "term:test #9: load & go detergent",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11416787"
+      ],
+      "platformIds": [
+        "whirlpool_tl_dd_5100"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "TEST #9: Load & Go Detergent"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "bulk dispenser level sensing",
+      "classification": "unresolved",
+      "clusterKey": "func:bulk|dispenser level sensing",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11169652"
+      ],
+      "platformIds": [
+        "whirlpool_fl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "bulk|dispenser level sensing",
+      "sampleTerms": [
+        "TEST #12B: Bulk Dispenser Level Sensing"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "current_transformer",
+      "classification": "unresolved",
+      "clusterKey": "term:current_transformer",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10785366A"
+      ],
+      "platformIds": [
+        "whirlpool_connected_smart_gen3"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "current_transformer"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "detergent drawer sdc",
+      "classification": "unresolved",
+      "clusterKey": "func:detergent|drawer sdc",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "platformIds": [
+        "samsung_tl_washer_cg71"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "detergent|drawer sdc",
+      "sampleTerms": [
+        "\u00a75-2: Detergent drawer (SDC)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "dispenser",
+      "classification": "unresolved",
+      "clusterKey": "term:dispenser",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "platformIds": [
+        "samsung_tl_washer_cg71"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "dispenser"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "drain leakage lc 5c",
+      "classification": "unresolved",
+      "clusterKey": "func:drain|leakage lc 5c",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-WF6000R-WASHER"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_wf6000r"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "drain|leakage lc 5c",
+      "sampleTerms": [
+        "\u00a74-3: Drain / leakage (LC, 5C)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "drain leakage lc lc1",
+      "classification": "unresolved",
+      "clusterKey": "func:drain|leakage lc lc1",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "drain|leakage lc lc1",
+      "sampleTerms": [
+        "\u00a74-3: Drain / leakage (LC, LC1)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "inlet valves 4c co ho manual check",
+      "classification": "unresolved",
+      "clusterKey": "func:inlet|valves 4c co ho manual check",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-WF6000R-WASHER"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_wf6000r"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "inlet|valves 4c co ho manual check",
+      "sampleTerms": [
+        "\u00a74-3: Inlet valves (4C, Co/Ho manual check)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "inlet valves co ho manual check",
+      "classification": "unresolved",
+      "clusterKey": "func:inlet|valves co ho manual check",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "inlet|valves co ho manual check",
+      "sampleTerms": [
+        "\u00a74-2: Inlet valves (Co / Ho manual check)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "interlock switch",
+      "classification": "unresolved",
+      "clusterKey": "func:interlock|switch",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W8178558"
+      ],
+      "platformIds": [
+        "whirlpool_duet_sport"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "interlock|switch",
+      "sampleTerms": [
+        "\u00a75-8: Interlock Switch (NC ground)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "lower dd motor",
+      "classification": "unresolved",
+      "clusterKey": "func:lower dd|motor",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER"
+      ],
+      "platformIds": [
+        "samsung_flexwash"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "lower dd|motor",
+      "sampleTerms": [
+        "\u00a74-3: Lower DD motor (3C)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "motor",
+      "classification": "unresolved",
+      "clusterKey": "func:motor",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11169652"
+      ],
+      "platformIds": [
+        "whirlpool_fl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "motor",
+      "sampleTerms": [
+        "TEST #3: Motor Circuit"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "optimal dosing pump",
+      "classification": "unresolved",
+      "clusterKey": "func:optimal dosing|pump",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11169652"
+      ],
+      "platformIds": [
+        "whirlpool_fl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "optimal dosing|pump",
+      "sampleTerms": [
+        "TEST #11B: Optimal Dosing Pump"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "power management board",
+      "classification": "unresolved",
+      "clusterKey": "func:power management|board",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10785366A"
+      ],
+      "platformIds": [
+        "whirlpool_connected_smart_gen3"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "power management|board",
+      "sampleTerms": [
+        "\u00a74-17: Power Management board & CT"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "power_management",
+      "classification": "unresolved",
+      "clusterKey": "term:power_management",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10785366A"
+      ],
+      "platformIds": [
+        "whirlpool_connected_smart_gen3"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "power_management"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "switch",
+      "classification": "unresolved",
+      "clusterKey": "func:switch",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-WF6000R-WASHER"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_wf6000r"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "switch",
+      "sampleTerms": [
+        "\u00a74-1: Switch error (BC2)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "upper washer motor",
+      "classification": "unresolved",
+      "clusterKey": "func:upper washer|motor",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER"
+      ],
+      "platformIds": [
+        "samsung_flexwash"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "upper washer|motor",
+      "sampleTerms": [
+        "\u00a74-3: Upper washer motor (3C)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "wash ntc th2",
+      "classification": "unresolved",
+      "clusterKey": "func:wash|ntc th2",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W8178558"
+      ],
+      "platformIds": [
+        "whirlpool_duet_sport"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "wash|ntc th2",
+      "sampleTerms": [
+        "\u00a75-7: Wash NTC (TH2)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "water inlet valves",
+      "classification": "unresolved",
+      "clusterKey": "func:water|inlet valves",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11169652"
+      ],
+      "platformIds": [
+        "whirlpool_fl_dd"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "water|inlet valves",
+      "sampleTerms": [
+        "TEST #6: Water Inlet Valves"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "water supply 4c 4c2",
+      "classification": "unresolved",
+      "clusterKey": "func:water|supply 4c 4c2",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER"
+      ],
+      "platformIds": [
+        "samsung_flexwash"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "water|supply 4c 4c2",
+      "sampleTerms": [
+        "\u00a74-3: Water supply (4C, 4C2)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-10: HMI \u2194 WiFi communication",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-10: hmi \u2194 wifi communication",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10785366A"
+      ],
+      "platformIds": [
+        "whirlpool_connected_smart_gen3"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-10: HMI \u2194 WiFi communication"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-1: MEMS PBA (8C, 8C1, 8C2)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-1: mems pba (8c, 8c1, 8c2)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-WF6000R-WASHER"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_wf6000r"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-1: MEMS PBA (8C, 8C1, 8C2)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-1: Power / voltage (9C1, 9C2)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-1: power / voltage (9c1, 9c2)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-WF6000R-WASHER"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_wf6000r"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-1: Power / voltage (9C1, 9C2)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-3: Inverter PBA communication (AC6)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-3: inverter pba communication (ac6)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER"
+      ],
+      "platformIds": [
+        "samsung_flexwash"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: Inverter PBA communication (AC6)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-3: Inverter over-temperature (TC4)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-3: inverter over-temperature (tc4)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER"
+      ],
+      "platformIds": [
+        "samsung_flexwash"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: Inverter over-temperature (TC4)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-3: PBA communication (AC, AC3\u2013AC6)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-3: pba communication (ac, ac3\u2013ac6)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-WF6000R-WASHER"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_wf6000r"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: PBA communication (AC, AC3\u2013AC6)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-3: PBA communication (AC, AC6)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-3: pba communication (ac, ac6)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: PBA communication (AC, AC6)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-3: Power (9C1, 9C2)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-3: power (9c1, 9c2)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER"
+      ],
+      "platformIds": [
+        "samsung_flexwash"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: Power (9C1, 9C2)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-3: Power / current sense (9C5)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-3: power / current sense (9c5)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-BB8700-WASHER"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_bb8700"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: Power / current sense (9C5)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-3: Sub/main PBA communication (AC)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-3: sub/main pba communication (ac)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER"
+      ],
+      "platformIds": [
+        "samsung_flexwash"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: Sub/main PBA communication (AC)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-3: System fault (SF)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-3: system fault (sf)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER"
+      ],
+      "platformIds": [
+        "samsung_flexwash"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: System fault (SF)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-3: Unbalance (UB)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-3: unbalance (ub)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER"
+      ],
+      "platformIds": [
+        "samsung_flexwash"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: Unbalance (UB)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-3: Unbalance (UV, UB)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-3: unbalance (uv, ub)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FL-WF6000R-WASHER"
+      ],
+      "platformIds": [
+        "samsung_fl_washer_wf6000r"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: Unbalance (UV, UB)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-3: Upper compartment door (DC4, DC1)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-3: upper compartment door (dc4, dc1)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER"
+      ],
+      "platformIds": [
+        "samsung_flexwash"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: Upper compartment door (DC4, DC1)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-3: Upper-lower PBA communication (AC7)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-3: upper-lower pba communication (ac7)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-FLEXWASH-WASHER"
+      ],
+      "platformIds": [
+        "samsung_flexwash"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: Upper-lower PBA communication (AC7)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-7\u20134-11: Console connectivity indicators",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-7\u20134-11: console connectivity indicators",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10785366A"
+      ],
+      "platformIds": [
+        "whirlpool_connected_smart_gen3"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-7\u20134-11: Console connectivity indicators"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a77: Clean-connect dishwasher WiFi",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a77: clean-connect dishwasher wifi",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10785366A"
+      ],
+      "platformIds": [
+        "whirlpool_connected_smart_gen3"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a77: Clean-connect dishwasher WiFi"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a78-4: Smart refrigerator WiFi service tests",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a78-4: smart refrigerator wifi service tests",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W10785366A"
+      ],
+      "platformIds": [
+        "whirlpool_connected_smart_gen3"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a78-4: Smart refrigerator WiFi service tests"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    }
+  ],
+  "buckets": {
+    "canonical_alias": [
+      {
+        "concept": "control board",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:control_board",
+        "manualCount": 15,
+        "manufacturerCount": 2,
+        "platformCount": 14,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER",
+          "SAMSUNG-FL-WF6000R-WASHER",
+          "SAMSUNG-FLEXWASH-WASHER",
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER",
+          "W10785366A",
+          "W10864849",
+          "W11169652",
+          "W11416395",
+          "W11416787",
+          "W11428632",
+          "W11455152",
+          "W11697231",
+          "W11800233",
+          "W8178558"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700",
+          "samsung_fl_washer_wf6000r",
+          "samsung_flexwash",
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71",
+          "whirlpool_connected_smart_gen3",
+          "whirlpool_duet_sport",
+          "whirlpool_fl_dd",
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_4100",
+          "whirlpool_tl_dd_5100",
+          "whirlpool_tl_dd_6157",
+          "whirlpool_tl_psc_washer"
+        ],
+        "canonicalId": "control_board",
+        "functionalSignature": "main|control acu",
+        "sampleTerms": [
+          "ACU",
+          "CCU",
+          "TEST #1: Main Control",
+          "TEST #1: Main Control (ACU)",
+          "main_control"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "door lock",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:door_lock",
+        "manualCount": 14,
+        "manufacturerCount": 2,
+        "platformCount": 13,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER",
+          "SAMSUNG-FL-WF6000R-WASHER",
+          "SAMSUNG-FLEXWASH-WASHER",
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER",
+          "W10864849",
+          "W11169652",
+          "W11416395",
+          "W11416787",
+          "W11428632",
+          "W11455152",
+          "W11697231",
+          "W11800233",
+          "W8178558"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700",
+          "samsung_fl_washer_wf6000r",
+          "samsung_flexwash",
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71",
+          "whirlpool_duet_sport",
+          "whirlpool_fl_dd",
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_4100",
+          "whirlpool_tl_dd_5100",
+          "whirlpool_tl_dd_6157",
+          "whirlpool_tl_psc_washer"
+        ],
+        "canonicalId": "door_lock",
+        "functionalSignature": "door|lock and|switch",
+        "sampleTerms": [
+          "TEST #4: Door Lock System",
+          "door_lock",
+          "\u00a74-3: Door lock and switch (DC, DC1)",
+          "\u00a74-3: Lower door lock (DC, DC1)",
+          "\u00a75-3: Door lock (DC, DC1, DC2)",
+          "\u00a75-5: Door Lock / Switch Circuit"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "drain pump",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:drain_pump",
+        "manualCount": 14,
+        "manufacturerCount": 2,
+        "platformCount": 13,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER",
+          "SAMSUNG-FL-WF6000R-WASHER",
+          "SAMSUNG-FLEXWASH-WASHER",
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER",
+          "W10864849",
+          "W11169652",
+          "W11416395",
+          "W11416787",
+          "W11428632",
+          "W11455152",
+          "W11697231",
+          "W11800233",
+          "W8178558"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700",
+          "samsung_fl_washer_wf6000r",
+          "samsung_flexwash",
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71",
+          "whirlpool_duet_sport",
+          "whirlpool_fl_dd",
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_4100",
+          "whirlpool_tl_dd_5100",
+          "whirlpool_tl_dd_6157",
+          "whirlpool_tl_psc_washer"
+        ],
+        "canonicalId": "drain_pump",
+        "functionalSignature": "drain|pump",
+        "sampleTerms": [
+          "DP2",
+          "TEST #6: Drain Pump",
+          "TEST #7: Drain Pump",
+          "drain_pump",
+          "\u00a74-3: Drain pump (5C)",
+          "\u00a75-3: Drain pump (5C)",
+          "\u00a75-6: Drain Pump Circuit"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "drive motor",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:drive_motor",
+        "manualCount": 14,
+        "manufacturerCount": 2,
+        "platformCount": 13,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER",
+          "SAMSUNG-FL-WF6000R-WASHER",
+          "SAMSUNG-FLEXWASH-WASHER",
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER",
+          "W10864849",
+          "W11169652",
+          "W11416395",
+          "W11416787",
+          "W11428632",
+          "W11455152",
+          "W11697231",
+          "W11800233",
+          "W8178558"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700",
+          "samsung_fl_washer_wf6000r",
+          "samsung_flexwash",
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71",
+          "whirlpool_duet_sport",
+          "whirlpool_fl_dd",
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_4100",
+          "whirlpool_tl_dd_5100",
+          "whirlpool_tl_dd_6157",
+          "whirlpool_tl_psc_washer"
+        ],
+        "canonicalId": "drive_motor",
+        "functionalSignature": "drive|motor",
+        "sampleTerms": [
+          "MS2",
+          "drive_motor",
+          "\u00a75-8: Drive Motor Circuit"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "inlet valve",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:inlet_valve",
+        "manualCount": 14,
+        "manufacturerCount": 2,
+        "platformCount": 13,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER",
+          "SAMSUNG-FL-WF6000R-WASHER",
+          "SAMSUNG-FLEXWASH-WASHER",
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER",
+          "W10864849",
+          "W11169652",
+          "W11416395",
+          "W11416787",
+          "W11428632",
+          "W11455152",
+          "W11697231",
+          "W11800233",
+          "W8178558"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700",
+          "samsung_fl_washer_wf6000r",
+          "samsung_flexwash",
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71",
+          "whirlpool_duet_sport",
+          "whirlpool_fl_dd",
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_4100",
+          "whirlpool_tl_dd_5100",
+          "whirlpool_tl_dd_6157",
+          "whirlpool_tl_psc_washer"
+        ],
+        "canonicalId": "inlet_valve",
+        "functionalSignature": "water|inlet|valve",
+        "sampleTerms": [
+          "inlet_valve",
+          "\u00a75-1: Water Inlet Valve Solenoids"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "water level sensor",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:water_level_sensor",
+        "manualCount": 14,
+        "manufacturerCount": 2,
+        "platformCount": 13,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER",
+          "SAMSUNG-FL-WF6000R-WASHER",
+          "SAMSUNG-FLEXWASH-WASHER",
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER",
+          "W10864849",
+          "W11169652",
+          "W11416395",
+          "W11416787",
+          "W11428632",
+          "W11455152",
+          "W11697231",
+          "W11800233",
+          "W8178558"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700",
+          "samsung_fl_washer_wf6000r",
+          "samsung_flexwash",
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71",
+          "whirlpool_duet_sport",
+          "whirlpool_fl_dd",
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_4100",
+          "whirlpool_tl_dd_5100",
+          "whirlpool_tl_dd_6157",
+          "whirlpool_tl_psc_washer"
+        ],
+        "canonicalId": "water_level_sensor",
+        "functionalSignature": "water|level|sensor",
+        "sampleTerms": [
+          "PR6",
+          "TEST #7: Water Level Sensor",
+          "water_level_sensor",
+          "\u00a74-3: Water level sensor (1C)",
+          "\u00a75-2: Pressure Switch (F20)",
+          "\u00a75-3: Water level sensor (1C)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "hmi control",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:hmi_control",
+        "manualCount": 12,
+        "manufacturerCount": 2,
+        "platformCount": 11,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER",
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER",
+          "W10785366A",
+          "W10864849",
+          "W11169652",
+          "W11416395",
+          "W11416787",
+          "W11428632",
+          "W11455152",
+          "W11697231",
+          "W11800233"
+        ],
+        "platformIds": [
+          "samsung_flexwash",
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71",
+          "whirlpool_connected_smart_gen3",
+          "whirlpool_fl_dd",
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_4100",
+          "whirlpool_tl_dd_5100",
+          "whirlpool_tl_dd_6157",
+          "whirlpool_tl_psc_washer"
+        ],
+        "canonicalId": "hmi_control",
+        "functionalSignature": null,
+        "sampleTerms": [
+          "hmi_control",
+          "\u00a74-3: Control panel (BC2)",
+          "\u00a75-3: Control panel (BC2)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "wash ntc",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:wash_ntc",
+        "manualCount": 11,
+        "manufacturerCount": 2,
+        "platformCount": 10,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER",
+          "SAMSUNG-FL-WF6000R-WASHER",
+          "SAMSUNG-FLEXWASH-WASHER",
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER",
+          "W10864849",
+          "W11169652",
+          "W11416395",
+          "W11416787",
+          "W11697231",
+          "W8178558"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700",
+          "samsung_fl_washer_wf6000r",
+          "samsung_flexwash",
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71",
+          "whirlpool_duet_sport",
+          "whirlpool_fl_dd",
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_5100"
+        ],
+        "canonicalId": "wash_ntc",
+        "functionalSignature": "wash|temperature|sensor",
+        "sampleTerms": [
+          "TEST #10: Wash Temperature Sensor",
+          "wash_ntc",
+          "\u00a74-3: Wash temperature sensor (TC1)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "wash heater",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:wash_heater",
+        "manualCount": 9,
+        "manufacturerCount": 2,
+        "platformCount": 8,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER",
+          "SAMSUNG-FL-WF6000R-WASHER",
+          "SAMSUNG-FLEXWASH-WASHER",
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER",
+          "W10864849",
+          "W11169652",
+          "W11697231",
+          "W8178558"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700",
+          "samsung_fl_washer_wf6000r",
+          "samsung_flexwash",
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71",
+          "whirlpool_duet_sport",
+          "whirlpool_fl_dd",
+          "whirlpool_tl_dd"
+        ],
+        "canonicalId": "wash_heater",
+        "functionalSignature": "wash|heater",
+        "sampleTerms": [
+          "TEST #9: Wash Heating Element",
+          "wash_heater",
+          "\u00a74-3: Wash heater (HC, HC1)",
+          "\u00a75-3: Wash heater (HC, HC1)",
+          "\u00a75-7: Wash Heater (Ht models)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "motor controller",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:motor_controller",
+        "manualCount": 4,
+        "manufacturerCount": 2,
+        "platformCount": 4,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER",
+          "SAMSUNG-FL-WF6000R-WASHER",
+          "SAMSUNG-FLEXWASH-WASHER",
+          "W8178558"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700",
+          "samsung_fl_washer_wf6000r",
+          "samsung_flexwash",
+          "whirlpool_duet_sport"
+        ],
+        "canonicalId": "motor_controller",
+        "functionalSignature": null,
+        "sampleTerms": [
+          "MCU",
+          "inverter"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "recirc pump",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:recirc_pump",
+        "manualCount": 4,
+        "manufacturerCount": 1,
+        "platformCount": 3,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10864849",
+          "W11169652",
+          "W11416787",
+          "W11697231"
+        ],
+        "platformIds": [
+          "whirlpool_fl_dd",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_5100"
+        ],
+        "canonicalId": "recirc_pump",
+        "functionalSignature": "drain|recirculation|pump",
+        "sampleTerms": [
+          "TEST #7: Drain & Recirculation Pump",
+          "TEST #8: Drain/Recirculation Pump"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "dosing pump",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:dosing_pump",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11169652",
+          "W8178558"
+        ],
+        "platformIds": [
+          "whirlpool_duet_sport",
+          "whirlpool_fl_dd"
+        ],
+        "canonicalId": "dosing_pump",
+        "functionalSignature": "detergent|dispenser|motor",
+        "sampleTerms": [
+          "dosing_pump",
+          "\u00a75-4: Detergent Dispenser Motor"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      }
+    ],
+    "unresolved": [
+      {
+        "concept": "DL3",
+        "classification": "unresolved",
+        "clusterKey": "term:dl3",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W8178558"
+        ],
+        "platformIds": [
+          "whirlpool_duet_sport"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "DL3"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "TEST #11A: Single Dose Dispenser",
+        "classification": "unresolved",
+        "clusterKey": "term:test #11a: single dose dispenser",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11169652"
+        ],
+        "platformIds": [
+          "whirlpool_fl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "TEST #11A: Single Dose Dispenser"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "TEST #12A: Drawer Bulk Dispenser",
+        "classification": "unresolved",
+        "clusterKey": "term:test #12a: drawer bulk dispenser",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11169652"
+        ],
+        "platformIds": [
+          "whirlpool_fl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "TEST #12A: Drawer Bulk Dispenser"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "TEST #1: ACU Power Check",
+        "classification": "unresolved",
+        "clusterKey": "term:test #1: acu power check",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11169652"
+        ],
+        "platformIds": [
+          "whirlpool_fl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "TEST #1: ACU Power Check"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "TEST #2: Human-Machine Interface (HMI)",
+        "classification": "unresolved",
+        "clusterKey": "term:test #2: human-machine interface (hmi)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11169652"
+        ],
+        "platformIds": [
+          "whirlpool_fl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "TEST #2: Human-Machine Interface (HMI)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "TEST #5: Drum Light",
+        "classification": "unresolved",
+        "clusterKey": "term:test #5: drum light",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11169652"
+        ],
+        "platformIds": [
+          "whirlpool_fl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "TEST #5: Drum Light"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "TEST #9: Load & Go Detergent",
+        "classification": "unresolved",
+        "clusterKey": "term:test #9: load & go detergent",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11416787"
+        ],
+        "platformIds": [
+          "whirlpool_tl_dd_5100"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "TEST #9: Load & Go Detergent"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "bulk dispenser level sensing",
+        "classification": "unresolved",
+        "clusterKey": "func:bulk|dispenser level sensing",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11169652"
+        ],
+        "platformIds": [
+          "whirlpool_fl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "bulk|dispenser level sensing",
+        "sampleTerms": [
+          "TEST #12B: Bulk Dispenser Level Sensing"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "current_transformer",
+        "classification": "unresolved",
+        "clusterKey": "term:current_transformer",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10785366A"
+        ],
+        "platformIds": [
+          "whirlpool_connected_smart_gen3"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "current_transformer"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "detergent drawer sdc",
+        "classification": "unresolved",
+        "clusterKey": "func:detergent|drawer sdc",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-TL-CG71-WASHER"
+        ],
+        "platformIds": [
+          "samsung_tl_washer_cg71"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "detergent|drawer sdc",
+        "sampleTerms": [
+          "\u00a75-2: Detergent drawer (SDC)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "dispenser",
+        "classification": "unresolved",
+        "clusterKey": "term:dispenser",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-TL-CG71-WASHER"
+        ],
+        "platformIds": [
+          "samsung_tl_washer_cg71"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "dispenser"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "drain leakage lc 5c",
+        "classification": "unresolved",
+        "clusterKey": "func:drain|leakage lc 5c",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-WF6000R-WASHER"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_wf6000r"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "drain|leakage lc 5c",
+        "sampleTerms": [
+          "\u00a74-3: Drain / leakage (LC, 5C)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "drain leakage lc lc1",
+        "classification": "unresolved",
+        "clusterKey": "func:drain|leakage lc lc1",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "drain|leakage lc lc1",
+        "sampleTerms": [
+          "\u00a74-3: Drain / leakage (LC, LC1)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "inlet valves 4c co ho manual check",
+        "classification": "unresolved",
+        "clusterKey": "func:inlet|valves 4c co ho manual check",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-WF6000R-WASHER"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_wf6000r"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "inlet|valves 4c co ho manual check",
+        "sampleTerms": [
+          "\u00a74-3: Inlet valves (4C, Co/Ho manual check)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "inlet valves co ho manual check",
+        "classification": "unresolved",
+        "clusterKey": "func:inlet|valves co ho manual check",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "inlet|valves co ho manual check",
+        "sampleTerms": [
+          "\u00a74-2: Inlet valves (Co / Ho manual check)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "interlock switch",
+        "classification": "unresolved",
+        "clusterKey": "func:interlock|switch",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W8178558"
+        ],
+        "platformIds": [
+          "whirlpool_duet_sport"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "interlock|switch",
+        "sampleTerms": [
+          "\u00a75-8: Interlock Switch (NC ground)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "lower dd motor",
+        "classification": "unresolved",
+        "clusterKey": "func:lower dd|motor",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER"
+        ],
+        "platformIds": [
+          "samsung_flexwash"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "lower dd|motor",
+        "sampleTerms": [
+          "\u00a74-3: Lower DD motor (3C)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "motor",
+        "classification": "unresolved",
+        "clusterKey": "func:motor",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11169652"
+        ],
+        "platformIds": [
+          "whirlpool_fl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "motor",
+        "sampleTerms": [
+          "TEST #3: Motor Circuit"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "optimal dosing pump",
+        "classification": "unresolved",
+        "clusterKey": "func:optimal dosing|pump",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11169652"
+        ],
+        "platformIds": [
+          "whirlpool_fl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "optimal dosing|pump",
+        "sampleTerms": [
+          "TEST #11B: Optimal Dosing Pump"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "power management board",
+        "classification": "unresolved",
+        "clusterKey": "func:power management|board",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10785366A"
+        ],
+        "platformIds": [
+          "whirlpool_connected_smart_gen3"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "power management|board",
+        "sampleTerms": [
+          "\u00a74-17: Power Management board & CT"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "power_management",
+        "classification": "unresolved",
+        "clusterKey": "term:power_management",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10785366A"
+        ],
+        "platformIds": [
+          "whirlpool_connected_smart_gen3"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "power_management"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "switch",
+        "classification": "unresolved",
+        "clusterKey": "func:switch",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-WF6000R-WASHER"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_wf6000r"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "switch",
+        "sampleTerms": [
+          "\u00a74-1: Switch error (BC2)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "upper washer motor",
+        "classification": "unresolved",
+        "clusterKey": "func:upper washer|motor",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER"
+        ],
+        "platformIds": [
+          "samsung_flexwash"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "upper washer|motor",
+        "sampleTerms": [
+          "\u00a74-3: Upper washer motor (3C)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "wash ntc th2",
+        "classification": "unresolved",
+        "clusterKey": "func:wash|ntc th2",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W8178558"
+        ],
+        "platformIds": [
+          "whirlpool_duet_sport"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "wash|ntc th2",
+        "sampleTerms": [
+          "\u00a75-7: Wash NTC (TH2)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "water inlet valves",
+        "classification": "unresolved",
+        "clusterKey": "func:water|inlet valves",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11169652"
+        ],
+        "platformIds": [
+          "whirlpool_fl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "water|inlet valves",
+        "sampleTerms": [
+          "TEST #6: Water Inlet Valves"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "water supply 4c 4c2",
+        "classification": "unresolved",
+        "clusterKey": "func:water|supply 4c 4c2",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER"
+        ],
+        "platformIds": [
+          "samsung_flexwash"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "water|supply 4c 4c2",
+        "sampleTerms": [
+          "\u00a74-3: Water supply (4C, 4C2)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-10: HMI \u2194 WiFi communication",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-10: hmi \u2194 wifi communication",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10785366A"
+        ],
+        "platformIds": [
+          "whirlpool_connected_smart_gen3"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-10: HMI \u2194 WiFi communication"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-1: MEMS PBA (8C, 8C1, 8C2)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-1: mems pba (8c, 8c1, 8c2)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-WF6000R-WASHER"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_wf6000r"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-1: MEMS PBA (8C, 8C1, 8C2)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-1: Power / voltage (9C1, 9C2)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-1: power / voltage (9c1, 9c2)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-WF6000R-WASHER"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_wf6000r"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-1: Power / voltage (9C1, 9C2)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-3: Inverter PBA communication (AC6)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-3: inverter pba communication (ac6)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER"
+        ],
+        "platformIds": [
+          "samsung_flexwash"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: Inverter PBA communication (AC6)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-3: Inverter over-temperature (TC4)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-3: inverter over-temperature (tc4)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER"
+        ],
+        "platformIds": [
+          "samsung_flexwash"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: Inverter over-temperature (TC4)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-3: PBA communication (AC, AC3\u2013AC6)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-3: pba communication (ac, ac3\u2013ac6)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-WF6000R-WASHER"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_wf6000r"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: PBA communication (AC, AC3\u2013AC6)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-3: PBA communication (AC, AC6)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-3: pba communication (ac, ac6)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: PBA communication (AC, AC6)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-3: Power (9C1, 9C2)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-3: power (9c1, 9c2)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER"
+        ],
+        "platformIds": [
+          "samsung_flexwash"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: Power (9C1, 9C2)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-3: Power / current sense (9C5)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-3: power / current sense (9c5)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: Power / current sense (9C5)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-3: Sub/main PBA communication (AC)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-3: sub/main pba communication (ac)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER"
+        ],
+        "platformIds": [
+          "samsung_flexwash"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: Sub/main PBA communication (AC)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-3: System fault (SF)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-3: system fault (sf)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER"
+        ],
+        "platformIds": [
+          "samsung_flexwash"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: System fault (SF)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-3: Unbalance (UB)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-3: unbalance (ub)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER"
+        ],
+        "platformIds": [
+          "samsung_flexwash"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: Unbalance (UB)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-3: Unbalance (UV, UB)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-3: unbalance (uv, ub)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-WF6000R-WASHER"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_wf6000r"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: Unbalance (UV, UB)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-3: Upper compartment door (DC4, DC1)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-3: upper compartment door (dc4, dc1)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER"
+        ],
+        "platformIds": [
+          "samsung_flexwash"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: Upper compartment door (DC4, DC1)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-3: Upper-lower PBA communication (AC7)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-3: upper-lower pba communication (ac7)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER"
+        ],
+        "platformIds": [
+          "samsung_flexwash"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: Upper-lower PBA communication (AC7)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-7\u20134-11: Console connectivity indicators",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-7\u20134-11: console connectivity indicators",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10785366A"
+        ],
+        "platformIds": [
+          "whirlpool_connected_smart_gen3"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-7\u20134-11: Console connectivity indicators"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a77: Clean-connect dishwasher WiFi",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a77: clean-connect dishwasher wifi",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10785366A"
+        ],
+        "platformIds": [
+          "whirlpool_connected_smart_gen3"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a77: Clean-connect dishwasher WiFi"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a78-4: Smart refrigerator WiFi service tests",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a78-4: smart refrigerator wifi service tests",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10785366A"
+        ],
+        "platformIds": [
+          "whirlpool_connected_smart_gen3"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a78-4: Smart refrigerator WiFi service tests"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      }
+    ],
+    "platform_overlay": [
+      {
+        "concept": "TEST #2: Valves",
+        "classification": "platform_overlay",
+        "clusterKey": "term:test #2: valves",
+        "manualCount": 7,
+        "manufacturerCount": 1,
+        "platformCount": 6,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10864849",
+          "W11416395",
+          "W11416787",
+          "W11428632",
+          "W11455152",
+          "W11697231",
+          "W11800233"
+        ],
+        "platformIds": [
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_4100",
+          "whirlpool_tl_dd_5100",
+          "whirlpool_tl_dd_6157",
+          "whirlpool_tl_psc_washer"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "TEST #2: Valves"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "TEST #3: Drive System (pre-test)",
+        "classification": "platform_overlay",
+        "clusterKey": "term:test #3: drive system (pre-test)",
+        "manualCount": 7,
+        "manufacturerCount": 1,
+        "platformCount": 6,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10864849",
+          "W11416395",
+          "W11416787",
+          "W11428632",
+          "W11455152",
+          "W11697231",
+          "W11800233"
+        ],
+        "platformIds": [
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_4100",
+          "whirlpool_tl_dd_5100",
+          "whirlpool_tl_dd_6157",
+          "whirlpool_tl_psc_washer"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "TEST #3: Drive System (pre-test)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "TEST #3a: Drive System \u2014 Shifter",
+        "classification": "platform_overlay",
+        "clusterKey": "term:test #3a: drive system \u2014 shifter",
+        "manualCount": 7,
+        "manufacturerCount": 1,
+        "platformCount": 6,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10864849",
+          "W11416395",
+          "W11416787",
+          "W11428632",
+          "W11455152",
+          "W11697231",
+          "W11800233"
+        ],
+        "platformIds": [
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_4100",
+          "whirlpool_tl_dd_5100",
+          "whirlpool_tl_dd_6157",
+          "whirlpool_tl_psc_washer"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "TEST #3a: Drive System \u2014 Shifter"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "drive system motor",
+        "classification": "platform_overlay",
+        "clusterKey": "func:drive system|motor",
+        "manualCount": 7,
+        "manufacturerCount": 1,
+        "platformCount": 6,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10864849",
+          "W11416395",
+          "W11416787",
+          "W11428632",
+          "W11455152",
+          "W11697231",
+          "W11800233"
+        ],
+        "platformIds": [
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_4100",
+          "whirlpool_tl_dd_5100",
+          "whirlpool_tl_dd_6157",
+          "whirlpool_tl_psc_washer"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "drive system|motor",
+        "sampleTerms": [
+          "TEST #3b: Drive System \u2014 Motor"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "lid lock",
+        "classification": "platform_overlay",
+        "clusterKey": "func:lid|lock",
+        "manualCount": 7,
+        "manufacturerCount": 1,
+        "platformCount": 6,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10864849",
+          "W11416395",
+          "W11416787",
+          "W11428632",
+          "W11455152",
+          "W11697231",
+          "W11800233"
+        ],
+        "platformIds": [
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_4100",
+          "whirlpool_tl_dd_5100",
+          "whirlpool_tl_dd_6157",
+          "whirlpool_tl_psc_washer"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "lid|lock",
+        "sampleTerms": [
+          "TEST #7: Lid Lock",
+          "TEST #8: Lid Lock"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "water level",
+        "classification": "platform_overlay",
+        "clusterKey": "func:water|level",
+        "manualCount": 7,
+        "manufacturerCount": 1,
+        "platformCount": 6,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10864849",
+          "W11416395",
+          "W11416787",
+          "W11428632",
+          "W11455152",
+          "W11697231",
+          "W11800233"
+        ],
+        "platformIds": [
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_4100",
+          "whirlpool_tl_dd_5100",
+          "whirlpool_tl_dd_6157",
+          "whirlpool_tl_psc_washer"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "water|level",
+        "sampleTerms": [
+          "TEST #5: Water Level",
+          "TEST #6: Water Level"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "TEST #4: HMI",
+        "classification": "platform_overlay",
+        "clusterKey": "term:test #4: hmi",
+        "manualCount": 5,
+        "manufacturerCount": 1,
+        "platformCount": 5,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11416395",
+          "W11416787",
+          "W11428632",
+          "W11455152",
+          "W11800233"
+        ],
+        "platformIds": [
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd_4100",
+          "whirlpool_tl_dd_5100",
+          "whirlpool_tl_dd_6157",
+          "whirlpool_tl_psc_washer"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "TEST #4: HMI"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "temperature thermistor",
+        "classification": "platform_overlay",
+        "clusterKey": "func:temperature|thermistor",
+        "manualCount": 4,
+        "manufacturerCount": 1,
+        "platformCount": 3,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10864849",
+          "W11416395",
+          "W11416787",
+          "W11697231"
+        ],
+        "platformIds": [
+          "whirlpool_mvw6200",
+          "whirlpool_tl_dd",
+          "whirlpool_tl_dd_5100"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "temperature|thermistor",
+        "sampleTerms": [
+          "TEST #5: Temperature Thermistor"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "washing motor",
+        "classification": "platform_overlay",
+        "clusterKey": "func:washing|motor",
+        "manualCount": 4,
+        "manufacturerCount": 1,
+        "platformCount": 4,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER",
+          "SAMSUNG-FL-WF6000R-WASHER",
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700",
+          "samsung_fl_washer_wf6000r",
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "washing|motor",
+        "sampleTerms": [
+          "\u00a74-3: Washing motor (3C)",
+          "\u00a75-3: Washing motor (3C)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "mems sensor",
+        "classification": "platform_overlay",
+        "clusterKey": "func:mems|sensor",
+        "manualCount": 3,
+        "manufacturerCount": 1,
+        "platformCount": 3,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER",
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER"
+        ],
+        "platformIds": [
+          "samsung_flexwash",
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "mems|sensor",
+        "sampleTerms": [
+          "\u00a74-3: MEMS sensor (8C, 8C1, 8C2)",
+          "\u00a75-3: MEMS sensor (8C)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "water leakage lc lc1",
+        "classification": "platform_overlay",
+        "clusterKey": "func:water|leakage lc lc1",
+        "manualCount": 3,
+        "manufacturerCount": 1,
+        "platformCount": 3,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER",
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER"
+        ],
+        "platformIds": [
+          "samsung_flexwash",
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "water|leakage lc lc1",
+        "sampleTerms": [
+          "\u00a74-3: Water leakage (LC, LC1)",
+          "\u00a75-3: Water leakage (LC, LC1)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "\u00a74-3: Overflow (OC)",
+        "classification": "platform_overlay",
+        "clusterKey": "term:\u00a74-3: overflow (oc)",
+        "manualCount": 3,
+        "manufacturerCount": 1,
+        "platformCount": 3,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-FL-BB8700-WASHER",
+          "SAMSUNG-FL-WF6000R-WASHER",
+          "SAMSUNG-FLEXWASH-WASHER"
+        ],
+        "platformIds": [
+          "samsung_fl_washer_bb8700",
+          "samsung_fl_washer_wf6000r",
+          "samsung_flexwash"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: Overflow (OC)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "TEST #10: Service LEDs",
+        "classification": "platform_overlay",
+        "clusterKey": "term:test #10: service leds",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10864849",
+          "W11697231"
+        ],
+        "platformIds": [
+          "whirlpool_tl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "TEST #10: Service LEDs"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "TEST #11: Basket Light",
+        "classification": "platform_overlay",
+        "clusterKey": "term:test #11: basket light",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10864849",
+          "W11697231"
+        ],
+        "platformIds": [
+          "whirlpool_tl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "TEST #11: Basket Light"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "TEST #4: Console and Indicators",
+        "classification": "platform_overlay",
+        "clusterKey": "term:test #4: console and indicators",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10864849",
+          "W11697231"
+        ],
+        "platformIds": [
+          "whirlpool_tl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "TEST #4: Console and Indicators"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "TEST #4: Keys and Encoders",
+        "classification": "platform_overlay",
+        "clusterKey": "term:test #4: keys and encoders",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10864849",
+          "W11697231"
+        ],
+        "platformIds": [
+          "whirlpool_tl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "TEST #4: Keys and Encoders"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "bulk dispense pump and rex board",
+        "classification": "platform_overlay",
+        "clusterKey": "func:bulk|dispense pump and rex|board",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10864849",
+          "W11697231"
+        ],
+        "platformIds": [
+          "whirlpool_tl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "bulk|dispense pump and rex|board",
+        "sampleTerms": [
+          "TEST #12: Bulk Dispense Pump and REX Board"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "clutch",
+        "classification": "platform_overlay",
+        "clusterKey": "term:clutch",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER"
+        ],
+        "platformIds": [
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "clutch"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "heater",
+        "classification": "platform_overlay",
+        "clusterKey": "func:heater",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W10864849",
+          "W11697231"
+        ],
+        "platformIds": [
+          "whirlpool_tl_dd"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "heater",
+        "sampleTerms": [
+          "TEST #9: Heater Element"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "water supply 4c",
+        "classification": "platform_overlay",
+        "clusterKey": "func:water|supply 4c",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER"
+        ],
+        "platformIds": [
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "water|supply 4c",
+        "sampleTerms": [
+          "\u00a75-3: Water supply (4C)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "\u00a75-2: Clutch position (PC, PC1)",
+        "classification": "platform_overlay",
+        "clusterKey": "term:\u00a75-2: clutch position (pc, pc1)",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER"
+        ],
+        "platformIds": [
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a75-2: Clutch position (PC, PC1)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "\u00a75-2: Unbalance (UB)",
+        "classification": "platform_overlay",
+        "clusterKey": "term:\u00a75-2: unbalance (ub)",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER"
+        ],
+        "platformIds": [
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a75-2: Unbalance (UB)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "\u00a75-3: Overflow (OC)",
+        "classification": "platform_overlay",
+        "clusterKey": "term:\u00a75-3: overflow (oc)",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER"
+        ],
+        "platformIds": [
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a75-3: Overflow (OC)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "\u00a75-3: PBA communication (AC)",
+        "classification": "platform_overlay",
+        "clusterKey": "term:\u00a75-3: pba communication (ac)",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER"
+        ],
+        "platformIds": [
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a75-3: PBA communication (AC)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "\u00a75-3: Power (UC, 9C1, 9C2)",
+        "classification": "platform_overlay",
+        "clusterKey": "term:\u00a75-3: power (uc, 9c1, 9c2)",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER"
+        ],
+        "platformIds": [
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a75-3: Power (UC, 9C1, 9C2)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "\u00a75-3: Temperature sensors (TC1\u2013TC4)",
+        "classification": "platform_overlay",
+        "clusterKey": "term:\u00a75-3: temperature sensors (tc1\u2013tc4)",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-WASHER"
+        ],
+        "platformIds": [
+          "samsung_tl_washer_a50",
+          "samsung_tl_washer_cg71"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a75-3: Temperature sensors (TC1\u2013TC4)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      }
+    ],
+    "human_review": [
+      {
+        "concept": "wifi module",
+        "classification": "human_review",
+        "clusterKey": "func:wifi|module",
+        "manualCount": 2,
+        "manufacturerCount": 2,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-FLEXWASH-WASHER",
+          "W10785366A"
+        ],
+        "platformIds": [
+          "samsung_flexwash",
+          "whirlpool_connected_smart_gen3"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "wifi|module",
+        "sampleTerms": [
+          "wifi_module",
+          "\u00a74-14: WiFi module diagnostics",
+          "\u00a74-3: WiFi module communication (AC4)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Mandatory human resolution before promotion"
+      }
+    ],
+    "canonical_ontology_candidate": []
+  },
+  "globalConflicts": [
+    {
+      "id": "conflict-topology-washer-family-mix",
+      "status": "CONFLICT_REQUIRES_REVIEW",
+      "conflictType": "RELATIONSHIP_CONFLICT",
+      "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+      "assertions": [
+        {
+          "topologySignature": "direct_drive_motor",
+          "manualIds": [
+            "W11169652",
+            "SAMSUNG-FL-BB8700-WASHER"
+          ]
+        },
+        {
+          "topologySignature": "ccu_mcu_motor",
+          "manualIds": [
+            "W8178558",
+            "SAMSUNG-FL-WF6000R-WASHER",
+            "SAMSUNG-FLEXWASH-WASHER"
+          ]
+        },
+        {
+          "topologySignature": "motor_present_unknown_path",
+          "manualIds": [
+            "W10864849",
+            "W11416787",
+            "W11800233",
+            "W11697231",
+            "W11455152",
+            "W11416395",
+            "W11428632",
+            "SAMSUNG-TL-A50-WASHER",
+            "SAMSUNG-TL-CG71-WASHER"
+          ]
+        },
+        {
+          "topologySignature": "unknown",
+          "manualIds": [
+            "W10785366A"
+          ]
+        }
+      ]
+    }
+  ]
+}

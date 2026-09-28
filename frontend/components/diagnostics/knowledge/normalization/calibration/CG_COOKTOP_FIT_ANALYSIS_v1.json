@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_cooktop_fit_analysis",
+  "workstream": "CG-COOKTOP-FIT-TEST",
+  "status": "complete",
+  "generatedAt": "2026-09-17T19:35:00+00:00",
+  "contract": "CG_COOKTOP_FIT_TEST_CONTRACT_v1.json",
+  "hardOutcome": "composition",
+  "hardOutcomeGate": {
+    "permittedOutcomes": ["proven_variant", "composition", "architectural_divergence", "insufficient_evidence"],
+    "selected": "composition",
+    "exactlyOne": true
+  },
+  "evidenceChain": {
+    "contract": "CG_COOKTOP_FIT_TEST_CONTRACT_v1.json",
+    "observation": "CG_W11461580_FIT_OBSERVATION_v1.json",
+    "triangulation": "CG_COOKTOP_FIT_TRIANGULATION_v1.json"
+  },
+  "corpusFinding": {
+    "standaloneCooktopWitnessCount": 1,
+    "diagnosticPathClassificationsPerformed": 11,
+    "thermalImplementationsWitnessed": ["induction"],
+    "thermalImplementationsMissing": ["electric_radiant", "gas", "downdraft"],
+    "conclusion": "One genuine standalone cooktop manual (W11461580 induction). No standalone gas or radiant electric cooktop PDFs in corpus.",
+    "freestandingRangeSubstitutionRejected": true
+  },
+  "fitAgainstRangeOven": {
+    "verdict": "fits_via_surface_only_composition",
+    "fitsWithoutMutation": true,
+    "hostFamily": "range_oven",
+    "rationale": "Standalone induction cooktop implements the surface_heating_system subset of frozen range_oven. IPC/inverter/coil/IGBT diagnostic responsibility binds to surface_heating_system and overlayOnlyConcepts (surface_control, surface_heating_element) without promoting hardware to canonical nodes. Control, UI, power, and thermal protection map to existing range_oven components/conditionals. Absence of oven cavity functions is product scope — oven domains simply not instantiated.",
+    "functionalMappings": [
+      { "cooktopDomain": "induction zone heat generation", "hostBinding": "surface_heating_system + surface_control IPC overlay" },
+      { "cooktopDomain": "touch/keypad HMI + service diagnostics", "hostBinding": "user_interface" },
+      { "cooktopDomain": "IPC/HMI orchestration", "hostBinding": "control_board" },
+      { "cooktopDomain": "coil NTC / IGBT thermal / thermofuses", "hostBinding": "conditionalConcept.thermal_protection" },
+      { "cooktopDomain": "line power / vbus / frequency", "hostBinding": "power_supply" },
+      { "cooktopDomain": "electronics cooling blower", "hostBinding": "deferredConcept.cooling_fan platform overlay" },
+      { "cooktopDomain": "pan detection F0E1", "hostBinding": "surface_heating_system operational gate — platform vocabulary" }
+    ],
+    "rangeSpecificDomainsNotInstantiated": [
+      "oven_heat_generation",
+      "temperature_sensor (cavity RTD)",
+      "oven_door_switch",
+      "convection_fan"
+    ],
+    "implementationConceptsRemainingPlatformLevel": [
+      "ipc_induction_power_control",
+      "induction_coil_harness",
+      "igbt_ntc",
+      "coil_ntc",
+      "thermofuse",
+      "ipc_configuration_menu",
+      "assisted_cooking_zone_logic"
+    ],
+    "notRequiredForFit": "IGBT/inverter/spark_module hardware names are overlay vocabulary — range_oven rev1 explicitly defers physical switching and element hardware to platform scope"
+  },
+  "evaluationAxesResolved": [
+    {
+      "axis": "induction_heating",
+      "finding": "IPC/inverter/coil diagnostics map to surface_heating_system — no new canonical domain",
+      "divergence": false
+    },
+    {
+      "axis": "gas_burner_heating",
+      "finding": "No standalone gas cooktop witness — cannot classify; expected overlay binding (spark_module, valve_cooktop) if witnessed; does not force divergence",
+      "divergence": false,
+      "limitation": true
+    },
+    {
+      "axis": "radiant_electric",
+      "finding": "No standalone radiant cooktop witness — infinite_switch/ceran expected under surface_heating_system per range discovery; not fit-evidenced here",
+      "divergence": false,
+      "limitation": true
+    },
+    {
+      "axis": "downdraft_ventilation",
+      "finding": "Not witnessed in ingested standalone manual; nomenclature references downdraft SKUs — deferred platform feature, not cooktop canonical domain",
+      "divergence": false
+    },
+    {
+      "axis": "oven_absence",
+      "finding": "Omitting oven domains is uninstantiated scope — mirror of wall_oven omitting cooktop",
+      "divergence": false
+    },
+    {
+      "axis": "independent_control",
+      "finding": "Standalone cooktop uses dedicated HMI+IPC — same diagnostic responsibility as range cooktop slice",
+      "divergence": false
+    }
+  ],
+  "rejectedDivergenceHypotheses": [
+    {
+      "hypothesis": "Cooktop needs cooktop.json because product category differs",
+      "rejection": "Marketing category is not ontology evidence — surface functional responsibilities subset range_oven host"
+    },
+    {
+      "hypothesis": "IPC/IGBT/inverter requires new canonical nodes",
+      "rejection": "Implementation hardware on surface heat path — overlayOnlyConcepts.surface_control per range_oven design principles and W11174814 compounding corroboration (not used as fit witness)"
+    },
+    {
+      "hypothesis": "Induction pan detection F0E1 is new functional domain",
+      "rejection": "Operational gate on surface_heating_system — platform pan-detection vocabulary"
+    },
+    {
+      "hypothesis": "Electronics cooling fan is downdraft ventilation domain",
+      "rejection": "F7E5/F7E6 is IPC thermal blower — deferred cooling_fan overlay, not product ventilation system"
+    },
+    {
+      "hypothesis": "Use freestanding range cooktop procedures as standalone cooktop witness",
+      "rejection": "Explicit substitution guard"
+    }
+  ],
+  "genuineDivergencesFound": [],
+  "witnessLimitation": {
+    "standaloneCooktopWitnessCount": 1,
+    "missingCandidates": ["standalone gas cooktop", "standalone electric radiant cooktop", "Samsung/LG standalone cooktop", "downdraft cooktop"],
+    "impact": "Would require standalone witnesses before claiming gas/radiant-specific fit conclusions — not blocking induction composition into range_oven"
+  },
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "cooktopJsonCreated": false,
+    "discoveryAuthorized": false,
+    "witnessCount": 1,
+    "diagnosticPathClassifications": 11,
+    "rangeOvenClassifications": 5,
+    "implementationSpecificClassifications": 5,
+    "unresolvedClassifications": 0,
+    "genuineDivergenceCount": 0
+  },
+  "architecturalDisposition": {
+    "categoryId": "cooktop_only",
+    "disposition": "composition_of_range_oven",
+    "hostCanonicalOntologyId": "range_oven",
+    "compartmentScope": "surface_only",
+    "newCanonicalGraphRequired": false
+  },
+  "stopCondition": "FIT closure — no discovery/freeze for cooktop.json. Proceed to CANONICAL ARCHITECTURE COMPLETE gate — not normalization."
+}

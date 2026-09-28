@@ -1,0 +1,2386 @@
+{
+  "manualId": "SAMSUNG-ME11-MICROWAVE",
+  "platformId": "samsung_microwave_otr",
+  "templateId": "microwave",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:16.830878+00:00",
+  "records": [
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-door_interlock",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.88,
+      "what": "door_interlock",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock",
+      "why": {
+        "confidence": 0.88,
+        "matcherLayer": "compound:manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "door interlock",
+        "decomposition": {
+          "domain": "door",
+          "component": "interlock",
+          "actuator": null
+        },
+        "summary": "alias: door_interlock \u2192 door_lock"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-door-interlock",
+        "pages": [
+          24,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_interlock": "door_lock"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-door-interlock",
+        "pages": [
+          24,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-door-interlock",
+            "pages": [
+              24,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+            "matchedPhrase": "door interlock",
+            "decomposition": {
+              "domain": "door",
+              "component": "interlock",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-door-interlock-switches",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.88,
+      "what": "\u00a74-6: Door Interlock Switches",
+      "extractedTerm": "Door Interlock Switches",
+      "blockedReason": null,
+      "mapsTo": "door_lock",
+      "why": {
+        "confidence": 0.88,
+        "matcherLayer": "compound:manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "door interlock",
+        "decomposition": {
+          "domain": "door",
+          "component": "interlock switches",
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-6: Door Interlock Switches \u2192 door_lock"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-door-interlock",
+        "pages": [
+          24,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-6: Door Interlock Switches": "door_lock"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-door-interlock",
+        "pages": [
+          24,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-door-interlock",
+            "pages": [
+              24,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+            "matchedPhrase": "door interlock",
+            "decomposition": {
+              "domain": "door",
+              "component": "interlock switches",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-me11-microwave-unresolved-samsungotrmw-humidity-sensor-supply",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-humidity-sensor",
+        "pages": [
+          30,
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-humidity-sensor",
+        "pages": [
+          30,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-humidity-sensor",
+            "pages": [
+              30,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-/-c-10:-humidity-(gas)-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-14 / C-10: Humidity (Gas) Sensor",
+      "extractedTerm": "/ C-10: Humidity (Gas) Sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "c 10 humidity gas",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-14 / C-10: Humidity (Gas) Sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-humidity-sensor",
+        "pages": [
+          30,
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-14 / C-10: Humidity (Gas) Sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-humidity-sensor",
+        "pages": [
+          30,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-humidity-sensor",
+            "pages": [
+              30,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "c 10 humidity gas",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-hv_capacitor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "hv_capacitor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: hv_capacitor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-hv-capacitor",
+        "pages": [
+          23,
+          24
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "hv_capacitor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-hv-capacitor",
+        "pages": [
+          23,
+          24
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-hv-capacitor",
+            "pages": [
+              23,
+              24
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-high-voltage-capacitor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-3: High-Voltage Capacitor",
+      "extractedTerm": "High-Voltage Capacitor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-3: High-Voltage Capacitor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-hv-capacitor",
+        "pages": [
+          23,
+          24
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-3: High-Voltage Capacitor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-hv-capacitor",
+        "pages": [
+          23,
+          24
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-hv-capacitor",
+            "pages": [
+              23,
+              24
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-me11-microwave-unresolved-samsungotrmw-hv-diode-magnetron",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "magnetron",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: magnetron \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-hv-diode",
+        "pages": [
+          24,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "magnetron": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-hv-diode",
+        "pages": [
+          24,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-hv-diode",
+            "pages": [
+              24,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-high-voltage-diode",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-4: High-Voltage Diode",
+      "extractedTerm": "High-Voltage Diode",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-4: High-Voltage Diode \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-hv-diode",
+        "pages": [
+          24,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: High-Voltage Diode": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-hv-diode",
+        "pages": [
+          24,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-hv-diode",
+            "pages": [
+              24,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-me11-microwave-unresolved-samsungotrmw-hv-transformer-magnetron",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "magnetron",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: magnetron \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-hv-transformer",
+        "pages": [
+          23,
+          24
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "magnetron": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-hv-transformer",
+        "pages": [
+          23,
+          24
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-hv-transformer",
+            "pages": [
+              23,
+              24
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-high-voltage-transformer",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: High-Voltage Transformer",
+      "extractedTerm": "High-Voltage Transformer",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1: High-Voltage Transformer \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-hv-transformer",
+        "pages": [
+          23,
+          24
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: High-Voltage Transformer": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-hv-transformer",
+        "pages": [
+          23,
+          24
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-hv-transformer",
+            "pages": [
+              23,
+              24
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-me11-microwave-unresolved-samsungotrmw-keypad-touch-supply",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-keypad-touch",
+        "pages": [
+          31,
+          37
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-keypad-touch",
+        "pages": [
+          31,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-keypad-touch",
+            "pages": [
+              31,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-c-f2-/-c-d0:-touch-and-key-failure",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "C-F2 / C-d0: Touch and Key Failure",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: C-F2 / C-d0: Touch and Key Failure \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-keypad-touch",
+        "pages": [
+          31,
+          37
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "C-F2 / C-d0: Touch and Key Failure": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-keypad-touch",
+        "pages": [
+          31,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-keypad-touch",
+            "pages": [
+              31,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-line_fuse",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "line_fuse",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "line",
+          "actuator": "fuse"
+        },
+        "summary": "alias: line_fuse \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-line-power",
+        "pages": [
+          31,
+          32
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "line_fuse": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-line-power",
+        "pages": [
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-line-power",
+            "pages": [
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "line",
+              "actuator": "fuse"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-dead-unit-(no-display)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-1: Dead Unit (No Display)",
+      "extractedTerm": "Dead Unit (No Display)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a75-1: Dead Unit (No Display) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-line-power",
+        "pages": [
+          31,
+          32
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-1: Dead Unit (No Display)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-line-power",
+        "pages": [
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-line-power",
+            "pages": [
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-me11-microwave-unresolved-samsungotrmw-magnetron-magnetron",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "magnetron",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: magnetron \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-magnetron",
+        "pages": [
+          23,
+          24
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "magnetron": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-magnetron",
+        "pages": [
+          23,
+          24
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-magnetron",
+            "pages": [
+              23,
+              24
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-me11-microwave-unresolved-samsungotrmw-magnetron-\u00a74-2:-magnetron",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-2: Magnetron",
+      "extractedTerm": "Magnetron",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: \u00a74-2: Magnetron \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-magnetron",
+        "pages": [
+          23,
+          24
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Magnetron": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-magnetron",
+        "pages": [
+          23,
+          24
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-magnetron",
+            "pages": [
+              23,
+              24
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a74-2: Magnetron",
+            "extractedTerm": "Magnetron",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-me11-microwave-unresolved-samsungotrmw-no-heat-magnetron",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "magnetron",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: magnetron \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-no-heat",
+        "pages": [
+          32,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "magnetron": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-no-heat",
+        "pages": [
+          32,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-no-heat",
+            "pages": [
+              32,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-no-heat-(timer-runs,-no-oscillation)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75-1: No Heat (Timer Runs, No Oscillation)",
+      "extractedTerm": "No Heat (Timer Runs, No Oscillation)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a75-1: No Heat (Timer Runs, No Oscillation) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-no-heat",
+        "pages": [
+          32,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75-1: No Heat (Timer Runs, No Oscillation)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-no-heat",
+        "pages": [
+          32,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-no-heat",
+            "pages": [
+              32,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-me11-microwave-unresolved-samsungotrmw-pcb-comm-supply",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-pcb-comm",
+        "pages": [
+          36,
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-pcb-comm",
+        "pages": [
+          36,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-pcb-comm",
+            "pages": [
+              36,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-c-f0-/-c-f1:-pcb-communication",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "C-F0 / C-F1: PCB Communication",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: C-F0 / C-F1: PCB Communication \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-pcb-comm",
+        "pages": [
+          36,
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "C-F0 / C-F1: PCB Communication": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-pcb-comm",
+        "pages": [
+          36,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-pcb-comm",
+            "pages": [
+              36,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-thermal_cutout",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "thermal_cutout",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: thermal_cutout \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-temp-sensor",
+        "pages": [
+          34,
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermal_cutout": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-temp-sensor",
+        "pages": [
+          34,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-temp-sensor",
+            "pages": [
+              34,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-c-20:-temperature-sensor-error",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "C-20: Temperature Sensor Error",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "c 20 temperature",
+          "actuator": "sensor"
+        },
+        "summary": "alias: C-20: Temperature Sensor Error \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-temp-sensor",
+        "pages": [
+          34,
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "C-20: Temperature Sensor Error": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-temp-sensor",
+        "pages": [
+          34,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-temp-sensor",
+            "pages": [
+              34,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "c 20 temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-thermal-cutouts-(tco)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-8: Thermal Cutouts (TCO)",
+      "extractedTerm": "Thermal Cutouts (TCO)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-8: Thermal Cutouts (TCO) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-thermal-cutout",
+        "pages": [
+          26,
+          28
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-8: Thermal Cutouts (TCO)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-thermal-cutout",
+        "pages": [
+          26,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-thermal-cutout",
+            "pages": [
+              26,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-me11-microwave-unresolved-samsungotrmw-turntable-magnetron",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "magnetron",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: magnetron \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-turntable",
+        "pages": [
+          18,
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "magnetron": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-turntable",
+        "pages": [
+          18,
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-turntable",
+            "pages": [
+              18,
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-turntable-drive-motor",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "\u00a73-7: Turntable Drive Motor",
+      "extractedTerm": "Turntable Drive Motor",
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "drive motor",
+        "decomposition": {
+          "domain": null,
+          "component": "turntable drive",
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a73-7: Turntable Drive Motor \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-turntable",
+        "pages": [
+          18,
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-7: Turntable Drive Motor": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-turntable",
+        "pages": [
+          18,
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-turntable",
+            "pages": [
+              18,
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "drive motor",
+            "decomposition": {
+              "domain": null,
+              "component": "turntable drive",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-me11-microwave-unresolved-samsungotrmw-vent-motor-supply",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-vent-motor",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-vent-motor",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-vent-motor",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-ME11-MICROWAVE-compound-vent-exhaust-blower-motor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-7: Vent Exhaust Blower Motor",
+      "extractedTerm": "Vent Exhaust Blower Motor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "vent exhaust blower",
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a74-7: Vent Exhaust Blower Motor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-vent-motor",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-7: Vent Exhaust Blower Motor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-vent-motor",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-vent-motor",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "vent exhaust blower",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-ME11-MICROWAVE-samsungotrmw-turntable-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungotrmw-turntable",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungotrmw-turntable \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-turntable",
+        "pages": [
+          18,
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungotrmw-turntable",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a73-7: Turntable Drive Motor",
+          "componentIds": [
+            "magnetron"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-turntable",
+        "pages": [
+          18,
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-turntable",
+            "pages": [
+              18,
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-ME11-MICROWAVE-samsungotrmw-vent-motor-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungotrmw-vent-motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungotrmw-vent-motor \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-vent-motor",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungotrmw-vent-motor",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a74-7: Vent Exhaust Blower Motor",
+          "componentIds": [
+            "supply"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-vent-motor",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-vent-motor",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-ME11-MICROWAVE-samsungotrmw-vent-motor-meas-samsungMe11VentBlowerOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungotrmw-vent-motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungMe11VentBlowerOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-vent-motor",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungotrmw-vent-motor",
+          "measurementKnowledgeId": "samsungMe11VentBlowerOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-vent-motor",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-vent-motor",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungMe11VentBlowerOhms",
+            "stepTitle": "Blower winding resistance (via cap leads)"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 30,
+    "byStatus": {
+      "COMPOUND_TERM_CANDIDATE": 3,
+      "needs_review": 24,
+      "candidate": 3
+    },
+    "byApprovalLevel": {
+      "careful": 3,
+      "blocked": 24,
+      "normal": 3
+    },
+    "byType": {
+      "canonicalMapping": 27,
+      "procedureTestBinding": 2,
+      "measurementBinding": 1
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 0,
+      "medium_0.80_0.94": 5,
+      "low_lt_0.80": 1,
+      "unresolved": 24
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 4,
+      "UNRESOLVED_COMPONENT": 6
+    }
+  }
+}

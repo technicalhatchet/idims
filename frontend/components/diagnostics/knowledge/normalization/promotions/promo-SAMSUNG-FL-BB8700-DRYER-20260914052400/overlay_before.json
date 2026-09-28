@@ -1,0 +1,350 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "vented_dryer",
+  "manufacturer": "Samsung",
+  "label": "Samsung vented dryer family overlays",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "samsung_fl_dryer_bb8700",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "manualId": "SAMSUNG-FL-BB8700-DRYER",
+      "label": "Samsung FL dryer BB8700 / DV8700B (DVE/DVG 53/50BB)",
+      "appliesTo": {
+        "templateIds": [
+          "electric_dryer",
+          "gas_dryer"
+        ],
+        "manufacturers": [
+          "Samsung"
+        ],
+        "modelPatterns": [
+          "DVE53BB*",
+          "DVE50*",
+          "DVE46BB*",
+          "DVG53BB*",
+          "DVG50*",
+          "DVG46BB*",
+          "DV53BB*",
+          "DV50*"
+        ],
+        "platformIds": [
+          "samsung_fl_dryer_bb8700"
+        ]
+      },
+      "oemTermAliases": {
+        "supply": "power_supply",
+        "user_interface": "hmi_control",
+        "main_control": "control_board",
+        "door_switch": "door_switch",
+        "drive_motor": "drive_motor",
+        "heating_element": "heat_source",
+        "gas_valve": "heat_source",
+        "igniter": "heat_source",
+        "flame_sensor": "heat_source",
+        "exhaust_thermistor": "temperature_sensor",
+        "inlet_thermistor": "temperature_sensor",
+        "thermal_fuse": "thermal_fuse",
+        "high_limit_thermostat": "thermal_cutoff"
+      },
+      "displayTerms": {
+        "control_board": "Main control PCB",
+        "hmi_control": "Display / buttons (bC2)",
+        "power_supply": "Line voltage / supply (9C1, FC, AC)",
+        "heat_source": "Heat source (element or gas path)",
+        "electric_heater": "Electric heater (5300 W, ~11 Ω)",
+        "gas_valve": "Gas valve coils (25M01A)",
+        "ignitor": "Hot-surface igniter (101D)",
+        "temperature_sensor": "Thermistors (tC / tC5)",
+        "thermal_cutoff": "Hi-limit thermostat (60T21)",
+        "drive_motor": "Drive motor / centrifugal switch"
+      },
+      "add": {
+        "components": [
+          {
+            "id": "electric_heater",
+            "name": "Electric heating element",
+            "aliases": [
+              "heating element",
+              "heating_element"
+            ],
+            "systemId": "heating",
+            "categoryId": "dry_heating",
+            "type": "actuator",
+            "templateIds": [
+              "electric_dryer"
+            ]
+          },
+          {
+            "id": "gas_valve",
+            "name": "Gas valve",
+            "aliases": [
+              "gas valve",
+              "gas_valve"
+            ],
+            "systemId": "heating",
+            "categoryId": "dry_heating",
+            "type": "actuator",
+            "templateIds": [
+              "gas_dryer"
+            ]
+          },
+          {
+            "id": "ignitor",
+            "name": "Hot-surface igniter",
+            "aliases": [
+              "igniter",
+              "ignitor"
+            ],
+            "systemId": "heating",
+            "categoryId": "dry_heating",
+            "type": "actuator",
+            "templateIds": [
+              "gas_dryer"
+            ]
+          }
+        ],
+        "establishedFactSources": [
+          {
+            "factId": "door_closed_authorized",
+            "fromBranches": [
+              "door_closed_authorized"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_running",
+            "fromBranches": [
+              "motor_running"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "heat_command_present",
+            "fromBranches": [
+              "heat_command_present"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          }
+        ],
+        "relationships": [
+          {
+            "from": "electric_heater",
+            "to": "heat_source",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Samsung BB8700 — 5300 W single element ~11 Ω."
+          },
+          {
+            "from": "gas_valve",
+            "to": "heat_source",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Samsung BB8700 — 25M01A gas valve coil pairs."
+          },
+          {
+            "from": "ignitor",
+            "to": "heat_source",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Samsung BB8700 — 101D igniter 40–120 Ω."
+          }
+        ]
+      },
+      "overrides": [],
+      "procedureBindings": [
+        {
+          "procedureId": "samsungbb8700-dryer-power",
+          "testTargetId": "heat_command_test",
+          "failureDomains": [
+            "control_failure",
+            "supply_issue"
+          ],
+          "displayTitle": "§4-1 — Power and communication",
+          "oemTestNumber": "4-1"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-thermistor",
+          "testTargetId": "exhaust_temperature_test",
+          "failureDomains": [
+            "temperature_sensing_failure",
+            "heating_failure"
+          ],
+          "displayTitle": "§4-1 / §4-6 — Thermistors",
+          "oemTestNumber": "4-1"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-door-switch",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "door_authorization_failure"
+          ],
+          "displayTitle": "§4-1 / §4-6 — Door switch",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-heater-electric",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "§4-6 — Electric heater",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+          "testTargetId": "thermal_protection_test",
+          "failureDomains": [
+            "heating_failure",
+            "thermal_protection_failure"
+          ],
+          "displayTitle": "§4-6 — Thermal cutoff and hi-limit",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-motor-circuit",
+          "testTargetId": "motor_run_test",
+          "failureDomains": [
+            "drive_failure"
+          ],
+          "displayTitle": "§4-6 — Motor centrifugal switch",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-belt-cutoff",
+          "testTargetId": "motor_run_test",
+          "failureDomains": [
+            "drive_failure"
+          ],
+          "displayTitle": "§4-6 — Belt cut-off switch",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-hmi",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "user_interface_failure",
+            "control_failure"
+          ],
+          "displayTitle": "§4-1 — Display / buttons",
+          "oemTestNumber": "4-1"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-valve",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure",
+            "ignition_issue"
+          ],
+          "displayTitle": "§4-6 — Gas valve coils",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-ignitor",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure",
+            "ignition_issue"
+          ],
+          "displayTitle": "§4-6 — Gas igniter",
+          "oemTestNumber": "4-6"
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-flame-sensor",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure",
+            "ignition_issue"
+          ],
+          "displayTitle": "§4-6 — Radiant flame sensor",
+          "oemTestNumber": "4-6"
+        }
+      ],
+      "measurementBindings": [
+        {
+          "procedureId": "samsungbb8700-dryer-heater-electric",
+          "measurementKnowledgeId": "samsungFlBb8700DryerHeaterOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "5300 W element",
+          "units": "Ω",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-valve",
+          "measurementKnowledgeId": "samsungFlBb8700DryerGasValve12Ohms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Gas valve coils 1–2",
+          "units": "Ω",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-valve",
+          "measurementKnowledgeId": "samsungFlBb8700DryerGasValve13Ohms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Gas valve coils 1–3",
+          "units": "Ω",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-valve",
+          "measurementKnowledgeId": "samsungFlBb8700DryerGasValve45Ohms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Gas valve coils 4–5",
+          "units": "Ω",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-valve",
+          "measurementKnowledgeId": "samsungFlBb8700DryerGasValve67Ohms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Gas valve coils 6–7",
+          "units": "Ω",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-gas-ignitor",
+          "measurementKnowledgeId": "samsungFlBb8700DryerIgnitorOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Hot-surface igniter (101D)",
+          "units": "Ω",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+          "measurementKnowledgeId": "samsungFlBb8700DryerHiLimitOhms",
+          "testTargetId": "thermal_protection_test",
+          "displayLabel": "Hi-limit thermostat (60T21)",
+          "units": "Ω",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "manualId": "W11416787",
+  "promotionId": "promo-W11416787-20260913135602",
+  "published": true,
+  "equivalence": {
+    "manualId": "W11416787",
+    "equivalent": true,
+    "checks": {
+      "canonicalAliases": true,
+      "procedureBindings": true,
+      "measurementBindings": true,
+      "topologyOverrides": true
+    },
+    "aliasComparison": {
+      "equivalent": true,
+      "referenceCount": 21,
+      "generatedCount": 21,
+      "mismatches": [],
+      "extraGenerated": []
+    },
+    "procedureBindingComparison": {
+      "label": "procedureBindings",
+      "equivalent": true,
+      "referenceCount": 0,
+      "generatedCount": 6,
+      "mismatches": [],
+      "extraGenerated": [
+        "w11416787-test-03-drive-system",
+        "w11416787-test-03a-shifter",
+        "w11416787-test-03b-motor",
+        "w11416787-test-06-water-level",
+        "w11416787-test-07-drain-recirc-pump",
+        "w11416787-test-08-lid-lock"
+      ]
+    },
+    "measurementBindingComparison": {
+      "label": "measurementBindings",
+      "equivalent": true,
+      "referenceCount": 0,
+      "generatedCount": 4,
+      "mismatches": [],
+      "extraGenerated": [
+        "w11416787-test-03b-motor:whirlpoolTlDd5100WasherMotorOhms",
+        "w11416787-test-07-drain-recirc-pump:whirlpoolTlDd5100WasherDrainPumpOhms",
+        "w11416787-test-07-drain-recirc-pump:whirlpoolTlDd5100WasherRecircPumpOhms",
+        "w11416787-test-08-lid-lock:whirlpoolTlDd5100WasherLidLockSolenoidOhms"
+      ]
+    },
+    "provenance": "generated",
+    "notes": [
+      "Semantic equivalence: reference CG-2 mappings must be preserved.",
+      "Extra generated aliases/bindings are allowed.",
+      "Topology overrides remain hand-authored and must not drift."
+    ],
+    "promotionId": "promo-W11416787-20260913135602",
+    "approvedCandidateCount": 0
+  },
+  "approvedCandidateIds": []
+}

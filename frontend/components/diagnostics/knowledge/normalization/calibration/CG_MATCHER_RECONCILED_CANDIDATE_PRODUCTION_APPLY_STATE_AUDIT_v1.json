@@ -1,0 +1,1377 @@
+{
+  "schemaVersion": 1,
+  "reportType": "matcher_reconciled_candidate_production_apply_state_audit",
+  "gateId": "matcher-reconciled-candidate-production-apply-v1",
+  "status": "GREEN",
+  "generatedAt": "2026-09-22T06:27:53.529007+00:00",
+  "readOnly": true,
+  "classification": "D",
+  "classificationLabel": "Production state is complete: 52 reconciliation mapping payloads and 52 human-acceptance stamps on disk and in commit 83707ef8; lock flags are true. CG_MATCHER_RECONCILED_CANDIDATE_PRODUCTION_APPLY_v1.json is a second idempotent run (already_applied, empty changeset) and does not retain the first-run 52-entry changeset transcript.",
+  "commitReference": "83707ef8",
+  "summary": {
+    "authorizedScope": 52,
+    "acceptedDecisions": 52,
+    "mappingContentMatchesReview": 52,
+    "validApplyStamps": 52,
+    "reconciliationChangesetHashMatchesExcludingStamp": 52,
+    "commitExactRecordMatches": 52
+  },
+  "artifactState": {
+    "lock": {
+      "applyAuthorizationGranted": true,
+      "productionMutationsExecuted": true,
+      "generatedAt": "2026-09-22T06:20:01.392002+00:00"
+    },
+    "applyReport": {
+      "applyState": "already_applied",
+      "productionMutationsExecuted": true,
+      "summary": {
+        "authorizedScope": 52,
+        "authorizedChangesPlanned": 0,
+        "authorizedChangesApplied": 0,
+        "alreadyAppliedBeforeGate": 52,
+        "unauthorizedChanges": 0,
+        "productionFilesTouched": 0
+      },
+      "changesetEntryCount": 0,
+      "generatedAt": "2026-09-22T06:20:01.392002+00:00"
+    }
+  },
+  "findings": {
+    "physicalMutations": {
+      "productionReconciliationGate": {
+        "description": "Wrote matcher-improvement mapping payloads (canonicalId, classification fields) into production.",
+        "changesetArtifact": "CG_MATCHER_IMPROVEMENT_PRODUCTION_RECONCILIATION_CHANGESET_v1.json",
+        "recordCount": 52
+      },
+      "productionApplyGateFirstRun": {
+        "description": "Added matcherReconciledProductionApply metadata (+ appliedAt) only; no matcher, no canonical promotion.",
+        "field": "matcherReconciledProductionApply",
+        "recordCount": 52
+      }
+    },
+    "idempotencySecondRun": {
+      "basis": "Preflight _stamp_matches on each authorized production candidate record.",
+      "notBasedOn": "Persisted changeset array in CG_MATCHER_RECONCILED_CANDIDATE_PRODUCTION_APPLY_v1.json",
+      "observed": {
+        "authorizedScope": 52,
+        "authorizedChangesPlanned": 0,
+        "authorizedChangesApplied": 0,
+        "alreadyAppliedBeforeGate": 52,
+        "unauthorizedChanges": 0,
+        "productionFilesTouched": 0
+      }
+    },
+    "reportedDiscrepancy": {
+      "assistantClaimLockFalse": false,
+      "actualLockFlags": {
+        "applyAuthorizationGranted": true,
+        "productionMutationsExecuted": true
+      },
+      "note": "Earlier preflight-only summary was wrong; committed lock matches executed apply."
+    }
+  },
+  "perRecord": [
+    {
+      "candidateId": "FRIGIDAIRE-PRMC-FRIDGE::canonical_mapping::map-FRIGIDAIRE-PRMC-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "FRIGIDAIRE-PRMC-FRIDGE::frigidaireprmc-ui-communication::display_panel::",
+      "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+      "productionRecordId": "map-FRIGIDAIRE-PRMC-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "user_interface",
+        "expectedCanonicalId": "user_interface"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.594522+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "26ce64aa96f67afcc6b6d8eda90c456ecf09a2ab578ba4158429cc4389d75dd3",
+        "actualHashExcludingStamp": "26ce64aa96f67afcc6b6d8eda90c456ecf09a2ab578ba4158429cc4389d75dd3"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "FRIGIDAIRE-PRMC-FRIDGE::canonical_mapping::map-FRIGIDAIRE-PRMC-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "FRIGIDAIRE-PRMC-FRIDGE::frigidaireprmc-manual-defrost::main_control::",
+      "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+      "productionRecordId": "map-FRIGIDAIRE-PRMC-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "control_board",
+        "expectedCanonicalId": "control_board"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.594522+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "f390db036c1b4a2c06566df60a549c984268f9f16ac31bac129f51f9e62a0d9c",
+        "actualHashExcludingStamp": "f390db036c1b4a2c06566df60a549c984268f9f16ac31bac129f51f9e62a0d9c"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "INSIGNIA-DWR3-DISHWASHER::canonical_mapping::map-INSIGNIA-DWR3-DISHWASHER-mig-efmm-e859af7c0c65-e3-\u2014-tub-heater-10\u201315-\u03c9",
+      "candidateKey": "INSIGNIA-DWR3-DISHWASHER::nsdwr3ss1-heater::E3 \u2014 Tub heater 10\u201315 \u03a9::",
+      "manualId": "INSIGNIA-DWR3-DISHWASHER",
+      "productionRecordId": "map-INSIGNIA-DWR3-DISHWASHER-mig-efmm-e859af7c0c65-e3-\u2014-tub-heater-10\u201315-\u03c9",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "heat_source",
+        "expectedCanonicalId": "heat_source"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.596023+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "4c02036ba5ecafa55e9331486789b0133833cd1202533700c44ee9835dac470f",
+        "actualHashExcludingStamp": "4c02036ba5ecafa55e9331486789b0133833cd1202533700c44ee9835dac470f"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "LG-LRMVS-FRIDGE::canonical_mapping::map-LG-LRMVS-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "LG-LRMVS-FRIDGE::lglrmvs-display-communication::display_panel::",
+      "manualId": "LG-LRMVS-FRIDGE",
+      "productionRecordId": "map-LG-LRMVS-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "user_interface",
+        "expectedCanonicalId": "user_interface"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.597522+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "1ac5a69323fdc200f3d2ca6bb4b8d86b40bb2be9f035617614032e6d016a1bd4",
+        "actualHashExcludingStamp": "1ac5a69323fdc200f3d2ca6bb4b8d86b40bb2be9f035617614032e6d016a1bd4"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "LG-LRMVS-FRIDGE::canonical_mapping::map-LG-LRMVS-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "LG-LRMVS-FRIDGE::lglrmvs-display-communication::main_control::",
+      "manualId": "LG-LRMVS-FRIDGE",
+      "productionRecordId": "map-LG-LRMVS-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "control_board",
+        "expectedCanonicalId": "control_board"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.597522+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "752f6a0c216a08cf75142db102fef37799406aead2f84db21746861de1b75e4e",
+        "actualHashExcludingStamp": "752f6a0c216a08cf75142db102fef37799406aead2f84db21746861de1b75e4e"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "LG-LSC27926-SXS::canonical_mapping::map-LG-LSC27926-SXS-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "LG-LSC27926-SXS::lgsxs-display-communication::display_panel::",
+      "manualId": "LG-LSC27926-SXS",
+      "productionRecordId": "map-LG-LSC27926-SXS-mig-efmm-247b16052823-display_panel",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "user_interface",
+        "expectedCanonicalId": "user_interface"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.599523+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "d068b96956801f86fcd5a172c4d422f642fd2c4e838218f37b9a862af085d490",
+        "actualHashExcludingStamp": "d068b96956801f86fcd5a172c4d422f642fd2c4e838218f37b9a862af085d490"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "LG-LSC27926-SXS::canonical_mapping::map-LG-LSC27926-SXS-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "LG-LSC27926-SXS::lgsxs-display-communication::main_control::",
+      "manualId": "LG-LSC27926-SXS",
+      "productionRecordId": "map-LG-LSC27926-SXS-mig-efmm-ccfd232a7378-main_control",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "control_board",
+        "expectedCanonicalId": "control_board"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.599523+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "0a7177ae8743299456f1c28606accb05a1c869be724f1788a6a0918eed21a373",
+        "actualHashExcludingStamp": "0a7177ae8743299456f1c28606accb05a1c869be724f1788a6a0918eed21a373"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "MIDEA-RSS-FRIDGE::canonical_mapping::map-MIDEA-RSS-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "MIDEA-RSS-FRIDGE::midearss-communication::display_panel::",
+      "manualId": "MIDEA-RSS-FRIDGE",
+      "productionRecordId": "map-MIDEA-RSS-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "user_interface",
+        "expectedCanonicalId": "user_interface"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.601022+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "64a57886d0c496100bc4ed714f56e3816e00cbb214cea94cbd28a5aed373dd9d",
+        "actualHashExcludingStamp": "64a57886d0c496100bc4ed714f56e3816e00cbb214cea94cbd28a5aed373dd9d"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "MIDEA-RSS-FRIDGE::canonical_mapping::map-MIDEA-RSS-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "MIDEA-RSS-FRIDGE::midearss-communication::main_control::",
+      "manualId": "MIDEA-RSS-FRIDGE",
+      "productionRecordId": "map-MIDEA-RSS-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "control_board",
+        "expectedCanonicalId": "control_board"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.601523+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "d86d6aad97ede869c0365b5f9fa9968e4fed8b43eaf8e33ece0fa3cf6a3f4c2c",
+        "actualHashExcludingStamp": "d86d6aad97ede869c0365b5f9fa9968e4fed8b43eaf8e33ece0fa3cf6a3f4c2c"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "MIDEA-UZ21-FREEZER::canonical_mapping::map-MIDEA-UZ21-FREEZER-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "MIDEA-UZ21-FREEZER::mideauz21-communication::display_panel::",
+      "manualId": "MIDEA-UZ21-FREEZER",
+      "productionRecordId": "map-MIDEA-UZ21-FREEZER-mig-efmm-247b16052823-display_panel",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "user_interface",
+        "expectedCanonicalId": "user_interface"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.603022+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "f3c7f8c4816ba03efc60f007ad507fcb067403b2bbd8fa7141941ef79a42ae6a",
+        "actualHashExcludingStamp": "f3c7f8c4816ba03efc60f007ad507fcb067403b2bbd8fa7141941ef79a42ae6a"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "MIDEA-UZ21-FREEZER::canonical_mapping::map-MIDEA-UZ21-FREEZER-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "MIDEA-UZ21-FREEZER::mideauz21-communication::main_control::",
+      "manualId": "MIDEA-UZ21-FREEZER",
+      "productionRecordId": "map-MIDEA-UZ21-FREEZER-mig-efmm-ccfd232a7378-main_control",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "control_board",
+        "expectedCanonicalId": "control_board"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.603022+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "a316dc37e3cd47f560ce1ba3c653144dcd4f70d3728f5ccc508b281c69221aea",
+        "actualHashExcludingStamp": "a316dc37e3cd47f560ce1ba3c653144dcd4f70d3728f5ccc508b281c69221aea"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "NS-TDRE75W1::canonical_mapping::map-NS-TDRE75W1-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "NS-TDRE75W1::nstdre75w1-communication::user_interface::",
+      "manualId": "NS-TDRE75W1",
+      "productionRecordId": "map-NS-TDRE75W1-mig-efmm-cda9def45dce-user_interface",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "hmi_control",
+        "expectedCanonicalId": "hmi_control"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.604522+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "24cb8074a73b4d1b29bddc04a91e7f1e6c93d5e9f5b6f5bae891a83d109c1887",
+        "actualHashExcludingStamp": "24cb8074a73b4d1b29bddc04a91e7f1e6c93d5e9f5b6f5bae891a83d109c1887"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-mig-efmm-c01495a054b4-\u00a74-3:-water-thermistor-(tc)",
+      "candidateKey": "SAMSUNG-DISHWASHER-M9::samsungdwm9-thermistor::\u00a74-3: Water Thermistor (tC)::Water Thermistor (tC)",
+      "manualId": "SAMSUNG-DISHWASHER-M9",
+      "productionRecordId": "map-SAMSUNG-DISHWASHER-M9-mig-efmm-c01495a054b4-\u00a74-3:-water-thermistor-(tc)",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "temperature_sensor",
+        "expectedCanonicalId": "temperature_sensor"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.606524+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "5e48f5c875bb2b43bdc71171a76441db78eeaee1f80d520791613768c9912082",
+        "actualHashExcludingStamp": "5e48f5c875bb2b43bdc71171a76441db78eeaee1f80d520791613768c9912082"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-mig-efmm-c01495a054b4-\u00a74-1:-water-thermistor-(tc)",
+      "candidateKey": "SAMSUNG-DISHWASHER::samsungdw-thermistor::\u00a74-1: Water Thermistor (tC)::Water Thermistor (tC)",
+      "manualId": "SAMSUNG-DISHWASHER",
+      "productionRecordId": "map-SAMSUNG-DISHWASHER-mig-efmm-c01495a054b4-\u00a74-1:-water-thermistor-(tc)",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "temperature_sensor",
+        "expectedCanonicalId": "temperature_sensor"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.608023+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "62baef6fadf6aba5b198ee55bde19eef9f57d5e6c83c6909295e8f7da2aa260f",
+        "actualHashExcludingStamp": "62baef6fadf6aba5b198ee55bde19eef9f57d5e6c83c6909295e8f7da2aa260f"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "SAMSUNG-FL-BB8700-DRYER::samsungbb8700-dryer-hmi::user_interface::",
+      "manualId": "SAMSUNG-FL-BB8700-DRYER",
+      "productionRecordId": "map-SAMSUNG-FL-BB8700-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "hmi_control",
+        "expectedCanonicalId": "hmi_control"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.610025+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "63717c0da8db4e9b492576a99d26d5faa3c62be08b11c9bd9f7dd0cccc3c98fd",
+        "actualHashExcludingStamp": "63717c0da8db4e9b492576a99d26d5faa3c62be08b11c9bd9f7dd0cccc3c98fd"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "SAMSUNG-FL-DV6000-DRYER::samsungdv6000-hmi::user_interface::",
+      "manualId": "SAMSUNG-FL-DV6000-DRYER",
+      "productionRecordId": "map-SAMSUNG-FL-DV6000-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "hmi_control",
+        "expectedCanonicalId": "hmi_control"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.611630+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "a1bb6a88cac3b3ac38956913d7a8bac34fc9e8741a741ea9e2ccff255f2c3ea1",
+        "actualHashExcludingStamp": "a1bb6a88cac3b3ac38956913d7a8bac34fc9e8741a741ea9e2ccff255f2c3ea1"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-mig-efmm-ce66fe78ffd3-\u00a74-6:-electric-heater",
+      "candidateKey": "SAMSUNG-FL-DV6000-DRYER::samsungdv6000-heater-electric::\u00a74-6: Electric heater::Electric heater",
+      "manualId": "SAMSUNG-FL-DV6000-DRYER",
+      "productionRecordId": "map-SAMSUNG-FL-DV6000-DRYER-mig-efmm-ce66fe78ffd3-\u00a74-6:-electric-heater",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "heat_source",
+        "expectedCanonicalId": "heat_source"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.611630+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "86628d807332773e968a3e79320edf45473a08eee52c0f713592daf9a26b3f54",
+        "actualHashExcludingStamp": "86628d807332773e968a3e79320edf45473a08eee52c0f713592daf9a26b3f54"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-HP-DRYER-DV22N::canonical_mapping::map-SAMSUNG-HP-DRYER-DV22N-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "SAMSUNG-HP-DRYER-DV22N::samsungdv22n-hmi-button::display_panel::",
+      "manualId": "SAMSUNG-HP-DRYER-DV22N",
+      "productionRecordId": "map-SAMSUNG-HP-DRYER-DV22N-mig-efmm-247b16052823-display_panel",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "user_interface",
+        "expectedCanonicalId": "user_interface"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.613522+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "a3830e41a4199eeb5e0b3e18cf1c302a0b4444adfe8a8eaad585817a6377aadc",
+        "actualHashExcludingStamp": "a3830e41a4199eeb5e0b3e18cf1c302a0b4444adfe8a8eaad585817a6377aadc"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "SAMSUNG-LAUNDRY-COMBO-WD53::samsungwd53-communication::main_control::",
+      "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+      "productionRecordId": "map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-ccfd232a7378-main_control",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "control_board",
+        "expectedCanonicalId": "control_board"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.615523+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "4d682f6897ec0581e42a26df932ea14508c66adc8cbf3de29d1a730543e38b70",
+        "actualHashExcludingStamp": "4d682f6897ec0581e42a26df932ea14508c66adc8cbf3de29d1a730543e38b70"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "SAMSUNG-LAUNDRY-COMBO-WD53::samsungwd53-hmi-check::user_interface::",
+      "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+      "productionRecordId": "map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-cda9def45dce-user_interface",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "hmi_control",
+        "expectedCanonicalId": "hmi_control"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.615523+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "4ab2cf035bed0cf98308082e3557487ad04c721673b225d2b4a35e0da9bde23f",
+        "actualHashExcludingStamp": "4ab2cf035bed0cf98308082e3557487ad04c721673b225d2b4a35e0da9bde23f"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-RF23BB-FRIDGE::canonical_mapping::map-SAMSUNG-RF23BB-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "SAMSUNG-RF23BB-FRIDGE::samsungbespoke-main-panel-comm::display_panel::",
+      "manualId": "SAMSUNG-RF23BB-FRIDGE",
+      "productionRecordId": "map-SAMSUNG-RF23BB-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "user_interface",
+        "expectedCanonicalId": "user_interface"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.619023+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "0f2d15f34f5f54235787805376c2ddb5f8d5eb5741a53434a1763240ad523a8e",
+        "actualHashExcludingStamp": "0f2d15f34f5f54235787805376c2ddb5f8d5eb5741a53434a1763240ad523a8e"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-RF260B-FRIDGE::canonical_mapping::map-SAMSUNG-RF260B-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "SAMSUNG-RF260B-FRIDGE::samsungrf260b-option-error::display_panel::",
+      "manualId": "SAMSUNG-RF260B-FRIDGE",
+      "productionRecordId": "map-SAMSUNG-RF260B-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "user_interface",
+        "expectedCanonicalId": "user_interface"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.621522+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "934f92f4cbfbef9a342400e6af5823f357f83c4ed016874ca96d61bebaea3aba",
+        "actualHashExcludingStamp": "934f92f4cbfbef9a342400e6af5823f357f83c4ed016874ca96d61bebaea3aba"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-RF260B-FRIDGE::canonical_mapping::map-SAMSUNG-RF260B-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "SAMSUNG-RF260B-FRIDGE::samsungrf260b-option-error::main_control::",
+      "manualId": "SAMSUNG-RF260B-FRIDGE",
+      "productionRecordId": "map-SAMSUNG-RF260B-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "control_board",
+        "expectedCanonicalId": "control_board"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.622023+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "8a4a1a541ed5fa7858cbded0e3953ade2b26b455218f7101db3e104904ea9344",
+        "actualHashExcludingStamp": "8a4a1a541ed5fa7858cbded0e3953ade2b26b455218f7101db3e104904ea9344"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-RF28-FRIDGE::canonical_mapping::map-SAMSUNG-RF28-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "SAMSUNG-RF28-FRIDGE::samsungrf28-dispenser-panel-comm::display_panel::",
+      "manualId": "SAMSUNG-RF28-FRIDGE",
+      "productionRecordId": "map-SAMSUNG-RF28-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "user_interface",
+        "expectedCanonicalId": "user_interface"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.624023+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "442021ad7e204e8c3eb34484d139bb9ef590601b2d81c1a2d50323c31c8d5e02",
+        "actualHashExcludingStamp": "442021ad7e204e8c3eb34484d139bb9ef590601b2d81c1a2d50323c31c8d5e02"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-RS28-SXS::canonical_mapping::map-SAMSUNG-RS28-SXS-mig-efmm-247b16052823-display_panel",
+      "candidateKey": "SAMSUNG-RS28-SXS::samsungrs28-panel-communication::display_panel::",
+      "manualId": "SAMSUNG-RS28-SXS",
+      "productionRecordId": "map-SAMSUNG-RS28-SXS-mig-efmm-247b16052823-display_panel",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "user_interface",
+        "expectedCanonicalId": "user_interface"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.626023+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "2d495b25a88797066c6a4ee830c1ac63618ccbb548c2c0c69a947d3f179a3be7",
+        "actualHashExcludingStamp": "2d495b25a88797066c6a4ee830c1ac63618ccbb548c2c0c69a947d3f179a3be7"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-RS28-SXS::canonical_mapping::map-SAMSUNG-RS28-SXS-mig-efmm-ccfd232a7378-main_control",
+      "candidateKey": "SAMSUNG-RS28-SXS::samsungrs28-dispenser-communication::main_control::",
+      "manualId": "SAMSUNG-RS28-SXS",
+      "productionRecordId": "map-SAMSUNG-RS28-SXS-mig-efmm-ccfd232a7378-main_control",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "control_board",
+        "expectedCanonicalId": "control_board"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.626023+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "edab4ac455980e73a9b6dbd23b54a501d302411d791c383d7a53b86da1a4df9b",
+        "actualHashExcludingStamp": "edab4ac455980e73a9b6dbd23b54a501d302411d791c383d7a53b86da1a4df9b"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-mig-efmm-5edc6b1da575-\u00a75-3:-water-supply-(4c)",
+      "candidateKey": "SAMSUNG-TL-A50-WASHER::samsungtla50-inlet-valves::\u00a75-3: Water supply (4C)::Water supply (4C)",
+      "manualId": "SAMSUNG-TL-A50-WASHER",
+      "productionRecordId": "map-SAMSUNG-TL-A50-WASHER-mig-efmm-5edc6b1da575-\u00a75-3:-water-supply-(4c)",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "inlet_valve",
+        "expectedCanonicalId": "inlet_valve"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.628023+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "811dba98085999aecc768f9887c0bf753e60df03d08ab2b93974292b34c2e294",
+        "actualHashExcludingStamp": "811dba98085999aecc768f9887c0bf753e60df03d08ab2b93974292b34c2e294"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-mig-efmm-62ec837ed0fc-\u00a75-3:-door-lock-(dc,-dc1,-dc2)",
+      "candidateKey": "SAMSUNG-TL-A50-WASHER::samsungtla50-door-lock::\u00a75-3: Door lock (DC, DC1, DC2)::Door lock (DC, DC1, DC2)",
+      "manualId": "SAMSUNG-TL-A50-WASHER",
+      "productionRecordId": "map-SAMSUNG-TL-A50-WASHER-mig-efmm-62ec837ed0fc-\u00a75-3:-door-lock-(dc,-dc1,-dc2)",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "lid_lock",
+        "expectedCanonicalId": "lid_lock"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.628523+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "96e76899cb2b3a3252b2e30a51e5326decc92c13a7a44a635448e8499b7c67f7",
+        "actualHashExcludingStamp": "96e76899cb2b3a3252b2e30a51e5326decc92c13a7a44a635448e8499b7c67f7"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "SAMSUNG-TL-CG71-DRYER::samsungtlcg71d-hmi::user_interface::",
+      "manualId": "SAMSUNG-TL-CG71-DRYER",
+      "productionRecordId": "map-SAMSUNG-TL-CG71-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "hmi_control",
+        "expectedCanonicalId": "hmi_control"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.630023+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "02f4029ce9e424c119b9fc50e32c35d138f7a9823a04b54507d82fd23400cfc0",
+        "actualHashExcludingStamp": "02f4029ce9e424c119b9fc50e32c35d138f7a9823a04b54507d82fd23400cfc0"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-mig-efmm-ce66fe78ffd3-\u00a74-4:-electric-heater",
+      "candidateKey": "SAMSUNG-TL-CG71-DRYER::samsungtlcg71d-heater-electric::\u00a74-4: Electric heater::Electric heater",
+      "manualId": "SAMSUNG-TL-CG71-DRYER",
+      "productionRecordId": "map-SAMSUNG-TL-CG71-DRYER-mig-efmm-ce66fe78ffd3-\u00a74-4:-electric-heater",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "heat_source",
+        "expectedCanonicalId": "heat_source"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.630023+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "63433769c8864e76441b765fb8fb87615d18c6ba3930ad6e3c2112f88b3ed75e",
+        "actualHashExcludingStamp": "63433769c8864e76441b765fb8fb87615d18c6ba3930ad6e3c2112f88b3ed75e"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-mig-efmm-5edc6b1da575-\u00a75-3:-water-supply-(4c)",
+      "candidateKey": "SAMSUNG-TL-CG71-WASHER::samsungtlcg71-inlet-valves::\u00a75-3: Water supply (4C)::Water supply (4C)",
+      "manualId": "SAMSUNG-TL-CG71-WASHER",
+      "productionRecordId": "map-SAMSUNG-TL-CG71-WASHER-mig-efmm-5edc6b1da575-\u00a75-3:-water-supply-(4c)",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "inlet_valve",
+        "expectedCanonicalId": "inlet_valve"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.632022+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "0fe1a90bf779b32ee2edf3697e2f09985cf6e0d752314cff6bb4c22fd7fcdb2f",
+        "actualHashExcludingStamp": "0fe1a90bf779b32ee2edf3697e2f09985cf6e0d752314cff6bb4c22fd7fcdb2f"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-mig-efmm-62ec837ed0fc-\u00a75-3:-door-lock-(dc,-dc1,-dc2)",
+      "candidateKey": "SAMSUNG-TL-CG71-WASHER::samsungtlcg71-door-lock::\u00a75-3: Door lock (DC, DC1, DC2)::Door lock (DC, DC1, DC2)",
+      "manualId": "SAMSUNG-TL-CG71-WASHER",
+      "productionRecordId": "map-SAMSUNG-TL-CG71-WASHER-mig-efmm-62ec837ed0fc-\u00a75-3:-door-lock-(dc,-dc1,-dc2)",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "lid_lock",
+        "expectedCanonicalId": "lid_lock"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.632022+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "d92fe0091e18e1c3bb7b6f960785b18293164b7ee6d8f5876d86662ecd62d50e",
+        "actualHashExcludingStamp": "d92fe0091e18e1c3bb7b6f960785b18293164b7ee6d8f5876d86662ecd62d50e"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "SAMSUNG-TL-DV50-DRYER::samsungtldv50-hmi::user_interface::",
+      "manualId": "SAMSUNG-TL-DV50-DRYER",
+      "productionRecordId": "map-SAMSUNG-TL-DV50-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "hmi_control",
+        "expectedCanonicalId": "hmi_control"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.634023+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "2a78e2b11ed71ae554e149804db8e821828152f70f83c11c37f18b270b27d822",
+        "actualHashExcludingStamp": "2a78e2b11ed71ae554e149804db8e821828152f70f83c11c37f18b270b27d822"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-mig-efmm-ce66fe78ffd3-\u00a74-4:-electric-heater",
+      "candidateKey": "SAMSUNG-TL-DV50-DRYER::samsungtldv50-heater-electric::\u00a74-4: Electric heater::Electric heater",
+      "manualId": "SAMSUNG-TL-DV50-DRYER",
+      "productionRecordId": "map-SAMSUNG-TL-DV50-DRYER-mig-efmm-ce66fe78ffd3-\u00a74-4:-electric-heater",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "heat_source",
+        "expectedCanonicalId": "heat_source"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.634023+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "371cc3cd2a1c5311834412509ac86571b00df8a0359c8ea176cb81947bc10a89",
+        "actualHashExcludingStamp": "371cc3cd2a1c5311834412509ac86571b00df8a0359c8ea176cb81947bc10a89"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W10410465::canonical_mapping::map-W10410465-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "W10410465::w10410465-button-indicator::user_interface::",
+      "manualId": "W10410465",
+      "productionRecordId": "map-W10410465-mig-efmm-cda9def45dce-user_interface",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "hmi_control",
+        "expectedCanonicalId": "hmi_control"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.635524+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "f221f941401eb726bc3c024e0d6846f7b87d35a99d2db62b54976a6b2ca8f62c",
+        "actualHashExcludingStamp": "f221f941401eb726bc3c024e0d6846f7b87d35a99d2db62b54976a6b2ca8f62c"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W10680150::canonical_mapping::map-W10680150-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "W10680150::w10680150-button-indicator::user_interface::",
+      "manualId": "W10680150",
+      "productionRecordId": "map-W10680150-mig-efmm-cda9def45dce-user_interface",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "hmi_control",
+        "expectedCanonicalId": "hmi_control"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.637525+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "827dddc22bb5045027ccb6cf1f50ef0bbb01055151b86010543fc7c4a1fbb5ce",
+        "actualHashExcludingStamp": "827dddc22bb5045027ccb6cf1f50ef0bbb01055151b86010543fc7c4a1fbb5ce"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W10864849::canonical_mapping::map-W10864849-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "candidateKey": "W10864849::w10864849-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+      "manualId": "W10864849",
+      "productionRecordId": "map-W10864849-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "temperature_sensor",
+        "expectedCanonicalId": "temperature_sensor"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.639025+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "d5c21d9323c600d08caafe2dec9588489ace55efb78d48aae71832c10d6ef6a8",
+        "actualHashExcludingStamp": "d5c21d9323c600d08caafe2dec9588489ace55efb78d48aae71832c10d6ef6a8"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W10881701::canonical_mapping::map-W10881701-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "W10881701::w10881701-button-indicator::user_interface::",
+      "manualId": "W10881701",
+      "productionRecordId": "map-W10881701-mig-efmm-cda9def45dce-user_interface",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "hmi_control",
+        "expectedCanonicalId": "hmi_control"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.640525+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "83cf232bbab1459d01680a117478eb465c26262a0e472556967c38c49625959d",
+        "actualHashExcludingStamp": "83cf232bbab1459d01680a117478eb465c26262a0e472556967c38c49625959d"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W11187658::canonical_mapping::map-W11187658-mig-efmm-e859af7c0c65-e3-\u2014-tub-heater-~14-\u03c9",
+      "candidateKey": "W11187658::w11187658-heater::E3 \u2014 Tub heater ~14 \u03a9::",
+      "manualId": "W11187658",
+      "productionRecordId": "map-W11187658-mig-efmm-e859af7c0c65-e3-\u2014-tub-heater-~14-\u03c9",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "heat_source",
+        "expectedCanonicalId": "heat_source"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.642524+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "25f210716f19b669c59f030c385bd5a2d0f4da2c55edba07a25b5f80f6caf48c",
+        "actualHashExcludingStamp": "25f210716f19b669c59f030c385bd5a2d0f4da2c55edba07a25b5f80f6caf48c"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W11416395::canonical_mapping::map-W11416395-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "candidateKey": "W11416395::w11416395-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+      "manualId": "W11416395",
+      "productionRecordId": "map-W11416395-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "temperature_sensor",
+        "expectedCanonicalId": "temperature_sensor"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.643522+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "999a8d4d4ee7375618ed7706a676fce329fcdac2dab46789f68198f6a6a6986a",
+        "actualHashExcludingStamp": "999a8d4d4ee7375618ed7706a676fce329fcdac2dab46789f68198f6a6a6986a"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W11416787::canonical_mapping::map-W11416787-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "candidateKey": "W11416787::w11416787-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+      "manualId": "W11416787",
+      "productionRecordId": "map-W11416787-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "temperature_sensor",
+        "expectedCanonicalId": "temperature_sensor"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.645023+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "d549c1e2a345338d7bea1d0678a2a849290d1b930c3a2e9efcbeb1dda1ff1a15",
+        "actualHashExcludingStamp": "d549c1e2a345338d7bea1d0678a2a849290d1b930c3a2e9efcbeb1dda1ff1a15"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W11416805::canonical_mapping::map-W11416805-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "W11416805::w11416805-hmi::user_interface::",
+      "manualId": "W11416805",
+      "productionRecordId": "map-W11416805-mig-efmm-cda9def45dce-user_interface",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "hmi_control",
+        "expectedCanonicalId": "hmi_control"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.646521+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "2edfed5d71afcbe2365d92a46dc18ee89d9068159b4323cb1a2a91b0825111e9",
+        "actualHashExcludingStamp": "2edfed5d71afcbe2365d92a46dc18ee89d9068159b4323cb1a2a91b0825111e9"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W11697231::canonical_mapping::map-W11697231-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "candidateKey": "W11697231::w11697231-test-05-temp-thermistor::TEST #5: Temperature Thermistor::Temperature Thermistor",
+      "manualId": "W11697231",
+      "productionRecordId": "map-W11697231-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "temperature_sensor",
+        "expectedCanonicalId": "temperature_sensor"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.648021+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "220f5a3b2bc0e6c5238248c3c57be378b3de822ed985a822e65a31397c0d4dd9",
+        "actualHashExcludingStamp": "220f5a3b2bc0e6c5238248c3c57be378b3de822ed985a822e65a31397c0d4dd9"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W11746350::canonical_mapping::map-W11746350-acu-control_board",
+      "candidateKey": "W11746350::w11746350-acu-power::ACU::",
+      "manualId": "W11746350",
+      "productionRecordId": "map-W11746350-acu-control_board",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "control_board",
+        "expectedCanonicalId": "control_board"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.649022+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "3d720378b083a56784746609d9ebd9383d6ac6c3f06e414604a0db0e3caba9b4",
+        "actualHashExcludingStamp": "3d720378b083a56784746609d9ebd9383d6ac6c3f06e414604a0db0e3caba9b4"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W11746350::canonical_mapping::map-W11746350-bake_element-bake_heating_element",
+      "candidateKey": "W11746350::w11746350-bake-element::bake_element::",
+      "manualId": "W11746350",
+      "productionRecordId": "map-W11746350-bake_element-bake_heating_element",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "bake_heating_element",
+        "expectedCanonicalId": "bake_heating_element"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "985d92a05c7f529eed4d43466d125d36c946b57d2ffda3f7ff71a7f8e067cd80",
+        "actualHashExcludingStamp": "985d92a05c7f529eed4d43466d125d36c946b57d2ffda3f7ff71a7f8e067cd80"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W11746350::canonical_mapping::map-W11746350-broil_element-broil_heating_element",
+      "candidateKey": "W11746350::w11746350-broil-element::broil_element::",
+      "manualId": "W11746350",
+      "productionRecordId": "map-W11746350-broil_element-broil_heating_element",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "broil_heating_element",
+        "expectedCanonicalId": "broil_heating_element"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "bafe1f20ac8e3f38652a8e91cef748f6fc05f92b1ce7d701f214477f6d1ee442",
+        "actualHashExcludingStamp": "bafe1f20ac8e3f38652a8e91cef748f6fc05f92b1ce7d701f214477f6d1ee442"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W11746350::canonical_mapping::map-W11746350-compound-main-oven-temperature-sensor",
+      "candidateKey": "W11746350::w11746350-oven-sensor::Main Oven Temperature Sensor::",
+      "manualId": "W11746350",
+      "productionRecordId": "map-W11746350-compound-main-oven-temperature-sensor",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "temperature_sensor",
+        "expectedCanonicalId": "temperature_sensor"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "d2f9a03f3de4f8f5ccd55713898b90fc62e7740ce9e32cbbcc62a0f7a89990d6",
+        "actualHashExcludingStamp": "d2f9a03f3de4f8f5ccd55713898b90fc62e7740ce9e32cbbcc62a0f7a89990d6"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W11746350::canonical_mapping::map-W11746350-convection_fan-convection_fan",
+      "candidateKey": "W11746350::w11746350-convect-element::convection_fan::",
+      "manualId": "W11746350",
+      "productionRecordId": "map-W11746350-convection_fan-convection_fan",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "convection_fan",
+        "expectedCanonicalId": "convection_fan"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "5e1b72ac38f90828e48fa746251368727fb959184ede5b4339c2f0d166f1b16d",
+        "actualHashExcludingStamp": "5e1b72ac38f90828e48fa746251368727fb959184ede5b4339c2f0d166f1b16d"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W11746350::canonical_mapping::map-W11746350-supply-power_supply",
+      "candidateKey": "W11746350::w11746350-acu-power::supply::",
+      "manualId": "W11746350",
+      "productionRecordId": "map-W11746350-supply-power_supply",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "power_supply",
+        "expectedCanonicalId": "power_supply"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "af8f13f1a285e387ba7b7abdb45688a1af9099ee30f52c2800b00b10d1188a63",
+        "actualHashExcludingStamp": "af8f13f1a285e387ba7b7abdb45688a1af9099ee30f52c2800b00b10d1188a63"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W11798430::canonical_mapping::map-W11798430-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "W11798430::w11798430-hmi::user_interface::",
+      "manualId": "W11798430",
+      "productionRecordId": "map-W11798430-mig-efmm-cda9def45dce-user_interface",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "hmi_control",
+        "expectedCanonicalId": "hmi_control"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.651021+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "bf0125069667ebe8fb50895b378bec755a35629a61cdcf05ebddd806e965b3b8",
+        "actualHashExcludingStamp": "bf0125069667ebe8fb50895b378bec755a35629a61cdcf05ebddd806e965b3b8"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W8178559::canonical_mapping::map-W8178559-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "W8178559::w8178559-button-indicator::user_interface::",
+      "manualId": "W8178559",
+      "productionRecordId": "map-W8178559-mig-efmm-cda9def45dce-user_interface",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "hmi_control",
+        "expectedCanonicalId": "hmi_control"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.653022+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "9b00dc21e8f6a660886fb91ba21152ec3f0ef69bd779dc79e8e9d2df009e571a",
+        "actualHashExcludingStamp": "9b00dc21e8f6a660886fb91ba21152ec3f0ef69bd779dc79e8e9d2df009e571a"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    },
+    {
+      "candidateId": "W8178629::canonical_mapping::map-W8178629-mig-efmm-cda9def45dce-user_interface",
+      "candidateKey": "W8178629::w8178629-timer-motor::user_interface::",
+      "manualId": "W8178629",
+      "productionRecordId": "map-W8178629-mig-efmm-cda9def45dce-user_interface",
+      "mappingContent": {
+        "matchesReviewDecision": true,
+        "canonicalId": "hmi_control",
+        "expectedCanonicalId": "hmi_control"
+      },
+      "stamp": {
+        "present": true,
+        "valid": true,
+        "appliedAt": "2026-09-22T06:19:41.654523+00:00"
+      },
+      "reconciliationChangeset": {
+        "matchesExcludingStamp": true,
+        "expectedNewProductionRecordHash": "375795968b8059052ffda7542af5ca2061a7692e3d2476e79148ae4dfb8682fe",
+        "actualHashExcludingStamp": "375795968b8059052ffda7542af5ca2061a7692e3d2476e79148ae4dfb8682fe"
+      },
+      "commit83707ef8": {
+        "present": true,
+        "exactRecordMatch": true
+      }
+    }
+  ],
+  "errors": []
+}

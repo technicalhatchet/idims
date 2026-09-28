@@ -1,0 +1,571 @@
+{
+  "manualId": "W10785366A",
+  "candidates": [
+    {
+      "id": "map-W10785366A-hmi_control-hmi_control",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "hmi_control",
+      "extractedTerm": null,
+      "canonicalId": "hmi_control",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-connectivity-console",
+        "pages": [
+          43,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-connectivity-console",
+            "pages": [
+              43,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W10785366A-compound-wifi_module",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wifi_module",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "wifi",
+        "actuator": "module"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-connectivity-console",
+        "pages": [
+          43,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-connectivity-console",
+            "pages": [
+              43,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "wifi",
+              "actuator": "module"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W10785366A-compound-\u20134-11:-console-connectivity-indicators",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-7\u20134-11: Console connectivity indicators",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-connectivity-console",
+        "pages": [
+          43,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-connectivity-console",
+            "pages": [
+              43,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "\u20134-11: Console connectivity indicators"
+    },
+    {
+      "id": "map-W10785366A-compound-\u00a77:-clean-connect-dishwasher-wifi",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a77: Clean-connect dishwasher WiFi",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-dishwasher-wifi",
+        "pages": [
+          70,
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-dishwasher-wifi",
+            "pages": [
+              70,
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W10785366A-acu-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ACU",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-dishwasher-wifi",
+        "pages": [
+          70,
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-dishwasher-wifi",
+            "pages": [
+              70,
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W10785366A-compound-smart-refrigerator-wifi-service",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a78-4: Smart refrigerator WiFi service tests",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-fridge-wifi-service",
+        "pages": [
+          78,
+          79
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-fridge-wifi-service",
+            "pages": [
+              78,
+              79
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Smart refrigerator WiFi service"
+    },
+    {
+      "id": "map-W10785366A-compound-hmi-\u2194-wifi-communication",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-10: HMI \u2194 WiFi communication",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-hmi-wifi-comm",
+        "pages": [
+          45,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-hmi-wifi-comm",
+            "pages": [
+              45,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "HMI \u2194 WiFi communication"
+    },
+    {
+      "id": "map-W10785366A-compound-power_management",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "power_management",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-pmm-ct",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-pmm-ct",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W10785366A-compound-current_transformer",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "current_transformer",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-pmm-ct",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-pmm-ct",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W10785366A-compound-power-management-board-&-ct",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-17: Power Management board & CT",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "power management",
+        "actuator": "board"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-pmm-ct",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-pmm-ct",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "power management",
+              "actuator": "board"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Power Management board & CT"
+    },
+    {
+      "id": "map-W10785366A-compound-wifi-module-diagnostics",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-14: WiFi module diagnostics",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "wifi",
+        "actuator": "module"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-wifi-module",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-wifi-module",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "wifi",
+              "actuator": "module"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "WiFi module diagnostics"
+    }
+  ]
+}

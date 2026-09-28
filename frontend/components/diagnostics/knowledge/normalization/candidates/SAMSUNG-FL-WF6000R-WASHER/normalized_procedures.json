@@ -1,0 +1,3679 @@
+{
+  "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+  "procedures": [
+    {
+      "procedureId": "samsungwf6000r-communication",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "title": "\u00a74-3: PBA communication (AC, AC3\u2013AC6)",
+      "purpose": "Communication Error AC",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control",
+        "inverter"
+      ],
+      "tags": [
+        "AC",
+        "AC3",
+        "AC4",
+        "AC5",
+        "AC6",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "comm_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inspect sub/main harness",
+          "body": "AC: verify wire connections between sub and main PBAs. Check for moisture on sub PBA.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "AC: verify wire connections between sub and main PBAs. Check for moisture on sub PBA."
+        },
+        {
+          "id": "comm_modules",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Module-specific comm fault",
+          "body": "AC3 DR module, AC4 Wi-Fi, AC5 LCD, or AC6 inverter? Inspect that module harness and soldering.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_power_cycle",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_harness",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_harness_out",
+              "terminal": true,
+              "oemOutcome": "Repair harness or replace affected module/PBA."
+            }
+          ],
+          "sourceExcerpt": "AC3 DR module, AC4 Wi-Fi, AC5 LCD, or AC6 inverter? Inspect that module harness and soldering."
+        },
+        {
+          "id": "comm_power_cycle",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Comm restored after power cycle?",
+          "body": "After reconnecting harnesses and power cycle, does washer run without AC codes?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_pba",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pba_out",
+              "terminal": true,
+              "oemOutcome": "Replace main or inverter PBA per fault code."
+            }
+          ],
+          "sourceExcerpt": "After reconnecting harnesses and power cycle, does washer run without AC codes?"
+        },
+        {
+          "id": "repair_harness_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Repair harness/module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pba_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_path_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_power_cycle",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_modules"
+        },
+        {
+          "id": "repair_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness_out",
+          "terminal": true,
+          "oemOutcome": "Repair harness or replace affected module/PBA.",
+          "stepId": "comm_modules"
+        },
+        {
+          "id": "comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_power_cycle"
+        },
+        {
+          "id": "replace_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pba_out",
+          "terminal": true,
+          "oemOutcome": "Replace main or inverter PBA per fault code.",
+          "stepId": "comm_power_cycle"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Communication Error AC",
+        "pages": [
+          29,
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-communication",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-communication",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwf6000r-door-lock",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "title": "\u00a74-3: Door lock and switch (DC, DC1)",
+      "purpose": "Door Error DC / DC1",
+      "prerequisites": [],
+      "componentIds": [
+        "door_lock"
+      ],
+      "tags": [
+        "DC",
+        "DC1",
+        "DC3",
+        "DDC",
+        "door_lock_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "dc_boil_check",
+          "order": 2,
+          "type": "visual_check",
+          "title": "DC during Boil cycle?",
+          "body": "If DC occurs during Boil cycle, verify door fully closed and not caught.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_closed",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_type_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "close_door",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "close_door_out",
+              "terminal": true,
+              "oemOutcome": "Close door securely and retest."
+            }
+          ],
+          "sourceExcerpt": "If DC occurs during Boil cycle, verify door fully closed and not caught."
+        },
+        {
+          "id": "door_type_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Door switch type",
+          "body": "TYPE 1 door switch (pins 1\u20133 ~175 \u03a9) or TYPE 2 lock switch (pins 2\u20133 60\u201390 \u03a9 with slider pushed)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "type1",
+              "label": "TYPE 1 door switch",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_switch_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "type2",
+              "label": "TYPE 2 lock switch",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "door_lock_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "TYPE 1 door switch (pins 1\u20133 ~175 \u03a9) or TYPE 2 lock switch (pins 2\u20133 60\u201390 \u03a9 with slider pushed)?"
+        },
+        {
+          "id": "door_switch_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "TYPE 1 door switch (pins 1\u20133)",
+          "body": "Approximately 175 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlWf6000rWasherDoorSwitchOhms",
+              "testPoint": {
+                "connector": "Door switch",
+                "pins": "1 & 3",
+                "label": "TYPE 1 door switch (pins 1\u20133)"
+              },
+              "title": "TYPE 1 door switch (pins 1\u20133)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ds_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_door_switch",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ds_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_door_switch",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ds_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_door_switch",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ds_pass",
+              "label": "~175 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "door_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Approximately 175 \u03a9."
+        },
+        {
+          "id": "door_lock_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "TYPE 2 lock switch (pins 2\u20133)",
+          "body": "Push slider \u2014 expect 60\u201390 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlWf6000rWasherDoorLockOhms",
+              "testPoint": {
+                "connector": "Door lock",
+                "pins": "2 & 3",
+                "label": "TYPE 2 lock switch (pins 2\u20133)"
+              },
+              "title": "TYPE 2 lock switch (pins 2\u20133)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "dl_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_door_lock",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "dl_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_door_lock",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "dl_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_door_lock",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "dl_pass",
+              "label": "60\u201390 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "lock_motor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Push slider \u2014 expect 60\u201390 \u03a9."
+        },
+        {
+          "id": "lock_motor_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Add-door lock motor (1\u20132)",
+          "body": "For DDC/DC3: lock motor 46.57 \u00b1 15 \u03a9 at pins 1\u20132.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlWf6000rWasherDoorLockMotorOhms",
+              "testPoint": {
+                "connector": "Lock motor",
+                "pins": "1 & 2",
+                "label": "Add-door lock motor (1\u20132)"
+              },
+              "title": "Add-door lock motor (1\u20132)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "lm_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_lock_module",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lm_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_lock_module",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lm_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_lock_module",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lm_pass",
+              "label": "46.57 \u00b1 15 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "door_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "For DDC/DC3: lock motor 46.57 \u00b1 15 \u03a9 at pins 1\u20132."
+        },
+        {
+          "id": "close_door_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Close door",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_door_switch",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace door switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_door_lock",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace door lock",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_lock_module",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace lock module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 11,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode steps Co/Ho/Spin per \u00a74-2."
+        },
+        {
+          "id": "door_verified",
+          "order": 12,
+          "type": "outcome",
+          "title": "Door circuit OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlWf6000rWasherDoorSwitchOhms",
+          "testPoint": {
+            "connector": "Door switch",
+            "pins": "1 & 3",
+            "label": "TYPE 1 door switch (pins 1\u20133)"
+          },
+          "title": "TYPE 1 door switch (pins 1\u20133)"
+        },
+        {
+          "measurementKnowledgeId": "samsungFlWf6000rWasherDoorLockOhms",
+          "testPoint": {
+            "connector": "Door lock",
+            "pins": "2 & 3",
+            "label": "TYPE 2 lock switch (pins 2\u20133)"
+          },
+          "title": "TYPE 2 lock switch (pins 2\u20133)"
+        },
+        {
+          "measurementKnowledgeId": "samsungFlWf6000rWasherDoorLockMotorOhms",
+          "testPoint": {
+            "connector": "Lock motor",
+            "pins": "1 & 2",
+            "label": "Add-door lock motor (1\u20132)"
+          },
+          "title": "Add-door lock motor (1\u20132)"
+        }
+      ],
+      "branches": [
+        {
+          "id": "door_closed",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_type_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dc_boil_check"
+        },
+        {
+          "id": "close_door",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "close_door_out",
+          "terminal": true,
+          "oemOutcome": "Close door securely and retest.",
+          "stepId": "dc_boil_check"
+        },
+        {
+          "id": "type1",
+          "label": "TYPE 1 door switch",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_switch_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_type_check"
+        },
+        {
+          "id": "type2",
+          "label": "TYPE 2 lock switch",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "door_lock_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_type_check"
+        },
+        {
+          "id": "ds_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "door_switch_ohms"
+        },
+        {
+          "id": "ds_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "door_switch_ohms"
+        },
+        {
+          "id": "ds_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "door_switch_ohms"
+        },
+        {
+          "id": "ds_pass",
+          "label": "~175 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "door_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_switch_ohms"
+        },
+        {
+          "id": "dl_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "door_lock_ohms"
+        },
+        {
+          "id": "dl_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "door_lock_ohms"
+        },
+        {
+          "id": "dl_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "door_lock_ohms"
+        },
+        {
+          "id": "dl_pass",
+          "label": "60\u201390 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lock_motor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_lock_ohms"
+        },
+        {
+          "id": "lm_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lock_module",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_motor_ohms"
+        },
+        {
+          "id": "lm_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lock_module",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_motor_ohms"
+        },
+        {
+          "id": "lm_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lock_module",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_motor_ohms"
+        },
+        {
+          "id": "lm_pass",
+          "label": "46.57 \u00b1 15 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "door_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lock_motor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Door Error DC / DC1",
+        "pages": [
+          30,
+          32
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-door-lock",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-door-lock",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwf6000r-drain-pump",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "title": "\u00a74-3: Drain / leakage (LC, 5C)",
+      "purpose": "Water Leakage / Drain Error",
+      "prerequisites": [],
+      "componentIds": [
+        "drain_pump"
+      ],
+      "tags": [
+        "LC",
+        "5C",
+        "drain_issue",
+        "leak_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "leak_inspection",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Leak inspection",
+          "body": "Check base, hoses, valves, tub connections, and drain bellows for foreign material or leaks.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "no_leak",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "drain_motor_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_leak",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_leak_out",
+              "terminal": true,
+              "oemOutcome": "Repair leak source and clear drain bellows."
+            }
+          ],
+          "sourceExcerpt": "Check base, hoses, valves, tub connections, and drain bellows for foreign material or leaks."
+        },
+        {
+          "id": "drain_motor_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Drain motor operation",
+          "body": "Verify drain motor/pump operates during natural drain. Clear bellows of wires/coins. Rule out winter freeze.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pump_runs",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "drain_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_drain_pump",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pump_out",
+              "terminal": true,
+              "oemOutcome": "Replace drain pump or motor when inoperative."
+            }
+          ],
+          "sourceExcerpt": "Verify drain motor/pump operates during natural drain. Clear bellows of wires/coins. Rule out winter freeze."
+        },
+        {
+          "id": "repair_leak_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair leak path",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pump_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace drain pump",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 6,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode steps Co/Ho/Spin per \u00a74-2."
+        },
+        {
+          "id": "drain_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Drain path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "no_leak",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_motor_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "leak_inspection"
+        },
+        {
+          "id": "repair_leak",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_leak_out",
+          "terminal": true,
+          "oemOutcome": "Repair leak source and clear drain bellows.",
+          "stepId": "leak_inspection"
+        },
+        {
+          "id": "pump_runs",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_motor_check"
+        },
+        {
+          "id": "replace_drain_pump",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump or motor when inoperative.",
+          "stepId": "drain_motor_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Water Leakage / Drain Error",
+        "pages": [
+          30,
+          31
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-drain-pump",
+        "pages": [
+          30,
+          31
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-drain-pump",
+            "pages": [
+              30,
+              31
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwf6000r-hmi-switch",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "title": "\u00a74-1: Switch error (BC2)",
+      "purpose": "Switch Error BC2",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "BC2",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "stuck_button",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Stuck button check",
+          "body": "Verify no button pressed >30 s. Check control panel deformation and sub PBA screw torque.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "buttons_free",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bc2_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_panel",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_panel_out",
+              "terminal": true,
+              "oemOutcome": "Relieve panel deformation or replace sub PBA/control panel."
+            }
+          ],
+          "sourceExcerpt": "Verify no button pressed >30 s. Check control panel deformation and sub PBA screw torque."
+        },
+        {
+          "id": "repair_panel_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Repair panel/PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "bc2_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "Switch path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "buttons_free",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bc2_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "stuck_button"
+        },
+        {
+          "id": "repair_panel",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_panel_out",
+          "terminal": true,
+          "oemOutcome": "Relieve panel deformation or replace sub PBA/control panel.",
+          "stepId": "stuck_button"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Switch Error BC2",
+        "pages": [
+          27,
+          29
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-hmi-switch",
+        "pages": [
+          27,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-hmi-switch",
+            "pages": [
+              27,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwf6000r-inlet-valves",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "title": "\u00a74-3: Inlet valves (4C, Co/Ho manual check)",
+      "purpose": "Water Supply Error 4C",
+      "prerequisites": [],
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "tags": [
+        "4C",
+        "4C2",
+        "fill_issue",
+        "water_valve_check",
+        "no_fill"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "hose_routing",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Hose routing",
+          "body": "Verify cold/hot hoses not reversed (4C2). Check detergent drawer transparent hose not folded or torn.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "hoses_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "smart_install_valves",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_hoses",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_hoses_out",
+              "terminal": true,
+              "oemOutcome": "Correct hose engagement and drawer hose routing."
+            }
+          ],
+          "sourceExcerpt": "Verify cold/hot hoses not reversed (4C2). Check detergent drawer transparent hose not folded or torn."
+        },
+        {
+          "id": "smart_install_valves",
+          "order": 3,
+          "type": "instruction",
+          "title": "Smart Install valve tests",
+          "body": "Enter Smart Install manual check. Steps Co (cold) and Ho (hot) exercise inlet valves. Drum must be empty.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Enter Smart Install manual check. Steps Co (cold) and Ho (hot) exercise inlet valves. Drum must be empty."
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 4,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode steps Co/Ho/Spin per \u00a74-2."
+        },
+        {
+          "id": "valve_visual",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Valves operate in manual check",
+          "body": "Do cold and hot valves open and fill when commanded in manual check?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "valves_run",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "inlet_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "check_supply",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "check_supply_out",
+              "terminal": true,
+              "oemOutcome": "Verify taps open, screens clean, harness to valves; replace valve assembly."
+            }
+          ],
+          "sourceExcerpt": "Do cold and hot valves open and fill when commanded in manual check?"
+        },
+        {
+          "id": "fix_hoses_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fix hose routing",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "check_supply_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Check water supply",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "inlet_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Inlet valves OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "hoses_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "smart_install_valves",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "hose_routing"
+        },
+        {
+          "id": "fix_hoses",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_hoses_out",
+          "terminal": true,
+          "oemOutcome": "Correct hose engagement and drawer hose routing.",
+          "stepId": "hose_routing"
+        },
+        {
+          "id": "valves_run",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inlet_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_visual"
+        },
+        {
+          "id": "check_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_supply_out",
+          "terminal": true,
+          "oemOutcome": "Verify taps open, screens clean, harness to valves; replace valve assembly.",
+          "stepId": "valve_visual"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Water Supply Error 4C",
+        "pages": [
+          29,
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-inlet-valves",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-inlet-valves",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwf6000r-mems-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "title": "\u00a74-1: MEMS PBA (8C, 8C1, 8C2)",
+      "purpose": "Mems PBA Error 8C",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "8C",
+        "8C1",
+        "8C2"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "mems_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inspect MEMS harness",
+          "body": "Check wire connections to MEMS PBA per \u00a74-1. Look for loose connectors or harness damage.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check wire connections to MEMS PBA per \u00a74-1. Look for loose connectors or harness damage."
+        },
+        {
+          "id": "mems_visual",
+          "order": 3,
+          "type": "visual_check",
+          "title": "MEMS connections secure?",
+          "body": "All MEMS PBA connectors seated and harness intact?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "mems_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "mems_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_mems",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_mems_out",
+              "terminal": true,
+              "oemOutcome": "Replace MEMS PBA assembly."
+            }
+          ],
+          "sourceExcerpt": "All MEMS PBA connectors seated and harness intact?"
+        },
+        {
+          "id": "replace_mems_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace MEMS PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "mems_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "MEMS path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "mems_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "mems_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "mems_visual"
+        },
+        {
+          "id": "replace_mems",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_mems_out",
+          "terminal": true,
+          "oemOutcome": "Replace MEMS PBA assembly.",
+          "stepId": "mems_visual"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Mems PBA Error 8C",
+        "pages": [
+          28,
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-mems-sensor",
+        "pages": [
+          28,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-mems-sensor",
+            "pages": [
+              28,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwf6000r-motor-circuit",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "title": "\u00a74-3: Washing motor (3C)",
+      "purpose": "Washing Motor Error 3C",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor"
+      ],
+      "tags": [
+        "3C",
+        "3E",
+        "motor_check",
+        "spin_issue",
+        "wont_spin"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "motor_overload",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Rule out overload (3E)",
+          "body": "Too much laundry can display 3E \u2014 redistribute load before motor diagnosis.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "load_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "disconnect_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "redistribute_load",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "redistribute_load_out",
+              "terminal": true,
+              "oemOutcome": "Redistribute load and retest."
+            }
+          ],
+          "sourceExcerpt": "3E is displayed because overloading occurs."
+        },
+        {
+          "id": "disconnect_motor",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect motor connector",
+          "body": "Disconnect motor harness. Inspect stator cover and coil for foreign material or damage.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect motor harness. Inspect stator cover and coil for foreign material or damage."
+        },
+        {
+          "id": "motor_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Motor winding resistance",
+          "body": "Measure any two of three motor terminals. Expected 6.0 \u03a9 @ 25\u00b0C per \u00a74-3 3C.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlWf6000rWasherMotorOhms",
+              "testPoint": {
+                "connector": "Motor",
+                "pins": "Any two of three",
+                "label": "Motor winding resistance"
+              },
+              "title": "Motor winding resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "motor_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_pass",
+              "label": "~6.0 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "hall_sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure any two of three motor terminals. Expected 6.0 \u03a9 @ 25\u00b0C per \u00a74-3 3C."
+        },
+        {
+          "id": "hall_sensor_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Hall sensor resistance",
+          "body": "At main PCB motor connector: pins 1\u20133 and 1\u20134 expect approx. 2\u20134 M\u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlWf6000rWasherHallSensorOhms",
+              "testPoint": {
+                "connector": "Motor hall",
+                "pins": "1\u20133 & 1\u20134",
+                "label": "Hall sensor resistance"
+              },
+              "title": "Hall sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "hall_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_hall",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hall_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_hall",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hall_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_hall",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hall_pass",
+              "label": "2\u20134 M\u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "reconnect_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "At main PCB motor connector: pins 1\u20133 and 1\u20134 expect approx. 2\u20134 M\u03a9."
+        },
+        {
+          "id": "reconnect_motor",
+          "order": 6,
+          "type": "instruction",
+          "title": "Reconnect motor \u2014 restore power",
+          "body": "Reconnect motor harness. Restore power for Smart Install manual check step 8 (dehydration/spin).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect motor harness. Restore power for Smart Install manual check step 8 (dehydration/spin)."
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 7,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode steps Co/Ho/Spin per \u00a74-2."
+        },
+        {
+          "id": "live_motor_check",
+          "order": 8,
+          "type": "visual_check",
+          "title": "Motor runs in manual check",
+          "body": "In Smart Install manual mode, advance to dehydration test. Does drum spin?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "motor_runs",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "suspect_pba",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "suspect_pba_out",
+              "terminal": true,
+              "oemOutcome": "Motor ohms OK but no run \u2014 replace main PBA or check inverter comm (AC6)."
+            }
+          ],
+          "sourceExcerpt": "In Smart Install manual mode, advance to dehydration test. Does drum spin?"
+        },
+        {
+          "id": "redistribute_load_out",
+          "order": 9,
+          "type": "outcome",
+          "title": "Redistribute load",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_motor",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_hall",
+          "order": 11,
+          "type": "outcome",
+          "title": "Replace hall sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_ok",
+          "order": 12,
+          "type": "outcome",
+          "title": "Motor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "suspect_pba_out",
+          "order": 13,
+          "type": "outcome",
+          "title": "Suspect main/inverter PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlWf6000rWasherMotorOhms",
+          "testPoint": {
+            "connector": "Motor",
+            "pins": "Any two of three",
+            "label": "Motor winding resistance"
+          },
+          "title": "Motor winding resistance"
+        },
+        {
+          "measurementKnowledgeId": "samsungFlWf6000rWasherHallSensorOhms",
+          "testPoint": {
+            "connector": "Motor hall",
+            "pins": "1\u20133 & 1\u20134",
+            "label": "Hall sensor resistance"
+          },
+          "title": "Hall sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "load_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "disconnect_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_overload"
+        },
+        {
+          "id": "redistribute_load",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "redistribute_load_out",
+          "terminal": true,
+          "oemOutcome": "Redistribute load and retest.",
+          "stepId": "motor_overload"
+        },
+        {
+          "id": "motor_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_pass",
+          "label": "~6.0 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "hall_sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "hall_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_hall",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "hall_sensor_ohms"
+        },
+        {
+          "id": "hall_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_hall",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "hall_sensor_ohms"
+        },
+        {
+          "id": "hall_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_hall",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "hall_sensor_ohms"
+        },
+        {
+          "id": "hall_pass",
+          "label": "2\u20134 M\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "hall_sensor_ohms"
+        },
+        {
+          "id": "motor_runs",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_motor_check"
+        },
+        {
+          "id": "suspect_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "suspect_pba_out",
+          "terminal": true,
+          "oemOutcome": "Motor ohms OK but no run \u2014 replace main PBA or check inverter comm (AC6).",
+          "stepId": "live_motor_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Washing Motor Error 3C",
+        "pages": [
+          30,
+          32
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-motor-circuit",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-motor-circuit",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwf6000r-overflow",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "title": "\u00a74-3: Overflow (OC)",
+      "purpose": "Overflow Error OC",
+      "prerequisites": [],
+      "componentIds": [
+        "water_level_sensor"
+      ],
+      "tags": [
+        "OC",
+        "overflow"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "oc_hose",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Level sensor hose",
+          "body": "Inspect hose to water level sensor \u2014 torn, hole, or frozen. Defrost if winter.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "hose_intact",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "oc_spin_retry",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_hose",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_hose_out",
+              "terminal": true,
+              "oemOutcome": "Repair or replace level sensor hose; defrost if frozen."
+            }
+          ],
+          "sourceExcerpt": "Inspect hose to water level sensor \u2014 torn, hole, or frozen. Defrost if winter."
+        },
+        {
+          "id": "oc_spin_retry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Restart after spin",
+          "body": "Restart cycle after spin. If OC remains, replace water level sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Restart cycle after spin. If OC remains, replace water level sensor."
+        },
+        {
+          "id": "repair_hose_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair hose",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "oc_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Overflow resolved",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "hose_intact",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "oc_spin_retry",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "oc_hose"
+        },
+        {
+          "id": "repair_hose",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_hose_out",
+          "terminal": true,
+          "oemOutcome": "Repair or replace level sensor hose; defrost if frozen.",
+          "stepId": "oc_hose"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Overflow Error OC",
+        "pages": [
+          29,
+          32
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-overflow",
+        "pages": [
+          29,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-overflow",
+            "pages": [
+              29,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwf6000r-power-supply",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "title": "\u00a74-1: Power / voltage (9C1, 9C2)",
+      "purpose": "Power Error 9C1/9C2",
+      "prerequisites": [],
+      "componentIds": [
+        "supply",
+        "main_control"
+      ],
+      "tags": [
+        "9C1",
+        "9C2",
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "supply_voltage",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Supply voltage",
+          "body": "Verify outlet voltage during Boil operation. Check for under/over voltage, shared outlet, or extension cord drop.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "supply_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ac_connector",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_supply",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_supply_out",
+              "terminal": true,
+              "oemOutcome": "Correct supply \u2014 dedicated 120 V circuit; no undersized extension."
+            }
+          ],
+          "sourceExcerpt": "Verify outlet voltage during Boil operation. Check for under/over voltage, shared outlet, or extension cord drop."
+        },
+        {
+          "id": "ac_connector",
+          "order": 3,
+          "type": "visual_check",
+          "title": "AC connector / motor short",
+          "body": "Inspect AC connector for short. Check motor connector for short to ground.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "no_short",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "pba_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_motor_pba",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_motor_pba_out",
+              "terminal": true,
+              "oemOutcome": "Replace motor and main PBA if motor shorted; PBA only if motor clean."
+            }
+          ],
+          "sourceExcerpt": "Inspect AC connector for short. Check motor connector for short to ground."
+        },
+        {
+          "id": "fix_supply_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Fix supply",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_motor_pba_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace motor and/or PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "pba_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Power path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ac_connector",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "supply_voltage"
+        },
+        {
+          "id": "fix_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply_out",
+          "terminal": true,
+          "oemOutcome": "Correct supply \u2014 dedicated 120 V circuit; no undersized extension.",
+          "stepId": "supply_voltage"
+        },
+        {
+          "id": "no_short",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pba_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ac_connector"
+        },
+        {
+          "id": "replace_motor_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_motor_pba_out",
+          "terminal": true,
+          "oemOutcome": "Replace motor and main PBA if motor shorted; PBA only if motor clean.",
+          "stepId": "ac_connector"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Power Error 9C1/9C2",
+        "pages": [
+          28,
+          29
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-power-supply",
+        "pages": [
+          28,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-power-supply",
+            "pages": [
+              28,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwf6000r-unbalance",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "title": "\u00a74-3: Unbalance (UV, UB)",
+      "purpose": "Unbalance Error UV",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor",
+        "suspension"
+      ],
+      "tags": [
+        "UV",
+        "UB",
+        "unbalance",
+        "vibration"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "load_type",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Load type and size",
+          "body": "Check laundry mix \u2014 single heavy item, tangled sheets, or small load can cause UV/UB.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "load_balanced",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "unbalance_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "rebalance_load",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "rebalance_out",
+              "terminal": true,
+              "oemOutcome": "Pause, redistribute or remove items, press Start to continue."
+            }
+          ],
+          "sourceExcerpt": "Check laundry mix \u2014 single heavy item, tangled sheets, or small load can cause UV/UB."
+        },
+        {
+          "id": "hall_path",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Hall sensor after rebalance",
+          "body": "If UV repeats on balanced load, suspect hall sensor or motor \u2014 run motor circuit procedure.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "uv_cleared",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "unbalance_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "run_motor_proc",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "run_motor_out",
+              "terminal": true,
+              "oemOutcome": "Proceed to \u00a74-3 3C motor/hall diagnosis."
+            }
+          ],
+          "sourceExcerpt": "If UV repeats on balanced load, suspect hall sensor or motor \u2014 run motor circuit procedure."
+        },
+        {
+          "id": "rebalance_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Rebalance load",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "run_motor_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Motor/hall diagnosis",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "unbalance_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Unbalance resolved",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "load_balanced",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "unbalance_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "load_type"
+        },
+        {
+          "id": "rebalance_load",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "rebalance_out",
+          "terminal": true,
+          "oemOutcome": "Pause, redistribute or remove items, press Start to continue.",
+          "stepId": "load_type"
+        },
+        {
+          "id": "uv_cleared",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "unbalance_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "hall_path"
+        },
+        {
+          "id": "run_motor_proc",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "run_motor_out",
+          "terminal": true,
+          "oemOutcome": "Proceed to \u00a74-3 3C motor/hall diagnosis.",
+          "stepId": "hall_path"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Unbalance Error UV",
+        "pages": [
+          32
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-unbalance",
+        "pages": [
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-unbalance",
+            "pages": [
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwf6000r-wash-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "title": "\u00a74-3: Wash heater (HC, HC1)",
+      "purpose": "Heater Error HC",
+      "prerequisites": [],
+      "componentIds": [
+        "wash_heater",
+        "wash_ntc"
+      ],
+      "tags": [
+        "HC",
+        "HC1",
+        "no_heat",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "heater_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access heater terminals",
+          "body": "Disconnect power. Access wash heater at tub front (terminals A and B per \u00a74-3 TYPE 1).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Access wash heater at tub front (terminals A and B per \u00a74-3 TYPE 1)."
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode steps Co/Ho/Spin per \u00a74-2."
+        },
+        {
+          "id": "heater_in_circuit",
+          "order": 4,
+          "type": "measurement",
+          "title": "Heater A\u2013B resistance (TYPE 1)",
+          "body": "Measure between A and B. Expected 16.05 \u00b1 0.65 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlWf6000rWasherHeaterInCircuitOhms",
+              "testPoint": {
+                "connector": "Heater",
+                "pins": "A & B",
+                "label": "Heater A\u2013B resistance (TYPE 1)"
+              },
+              "title": "Heater A\u2013B resistance (TYPE 1)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "hc_ab_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "bench_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hc_ab_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "bench_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hc_ab_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "bench_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hc_ab_pass",
+              "label": "~16 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_ok_in_circuit",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure between A and B. Expected 16.05 \u00b1 0.65 \u03a9."
+        },
+        {
+          "id": "bench_heater",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench heater element",
+          "body": "Remove heater per \u00a73. Measure element: 27.1 \u03a9 (1900 W) or 26.2 \u03a9 (2000 W).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove heater per \u00a73. Measure element: 27.1 \u03a9 (1900 W) or 26.2 \u03a9 (2000 W)."
+        },
+        {
+          "id": "heater_bench",
+          "order": 6,
+          "type": "measurement",
+          "title": "Heater bench ohms",
+          "body": "Measure heater element resistance.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlWf6000rWasherHeaterOhms",
+              "testPoint": {
+                "connector": "Heater element",
+                "pins": "Terminals",
+                "label": "Heater bench ohms"
+              },
+              "title": "Heater bench ohms"
+            }
+          ],
+          "branches": [
+            {
+              "id": "hc_bench_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hc_bench_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hc_bench_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hc_bench_pass",
+              "label": "27.1/26.2 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "check_thermistor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure heater element resistance."
+        },
+        {
+          "id": "check_thermistor",
+          "order": 7,
+          "type": "instruction",
+          "title": "TYPE 2 \u2014 wash thermistor",
+          "body": "If heater ohms OK, check wash thermistor at back of tub (\u00a74-3 TYPE 2).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "If heater ohms OK, check wash thermistor at back of tub (\u00a74-3 TYPE 2)."
+        },
+        {
+          "id": "thermistor_ohms",
+          "order": 8,
+          "type": "measurement",
+          "title": "Wash thermistor @ room",
+          "body": "Expected ~12 k\u03a9 at room temperature.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlWf6000rWasherThermistorOhms",
+              "testPoint": {
+                "connector": "Thermistor",
+                "pins": "Connector",
+                "label": "Wash thermistor @ room"
+              },
+              "title": "Wash thermistor @ room"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "~12 k\u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Expected ~12 k\u03a9 at room temperature."
+        },
+        {
+          "id": "heater_ok_in_circuit",
+          "order": 9,
+          "type": "outcome",
+          "title": "Heater in-circuit OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_heater",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_thermistor",
+          "order": 11,
+          "type": "outcome",
+          "title": "Replace thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_path_ok",
+          "order": 12,
+          "type": "outcome",
+          "title": "Heater path verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlWf6000rWasherHeaterInCircuitOhms",
+          "testPoint": {
+            "connector": "Heater",
+            "pins": "A & B",
+            "label": "Heater A\u2013B resistance (TYPE 1)"
+          },
+          "title": "Heater A\u2013B resistance (TYPE 1)"
+        },
+        {
+          "measurementKnowledgeId": "samsungFlWf6000rWasherHeaterOhms",
+          "testPoint": {
+            "connector": "Heater element",
+            "pins": "Terminals",
+            "label": "Heater bench ohms"
+          },
+          "title": "Heater bench ohms"
+        },
+        {
+          "measurementKnowledgeId": "samsungFlWf6000rWasherThermistorOhms",
+          "testPoint": {
+            "connector": "Thermistor",
+            "pins": "Connector",
+            "label": "Wash thermistor @ room"
+          },
+          "title": "Wash thermistor @ room"
+        }
+      ],
+      "branches": [
+        {
+          "id": "hc_ab_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "bench_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_in_circuit"
+        },
+        {
+          "id": "hc_ab_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "bench_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_in_circuit"
+        },
+        {
+          "id": "hc_ab_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "bench_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_in_circuit"
+        },
+        {
+          "id": "hc_ab_pass",
+          "label": "~16 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_ok_in_circuit",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_in_circuit"
+        },
+        {
+          "id": "hc_bench_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_bench"
+        },
+        {
+          "id": "hc_bench_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_bench"
+        },
+        {
+          "id": "hc_bench_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_bench"
+        },
+        {
+          "id": "hc_bench_pass",
+          "label": "27.1/26.2 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "check_thermistor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_bench"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~12 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Heater Error HC",
+        "pages": [
+          30,
+          32
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-wash-heater",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-wash-heater",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwf6000r-wash-thermistor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "title": "\u00a74-3: Wash temperature sensor (TC1)",
+      "purpose": "Temperature Sensor Error TC1",
+      "prerequisites": [],
+      "componentIds": [
+        "wash_ntc"
+      ],
+      "tags": [
+        "TC1",
+        "thermistor"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "tc1_connector",
+          "order": 2,
+          "type": "instruction",
+          "title": "Check thermistor connector",
+          "body": "Verify washing heater temperature sensor connector seated. Rule out frozen hose in winter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify washing heater temperature sensor connector seated. Rule out frozen hose in winter."
+        },
+        {
+          "id": "tc1_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Wash thermistor resistance",
+          "body": "Measure at thermistor connector \u2014 ~12 k\u03a9 at room temp.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlWf6000rWasherThermistorOhms",
+              "testPoint": {
+                "connector": "Thermistor",
+                "pins": "Connector",
+                "label": "Wash thermistor resistance"
+              },
+              "title": "Wash thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "tc1_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_tc1_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "tc1_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_tc1_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "tc1_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_tc1_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "tc1_pass",
+              "label": "~12 k\u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "tc1_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure at thermistor connector \u2014 ~12 k\u03a9 at room temp."
+        },
+        {
+          "id": "replace_tc1_ntc",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "tc1_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Thermistor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlWf6000rWasherThermistorOhms",
+          "testPoint": {
+            "connector": "Thermistor",
+            "pins": "Connector",
+            "label": "Wash thermistor resistance"
+          },
+          "title": "Wash thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "tc1_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_tc1_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "tc1_ohms"
+        },
+        {
+          "id": "tc1_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_tc1_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "tc1_ohms"
+        },
+        {
+          "id": "tc1_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_tc1_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "tc1_ohms"
+        },
+        {
+          "id": "tc1_pass",
+          "label": "~12 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "tc1_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tc1_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Temperature Sensor Error TC1",
+        "pages": [
+          30,
+          32
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-wash-thermistor",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-wash-thermistor",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwf6000r-water-level-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "title": "\u00a74-3: Water level sensor (1C)",
+      "purpose": "Water Level Sensor 1C",
+      "prerequisites": [],
+      "componentIds": [
+        "water_level_sensor"
+      ],
+      "tags": [
+        "1C",
+        "fill_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "wls_hose",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Level sensor hose",
+          "body": "Check hose to water level sensor \u2014 not folded, cut, or damaged. Verify correct material code sensor installed.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "hose_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "wls_frequency",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_hose",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_hose_out",
+              "terminal": true,
+              "oemOutcome": "Correct hose routing and sensor part."
+            }
+          ],
+          "sourceExcerpt": "Check hose to water level sensor \u2014 not folded, cut, or damaged. Verify correct material code sensor installed."
+        },
+        {
+          "id": "wls_frequency",
+          "order": 3,
+          "type": "measurement",
+          "title": "Level sensor frequency",
+          "body": "Connect sensor and connector. Measure frequency on pink and orange wires \u2014 approx. 25.5 kHz with no load.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlWf6000rWasherWaterLevelFrequency",
+              "testPoint": {
+                "connector": "Level sensor",
+                "pins": "Pink & Orange",
+                "label": "Level sensor frequency"
+              },
+              "title": "Level sensor frequency"
+            }
+          ],
+          "branches": [
+            {
+              "id": "wls_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_wls",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wls_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_wls",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wls_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_wls",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wls_pass",
+              "label": "~25.5 kHz",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "wls_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Connect sensor and connector. Measure frequency on pink and orange wires \u2014 approx. 25.5 kHz with no load."
+        },
+        {
+          "id": "fix_hose_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Fix hose/sensor install",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_wls",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace level sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "wls_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Level sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlWf6000rWasherWaterLevelFrequency",
+          "testPoint": {
+            "connector": "Level sensor",
+            "pins": "Pink & Orange",
+            "label": "Level sensor frequency"
+          },
+          "title": "Level sensor frequency"
+        }
+      ],
+      "branches": [
+        {
+          "id": "hose_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wls_frequency",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wls_hose"
+        },
+        {
+          "id": "fix_hose",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_hose_out",
+          "terminal": true,
+          "oemOutcome": "Correct hose routing and sensor part.",
+          "stepId": "wls_hose"
+        },
+        {
+          "id": "wls_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wls",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wls_frequency"
+        },
+        {
+          "id": "wls_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_wls",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wls_frequency"
+        },
+        {
+          "id": "wls_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wls",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wls_frequency"
+        },
+        {
+          "id": "wls_pass",
+          "label": "~25.5 kHz",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wls_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wls_frequency"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Water Level Sensor 1C",
+        "pages": [
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "procedureId": "samsungwf6000r-water-level-sensor",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "platformId": "samsung_fl_washer_wf6000r"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwf6000r-water-level-sensor",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,5621 @@
+{
+  "manualId": "SAMSUNG-RF28-FRIDGE",
+  "procedures": [
+    {
+      "procedureId": "samsungrf28-ambient-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "External air sensor",
+      "purpose": "Self-diagnostic CHECK LIST \u2014 sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "ambient_sensor",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "run_self_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Run self-diagnosis",
+          "body": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 3,
+          "type": "measurement",
+          "title": "Thermistor voltage CN60 3 \u2194 5",
+          "body": "Measure MAIN PCB CN60 3 \u2194 5 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN60",
+                "pins": "3 \u2194 5",
+                "label": "Thermistor voltage CN60 3 \u2194 5"
+              },
+              "title": "Thermistor voltage CN60 3 \u2194 5"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure MAIN PCB CN60 3 \u2194 5 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN60",
+            "pins": "3 \u2194 5",
+            "label": "Thermistor voltage CN60 3 \u2194 5"
+          },
+          "title": "Thermistor voltage CN60 3 \u2194 5"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Self-diagnostic CHECK LIST \u2014 sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-ambient-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-ambient-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-autofill-overflow",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "AutoFill infuser overflow",
+      "purpose": "AUTO FILL infuser overflow",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "autofill",
+        "water_dispenser"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "overflow_check",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inspect infuser",
+          "body": "Check AutoFill pitcher for overflow or stuck float.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check AutoFill pitcher for overflow or stuck float."
+        },
+        {
+          "id": "overflow_voltage",
+          "order": 3,
+          "type": "measurement",
+          "title": "Overflow sense voltage",
+          "body": "CN90 pin 11 \u2194 pin 13 \u2014 4.5\u20135 V normal; 0\u20134.5 V = overflow.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28AutofillOverflowVoltage",
+              "testPoint": {
+                "connector": "CN90",
+                "pins": "11 \u2194 13",
+                "label": "Overflow sense voltage"
+              },
+              "title": "Overflow sense voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "af_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "af_overflow",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "af_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "af_overflow",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "af_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "af_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN90 pin 11 \u2194 pin 13 \u2014 4.5\u20135 V normal; 0\u20134.5 V = overflow."
+        },
+        {
+          "id": "af_overflow",
+          "order": 4,
+          "type": "outcome",
+          "title": "Clear overflow",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "af_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "AutoFill OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28AutofillOverflowVoltage",
+          "testPoint": {
+            "connector": "CN90",
+            "pins": "11 \u2194 13",
+            "label": "Overflow sense voltage"
+          },
+          "title": "Overflow sense voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "af_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "af_overflow",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "overflow_voltage"
+        },
+        {
+          "id": "af_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "af_overflow",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "overflow_voltage"
+        },
+        {
+          "id": "af_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "af_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "overflow_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "AUTO FILL infuser overflow",
+        "pages": [
+          59,
+          93
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-autofill-overflow",
+        "pages": [
+          59,
+          93
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-autofill-overflow",
+            "pages": [
+              59,
+              93
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-compressor-inverter",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Compressor / inverter IPM fault",
+      "purpose": "Comp start / IPM / lock",
+      "prerequisites": [],
+      "componentIds": [
+        "inverter_board"
+      ],
+      "tags": [
+        "compressor",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "comp_short",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Compressor terminal shorts",
+          "body": "Check for shorts between compressor terminals U/V/W before energizing.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "no_short",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ipm_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "short_found",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "short_out",
+              "terminal": true,
+              "oemOutcome": "Repair short or replace compressor."
+            }
+          ],
+          "sourceExcerpt": "Check for shorts between compressor terminals U/V/W before energizing."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "ipm_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Inverter IPM DC bus",
+          "body": "Verify DC bus \u226513.5 V. Check IPM pin shorts and inverter soldering.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeInverterIpmVoltage",
+              "testPoint": {
+                "connector": "Inverter PCB",
+                "pins": "DC bus",
+                "label": "Inverter IPM DC bus"
+              },
+              "title": "Inverter IPM DC bus"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ipm_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_inverter",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ipm_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_inverter",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ipm_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "comp_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Verify DC bus \u226513.5 V. Check IPM pin shorts and inverter soldering."
+        },
+        {
+          "id": "short_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Repair short",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_inverter",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace inverter",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comp_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Compressor path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeInverterIpmVoltage",
+          "testPoint": {
+            "connector": "Inverter PCB",
+            "pins": "DC bus",
+            "label": "Inverter IPM DC bus"
+          },
+          "title": "Inverter IPM DC bus"
+        }
+      ],
+      "branches": [
+        {
+          "id": "no_short",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ipm_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_short"
+        },
+        {
+          "id": "short_found",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "short_out",
+          "terminal": true,
+          "oemOutcome": "Repair short or replace compressor.",
+          "stepId": "comp_short"
+        },
+        {
+          "id": "ipm_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_inverter",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ipm_voltage"
+        },
+        {
+          "id": "ipm_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_inverter",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ipm_voltage"
+        },
+        {
+          "id": "ipm_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "comp_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ipm_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Comp start / IPM / lock",
+        "pages": [
+          60,
+          87
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-compressor-inverter",
+        "pages": [
+          60,
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-compressor-inverter",
+            "pages": [
+              60,
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-convertible-fan",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Convertible compartment fan (C-FAN)",
+      "purpose": "Self-diagnostic CHECK LIST \u2014 fan",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "convertible_fan",
+        "evap_fan",
+        "airflow"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "fan_cmd",
+          "order": 2,
+          "type": "instruction",
+          "title": "Command fan on",
+          "body": "Use Test Mode manual operation (FF) or Load Condition display. Door open may stop F-fan \u2014 allow 1 min after close.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use Test Mode manual operation (FF) or Load Condition display. Door open may stop F-fan \u2014 allow 1 min after close."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "fan_fb",
+          "order": 4,
+          "type": "measurement",
+          "title": "Fan feedback CN40 11 \u2194 13",
+          "body": "Measure CN40 11 \u2194 13 \u2014 7\u201312 V while fan commanded.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeEvapFanFeedbackVoltage",
+              "testPoint": {
+                "connector": "CN40",
+                "pins": "11 \u2194 13",
+                "label": "Fan feedback CN40 11 \u2194 13"
+              },
+              "title": "Fan feedback CN40 11 \u2194 13"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure CN40 11 \u2194 13 \u2014 7\u201312 V while fan commanded."
+        },
+        {
+          "id": "replace_fan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fan OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeEvapFanFeedbackVoltage",
+          "testPoint": {
+            "connector": "CN40",
+            "pins": "11 \u2194 13",
+            "label": "Fan feedback CN40 11 \u2194 13"
+          },
+          "title": "Fan feedback CN40 11 \u2194 13"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        },
+        {
+          "id": "fan_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Self-diagnostic CHECK LIST \u2014 fan",
+        "pages": [
+          57,
+          82
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-convertible-fan",
+        "pages": [
+          57,
+          82
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-convertible-fan",
+            "pages": [
+              57,
+              82
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-damper-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Flex-Zone damper heater",
+      "purpose": "Flex ROOM damper heater",
+      "prerequisites": [],
+      "componentIds": [
+        "damper_motor"
+      ],
+      "tags": [
+        "damper_heater"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "damp_disconnect",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect CN40",
+          "body": "Power off. Disconnect CN40 harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Disconnect CN40 harness."
+        },
+        {
+          "id": "damp_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Damper heater 135 \u03a9",
+          "body": "CN40 pin 25 \u2194 pin 27 \u2014 135 \u03a9 \u00b17%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FlexDamperHeaterOhms",
+              "testPoint": {
+                "connector": "CN40",
+                "pins": "25 \u2194 27",
+                "label": "Damper heater 135 \u03a9"
+              },
+              "title": "Damper heater 135 \u03a9"
+            }
+          ],
+          "branches": [
+            {
+              "id": "damp_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_damp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "damp_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_damp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "damp_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_damp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "damp_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "damp_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN40 pin 25 \u2194 pin 27 \u2014 135 \u03a9 \u00b17%."
+        },
+        {
+          "id": "replace_damp",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace damper heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "damp_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Damper heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FlexDamperHeaterOhms",
+          "testPoint": {
+            "connector": "CN40",
+            "pins": "25 \u2194 27",
+            "label": "Damper heater 135 \u03a9"
+          },
+          "title": "Damper heater 135 \u03a9"
+        }
+      ],
+      "branches": [
+        {
+          "id": "damp_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_damp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "damp_ohms"
+        },
+        {
+          "id": "damp_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_damp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "damp_ohms"
+        },
+        {
+          "id": "damp_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_damp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "damp_ohms"
+        },
+        {
+          "id": "damp_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "damp_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "damp_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Flex ROOM damper heater",
+        "pages": [
+          58,
+          81
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-damper-heater",
+        "pages": [
+          58,
+          81
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-damper-heater",
+            "pages": [
+              58,
+              81
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-dispenser-panel-comm",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Main \u2194 dispenser panel communication",
+      "purpose": "Main \u2194 Dispenser panel communication",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel"
+      ],
+      "tags": [
+        "hmi_check",
+        "water_dispenser"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "disp_harness",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Dispenser harness",
+          "body": "Reseat dispenser panel harness at door and MAIN PCB. Check for moisture at dispenser PCB.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "disp_h_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "disp_scope",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_disp_h",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "disp_h_out",
+              "terminal": true,
+              "oemOutcome": "Repair dispenser harness."
+            }
+          ],
+          "sourceExcerpt": "Reseat dispenser panel harness at door and MAIN PCB. Check for moisture at dispenser PCB."
+        },
+        {
+          "id": "disp_scope",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Dispenser comm scope",
+          "body": "Verify comm between main and dispenser panel PCBs with oscilloscope if harness OK.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "disp_comm_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "disp_comm_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_disp",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_disp_out",
+              "terminal": true,
+              "oemOutcome": "Replace main and/or dispenser panel PCB."
+            }
+          ],
+          "sourceExcerpt": "Verify comm between main and dispenser panel PCBs with oscilloscope if harness OK."
+        },
+        {
+          "id": "disp_h_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_disp_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace PCB(s)",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "disp_comm_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Dispenser comm OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "disp_h_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "disp_scope",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "disp_harness"
+        },
+        {
+          "id": "fix_disp_h",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "disp_h_out",
+          "terminal": true,
+          "oemOutcome": "Repair dispenser harness.",
+          "stepId": "disp_harness"
+        },
+        {
+          "id": "disp_comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "disp_comm_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "disp_scope"
+        },
+        {
+          "id": "replace_disp",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_disp_out",
+          "terminal": true,
+          "oemOutcome": "Replace main and/or dispenser panel PCB.",
+          "stepId": "disp_scope"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Main \u2194 Dispenser panel communication",
+        "pages": [
+          58,
+          91
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-dispenser-panel-comm",
+        "pages": [
+          58,
+          91
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-dispenser-panel-comm",
+            "pages": [
+              58,
+              91
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-flex-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Flex-Zone sensor",
+      "purpose": "Self-diagnostic CHECK LIST \u2014 sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "flex_sensor",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "run_self_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Run self-diagnosis",
+          "body": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 3,
+          "type": "measurement",
+          "title": "Thermistor voltage CN40 18 \u2194 20",
+          "body": "Measure MAIN PCB CN40 18 \u2194 20 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN40",
+                "pins": "18 \u2194 20",
+                "label": "Thermistor voltage CN40 18 \u2194 20"
+              },
+              "title": "Thermistor voltage CN40 18 \u2194 20"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure MAIN PCB CN40 18 \u2194 20 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN40",
+            "pins": "18 \u2194 20",
+            "label": "Thermistor voltage CN40 18 \u2194 20"
+          },
+          "title": "Thermistor voltage CN40 18 \u2194 20"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Self-diagnostic CHECK LIST \u2014 sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-flex-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-flex-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-freezer-defrost-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Freezer defrost heater (F-DEF)",
+      "purpose": "F-DEF heater resistance",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "defrost_heater",
+        "frost_buildup",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "fz_def_disconnect",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect defrost harness",
+          "body": "Power off. Disconnect CN70/CN71 harness from MAIN PCB before resistance test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Disconnect CN70/CN71 harness from MAIN PCB before resistance test."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "fz_def_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "F-DEF heater resistance",
+          "body": "CN70 pin 5 (BRN) \u2194 CN71_1 pin 5 (BLK) \u2014 63 (230) \u03a9 \u00b17%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FreezerDefrostHeaterOhms",
+              "testPoint": {
+                "connector": "CN70 / CN71_1",
+                "pins": "5 \u2194 5",
+                "label": "F-DEF heater resistance"
+              },
+              "title": "F-DEF heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fz_def_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fz_def",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fz_def_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fz_def",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fz_def_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fz_def",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fz_def_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fz_def_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN70 pin 5 (BRN) \u2194 CN71_1 pin 5 (BLK) \u2014 63 (230) \u03a9 \u00b17%."
+        },
+        {
+          "id": "replace_fz_def",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace F-DEF heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fz_def_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "F-DEF heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FreezerDefrostHeaterOhms",
+          "testPoint": {
+            "connector": "CN70 / CN71_1",
+            "pins": "5 \u2194 5",
+            "label": "F-DEF heater resistance"
+          },
+          "title": "F-DEF heater resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fz_def_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fz_def",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fz_def_ohms"
+        },
+        {
+          "id": "fz_def_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fz_def",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fz_def_ohms"
+        },
+        {
+          "id": "fz_def_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fz_def",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fz_def_ohms"
+        },
+        {
+          "id": "fz_def_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fz_def_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fz_def_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-2-5",
+        "oemTestTitle": "F-DEF heater resistance",
+        "pages": [
+          58,
+          85
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-freezer-defrost-heater",
+        "pages": [
+          58,
+          85
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-freezer-defrost-heater",
+            "pages": [
+              58,
+              85
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-freezer-defrost-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Freezer defrost sensor (F-DEF)",
+      "purpose": "Self-diagnostic CHECK LIST \u2014 sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "defrost_sensor",
+        "frost_buildup",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "run_self_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Run self-diagnosis",
+          "body": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Thermistor voltage CN20 6 \u2194 8",
+          "body": "Measure MAIN PCB CN20 6 \u2194 8 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "6 \u2194 8",
+                "label": "Thermistor voltage CN20 6 \u2194 8"
+              },
+              "title": "Thermistor voltage CN20 6 \u2194 8"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure MAIN PCB CN20 6 \u2194 8 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "6 \u2194 8",
+            "label": "Thermistor voltage CN20 6 \u2194 8"
+          },
+          "title": "Thermistor voltage CN20 6 \u2194 8"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Self-diagnostic CHECK LIST \u2014 sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-freezer-defrost-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-freezer-defrost-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-freezer-fan",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Freezer evaporator fan (F-FAN)",
+      "purpose": "Self-diagnostic CHECK LIST \u2014 fan",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "freezer_fan",
+        "evap_fan",
+        "airflow"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "fan_cmd",
+          "order": 2,
+          "type": "instruction",
+          "title": "Command fan on",
+          "body": "Use Test Mode manual operation (FF) or Load Condition display. Door open may stop F-fan \u2014 allow 1 min after close.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use Test Mode manual operation (FF) or Load Condition display. Door open may stop F-fan \u2014 allow 1 min after close."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "fan_fb",
+          "order": 4,
+          "type": "measurement",
+          "title": "Fan feedback CN20 16 \u2194 18",
+          "body": "Measure CN20 16 \u2194 18 \u2014 7\u201312 V while fan commanded.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeEvapFanFeedbackVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "16 \u2194 18",
+                "label": "Fan feedback CN20 16 \u2194 18"
+              },
+              "title": "Fan feedback CN20 16 \u2194 18"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure CN20 16 \u2194 18 \u2014 7\u201312 V while fan commanded."
+        },
+        {
+          "id": "replace_fan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fan OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeEvapFanFeedbackVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "16 \u2194 18",
+            "label": "Fan feedback CN20 16 \u2194 18"
+          },
+          "title": "Fan feedback CN20 16 \u2194 18"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        },
+        {
+          "id": "fan_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Self-diagnostic CHECK LIST \u2014 fan",
+        "pages": [
+          57,
+          82
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-freezer-fan",
+        "pages": [
+          57,
+          82
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-freezer-fan",
+            "pages": [
+              57,
+              82
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-freezer-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Freezer compartment sensor (F)",
+      "purpose": "Self-diagnostic CHECK LIST \u2014 sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "freezer_sensor",
+        "not_cooling",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "run_self_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Run self-diagnosis",
+          "body": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Thermistor voltage CN20 10 \u2194 12",
+          "body": "Measure MAIN PCB CN20 10 \u2194 12 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "10 \u2194 12",
+                "label": "Thermistor voltage CN20 10 \u2194 12"
+              },
+              "title": "Thermistor voltage CN20 10 \u2194 12"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure MAIN PCB CN20 10 \u2194 12 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "10 \u2194 12",
+            "label": "Thermistor voltage CN20 10 \u2194 12"
+          },
+          "title": "Thermistor voltage CN20 10 \u2194 12"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Self-diagnostic CHECK LIST \u2014 sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-freezer-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-freezer-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-fridge-defrost-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Fridge defrost heater (R-DEF)",
+      "purpose": "R-DEF heater resistance",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "defrost_heater",
+        "frost_buildup",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "ff_def_disconnect",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect defrost harness",
+          "body": "Power off. Disconnect CN70/CN71 harness from MAIN PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Disconnect CN70/CN71 harness from MAIN PCB."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "ff_def_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "R-DEF heater resistance",
+          "body": "CN70 pin 3 (WHT) \u2194 CN71_1 pin 5 (BLK) \u2014 120 \u03a9 \u00b17%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeDefrostHeaterOhms",
+              "testPoint": {
+                "connector": "CN70 / CN71_1",
+                "pins": "3 \u2194 5",
+                "label": "R-DEF heater resistance"
+              },
+              "title": "R-DEF heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ff_def_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ff_def",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ff_def_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ff_def",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ff_def_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ff_def",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ff_def_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ff_def_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN70 pin 3 (WHT) \u2194 CN71_1 pin 5 (BLK) \u2014 120 \u03a9 \u00b17%."
+        },
+        {
+          "id": "replace_ff_def",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace R-DEF heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ff_def_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "R-DEF heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeDefrostHeaterOhms",
+          "testPoint": {
+            "connector": "CN70 / CN71_1",
+            "pins": "3 \u2194 5",
+            "label": "R-DEF heater resistance"
+          },
+          "title": "R-DEF heater resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ff_def_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ff_def",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ff_def_ohms"
+        },
+        {
+          "id": "ff_def_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ff_def",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ff_def_ohms"
+        },
+        {
+          "id": "ff_def_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ff_def",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ff_def_ohms"
+        },
+        {
+          "id": "ff_def_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ff_def_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ff_def_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-2-5",
+        "oemTestTitle": "R-DEF heater resistance",
+        "pages": [
+          58,
+          85
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-fridge-defrost-heater",
+        "pages": [
+          58,
+          85
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-fridge-defrost-heater",
+            "pages": [
+              58,
+              85
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-fridge-defrost-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Fridge defrost sensor (R-DEF)",
+      "purpose": "Self-diagnostic CHECK LIST \u2014 sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "defrost_sensor",
+        "frost_buildup",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "run_self_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Run self-diagnosis",
+          "body": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Thermistor voltage CN20 5 \u2194 7",
+          "body": "Measure MAIN PCB CN20 5 \u2194 7 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "5 \u2194 7",
+                "label": "Thermistor voltage CN20 5 \u2194 7"
+              },
+              "title": "Thermistor voltage CN20 5 \u2194 7"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure MAIN PCB CN20 5 \u2194 7 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "5 \u2194 7",
+            "label": "Thermistor voltage CN20 5 \u2194 7"
+          },
+          "title": "Thermistor voltage CN20 5 \u2194 7"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Self-diagnostic CHECK LIST \u2014 sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-fridge-defrost-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-fridge-defrost-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-fridge-fan",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Fridge compartment fan",
+      "purpose": "Self-diagnostic CHECK LIST \u2014 fan",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "fridge_fan",
+        "weak_cooling_ff",
+        "evap_fan",
+        "airflow"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "fan_cmd",
+          "order": 2,
+          "type": "instruction",
+          "title": "Command fan on",
+          "body": "Use Test Mode manual operation (FF) or Load Condition display. Door open may stop F-fan \u2014 allow 1 min after close.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use Test Mode manual operation (FF) or Load Condition display. Door open may stop F-fan \u2014 allow 1 min after close."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "fan_fb",
+          "order": 4,
+          "type": "measurement",
+          "title": "Fan feedback CN20 15 \u2194 17",
+          "body": "Measure CN20 15 \u2194 17 \u2014 7\u201312 V while fan commanded.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeEvapFanFeedbackVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "15 \u2194 17",
+                "label": "Fan feedback CN20 15 \u2194 17"
+              },
+              "title": "Fan feedback CN20 15 \u2194 17"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure CN20 15 \u2194 17 \u2014 7\u201312 V while fan commanded."
+        },
+        {
+          "id": "replace_fan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fan OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeEvapFanFeedbackVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "15 \u2194 17",
+            "label": "Fan feedback CN20 15 \u2194 17"
+          },
+          "title": "Fan feedback CN20 15 \u2194 17"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        },
+        {
+          "id": "fan_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Self-diagnostic CHECK LIST \u2014 fan",
+        "pages": [
+          57,
+          82
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-fridge-fan",
+        "pages": [
+          57,
+          82
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-fridge-fan",
+            "pages": [
+              57,
+              82
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-fridge-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Fridge compartment sensor (R)",
+      "purpose": "Self-diagnostic CHECK LIST \u2014 sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "fridge_sensor",
+        "weak_cooling_ff",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "run_self_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Run self-diagnosis",
+          "body": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Thermistor voltage CN20 9 \u2194 11",
+          "body": "Measure MAIN PCB CN20 9 \u2194 11 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "9 \u2194 11",
+                "label": "Thermistor voltage CN20 9 \u2194 11"
+              },
+              "title": "Thermistor voltage CN20 9 \u2194 11"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure MAIN PCB CN20 9 \u2194 11 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "9 \u2194 11",
+            "label": "Thermistor voltage CN20 9 \u2194 11"
+          },
+          "title": "Thermistor voltage CN20 9 \u2194 11"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Self-diagnostic CHECK LIST \u2014 sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-fridge-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-fridge-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-humidity-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Humidity sensor",
+      "purpose": "Self-diagnostic CHECK LIST \u2014 sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "humidity_sensor",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "run_self_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Run self-diagnosis",
+          "body": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 3,
+          "type": "measurement",
+          "title": "Thermistor voltage CN60 3 \u2194 7",
+          "body": "Measure MAIN PCB CN60 3 \u2194 7 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN60",
+                "pins": "3 \u2194 7",
+                "label": "Thermistor voltage CN60 3 \u2194 7"
+              },
+              "title": "Thermistor voltage CN60 3 \u2194 7"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure MAIN PCB CN60 3 \u2194 7 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN60",
+            "pins": "3 \u2194 7",
+            "label": "Thermistor voltage CN60 3 \u2194 7"
+          },
+          "title": "Thermistor voltage CN60 3 \u2194 7"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Self-diagnostic CHECK LIST \u2014 sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-humidity-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-humidity-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-ice-duct-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Fridge ice duct heater",
+      "purpose": "Fridge ice duct heater",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_pipe_heater"
+      ],
+      "tags": [
+        "ice_duct_heater",
+        "ice_maker",
+        "no_ice"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "duct_disconnect",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect CN20",
+          "body": "Power off. Disconnect CN20 harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Disconnect CN20 harness."
+        },
+        {
+          "id": "duct_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Ice duct heater 63 \u03a9",
+          "body": "CN20 pin 21 \u2194 pin 23 \u2014 63 (230) \u03a9 \u00b17%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28IceDuctHeaterOhms",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "21 \u2194 23",
+                "label": "Ice duct heater 63 \u03a9"
+              },
+              "title": "Ice duct heater 63 \u03a9"
+            }
+          ],
+          "branches": [
+            {
+              "id": "duct_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_duct",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "duct_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_duct",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "duct_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_duct",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "duct_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "duct_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN20 pin 21 \u2194 pin 23 \u2014 63 (230) \u03a9 \u00b17%."
+        },
+        {
+          "id": "replace_duct",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace ice duct heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "duct_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Ice duct heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28IceDuctHeaterOhms",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "21 \u2194 23",
+            "label": "Ice duct heater 63 \u03a9"
+          },
+          "title": "Ice duct heater 63 \u03a9"
+        }
+      ],
+      "branches": [
+        {
+          "id": "duct_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_duct",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "duct_ohms"
+        },
+        {
+          "id": "duct_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_duct",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "duct_ohms"
+        },
+        {
+          "id": "duct_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_duct",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "duct_ohms"
+        },
+        {
+          "id": "duct_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "duct_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "duct_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Fridge ice duct heater",
+        "pages": [
+          59
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-ice-duct-heater",
+        "pages": [
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-ice-duct-heater",
+            "pages": [
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-ice-maker-function",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Ice maker (fridge) function",
+      "purpose": "Ice Maker (Fridge) function error",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "ice_maker",
+        "no_ice"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "im_check",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Ice maker operation",
+          "body": "After service, reapply power and verify ice maker harvest/fill. Use ice maker test button per \u00a74-2-4.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "im_ok_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "im_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_im",
+              "terminal": true,
+              "oemOutcome": "Replace ice maker module or repair harness."
+            }
+          ],
+          "sourceExcerpt": "After service, reapply power and verify ice maker harvest/fill. Use ice maker test button per \u00a74-2-4."
+        },
+        {
+          "id": "replace_im",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace ice maker",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "im_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Ice maker OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "im_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "im_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "im_check"
+        },
+        {
+          "id": "im_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_im",
+          "terminal": true,
+          "oemOutcome": "Replace ice maker module or repair harness.",
+          "stepId": "im_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Ice Maker (Fridge) function error",
+        "pages": [
+          58,
+          84
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-ice-maker-function",
+        "pages": [
+          58,
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-ice-maker-function",
+            "pages": [
+              58,
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-ice-maker-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Ice maker (fridge) sensor",
+      "purpose": "Self-diagnostic CHECK LIST \u2014 sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "ice_maker_sensor",
+        "no_ice",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "run_self_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Run self-diagnosis",
+          "body": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 3,
+          "type": "measurement",
+          "title": "Thermistor voltage CN90 14 \u2194 24",
+          "body": "Measure MAIN PCB CN90 14 \u2194 24 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN90",
+                "pins": "14 \u2194 24",
+                "label": "Thermistor voltage CN90 14 \u2194 24"
+              },
+              "title": "Thermistor voltage CN90 14 \u2194 24"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure MAIN PCB CN90 14 \u2194 24 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN90",
+            "pins": "14 \u2194 24",
+            "label": "Thermistor voltage CN90 14 \u2194 24"
+          },
+          "title": "Thermistor voltage CN90 14 \u2194 24"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Self-diagnostic CHECK LIST \u2014 sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-ice-maker-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-ice-maker-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-ice-room-fan",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Ice room fan",
+      "purpose": "Self-diagnostic CHECK LIST \u2014 fan",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "ice_room_fan",
+        "evap_fan",
+        "airflow"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "fan_cmd",
+          "order": 2,
+          "type": "instruction",
+          "title": "Command fan on",
+          "body": "Use Test Mode manual operation (FF) or Load Condition display. Door open may stop F-fan \u2014 allow 1 min after close.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use Test Mode manual operation (FF) or Load Condition display. Door open may stop F-fan \u2014 allow 1 min after close."
+        },
+        {
+          "id": "service_mode_continue",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue diagnostic",
+          "body": "Service mode active. Continue with pin-level test below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement."
+        },
+        {
+          "id": "fan_fb",
+          "order": 4,
+          "type": "measurement",
+          "title": "Fan feedback CN20 22 \u2194 24",
+          "body": "Measure CN20 22 \u2194 24 \u2014 7\u201312 V while fan commanded.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeEvapFanFeedbackVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "22 \u2194 24",
+                "label": "Fan feedback CN20 22 \u2194 24"
+              },
+              "title": "Fan feedback CN20 22 \u2194 24"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure CN20 22 \u2194 24 \u2014 7\u201312 V while fan commanded."
+        },
+        {
+          "id": "replace_fan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fan OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeEvapFanFeedbackVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "22 \u2194 24",
+            "label": "Fan feedback CN20 22 \u2194 24"
+          },
+          "title": "Fan feedback CN20 22 \u2194 24"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        },
+        {
+          "id": "fan_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_fb"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Self-diagnostic CHECK LIST \u2014 fan",
+        "pages": [
+          57,
+          82
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-ice-room-fan",
+        "pages": [
+          57,
+          82
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-ice-room-fan",
+            "pages": [
+              57,
+              82
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-ice-room-frozen-prep",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Frozen ice room \u2014 service preparation",
+      "purpose": "Service preparation \u2014 steam defrost and dry",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "no_ice",
+        "ice_maker_frozen",
+        "ice_maker"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before removing ice maker or sealing ice room. After ice maker removal, keep unit unplugged so cooling loop does not frost during service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "When the ice maker is removed, unplug the refrigerator to ensure the cooling loop does not frost over during service."
+        },
+        {
+          "id": "remove_bucket",
+          "order": 2,
+          "type": "instruction",
+          "title": "Remove ice bucket",
+          "body": "Remove ice bucket and inspect ice room. If bucket is stuck, use steamer to melt ice until removable. Place towel under bucket to catch melt water.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove ice bucket and inspect ice room. If bucket is stuck, use steamer to melt ice until removable. Place towel under bucket to catch melt water."
+        },
+        {
+          "id": "steam_defrost",
+          "order": 3,
+          "type": "instruction",
+          "title": "Steam defrost ice room",
+          "body": "Use steamer to remove all ice/frost from ice room and run steam down drain area. NEVER use heat gun or hair dryer.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use steamer to remove all ice/frost from ice room and run steam down drain area. NEVER use heat gun or hair dryer."
+        },
+        {
+          "id": "unplug_service",
+          "order": 4,
+          "type": "instruction",
+          "title": "Unplug during service",
+          "body": "Remove ice maker per OEM procedure, then unplug refrigerator so cooling loop does not frost over during remaining service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove ice maker per OEM procedure, then unplug refrigerator so cooling loop does not frost over during remaining service."
+        },
+        {
+          "id": "towel_dry",
+          "order": 5,
+          "type": "instruction",
+          "title": "Dry ice room",
+          "body": "Towel dry ice room, ice maker assembly, and auger assembly \u2014 remove all water traces before sealing or reinstall.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Towel dry ice room, ice maker assembly, and auger assembly \u2014 remove all water traces before sealing or reinstall."
+        },
+        {
+          "id": "prep_complete",
+          "order": 6,
+          "type": "outcome",
+          "title": "Prep complete",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-ICE-MAKER-BULLETIN",
+        "manualTitle": "Samsung French Door Direct Cool Ice Maker Frozen (ASC20170602002)",
+        "oemTestNumber": "prep",
+        "oemTestTitle": "Service preparation \u2014 steam defrost and dry",
+        "pages": [
+          3
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-service-bulletin-ice-maker-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ICE-MAKER-BULLETIN",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-ice-room-frozen-prep",
+        "pages": [
+          3
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ICE-MAKER-BULLETIN",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-ice-room-frozen-prep",
+            "pages": [
+              3
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-ice-room-frozen-service",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Frozen ice room \u2014 bulletin service measures",
+      "purpose": "RTV seal, water line, auger, route, bucket, Y-clip kit, ice maker",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module",
+        "evap_fan",
+        "dispenser_panel"
+      ],
+      "tags": [
+        "no_ice",
+        "ice_maker_frozen",
+        "ice_maker"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before removing ice maker or sealing ice room. After ice maker removal, keep unit unplugged so cooling loop does not frost during service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "When the ice maker is removed, unplug the refrigerator to ensure the cooling loop does not frost over during service."
+        },
+        {
+          "id": "rtv_seal",
+          "order": 2,
+          "type": "instruction",
+          "title": "Seal ice room with RTV",
+          "body": "Apply Samsung RTV sealant (DA81-05595A) along housing-to-liner joints (45\u00b0 applicator tip). Seal all gaps between ice room housing and liner wall.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Apply Samsung RTV sealant (DA81-05595A) along housing-to-liner joints (45\u00b0 applicator tip). Seal all gaps between ice room housing and liner wall."
+        },
+        {
+          "id": "water_line",
+          "order": 3,
+          "type": "instruction",
+          "title": "Adjust water fill line",
+          "body": "From rear, press grey retainer ring and back fill hose out ~10 mm. Re-inspect with mirror \u2014 line must not protrude too far into fill area. Re-secure hoses flush on rear cabinet.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "From rear, press grey retainer ring and back fill hose out ~10 mm. Re-inspect with mirror \u2014 line must not protrude too far into fill area. Re-secure hoses flush on rear cabinet."
+        },
+        {
+          "id": "auger_styrofoam",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Auger motor styrofoam",
+          "body": "Inspect auger motor assembly for leftover styrofoam packing blocking ice room fan airflow.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cp_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ice_route",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cp_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "auger_blocked",
+              "terminal": true,
+              "oemOutcome": "Remove styrofoam packing from auger fan."
+            }
+          ],
+          "sourceExcerpt": "Inspect auger motor assembly for leftover styrofoam packing blocking ice room fan airflow."
+        },
+        {
+          "id": "ice_route",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Ice route flapper seal",
+          "body": "Inspect ice route flapper \u2014 rubber pliable, no tears, fully closed. Pour water in chute: no leak at dispenser = good seal.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cp_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bucket_gasket",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cp_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_route",
+              "terminal": true,
+              "oemOutcome": "Replace ice route assembly."
+            }
+          ],
+          "sourceExcerpt": "Inspect ice route flapper \u2014 rubber pliable, no tears, fully closed. Pour water in chute: no leak at dispenser = good seal."
+        },
+        {
+          "id": "bucket_gasket",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Ice bucket gasket",
+          "body": "Inspect bucket for base cracks and gasket rips/rigidity preventing seal. Replace ice bucket if defective.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cp_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "y_clip_kit",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cp_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_bucket",
+              "terminal": true,
+              "oemOutcome": "Replace ice bucket assembly."
+            }
+          ],
+          "sourceExcerpt": "Inspect bucket for base cracks and gasket rips/rigidity preventing seal. Replace ice bucket if defective."
+        },
+        {
+          "id": "y_clip_kit",
+          "order": 7,
+          "type": "instruction",
+          "title": "Install Y-clip service kit",
+          "body": "Replace cooling-loop retainer with kit part. Install both Y-clips on cooling loop pressed firmly against insulation \u2014 clips pointing straight down.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Replace cooling-loop retainer with kit part. Install both Y-clips on cooling loop pressed firmly against insulation \u2014 clips pointing straight down."
+        },
+        {
+          "id": "replace_im",
+          "order": 8,
+          "type": "instruction",
+          "title": "Replace ice maker",
+          "body": "Replace ice maker assembly per bulletin model chart. After install, verify Y-clips still point straight down.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Replace ice maker assembly per bulletin model chart. After install, verify Y-clips still point straight down."
+        },
+        {
+          "id": "verify_operation",
+          "order": 9,
+          "type": "visual_check",
+          "title": "Verify ice maker operation",
+          "body": "Reapply power. Confirm ice maker harvest/fill and no frost recurrence after 24\u201348 h.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "v_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "service_complete",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "v_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "escalate",
+              "terminal": true,
+              "oemOutcome": "Recheck seals, Y-clips, and water line; escalate to Samsung ASC if frost returns."
+            }
+          ],
+          "sourceExcerpt": "Reapply power. Confirm ice maker harvest/fill and no frost recurrence after 24\u201348 h."
+        },
+        {
+          "id": "service_complete",
+          "order": 10,
+          "type": "outcome",
+          "title": "Service complete",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "auger_blocked",
+          "order": 11,
+          "type": "outcome",
+          "title": "Clear auger blockage",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_route",
+          "order": 12,
+          "type": "outcome",
+          "title": "Replace ice route",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_bucket",
+          "order": 13,
+          "type": "outcome",
+          "title": "Replace ice bucket",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "escalate",
+          "order": 14,
+          "type": "outcome",
+          "title": "Escalate",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "cp_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ice_route",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "auger_styrofoam"
+        },
+        {
+          "id": "cp_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "auger_blocked",
+          "terminal": true,
+          "oemOutcome": "Remove styrofoam packing from auger fan.",
+          "stepId": "auger_styrofoam"
+        },
+        {
+          "id": "cp_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bucket_gasket",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ice_route"
+        },
+        {
+          "id": "cp_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_route",
+          "terminal": true,
+          "oemOutcome": "Replace ice route assembly.",
+          "stepId": "ice_route"
+        },
+        {
+          "id": "cp_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "y_clip_kit",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bucket_gasket"
+        },
+        {
+          "id": "cp_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_bucket",
+          "terminal": true,
+          "oemOutcome": "Replace ice bucket assembly.",
+          "stepId": "bucket_gasket"
+        },
+        {
+          "id": "v_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "service_complete",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "verify_operation"
+        },
+        {
+          "id": "v_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "escalate",
+          "terminal": true,
+          "oemOutcome": "Recheck seals, Y-clips, and water line; escalate to Samsung ASC if frost returns.",
+          "stepId": "verify_operation"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-ICE-MAKER-BULLETIN",
+        "manualTitle": "Samsung French Door Direct Cool Ice Maker Frozen (ASC20170602002)",
+        "oemTestNumber": "1-7",
+        "oemTestTitle": "RTV seal, water line, auger, route, bucket, Y-clip kit, ice maker",
+        "pages": [
+          4,
+          10
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-service-bulletin-ice-maker-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-ICE-MAKER-BULLETIN",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-ice-room-frozen-service",
+        "pages": [
+          4,
+          10
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ICE-MAKER-BULLETIN",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-ice-room-frozen-service",
+            "pages": [
+              4,
+              10
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-ice-room-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Fridge ice room heater",
+      "purpose": "Fridge ice room heater",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "ice_room_heater",
+        "ice_maker",
+        "no_ice"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "irh_disconnect",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect CN20",
+          "body": "Power off. Disconnect CN20 harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Disconnect CN20 harness."
+        },
+        {
+          "id": "irh_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Ice room heater 135 \u03a9",
+          "body": "CN20 pin 19 \u2194 pin 23 \u2014 135 \u03a9 \u00b17%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28IceRoomHeaterOhms",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "19 \u2194 23",
+                "label": "Ice room heater 135 \u03a9"
+              },
+              "title": "Ice room heater 135 \u03a9"
+            }
+          ],
+          "branches": [
+            {
+              "id": "irh_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_irh",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "irh_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_irh",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "irh_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_irh",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "irh_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "irh_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN20 pin 19 \u2194 pin 23 \u2014 135 \u03a9 \u00b17%."
+        },
+        {
+          "id": "replace_irh",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace ice room heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "irh_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Ice room heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28IceRoomHeaterOhms",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "19 \u2194 23",
+            "label": "Ice room heater 135 \u03a9"
+          },
+          "title": "Ice room heater 135 \u03a9"
+        }
+      ],
+      "branches": [
+        {
+          "id": "irh_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_irh",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "irh_ohms"
+        },
+        {
+          "id": "irh_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_irh",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "irh_ohms"
+        },
+        {
+          "id": "irh_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_irh",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "irh_ohms"
+        },
+        {
+          "id": "irh_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "irh_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "irh_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Fridge ice room heater",
+        "pages": [
+          59
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-ice-room-heater",
+        "pages": [
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-ice-room-heater",
+            "pages": [
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-ice-room-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Ice room sensor",
+      "purpose": "Self-diagnostic CHECK LIST \u2014 sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "ice_room_sensor",
+        "no_ice",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "run_self_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Run self-diagnosis",
+          "body": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 3,
+          "type": "measurement",
+          "title": "Thermistor voltage CN90 2 \u2194 4",
+          "body": "Measure MAIN PCB CN90 2 \u2194 4 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+              "testPoint": {
+                "connector": "CN90",
+                "pins": "2 \u2194 4",
+                "label": "Thermistor voltage CN90 2 \u2194 4"
+              },
+              "title": "Thermistor voltage CN90 2 \u2194 4"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_crit",
+              "label": "Out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure MAIN PCB CN90 2 \u2194 4 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+          "testPoint": {
+            "connector": "CN90",
+            "pins": "2 \u2194 4",
+            "label": "Thermistor voltage CN90 2 \u2194 4"
+          },
+          "title": "Thermistor voltage CN90 2 \u2194 4"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Self-diagnostic CHECK LIST \u2014 sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-ice-room-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-ice-room-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-main-inverter-comm",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Main \u2194 inverter communication",
+      "purpose": "Main \u2194 Inverter communication",
+      "prerequisites": [],
+      "componentIds": [
+        "inverter_board"
+      ],
+      "tags": [
+        "compressor"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "inv_harness",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Inverter harness",
+          "body": "Reseat inverter harness in machine compartment. Inspect for damage or corrosion.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "inv_h_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "inv_scope",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_inv_h",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "inv_h_out",
+              "terminal": true,
+              "oemOutcome": "Repair inverter harness."
+            }
+          ],
+          "sourceExcerpt": "Reseat inverter harness in machine compartment. Inspect for damage or corrosion."
+        },
+        {
+          "id": "inv_scope",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Inverter comm scope",
+          "body": "Verify main\u2194inverter comm with oscilloscope if harness OK.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "inv_comm_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "inv_comm_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_inv",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_inv_out",
+              "terminal": true,
+              "oemOutcome": "Replace main and/or inverter PCB."
+            }
+          ],
+          "sourceExcerpt": "Verify main\u2194inverter comm with oscilloscope if harness OK."
+        },
+        {
+          "id": "inv_h_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_inv_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace PCB(s)",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "inv_comm_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Inverter comm OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "inv_h_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inv_scope",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inv_harness"
+        },
+        {
+          "id": "fix_inv_h",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "inv_h_out",
+          "terminal": true,
+          "oemOutcome": "Repair inverter harness.",
+          "stepId": "inv_harness"
+        },
+        {
+          "id": "inv_comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inv_comm_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inv_scope"
+        },
+        {
+          "id": "replace_inv",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_inv_out",
+          "terminal": true,
+          "oemOutcome": "Replace main and/or inverter PCB.",
+          "stepId": "inv_scope"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Main \u2194 Inverter communication",
+        "pages": [
+          58,
+          87
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-main-inverter-comm",
+        "pages": [
+          58,
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-main-inverter-comm",
+            "pages": [
+              58,
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrf28-main-panel-comm",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "title": "Main \u2194 display panel communication",
+      "purpose": "Main \u2194 Panel communication",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel"
+      ],
+      "tags": [
+        "hmi_check",
+        "display_dead"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts."
+        },
+        {
+          "id": "panel_harness",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Panel harness",
+          "body": "Reseat display harness at hinge and MAIN PCB. Check for moisture or pin damage.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_scope",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_harness",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "harness_out",
+              "terminal": true,
+              "oemOutcome": "Repair or replace display harness."
+            }
+          ],
+          "sourceExcerpt": "Reseat display harness at hinge and MAIN PCB. Check for moisture or pin damage."
+        },
+        {
+          "id": "comm_scope",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Comm line check",
+          "body": "If harness OK, verify comm waveform between main and panel PCBs with oscilloscope.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "panel_comm_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_boards",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_boards_out",
+              "terminal": true,
+              "oemOutcome": "Replace main and/or panel PCB."
+            }
+          ],
+          "sourceExcerpt": "If harness OK, verify comm waveform between main and panel PCBs with oscilloscope."
+        },
+        {
+          "id": "harness_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_boards_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace PCB(s)",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "panel_comm_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_scope",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "panel_harness"
+        },
+        {
+          "id": "fix_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "harness_out",
+          "terminal": true,
+          "oemOutcome": "Repair or replace display harness.",
+          "stepId": "panel_harness"
+        },
+        {
+          "id": "comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "panel_comm_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_scope"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace main and/or panel PCB.",
+          "stepId": "comm_scope"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "manualTitle": "Samsung RF28 French-door refrigerator",
+        "oemTestNumber": "4-1-2",
+        "oemTestTitle": "Main \u2194 Panel communication",
+        "pages": [
+          58,
+          90
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-main-panel-comm",
+        "pages": [
+          58,
+          90
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-main-panel-comm",
+            "pages": [
+              58,
+              90
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://idims.local/schemas/decision_branch_extension.json",
+  "title": "DecisionBranchExtension",
+  "description": "Documented extension to procedure DecisionBranch for Phase 2+ dynamic next-test selection. Not wired to procedureRunner yet.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "label": { "type": "string" },
+    "when": {
+      "type": "object",
+      "description": "Existing BranchCondition — measurement_normal, checkpoint_yes, etc."
+    },
+    "nextStepId": { "type": "string" },
+    "oemOutcome": { "type": "string" },
+    "terminal": { "type": "boolean" },
+    "diagnosticEffects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "componentId"],
+        "properties": {
+          "type": { "enum": ["confirm", "eliminate", "suspect"] },
+          "componentId": { "type": "string" },
+          "evidenceId": { "type": "string" }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "description": "Richer evidence updates targeting canonical component state.",
+      "items": {
+        "type": "object",
+        "required": ["target", "state", "reason"],
+        "properties": {
+          "target": { "type": "string", "description": "Canonical componentId" },
+          "state": {
+            "enum": [
+              "unknown",
+              "unverified",
+              "suspected",
+              "supported",
+              "conditionally_supported",
+              "contradicted",
+              "verified_good",
+              "verified_failed",
+              "not_applicable",
+              "inaccessible"
+            ]
+          },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "proves": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Failure modes or hypotheses this branch supports."
+    },
+    "rulesOut": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Failure modes or hypotheses this branch reduces."
+    },
+    "nextTestCandidates": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Procedure ids or wizard test keys to prioritize next."
+    },
+    "deprioritize": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Failure domain ids or hypothesis keys to deprioritize."
+    },
+    "deprioritizeDomains": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Canonical failureDomain ids to suppress in next-test ranking."
+    }
+  },
+  "required": ["id", "when"]
+}

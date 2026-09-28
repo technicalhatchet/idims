@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_return_closure",
+  "workstream": "CG-AIO-LAUNDRY-COMBO-RETURN",
+  "status": "closed",
+  "lockedAt": "2026-09-17T16:45:00+00:00",
+  "verdict": "CLOSED / AIO_RETURN_COMPLETE_CANDIDATE_READY_FOR_FREEZE_REVIEW",
+  "discoveryOutcome": "candidate_ready_for_freeze",
+  "closureStatement": "AIO return complete. Minimum stable contract: integrated_laundry_orchestration (AIO-only, corroborated) + condenser_resistive_dry_heat (new thermal sibling) + composition references to front_load_washer wash domains and frozen heat_pump_dryer (heat_pump_thermal_system for W1; sealed_moisture_rejection_path for W1+W2). sealed_ventless_drying parent REJECTED. sealed_heat_pump_drying SUPERSEDED. No freeze. STOP for human freeze gate.",
+  "approvedRevisedContract": {
+    "artifact": "aio_laundry_combo_functional_contract_candidate_v1.json",
+    "revision": "return_v1_post_hp_freeze",
+    "status": "candidate_ready_for_freeze_review",
+    "aioOwnedFunctions": 2,
+    "composedFrozenReferences": 2
+  },
+  "explicitDispositions": {
+    "sealed_ventless_drying": {
+      "disposition": "rejected",
+      "reason": "Descriptive umbrella — no independent diagnostic responsibility beyond thermal modality + moisture path children"
+    },
+    "condenser_resistive_dry_heat": {
+      "disposition": "approved_aio_owned_function",
+      "reason": "Whirlpool W2 witness; resistive dry heat on sealed condenser path — sibling to frozen heat_pump_thermal_system, not HP generalization"
+    },
+    "integrated_laundry_orchestration": {
+      "disposition": "retained_independently_corroborated",
+      "reason": "W1+W2 unified wash→dry orchestration on shared drum/controller"
+    },
+    "sealed_heat_pump_drying": {
+      "disposition": "superseded_obsolete",
+      "replacement": "heat_pump_dryer composition reference + shared moisture path"
+    },
+    "sealed_moisture_rejection_path": {
+      "disposition": "reuse_by_reference_from_frozen_heat_pump_dryer",
+      "sharedBy": ["W1", "W2"]
+    },
+    "heat_pump_thermal_system": {
+      "disposition": "reuse_by_reference_from_frozen_heat_pump_dryer",
+      "platformScope": "W1 Samsung WD53 only — NOT Whirlpool"
+    }
+  },
+  "headlineMetrics": {
+    "witnessCount": 2,
+    "aioOwnedNewFunctions": 2,
+    "composedFamilyReferences": 2,
+    "componentPromotionCount": 0,
+    "canonicalExpansion": 0,
+    "parentUmbrellaRejected": 1
+  },
+  "governanceConclusion": {
+    "freezeExecuted": false,
+    "aioLaundryComboJsonCreated": false,
+    "frozenGraphMutations": 0,
+    "aioWorkstreamNext": "CG-AIO-LAUNDRY-COMBO-FREEZE — separate human authorization required"
+  },
+  "stopCondition": "STOP — await human architectural review before AIO freeze authorization"
+}

@@ -8,8 +8,13 @@ import {
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
 import {
   buildMeasurementContext,
+  getPlatformLabel,
   resolvePlatformIdFromModel,
 } from '../../../components/diagnostics/knowledge/platformRegistry';
+import { resolveCanonicalRouting } from '../../../components/diagnostics/knowledge/canonical/resolveCanonicalRouting';
+import { WASHER_COMPLAINT_CHIPS } from '../../../components/diagnostics/washer/washerComplaints';
+import { ELECTRIC_DRYER_COMPLAINT_CHIPS } from '../../../components/diagnostics/electric_dryer/electricDryerComplaints';
+import { GAS_DRYER_COMPLAINT_CHIPS } from '../../../components/diagnostics/gas_dryer/gasDryerComplaints';
 import { getAllServiceProcedures } from '../../../components/diagnostics/procedures/procedureRegistry';
 import {
   listServiceProcedureCatalog,
@@ -19,17 +24,46 @@ import { parseProcedureErrorCodes } from '../../../components/diagnostics/proced
 import { useProcedureRun } from '../../../components/diagnostics/procedures/useProcedureRun';
 import { formatOemTestLabel } from '../../../components/diagnostics/procedures/procedureDisplayLabels';
 import ProcedureStepView from '../../../components/diagnostics/procedures/ui/ProcedureStepView';
+import CanonicalRoutingHarnessPanel from '../../../components/diagnostics/procedures/ui/CanonicalRoutingHarnessPanel';
 
 const PROCEDURE_OPTIONS = getAllServiceProcedures();
 
 const SMOKE_PRESETS = [
   {
-    id: 'duet_sport_washer',
-    label: 'Duet Sport washer (WFW85…)',
+    id: 'duet_sport_door_lock',
+    label: 'Duet Sport door lock (WFW8300)',
+    templateId: 'washer',
+    equipmentMake: 'Whirlpool',
+    equipmentModel: 'WFW8300SW0',
+    errorCodes: 'F22',
+    complaintChipIds: ['lid_lock'],
+  },
+  {
+    id: 'duet_sport_drain',
+    label: 'Duet Sport drain (F21)',
     templateId: 'washer',
     equipmentMake: 'Whirlpool',
     equipmentModel: 'WFW85HEDW0',
     errorCodes: 'F21',
+    complaintChipIds: ['wont_drain'],
+  },
+  {
+    id: 'samsung_fl_wf45',
+    label: 'Samsung FL WF45T6000 door lock',
+    templateId: 'washer',
+    equipmentMake: 'Samsung',
+    equipmentModel: 'WF45T6000AW',
+    errorCodes: 'DC',
+    complaintChipIds: ['lid_lock'],
+  },
+  {
+    id: 'fl_dd_washer',
+    label: '27" FL DD washer (WFW5620)',
+    templateId: 'washer',
+    equipmentMake: 'Whirlpool',
+    equipmentModel: 'WFW5620HW0',
+    errorCodes: 'F7E2',
+    complaintChipIds: ['wont_spin'],
   },
   {
     id: 'duet_sport_dryer_gas',
@@ -38,6 +72,7 @@ const SMOKE_PRESETS = [
     equipmentMake: 'Whirlpool',
     equipmentModel: 'WGD85HEFW0',
     errorCodes: 'F-26',
+    complaintChipIds: [],
   },
   {
     id: 'duet_sport_dryer',
@@ -46,19 +81,54 @@ const SMOKE_PRESETS = [
     equipmentMake: 'Whirlpool',
     equipmentModel: 'WED85HEFW0',
     errorCodes: 'F-22',
+    complaintChipIds: [],
   },
   {
-    id: 'fl_dd_washer',
-    label: '27" FL DD washer (WFW…)',
-    templateId: 'washer',
-    equipmentMake: 'Whirlpool',
-    equipmentModel: 'WFW5620HW0',
-    errorCodes: 'F7E2',
+    id: 'samsung_fl_bb8700_dryer',
+    label: 'Samsung FL BB8700 dryer (DVE53BB8700)',
+    templateId: 'electric_dryer',
+    equipmentMake: 'Samsung',
+    equipmentModel: 'DVE53BB8700AW',
+    errorCodes: 'tC5',
+    complaintChipIds: ['no_heat'],
+  },
+  {
+    id: 'samsung_fl_dv6000_dryer',
+    label: 'Samsung FL DV6000 dryer (DVE45T6000)',
+    templateId: 'electric_dryer',
+    equipmentMake: 'Samsung',
+    equipmentModel: 'DVE45T6000AW',
+    errorCodes: '',
+    complaintChipIds: ['no_heat'],
+  },
+  {
+    id: 'samsung_tl_dv50_dryer',
+    label: 'Samsung TL DV50 dryer (DVE50R5200)',
+    templateId: 'electric_dryer',
+    equipmentMake: 'Samsung',
+    equipmentModel: 'DVE50R5200AW',
+    errorCodes: 'tC5',
+    complaintChipIds: ['no_heat'],
   },
 ];
 
+const SMOKE_TEMPLATE_OPTIONS = [
+  { id: 'washer', label: 'Washer' },
+  { id: 'electric_dryer', label: 'Electric dryer' },
+  { id: 'gas_dryer', label: 'Gas dryer' },
+];
+
+const TEMPLATE_INFERENCE_ORDER = ['washer', 'electric_dryer', 'gas_dryer'];
+
 function formatOemRef(oemTestNumber) {
   return formatOemTestLabel(oemTestNumber);
+}
+
+function toggleChip(chipIds, chipId) {
+  if (chipIds.includes(chipId)) {
+    return chipIds.filter((id) => id !== chipId);
+  }
+  return [...chipIds, chipId];
 }
 
 export default function SolomonProcedureDevPage() {
@@ -69,6 +139,7 @@ export default function SolomonProcedureDevPage() {
   const [smokeMake, setSmokeMake] = useState(SMOKE_PRESETS[0].equipmentMake);
   const [smokeTemplateId, setSmokeTemplateId] = useState(SMOKE_PRESETS[0].templateId);
   const [smokeErrorCodes, setSmokeErrorCodes] = useState(SMOKE_PRESETS[0].errorCodes);
+  const [complaintChipIds, setComplaintChipIds] = useState(SMOKE_PRESETS[0].complaintChipIds || []);
 
   const {
     procedure,
@@ -93,6 +164,28 @@ export default function SolomonProcedureDevPage() {
     reset();
   }, [selectedId, reset]);
 
+  useEffect(() => {
+    if (!smokeMake?.trim() || !smokeModel?.trim()) return;
+    const currentPlatform = resolvePlatformIdFromModel({
+      templateId: smokeTemplateId,
+      equipmentMake: smokeMake,
+      equipmentModel: smokeModel,
+    });
+    if (currentPlatform) return;
+    for (const templateId of TEMPLATE_INFERENCE_ORDER) {
+      if (templateId === smokeTemplateId) continue;
+      const platformId = resolvePlatformIdFromModel({
+        templateId,
+        equipmentMake: smokeMake,
+        equipmentModel: smokeModel,
+      });
+      if (platformId) {
+        setSmokeTemplateId(templateId);
+        return;
+      }
+    }
+  }, [smokeMake, smokeModel, smokeTemplateId]);
+
   const staffReady = rolesResolved && canUseSolomon && isStaff;
 
   const headerDescription = useMemo(() => {
@@ -114,7 +207,20 @@ export default function SolomonProcedureDevPage() {
     [smokeErrorCodes],
   );
 
-  const complaintChipIds = useMemo(() => [], []);
+  const smokePlatformId = useMemo(
+    () => resolvePlatformIdFromModel(measurementContext),
+    [measurementContext],
+  );
+
+  const canonicalRouting = useMemo(
+    () => resolveCanonicalRouting({
+      templateId: smokeTemplateId,
+      platformId: smokePlatformId,
+      complaintChipIds,
+      errorCodes: parsedErrorCodes,
+    }),
+    [smokeTemplateId, smokePlatformId, complaintChipIds, parsedErrorCodes],
+  );
 
   const smokeRecommendations = useMemo(
     () => recommendServiceProcedures({
@@ -134,10 +240,25 @@ export default function SolomonProcedureDevPage() {
     [smokeTemplateId, measurementContext],
   );
 
-  const smokePlatformId = useMemo(
-    () => resolvePlatformIdFromModel(measurementContext),
-    [measurementContext],
-  );
+  const complaintChips = useMemo(() => {
+    if (smokeTemplateId === 'washer') return WASHER_COMPLAINT_CHIPS;
+    if (smokeTemplateId === 'electric_dryer') return ELECTRIC_DRYER_COMPLAINT_CHIPS;
+    if (smokeTemplateId === 'gas_dryer') return GAS_DRYER_COMPLAINT_CHIPS;
+    return [];
+  }, [smokeTemplateId]);
+
+  const smokePlatformBanner = useMemo(() => {
+    if (!smokePlatformId) return null;
+    const canonicalDomainLabels = (canonicalRouting?.activeDomains || [])
+      .map((domainId) => canonicalRouting?.domainLabels?.[domainId] || domainId);
+    return {
+      platformId: smokePlatformId,
+      platformLabel: getPlatformLabel(smokePlatformId) || smokePlatformId,
+      equipmentMake: smokeMake,
+      equipmentModel: smokeModel,
+      canonicalDomainLabels,
+    };
+  }, [smokePlatformId, smokeMake, smokeModel, canonicalRouting]);
 
   const applySmokePreset = (presetId) => {
     const preset = SMOKE_PRESETS.find((item) => item.id === presetId);
@@ -147,6 +268,7 @@ export default function SolomonProcedureDevPage() {
     setSmokeMake(preset.equipmentMake);
     setSmokeModel(preset.equipmentModel);
     setSmokeErrorCodes(preset.errorCodes);
+    setComplaintChipIds(preset.complaintChipIds || []);
   };
 
   return (
@@ -173,7 +295,7 @@ export default function SolomonProcedureDevPage() {
           <div className={SOLOMON_GLASS_PANEL_CLASS}>
             <p className={SOLOMON_REFERENCE_EYEBROW_CLASS}>Recommendation smoke test</p>
             <p className="mt-1 text-xs text-[var(--solomon-text-secondary)]">
-              Field-check platform resolution, fault-code routing, and catalog gating without a live work order.
+              Platform resolution, canonical routing, fault-code scoring, and catalog gating — no work order required.
             </p>
 
             <label className="mt-3 block text-xs text-[var(--solomon-text-secondary)]" htmlFor="smoke-preset">
@@ -190,7 +312,33 @@ export default function SolomonProcedureDevPage() {
               ))}
             </select>
 
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div className="mt-3 grid gap-3 sm:grid-cols-3">
+              <div>
+                <label className="block text-xs text-[var(--solomon-text-secondary)]" htmlFor="smoke-template">
+                  Template
+                </label>
+                <select
+                  id="smoke-template"
+                  value={smokeTemplateId}
+                  onChange={(event) => setSmokeTemplateId(event.target.value)}
+                  className="mt-1 w-full rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)] px-3 py-2 text-sm text-white"
+                >
+                  {SMOKE_TEMPLATE_OPTIONS.map((option) => (
+                    <option key={option.id} value={option.id}>{option.label}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs text-[var(--solomon-text-secondary)]" htmlFor="smoke-make">
+                  Make
+                </label>
+                <input
+                  id="smoke-make"
+                  value={smokeMake}
+                  onChange={(event) => setSmokeMake(event.target.value)}
+                  className="mt-1 w-full rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)] px-3 py-2 text-sm text-white"
+                />
+              </div>
               <div>
                 <label className="block text-xs text-[var(--solomon-text-secondary)]" htmlFor="smoke-model">
                   Model
@@ -202,30 +350,65 @@ export default function SolomonProcedureDevPage() {
                   className="mt-1 w-full rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)] px-3 py-2 text-sm text-white"
                 />
               </div>
-              <div>
-                <label className="block text-xs text-[var(--solomon-text-secondary)]" htmlFor="smoke-error">
-                  Error code(s)
-                </label>
-                <input
-                  id="smoke-error"
-                  value={smokeErrorCodes}
-                  onChange={(event) => setSmokeErrorCodes(event.target.value)}
-                  placeholder="F21, F-22, F7E2"
-                  className="mt-1 w-full rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)] px-3 py-2 text-sm text-white"
-                />
-              </div>
             </div>
 
+            <div className="mt-3">
+              <label className="block text-xs text-[var(--solomon-text-secondary)]" htmlFor="smoke-error">
+                Error code(s)
+              </label>
+              <input
+                id="smoke-error"
+                value={smokeErrorCodes}
+                onChange={(event) => setSmokeErrorCodes(event.target.value)}
+                placeholder="F21, F-22, DC, AC3"
+                className="mt-1 w-full rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)] px-3 py-2 text-sm text-white"
+              />
+            </div>
+
+            {complaintChips.length ? (
+              <div className="mt-3">
+                <p className="text-xs text-[var(--solomon-text-secondary)]">Complaint chips</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {complaintChips.map((chip) => {
+                    const active = complaintChipIds.includes(chip.id);
+                    return (
+                      <button
+                        key={chip.id}
+                        type="button"
+                        onClick={() => setComplaintChipIds((prev) => toggleChip(prev, chip.id))}
+                        className={[
+                          'rounded-full border px-2.5 py-1 text-[11px] transition',
+                          active
+                            ? 'border-sky-400/50 bg-sky-500/20 text-sky-100'
+                            : 'border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)] text-[var(--solomon-text-secondary)]',
+                        ].join(' ')}
+                      >
+                        {chip.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : null}
+
             <p className="mt-2 text-[10px] text-[var(--solomon-text-muted)]">
-              Platform: {measurementContext.equipmentModel ? (smokeRecommendations.length || smokeCatalog.length ? 'resolved' : 'no match') : 'enter model'}
-              {parsedErrorCodes.length ? ` · parsed codes: ${parsedErrorCodes.join(', ')}` : ''}
+              Platform: {smokePlatformId || (measurementContext.equipmentModel ? 'unresolved' : 'enter model')}
+              {parsedErrorCodes.length ? ` · codes: ${parsedErrorCodes.join(', ')}` : ''}
+              {complaintChipIds.length ? ` · chips: ${complaintChipIds.join(', ')}` : ''}
             </p>
+
+            <CanonicalRoutingHarnessPanel
+              routing={canonicalRouting}
+              platformId={smokePlatformId}
+              recommendations={smokeRecommendations}
+            />
 
             <div className="mt-3">
               <SolomonProcedurePanel
                 recommendations={smokeRecommendations}
                 catalog={smokeCatalog}
                 platformId={smokePlatformId}
+                platformBanner={smokePlatformBanner}
                 variant="mobile"
                 density="compact"
                 catalogPlacement="inline"

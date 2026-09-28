@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg6x_top_load_washer_freeze_recommendation",
+  "status": "rev1_derived",
+  "lockedAt": "2026-09-15T18:50:25.600061+00:00",
+  "evidenceManuals": [
+    "W10864849",
+    "W11697231",
+    "W11416787"
+  ],
+  "evidenceArtifacts": [
+    "W10864849_tl_cg6x_observation_v1.json",
+    "W11697231_tl_cg6x_observation_v1.json",
+    "W11416787_tl_cg6x_observation_v1.json",
+    "top_load_washer_cg6x_candidate_v1.json"
+  ],
+  "candidateGraphUnmodified": true,
+  "synthesis": {
+    "drive_system": {
+      "verdict": "remove_from_rev1",
+      "allManualsZeroDriveSystemHits": true,
+      "allManualsCollapseToDriveMotor": true,
+      "perManual": [
+        {
+          "manualId": "W10864849",
+          "driveSystemHits": 0,
+          "driveMotorHits": 1,
+          "driveOverlayTestTargets": [
+            "motor_output_test"
+          ]
+        },
+        {
+          "manualId": "W11697231",
+          "driveSystemHits": 0,
+          "driveMotorHits": 1,
+          "driveOverlayTestTargets": [
+            "motor_output_test"
+          ]
+        },
+        {
+          "manualId": "W11416787",
+          "driveSystemHits": 0,
+          "driveMotorHits": 1,
+          "driveOverlayTestTargets": [
+            "motor_output_test"
+          ]
+        }
+      ]
+    },
+    "transmission_or_shifter": {
+      "verdict": "keep_in_rev1",
+      "allManualsExposeShifterProcedure": true,
+      "canonicalLayer": "mode_selection / wash-spin transition",
+      "overlayLayer": [
+        "shifter",
+        "splutch",
+        "clutch",
+        "gearcase",
+        "actuator"
+      ],
+      "perManual": [
+        {
+          "manualId": "W10864849",
+          "shifterProcedure": true,
+          "shifterOverlays": 1
+        },
+        {
+          "manualId": "W11697231",
+          "shifterProcedure": true,
+          "shifterOverlays": 2
+        },
+        {
+          "manualId": "W11416787",
+          "shifterProcedure": true,
+          "shifterOverlays": 1
+        }
+      ]
+    },
+    "lid_switch": {
+      "verdict": "conditional_in_rev1",
+      "procedureRoleEvidenceManuals": 3,
+      "lidSwitchMatcherHitsTotal": 0,
+      "note": "Procedure evidence across manuals distinguishes authorization vs lock/spin safety; CG-3 did not independently discover lid_switch in any manual.",
+      "perManual": [
+        {
+          "manualId": "W10864849",
+          "lidProcedureRoleEvidence": {
+            "procedureId": "w10864849-test-08-lid-lock",
+            "lidSwitchMentioned": true,
+            "lockSwitchMentioned": true,
+            "homeSwitchMentioned": false,
+            "distinctRolesInProcedureText": true
+          },
+          "lidSwitchMatcherHits": 0,
+          "lidLockMatcherHits": 1
+        },
+        {
+          "manualId": "W11697231",
+          "lidProcedureRoleEvidence": {
+            "procedureId": "w11697231-test-08-lid-lock",
+            "lidSwitchMentioned": true,
+            "lockSwitchMentioned": true,
+            "homeSwitchMentioned": false,
+            "distinctRolesInProcedureText": true
+          },
+          "lidSwitchMatcherHits": 0,
+          "lidLockMatcherHits": 1
+        },
+        {
+          "manualId": "W11416787",
+          "lidProcedureRoleEvidence": {
+            "procedureId": "w11416787-test-08-lid-lock",
+            "lidSwitchMentioned": true,
+            "lockSwitchMentioned": true,
+            "homeSwitchMentioned": false,
+            "distinctRolesInProcedureText": true
+          },
+          "lidSwitchMatcherHits": 0,
+          "lidLockMatcherHits": 1
+        }
+      ]
+    }
+  },
+  "freeze": {
+    "revision": "rev1",
+    "freezeRev1Ready": true,
+    "keep": [
+      "lid_lock",
+      "inlet_valve",
+      "water_level_sensor",
+      "drain_pump",
+      "drain_path",
+      "drive_motor",
+      "transmission_or_shifter",
+      "agitator_or_impeller",
+      "spin_system",
+      "suspension_system",
+      "power_supply",
+      "control_board",
+      "hmi_control",
+      "temperature_sensor",
+      "tub",
+      "basket"
+    ],
+    "conditional": [
+      "lid_switch"
+    ],
+    "remove": [
+      "drive_system"
+    ],
+    "overlayOnlyExplicit": [
+      "splutch",
+      "clutch",
+      "gearcase",
+      "capacitor",
+      "stator",
+      "rotor",
+      "manufacturer_motor_controller",
+      "mode_shifter",
+      "pressure_sensor",
+      "recirc_pump",
+      "wash_heater",
+      "bulk_level_switch",
+      "motor_controller",
+      "drum_bearing"
+    ],
+    "canonicalExpansion": 0,
+    "implementationVocabularyRule": "Do not promote OEM implementation terms (splutch, clutch, gearcase, etc.) to canonical rev1 \u2014 they remain manufacturer/platform overlay knowledge."
+  },
+  "verdict": "Three-manual Whirlpool TL CG-3 corpus converges on functional rev1 freeze. drive_system removed; transmission_or_shifter kept; lid_switch conditional."
+}

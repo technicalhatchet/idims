@@ -1,0 +1,593 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_p08_flexwash_architecture_decision_package",
+  "workstream": "CG-P08-HUMAN-ARCHITECTURE-DECISION-PACKAGE",
+  "status": "inspection_complete",
+  "generatedAt": "2026-09-17T20:35:00+00:00",
+  "pilotContext": {
+    "p05Status": "CLOSED — routing defect repaired; not in scope",
+    "p08Status": "architecture_exception_stop — human decision required",
+    "pilotGateVerdict": "HOLD",
+    "pilotClosureAuthorized": false,
+    "inspectionOnly": true,
+    "noImplementationAuthorized": true
+  },
+  "centralQuestion": "Can Samsung FlexWash be represented as a composition of existing frozen functional contracts without distorting the diagnostic ontology?",
+  "answerOptions": [
+    "A) COMPOSITION SUFFICIENT",
+    "B) NEW CANONICAL FUNCTION REQUIRED",
+    "C) INSUFFICIENT EVIDENCE"
+  ],
+  "humanDecisionRequired": true,
+  "agentArchitectureVerdict": null,
+  "executiveSummary": "FlexWash is a dual-load wash topology, not a vocabulary problem. The lower wash compartment and shared infrastructure (drain, power, HMI, lower door lock, lower DD motor, lower-column heater faults) bind cleanly to front_load_washer functions without distorting the frozen graph. The upper compartment (independent motor, independent door/interlock DC4, upper-column fault codes) and cross-load behaviors (AC7 inter-PBA communication, SF system fault, dual-column diagnostic partition) cannot be represented on a single front_load_washer instance without collapsing compartment scope. Under the composition test model (LOWER FL instance + UPPER FL instance + shared power/HMI + integration boundary where required), the remaining unrepresentable behaviors all cluster at the integration/orchestration layer — not at ordinary washer component vocabulary. AIO precedent demonstrates that composition-by-reference can work, but required freezing a new integration function (integrated_laundry_orchestration) rather than forcing cross-mode behavior into front_load_washer. FlexWash has analogous integration evidence (AC7, SF, shared inlet/drain across PBAs) but only one witness manual (WV55M9600) and no frozen dual-load orchestration contract. Evidence does not support option A under a strict reading (existing frozen contracts only). Evidence supports option B tendency if an integration abstraction must be frozen before normalization can proceed. Option C applies to cross-manufacturer corroboration and some upper-compartment measurement specs (deferred in extraction).",
+  "evidenceSources": [
+    "backend/docs/manuals/wv55m9600av.pdf / wv55m9600av-extracted.txt",
+    "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md",
+    "frontend/components/diagnostics/procedures/seed/samsung_flexwash/ (21 procedures)",
+    "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/",
+    "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json",
+    "frontend/components/diagnostics/knowledge/canonical/front_load_washer.json",
+    "frontend/components/diagnostics/knowledge/canonical/aio_laundry_combo.json",
+    "frontend/components/diagnostics/knowledge/normalization/calibration/CG_AIO_LAUNDRY_COMBO_RETURN_TRIANGULATION_v1.json",
+    "frontend/components/diagnostics/knowledge/normalization/calibration/CG_PILOT_FRESH_8OF8_RERUN_REPORT_v1.json"
+  ],
+  "topologyEvidence": {
+    "platformId": "samsung_flexwash",
+    "manualId": "SAMSUNG-FLEXWASH-WASHER",
+    "witnessModel": "WV55M9600",
+    "architecture": "Dual-load FlexWash — upper smaller compartment + lower main DD compartment",
+    "controlTopology": "Shared main PCB (lower) + upper sub PBA; CN803 interconnect harness (AC7); inverter PBA on lower (AC6)",
+    "manualDualColumnFaultTable": true,
+    "extractionNote": "Error codes presented in Upper/Lower columns — diagnostic partition is OEM-native, not parser artifact"
+  },
+  "evidenceInventory": {
+    "procedureCount": 21,
+    "serviceModeBundles": 3,
+    "pilotNormalizationCounts": {
+      "mappingCandidates": 32,
+      "candidateStatusMapped": 11,
+      "unresolvedTerms": 15,
+      "compoundTermCandidates": 6,
+      "overlayCandidates": 13,
+      "conflicts": 0,
+      "extractionFilteredStructuralTokens": 16
+    },
+    "pilotDisposition": "architecture_exception_stop",
+    "ontologyCurrentlyAssigned": "front_load_washer",
+    "topologySignature": "ccu_mcu_motor"
+  },
+  "cleanBindings": [
+    {
+      "procedureId": "samsungflexwash-drain-pump",
+      "title": "§4-3: Drain pump (5C)",
+      "pages": [37, 39],
+      "componentIds": ["drain_pump"],
+      "errorCodes": ["5C"],
+      "existingCanonicalTargets": ["drain_pump"],
+      "mappingStatus": "candidate",
+      "evidenceForCleanBinding": "Shared drain path; manual 'won't drain either' routes to 5C pump; maps to FL drain_pump without compartment distortion when scoped to shared lower plumbing path",
+      "evidenceAgainstCleanBinding": "Extraction notes shared drain — upper compartment fill/drain routing may share path; no independent upper drain pump evidenced",
+      "distortionRisk": "low",
+      "issueDomain": "topology",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-door-lock",
+      "title": "§4-3: Lower door lock (DC, DC1)",
+      "pages": [38, 40],
+      "componentIds": ["door_lock"],
+      "errorCodes": ["DC", "DC1"],
+      "existingCanonicalTargets": ["door_lock"],
+      "mappingStatus": "candidate + COMPOUND_TERM_CANDIDATE (lower scope in title)",
+      "evidenceForCleanBinding": "Explicitly lower compartment; manual DC/DC1 lower-column faults; door_lock_test overlay binds",
+      "evidenceAgainstCleanBinding": "None for lower scope — distortion only if misapplied to upper",
+      "distortionRisk": "low",
+      "issueDomain": "diagnostic orchestration",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-motor-circuit",
+      "title": "§4-3: Lower DD motor (3C)",
+      "pages": [37, 38],
+      "componentIds": ["drive_motor"],
+      "errorCodes": ["3C"],
+      "existingCanonicalTargets": ["drive_motor", "motor_controller", "inverter"],
+      "mappingStatus": "candidate",
+      "evidenceForCleanBinding": "Lower DD motor with inverter path; distinct from upper motor in manual; lower-column 3C",
+      "evidenceAgainstCleanBinding": "None when instance-scoped to lower",
+      "distortionRisk": "low",
+      "issueDomain": "topology",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-power-supply",
+      "title": "§4-3: Power (9C1, 9C2)",
+      "pages": [33, 35],
+      "componentIds": ["supply", "main_control"],
+      "errorCodes": ["9C1", "9C2"],
+      "existingCanonicalTargets": ["supply", "control_board"],
+      "mappingStatus": "candidate",
+      "evidenceForCleanBinding": "Unit-level power distribution; shared across loads",
+      "evidenceAgainstCleanBinding": "None",
+      "distortionRisk": "low",
+      "issueDomain": "control",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-hmi-check",
+      "title": "§4-3: Control panel (BC2)",
+      "pages": [33, 38],
+      "componentIds": ["user_interface"],
+      "errorCodes": ["BC2"],
+      "existingCanonicalTargets": ["hmi_control", "user_interface"],
+      "mappingStatus": "candidate",
+      "evidenceForCleanBinding": "Shared control panel; BC2 stuck button/relay",
+      "evidenceAgainstCleanBinding": "Sub PBA mounting noted — partial dual-PBA scope at title level",
+      "distortionRisk": "low",
+      "issueDomain": "control",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-inverter-communication",
+      "title": "§4-3: Inverter PBA communication (AC6)",
+      "pages": [31, 33],
+      "componentIds": ["inverter"],
+      "errorCodes": ["AC6"],
+      "existingCanonicalTargets": ["motor_controller"],
+      "mappingStatus": "candidate (inverter → motor_controller)",
+      "evidenceForCleanBinding": "Lower inverter PBA comm path tied to DD motor",
+      "evidenceAgainstCleanBinding": "None for lower motor path",
+      "distortionRisk": "low",
+      "issueDomain": "communication",
+      "confidence": "medium-high"
+    },
+    {
+      "procedureId": "samsungflexwash-inverter-thermal",
+      "title": "§4-3: Inverter over-temperature (TC4)",
+      "pages": [33, 41],
+      "componentIds": ["inverter"],
+      "errorCodes": ["TC4"],
+      "existingCanonicalTargets": ["motor_controller"],
+      "mappingStatus": "UNRESOLVED_TERM (title compound)",
+      "evidenceForCleanBinding": "Lower inverter thermal protection — maps to motor_controller/inverter implementation vocabulary",
+      "evidenceAgainstCleanBinding": "Title-level compound unresolved; component path recoverable",
+      "distortionRisk": "low",
+      "issueDomain": "sensing",
+      "confidence": "medium"
+    }
+  ],
+  "composableInstances": [
+    {
+      "procedureId": "samsungflexwash-upper-motor",
+      "title": "§4-3: Upper washer motor (3C)",
+      "pages": [36, 38],
+      "componentIds": ["drive_motor"],
+      "tags": ["flexwash_upper", "3C", "motor_check"],
+      "errorCodes": ["3C"],
+      "existingCanonicalTargets": ["drive_motor"],
+      "mappingStatus": "UNRESOLVED_TERM",
+      "evidenceForCleanBinding": "Motor fault class (3C) is same functional family as FL drive_motor",
+      "evidenceAgainstCleanBinding": "front_load_washer defines one drive_motor per graph; upper motor is independent winding set (7.6–8.4 Ω) on separate compartment; cannot bind to same instance as lower DD motor without distortion",
+      "distortionRisk": "high",
+      "proposedClassification": "COMPOSABLE_MULTI_INSTANCE",
+      "requiredComposition": "front_load_washer.drive_motor scoped to UPPER instance",
+      "issueDomain": "topology",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-upper-door",
+      "title": "§4-3: Upper compartment door (DC4, DC1)",
+      "pages": [33, 39],
+      "componentIds": ["door_lock"],
+      "tags": ["flexwash_upper", "DC4", "door_lock_check"],
+      "errorCodes": ["DC4"],
+      "existingCanonicalTargets": ["door_lock"],
+      "mappingStatus": "UNRESOLVED_TERM",
+      "evidenceForCleanBinding": "Door authorization function same as FL door_lock",
+      "evidenceAgainstCleanBinding": "Upper inner door is separate interlock from lower main door; manual DC4 upper-only; single door_lock node cannot host two independent authorization paths",
+      "distortionRisk": "high",
+      "proposedClassification": "COMPOSABLE_MULTI_INSTANCE",
+      "requiredComposition": "front_load_washer.door_lock scoped to UPPER instance",
+      "issueDomain": "topology",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-wash-heater",
+      "title": "§4-3: Wash heater (HC, HC1)",
+      "pages": [32, 40],
+      "componentIds": ["wash_heater", "wash_ntc"],
+      "errorCodes": ["HC", "HC1"],
+      "existingCanonicalTargets": ["wash_heater", "wash_ntc"],
+      "mappingStatus": "candidate (componentIds) + COMPOUND_TERM_CANDIDATE (title)",
+      "evidenceForCleanBinding": "Heater + NTC are standard FL functions",
+      "evidenceAgainstCleanBinding": "Manual fault table dual-column: HC lower, HC1 upper — two independent heater/sensor paths",
+      "distortionRisk": "medium",
+      "proposedClassification": "COMPOSABLE_MULTI_INSTANCE",
+      "requiredComposition": "wash_heater + wash_ntc per compartment instance",
+      "issueDomain": "topology",
+      "confidence": "medium-high"
+    },
+    {
+      "procedureId": "samsungflexwash-wash-thermistor",
+      "title": "§4-3: Wash temperature sensor (TC1)",
+      "pages": [32, 40],
+      "componentIds": ["wash_ntc"],
+      "errorCodes": ["TC1"],
+      "existingCanonicalTargets": ["wash_ntc"],
+      "mappingStatus": "COMPOUND_TERM_CANDIDATE only",
+      "evidenceForCleanBinding": "NTC function exists in FL",
+      "evidenceAgainstCleanBinding": "Compartment scope ambiguous from componentId alone; manual dual-column heater table implies per-compartment sensing",
+      "distortionRisk": "medium",
+      "proposedClassification": "COMPOSABLE_MULTI_INSTANCE",
+      "issueDomain": "sensing",
+      "confidence": "medium"
+    },
+    {
+      "procedureId": "samsungflexwash-water-level-sensor",
+      "title": "§4-3: Water level sensor (1C)",
+      "pages": [35, 37],
+      "componentIds": ["water_level_sensor"],
+      "errorCodes": ["1C"],
+      "existingCanonicalTargets": ["water_level_sensor"],
+      "mappingStatus": "COMPOUND_TERM_CANDIDATE only",
+      "evidenceForCleanBinding": "1C is standard FL water level fault",
+      "evidenceAgainstCleanBinding": "Dual-load implies per-tub level sensing; extraction does not document whether 1C is upper, lower, or both",
+      "distortionRisk": "medium",
+      "proposedClassification": "COMPOSABLE_MULTI_INSTANCE",
+      "issueDomain": "sensing",
+      "confidence": "medium"
+    },
+    {
+      "procedureId": "samsungflexwash-inlet-valves",
+      "title": "§4-3: Water supply (4C, 4C2)",
+      "pages": [37, 39],
+      "componentIds": ["inlet_valve"],
+      "errorCodes": ["4C", "4C2"],
+      "existingCanonicalTargets": ["inlet_valve"],
+      "mappingStatus": "candidate + UNRESOLVED compound",
+      "evidenceForCleanBinding": "Inlet valve function standard; 4C maps",
+      "evidenceAgainstCleanBinding": "4C2 hose-swap diagnostic is compartment-specific fill routing; extraction 'no fill one compartment'",
+      "distortionRisk": "medium",
+      "proposedClassification": "COMPOSABLE_MULTI_INSTANCE",
+      "requiredComposition": "inlet_valve per compartment or shared-supply with compartment routing metadata",
+      "issueDomain": "topology",
+      "confidence": "medium"
+    },
+    {
+      "procedureId": "samsungflexwash-unbalance",
+      "title": "§4-3: Unbalance (UB)",
+      "pages": [33, 41],
+      "componentIds": ["drive_motor"],
+      "errorCodes": ["UB"],
+      "existingCanonicalTargets": ["drive_motor"],
+      "mappingStatus": "UNRESOLVED_TERM",
+      "evidenceForCleanBinding": "UB is spin/load distribution on drive system",
+      "evidenceAgainstCleanBinding": "Dual drums — UB may originate from either compartment; componentId drive_motor ambiguous without instance scope",
+      "distortionRisk": "medium",
+      "proposedClassification": "COMPOSABLE_MULTI_INSTANCE",
+      "issueDomain": "diagnostic orchestration",
+      "confidence": "medium"
+    },
+    {
+      "procedureId": "samsungflexwash-leak-check",
+      "title": "§4-3: Water leakage (LC, LC1)",
+      "pages": [32, 40],
+      "componentIds": ["drain_pump"],
+      "errorCodes": ["LC", "LC1"],
+      "existingCanonicalTargets": ["drain_pump"],
+      "mappingStatus": "UNRESOLVED_TERM",
+      "evidenceForCleanBinding": "Leak inspection uses drain path vocabulary",
+      "evidenceAgainstCleanBinding": "Procedure body explicitly distinguishes upper LC1 (detergent overflow/exterior) from lower LC; single drain_pump binding loses compartment attribution",
+      "distortionRisk": "medium",
+      "proposedClassification": "COMPOSABLE_MULTI_INSTANCE",
+      "issueDomain": "topology",
+      "confidence": "medium"
+    },
+    {
+      "procedureId": "samsungflexwash-overflow",
+      "title": "§4-3: Overflow (OC)",
+      "pages": [33, 40],
+      "componentIds": ["water_level_sensor", "inlet_valve"],
+      "errorCodes": ["OC"],
+      "existingCanonicalTargets": ["water_level_sensor", "inlet_valve"],
+      "mappingStatus": "candidate (componentIds) + UNRESOLVED compound",
+      "evidenceForCleanBinding": "Standard FL overflow path",
+      "evidenceAgainstCleanBinding": "Compartment scope not explicit in seed",
+      "distortionRisk": "medium",
+      "proposedClassification": "COMPOSABLE_MULTI_INSTANCE",
+      "issueDomain": "sensing",
+      "confidence": "medium"
+    }
+  ],
+  "integrationBoundaries": [
+    {
+      "procedureId": "samsungflexwash-interload-communication",
+      "title": "§4-3: Upper-lower PBA communication (AC7)",
+      "pages": [31, 33],
+      "componentIds": ["main_control"],
+      "errorCodes": ["AC7"],
+      "existingCanonicalTargets": ["control_board"],
+      "mappingStatus": "UNRESOLVED_TERM",
+      "evidenceForCleanBinding": "Partial — control_board participates",
+      "evidenceAgainstCleanBinding": "AC7 is explicitly inter-PBA communication between upper sub and lower main via CN803 (TX_OWM/RX_OWM); not an ordinary control_board self-test; no frozen FL relationship expresses interload comm",
+      "distortionRisk": "high",
+      "proposedClassification": "INTEGRATION_BOUNDARY",
+      "issueDomain": "communication",
+      "confidence": "high",
+      "manualExcerpt": "The signals between the main PBA with Upper washer and main PBA with Lower washer are not sensed because of communication error."
+    },
+    {
+      "procedureId": "samsungflexwash-system-fault",
+      "title": "§4-3: System fault (SF)",
+      "pages": [33, 35],
+      "componentIds": ["main_control"],
+      "errorCodes": ["SF"],
+      "existingCanonicalTargets": ["control_board"],
+      "mappingStatus": "UNRESOLVED_TERM",
+      "evidenceForCleanBinding": "SF ends at main PCB replacement — control domain",
+      "evidenceAgainstCleanBinding": "SF = microcontroller operation fail spanning dual-load system; fault attribution crosses compartment partition; not reducible to single-component FL test",
+      "distortionRisk": "high",
+      "proposedClassification": "INTEGRATION_BOUNDARY",
+      "issueDomain": "diagnostic orchestration",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-communication",
+      "title": "§4-3: Sub/main PBA communication (AC)",
+      "pages": [31, 38],
+      "componentIds": ["main_control"],
+      "errorCodes": ["AC"],
+      "existingCanonicalTargets": ["control_board"],
+      "mappingStatus": "candidate (main_control) + UNRESOLVED compound title",
+      "evidenceForCleanBinding": "Sub/main PBA reseat is control-board family behavior",
+      "evidenceAgainstCleanBinding": "FlexWash has multiple PBAs (main, sub, inverter); AC scope spans dual-PBA architecture not modeled in single control_board node",
+      "distortionRisk": "medium",
+      "proposedClassification": "INTEGRATION_BOUNDARY",
+      "issueDomain": "communication",
+      "confidence": "medium"
+    },
+    {
+      "procedureId": "samsungflexwash-wifi-communication",
+      "title": "§4-3: WiFi module communication (AC4)",
+      "pages": [31, 33],
+      "componentIds": ["main_control"],
+      "errorCodes": ["AC4"],
+      "existingCanonicalTargets": ["control_board", "hmi_control"],
+      "mappingStatus": "UNRESOLVED_TERM",
+      "evidenceForCleanBinding": "WiFi module comm is adjunct to control/HMI",
+      "evidenceAgainstCleanBinding": "May be representable as platform overlay on shared HMI; unresolved at normalization layer",
+      "distortionRisk": "low-medium",
+      "proposedClassification": "INTEGRATION_BOUNDARY",
+      "issueDomain": "communication",
+      "confidence": "medium"
+    }
+  ],
+  "newFunctionalAbstractions": [
+    {
+      "observedBehavior": "Dual-load diagnostic partition with independent upper/lower wash subsystems coordinated by shared control infrastructure",
+      "evidence": [
+        "Manual dual-column fault table (Upper/Lower)",
+        "AC7 interload harness CN803",
+        "SF system-wide microcontroller fault",
+        "Upper motor + lower motor both 3C but independent",
+        "Upper DC4 door vs lower DC/DC1 door"
+      ],
+      "cannotRepresentWithSingleFlInstance": true,
+      "cannotRepresentWithExistingFrozenContractsOnly": true,
+      "note": "Does not prescribe abstraction name — human gate must decide whether integration contract is required and what its functional boundary is",
+      "proposedClassification": "NEW_FUNCTIONAL_ABSTRACTION",
+      "issueDomain": "diagnostic orchestration",
+      "confidence": "medium-high",
+      "witnessCount": 1
+    }
+  ],
+  "insufficientEvidence": [
+    {
+      "procedureId": "samsungflexwash-mems-sensor",
+      "title": "§4-3: MEMS sensor (8C, 8C1, 8C2)",
+      "pages": [33, 41],
+      "componentIds": ["main_control"],
+      "errorCodes": ["8C", "8C1", "8C2"],
+      "mappingStatus": "UNRESOLVED_TERM",
+      "gap": "MEMS/vibration sensor not in frozen front_load_washer component set; compartment scope for 8C1/8C2 not established in extraction",
+      "proposedClassification": "INSUFFICIENT_EVIDENCE",
+      "issueDomain": "sensing",
+      "confidence": "medium"
+    },
+    {
+      "item": "Cross-manufacturer dual-load wash witness",
+      "gap": "Only Samsung WV55M9600 in repo; no second dual-wash-drum witness for fit/corroboration/freeze triangulation (AIO had Samsung WD53 + Whirlpool WFW9620)",
+      "proposedClassification": "INSUFFICIENT_EVIDENCE",
+      "issueDomain": "diagnostic orchestration",
+      "confidence": "high"
+    },
+    {
+      "item": "Upper compartment door lock Ω spec",
+      "gap": "Extraction defers upper door lock 175 Ω measurement — flexwash_upper chip path only",
+      "proposedClassification": "INSUFFICIENT_EVIDENCE",
+      "issueDomain": "sensing",
+      "confidence": "medium"
+    }
+  ],
+  "compositionTest": {
+    "hypothesis": "front_load_washer instance LOWER + front_load_washer instance UPPER + shared power/HMI where supported + integration boundary only where required",
+    "notInventingBoundaryName": true,
+    "lowerInstanceRepresentable": {
+      "verdict": true,
+      "functions": [
+        "drain_pump",
+        "door_lock (lower)",
+        "drive_motor (lower DD + inverter)",
+        "wash_heater/ntc (lower column HC)",
+        "inlet_valve (lower fill path)",
+        "water_level_sensor (if lower-scoped)",
+        "power_supply",
+        "hmi_control"
+      ]
+    },
+    "upperInstanceRepresentable": {
+      "verdict": "conditional",
+      "functions": [
+        "drive_motor (upper)",
+        "door_lock (upper DC4)",
+        "wash_heater/ntc (upper column HC1)",
+        "inlet_valve (upper fill path)",
+        "water_level_sensor (if upper-scoped)"
+      ],
+      "condition": "Requires explicit instance scoping — not supported by current single-instance front_load_washer normalization path"
+    },
+    "sharedInfrastructureRepresentable": {
+      "verdict": true,
+      "functions": ["supply", "control_board (main)", "hmi_control", "shared drain path"]
+    },
+    "remainsUnrepresentableAfterComposition": [
+      {
+        "behavior": "AC7 upper↔lower PBA communication",
+        "reason": "No frozen inter-compartment communication contract in front_load_washer or existing composition ontologies"
+      },
+      {
+        "behavior": "SF system fault spanning dual-load microcontroller operation",
+        "reason": "Cross-partition orchestration fault — not a single FL component test"
+      },
+      {
+        "behavior": "Dual-column error code routing (upper vs lower attribution)",
+        "reason": "Requires compartment-aware diagnostic partition — not in single FL graph"
+      },
+      {
+        "behavior": "Simultaneous independent wash cycle orchestration",
+        "reason": "Two active wash domains with interlocks — topology not single drum"
+      }
+    ],
+    "distortionIfMappedToSingleFl": [
+      "Collapsing upper and lower drive_motor into one node",
+      "Collapsing upper and lower door_lock into one node",
+      "Treating AC7 as ordinary control_board comm",
+      "Continuing batch without architecture_exception"
+    ]
+  },
+  "aioComparison": {
+    "aioPrecedentArtifact": "CG_AIO_LAUNDRY_COMBO_RETURN_TRIANGULATION_v1.json",
+    "frozenAioOntology": "aio_laundry_combo.json",
+    "principlesThatApply": [
+      "Composition-by-reference — do not duplicate front_load_washer nodes into product ontology",
+      "Integration behaviors that span modes/subsystems require an owned orchestration function, not forced into FL graph",
+      "Platform implementation vocabulary stays in overlays",
+      "Witness-based fit → discovery → freeze gate before production normalization",
+      "Single witness insufficient for freeze — AIO required two manufacturers"
+    ],
+    "principlesThatDoNotApply": [
+      "Wash + dry mode transition — FlexWash is wash + wash, not wash + dry",
+      "heat_pump_dryer / sealed_moisture_rejection_path references — no dryer subsystem on FlexWash",
+      "condenser_resistive_dry_heat thermal sibling — not applicable",
+      "Shared single drum motor across modes — FlexWash has two independent wash motors"
+    ],
+    "aioSupportsCompositionConceptually": true,
+    "aioSufficientToAuthorizeFlexWashAbstraction": false,
+    "rationale": "AIO proves composition-by-reference works when a new integration function is properly fit/frozen — it does not authorize copying integrated_laundry_orchestration to FlexWash. Dual-wash-drum integration is a different functional boundary (interload comm, dual partition, not wash-dry orchestration). AIO required 2 witnesses before freeze; FlexWash has 1."
+  },
+  "decisionThresholdAssessment": {
+    "compositionSufficientPreconditions": "Every observed behavior representable using only existing frozen functional contracts (front_load_washer components/relationships) plus explicit multi-instance composition metadata and existing shared relationships — with zero new functional abstraction",
+    "compositionSufficientMet": false,
+    "newFunctionRequiredTrigger": "At least one verified functional behavior cannot be represented without introducing a new functional abstraction",
+    "newFunctionRequiredTriggered": true,
+    "triggeringBehaviors": [
+      "AC7 interload communication",
+      "SF system fault",
+      "Dual-column compartment diagnostic partition",
+      "Independent upper wash subsystem (motor + door + heater column)"
+    ],
+    "insufficientEvidenceTriggers": [
+      "Single-manual witness only",
+      "MEMS sensor canonical target undefined",
+      "Some per-compartment measurements deferred"
+    ],
+    "evidenceLean": "B tendency with C caveat on freeze authorization — not A",
+    "note": "Assessment for human reviewer — not an agent architecture decision"
+  },
+  "decisionOptions": {
+    "A_COMPOSITION_SUFFICIENT": {
+      "description": "Represent FlexWash as 2× front_load_washer instances + shared power/HMI + integration relationships using only existing frozen contracts",
+      "evidenceFor": [
+        "Lower compartment maps cleanly",
+        "Upper compartment uses same FL component vocabulary",
+        "AIO demonstrates composition-by-reference pattern"
+      ],
+      "evidenceAgainst": [
+        "AC7, SF, dual-column partition have no existing frozen target",
+        "Multi-instance scoping not implemented in production normalization",
+        "Mapping upper motor/door to single FL nodes distorts graph"
+      ],
+      "wouldRequire": "Formal composition spec + instance scoping — and resolution of integration behaviors without new abstraction"
+    },
+    "B_NEW_CANONICAL_FUNCTION_REQUIRED": {
+      "description": "Open fit/discovery/freeze gate for integration/orchestration abstraction (AIO-pattern) before FlexWash normalization can proceed",
+      "evidenceFor": [
+        "Integration boundary behaviors verified in manual",
+        "AIO froze integrated_laundry_orchestration for analogous cross-subsystem coordination",
+        "architecture_exception STOP correctly prevents distortion shortcut"
+      ],
+      "evidenceAgainst": [
+        "Only one witness manual",
+        "Could theoretically be platform overlay if integration contract scoped narrowly"
+      ],
+      "wouldRequire": "Architecture gate (fit → discovery → freeze) — not pilot classifier change; must not modify front_load_washer"
+    },
+    "C_INSUFFICIENT_EVIDENCE": {
+      "description": "P08 remains STOPPED; acquire additional evidence before architecture call",
+      "evidenceFor": [
+        "Single Samsung witness — no cross-manufacturer dual-load corroboration",
+        "MEMS and some upper-compartment specs deferred",
+        "Compartment scope ambiguous on several shared codes (1C, UB, OC)"
+      ],
+      "evidenceAgainst": [
+        "Dual-load topology is explicit in OEM manual — not parser ambiguity",
+        "AC7/SF/upper motor evidence is strong within witness"
+      ],
+      "wouldRequire": "Second dual-load witness manual or expanded extraction with compartment-attributed fault table"
+    }
+  },
+  "humanDecisionRequired": true,
+  "recommendedHumanQuestions": [
+    "Is multi-instance front_load_washer composition (LOWER + UPPER) sufficient if a new integration boundary is frozen via architecture gate — or must dual-load orchestration remain deferred?",
+    "Does AC7 interload communication require a new canonical integration function, or can it live as a platform overlay on a composition reference?",
+    "Is one Samsung witness sufficient to open fit/discovery, or is cross-manufacturer corroboration required (per AIO precedent)?",
+    "Should P08 remain STOPPED indefinitely until freeze, or is partial lower-compartment normalization in scope?"
+  ],
+  "architectureExceptionIntegrity": {
+    "path": "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json",
+    "modified": false,
+    "exceptionType": "architecture_conflict",
+    "batchDisposition": "STOP",
+    "generatedAt": "2026-09-17T18:12:51.589261+00:00",
+    "triggers": ["flexwash", "interload"],
+    "pilotStopPreserved": true
+  },
+  "canonicalMutationCheck": {
+    "canonicalJsonModified": false,
+    "frontLoadWasherModified": false,
+    "aioArchitectureModified": false,
+    "newNodesCreated": false
+  },
+  "frozenHashVerification": {
+    "verified": true,
+    "method": "validate_canonical_graph.py",
+    "ontologiesVerified": 10,
+    "allMatch": true
+  },
+  "validationExecuted": {
+    "cgProductionNormalizationPilotTest": "11/11 PASS (includes P08 STOP + architecture_exception integrity)",
+    "validateCanonicalGraph": "OK — frozen_hashes=10 verified",
+    "noBatchRerun": true,
+    "noImplementation": true
+  },
+  "explicitlyNotDone": [
+    "Resolve P08",
+    "Modify architecture_exception.json",
+    "Create dual_load_integrated_orchestration",
+    "Modify front_load_washer or aio_laundry_combo",
+    "Pilot closure",
+    "Disposition classifier cleanup",
+    "70-manual batch"
+  ]
+}

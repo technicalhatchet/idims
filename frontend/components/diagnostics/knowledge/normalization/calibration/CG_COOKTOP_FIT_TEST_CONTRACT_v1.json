@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_cooktop_fit_test_contract",
+  "workstream": "CG-COOKTOP-FIT-TEST",
+  "status": "active",
+  "activatedAt": "2026-09-17T19:30:00+00:00",
+  "authorizedBy": "CG_CANONICAL_FAMILY_INVENTORY_v1.json",
+  "priorPhaseClosed": "CG_WALL_OVEN_FIT_CLOSURE_v1.json",
+  "priorPhaseVerdict": "CLOSED / WALL_OVEN_COMPOSITION_OF_RANGE_OVEN",
+  "fitTestMode": "fit_falsification_against_frozen_range_oven_surface_subgraph",
+  "applianceScope": "standalone_cooktop_electric_radiant_induction_gas",
+  "hostHypothesis": {
+    "primary": "range_oven",
+    "treatedAs": "hypothesis_only",
+    "rationale": "Inventory hypothesis — cooktop may be surface-only composition of range_oven with oven domains omitted; must be proven against genuine standalone cooktop service evidence, not presuming existing range compounding vocabulary."
+  },
+  "notCreating": [
+    "cooktop.json",
+    "mutations to range_oven.json",
+    "mutations to electric_range.json",
+    "mutations to any other frozen canonical graph",
+    "canonical expansion on any frozen family",
+    "manufacturer overlay compounding",
+    "normalization compounding of broader corpus",
+    "discovery contract execution",
+    "freeze execution"
+  ],
+  "hardGateRule": {
+    "description": "Existing range surface_heating vocabulary does not prove cooktop fit. Freestanding range cooktop sections are not standalone cooktop witnesses.",
+    "tree": [
+      "Locate genuine standalone cooktop service manual evidence in corpus",
+      "Classify cooktop OEM diagnostic paths against range_oven surface functional domains",
+      "Surface-only scope fits with oven domains not instantiated → composition or proven_variant",
+      "Genuine cooktop-only functional divergence → architectural_divergence",
+      "Insufficient standalone witnesses → insufficient_evidence — do not manufacture conclusion"
+    ],
+    "freestandingRangeSubstitutionGuard": "W11174426, W11174814, Samsung NE58/NY64, Samsung NE58H slide-in range, and other freestanding range manuals are NOT standalone cooktop witnesses.",
+    "physicalComponentGuard": "Burner, igniter, spark module, infinite switch, radiant element, induction coil, inverter, IGBT must not auto-promote to canonical nodes — evaluate diagnostic responsibility only.",
+    "implementationVsDivergenceGuard": "Different heating technology alone is implementation variation unless independent diagnostic responsibility cannot bind to surface_heating_system without semantic distortion."
+  },
+  "frozenContractsUnderTest": [
+    {
+      "id": "range_oven",
+      "file": "frontend/components/diagnostics/knowledge/canonical/range_oven.json",
+      "frozenRevision": "rev1",
+      "immutable": true,
+      "primaryFitTarget": true,
+      "hash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+      "legacyAlias": "electric_range",
+      "note": "Evaluate surface_heating_system subgraph — oven_heat_generation and cavity sensing may be not_applicable"
+    }
+  ],
+  "fitTestVocabulary": {
+    "procedureClassifications": [
+      "range_oven",
+      "shared_function",
+      "implementation_specific",
+      "unresolved"
+    ],
+    "hardOutcomes": [
+      "proven_variant",
+      "composition",
+      "architectural_divergence",
+      "insufficient_evidence"
+    ],
+    "rule": "Fit-test vocabulary only — do not auto-promote to canonical concepts"
+  },
+  "functionalDomainsUnderTest": [
+    "surface_heating_system",
+    "radiant_electric_heating",
+    "induction_heating",
+    "gas_burner_heating",
+    "surface_control",
+    "control_board",
+    "user_interface",
+    "temperature_sensing",
+    "thermal_protection",
+    "gas_ignition_flame_supervision",
+    "induction_power_conversion",
+    "downdraft_integrated_ventilation",
+    "power_supply",
+    "cooktop_safety_functions",
+    "absence_of_oven_domains",
+    "shared_vs_independent_control"
+  ],
+  "corpusSurvey": {
+    "standaloneCooktopWitnessCount": 1,
+    "ingestedStandaloneCooktopManuals": [
+      {
+        "manualId": "W11461580",
+        "sourcePdf": "backend/docs/manuals/technical-manual-w11461580-revAwplinductioncktp.pdf",
+        "thermalImplementation": "induction"
+      }
+    ],
+    "freestandingRangeManualsExplicitlyExcluded": [
+      "W11174426",
+      "W11174814",
+      "W11746350",
+      "SAMSUNG-NE58-RANGE",
+      "SAMSUNG-NE58H-SLIDE-IN-RANGE",
+      "SAMSUNG-NY64-DUAL-FUEL"
+    ],
+    "missingImplementationWitnesses": [
+      "standalone electric radiant (ceran) cooktop service manual",
+      "standalone gas cooktop service manual",
+      "standalone downdraft cooktop service manual"
+    ],
+    "note": "Procedure seeds not ingested — fit based on OEM diagnostic paths from genuine standalone cooktop PDFs only"
+  },
+  "successCriteria": {
+    "canonicalExpansion": 0,
+    "cooktopJsonCreated": false,
+    "frozenGraphMutations": 0,
+    "exactlyOneHardOutcome": true,
+    "normalizationExecuted": false
+  },
+  "stopCondition": "FIT gate only — discovery authorized only on architectural_divergence with human gate and witness evidence"
+}

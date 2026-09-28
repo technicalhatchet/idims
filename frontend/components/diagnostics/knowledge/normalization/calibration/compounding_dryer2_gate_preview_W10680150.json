@@ -1,0 +1,308 @@
+{
+  "baseline": {
+    "manualId": "W8178559",
+    "procedures": 13,
+    "mappingCandidates": 24,
+    "canonicalAutoResolve": 9,
+    "overlayGated": 15,
+    "autoResolveTerms": [
+      {
+        "term": "door_switch",
+        "canonicalId": "door_switch"
+      },
+      {
+        "term": "moisture_sensor",
+        "canonicalId": "moisture_sensor"
+      },
+      {
+        "term": "TEST #3a: Exhaust Thermistor",
+        "canonicalId": "temperature_sensor"
+      },
+      {
+        "term": "heating_element",
+        "canonicalId": "heat_source"
+      },
+      {
+        "term": "thermal_fuse",
+        "canonicalId": "thermal_fuse"
+      },
+      {
+        "term": "thermal_cutoff",
+        "canonicalId": "thermal_cutoff"
+      },
+      {
+        "term": "TEST #4: Moisture Sensor",
+        "canonicalId": "moisture_sensor"
+      },
+      {
+        "term": "motor",
+        "canonicalId": "drive_motor"
+      },
+      {
+        "term": "TEST #3b: Thermal Fuse",
+        "canonicalId": "thermal_fuse"
+      }
+    ],
+    "compoundBad": [
+      {
+        "term": "exhaust_thermistor",
+        "canonicalId": "temperature_sensor"
+      }
+    ],
+    "humanGate": {
+      "approved": 15,
+      "rejected": 10,
+      "note": "published baseline"
+    },
+    "conflicts": 0
+  },
+  "target": {
+    "manualId": "W10680150",
+    "proceduresPlatform": 33,
+    "proceduresNative": 13,
+    "mappingAllPlatform": {
+      "mappingCandidates": 36,
+      "canonicalAutoResolve": 10,
+      "overlayGated": 26,
+      "autoResolveTerms": [
+        {
+          "term": "ccu",
+          "canonicalId": "control_board"
+        },
+        {
+          "term": "door_switch",
+          "canonicalId": "door_switch"
+        },
+        {
+          "term": "moisture_sensor",
+          "canonicalId": "moisture_sensor"
+        },
+        {
+          "term": "heating_element",
+          "canonicalId": "heat_source"
+        },
+        {
+          "term": "thermal_fuse",
+          "canonicalId": "thermal_fuse"
+        },
+        {
+          "term": "TEST #5: Moisture Sensor",
+          "canonicalId": "moisture_sensor"
+        },
+        {
+          "term": "motor",
+          "canonicalId": "drive_motor"
+        },
+        {
+          "term": "thermal_cutoff",
+          "canonicalId": "thermal_cutoff"
+        },
+        {
+          "term": "TEST #4b: Thermal Fuse",
+          "canonicalId": "thermal_fuse"
+        },
+        {
+          "term": "acu",
+          "canonicalId": "control_board"
+        }
+      ],
+      "compoundBad": [
+        {
+          "term": "exhaust_thermistor",
+          "canonicalId": "temperature_sensor"
+        },
+        {
+          "term": "inlet_thermistor",
+          "canonicalId": "temperature_sensor"
+        }
+      ]
+    },
+    "mappingNativeOnly": {
+      "mappingCandidates": 26,
+      "canonicalAutoResolve": 9,
+      "overlayGated": 17,
+      "autoResolveTerms": [
+        {
+          "term": "ccu",
+          "canonicalId": "control_board"
+        },
+        {
+          "term": "door_switch",
+          "canonicalId": "door_switch"
+        },
+        {
+          "term": "moisture_sensor",
+          "canonicalId": "moisture_sensor"
+        },
+        {
+          "term": "heating_element",
+          "canonicalId": "heat_source"
+        },
+        {
+          "term": "thermal_fuse",
+          "canonicalId": "thermal_fuse"
+        },
+        {
+          "term": "TEST #5: Moisture Sensor",
+          "canonicalId": "moisture_sensor"
+        },
+        {
+          "term": "motor",
+          "canonicalId": "drive_motor"
+        },
+        {
+          "term": "thermal_cutoff",
+          "canonicalId": "thermal_cutoff"
+        },
+        {
+          "term": "TEST #4b: Thermal Fuse",
+          "canonicalId": "thermal_fuse"
+        }
+      ],
+      "compoundBad": [
+        {
+          "term": "exhaust_thermistor",
+          "canonicalId": "temperature_sensor"
+        },
+        {
+          "term": "inlet_thermistor",
+          "canonicalId": "temperature_sensor"
+        }
+      ]
+    },
+    "conflicts": 0
+  },
+  "gatePreview": {
+    "schemaVersion": "1.0.0",
+    "reportType": "compounding_comparison",
+    "generatedAt": "2026-09-14T04:47:38.637048+00:00",
+    "baselineManualId": "W8178559",
+    "targetManualId": "W10680150",
+    "priorManualIds": [
+      "W8178559"
+    ],
+    "baseline": {
+      "manualId": "W8178559",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "priorManualIds": [],
+      "totalReviewRecords": 28,
+      "byApprovalLevel": {
+        "blocked": 14,
+        "easy": 4,
+        "careful": 1,
+        "normal": 9
+      },
+      "byStatus": {
+        "approved": 15,
+        "rejected": 10,
+        "candidate": 3
+      },
+      "byType": {
+        "canonicalMapping": 24,
+        "procedureTestBinding": 2,
+        "measurementBinding": 2
+      },
+      "approved": 15,
+      "rejected": 10,
+      "needsReview": 0,
+      "promoted": 0,
+      "autoApprovals": 0,
+      "humanApprovals": 15,
+      "humanRejections": 10,
+      "manualResolutionsRequired": 0,
+      "humanDecisionCount": 25,
+      "newHumanDecisionCount": 25,
+      "inheritedResolvedAutomatically": 3,
+      "newManualResolutions": 0,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.8929,
+      "inheritedResolutionRate": 0.1071,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 46,
+        "procedureBindings": 0,
+        "measurementBindings": 0
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 25,
+      "newModelSpecificKnowledge": 0,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 3,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 25,
+        "newModelSpecificKnowledge": 0,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    "target": {
+      "manualId": "W10680150",
+      "platformId": "whirlpool_ccu_dryer",
+      "priorManualIds": [
+        "W8178559"
+      ],
+      "totalReviewRecords": 44,
+      "byApprovalLevel": {
+        "blocked": 24,
+        "easy": 6,
+        "normal": 12,
+        "careful": 2
+      },
+      "byStatus": {
+        "needs_review": 24,
+        "candidate": 18,
+        "COMPOUND_TERM_CANDIDATE": 2
+      },
+      "byType": {
+        "canonicalMapping": 36,
+        "procedureTestBinding": 2,
+        "measurementBinding": 6
+      },
+      "approved": 0,
+      "rejected": 0,
+      "needsReview": 24,
+      "promoted": 0,
+      "autoApprovals": 0,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 24,
+      "humanDecisionCount": 24,
+      "newHumanDecisionCount": 19,
+      "inheritedResolvedAutomatically": 25,
+      "newManualResolutions": 18,
+      "inheritedManualResolutions": 6,
+      "newHumanDecisionRate": 0.4318,
+      "inheritedResolutionRate": 0.5682,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 69,
+        "procedureBindings": 0,
+        "measurementBindings": 0
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 0,
+      "newModelSpecificKnowledge": 19,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 25,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 19,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    "delta": {
+      "reviewRecords": 16,
+      "humanDecisionCount": -1,
+      "newHumanDecisionCount": -6,
+      "manualResolutionsRequired": 24,
+      "inheritedResolvedAutomatically": 22
+    }
+  }
+}

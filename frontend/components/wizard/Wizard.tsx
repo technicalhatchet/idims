@@ -17,6 +17,7 @@ export default function Wizard<TContext>({
   initialStepId,
   initialVisitedStepIds,
   resetKey,
+  orchestratedNavigateStepId,
   keyboardNavigation,
   onStepChange,
   onAutoSave,
@@ -40,6 +41,7 @@ export default function Wizard<TContext>({
       initialStepId={initialStepId}
       initialVisitedStepIds={initialVisitedStepIds}
       resetKey={resetKey}
+      orchestratedNavigateStepId={orchestratedNavigateStepId}
       keyboardNavigation={keyboardNavigation}
       onStepChange={onStepChange}
       onAutoSave={onAutoSave}

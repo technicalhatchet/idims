@@ -1,4 +1,7 @@
+import { appendResolvedBranchEvent } from '../session/appendResolvedBranchEvent';
+import { appendStepEvaluation } from '../session/appendStepEvaluation';
 import { appendAppliedDiagnosticEffects, applyProcedureDiagnosticEffects } from './applyProcedureDiagnosticEffects';
+import { buildProcedureStepEvaluationSnapshot } from './buildProcedureStepEvaluationSnapshot';
 import {
   evaluateProcedureMeasurement,
   matchProcedureBranch,
@@ -166,12 +169,25 @@ export function submitProcedureStep(
     ? { ...runState.stepInputs, [step.id]: stepInput }
     : runState.stepInputs;
 
-  const runWithEffects = appendAppliedDiagnosticEffects(
+  let runWithEffects = appendAppliedDiagnosticEffects(
     { ...runState, stepInputs: storedInputs },
     step.id,
     effects,
     matchedBranch?.id,
   );
+
+  if (step.type === 'measurement' && evaluation && step.measurementKnowledgeId) {
+    const snapshot = buildProcedureStepEvaluationSnapshot(
+      step.measurementKnowledgeId,
+      evaluation,
+      stepInput?.context,
+    );
+    runWithEffects = appendStepEvaluation(runWithEffects, step.id, snapshot);
+  }
+
+  if (matchedBranch?.id) {
+    runWithEffects = appendResolvedBranchEvent(runWithEffects, step.id, matchedBranch.id);
+  }
 
   const { nextStepId, terminal, oemOutcome } = resolveNextStepId(step, matchedBranch);
 

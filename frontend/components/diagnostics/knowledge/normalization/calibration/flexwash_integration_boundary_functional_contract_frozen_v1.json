@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "flexwash_integration_boundary_functional_contract_frozen",
+  "workstream": "CG-P08-FLEXWASH-FREEZE",
+  "status": "frozen",
+  "frozenAt": "2026-09-17T22:30:00+00:00",
+  "frozenRevision": "v1",
+  "notCanonicalFile": true,
+  "note": "P08 FlexWash integration boundary — frozen architecture contract. NOT a canonical ontology file. Composes 2× front_load_washer by reference plus one integration boundary with three responsibilities. No dual_load_integrated_orchestration. No integrated_laundry_orchestration copy.",
+  "humanFreezeDecisions": {
+    "approvedAt": "2026-09-17T22:30:00+00:00",
+    "decisionCount": 6,
+    "summary": "Freeze system_supervision (W1+W2); freeze inter_instance_control_communication as W1_DERIVED; WV60 AC7 UNDOCUMENTED not absent; enable_inhibit as facet not node; simultaneous wash NOT_PROVEN; WV60 platform generation registered"
+  },
+  "compositionArchitecture": {
+    "instances": [
+      {
+        "instanceId": "FL_LOWER",
+        "canonicalReference": "front_load_washer",
+        "compartment": "lower",
+        "reuseMode": "composition_by_reference"
+      },
+      {
+        "instanceId": "FL_UPPER",
+        "canonicalReference": "front_load_washer",
+        "compartment": "upper",
+        "reuseMode": "composition_by_reference"
+      }
+    ],
+    "sharedImplementationElements": [
+      {
+        "id": "power_supply",
+        "scope": "implementation_level",
+        "promotedToCanonicalIntegrationNode": false
+      },
+      {
+        "id": "shared_hmi",
+        "scope": "implementation_level",
+        "promotedToCanonicalIntegrationNode": false
+      },
+      {
+        "id": "shared_cabinet_system_resources",
+        "scope": "implementation_level",
+        "promotedToCanonicalIntegrationNode": false
+      }
+    ],
+    "integrationBoundary": {
+      "workingId": "flexwash_integration_boundary",
+      "canonicalOntologyFileCreated": false,
+      "responsibilities": [
+        "system_supervision",
+        "inter_instance_control_communication",
+        "enable_inhibit"
+      ]
+    }
+  },
+  "frozenIntegrationFunctions": [
+    {
+      "id": "system_supervision",
+      "frozenStatus": "FROZEN",
+      "evidenceStatus": "CORROBORATED",
+      "witnesses": ["W1 WV55M9600", "W2 WV60"],
+      "oemBehavior": "SF — System Error / Micro Controller Operation Fail",
+      "mustNotModelAs": "capability of either individual front_load_washer instance",
+      "provenance": [
+        {
+          "witness": "W1",
+          "manualId": "SAMSUNG-FLEXWASH-WASHER",
+          "procedureId": "samsungflexwash-system-fault",
+          "sourcePages": [33, 35]
+        },
+        {
+          "witness": "W2",
+          "manualSource": "backend/docs/manuals/samsungflexwv60.pdf",
+          "sourcePages": [35]
+        }
+      ]
+    },
+    {
+      "id": "inter_instance_control_communication",
+      "frozenStatus": "FROZEN",
+      "evidenceStatus": "W1_DERIVED",
+      "witnesses": ["W1 WV55M9600 only"],
+      "oemBehavior": "AC7 — signals between upper and lower main PBAs not sensed",
+      "w2Corroboration": false,
+      "mustNotClaim": [
+        "WV60 corroborates AC7",
+        "universally corroborated cross-generation behavior",
+        "generalization beyond W1 evidence"
+      ],
+      "provenance": [
+        {
+          "witness": "W1",
+          "manualId": "SAMSUNG-FLEXWASH-WASHER",
+          "procedureId": "samsungflexwash-interload-communication",
+          "sourcePages": [31, 33],
+          "manualExtract": "backend/docs/manuals/wv55m9600av-extracted.txt"
+        }
+      ]
+    },
+    {
+      "id": "enable_inhibit",
+      "frozenStatus": "FROZEN_FACET",
+      "evidenceStatus": "FACET_OF_INTEGRATION_BOUNDARY",
+      "isCanonicalNode": false,
+      "isIntegratedLaundryOrchestration": false,
+      "description": "Enable/inhibit behavior modeled as facet/capability of integration boundary — not a separate canonical node",
+      "w1Evidence": "AC7 upper-enable dependency in extraction complaint routing",
+      "w2Evidence": "not_documented_in_manual",
+      "simultaneousActiveWash": "NOT_PROVEN"
+    }
+  ],
+  "explicitEvidenceStatuses": {
+    "system_supervision": "FROZEN / CORROBORATED",
+    "inter_instance_control_communication": "FROZEN / W1_DERIVED",
+    "wv60_ac7": "UNDOCUMENTED",
+    "enable_inhibit": "FROZEN_FACET",
+    "simultaneous_active_wash": "NOT_PROVEN"
+  },
+  "wv60Ac7Status": {
+    "verdict": "UNDOCUMENTED",
+    "notAbsent": true,
+    "rationale": "WV60 service manual contains no AC7 or equivalent inter-PBA communication fault code. Documentation absence is not architectural absence. No affirmative evidence in manual proves AC7 is absent from product.",
+    "w2FitArtifact": "CG_P08_FLEXWASH_W2_FIT_OBSERVATION_v1.json"
+  },
+  "simultaneousActiveWash": {
+    "status": "NOT_PROVEN",
+    "frozen": false,
+    "canonicalCapabilityCreated": false,
+    "marketingExcluded": [
+      {
+        "source": "WV60 §2-1",
+        "text": "wash separate loads at the same time",
+        "excludedFromArchitecturalEvidence": true
+      }
+    ]
+  },
+  "rejectedAtFreeze": [
+    "dual_load_integrated_orchestration",
+    "dual_compartment_partition",
+    "integrated_laundry_orchestration",
+    "simultaneous_active_wash canonical capability",
+    "flexwash_product_blob",
+    "new canonical family file beyond approved P08 integration boundary"
+  ],
+  "immutableComposedReferences": {
+    "front_load_washer": {
+      "file": "frontend/components/diagnostics/knowledge/canonical/front_load_washer.json",
+      "hash": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05",
+      "mutationProhibited": true
+    }
+  },
+  "workstreamChain": [
+    "CG-P08-FLEXWASH-ARCHITECTURE-DECISION — Path B",
+    "CG-P08-FLEXWASH-INTEGRATION-DISCOVERY",
+    "CG-P08-FLEXWASH-FIT-TEST — W1",
+    "CG-P08-FLEXWASH-W2-FIT — WV60",
+    "CG-P08-FLEXWASH-FREEZE — integration boundary frozen"
+  ],
+  "architectureExceptionProvenance": {
+    "path": "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json",
+    "role": "historical_trigger_and_stop_evidence",
+    "preserved": true,
+    "resolvedBy": "formal fit → discovery → W2 → human freeze — not by deletion or rewrite"
+  },
+  "freezeLock": "CG_P08_FLEXWASH_FREEZE_LOCK_v1.json"
+}

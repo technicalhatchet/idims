@@ -1,0 +1,364 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_fit_test_contract",
+  "status": "closed",
+  "closedAt": "2026-09-17T09:00:00+00:00",
+  "closureArtifact": "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+  "closureVerdict": "CLOSED / MICROWAVE_GENUINE_FUNCTIONAL_DIVERGENCE",
+  "approvedFitOutcome": "B",
+  "phase": "CG-MICROWAVE-FIT",
+  "activatedAt": "2026-09-17T08:20:00+00:00",
+  "authorizedBy": "CG_CANONICAL_FAMILY_INVENTORY_AUDIT_v1.json",
+  "priorPhaseClosed": "CG_CANONICAL_FAMILY_INVENTORY_v1.json",
+  "priorPhaseVerdict": "GREEN / CANONICAL_FAMILY_INVENTORY_COMPLETE",
+  "fitTestMode": "fit_falsification_against_existing_frozen_contracts",
+  "applianceScope": "microwave_otr_and_countertop",
+  "notCreating": [
+    "microwave.json",
+    "mutations to range_oven.json",
+    "mutations to french_door_refrigerator.json",
+    "mutations to dishwasher.json",
+    "mutations to vented_dryer.json",
+    "mutations to front_load_washer.json",
+    "mutations to top_load_washer.json",
+    "mutations to electric_range.json",
+    "canonical expansion on any frozen family",
+    "manufacturer overlay compounding",
+    "automatic promotion of magnetron",
+    "automatic promotion of hv_capacitor",
+    "automatic promotion of hv_diode",
+    "automatic promotion of high_voltage_transformer",
+    "automatic promotion of waveguide",
+    "automatic promotion of cavity_thermostat",
+    "normalization compounding targets",
+    "instance-scope compounding machinery"
+  ],
+  "hardGateRule": {
+    "description": "CG-MICROWAVE-FIT decision tree — no microwave.json from first-manual difference alone",
+    "tree": [
+      "FITS EXISTING CONTRACT → variant classification only (proven variant requires fit closure)",
+      "DIVERGES → architectural evidence → ONLY THEN consider new canonical graph"
+    ],
+    "disallowedShortcut": "Creating microwave.json because LG/Samsung manuals expose magnetron/HV vocabulary without fit/falsification closure"
+  },
+  "frozenContractsUnderTest": [
+    {
+      "id": "range_oven",
+      "file": "frontend/components/diagnostics/knowledge/canonical/range_oven.json",
+      "frozenRevision": "rev1",
+      "hash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+      "familyLock": "CG_RANGE_FAMILY_LOCK_v1.json",
+      "immutable": true,
+      "primaryContaminationProbe": true,
+      "note": "LOCKED family — microwave must not mutate range_oven; fit test asks whether microwave can route as variant WITHOUT contaminating frozen contract"
+    },
+    {
+      "id": "french_door_refrigerator",
+      "file": "frontend/components/diagnostics/knowledge/canonical/french_door_refrigerator.json",
+      "frozenRevision": "rev1",
+      "familyLock": "CG95_REFRIGERATOR_FAMILY_LOCK_v1.json",
+      "immutable": true,
+      "primaryContaminationProbe": false,
+      "note": "Quick falsification — sealed-system compressor overlap is not microwave functional architecture"
+    },
+    {
+      "id": "dishwasher",
+      "file": "frontend/components/diagnostics/knowledge/canonical/dishwasher.json",
+      "frozenRevision": "rev1",
+      "familyLock": "CG65_DISHWASHER_FAMILY_LOCK_v1.json",
+      "immutable": true,
+      "primaryContaminationProbe": false
+    },
+    {
+      "id": "vented_dryer",
+      "file": "frontend/components/diagnostics/knowledge/canonical/vented_dryer.json",
+      "frozenRevision": "rev2",
+      "immutable": true,
+      "primaryContaminationProbe": false
+    },
+    {
+      "id": "front_load_washer",
+      "file": "frontend/components/diagnostics/knowledge/canonical/front_load_washer.json",
+      "immutable": true,
+      "primaryContaminationProbe": false
+    },
+    {
+      "id": "top_load_washer",
+      "file": "frontend/components/diagnostics/knowledge/canonical/top_load_washer.json",
+      "frozenRevision": "rev1",
+      "immutable": true,
+      "primaryContaminationProbe": false
+    }
+  ],
+  "fitHypothesisArtifact": "microwave_existing_family_fit_hypothesis_v1.json",
+  "centerpieceQuestions": [
+    {
+      "id": "microwave_vs_any_existing_contract",
+      "question": "Can any existing frozen canonical functional contract represent microwave diagnostic architecture without canonical mutation?",
+      "framing": "Primary CG-MICROWAVE-FIT question — not whether microwave hardware resembles range oven hardware.",
+      "allowedOutcomes": [
+        "fits_existing_contract — microwave routes as proven variant of named frozen family",
+        "fits_with_documented_boundary — partial mapping documented without mutating frozen contracts",
+        "genuine_divergence — microwave exposes functional architecture absent from all frozen families"
+      ]
+    },
+    {
+      "id": "range_oven_contamination",
+      "question": "Can the microwave diagnostic graph be represented without contaminating range_oven?",
+      "framing": "Even if superficial nodes overlap (door switch, thermal cutout, control board), magnetron/HV/cavity functions must not force range_oven canonical expansion.",
+      "lockedFamily": "range_oven",
+      "familyLock": "CG_RANGE_FAMILY_LOCK_v1.json"
+    },
+    {
+      "id": "implementation_vs_functional_contract",
+      "question": "Are HV/magnetron, interlock monitor chain, cavity/waveguide, transformer/inverter, door sensing, and thermal protection merely implementation realizations — or do they expose a functional contract absent from existing families?",
+      "framing": "Distinguish platform vocabulary from independently diagnosable functional domains."
+    }
+  ],
+  "functionalLayersUnderTest": {
+    "description": "Microwave functional layers to classify across manufacturers — invariant layers vs platform vocabulary",
+    "layers": [
+      {
+        "id": "power_supply",
+        "label": "Line power / fuse / inlet",
+        "invariantAcrossPlatforms": "pending_r1",
+        "r1EvidenceHooks": ["lgotrmw-line-power", "samsungotrmw-line-power"]
+      },
+      {
+        "id": "door_interlock_chain",
+        "label": "Primary + monitor door interlock safety chain",
+        "invariantAcrossPlatforms": "pending_r1",
+        "r1EvidenceHooks": ["lgotrmw-door-interlock", "samsungotrmw-door-interlock"],
+        "platformVocabularyGuard": ["primary_switch", "monitor_switch", "door_hook"]
+      },
+      {
+        "id": "thermal_protection",
+        "label": "Thermal cutout / cavity thermostat / TCO",
+        "invariantAcrossPlatforms": "pending_r1",
+        "r1EvidenceHooks": ["lgotrmw-hv-fuse", "samsungotrmw-thermal-cutout", "samsungotrmw-line-power"],
+        "platformVocabularyGuard": ["cabinet_thermistor", "pcb_thermistor"]
+      },
+      {
+        "id": "hv_generation",
+        "label": "HV transformer / inverter + magnetron excitation path",
+        "invariantAcrossPlatforms": "pending_r1",
+        "r1EvidenceHooks": ["lgotrmw-magnetron", "lgotrmw-hv-transformer", "samsungotrmw-no-heat", "samsungotrmw-hv-diode"],
+        "platformVocabularyGuard": ["magnetron", "hv_capacitor", "hv_diode", "high_voltage_transformer"]
+      },
+      {
+        "id": "rf_cavity",
+        "label": "Cavity / waveguide / stirrer / arcing path",
+        "invariantAcrossPlatforms": "pending_r1",
+        "r1EvidenceHooks": ["lgotrmw-no-heat", "samsungotrmw-magnetron"],
+        "platformVocabularyGuard": ["waveguide_cover", "stirrer", "mica_sheet"]
+      },
+      {
+        "id": "control_and_sensing",
+        "label": "Control board + humidity/temp sensing (OTR)",
+        "invariantAcrossPlatforms": "pending_r1",
+        "r1EvidenceHooks": ["lgotrmw-pcb-thermistor", "lgotrmw-humidity-sensor", "samsungotrmw-keypad-touch", "samsungotrmw-pcb-comm"],
+        "platformVocabularyGuard": ["humidity_sensor", "touch_panel", "membrane"]
+      },
+      {
+        "id": "mechanical_drive",
+        "label": "Turntable motor / stirrer motor",
+        "invariantAcrossPlatforms": "pending_r1",
+        "r1EvidenceHooks": ["samsungotrmw-turntable"],
+        "platformVocabularyGuard": ["turntable_motor", "coupler"]
+      },
+      {
+        "id": "ventilation_otr",
+        "label": "Over-range ventilation fan (OTR only)",
+        "invariantAcrossPlatforms": "pending_r1",
+        "r1EvidenceHooks": ["samsungotrmw-vent-motor"],
+        "platformVocabularyGuard": ["vent_fan_motor", "damper"],
+        "rangeOvenContaminationRisk": "Must not promote to range_oven surface_heating_system"
+      }
+    ]
+  },
+  "boundaryQuestions": [
+    {
+      "id": "range_oven_power_supply_overlap",
+      "question": "Does microwave line power map to range_oven power_supply without implying oven/range supply semantics?",
+      "hostContract": "range_oven",
+      "frozenContractNode": "power_supply",
+      "classificationOptions": ["fits_as_variant", "superficial_overlap_only", "contract_boundary", "contaminates_if_merged"]
+    },
+    {
+      "id": "range_oven_door_switch_overlap",
+      "question": "Does microwave door interlock map to range_oven oven_door_switch / conditional door concepts without conflating HV safety chain?",
+      "hostContract": "range_oven",
+      "frozenContractNode": "oven_door_switch",
+      "classificationOptions": ["fits_as_variant", "superficial_overlap_only", "contract_boundary", "contaminates_if_merged"]
+    },
+    {
+      "id": "range_oven_thermal_overlap",
+      "question": "Does microwave thermal cutout map to range_oven thermal_protection without absorbing magnetron-specific TCO semantics?",
+      "hostContract": "range_oven",
+      "frozenContractNode": "thermal_protection",
+      "classificationOptions": ["fits_as_variant", "superficial_overlap_only", "contract_boundary", "contaminates_if_merged"]
+    },
+    {
+      "id": "range_oven_control_board_overlap",
+      "question": "Does microwave control board map to range_oven control_board without importing HV relay/magnetron drive as canonical range nodes?",
+      "hostContract": "range_oven",
+      "frozenContractNode": "control_board",
+      "classificationOptions": ["fits_as_variant", "superficial_overlap_only", "contract_boundary", "contaminates_if_merged"]
+    },
+    {
+      "id": "magnetron_hv_functional_domain",
+      "question": "Is magnetron/HV generation an independently diagnosable functional domain with no host in any frozen contract?",
+      "hostContract": null,
+      "classificationOptions": ["new_functional_domain_required", "platform_implementation_only_deferred", "fits_existing_contract"]
+    },
+    {
+      "id": "cross_manufacturer_recurrence",
+      "question": "Which microwave-specific functions recur across LG and Samsung OTR manuals with stable diagnostic roles?",
+      "hostContract": null,
+      "classificationOptions": ["recurs_ready_for_canonical", "single_manual_only_defer", "manufacturer_specific_overlay_only"]
+    }
+  ],
+  "vocabularyGuardrails": {
+    "doNotAutoCreateCanonical": [
+      "magnetron",
+      "hv_capacitor",
+      "hv_diode",
+      "high_voltage_transformer",
+      "waveguide",
+      "waveguide_cover",
+      "stirrer",
+      "turntable_motor",
+      "door_interlock",
+      "monitor_switch",
+      "line_fuse",
+      "cavity_thermostat",
+      "humidity_sensor",
+      "vent_fan_motor"
+    ],
+    "requiredClassification": [
+      "fits_as_variant",
+      "superficial_overlap_only",
+      "contract_boundary",
+      "contaminates_if_merged",
+      "new_functional_domain_required",
+      "platform_implementation_only",
+      "recurs_ready_for_canonical",
+      "deferred_pending_second_manual"
+    ],
+    "rule": "Microwave OEM hardware names must be classified against frozen contract layers — never promoted to canonical merely because the manual tests them."
+  },
+  "discoveryCorpus": {
+    "R1": {
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "platformId": "lg_microwave_otr",
+      "smokeModel": "LMHM2237BD",
+      "manufacturer": "LG",
+      "role": "first_microwave_fit_observation",
+      "templateFilter": "microwave",
+      "rationale": "First microwave platform in procedure layer — 12 procedures; distinct error family (F-1/F-2/F-4) from Samsung C-* codes.",
+      "extractionDoc": "MICROWAVE_OTR_BATCH_EXTRACTION.md",
+      "procedureSeedPlatform": "lg_microwave_otr",
+      "observationArtifact": "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+      "observationStatus": "complete",
+      "observationCompletedAt": "2026-09-17T08:35:00+00:00",
+      "procedureCount": 12
+    },
+    "R2": {
+      "manualId": "SAMSUNG-ME11-MICROWAVE",
+      "platformId": "samsung_microwave_otr",
+      "smokeModel": "ME11A7510DSAA",
+      "manufacturer": "Samsung",
+      "role": "cross_manufacturer_triangulation",
+      "templateFilter": "microwave",
+      "rationale": "Second manufacturer OTR — C-* information codes; required for cross-manufacturer recurrence question before canonical graph decision.",
+      "extractionDoc": "SAMSUNG_ME11_MICROWAVE_EXTRACTION.md",
+      "procedureSeedPlatform": "samsung_microwave_otr",
+      "observationArtifact": "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json",
+      "observationStatus": "complete",
+      "observationCompletedAt": "2026-09-17T08:50:00+00:00",
+      "procedureCount": 14,
+      "requirement": "Cross-manufacturer functional-behavior triangulation — authorized by CG_MICROWAVE_FIT_R1_GATE_v1.json"
+    }
+  },
+  "r1Gate": "CG_MICROWAVE_FIT_R1_GATE_v1.json",
+  "r1ObservationComplete": true,
+  "r2Authorized": true,
+  "r2ObservationComplete": true,
+  "triangulationArtifact": "CG_MICROWAVE_FIT_TRIANGULATION_v1.json",
+  "immutableRules": [
+    "CG-MICROWAVE-FIT is fit/falsification only — success includes proving microwave does NOT fit any existing frozen contract.",
+    "range_oven.json hash must remain e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5 through CG-MICROWAVE-FIT.",
+    "No writes to any frozen canonical ontology file during CG-MICROWAVE-FIT.",
+    "No microwave.json — microwave either fits an existing contract as variant, documents boundary, or proves divergence.",
+    "Procedure seeds inform observations — they do not auto-promote microwave hardware to canonical.",
+    "CG_RANGE_FAMILY_LOCK remains authoritative — range architecture is not reopened from microwave fit.",
+    "Inventory variant hypotheses (e.g. wall oven → range_oven) are not proven variants — same rule applies to microwave if Outcome A."
+  ],
+  "decisionGates": {
+    "afterR1": {
+      "ask": "Which microwave functional layers map to any frozen contract without contamination — especially range_oven?",
+      "doNotAsk": "Does LG microwave look like a range?",
+      "doNotPromote": "magnetron, hv_capacitor, hv_diode to any frozen canonical without fit-test classification",
+      "artifact": "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+      "then": "fit_falsification_analysis — CG_MICROWAVE_FIT_ANALYSIS_v1.json"
+    },
+    "afterR2": {
+      "requirement": "Cross-manufacturer recurrence classification for microwave-specific functions",
+      "artifact": "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json",
+      "then": "triangulation — CG_MICROWAVE_FIT_TRIANGULATION_v1.json"
+    },
+    "humanBoundaryDecision": {
+      "outcomes": {
+        "A": "fits_existing_contract — microwave is proven variant of named frozen family (no canonical mutation)",
+        "B": "genuine_divergence_documented — microwave requires new functional contract; authorize discovery/freeze as separate gate",
+        "C": "inconclusive — defer canonical decision; do not create microwave.json"
+      },
+      "policy": "Human gate required before any canonical graph creation, variant promotion, or range_oven routing change"
+    }
+  },
+  "fitTestOutcomes": {
+    "A": {
+      "label": "fits_existing_contract",
+      "description": "Microwave maps to an existing frozen family as proven variant — inventory reclassification only; no canonical file mutation"
+    },
+    "B": {
+      "label": "genuine_divergence",
+      "description": "Microwave exposes functional architecture absent from all frozen contracts — authorize CG-MICROWAVE-DISCOVERY as separate gate; still no microwave.json until freeze"
+    },
+    "C": {
+      "label": "inconclusive",
+      "description": "Insufficient evidence — extend corpus or defer; no graph creation"
+    },
+    "policy": "Fit test earns every classification — automatic canonical expansion prohibited"
+  },
+  "successCriteria": {
+    "minimum": "R1 LG LMHM2237 observation complete against functional layers and frozen contract boundary questions",
+    "recommended": "R1 + R2 Samsung ME11 triangulation before human boundary decision",
+    "canonicalMutation": 0,
+    "canonicalExpansion": 0,
+    "fitAnalysisArtifact": "CG_MICROWAVE_FIT_ANALYSIS_v1.json",
+    "fitAnalysisStatus": "human_boundary_approved",
+    "fitAnalysisArtifact": "CG_MICROWAVE_FIT_ANALYSIS_v1.json",
+    "triangulationArtifact": "CG_MICROWAVE_FIT_TRIANGULATION_v1.json",
+    "humanBoundaryApprovalRequired": true,
+    "humanBoundaryApprovedAt": "2026-09-17T09:00:00+00:00",
+    "approvedFitOutcome": "B",
+    "r2RequiredForClosure": true,
+    "closureArtifact": "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+    "closureStatus": "closed_successful"
+  },
+  "progression": [
+    "CG-CANONICAL-FAMILY-INVENTORY closed",
+    "CG-MICROWAVE-FIT R1 observation (LG LMHM2237)",
+    "fit/falsification analysis",
+    "R2 cross-manufacturer observation (Samsung ME11)",
+    "triangulation + human boundary decision",
+    "either proven variant of existing contract OR authorize separate discovery/freeze gate — never microwave.json from fit contract alone"
+  ],
+  "authorizedNextWorkstream": "CG_MICROWAVE_DISCOVERY_CONTRACT_v1.json",
+  "deferredWork": {
+    "microwaveDiscoveryFreeze": "After discovery review — separate CG-MICROWAVE-FREEZE gate",
+    "manufacturerOverlayCompounding": "After fit test closure and any discovery/freeze — not during fit test",
+    "normalizationCompounding": "After architecture decision — not during fit test"
+  }
+}

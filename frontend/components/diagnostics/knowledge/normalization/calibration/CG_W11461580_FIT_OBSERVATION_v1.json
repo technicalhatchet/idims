@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_cooktop_fit_observation",
+  "workstream": "CG-COOKTOP-FIT-TEST",
+  "witnessId": "W1",
+  "status": "complete",
+  "generatedAt": "2026-09-17T19:30:00+00:00",
+  "contract": "CG_COOKTOP_FIT_TEST_CONTRACT_v1.json",
+  "manufacturer": "Whirlpool/KitchenAid/JennAir",
+  "model": "Induction Cooktop family (WCI*, KCI*, JCI*)",
+  "manualId": "W11461580",
+  "templateId": "cooktop_only",
+  "thermalImplementation": "induction",
+  "canonicalPromotionBlocked": true,
+  "canonicalMutationBlocked": true,
+  "classificationVocabulary": [
+    "range_oven",
+    "shared_function",
+    "implementation_specific",
+    "unresolved"
+  ],
+  "graphArtifacts": {
+    "sourcePdf": "backend/docs/manuals/technical-manual-w11461580-revAwplinductioncktp.pdf",
+    "extractedText": "backend/docs/manuals/technical-manual-w11461580-revAwplinductioncktp-extracted.txt",
+    "procedureSeedDir": null,
+    "note": "Genuine standalone induction cooktop technical manual — not freestanding range substitute"
+  },
+  "functionalArchitectureSummary": {
+    "surfaceHeat": "Multi-zone induction — IPC (induction power control) per zone cluster, induction coils, coil NTC, IGBT thermal monitoring",
+    "control": "HMI touch UI + IPC boards; service diagnostics mode; IPC configuration after board swap",
+    "electronicsCooling": "Blower/cooling fan for IPC thermal management (F7E5/F7E6)",
+    "thermalProtection": "Thermofuses on power path; coil NTC overtemperature (F0EA/F0EC); IGBT NTC (F1E1)",
+    "power": "Terminal block, capacitor, shunt clip; supply frequency/vbus checks (F0E6/F0E7)",
+    "ovenDomainsAbsent": "No bake/broil/convection cavity, no oven RTD, no door latch — cooktop-only product",
+    "downdraft": "Nomenclature documents downdraft SKUs (KD = Downdraft) but this ingested manual is induction cooktop without downdraft diagnostic section"
+  },
+  "classificationHistogram": {
+    "range_oven": 5,
+    "shared_function": 1,
+    "implementation_specific": 5,
+    "unresolved": 0
+  },
+  "diagnosticPathClassifications": [
+    {
+      "pathId": "w11461580-ipc-inverter-faults",
+      "oemSection": "§2 F0E2/F0E4/F1E1",
+      "pages": [33, 34, 35],
+      "classification": "range_oven",
+      "functionalDomain": "induction_power_conversion",
+      "provenance": "IPC main relay, inverter under-current, inverter self-check failures — realization of surface_heating_system via induction power conversion; IPC is platform surface_control vocabulary, not a new canonical node.",
+      "frozenContractFit": "range_oven.surface_heating_system + overlayOnlyConcepts.surface_control (ipc_induction_power_control)"
+    },
+    {
+      "pathId": "w11461580-hmi-communication",
+      "oemSection": "§2 F6E1",
+      "pages": [36],
+      "classification": "range_oven",
+      "functionalDomain": "user_interface_control_board",
+      "provenance": "HMI↔IPC communication error — maps to user_interface + control_board.",
+      "frozenContractFit": "range_oven.user_interface + control_board"
+    },
+    {
+      "pathId": "w11461580-coil-ntc-thermal",
+      "oemSection": "§2 F0EA/F0EC",
+      "pages": [34, 35],
+      "classification": "range_oven",
+      "functionalDomain": "thermal_protection",
+      "provenance": "Coil NTC open/short and overtemperature shutdown — thermal protection on surface heat path; binds to conditionalConcept thermal_protection.",
+      "frozenContractFit": "range_oven.conditionalConcepts.thermal_protection + surface_heating_system monitoring"
+    },
+    {
+      "pathId": "w11461580-power-supply",
+      "oemSection": "§2 F0E6/F0E7",
+      "pages": [34],
+      "classification": "range_oven",
+      "functionalDomain": "power_supply",
+      "provenance": "Vbus, mains frequency, fuse track, power cord connection — prerequisite power domain.",
+      "frozenContractFit": "range_oven.power_supply + control_board prerequisites"
+    },
+    {
+      "pathId": "w11461580-cookware-detection",
+      "oemSection": "§2 F0E1",
+      "pages": [33],
+      "classification": "shared_function",
+      "functionalDomain": "surface_heating_system",
+      "provenance": "Pan compatibility/positioning — functional surface-heating authorization gate, not a separate canonical domain.",
+      "frozenContractFit": "range_oven.surface_heating_system operational gate — platform pan-detection vocabulary"
+    },
+    {
+      "pathId": "w11461580-induction-coil-element",
+      "oemSection": "§3 Component Testing / §4 induction element removal",
+      "pages": [37, 39],
+      "classification": "implementation_specific",
+      "functionalDomain": "surface_heating_element",
+      "provenance": "Physical induction coil and harness — overlayOnlyConcept surface_heating_element under surface_heating_system.",
+      "frozenContractFit": "range_oven.overlayOnlyConcepts.surface_heating_element"
+    },
+    {
+      "pathId": "w11461580-igbt-ntc-hardware",
+      "oemSection": "§2 F1E1 IGBT NTC",
+      "pages": [35],
+      "classification": "implementation_specific",
+      "functionalDomain": "induction_power_conversion",
+      "provenance": "IGBT NTC open/short — inverter thermal hardware on IPC; must not promote IGBT to canonical component.",
+      "frozenContractFit": "Platform IPC/inverter overlay on surface_heating_system — not canonical IGBT node"
+    },
+    {
+      "pathId": "w11461580-electronics-cooling-fan",
+      "oemSection": "§2 F7E5/F7E6 / §4 cooling fan removal",
+      "pages": [36, 39],
+      "classification": "implementation_specific",
+      "functionalDomain": "electronics_cooling_ventilation",
+      "provenance": "Blower for IPC thermal management — distinct from downdraft ventilation; maps to deferred cooling_fan platform vocabulary.",
+      "frozenContractFit": "range_oven.deferredConcepts.cooling_fan — electronics cooling overlay, not downdraft domain"
+    },
+    {
+      "pathId": "w11461580-thermofuses",
+      "oemSection": "§4 terminal block / thermofuses access",
+      "pages": [40],
+      "classification": "implementation_specific",
+      "functionalDomain": "thermal_protection",
+      "provenance": "Line thermofuses — implementation variant of thermal_protection on power/surface path.",
+      "frozenContractFit": "range_oven.conditionalConcepts.thermal_protection — platform fuse/hi-limit vocabulary"
+    },
+    {
+      "pathId": "w11461580-service-diagnostics-mode",
+      "oemSection": "§2 Activating Service Diagnostics Mode",
+      "pages": [33],
+      "classification": "range_oven",
+      "functionalDomain": "user_interface",
+      "provenance": "Timer key sequence service mode entry — user_interface service packaging.",
+      "frozenContractFit": "range_oven.user_interface service-mode overlay"
+    },
+    {
+      "pathId": "w11461580-ipc-configuration",
+      "oemSection": "§2 F0E8",
+      "pages": [35],
+      "classification": "implementation_specific",
+      "functionalDomain": "surface_control",
+      "provenance": "IPC replacement configuration — platform commissioning step after board swap.",
+      "frozenContractFit": "overlayOnlyConcepts.surface_control — not canonical expansion"
+    }
+  ],
+  "ovenSpecificDomainsAbsent": {
+    "oven_heat_generation": "Not present — cooktop-only product",
+    "temperature_sensor_cavity": "Not present — coil NTC is surface-path monitoring, not oven cavity RTD",
+    "oven_door_switch": "Not present",
+    "convection_fan": "Not present"
+  },
+  "rejectedMappings": [
+    {
+      "candidate": "cooktop.json new canonical graph",
+      "reason": "All ingested standalone induction cooktop diagnostic paths map to range_oven surface subgraph"
+    },
+    {
+      "candidate": "Canonical ipc / igbt / inverter nodes",
+      "reason": "Physical inverter hardware is implementation overlay under surface_heating_system — CG-12 range compounding precedent on IPC induction path"
+    },
+    {
+      "candidate": "samsunginductionne58h slide-in range as cooktop witness",
+      "reason": "Freestanding/slide-in range with oven — explicit substitution guard"
+    }
+  ]
+}

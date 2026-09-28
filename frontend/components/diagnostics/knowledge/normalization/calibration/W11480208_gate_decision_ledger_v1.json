@@ -1,0 +1,58 @@
+{
+  "manualId": "W11480208",
+  "priorManualId": "W11633848",
+  "gatedAt": "2026-09-15T05:47:23.743593+00:00",
+  "mappingApprovals": 11,
+  "mappingRejections": 2,
+  "mappingDeferred": 2,
+  "procedureBindingsApproved": 7,
+  "measurementBindingsApproved": 9,
+  "overlayBindingsRejected": 1,
+  "newHumanSemanticDecisions": 5,
+  "inheritedReuseAtGate": 6,
+  "inheritedWhirlpoolDishwasherAliases": 6,
+  "newPlatformKnowledge": 4,
+  "newModelSpecificKnowledge": 2,
+  "inheritedMatcherCorrections": 2,
+  "newCanonicalConcepts": 0,
+  "teachingCostComparison": {
+    "W11633848": {
+      "role": "first_manual_baseline",
+      "newHumanSemanticDecisions": 11,
+      "questionMix": "what functional thing is this?"
+    },
+    "W11480208": {
+      "role": "second_manual_compounding",
+      "projectedNewHumanSemanticDecisions": 5,
+      "questionMix": "what Whirlpool-specific implementation detail is this?",
+      "reductionVsBaseline": 0.545
+    }
+  },
+  "reviewPackageSummary": {
+    "total": 31,
+    "byStatus": {
+      "approved": 27,
+      "needs_review": 2,
+      "rejected": 2
+    },
+    "byApprovalLevel": {
+      "normal": 18,
+      "careful": 6,
+      "easy": 4,
+      "blocked": 3
+    },
+    "byType": {
+      "canonicalMapping": 14,
+      "procedureTestBinding": 8,
+      "measurementBinding": 9
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 4,
+      "medium_0.80_0.94": 24,
+      "low_lt_0.80": 0,
+      "unresolved": 3
+    },
+    "byBlockedReason": {}
+  },
+  "publishBlocked": true
+}

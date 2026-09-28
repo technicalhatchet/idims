@@ -1,0 +1,834 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg9_5_sxs_overlay_mapping_gate_table",
+  "manualId": "SAMSUNG-RS28-SXS",
+  "platformId": "samsung_sxs",
+  "platformFamilyId": "samsung_sxs",
+  "canonicalOntologyId": "french_door_refrigerator",
+  "proposedOverlayFile": "samsung_sxs.json",
+  "priorPublishedManualIds": [],
+  "status": "published",
+  "compoundingContract": "CG9_5_SXS_REFRIGERATOR_COMPOUNDING_CONTRACT_v1.json",
+  "workPackage": "WP1",
+  "generatedAt": "2026-09-16T13:18:50.316280+00:00",
+  "gateFraming": {
+    "question": "What does this SxS manual teach us about the frozen refrigerator contract?",
+    "manufacturerBoundary": "stricter \u2014 RS28 SxS evidence independent of samsung_fridge_bespoke RF23BB overlay",
+    "configurationNote": "side_by_side \u2014 compounding target is frozen french_door_refrigerator rev1",
+    "freezeReopenBlocked": true,
+    "cg9BoundaryProbe": "SAMSUNG_RS28_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+    "cg9AutoApprovalBlocked": true
+  },
+  "manufacturerIsolation": {
+    "priorOverlay": "samsung_fridge_bespoke.json",
+    "rule": "Do not import RF23BB french-door aliases, procedure bindings, or topology.",
+    "rf23bbOverlayDependentCount": 0,
+    "cg8FrenchDoorOverlaysByteStableRequired": [
+      "whirlpool_jazz_french_door.json",
+      "samsung_fridge_bespoke.json",
+      "lg_lrmvs.json"
+    ]
+  },
+  "pipelineCounts": {
+    "procedures": 17,
+    "mappingCandidates": 33,
+    "overlayCandidates": 0,
+    "conflicts": 0,
+    "extractionFiltered": 0
+  },
+  "normalizeRun": {
+    "manualId": "SAMSUNG-RS28-SXS",
+    "generatedAt": null
+  },
+  "gatePolicy": {
+    "gateKind": "sxs_production_compounding_samsung",
+    "compoundingPhase": "CG-9.5",
+    "canonicalGraph": "french_door_refrigerator.json rev1 FROZEN",
+    "publishBlocked": false
+  },
+  "canonicalContract": {
+    "graph": "french_door_refrigerator",
+    "revision": "rev1",
+    "allowedCanonicalIds": [
+      "air_damper",
+      "control_board",
+      "defrost_heater",
+      "door_switch",
+      "evaporator_fan",
+      "user_interface"
+    ],
+    "forbiddenCanonicalIds": [
+      "airflow_path",
+      "cooling_system",
+      "defrost_system"
+    ],
+    "conditionalBindingIds": [
+      "temperature_sensor",
+      "compressor",
+      "condenser_fan",
+      "ice_maker",
+      "water_dispenser"
+    ]
+  },
+  "contractTeachingRows": [
+    {
+      "teachingId": "samsung-rs28-control-board",
+      "gateQuestion": "Does RS28 SxS independently teach frozen control_board?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "control_board",
+      "procedureIds": [
+        "samsungrs28-engineer-test-entry",
+        "samsungrs28-self-diagnostic-entry",
+        "samsungrs28-led-test-mode-entry"
+      ],
+      "seedComponentIds": [],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "Engineer mode / self-diagnosis / LED test entry on main PBA \u2014 Samsung SxS-native control orchestration. Not inherited from RF23BB french-door overlay.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-user-interface",
+      "gateQuestion": "Does RS28 SxS independently teach frozen user_interface?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "user_interface",
+      "procedureIds": [
+        "samsungrs28-panel-communication",
+        "samsungrf260b-panel-communication"
+      ],
+      "seedComponentIds": [
+        "display_panel"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "41Er main\u2194display communication \u2014 independent HMI diagnostic on samsung_sxs.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-door-switch-abstention",
+      "gateQuestion": "Does RS28 SxS independently teach frozen door_switch?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_insufficient_procedure_evidence",
+      "gateAction": "defer_human_review",
+      "independentEvidence": false,
+      "rationale": "F/R reed door switches documented in svc manual \u00a75-4 flowchart (CN20 voltage) but no standalone RS28 door-switch procedure seed. Abstain \u2014 CG-9 boundary evidence does not auto-approve without procedure binding.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-defrost-heater",
+      "gateQuestion": "Does RS28 SxS teach frozen defrost_heater?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "defrost_heater",
+      "instanceScope": "freezer",
+      "procedureIds": [
+        "samsungrs28-f-defrost-heater",
+        "samsungrf260b-fz-defrost-heater",
+        "samsungrf260b-ff-defrost-heater"
+      ],
+      "seedComponentIds": [
+        "heater"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "F-DEF / FZ-DEF / FF-DEF heater \u03a9 \u2014 compartment-scoped canonical inheritance.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-evaporator-fan",
+      "gateQuestion": "Does RS28 SxS teach frozen evaporator_fan?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "evaporator_fan",
+      "procedureIds": [
+        "samsungrs28-f-fan",
+        "samsungrf260b-fz-fan",
+        "samsungrf260b-ff-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "F-FAN / FZ-FAN / FF-FAN feedback (22E) \u2014 canonical evaporator_fan with multi-compartment instance overlay. C-FAN handled separately (platform).",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-air-damper",
+      "gateQuestion": "Does RS28 SxS independently teach frozen air_damper?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "air_damper",
+      "procedureIds": [
+        "samsungrs28-damper-heater"
+      ],
+      "seedComponentIds": [
+        "damper_motor"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "R-room damper heater \u03a9 on CN40 \u2014 functional air_damper on Samsung SxS.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-compressor-inverter-conditional",
+      "gateQuestion": "What does RS28 SxS teach about conditional compressor?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "compressor",
+      "instanceScope": "inverter_pba_mediated",
+      "procedureIds": [
+        "samsungrs28-inverter-communication"
+      ],
+      "seedComponentIds": [
+        "inverter_board"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "44Er/84C routes through inverter PBA \u2014 functional compressor role as conditionalConcept only. Inverter implementation stays platform layer.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-condenser-fan-abstention",
+      "gateQuestion": "Does RS28 SxS teach conditional condenser_fan?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_role_ambiguity",
+      "gateAction": "defer_human_review",
+      "rationale": "C-FAN 22C procedure seed tags condenser_fan but manual weak-FF routing suggests evaporator/convert path \u2014 same ambiguity class as RF23BB 22C. No independent gate evidence for condenser_fan conditional binding; C-fan stays platform under evaporator_fan.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-temp-freezer-conditional",
+      "gateQuestion": "RS28 SxS freezer cabinet NTC scope?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "freezer",
+      "procedureIds": [
+        "samsungrs28-f-sensor",
+        "samsungrf260b-fz-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-temp-fresh-food-conditional",
+      "gateQuestion": "RS28 SxS fresh-food cabinet NTC scope?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "fresh_food",
+      "procedureIds": [
+        "samsungrs28-r-sensor",
+        "samsungrf260b-ff-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-temp-ambient-conditional",
+      "gateQuestion": "RS28 SxS ambient NTC scope?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "ambient",
+      "procedureIds": [
+        "samsungrs28-ambient-sensor",
+        "samsungrf260b-ambient-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-temp-pantry-conditional",
+      "gateQuestion": "RS28 SxS pantry NTC scope (RF260B topology)?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "pantry",
+      "procedureIds": [
+        "samsungrf260b-pantry-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "Pantry sensor on RF260B samsung_sxs sibling \u2014 instance scope only.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-ice-maker-conditional",
+      "gateQuestion": "RS28 SxS optional ice_maker conditional binding?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "ice_maker",
+      "procedureIds": [
+        "samsungrs28-ice-maker-sensor",
+        "samsungrs28-ice-maker-function",
+        "samsungrs28-ice-pipe-heater",
+        "samsungrf260b-ice-maker-sensor",
+        "samsungrf260b-ice-maker-function"
+      ],
+      "seedComponentIds": [
+        "ice_maker_module"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "In-door ice on RS28 \u2014 optional feature domain, conditionalConcept only.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-water-dispenser-conditional",
+      "gateQuestion": "RS28 SxS water_dispenser conditional binding?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "water_dispenser",
+      "procedureIds": [
+        "samsungrs28-dispenser-communication"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "47Er dispenser panel comm \u2014 optional conditional feature, not canonical.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-inverter-board-platform",
+      "gateQuestion": "Inverter PBA implementation vocabulary?",
+      "outcome": "overlay_knowledge",
+      "layer": "samsung_sxs_platform_implementation",
+      "platformTarget": "compressor_controller",
+      "procedureIds": [
+        "samsungrs28-inverter-communication"
+      ],
+      "seedComponentIds": [
+        "inverter_board"
+      ],
+      "implementationComponent": "inverter_board",
+      "gateAction": "approve_platform_implementation",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-io-expander-platform",
+      "gateQuestion": "IO expander harness implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "samsung_sxs_platform_implementation",
+      "platformTarget": "io_expander",
+      "procedureIds": [
+        "samsungrs28-io-expander-communication"
+      ],
+      "seedComponentIds": [],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "46Er main\u2194IO expander \u2014 platform comm path, not canonical control_board.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-defrost-sensor-platform",
+      "gateQuestion": "F-DEF defrost NTC vocabulary?",
+      "outcome": "overlay_knowledge",
+      "layer": "samsung_sxs_platform_implementation",
+      "platformTarget": "defrost_sensor",
+      "procedureIds": [
+        "samsungrs28-f-def-sensor",
+        "samsungrf260b-fz-def-sensor",
+        "samsungrf260b-ff-def-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-damper-motor-platform",
+      "gateQuestion": "Damper motor implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "samsung_sxs_platform_implementation",
+      "canonicalFunctionalRole": [
+        "air_damper"
+      ],
+      "implementationComponent": "damper_motor",
+      "procedureIds": [
+        "samsungrs28-damper-heater"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-ice-subsystem-platform",
+      "gateQuestion": "Ice pipe / in-door ice platform vocabulary?",
+      "outcome": "overlay_knowledge",
+      "layer": "samsung_sxs_platform_implementation",
+      "implementationComponents": [
+        "ice_pipe_heater",
+        "ice_maker_module"
+      ],
+      "procedureIds": [
+        "samsungrs28-ice-pipe-heater",
+        "samsungrs28-ice-maker-sensor",
+        "samsungrs28-ice-maker-function"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-wifi-modem-platform",
+      "gateQuestion": "WiFi modem implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "samsung_sxs_platform_implementation",
+      "procedureIds": [
+        "samsungrs28-wifi-communication"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "52Er WiFi comm \u2014 connectivity platform adjunct, not canonical user_interface.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-dispenser-panel-platform",
+      "gateQuestion": "Dispenser panel implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "samsung_sxs_platform_implementation",
+      "implementationComponent": "dispenser_panel",
+      "procedureIds": [
+        "samsungrs28-dispenser-communication"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "47Er path implements conditional water_dispenser \u2014 platform hardware vocabulary.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-c-fan-platform",
+      "gateQuestion": "C-FAN role under evaporator_fan platform?",
+      "outcome": "overlay_knowledge",
+      "layer": "samsung_sxs_platform_implementation",
+      "canonicalFunctionalRole": [
+        "evaporator_fan"
+      ],
+      "instanceScope": "convertible",
+      "procedureIds": [
+        "samsungrs28-c-fan",
+        "samsungrf260b-c-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "C-FAN 22C bound to evaporator_fan platform instance \u2014 NOT condenser_fan conditional. Role ambiguity documented; Whirlpool SxS WP2 may triangulate.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-aggregate-resurrection-blocked",
+      "gateQuestion": "Do Samsung SxS terms resurrect removed aggregates?",
+      "outcome": "overlay_knowledge",
+      "layer": "reject_aggregate_resurrection",
+      "removedConcepts": [
+        "airflow_path",
+        "cooling_system",
+        "defrost_system"
+      ],
+      "gateAction": "reject_canonical_promotion",
+      "rationale": "Self-diagnostic checklist and complaint routing decompose into members \u2014 defrost_system, cooling_system, airflow_path remain dead per CG-7 freeze.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-cg9-evidence-isolation",
+      "gateQuestion": "Does CG-9 R1 boundary observation auto-approve overlay rows?",
+      "outcome": "overlay_knowledge",
+      "layer": "reject_cg9_calibration_inheritance",
+      "gateAction": "reject_canonical_promotion",
+      "boundaryProbeArtifact": "SAMSUNG_RS28_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+      "rationale": "CG-9 R1 proved SxS fits frozen contract \u2014 calibration only. Each teaching row requires independent procedure evidence in this gate; boundary artifact informs human review but is not a runtime inheritance shortcut.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-humidity-abstention",
+      "gateQuestion": "humidity_control on RS28 SxS?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_single_manufacturer_feature",
+      "procedureIds": [
+        "samsungrs28-humidity-sensor",
+        "samsungrf260b-humidity-sensor"
+      ],
+      "gateAction": "defer_human_review",
+      "rationale": "14E humidity sensor procedure exists but CG-7 deferred humidity_control \u2014 abstain from canonical/conditional promotion until triangulation gate.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    },
+    {
+      "teachingId": "samsung-rs28-wifi-canonical-abstention",
+      "gateQuestion": "Promote WiFi modem to canonical user_interface?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_connectivity_not_hmi",
+      "procedureIds": [
+        "samsungrs28-wifi-communication"
+      ],
+      "gateAction": "defer_human_review",
+      "rationale": "52Er WiFi is connectivity adjunct \u2014 platform overlay only, not canonical expansion.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp1"
+    }
+  ],
+  "mappingCandidateDispositions": [
+    {
+      "candidateId": "map-samsung-rs28-sxs-unresolved-samsungrs28-ambient-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "samsungrs28-ambient-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-ambient-sensor",
+      "sourceTerm": "\u00a74-2: Ambient sensor",
+      "procedureId": "samsungrs28-ambient-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-evap_fan",
+      "sourceTerm": "evap_fan",
+      "procedureId": "samsungrs28-c-fan",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-c-fan-feedback",
+      "sourceTerm": "\u00a74-2: C fan feedback",
+      "procedureId": "samsungrs28-c-fan",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-damper_motor",
+      "sourceTerm": "damper_motor",
+      "procedureId": "samsungrs28-damper-heater",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-samsung-rs28-sxs-unresolved-samsungrs28-damper-heater-heater",
+      "sourceTerm": "heater",
+      "procedureId": "samsungrs28-damper-heater",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-r-room-damper-heater",
+      "sourceTerm": "\u00a74-2: R-room damper heater",
+      "procedureId": "samsungrs28-damper-heater",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-dispenser_panel",
+      "sourceTerm": "dispenser_panel",
+      "procedureId": "samsungrs28-dispenser-communication",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-main_control",
+      "sourceTerm": "main_control",
+      "procedureId": "samsungrs28-dispenser-communication",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-dispenser-panel-communication-(47er)",
+      "sourceTerm": "\u00a74-2: Dispenser panel communication (47Er)",
+      "procedureId": "samsungrs28-dispenser-communication",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-samsung-rs28-sxs-unresolved-samsungrs28-f-def-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "samsungrs28-f-def-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-freezer-defrost-sensor-(f-def-sensor)",
+      "sourceTerm": "\u00a74-2: Freezer defrost sensor (F-DEF-Sensor)",
+      "procedureId": "samsungrs28-f-def-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-samsung-rs28-sxs-unresolved-samsungrs28-f-defrost-heater-heater",
+      "sourceTerm": "heater",
+      "procedureId": "samsungrs28-f-defrost-heater",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-freezer-defrost-heater-(f-def)",
+      "sourceTerm": "\u00a74-2: Freezer defrost heater (F-DEF)",
+      "procedureId": "samsungrs28-f-defrost-heater",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-f-fan-feedback",
+      "sourceTerm": "\u00a74-2: F fan feedback",
+      "procedureId": "samsungrs28-f-fan",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-samsung-rs28-sxs-unresolved-samsungrs28-f-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "samsungrs28-f-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-freezer-cabinet-sensor-(f-sensor)",
+      "sourceTerm": "\u00a74-2: Freezer cabinet sensor (F-Sensor)",
+      "procedureId": "samsungrs28-f-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-samsung-rs28-sxs-unresolved-samsungrs28-humidity-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "samsungrs28-humidity-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-humidity-sensor",
+      "sourceTerm": "\u00a74-2: Humidity sensor",
+      "procedureId": "samsungrs28-humidity-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-ice_maker_module",
+      "sourceTerm": "ice_maker_module",
+      "procedureId": "samsungrs28-ice-maker-function",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-ice-maker-function",
+      "sourceTerm": "\u00a74-2: Ice maker function",
+      "procedureId": "samsungrs28-ice-maker-function",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-samsung-rs28-sxs-unresolved-samsungrs28-ice-maker-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "samsungrs28-ice-maker-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-ice-maker-sensor",
+      "sourceTerm": "\u00a74-2: Ice maker sensor",
+      "procedureId": "samsungrs28-ice-maker-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-ice_pipe_heater",
+      "sourceTerm": "ice_pipe_heater",
+      "procedureId": "samsungrs28-ice-pipe-heater",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-ice-pipe-heater",
+      "sourceTerm": "\u00a74-2: Ice pipe heater",
+      "procedureId": "samsungrs28-ice-pipe-heater",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-inverter_board",
+      "sourceTerm": "inverter_board",
+      "procedureId": "samsungrs28-inverter-communication",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-inverter-communication-(44er)",
+      "sourceTerm": "\u00a74-2: Inverter communication (44Er)",
+      "procedureId": "samsungrs28-inverter-communication",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-i/o-expander-communication-(46er)",
+      "sourceTerm": "\u00a74-2: I/O expander communication (46Er)",
+      "procedureId": "samsungrs28-io-expander-communication",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-display_panel",
+      "sourceTerm": "display_panel",
+      "procedureId": "samsungrs28-panel-communication",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-panel-communication-(41er)",
+      "sourceTerm": "\u00a74-2: Panel communication (41Er)",
+      "procedureId": "samsungrs28-panel-communication",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-samsung-rs28-sxs-unresolved-samsungrs28-r-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "samsungrs28-r-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-fresh-food-cabinet-sensor-(r-sensor)",
+      "sourceTerm": "\u00a74-2: Fresh-food cabinet sensor (R-Sensor)",
+      "procedureId": "samsungrs28-r-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-SAMSUNG-RS28-SXS-compound-wi-fi-communication-(52er)",
+      "sourceTerm": "\u00a74-2: Wi-Fi communication (52Er)",
+      "procedureId": "samsungrs28-wifi-communication",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    }
+  ],
+  "auditBoundaries": {
+    "inverterMediatedCompressor": [
+      "samsung-rs28-compressor-inverter-conditional",
+      "samsung-rs28-inverter-board-platform"
+    ],
+    "compartmentThermistors": [
+      "samsung-rs28-temp-fresh-food-conditional",
+      "samsung-rs28-temp-freezer-conditional",
+      "samsung-rs28-temp-ambient-conditional",
+      "samsung-rs28-temp-pantry-conditional"
+    ],
+    "cFanRoleAmbiguity": [
+      "samsung-rs28-c-fan-platform",
+      "samsung-rs28-condenser-fan-abstention"
+    ],
+    "cg9EvidenceIsolation": [
+      "samsung-rs28-cg9-evidence-isolation"
+    ],
+    "aggregateResurrectionBlocked": [
+      "samsung-rs28-aggregate-resurrection-blocked"
+    ]
+  },
+  "accounting": {
+    "canonicalInheritance": 5,
+    "conditionalBinding": 7,
+    "overlayLearning": 10,
+    "intentionalAbstention": 4,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "mappingCandidatesTotal": 33,
+    "intentionalAbstentions": 4,
+    "overlayLearningEvents": 10
+  },
+  "outcomeHistogram": {
+    "canonical_inheritance": 5,
+    "intentional_abstention": 4,
+    "conditional_binding": 7,
+    "overlay_knowledge": 10
+  },
+  "humanGateApprovedAt": "2026-09-16T13:18:58.824281+00:00",
+  "humanGateReviewer": "human_gate_cg95_wp1",
+  "publishedAt": "2026-09-16T13:19:19.071780+00:00",
+  "promotionId": "promo-SAMSUNG-RS28-SXS-CG95-20260916131919"
+}

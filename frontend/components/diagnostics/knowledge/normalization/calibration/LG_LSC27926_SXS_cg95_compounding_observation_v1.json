@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg9_5_sxs_compounding_observation",
+  "workstream": "CG-9.5",
+  "workPackage": "WP3",
+  "manualId": "LG-LSC27926-SXS",
+  "platformId": "lg_sxs",
+  "compoundingSequence": 3,
+  "verdict": {
+    "canonicalInheritances": 6,
+    "conditionalBindings": 7,
+    "overlayLearningEvents": 10,
+    "intentionalAbstentions": 3,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0
+  },
+  "verdictNote": "Third SxS production compounding \u2014 full KEEP inheritance including dedicated door_switch with Test 1 fan-stop, ambient NTC scope, and explicit condenser_fan conditional. Conventional relay-drive compressor, BLDC fans, OptiChill damper as platform. LRMVS linear, Samsung SxS, and Whirlpool SxS overlays not imported. Six refrigerator overlays now on frozen contract.",
+  "gateArtifact": "LG_LSC27926_SXS_overlay_mapping_table_v1.json",
+  "ledgerArtifact": "LG_LSC27926_SXS_gate_decision_ledger_v1.json",
+  "generatedAt": "2026-09-16T13:46:48.152285+00:00",
+  "canonicalOntology": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "immutable": true,
+    "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9"
+  }
+}

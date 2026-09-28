@@ -1,0 +1,4122 @@
+{
+  "manualId": "W11633848",
+  "platformId": "whirlpool_dishwasher_acu",
+  "templateId": "dishwasher",
+  "ontologyId": "dishwasher",
+  "materializedAt": "2026-09-15T04:07:13.895577+00:00",
+  "records": [
+    {
+      "candidateId": "map-w11633848-unresolved-w11633848-acu-power-supply",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "supply",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": "power_supply",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 power_supply"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": "power_supply"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-acu-power",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.444129+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.812075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.953157+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.495575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W11633848-compound-acu-power-&-dc-supplies",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-6: ACU Power & DC Supplies",
+      "extractedTerm": "ACU Power & DC Supplies",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a73-6: ACU Power & DC Supplies \u2192 None"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-6: ACU Power & DC Supplies": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-acu-power",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.457128+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a73 procedural title or ambiguous token \u2014 bind by procedureId only"
+        },
+        {
+          "at": "2026-09-15T04:05:52.826075+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a73 procedural title or ambiguous token \u2014 bind by procedureId only"
+        },
+        {
+          "at": "2026-09-15T04:06:25.967075+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a73 procedural title or ambiguous token \u2014 bind by procedureId only"
+        },
+        {
+          "at": "2026-09-15T04:07:13.509575+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a73 procedural title or ambiguous token \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-W11633848-acu-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.98,
+      "what": "ACU",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.98,
+        "matcherLayer": "manufacturer_overlay:whirlpool_fl_dd_direct_drive",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: ACU \u2192 control_board"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ACU": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-acu-power",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_fl_dd_direct_drive"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.249127+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.627575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.772075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.299074+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W11633848-heater-heat_source",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "heater",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dc-fan",
+        "pages": [
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dc-fan",
+        "pages": [
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dc-fan",
+            "pages": [
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.414127+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.786575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.927575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.467575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W11633848-compound-dc-fan-motor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "\u00a73-17: DC Fan Motor",
+      "extractedTerm": "DC Fan Motor",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drying_system",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:template_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "dc fan",
+        "decomposition": {
+          "domain": null,
+          "component": "dc fan",
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a73-17: DC Fan Motor \u2192 drying_system"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dc-fan",
+        "pages": [
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-17: DC Fan Motor": "drying_system"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dc-fan",
+        "pages": [
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dc-fan",
+            "pages": [
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:template_hint",
+            "matchedPhrase": "dc fan",
+            "decomposition": {
+              "domain": null,
+              "component": "dc fan",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.274128+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.654075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.797575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.327579+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W11633848-inlet_valve-inlet_valve",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "inlet_valve",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: inlet_valve \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dispenser",
+        "pages": [
+          43
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_valve": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dispenser",
+        "pages": [
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dispenser",
+            "pages": [
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.430129+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.799575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.940575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.481075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W11633848-dispenser-solenoid-detergent_dispenser",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.9,
+      "what": "\u00a73-9: Dispenser Solenoid",
+      "extractedTerm": "Dispenser Solenoid",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "detergent_dispenser",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "template_hint",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: \u00a73-9: Dispenser Solenoid \u2192 detergent_dispenser"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dispenser",
+        "pages": [
+          43
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-9: Dispenser Solenoid": "detergent_dispenser"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dispenser",
+        "pages": [
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dispenser",
+            "pages": [
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "template_hint"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a73-9: Dispenser Solenoid",
+            "extractedTerm": "Dispenser Solenoid",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.362128+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.734575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.876575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.410574+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W11633848-circulation_pump-circulation_pump",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "circulation_pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_pump",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: circulation_pump \u2192 circulation_pump"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-motor",
+        "pages": [
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "circulation_pump": "circulation_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-motor",
+        "pages": [
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-diverter-motor",
+            "pages": [
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.261627+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.641075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.785574+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.313075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W11633848-diverter-motor-circulation_pump",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.9,
+      "what": "\u00a73-13: Diverter Motor",
+      "extractedTerm": "Diverter Motor",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_pump",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "template_hint",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: \u00a73-13: Diverter Motor \u2192 circulation_pump"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-motor",
+        "pages": [
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-13: Diverter Motor": "circulation_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-motor",
+        "pages": [
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-diverter-motor",
+            "pages": [
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "template_hint"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a73-13: Diverter Motor",
+            "extractedTerm": "Diverter Motor",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.375127+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.747576+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.888575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.424575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W11633848-compound-diverter-position-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-14: Diverter Position Sensor",
+      "extractedTerm": "Diverter Position Sensor",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "diverter position",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a73-14: Diverter Position Sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-sensor",
+        "pages": [
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-14: Diverter Position Sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-sensor",
+        "pages": [
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-diverter-sensor",
+            "pages": [
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "diverter position",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11633848-compound-door_gasket",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "door_gasket",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "door",
+          "component": "gasket",
+          "actuator": null
+        },
+        "summary": "alias: door_gasket \u2192 None"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_gasket": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": "gasket",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11633848-compound-door-switch-circuit",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "\u00a73-7: Door Switch Circuit",
+      "extractedTerm": "Door Switch Circuit",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_switch",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "door switch",
+        "decomposition": {
+          "domain": "door",
+          "component": null,
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a73-7: Door Switch Circuit \u2192 door_switch"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-7: Door Switch Circuit": "door_switch"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "door switch",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.287626+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.667075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.810075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.342076+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W11633848-drain_pump-drain_pump",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "drain_pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: drain_pump \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drain_pump": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-drain-motor",
+            "pages": [
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.401627+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.773075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.915075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.453076+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W11633848-drain-motor-drain_pump",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "\u00a73-16: Drain Motor",
+      "extractedTerm": "Drain Motor",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: \u00a73-16: Drain Motor \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-16: Drain Motor": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-drain-motor",
+            "pages": [
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a73-16: Drain Motor",
+            "extractedTerm": "Drain Motor",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.388627+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.760574+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.902575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.438074+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W11633848-compound-fill-valve-circuit",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "\u00a73-8: Fill Valve Circuit",
+      "extractedTerm": "Fill Valve Circuit",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "fill valve",
+        "decomposition": {
+          "domain": "fill",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: \u00a73-8: Fill Valve Circuit \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-fill-valve",
+        "pages": [
+          42
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-8: Fill Valve Circuit": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-fill-valve",
+        "pages": [
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-fill-valve",
+            "pages": [
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "fill valve",
+            "decomposition": {
+              "domain": "fill",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.318627+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.697074+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.836576+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.368575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W11633848-compound-water-heating-/-heat-dry",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-10: Water Heating / Heat Dry",
+      "extractedTerm": "Water Heating / Heat Dry",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "water",
+          "component": "heating heat dry",
+          "actuator": null
+        },
+        "summary": "alias: \u00a73-10: Water Heating / Heat Dry \u2192 None"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-heater",
+        "pages": [
+          44
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-10: Water Heating / Heat Dry": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-heater",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-heater",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "heating heat dry",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.475628+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a73 procedural title or ambiguous token \u2014 bind by procedureId only"
+        },
+        {
+          "at": "2026-09-15T04:05:52.839075+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a73 procedural title or ambiguous token \u2014 bind by procedureId only"
+        },
+        {
+          "at": "2026-09-15T04:06:25.979575+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a73 procedural title or ambiguous token \u2014 bind by procedureId only"
+        },
+        {
+          "at": "2026-09-15T04:07:13.523576+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a73 procedural title or ambiguous token \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-W11633848-compound-overfill-float-switch",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "\u00a73-12: Overfill Float Switch",
+      "extractedTerm": "Overfill Float Switch",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_sensor",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "float switch",
+        "decomposition": {
+          "domain": null,
+          "component": "overfill float",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a73-12: Overfill Float Switch \u2192 water_level_sensor"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-overfill-switch",
+        "pages": [
+          46
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-12: Overfill Float Switch": "water_level_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-overfill-switch",
+        "pages": [
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-overfill-switch",
+            "pages": [
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "float switch",
+            "decomposition": {
+              "domain": null,
+              "component": "overfill float",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.332129+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.710074+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.850575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.382075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W11633848-compound-owi-/-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-11: OWI / Thermistor",
+      "extractedTerm": "OWI / Thermistor",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "owi",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: \u00a73-11: OWI / Thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-owi-sensor",
+        "pages": [
+          45
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-11: OWI / Thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-owi-sensor",
+        "pages": [
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-owi-sensor",
+            "pages": [
+              45
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "owi",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11633848-unresolved-w11633848-triac-fuse-supply",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 None"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-triac-fuse",
+        "pages": [
+          37
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-triac-fuse",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-triac-fuse",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.488627+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a73 procedural title or ambiguous token \u2014 bind by procedureId only"
+        },
+        {
+          "at": "2026-09-15T04:05:52.851576+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a73 procedural title or ambiguous token \u2014 bind by procedureId only"
+        },
+        {
+          "at": "2026-09-15T04:06:25.992575+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a73 procedural title or ambiguous token \u2014 bind by procedureId only"
+        },
+        {
+          "at": "2026-09-15T04:07:13.537075+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a73 procedural title or ambiguous token \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-W11633848-compound-f500-triac-load-fuse",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "\u00a73-3: F500 Triac Load Fuse",
+      "extractedTerm": "F500 Triac Load Fuse",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "thermal_protection",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "f500 triac load",
+          "actuator": "fuse"
+        },
+        "summary": "alias: \u00a73-3: F500 Triac Load Fuse \u2192 thermal_protection"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-triac-fuse",
+        "pages": [
+          37
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-3: F500 Triac Load Fuse": "thermal_protection"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-triac-fuse",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-triac-fuse",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "f500 triac load",
+              "actuator": "fuse"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.305128+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.683075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.823074+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.355076+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W11633848-compound-wash-motor-(ssm)",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "\u00a73-15: Wash Motor (SSM)",
+      "extractedTerm": "Wash Motor (SSM)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_pump",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "wash motor",
+        "decomposition": {
+          "domain": "wash",
+          "component": null,
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a73-15: Wash Motor (SSM) \u2192 circulation_pump"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-wash-motor",
+        "pages": [
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-15: Wash Motor (SSM)": "circulation_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-wash-motor",
+        "pages": [
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-wash-motor",
+            "pages": [
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash motor",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T22:26:01.347128+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:05:52.722574+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:25.863576+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.397578+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-acu-power-fill_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-acu-power",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_switch_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-acu-power \u2192 door_switch_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-acu-power",
+          "testTargetId": "door_switch_test",
+          "displayTitle": "\u00a73-6: ACU Power & DC Supplies",
+          "componentIds": [
+            "supply"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-acu-power",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:05:53.024076+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:26.168576+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.719575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-dc-fan-heater_command_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-dc-fan",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drying_airflow_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-dc-fan \u2192 drying_airflow_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dc-fan",
+        "pages": [
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-dc-fan",
+          "testTargetId": "drying_airflow_test",
+          "displayTitle": "\u00a73-17: DC Fan Motor",
+          "componentIds": [
+            "heater"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dc-fan",
+        "pages": [
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dc-fan",
+            "pages": [
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:05:52.982575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:26.128574+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.677575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-dispenser-fill_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-dispenser",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "detergent_dispenser_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-dispenser \u2192 detergent_dispenser_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dispenser",
+        "pages": [
+          43
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-dispenser",
+          "testTargetId": "detergent_dispenser_test",
+          "displayTitle": "\u00a73-9: Dispenser Solenoid",
+          "componentIds": [
+            "inlet_valve"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dispenser",
+        "pages": [
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dispenser",
+            "pages": [
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:05:52.995075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:26.141575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.690575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-diverter-motor-circulation_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-diverter-motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-diverter-motor \u2192 circulation_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-motor",
+        "pages": [
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-diverter-motor",
+          "testTargetId": "circulation_test",
+          "displayTitle": "\u00a73-13: Diverter Motor",
+          "componentIds": [
+            "circulation_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-motor",
+        "pages": [
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-diverter-motor",
+            "pages": [
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:05:52.931574+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:26.072075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.620576+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-diverter-sensor-circulation_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-diverter-sensor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-diverter-sensor \u2192 circulation_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-sensor",
+        "pages": [
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-diverter-sensor",
+          "testTargetId": "circulation_test",
+          "displayTitle": "\u00a73-14: Diverter Position Sensor",
+          "componentIds": [
+            "circulation_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-sensor",
+        "pages": [
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-diverter-sensor",
+            "pages": [
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:05:52.944074+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:26.086575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.634075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-door-switch-door_switch_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-door-switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_switch_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-door-switch \u2192 door_switch_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-door-switch",
+          "testTargetId": "door_switch_test",
+          "displayTitle": "\u00a73-7: Door Switch Circuit",
+          "componentIds": [
+            "door_gasket"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:05:52.863575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:26.005575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.551075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11633848-door-switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_switch_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: dishwasherDoorLatchSwitchOhms \u2192 door_switch_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-door-switch",
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testTargetId": "door_switch_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+            "stepTitle": "Door closed \u2014 P9 pins 5 & 6"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:06:26.181075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.733074+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11633848-door-switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_switch_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: dishwasherDoorLatchSwitchOhms \u2192 door_switch_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-door-switch",
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testTargetId": "door_switch_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+            "stepTitle": "Door open \u2014 P9 pins 5 & 6"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:06:26.181075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.733074+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-drain-motor-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-drain-motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-drain-motor \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-drain-motor",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a73-16: Drain Motor",
+          "componentIds": [
+            "drain_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-drain-motor",
+            "pages": [
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:05:52.957575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:26.101075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.647576+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-drain-motor-meas-whirlpoolDishwasherAcuDrainMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11633848-drain-motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDishwasherAcuDrainMotorOhms \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-drain-motor",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuDrainMotorOhms",
+          "testTargetId": "drain_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-drain-motor",
+            "pages": [
+              50
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherAcuDrainMotorOhms",
+            "stepTitle": "Drain motor \u2014 P5 pins 3 & 4"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:06:26.260574+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.803075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-fill-valve-fill_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-fill-valve",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "fill_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-fill-valve \u2192 fill_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-fill-valve",
+        "pages": [
+          42
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-fill-valve",
+          "testTargetId": "fill_test",
+          "displayTitle": "\u00a73-8: Fill Valve Circuit",
+          "componentIds": [
+            "inlet_valve"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-fill-valve",
+        "pages": [
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-fill-valve",
+            "pages": [
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:05:52.876143+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:26.018576+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.564076+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-fill-valve-meas-whirlpoolDishwasherAcuFillValveOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11633848-fill-valve",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "fill_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDishwasherAcuFillValveOhms \u2192 fill_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-fill-valve",
+        "pages": [
+          42
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-fill-valve",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuFillValveOhms",
+          "testTargetId": "fill_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-fill-valve",
+        "pages": [
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-fill-valve",
+            "pages": [
+              42
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherAcuFillValveOhms",
+            "stepTitle": "Fill valve \u2014 P6 pins 1 & 3"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:06:26.195575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.747075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-heater-heater_command_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-heater",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heater_command_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-heater \u2192 heater_command_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-heater",
+        "pages": [
+          44
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-heater",
+          "testTargetId": "heater_command_test",
+          "displayTitle": "\u00a73-10: Water Heating / Heat Dry",
+          "componentIds": [
+            "heater"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-heater",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-heater",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:05:52.970076+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:26.115577+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.664075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-heater-meas-whirlpoolDishwasherAcuHeaterOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11633848-heater",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heater_command_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDishwasherAcuHeaterOhms \u2192 heater_command_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-heater",
+        "pages": [
+          44
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-heater",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuHeaterOhms",
+          "testTargetId": "heater_command_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-heater",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-heater",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherAcuHeaterOhms",
+            "stepTitle": "Heater \u2014 P4 pins 2 & 3"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:06:26.274076+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.815577+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-overfill-switch-fill_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-overfill-switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-overfill-switch \u2192 water_level_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-overfill-switch",
+        "pages": [
+          46
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-overfill-switch",
+          "testTargetId": "water_level_test",
+          "displayTitle": "\u00a73-12: Overfill Float Switch",
+          "componentIds": [
+            "inlet_valve"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-overfill-switch",
+        "pages": [
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-overfill-switch",
+            "pages": [
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:05:52.890578+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:26.031076+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.580575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-overfill-switch-meas-whirlpoolDishwasherAcuFillValveOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11633848-overfill-switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "fill_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDishwasherAcuFillValveOhms \u2192 fill_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-overfill-switch",
+        "pages": [
+          46
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-overfill-switch",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuFillValveOhms",
+          "testTargetId": "fill_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-overfill-switch",
+        "pages": [
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-overfill-switch",
+            "pages": [
+              46
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherAcuFillValveOhms",
+            "stepTitle": "Fill valve \u2014 P6 pins 7 & 9"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-overfill-switch-meas-dishwasherFloatSwitchOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11633848-overfill-switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: dishwasherFloatSwitchOhms \u2192 water_level_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-overfill-switch",
+        "pages": [
+          46
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-overfill-switch",
+          "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+          "testTargetId": "water_level_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-overfill-switch",
+        "pages": [
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-overfill-switch",
+            "pages": [
+              46
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+            "stepTitle": "Float down \u2014 P6 pins 4 & 6"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:06:26.212574+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.762575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-overfill-switch-meas-dishwasherFloatSwitchOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11633848-overfill-switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: dishwasherFloatSwitchOhms \u2192 water_level_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-overfill-switch",
+        "pages": [
+          46
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-overfill-switch",
+          "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+          "testTargetId": "water_level_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-overfill-switch",
+        "pages": [
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-overfill-switch",
+            "pages": [
+              46
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+            "stepTitle": "Float up \u2014 P6 pins 4 & 6"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:06:26.212574+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.762575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-owi-sensor-heater_command_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-owi-sensor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-owi-sensor \u2192 water_level_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-owi-sensor",
+        "pages": [
+          45
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-owi-sensor",
+          "testTargetId": "water_level_test",
+          "displayTitle": "\u00a73-11: OWI / Thermistor",
+          "componentIds": [
+            "heater"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-owi-sensor",
+        "pages": [
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-owi-sensor",
+            "pages": [
+              45
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:05:52.903575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:26.045075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.593075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-owi-sensor-meas-whirlpoolDishwasherAcuOwiThermistorOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11633848-owi-sensor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDishwasherAcuOwiThermistorOhms \u2192 water_level_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-owi-sensor",
+        "pages": [
+          45
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-owi-sensor",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuOwiThermistorOhms",
+          "testTargetId": "water_level_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-owi-sensor",
+        "pages": [
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-owi-sensor",
+            "pages": [
+              45
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherAcuOwiThermistorOhms",
+            "stepTitle": "OWI NTC \u2014 P10 pins 1 & 3"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:06:26.229074+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.776075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-triac-fuse-fill_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-triac-fuse",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "thermal_protection_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-triac-fuse \u2192 thermal_protection_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-triac-fuse",
+        "pages": [
+          37
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-triac-fuse",
+          "testTargetId": "thermal_protection_test",
+          "displayTitle": "\u00a73-3: F500 Triac Load Fuse",
+          "componentIds": [
+            "supply"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-triac-fuse",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-triac-fuse",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:05:53.010583+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:26.154575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.704575+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-wash-motor-circulation_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-wash-motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-wash-motor \u2192 circulation_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-wash-motor",
+        "pages": [
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-wash-motor",
+          "testTargetId": "circulation_test",
+          "displayTitle": "\u00a73-15: Wash Motor (SSM)",
+          "componentIds": [
+            "circulation_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-wash-motor",
+        "pages": [
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-wash-motor",
+            "pages": [
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:05:52.918075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:06:26.058076+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.607074+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11633848-w11633848-wash-motor-meas-whirlpoolDishwasherAcuWashMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11633848-wash-motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDishwasherAcuWashMotorOhms \u2192 circulation_test"
+      },
+      "source": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-wash-motor",
+        "pages": [
+          49
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-wash-motor",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+          "testTargetId": "circulation_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-wash-motor",
+        "pages": [
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-wash-motor",
+            "pages": [
+              49
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+            "stepTitle": "Wash motor \u2014 P5 pins 1 & 2"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T04:06:26.244075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T04:07:13.790075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W11633848 overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    }
+  ],
+  "summary": {
+    "total": 44,
+    "byStatus": {
+      "approved": 37,
+      "rejected": 3,
+      "needs_review": 3,
+      "candidate": 1
+    },
+    "byApprovalLevel": {
+      "blocked": 8,
+      "easy": 4,
+      "normal": 27,
+      "careful": 5
+    },
+    "byType": {
+      "canonicalMapping": 21,
+      "procedureTestBinding": 13,
+      "measurementBinding": 10
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 4,
+      "medium_0.80_0.94": 32,
+      "low_lt_0.80": 0,
+      "unresolved": 8
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 2
+    }
+  }
+}

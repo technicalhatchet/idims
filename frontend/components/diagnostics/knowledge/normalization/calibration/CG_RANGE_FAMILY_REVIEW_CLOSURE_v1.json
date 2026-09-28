@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_family_review_closure",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-16T21:57:00+00:00",
+  "phase": "CG-RANGE-FAMILY-REVIEW",
+  "verdict": "CLOSED / THREE_ORGANIZATIONAL_DECISIONS_APPROVED",
+  "closureStatement": "Family review approved three independent organizational decisions: RENAME_TO_RANGE_OVEN, ROUTE_ALL_RANGE_IMPLEMENTATIONS_TO_SHARED_CONTRACT, and APPROVE_RECOMMENDED_POLICY for historical references. CG-10–13 fit record remains historically frozen under electric_range rev1. Implementation is non-destructive via CG_RANGE_ORGANIZATIONAL_IMPLEMENTATION_GATE_v1.json — normalization unlocks only after implementation gate is green.",
+  "humanApproval": {
+    "reviewArtifact": "CG_RANGE_FAMILY_REVIEW_v1.json",
+    "humanBoundaryApprovedAt": "2026-09-16T21:57:00+00:00",
+    "decisionsIndependent": true
+  },
+  "approvedDecisions": {
+    "canonicalNamingDecision": {
+      "outcome": "RENAME_TO_RANGE_OVEN",
+      "organizationalPrimaryId": "range_oven",
+      "legacyAliasId": "electric_range",
+      "aliasSemantics": "compatibility_and_history — not a second ontology",
+      "doNotMutate": [
+        "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+        "CG-11/12/13 closure artifact text",
+        "electric_range rev1 hash in historical fit record"
+      ],
+      "implementationDeferred": true
+    },
+    "templateRoutingDecision": {
+      "outcome": "ROUTE_ALL_RANGE_IMPLEMENTATIONS_TO_SHARED_CONTRACT",
+      "routingModel": "electric_range | gas_range | induction_range | dual_fuel_range → range_oven canonical contract",
+      "templatePurpose": "implementation/fuel-specific entry behavior and platform overlays",
+      "doesNotCreate": [
+        "gas_range.json",
+        "induction_range.json",
+        "dual_fuel_range.json"
+      ],
+      "resolverPolicy": "explicit authoritative mapping replaces WO-text heuristics for induction/dual-fuel",
+      "stack": "template → implementation/platform overlay → shared range_oven ontology → diagnostic graph"
+    },
+    "historicalReferencePolicy": {
+      "outcome": "APPROVE_RECOMMENDED_POLICY",
+      "disposition": {
+        "fitTestAndClosureArtifacts": "historically_frozen",
+        "activeCanonicalAndRouting": "aliased_if_rename_approved",
+        "normalizationCandidates": "update_through_resolver_on_compound",
+        "procedureSeeds": "stable_platformId_ontology_via_resolver"
+      },
+      "historicalTruth": "CG-11/12/13 tested electric_range rev1 — preserved as experimental record",
+      "forwardTruth": "current system migrates to range_oven with electric_range explicit legacy alias"
+    }
+  },
+  "cumulativeFitContext": {
+    "frozenContractAtFitTime": {
+      "id": "electric_range",
+      "revision": "rev1",
+      "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54"
+    },
+    "implementationsProven": ["electric_radiant", "gas", "induction", "dual_fuel"],
+    "canonicalHashMutations": 0,
+    "renameJustification": "Organizational — fit experiment proved functional contract is fuel-neutral; electric_range name is misleading for forward system"
+  },
+  "implementationSafeguard": {
+    "policy": "non_destructive_migration",
+    "doNot": "Rename electric_range.json first and chase broken references",
+    "sequence": [
+      "FAMILY REVIEW (closed)",
+      "approved decisions",
+      "IMPLEMENTATION GATE",
+      "create range_oven canonical identity",
+      "establish electric_range → range_oven alias",
+      "update resolver",
+      "update template routing",
+      "preserve historical references",
+      "run regression suite",
+      "NORMALIZATION UNLOCK"
+    ],
+    "implementationGateArtifact": "CG_RANGE_ORGANIZATIONAL_IMPLEMENTATION_GATE_v1.json"
+  },
+  "blockedUntilImplementationGate": {
+    "normalization": true,
+    "compounding": true,
+    "normalizationNotForRenameValidation": "Architectural question answered by CG-10–13 — normalization populates knowledge hierarchy beneath approved decision"
+  },
+  "hierarchy": {
+    "priorPhaseClosed": "CG13_DUAL_FUEL_FIT_CLOSURE_v1.json",
+    "reviewArtifact": "CG_RANGE_FAMILY_REVIEW_v1.json",
+    "workstreamSequence": "CG_RANGE_FAMILY_WORKSTREAM_SEQUENCE_v1.json",
+    "nextDisciplinedStep": "CG_RANGE_ORGANIZATIONAL_IMPLEMENTATION_GATE_v1.json"
+  }
+}

@@ -1,0 +1,2557 @@
+{
+  "manualId": "W10322959",
+  "procedures": [
+    {
+      "procedureId": "w10322959-programming-mode",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_jazz_french_door",
+      "templateId": "refrigerator",
+      "title": "Programming mode (P-E): Program code",
+      "purpose": "Programming Mode",
+      "prerequisites": [],
+      "componentIds": [
+        "control_board"
+      ],
+      "tags": [
+        "control_board",
+        "no_power",
+        "program_code",
+        "wont_run"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "enter_programming",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter Programming Mode (P-E)",
+          "body": "Hold fresh food door light switch closed. Press Freezer DOWN 3 times within 10 seconds. Release door switch \u2014 display shows P-E. Press Freezer DOWN once more to confirm entry.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press Freezer Temperature DOWN /- Key pad 3 times consecutively."
+        },
+        {
+          "id": "read_program_code",
+          "order": 3,
+          "type": "instruction",
+          "title": "Validate program code",
+          "body": "Control displays current program code. Compare to code on serial plate after word CODE. Unit will NOT run with program code OO.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Control displays current program code. Compare to code on serial plate after word CODE. Unit will NOT run with program code OO."
+        },
+        {
+          "id": "code_match",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Program code matches serial plate",
+          "body": "Does displayed program code match the serial plate?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "code_ok",
+              "label": "Matches \u2014 close door to exit",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "programming_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "code_wrong",
+              "label": "Mismatch or OO",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "set_program_code",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Does displayed program code match the serial plate?"
+        },
+        {
+          "id": "set_program_code",
+          "order": 5,
+          "type": "instruction",
+          "title": "Set program code",
+          "body": "Use Freezer and Refrigerator UP keys to advance digit. Press Freezer DOWN until code flashes (saved). Close door to exit. Repeat if incorrect.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "The unit will NOT run with a Program Code of OO."
+        },
+        {
+          "id": "programming_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Program code verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "code_ok",
+          "label": "Matches \u2014 close door to exit",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "programming_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "code_match"
+        },
+        {
+          "id": "code_wrong",
+          "label": "Mismatch or OO",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "set_program_code",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "code_match"
+        }
+      ],
+      "source": {
+        "manualId": "W10322959",
+        "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+        "oemTestNumber": "P-E",
+        "oemTestTitle": "Programming Mode",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10322959",
+        "platformId": "whirlpool_jazz_french_door",
+        "procedureId": "w10322959-programming-mode",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10322959",
+            "platformId": "whirlpool_jazz_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10322959-programming-mode",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10322959-test-01-defrost",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_jazz_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 1: Defrost thermostat & heater",
+      "purpose": "Defrost Thermostat & Defrost Circuit Test",
+      "prerequisites": [],
+      "componentIds": [
+        "defrost_heater",
+        "defrost_thermostat"
+      ],
+      "tags": [
+        "frost_buildup",
+        "defrost_heater",
+        "defrost_thermostat",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_se_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Service Test Mode (S-E) entered. Use Freezer UP/DOWN to select the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "You are now in the SERVICES TEST operational mode and may use the diagnostic tests."
+        },
+        {
+          "id": "select_test_1",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 1",
+          "body": "In Service Test Mode (S-E), use Freezer UP/DOWN keys until freezer display shows 1. Refrigerator display blank until test is activated.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 1 \u2014 Defrost thermostat & heater"
+        },
+        {
+          "id": "activate_defrost_test",
+          "order": 4,
+          "type": "instruction",
+          "title": "Activate test 1",
+          "body": "Press Refrigerator UP to activate. Defrost heater energizes. Observe heat and thermostat state on display.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press Refrigerator Temperature UP /+ key to activate test."
+        },
+        {
+          "id": "bimetal_display",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Defrost thermostat display",
+          "body": "Freezer shows 1. Refrigerator shows O (thermostat open) or S (shorted/closed). Does display match expected state for evaporator temperature?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "bimetal_ok",
+              "label": "Display matches expected state",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "deactivate_test_1",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_bad",
+              "label": "Unexpected state or no heat",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "deactivate_test_1",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Freezer shows 1. Refrigerator shows O (thermostat open) or S (shorted/closed). Does display match expected state for evaporator temperature?"
+        },
+        {
+          "id": "deactivate_test_1",
+          "order": 6,
+          "type": "instruction",
+          "title": "Deactivate test 1",
+          "body": "Press Refrigerator UP to deactivate test before leaving test 1. Test must be OFF to select another test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press Refrigerator UP to deactivate test before leaving test 1. Test must be OFF to select another test."
+        },
+        {
+          "id": "power_off_heater_ohms",
+          "order": 7,
+          "type": "instruction",
+          "title": "Disconnect power for ohms",
+          "body": "Unplug refrigerator for resistance checks on defrost heater and bimetal.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug refrigerator for resistance checks on defrost heater and bimetal."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 8,
+          "type": "measurement",
+          "title": "Defrost heater resistance",
+          "body": "Measure defrost heater \u2014 19 cu 33 \u03a9, 22 cu 30 \u03a9, 20/25 cu 28 \u03a9 @ 115 VAC.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolJazzFdDefrostHeaterOhms",
+              "testPoint": {
+                "connector": "heater",
+                "pins": "terminals",
+                "label": "Defrost heater resistance"
+              },
+              "title": "Defrost heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "heater_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_pass",
+              "label": "28\u201333 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "bimetal_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure defrost heater \u2014 19 cu 33 \u03a9, 22 cu 30 \u03a9, 20/25 cu 28 \u03a9 @ 115 VAC."
+        },
+        {
+          "id": "bimetal_ohms",
+          "order": 9,
+          "type": "measurement",
+          "title": "Defrost thermostat (bimetal) resistance",
+          "body": "Closed above 42\u00b0F (few \u03a9); open below 12\u00b0F (OL). Must be closed when evaporator frosted.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolJazzFdDefrostBimetalOhms",
+              "testPoint": {
+                "connector": "bimetal",
+                "pins": "terminals",
+                "label": "Defrost thermostat (bimetal) resistance"
+              },
+              "title": "Defrost thermostat (bimetal) resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "bimetal_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_pass",
+              "label": "Closed (few \u03a9)",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "defrost_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Closed above 42\u00b0F (few \u03a9); open below 12\u00b0F (OL). Must be closed when evaporator frosted."
+        },
+        {
+          "id": "replace_heater",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace defrost heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_bimetal",
+          "order": 11,
+          "type": "outcome",
+          "title": "Replace defrost thermostat",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "defrost_ok",
+          "order": 12,
+          "type": "outcome",
+          "title": "Defrost circuit verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolJazzFdDefrostHeaterOhms",
+          "testPoint": {
+            "connector": "heater",
+            "pins": "terminals",
+            "label": "Defrost heater resistance"
+          },
+          "title": "Defrost heater resistance"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolJazzFdDefrostBimetalOhms",
+          "testPoint": {
+            "connector": "bimetal",
+            "pins": "terminals",
+            "label": "Defrost thermostat (bimetal) resistance"
+          },
+          "title": "Defrost thermostat (bimetal) resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "bimetal_ok",
+          "label": "Display matches expected state",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "deactivate_test_1",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_display"
+        },
+        {
+          "id": "bimetal_bad",
+          "label": "Unexpected state or no heat",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "deactivate_test_1",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_display"
+        },
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_pass",
+          "label": "28\u201333 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bimetal_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "bimetal_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "bimetal_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "bimetal_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "bimetal_pass",
+          "label": "Closed (few \u03a9)",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "defrost_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W10322959",
+        "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+        "oemTestNumber": "1",
+        "oemTestTitle": "Defrost Thermostat & Defrost Circuit Test",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10322959",
+        "platformId": "whirlpool_jazz_french_door",
+        "procedureId": "w10322959-test-01-defrost",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10322959",
+            "platformId": "whirlpool_jazz_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10322959-test-01-defrost",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10322959-test-02-compressor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_jazz_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 2: Compressor & condenser fan",
+      "purpose": "Compressor/Condenser Fan Test",
+      "prerequisites": [],
+      "componentIds": [
+        "compressor",
+        "condenser_fan"
+      ],
+      "tags": [
+        "not_cooling",
+        "compressor_check",
+        "condenser_fan",
+        "sealed_system"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_se_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Service Test Mode (S-E) entered. Use Freezer UP/DOWN to select the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "You are now in the SERVICES TEST operational mode and may use the diagnostic tests."
+        },
+        {
+          "id": "select_test_2",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 2",
+          "body": "In Service Test Mode (S-E), use Freezer UP/DOWN keys until freezer display shows 2. Refrigerator display blank until test is activated.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 2 \u2014 Compressor/condenser fan"
+        },
+        {
+          "id": "activate_comp_test",
+          "order": 4,
+          "type": "instruction",
+          "title": "Activate test 2",
+          "body": "Press Refrigerator UP to toggle compressor/condenser fan ON (O) or OFF (F). Freezer displays 2.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press Refrigerator UP to toggle compressor/condenser fan ON (O) or OFF (F). Freezer displays 2."
+        },
+        {
+          "id": "comp_runs",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Compressor and condenser fan run",
+          "body": "With test activated ON (refrigerator O), do compressor and condenser fan operate normally?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comp_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "deactivate_test_2",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "comp_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_compressor",
+              "terminal": true,
+              "oemOutcome": "Compressor or condenser fan does not run \u2014 bench test windings and start device."
+            }
+          ],
+          "sourceExcerpt": "With test activated ON (refrigerator O), do compressor and condenser fan operate normally?"
+        },
+        {
+          "id": "deactivate_test_2",
+          "order": 6,
+          "type": "instruction",
+          "title": "Deactivate test 2",
+          "body": "Toggle to OFF (F) before selecting another test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Toggle to OFF (F) before selecting another test."
+        },
+        {
+          "id": "bench_compressor",
+          "order": 7,
+          "type": "instruction",
+          "title": "Disconnect power for compressor ohms",
+          "body": "Unplug unit. Access compressor terminals and relay/capacitor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug unit. Access compressor terminals and relay/capacitor."
+        },
+        {
+          "id": "run_winding_ohms",
+          "order": 8,
+          "type": "measurement",
+          "title": "Compressor run winding (EM2Y60)",
+          "body": "Run winding 4.75 \u03a9 \u00b18% between run and common.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolJazzFdCompressorRunOhms",
+              "testPoint": {
+                "connector": "compressor",
+                "pins": "run \u2194 common",
+                "label": "Compressor run winding (EM2Y60)"
+              },
+              "title": "Compressor run winding (EM2Y60)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "run_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "run_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "run_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "run_pass",
+              "label": "4.75 \u03a9 \u00b18%",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "start_winding_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Run winding 4.75 \u03a9 \u00b18% between run and common."
+        },
+        {
+          "id": "start_winding_ohms",
+          "order": 9,
+          "type": "measurement",
+          "title": "Compressor start winding",
+          "body": "Start winding 6.1 \u03a9 \u00b18% @ 77\u00b0F. Run capacitor 12 \u00b5fd \u00b110%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolJazzFdCompressorStartOhms",
+              "testPoint": {
+                "connector": "compressor",
+                "pins": "start \u2194 common",
+                "label": "Compressor start winding"
+              },
+              "title": "Compressor start winding"
+            }
+          ],
+          "branches": [
+            {
+              "id": "start_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "start_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "start_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "start_pass",
+              "label": "6.1 \u03a9 \u00b18%",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "check_relay_cap",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Start winding 6.1 \u03a9 \u00b18% @ 77\u00b0F. Run capacitor 12 \u00b5fd \u00b110%."
+        },
+        {
+          "id": "check_relay_cap",
+          "order": 10,
+          "type": "instruction",
+          "title": "Check relay and run capacitor",
+          "body": "Verify TSD2/5sP overload/relay and 12 \u00b5fd run capacitor. LRA 10.8 A; FLA 1.60 A per spec.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify TSD2/5sP overload/relay and 12 \u00b5fd run capacitor. LRA 10.8 A; FLA 1.60 A per spec."
+        },
+        {
+          "id": "replace_compressor",
+          "order": 11,
+          "type": "outcome",
+          "title": "Replace compressor or start device",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comp_verified",
+          "order": 12,
+          "type": "outcome",
+          "title": "Compressor path verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolJazzFdCompressorRunOhms",
+          "testPoint": {
+            "connector": "compressor",
+            "pins": "run \u2194 common",
+            "label": "Compressor run winding (EM2Y60)"
+          },
+          "title": "Compressor run winding (EM2Y60)"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolJazzFdCompressorStartOhms",
+          "testPoint": {
+            "connector": "compressor",
+            "pins": "start \u2194 common",
+            "label": "Compressor start winding"
+          },
+          "title": "Compressor start winding"
+        }
+      ],
+      "branches": [
+        {
+          "id": "comp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "deactivate_test_2",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_runs"
+        },
+        {
+          "id": "comp_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_compressor",
+          "terminal": true,
+          "oemOutcome": "Compressor or condenser fan does not run \u2014 bench test windings and start device.",
+          "stepId": "comp_runs"
+        },
+        {
+          "id": "run_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "run_winding_ohms"
+        },
+        {
+          "id": "run_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "run_winding_ohms"
+        },
+        {
+          "id": "run_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "run_winding_ohms"
+        },
+        {
+          "id": "run_pass",
+          "label": "4.75 \u03a9 \u00b18%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "start_winding_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "run_winding_ohms"
+        },
+        {
+          "id": "start_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "start_winding_ohms"
+        },
+        {
+          "id": "start_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "start_winding_ohms"
+        },
+        {
+          "id": "start_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "start_winding_ohms"
+        },
+        {
+          "id": "start_pass",
+          "label": "6.1 \u03a9 \u00b18%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "check_relay_cap",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "start_winding_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W10322959",
+        "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+        "oemTestNumber": "2",
+        "oemTestTitle": "Compressor/Condenser Fan Test",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10322959",
+        "platformId": "whirlpool_jazz_french_door",
+        "procedureId": "w10322959-test-02-compressor",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10322959",
+            "platformId": "whirlpool_jazz_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10322959-test-02-compressor",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10322959-test-03-evap-fan",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_jazz_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 3: Evaporator / freezer fan",
+      "purpose": "Evaporator/Freezer Fan Test",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "frost_buildup",
+        "evap_fan",
+        "airflow",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_se_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Service Test Mode (S-E) entered. Use Freezer UP/DOWN to select the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "You are now in the SERVICES TEST operational mode and may use the diagnostic tests."
+        },
+        {
+          "id": "select_test_3",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 3",
+          "body": "In Service Test Mode (S-E), use Freezer UP/DOWN keys until freezer display shows 3. Refrigerator display blank until test is activated.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 3 \u2014 Evaporator/freezer fan"
+        },
+        {
+          "id": "activate_fan_test",
+          "order": 4,
+          "type": "instruction",
+          "title": "Activate test 3",
+          "body": "Press Refrigerator UP to toggle freezer fan ON (O) or OFF (F). Freezer displays 3.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press Refrigerator UP to toggle freezer fan ON (O) or OFF (F). Freezer displays 3."
+        },
+        {
+          "id": "fan_runs",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Evaporator fan operation",
+          "body": "Inspect evaporator/freezer fan for proper rotation and airflow. Blade fully seated on shaft (2800 RPM spec).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fan_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "deactivate_test_3",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_fan",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_fan_out",
+              "terminal": true,
+              "oemOutcome": "Replace evaporator fan motor or repair harness."
+            }
+          ],
+          "sourceExcerpt": "Inspect evaporator/freezer fan for proper rotation and airflow. Blade fully seated on shaft (2800 RPM spec)."
+        },
+        {
+          "id": "deactivate_test_3",
+          "order": 6,
+          "type": "instruction",
+          "title": "Deactivate test 3",
+          "body": "Toggle fan OFF (F) before leaving test 3.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Toggle fan OFF (F) before leaving test 3."
+        },
+        {
+          "id": "replace_fan_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace evaporator fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Evaporator fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "fan_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "deactivate_test_3",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_runs"
+        },
+        {
+          "id": "replace_fan",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fan_out",
+          "terminal": true,
+          "oemOutcome": "Replace evaporator fan motor or repair harness.",
+          "stepId": "fan_runs"
+        }
+      ],
+      "source": {
+        "manualId": "W10322959",
+        "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+        "oemTestNumber": "3",
+        "oemTestTitle": "Evaporator/Freezer Fan Test",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10322959",
+        "platformId": "whirlpool_jazz_french_door",
+        "procedureId": "w10322959-test-03-evap-fan",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10322959",
+            "platformId": "whirlpool_jazz_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10322959-test-03-evap-fan",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10322959-test-04-ff-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_jazz_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 4: Fresh food thermistor",
+      "purpose": "Fresh Food Thermistor Test",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "weak_cooling_ff",
+        "sensor_fault"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_se_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Service Test Mode (S-E) entered. Use Freezer UP/DOWN to select the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "You are now in the SERVICES TEST operational mode and may use the diagnostic tests."
+        },
+        {
+          "id": "select_test_4",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 4",
+          "body": "In Service Test Mode (S-E), use Freezer UP/DOWN keys until freezer display shows 4. Refrigerator display blank until test is activated.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 4 \u2014 Fresh food thermistor"
+        },
+        {
+          "id": "activate_ff_ntc",
+          "order": 4,
+          "type": "instruction",
+          "title": "Activate test 4",
+          "body": "Press Refrigerator UP to run FF thermistor circuit test. Freezer displays 4.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press Refrigerator UP to run FF thermistor circuit test. Freezer displays 4."
+        },
+        {
+          "id": "ff_ntc_result",
+          "order": 5,
+          "type": "visual_check",
+          "title": "FF thermistor service test result",
+          "body": "Refrigerator display: P=Pass, O=Open, S=Short. What does the display show?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ff_pass",
+              "label": "P (Pass)",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "deactivate_test_4",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ff_open",
+              "label": "O (Open)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "deactivate_test_4",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ff_short",
+              "label": "S (Short)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "deactivate_test_4",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Refrigerator display: P=Pass, O=Open, S=Short. What does the display show?"
+        },
+        {
+          "id": "deactivate_test_4",
+          "order": 6,
+          "type": "instruction",
+          "title": "Deactivate test 4",
+          "body": "Deactivate test before selecting another test number.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Deactivate test before selecting another test number."
+        },
+        {
+          "id": "bench_ff_ntc",
+          "order": 7,
+          "type": "instruction",
+          "title": "Bench FF thermistor ohms",
+          "body": "Disconnect power. Measure fresh food thermistor \u2014 10 k\u03a9 @ 77\u00b0F; 29.5 k\u03a9 @ 36\u00b0F; 86.3 k\u03a9 @ 0\u00b0F.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Measure fresh food thermistor \u2014 10 k\u03a9 @ 77\u00b0F; 29.5 k\u03a9 @ 36\u00b0F; 86.3 k\u03a9 @ 0\u00b0F."
+        },
+        {
+          "id": "ff_ntc_ohms",
+          "order": 8,
+          "type": "measurement",
+          "title": "Fresh food thermistor resistance",
+          "body": "Measure at control harness or sensor \u2014 10,000 \u03a9 \u00b11.8% @ 77\u00b0F.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolJazzFdThermistorOhms",
+              "testPoint": {
+                "connector": "FF NTC",
+                "pins": "sensor \u2194 ground",
+                "label": "Fresh food thermistor resistance"
+              },
+              "title": "Fresh food thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ff_ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ff_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ff_ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ff_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ff_ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ff_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ff_ntc_pass",
+              "label": "~10 k\u03a9 @ 77\u00b0F",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ff_ntc_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure at control harness or sensor \u2014 10,000 \u03a9 \u00b11.8% @ 77\u00b0F."
+        },
+        {
+          "id": "replace_ff_ntc",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace FF thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ff_ntc_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "FF thermistor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolJazzFdThermistorOhms",
+          "testPoint": {
+            "connector": "FF NTC",
+            "pins": "sensor \u2194 ground",
+            "label": "Fresh food thermistor resistance"
+          },
+          "title": "Fresh food thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ff_pass",
+          "label": "P (Pass)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "deactivate_test_4",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ff_ntc_result"
+        },
+        {
+          "id": "ff_open",
+          "label": "O (Open)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "deactivate_test_4",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ff_ntc_result"
+        },
+        {
+          "id": "ff_short",
+          "label": "S (Short)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "deactivate_test_4",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ff_ntc_result"
+        },
+        {
+          "id": "ff_ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ff_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ff_ntc_ohms"
+        },
+        {
+          "id": "ff_ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ff_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ff_ntc_ohms"
+        },
+        {
+          "id": "ff_ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ff_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ff_ntc_ohms"
+        },
+        {
+          "id": "ff_ntc_pass",
+          "label": "~10 k\u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ff_ntc_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ff_ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W10322959",
+        "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+        "oemTestNumber": "4",
+        "oemTestTitle": "Fresh Food Thermistor Test",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10322959",
+        "platformId": "whirlpool_jazz_french_door",
+        "procedureId": "w10322959-test-04-ff-thermistor",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10322959",
+            "platformId": "whirlpool_jazz_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10322959-test-04-ff-thermistor",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10322959-test-05-fz-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_jazz_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 5: Freezer thermistor",
+      "purpose": "Freezer Thermistor Test",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "not_cooling",
+        "sensor_fault"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_se_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Service Test Mode (S-E) entered. Use Freezer UP/DOWN to select the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "You are now in the SERVICES TEST operational mode and may use the diagnostic tests."
+        },
+        {
+          "id": "select_test_5",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 5",
+          "body": "In Service Test Mode (S-E), use Freezer UP/DOWN keys until freezer display shows 5. Refrigerator display blank until test is activated.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 5 \u2014 Freezer thermistor"
+        },
+        {
+          "id": "activate_fz_ntc",
+          "order": 4,
+          "type": "instruction",
+          "title": "Activate test 5",
+          "body": "Press Refrigerator UP to run FZ thermistor circuit test. Freezer displays 5.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press Refrigerator UP to run FZ thermistor circuit test. Freezer displays 5."
+        },
+        {
+          "id": "fz_ntc_result",
+          "order": 5,
+          "type": "visual_check",
+          "title": "FZ thermistor service test result",
+          "body": "Refrigerator display: P=Pass, O=Open, S=Short. What does the display show?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fz_pass",
+              "label": "P (Pass)",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "deactivate_test_5",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fz_open",
+              "label": "O (Open)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "deactivate_test_5",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fz_short",
+              "label": "S (Short)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "deactivate_test_5",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Refrigerator display: P=Pass, O=Open, S=Short. What does the display show?"
+        },
+        {
+          "id": "deactivate_test_5",
+          "order": 6,
+          "type": "instruction",
+          "title": "Deactivate test 5",
+          "body": "Deactivate test before selecting another test number.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Deactivate test before selecting another test number."
+        },
+        {
+          "id": "bench_fz_ntc",
+          "order": 7,
+          "type": "instruction",
+          "title": "Bench FZ thermistor ohms",
+          "body": "Disconnect power. Measure freezer thermistor \u2014 same R/T table as FF (10 k\u03a9 @ 77\u00b0F).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Measure freezer thermistor \u2014 same R/T table as FF (10 k\u03a9 @ 77\u00b0F)."
+        },
+        {
+          "id": "fz_ntc_ohms",
+          "order": 8,
+          "type": "measurement",
+          "title": "Freezer thermistor resistance",
+          "body": "Measure at control harness or sensor \u2014 10,000 \u03a9 \u00b11.8% @ 77\u00b0F.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolJazzFdThermistorOhms",
+              "testPoint": {
+                "connector": "FZ NTC",
+                "pins": "sensor \u2194 ground",
+                "label": "Freezer thermistor resistance"
+              },
+              "title": "Freezer thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fz_ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fz_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fz_ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fz_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fz_ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fz_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fz_ntc_pass",
+              "label": "~10 k\u03a9 @ 77\u00b0F",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fz_ntc_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure at control harness or sensor \u2014 10,000 \u03a9 \u00b11.8% @ 77\u00b0F."
+        },
+        {
+          "id": "replace_fz_ntc",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace FZ thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fz_ntc_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "FZ thermistor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolJazzFdThermistorOhms",
+          "testPoint": {
+            "connector": "FZ NTC",
+            "pins": "sensor \u2194 ground",
+            "label": "Freezer thermistor resistance"
+          },
+          "title": "Freezer thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fz_pass",
+          "label": "P (Pass)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "deactivate_test_5",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fz_ntc_result"
+        },
+        {
+          "id": "fz_open",
+          "label": "O (Open)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "deactivate_test_5",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fz_ntc_result"
+        },
+        {
+          "id": "fz_short",
+          "label": "S (Short)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "deactivate_test_5",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fz_ntc_result"
+        },
+        {
+          "id": "fz_ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fz_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fz_ntc_ohms"
+        },
+        {
+          "id": "fz_ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fz_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fz_ntc_ohms"
+        },
+        {
+          "id": "fz_ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fz_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fz_ntc_ohms"
+        },
+        {
+          "id": "fz_ntc_pass",
+          "label": "~10 k\u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fz_ntc_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fz_ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W10322959",
+        "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+        "oemTestNumber": "5",
+        "oemTestTitle": "Freezer Thermistor Test",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10322959",
+        "platformId": "whirlpool_jazz_french_door",
+        "procedureId": "w10322959-test-05-fz-thermistor",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10322959",
+            "platformId": "whirlpool_jazz_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10322959-test-05-fz-thermistor",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10322959-test-06-damper",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_jazz_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 6: Fresh food damper",
+      "purpose": "Open Damper Test",
+      "prerequisites": [],
+      "componentIds": [
+        "damper_motor"
+      ],
+      "tags": [
+        "damper_check",
+        "weak_cooling_ff",
+        "airflow"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_se_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Service Test Mode (S-E) entered. Use Freezer UP/DOWN to select the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "You are now in the SERVICES TEST operational mode and may use the diagnostic tests."
+        },
+        {
+          "id": "select_test_6",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 6",
+          "body": "In Service Test Mode (S-E), use Freezer UP/DOWN keys until freezer display shows 6. Refrigerator display blank until test is activated.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 6 \u2014 Damper open/close"
+        },
+        {
+          "id": "activate_damper_test",
+          "order": 4,
+          "type": "instruction",
+          "title": "Activate test 6",
+          "body": "Press Refrigerator UP to toggle damper OPEN (O) or CLOSED (C). Allow 1 minute per position change.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press Refrigerator UP to toggle damper OPEN (O) or CLOSED (C). Allow 1 minute per position change."
+        },
+        {
+          "id": "damper_open",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Damper opens",
+          "body": "After 1 minute, does damper move to open position (refrigerator O)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "open_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "damper_close",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "damper_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "damper_fail_out",
+              "terminal": true,
+              "oemOutcome": "Damper does not move \u2014 check motor, linkage, or control output."
+            }
+          ],
+          "sourceExcerpt": "After 1 minute, does damper move to open position (refrigerator O)?"
+        },
+        {
+          "id": "damper_close",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Damper closes",
+          "body": "Toggle to closed (C). After 1 minute, does damper fully close?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "close_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "deactivate_test_6",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "damper_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "damper_fail_out",
+              "terminal": true,
+              "oemOutcome": "Damper stuck open or closed \u2014 replace damper assembly."
+            }
+          ],
+          "sourceExcerpt": "Toggle to closed (C). After 1 minute, does damper fully close?"
+        },
+        {
+          "id": "deactivate_test_6",
+          "order": 7,
+          "type": "instruction",
+          "title": "Deactivate test 6",
+          "body": "Leave damper test deactivated before exiting Service Test Mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Leave damper test deactivated before exiting Service Test Mode."
+        },
+        {
+          "id": "damper_fail_out",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace damper",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "damper_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Damper verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "open_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "damper_close",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "damper_open"
+        },
+        {
+          "id": "damper_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "damper_fail_out",
+          "terminal": true,
+          "oemOutcome": "Damper does not move \u2014 check motor, linkage, or control output.",
+          "stepId": "damper_open"
+        },
+        {
+          "id": "close_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "deactivate_test_6",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "damper_close"
+        },
+        {
+          "id": "damper_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "damper_fail_out",
+          "terminal": true,
+          "oemOutcome": "Damper stuck open or closed \u2014 replace damper assembly.",
+          "stepId": "damper_close"
+        }
+      ],
+      "source": {
+        "manualId": "W10322959",
+        "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+        "oemTestNumber": "6",
+        "oemTestTitle": "Open Damper Test",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10322959",
+        "platformId": "whirlpool_jazz_french_door",
+        "procedureId": "w10322959-test-06-damper",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10322959",
+            "platformId": "whirlpool_jazz_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10322959-test-06-damper",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10322959-test-07-ff-performance",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_jazz_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 7: FF performance offset",
+      "purpose": "FF Performance Adjustment",
+      "prerequisites": [],
+      "componentIds": [
+        "control_board"
+      ],
+      "tags": [
+        "calibration",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_se_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Service Test Mode (S-E) entered. Use Freezer UP/DOWN to select the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "You are now in the SERVICES TEST operational mode and may use the diagnostic tests."
+        },
+        {
+          "id": "select_test_7",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 7",
+          "body": "In Service Test Mode (S-E), use Freezer UP/DOWN keys until freezer display shows 7. Refrigerator display blank until test is activated.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 7 \u2014 FF performance adjustment"
+        },
+        {
+          "id": "ff_offset_info",
+          "order": 4,
+          "type": "instruction",
+          "title": "Adjust FF performance offset",
+          "body": "Service Test 7 adjusts fresh food performance \u00b11\u00b0 per step. WARMER \u2190 (1 2 3 4 (5) 6 7 8 9) \u2192 COLDER using Refrigerator UP/DOWN. Default is 5. Last value saves when refrigerator door closes. Use only when cabinet temps verified normal and complaint is mild FF offset.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Adjustments of Service Test 7 will alter the performance of the unit."
+        },
+        {
+          "id": "ff_offset_done",
+          "order": 5,
+          "type": "outcome",
+          "title": "FF offset documented",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "W10322959",
+        "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+        "oemTestNumber": "7",
+        "oemTestTitle": "FF Performance Adjustment",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10322959",
+        "platformId": "whirlpool_jazz_french_door",
+        "procedureId": "w10322959-test-07-ff-performance",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10322959",
+            "platformId": "whirlpool_jazz_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10322959-test-07-ff-performance",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10322959-test-08-fz-performance",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_jazz_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 8: FZ performance offset",
+      "purpose": "FZ Performance Adjustment",
+      "prerequisites": [],
+      "componentIds": [
+        "control_board"
+      ],
+      "tags": [
+        "calibration",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_se_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Service Test Mode (S-E) entered. Use Freezer UP/DOWN to select the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "You are now in the SERVICES TEST operational mode and may use the diagnostic tests."
+        },
+        {
+          "id": "select_test_8",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 8",
+          "body": "In Service Test Mode (S-E), use Freezer UP/DOWN keys until freezer display shows 8. Refrigerator display blank until test is activated.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 8 \u2014 FZ performance adjustment"
+        },
+        {
+          "id": "fz_offset_info",
+          "order": 4,
+          "type": "instruction",
+          "title": "Adjust FZ performance offset",
+          "body": "Service Test 8 adjusts freezer performance \u00b11\u00b0 per step. WARMER \u2190 (1 2 3 4 (5) 6 7 8 9) \u2192 COLDER using Refrigerator UP/DOWN. Default is 5. Last value saves when refrigerator door closes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Adjustments of Service Test 8 will alter the performance of the unit."
+        },
+        {
+          "id": "fz_offset_done",
+          "order": 5,
+          "type": "outcome",
+          "title": "FZ offset documented",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "W10322959",
+        "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+        "oemTestNumber": "8",
+        "oemTestTitle": "FZ Performance Adjustment",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10322959",
+        "platformId": "whirlpool_jazz_french_door",
+        "procedureId": "w10322959-test-08-fz-performance",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10322959",
+            "platformId": "whirlpool_jazz_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10322959-test-08-fz-performance",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10322959-test-09-defrost-interval",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_jazz_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 9: Defrost interval",
+      "purpose": "Defrost Adjustment",
+      "prerequisites": [],
+      "componentIds": [
+        "control_board"
+      ],
+      "tags": [
+        "defrost",
+        "frost_buildup",
+        "calibration"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_se_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Test Mode",
+          "body": "Service Test Mode (S-E) entered. Use Freezer UP/DOWN to select the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "You are now in the SERVICES TEST operational mode and may use the diagnostic tests."
+        },
+        {
+          "id": "select_test_9",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 9",
+          "body": "In Service Test Mode (S-E), use Freezer UP/DOWN keys until freezer display shows 9. Refrigerator display blank until test is activated.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 9 \u2014 Defrost interval"
+        },
+        {
+          "id": "defrost_interval",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Adaptive vs fixed defrost",
+          "body": "Press Refrigerator UP to toggle: A=Adaptive (default) or F=Fixed 6-hour defrost. Freezer displays 9. Which mode is required?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "adaptive",
+              "label": "A \u2014 Adaptive (field default)",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "defrost_interval_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fixed",
+              "label": "F \u2014 Fixed 6 hr (diagnostic)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "defrost_interval_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Press Refrigerator UP to toggle: A=Adaptive (default) or F=Fixed 6-hour defrost. Freezer displays 9. Which mode is required?"
+        },
+        {
+          "id": "defrost_interval_ok",
+          "order": 5,
+          "type": "instruction",
+          "title": "Adaptive defrost reference",
+          "body": "Adaptive defrost: 15 min optimum; board terminates at 25 min if bimetal stuck. 4 hr continuous compressor run resets interval to 8 hr and initiates defrost. Close door to save setting and exit Service Test Mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Adaptive defrost: 15 min optimum; board terminates at 25 min if bimetal stuck. 4 hr continuous compressor run resets interval to 8 hr and initiates defrost. Close door to save setting and exit Service Test Mode."
+        },
+        {
+          "id": "interval_documented",
+          "order": 6,
+          "type": "outcome",
+          "title": "Defrost interval set",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "adaptive",
+          "label": "A \u2014 Adaptive (field default)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "defrost_interval_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "defrost_interval"
+        },
+        {
+          "id": "fixed",
+          "label": "F \u2014 Fixed 6 hr (diagnostic)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "defrost_interval_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "defrost_interval"
+        }
+      ],
+      "source": {
+        "manualId": "W10322959",
+        "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+        "oemTestNumber": "9",
+        "oemTestTitle": "Defrost Adjustment",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10322959",
+        "platformId": "whirlpool_jazz_french_door",
+        "procedureId": "w10322959-test-09-defrost-interval",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10322959",
+            "platformId": "whirlpool_jazz_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10322959-test-09-defrost-interval",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

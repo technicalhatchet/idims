@@ -1,0 +1,389 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_pilot_classifier_inspection",
+  "workstream": "CG-PILOT-CLASSIFIER-INSPECTION-P05-P08",
+  "status": "complete",
+  "generatedAt": "2026-09-17T23:50:00+00:00",
+  "pilotGateVerdict": "HOLD",
+  "inspectionScope": "Audit only — no classifier fixes, no canonical mutation, no P08 resolution, no pilot closure",
+  "freshPilotRunReference": "CG_PRODUCTION_NORMALIZATION_PILOT_RESULTS_v1.json (2026-09-17T19:33:10Z)",
+  "executiveSummary": "Governance/safety layer is GREEN. P05 exposes a confirmed production-pipeline matcher gap: range_oven ontology and CG-12-approved samsung_range_ne58 manufacturer overlay are not wired into canonical_matcher or overlay_candidate_builder, causing induction implementation terms to land as unresolved_block instead of implementation_specific overlay routing. P08 architecture_exception STOP is correct; evidence supports composition insufficiency without a frozen dual-load orchestration contract — human architectural triage required before any fit/overlay work. Disposition classifier conflates overlay/compound presence with terminal implementation_specific disposition, masking canonical_mapping_continue on slots that did map (P01–P03, P07).",
+  "p05Audit": {
+    "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+    "slotId": "P05",
+    "observedPilotDisposition": "unresolved_block",
+    "expectedPilotDisposition": "implementation_specific",
+    "verdict": "confirmed_defect",
+    "rootCause": "Production normalization pipeline has no range_oven canonical path. canonical_matcher._canonical_ontology_path() returns null for induction_range; load_canonical_component_ids() yields empty set; extend_alias_registry_for_platform() exits early when template_id != washer — so CG-12-approved manufacturer overlay samsung_range_ne58.json (igbt→surface_heating_system, assy_inverter_module→surface_heating_system, etc.) is never loaded. overlay_candidate_builder._ontology_path_for_template() also omits range templates, so cooktop procedures lack range test-target validation and implementation overlay bindings.",
+    "whyUnresolvedBlockNotImplementationSpecific": "pilot_batch._classify_manual_slot() sets unresolved_block when UNRESOLVED_TERM > 0 AND candidate-status mapped count == 0. P05 has 21 UNRESOLVED, 0 candidate mappings, 1 overlay (door_lock only via washer tag heuristic). Branch for implementation_specific requires overlayCandidates > 0 OR COMPOUND_TERM_CANDIDATE > 0 without passing unresolved_block first — but unresolved_block takes precedence when mapped_count == 0.",
+    "cg12ApprovedDestinationExists": true,
+    "cg12EvidenceArtifacts": [
+      "CG12_INDUCTION_FIT_CLOSURE_v1.json",
+      "frontend/components/diagnostics/knowledge/canonical/manufacturer_overlays/samsung_range_ne58.json"
+    ],
+    "approvedImplementationMapping": {
+      "canonicalHost": "surface_heating_system",
+      "overlayOnlyVocabulary": [
+        "igbt_sensor",
+        "assy_inverter_module",
+        "inverter_pcb",
+        "igbt",
+        "assy_working_coil",
+        "pan_detection",
+        "filter_pcb_fuse"
+      ],
+      "note": "CG-12 closed with zero canonical expansion — induction hardware is PLATFORM_ONLY under surface_heating_system"
+    },
+    "termTraces": [
+      {
+        "stressTerm": "Cooktop: IGBT sensor open/short",
+        "procedureId": "ne58h-induction-igbt-sensor",
+        "rawExtractedTerms": [
+          "surface_element",
+          "Cooktop: IGBT sensor open/short"
+        ],
+        "normalizedTerms": [
+          "surface_element",
+          "cooktop: igbt sensor open/short"
+        ],
+        "seedComponentIds": ["surface_element"],
+        "candidateClassification": {
+          "surface_element": {
+            "status": "UNRESOLVED_TERM",
+            "canonicalId": null,
+            "mappingType": "compound_alias",
+            "matcherLayer": "compound:unresolved",
+            "decomposition": { "component": null, "actuator": null }
+          },
+          "titleCompound": {
+            "status": "UNRESOLVED_TERM",
+            "canonicalId": null,
+            "mappingType": "compound_alias",
+            "matcherLayer": "compound:unresolved",
+            "decomposition": { "component": "cooktop igbt", "actuator": "sensor" }
+          }
+        },
+        "matcherRule": "resolve_component_id() — canonical_ids empty; registry match rejected even if overlay alias would map igbt→surface_heating_system",
+        "overlayDestination": null,
+        "cg12OverlayWouldMapTo": "surface_heating_system via oemTermAliases.igbt_sensor / igbt in samsung_range_ne58.json",
+        "pipelineGap": "B — matcher gap; CG-12 destination exists but production pipeline does not load range ontology or range manufacturer overlay"
+      },
+      {
+        "stressTerm": "Cooktop: Display ↔ inverter communication",
+        "procedureId": "ne58h-induction-comm-inverter",
+        "rawExtractedTerms": [
+          "surface_element",
+          "display_panel",
+          "Cooktop: Display ↔ inverter communication"
+        ],
+        "normalizedTerms": [
+          "surface_element",
+          "display_panel",
+          "cooktop: display ↔ inverter communication"
+        ],
+        "seedComponentIds": ["surface_element", "display_panel"],
+        "candidateClassification": {
+          "surface_element": { "status": "UNRESOLVED_TERM", "canonicalId": null },
+          "display_panel": { "status": "UNRESOLVED_TERM", "canonicalId": null, "note": "user_interface exists in range_oven but ontology not loaded" },
+          "titleCompound": { "status": "UNRESOLVED_TERM", "canonicalId": null, "matcherLayer": "compound:unresolved" }
+        },
+        "matcherRule": "Same empty canonical_ids gate; GLOBAL_OEM_TERM_HINTS maps 'inverter'→motor_controller but rejected because motor_controller ∉ empty canonical_ids",
+        "overlayDestination": null,
+        "cg12OverlayWouldMapTo": "surface_heating_system + control_board per samsung_range_ne58 procedure ne58r-comm-display-inverter",
+        "pipelineGap": "B"
+      },
+      {
+        "stressTerm": "Cooktop: Pan detection / unsuitable cookware",
+        "procedureId": "ne58h-induction-pan-detection",
+        "rawExtractedTerms": [
+          "surface_element",
+          "Cooktop: Pan detection / unsuitable cookware"
+        ],
+        "candidateClassification": {
+          "surface_element": { "status": "UNRESOLVED_TERM", "canonicalId": null },
+          "titleCompound": { "status": "UNRESOLVED_TERM", "canonicalId": null, "matcherLayer": "compound:unresolved" }
+        },
+        "matcherRule": "compound:unresolved — no range ontology aliases for pan_detection",
+        "overlayDestination": null,
+        "cg12OverlayWouldMapTo": "surface_heating_system (pan detection branch in samsung_range_ne58.json)",
+        "pipelineGap": "B"
+      },
+      {
+        "stressTerm": "surface_element",
+        "procedureIds": [
+          "ne58h-induction-igbt-sensor",
+          "ne58h-induction-pan-detection",
+          "ne58h-induction-comm-inverter"
+        ],
+        "rawExtractedTerm": "surface_element",
+        "normalizedTerm": "surface_element",
+        "candidateClassification": {
+          "status": "UNRESOLVED_TERM",
+          "canonicalId": null,
+          "mappingType": "compound_alias",
+          "matcherLayer": "compound:unresolved"
+        },
+        "matcherRule": "Seed componentId not in component_aliases.json for range; not in loaded canonical component set",
+        "overlayDestination": null,
+        "cg12OverlayWouldMapTo": "surface_heating_system (seed id surface_element should alias to surface_heating_system or surface_heating_element overlay concept)",
+        "pipelineGap": "B — seed vocabulary mismatch plus missing range matcher scope"
+      }
+    ],
+    "contrastWithP04": {
+      "p04ManualId": "W11746350",
+      "p04Disposition": "unresolved_block",
+      "distinction": "P04 unresolved terms lack established CG-approved implementation destinations in production overlay artifacts — BLOCK is appropriate proving-gate behavior. P05 terms have pre-approved CG-12 overlay destinations in samsung_range_ne58.json that the production pipeline fails to consume."
+    },
+    "smallestPossibleFixWithoutCanonicalMutation": {
+      "description": "Wire range templates into production normalization matcher scope — no canonical/*.json changes",
+      "boundaryFiles": [
+        "backend/scripts/normalization/paths.py — add CANONICAL_RANGE_OVEN_PATH",
+        "backend/scripts/normalization/canonical_matcher.py — _canonical_ontology_path() for RANGE_IMPLEMENTATION_TEMPLATE_IDS → range_oven.json",
+        "backend/scripts/normalization/overlay_candidate_builder.py — _ontology_path_for_template() + RANGE test-target/component maps",
+        "backend/scripts/normalization/range_matcher_scope.py (new) OR extend washer_matcher_scope pattern — load manufacturer_overlays/samsung_range_ne58.json oemTermAliases when platformId matches samsung_range_ne58*",
+        "frontend/components/diagnostics/knowledge/canonical/component_aliases.json — optional templateAliases.induction_range surface_element→surface_heating_system (overlay alias, not canonical node promotion)"
+      ],
+      "mustNotDo": [
+        "Promote igbt/inverter/pan_detection to canonical nodes",
+        "Mutate range_oven.json or frozen hashes",
+        "Auto-publish production overlays from pilot"
+      ]
+    },
+    "classification": "B — classifier/matcher gap because CG-12 already establishes implementation-specific destination"
+  },
+  "p08Audit": {
+    "manualId": "SAMSUNG-FLEXWASH-WASHER",
+    "slotId": "P08",
+    "observedPilotDisposition": "architecture_exception_stop",
+    "exceptionArtifact": "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json",
+    "exceptionPreserved": true,
+    "exceptionNotResolved": true,
+    "triggers": ["flexwash", "interload"],
+    "verdict": "architecture_exception_correct — human_decision_required_for_next_route",
+    "compositionQuestion": "Can FlexWash be represented as composition of frozen functional contracts without distorting diagnostic ontology?",
+    "evidenceAssessment": "C_with_composition_partial_B_tendency",
+    "rationale": "Lower-compartment and shared-infrastructure procedures compose cleanly onto front_load_washer (drain, inlet, heater, thermistor, lower motor, lower door lock, power, HMI). Dual-load partition procedures cannot bind to single-drum front_load_washer without collapsing compartment scope — upper door maps to door_lock without upper/lower instance, upper motor conflicts with single drive_motor, interload AC7 has no canonical orchestration target. AIO laundry combo precedent (CG_AIO_LAUNDRY_COMBO_RETURN_TRIANGULATION_v1.json) used composition_reference + integrated_laundry_orchestration without forcing dual wash drums into one FL graph — FlexWash needs analogous dual_load_integrated_orchestration boundary, which is not frozen.",
+    "procedureBindingMatrix": [
+      {
+        "procedureId": "samsungflexwash-drain-pump",
+        "function": "lower drain pump",
+        "bindsWithoutDistortion": true,
+        "canonicalTarget": "drain_pump",
+        "mappingStatus": "candidate"
+      },
+      {
+        "procedureId": "samsungflexwash-inlet-valves",
+        "function": "shared water supply",
+        "bindsWithoutDistortion": true,
+        "canonicalTarget": "inlet_valve",
+        "mappingStatus": "candidate"
+      },
+      {
+        "procedureId": "samsungflexwash-door-lock",
+        "function": "lower compartment door lock",
+        "bindsWithoutDistortion": true,
+        "canonicalTarget": "door_lock",
+        "mappingStatus": "candidate",
+        "caveat": "Compartment scope implicit — acceptable for lower only"
+      },
+      {
+        "procedureId": "samsungflexwash-motor-circuit",
+        "function": "lower DD motor (3C)",
+        "bindsWithoutDistortion": true,
+        "canonicalTarget": "drive_motor",
+        "mappingStatus": "candidate",
+        "caveat": "Lower drum only"
+      },
+      {
+        "procedureId": "samsungflexwash-upper-door",
+        "function": "upper compartment door (DC4)",
+        "bindsWithoutDistortion": false,
+        "canonicalTarget": null,
+        "mappingStatus": "UNRESOLVED_TERM",
+        "distortion": "Single door_lock cannot represent second compartment door authorization without instance partition"
+      },
+      {
+        "procedureId": "samsungflexwash-upper-motor",
+        "function": "upper washer motor (3C)",
+        "bindsWithoutDistortion": false,
+        "canonicalTarget": null,
+        "mappingStatus": "UNRESOLVED_TERM",
+        "distortion": "Single drive_motor cannot host two independent wash drums"
+      },
+      {
+        "procedureId": "samsungflexwash-interload-communication",
+        "function": "upper-lower PBA communication (AC7)",
+        "bindsWithoutDistortion": false,
+        "canonicalTarget": null,
+        "mappingStatus": "UNRESOLVED_TERM",
+        "distortion": "No frozen interload_communication or dual_load_integrated_orchestration contract in front_load_washer"
+      },
+      {
+        "procedureId": "samsungflexwash-communication",
+        "function": "sub/main PBA communication",
+        "bindsWithoutDistortion": "partial",
+        "canonicalTarget": "control_board",
+        "mappingStatus": "candidate + UNRESOLVED compound",
+        "caveat": "Generic comm maps; FlexWash dual-PBA scope unresolved at title level"
+      },
+      {
+        "procedureId": "samsungflexwash-system-fault",
+        "function": "system fault SF spanning loads",
+        "bindsWithoutDistortion": false,
+        "mappingStatus": "UNRESOLVED_TERM",
+        "distortion": "Cross-partition fault orchestration"
+      }
+    ],
+    "compositionBoundaryIfSufficient": {
+      "hypothesis": "2× front_load_washer compartment subgraphs + dual_load_integrated_orchestration composition reference (AIO-pattern)",
+      "notCurrentlyFrozen": true,
+      "wouldRequire": "Architecture gate fit/discovery/freeze for dual_load_integrated_orchestration — not pilot classifier tweak",
+      "mustNotDo": "Map FlexWash into single front_load_washer nodes and continue batch"
+    },
+    "missingFunctionalAbstractionsIfInsufficient": [
+      {
+        "id": "dual_load_integrated_orchestration",
+        "evidence": "AC7 interload comm, SF system fault, shared inlet/drain across upper/lower PBAs",
+        "precedent": "integrated_laundry_orchestration on AIO combo — composition reference, not canonical promotion"
+      },
+      {
+        "id": "compartment_diagnostic_partition",
+        "evidence": "upper door, upper motor, flexwash_upper tags — instance-scoped wash paths",
+        "note": "May be platform overlay on orchestration contract rather than new canonical component"
+      }
+    ],
+    "humanDecisionRequired": true,
+    "recommendedHumanQuestion": "Approve dual_load composition reference (2× FL + orchestration overlay) via architecture gate, OR defer FlexWash indefinitely — do not distort front_load_washer to close pilot"
+  },
+  "dispositionClassifierAudit": {
+    "implementationFile": "backend/scripts/normalization/pilot_batch.py",
+    "contractReference": "CG_PRODUCTION_NORMALIZATION_PILOT_CONTRACT_v1.json#pipelineLifecycle",
+    "observedBehavior": {
+      "dispositionPriority": [
+        "architecture_exception_stop",
+        "unresolved_block if UNRESOLVED>0 AND candidate-mapped==0",
+        "implementation_specific if compound>0 OR overlayCandidates>0",
+        "canonical_mapping_continue if candidate-mapped>0",
+        "else unresolved_block"
+      ],
+      "slotsClassifiedImplementationSpecificDespiteCanonicalMappings": [
+        "P01 (24 candidate mappings, 13 overlays)",
+        "P02 (10 candidate mappings, 9 overlays)",
+        "P03 (14 candidate mappings, 6 overlays)",
+        "P07 (5 candidate mappings, 1 overlay)"
+      ],
+      "slotsWhereUnresolvedMasksOverlayRouting": ["P05"],
+      "lifecycleProofUsesOrLogic": true,
+      "lifecycleProofNote": "canonical_mapping_continue proof flag true when ANY slot has candidate mappings, even if no slot received canonical_mapping_continue disposition"
+    },
+    "contractCompliance": {
+      "separateBranchesInContract": ["known/continue", "implementation_specific/overlay", "unresolved/block", "architecture_conflict/stop"],
+      "collapsedInPilotBatch": true,
+      "implementationSpecificUsedAsTerminalDisposition": true,
+      "masksCanonicalMappingContinuePerSlot": true,
+      "verdict": "possible_improvement — schema/design issue, not ontology failure"
+    },
+    "answers": {
+      "canonicalMappingContinueCoexistsWithOverlays": {
+        "contractIntent": "yes — contract lists both as legitimate parallel outcomes",
+        "currentPilotBatch": "no — overlay/compound presence forces implementation_specific terminal disposition",
+        "recommendedModel": "primary disposition + secondary flags: hasCanonicalMappings, hasOverlayCandidates, hasUnresolvedTerms, promotionBlocked"
+      },
+      "implementationSpecificAsTerminalVsFlag": {
+        "observed": "terminal disposition whenever overlays or compounds exist",
+        "shouldBe": "secondary outcome flag; primary disposition should reflect whether canonical mapping succeeded (continue) vs blocked (unresolved) vs stopped (architecture)",
+        "impact": "Reporting ambiguity only — promotionBlocked still true when unresolved>0; safety preserved"
+      },
+      "fourWayDistinctionAccuracy": {
+        "canonical_mapping": "under-reported at slot level when overlays present",
+        "implementation_specific": "over-broad — conflates 'produced overlay candidates' with 'primary mapping path'",
+        "unresolved": "correct for P04/P05/P06; P05 should be implementation_specific after range matcher fix",
+        "architecture_exception": "correct for P08"
+      },
+      "governanceSafetyIfSemanticsChanged": {
+        "silentPromotion": "unchanged if promotionBlocked logic retained",
+        "silentGuessing": "unchanged",
+        "architectureStop": "unchanged",
+        "frozenHashes": "unchanged",
+        "risk": "low if disposition relabel only; medium if unresolved_block precedence rules change without preserving promotionBlocked"
+      }
+    },
+    "classification": "possible_improvement"
+  },
+  "recommendedChanges": [
+    {
+      "id": "RANGE_MATCHER_SCOPE",
+      "priority": 1,
+      "type": "confirmed_defect",
+      "target": "P05 production normalization pipeline",
+      "action": "Wire range_oven.json + manufacturer range overlays into canonical_matcher and overlay_candidate_builder for induction_range/electric_range/gas_range templates",
+      "blocksPilotGreen": true,
+      "requiresCanonicalMutation": false,
+      "requiresHumanApproval": false,
+      "implementNow": false,
+      "note": "Inspection only — implement in follow-up FIX-THEN-GREEN pass"
+    },
+    {
+      "id": "DISPOSITION_SEMANTICS_SPLIT",
+      "priority": 2,
+      "type": "possible_improvement",
+      "target": "pilot_batch._classify_manual_slot",
+      "action": "Split terminal disposition from overlay/compound activity flags; allow canonical_mapping_continue when candidate mappings exist even if overlays present",
+      "blocksPilotGreen": false,
+      "requiresCanonicalMutation": false,
+      "requiresHumanApproval": true,
+      "implementNow": false
+    },
+    {
+      "id": "P08_ARCHITECTURE_GATE",
+      "priority": 3,
+      "type": "architectural_decision",
+      "target": "SAMSUNG-FLEXWASH-WASHER",
+      "action": "Human triage: dual_load composition reference vs new abstraction vs defer — do NOT resolve exception to pass pilot",
+      "blocksPilotGreen": true,
+      "requiresCanonicalMutation": "maybe — only via authorized architecture gate",
+      "requiresHumanApproval": true,
+      "implementNow": false
+    }
+  ],
+  "safetyImpact": {
+    "canonicalMutation": false,
+    "frozenHashMutation": false,
+    "silentPromotion": false,
+    "silentGuessing": false,
+    "productionOverlayPublish": false,
+    "p08ExceptionSuppressed": false,
+    "pilotClosureModified": false,
+    "inspectionArtifactsOnly": true,
+    "regressionSuitePostInspection": "cg-production-normalization-pilot.test.ts 11/11 PASS (2026-09-17 post-inspection)"
+  },
+  "requiresHumanDecision": [
+    {
+      "id": "P08_DUAL_LOAD_ROUTE",
+      "question": "Is FlexWash composition of 2× front_load_washer + dual_load_integrated_orchestration reference sufficient, or is a new frozen functional abstraction required?",
+      "blocks": "pilot_closure",
+      "doNot": "Resolve architecture_exception.json to force GREEN"
+    },
+    {
+      "id": "DISPOSITION_SCHEMA",
+      "question": "Should pilot batch report primary disposition separately from overlay/compound activity flags?",
+      "blocks": null,
+      "recommended": "yes — improves inspectability without safety regression if promotionBlocked preserved"
+    }
+  ],
+  "gateState": {
+    "architecturePhase": "GREEN",
+    "productionIngestionGovernance": "GREEN",
+    "pilotAuthorization": "GREEN",
+    "fresh8of8Execution": "GREEN",
+    "safetyImmutability": "GREEN",
+    "crossManufacturerFlProof": "GREEN",
+    "hpCompositionProof": "GREEN",
+    "architectureExceptionStop": "GREEN",
+    "p05ClassifierCorrectness": "YELLOW_INSPECT_COMPLETE_DEFECT_CONFIRMED",
+    "dispositionSemantics": "YELLOW_INSPECT_COMPLETE_IMPROVEMENT_IDENTIFIED",
+    "p08ArchitectureDecision": "YELLOW_HUMAN_TRIAGE_REQUIRED",
+    "pilotClosure": "RED_HOLD",
+    "productionBatch70Manual": "RED_NOT_AUTHORIZED"
+  }
+}

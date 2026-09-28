@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_wall_oven_fit_triangulation",
+  "workstream": "CG-WALL-OVEN-FIT-TEST",
+  "status": "complete",
+  "generatedAt": "2026-09-17T19:15:00+00:00",
+  "contract": "CG_WALL_OVEN_FIT_TEST_CONTRACT_v1.json",
+  "witnessCount": 2,
+  "crossManufacturerTriangulation": true,
+  "witnesses": [
+    {
+      "id": "W1",
+      "manufacturer": "Whirlpool/Maytag/KitchenAid",
+      "model": "WOS/WOD Smart Wall Oven (W11174422)",
+      "manualId": "W11174422",
+      "observation": "CG_W11174422_FIT_OBSERVATION_v1.json",
+      "configurations": ["single_electric", "double_electric", "combo_mwo_upper_excluded"]
+    },
+    {
+      "id": "W2",
+      "manufacturer": "Samsung",
+      "model": "NV51K6650D",
+      "manualId": "SAMSUNG-NV51-WALL-OVEN",
+      "observation": "CG_SAMSUNG_NV51_FIT_OBSERVATION_v1.json",
+      "configurations": ["single_electric"]
+    }
+  ],
+  "corpusSurvey": {
+    "method": "Repo search corrected — dedicated wall-oven PDFs present but missed in initial filename-indexed survey",
+    "dedicatedWallOvenManualsFound": 2,
+    "dedicatedWallOvenProcedureSeedsFound": 0,
+    "platformRegistryWallOvenPlatforms": 0,
+    "ingestedManuals": [
+      "service-manual-w11174422-revBwplwallovens.pdf",
+      "samsungwallovennv51k6650d.pdf"
+    ]
+  },
+  "excludedSubstitutes": [
+    {
+      "artifact": "technical-manual-w11174426-revb whirlpool maytag amana ranges",
+      "reason": "Freestanding range service manual — not wall-oven product class",
+      "countsAsWallOvenWitness": false
+    },
+    {
+      "artifact": "whirlpool_freestanding_range procedure seeds (W11746350, W11174426, W11174814)",
+      "reason": "Freestanding range oven-compartment procedures — cannot be silently substituted as wall-oven fit evidence",
+      "countsAsWallOvenWitness": false
+    },
+    {
+      "artifact": "Samsung NE58 / LG LRE freestanding range manuals",
+      "reason": "Range_oven discovery witnesses — not wall-oven product class",
+      "countsAsWallOvenWitness": false
+    }
+  ],
+  "candidateWitnessesMissing": {
+    "models": ["LG built-in wall oven", "Gas single-wall oven service manual", "Gas double-wall oven"],
+    "impact": "Electric single and double proven on W1; gas wall-oven deferred — does not block composition into range_oven"
+  },
+  "functionalDomainTriangulation": {
+    "oven_heat_generation_bake_broil_convection": { "mapsToHost": true, "witnesses": ["W1", "W2"] },
+    "temperature_sensing_control": { "mapsToHost": true, "canonicalNode": "temperature_sensor", "witnesses": ["W1", "W2"] },
+    "control_board": { "mapsToHost": true, "witnesses": ["W1", "W2"] },
+    "user_interface": { "mapsToHost": true, "witnesses": ["W1", "W2"] },
+    "door_latch_safety": { "mapsToHost": true, "binding": "conditionalConcept.oven_door_switch", "witnesses": ["W1", "W2"] },
+    "convection_fan": { "mapsToHost": true, "binding": "conditionalConcept.convection_fan", "witnesses": ["W1", "W2"] },
+    "surface_heating_system": { "required": false, "instantiated": false, "blocksFit": false, "witnesses": ["W1", "W2"] },
+    "double_oven_composition": { "mapsToHost": true, "binding": "upper/lower oven instance scopes on range_oven", "witnesses": ["W1"] },
+    "cooling_ventilation": { "mapsToHost": true, "binding": "deferredConcept.cooling_fan platform overlay", "notDivergence": true, "witnesses": ["W1", "W2"] },
+    "optional_steam": { "mapsToHost": true, "binding": "platform overlay — same class as range steam features", "witnesses": ["W2"] },
+    "wall_oven_specific_divergence": { "found": false, "witnesses": ["W1", "W2"] }
+  },
+  "hostHypothesisStatus": {
+    "hypothesis": "range_oven oven-compartment-only composition",
+    "validated": true,
+    "falsified": false,
+    "reason": "Cross-manufacturer wall-oven diagnostic paths classify to range_oven with surface_heating_system not instantiated"
+  },
+  "triangulationVerdict": {
+    "recommendAnalysisOutcome": "composition",
+    "rationale": "Whirlpool W11174422 (single + double electric) and Samsung NV51 (single electric) align on range_oven functional domains. Double oven decomposes to dual oven-instance composition. No genuine wall-oven-only canonical domain identified.",
+    "discoveryNotRequired": true
+  }
+}

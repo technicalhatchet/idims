@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_pilot_prerequisite_ingestion_complete",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-PILOT",
+  "slotId": "P07",
+  "manualId": "SAMSUNG-HP-DRYER-DV22N",
+  "status": "ingestion_complete",
+  "completedAt": "2026-09-17T22:00:00+00:00",
+  "contract": "CG_PILOT_PREREQUISITE_INGESTION_CONTRACT_v1.json",
+  "artifacts": {
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md",
+    "generator": "backend/scripts/generate_samsung_hp_dryer_dv22n_procedure_seeds.py",
+    "seedDir": "frontend/components/diagnostics/procedures/seed/samsung_hp_dryer_dv22n",
+    "candidatesDir": "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-HP-DRYER-DV22N"
+  },
+  "ingestionSummary": {
+    "procedures": 10,
+    "mappingCandidates": 23,
+    "overlayCandidates": 1,
+    "conflicts": 0,
+    "ontologyId": "heat_pump_dryer",
+    "compositionReference": {
+      "heatPumpOwned": ["compressor_inverter", "refrigerant_thermistors", "condensate_overflow"],
+      "ventedDryerReuse": ["door_switch", "drum_motor", "lint_filter", "power_supply"]
+    }
+  },
+  "fitWitness": "CG_HPD_DV22N8650_FIT_OBSERVATION_v1.json",
+  "pilotNote": "Evidence acquisition only — proves frozen HP architecture consumed, not rediscovered.",
+  "doesNotModifyPilotOutcomeArtifacts": true
+}

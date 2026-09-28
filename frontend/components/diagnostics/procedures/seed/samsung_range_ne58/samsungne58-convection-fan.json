@@ -1,0 +1,155 @@
+{
+  "id": "samsungne58-convection-fan",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Convection fan motor",
+  "platformId": "samsung_range_ne58",
+  "componentIds": [
+    "convection_fan"
+  ],
+  "tags": [
+    "convection_issue",
+    "fan_motor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58-RANGE",
+    "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+    "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "cg10-r4-assisted-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Convection fan relay and motor",
+    "pages": [
+      41,
+      45
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+      "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_disconnect"
+    },
+    {
+      "id": "fan_disconnect",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect fan motor harness",
+      "body": "Power off. Access convection fan motor terminals.",
+      "sourceExcerpt": "Power off. Access convection fan motor terminals.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_ohms"
+    },
+    {
+      "id": "fan_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Convection fan motor resistance",
+      "body": "Measure motor terminal resistance with harness disconnected.",
+      "sourceExcerpt": "Measure motor terminal resistance with harness disconnected.",
+      "measurementKnowledgeId": "samsungNx60ConvectionFanOhms",
+      "testPoint": {
+        "connector": "Fan motor",
+        "pins": "terminals",
+        "label": "Convection fan motor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "fan_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_relay",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "convection_fan",
+              "evidenceId": "eliminate_convection_bad_convection_fan_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fan_relay",
+      "order": 4,
+      "type": "instruction",
+      "title": "Ry08 relay and CN01",
+      "body": "Verify convection fan relay Ry08 on sub PCB and connector CN01. Harness CN04/CN05 sub \u2194 main.",
+      "sourceExcerpt": "Verify convection fan relay Ry08 on sub PCB and connector CN01. Harness CN04/CN05 sub \u2194 main.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_ok"
+    },
+    {
+      "id": "replace_fan",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace fan motor or relay",
+      "oemOutcome": "Replace fan motor, Ry08 relay, or sub PCB.",
+      "requiresInput": false
+    },
+    {
+      "id": "fan_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Convection fan OK",
+      "oemOutcome": "Convection fan motor and relay verified.",
+      "requiresInput": false
+    }
+  ]
+}

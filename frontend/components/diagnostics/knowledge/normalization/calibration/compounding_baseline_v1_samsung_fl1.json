@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "compounding_baseline",
+  "version": "v1_samsung_fl1",
+  "frozen": true,
+  "frozenAt": "2026-09-13T14:30:00+00:00",
+  "description": "FROZEN — SAMSUNG-FL-BB8700-WASHER CG-5.6 cross-manufacturer FL #1. Gate-preview metrics only.",
+  "experiment": "CG-5.6",
+  "corpusPriorManualIds": ["W8178558", "W11169652"],
+  "platformPriorManualIds": [],
+  "promotionGatePreview": {
+    "note": "Metrics captured at human gate review — post-publish pipeline counts are inflated by term-resolution approvals",
+    "manualId": "SAMSUNG-FL-BB8700-WASHER",
+    "platformId": "samsung_fl_washer_bb8700",
+    "reviewRecords": 29,
+    "inheritedCorpusKnowledge": 14,
+    "inheritedPlatformFamilyKnowledge": 0,
+    "newPlatformKnowledge": 1,
+    "newModelSpecificKnowledge": 0,
+    "newCanonicalKnowledge": 0,
+    "newHumanDecisionCount": 6,
+    "newHumanDecisionRate": 0.2069,
+    "gateTermResolutions": {
+      "inherited_corpus_knowledge": 5,
+      "new_platform_knowledge": 1
+    },
+    "killerMetric": "1 new platform / 0 new canonical — manufacturer platform knowledge without ontology expansion"
+  },
+  "postPublish": {
+    "manualId": "SAMSUNG-FL-BB8700-WASHER",
+    "platformId": "samsung_fl_washer_bb8700",
+    "platformFamilyId": "samsung_fl_bb8700_direct_drive",
+    "ontologyId": "front_load_washer",
+    "published": true,
+    "promotionId": "promo-SAMSUNG-FL-BB8700-WASHER-20260913142749",
+    "reviewRecords": 29,
+    "approved": 25,
+    "termResolutions": {
+      "applied": 6,
+      "classifications": {
+        "inherited_corpus_knowledge": 5,
+        "new_platform_knowledge": 1
+      }
+    },
+    "procedureBindingsApproved": 9,
+    "equivalence": "PASS",
+    "canonicalGraphValidation": "PASS",
+    "architectureBoundaryTest": "cg5-samsung-fl-architecture-boundary.test.ts",
+    "humanClassification": "samsung-fl-bb8700-washer_human_classification.json",
+    "platformScopedComponents": ["inverter_board"]
+  },
+  "hierarchyExample": {
+    "canonical": [
+      "control_board",
+      "drain_pump",
+      "inlet_valve",
+      "drive_motor",
+      "water_level_sensor"
+    ],
+    "samsungPlatform": ["inverter_board"],
+    "modelSpecific": []
+  },
+  "headline": "Cross-manufacturer canonical reuse; zero Whirlpool platform leakage; one Samsung-platform concept; zero new canonical.",
+  "architecturalNote": "canonical.components ≠ overlay.add.components — inverter_board is platform-scoped, not universal ontology.",
+  "nextExperiment": {
+    "phase": "Samsung FL #2 platform compounding",
+    "killerMetric": "samsungPlatformInherited (expect inverter_board transfer)",
+    "hardRules": [
+      "whirlpoolPlatformInherited must remain 0",
+      "newCanonicalKnowledge must remain 0 unless extraordinary evidence",
+      "no Samsung torture fixture until #2 compounding curve exists"
+    ]
+  }
+}

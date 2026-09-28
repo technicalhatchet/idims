@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "1.0.0",
+  "ontology": {
+    "id": "french_door_refrigerator",
+    "name": "French-Door Refrigerator",
+    "templateId": "refrigerator",
+    "variant": "french_door",
+    "description": "CG-7 candidate canonical graph — functional and architecture-agnostic. NOT frozen. No component earns canonical status from this skeleton; R1–R3 manual evidence required before rev1.",
+    "frozen": false,
+    "candidateRevision": "cg7x_v1",
+    "candidateNote": "Design principles and relationship vocabulary only. All listed concepts are unvalidated hypotheses pending Whirlpool → Samsung → LG discovery."
+  },
+  "designPrinciples": [
+    "Model functional refrigeration behavior — not physical sealed-system topology or manufacturer-specific board architectures.",
+    "Separate power, control, user interface, temperature control, cooling actuation, airflow distribution, defrost, and optional features (ice/water) diagnostically.",
+    "Compressor, fans, dampers, and heaters may be platform implementations of higher-level functional roles — do not assume physical part names belong in canonical layer.",
+    "Compartment-specific temperature sensing (fresh food vs freezer) may be canonical functional split or platform implementation — requires multi-manufacturer evidence.",
+    "Defrost orchestration (adaptive interval, heater, termination sensor) may warrant a functional defrost domain distinct from individual heaters/sensors — scrutinize before freeze.",
+    "Ice maker and water dispenser are optional feature domains — defer unless independently evidenced across manuals.",
+    "Manufacturer-specific implementations (Jazz board, EM2Y60 compressor, damper motor, bimetal naming) belong in overlays — not canonical expansion by default.",
+    "Door authorization (light switch / switch clusters) is distinct from compartment cooling paths when procedure evidence supports the split.",
+    "Nothing in this file modifies frontend/components/diagnostics/knowledge/canonical/ — calibration artifact only."
+  ],
+  "relationshipTypes": [
+    "supplies",
+    "controls",
+    "commands",
+    "provides_feedback_to",
+    "enables",
+    "inhibits",
+    "regulates",
+    "distributes_air_to",
+    "removes_heat_via",
+    "depends_on"
+  ],
+  "systems": [
+    {
+      "id": "power",
+      "name": "Power",
+      "candidateStatus": "unvalidated"
+    },
+    {
+      "id": "control",
+      "name": "Control",
+      "candidateStatus": "unvalidated"
+    },
+    {
+      "id": "user_interface",
+      "name": "User Interface",
+      "candidateStatus": "unvalidated"
+    },
+    {
+      "id": "temperature_control",
+      "name": "Temperature Control",
+      "candidateStatus": "unvalidated"
+    },
+    {
+      "id": "cooling",
+      "name": "Cooling / Refrigeration",
+      "candidateStatus": "unvalidated"
+    },
+    {
+      "id": "airflow",
+      "name": "Airflow Distribution",
+      "candidateStatus": "unvalidated"
+    },
+    {
+      "id": "defrost",
+      "name": "Defrost",
+      "candidateStatus": "unvalidated"
+    },
+    {
+      "id": "ice_water",
+      "name": "Ice / Water (optional)",
+      "candidateStatus": "unvalidated"
+    },
+    {
+      "id": "door_authorization",
+      "name": "Door Authorization",
+      "candidateStatus": "unvalidated"
+    }
+  ],
+  "components": [],
+  "relationships": [],
+  "candidateConcepts": [
+    { "id": "power_supply", "candidateStatus": "unvalidated", "hypothesis": "Line voltage / mains supply functional input" },
+    { "id": "control_board", "candidateStatus": "unvalidated", "hypothesis": "Primary refrigeration control / orchestration" },
+    { "id": "user_interface", "candidateStatus": "unvalidated", "hypothesis": "Display, keypad, service-mode entry surface" },
+    { "id": "temperature_sensor", "candidateStatus": "unvalidated", "hypothesis": "Compartment temperature sensing (may split FF/FZ at canonical or overlay layer)" },
+    { "id": "compressor", "candidateStatus": "unvalidated", "hypothesis": "Refrigeration heat-pump actuator" },
+    { "id": "compressor_controller", "candidateStatus": "unvalidated", "hypothesis": "Compressor drive / relay / inverter — may be platform-only on Jazz" },
+    { "id": "condenser", "candidateStatus": "unvalidated", "hypothesis": "Heat rejection coil — physical vs functional boundary TBD" },
+    { "id": "evaporator", "candidateStatus": "unvalidated", "hypothesis": "Evaporator coil — physical vs functional boundary TBD" },
+    { "id": "condenser_fan", "candidateStatus": "unvalidated", "hypothesis": "Condenser airflow actuator" },
+    { "id": "evaporator_fan", "candidateStatus": "unvalidated", "hypothesis": "Evaporator / freezer compartment airflow actuator" },
+    { "id": "air_damper", "candidateStatus": "unvalidated", "hypothesis": "Fresh-food airflow damper / air tower control" },
+    { "id": "airflow_path", "candidateStatus": "unvalidated", "hypothesis": "Functional airflow distribution aggregate — scrutinize vs fan/damper nodes" },
+    { "id": "defrost_system", "candidateStatus": "unvalidated", "hypothesis": "Defrost orchestration domain (adaptive interval, heater enable, termination)" },
+    { "id": "defrost_heater", "candidateStatus": "unvalidated", "hypothesis": "Defrost heater actuator" },
+    { "id": "defrost_sensor", "candidateStatus": "unvalidated", "hypothesis": "Defrost termination sensor (bimetal/thermostat — platform naming TBD)" },
+    { "id": "cooling_system", "candidateStatus": "unvalidated", "hypothesis": "Functional cooling aggregate — may be orchestration-only" },
+    { "id": "door_switch", "candidateStatus": "unvalidated", "hypothesis": "Door light / authorization switch for service-mode entry" },
+    { "id": "door_heater", "candidateStatus": "unvalidated", "hypothesis": "Anti-sweat / cabinet heater — not evidenced on Jazz sheet" },
+    { "id": "water_inlet_valve", "candidateStatus": "unvalidated", "hypothesis": "Dispenser / ice fill valve — optional feature" },
+    { "id": "water_dispenser", "candidateStatus": "unvalidated", "hypothesis": "Through-door water dispense feature domain" },
+    { "id": "water_level_sensor", "candidateStatus": "unvalidated", "hypothesis": "Reservoir / fill level sensing — not evidenced on Jazz sheet" },
+    { "id": "ice_maker", "candidateStatus": "unvalidated", "hypothesis": "Ice production feature domain — deferred on Jazz manual" },
+    { "id": "humidity_control", "candidateStatus": "unvalidated", "hypothesis": "Humidity / crispers — not evidenced on Jazz sheet" },
+    { "id": "sealed_system", "candidateStatus": "unvalidated", "hypothesis": "Sealed refrigeration path aggregate — complaint routing only on Jazz" }
+  ],
+  "openQuestionsBeforeFreeze": [
+    {
+      "id": "compartment_temperature_split",
+      "question": "Should fresh-food and freezer temperature sensing be one canonical temperature_sensor or compartment-specific roles?",
+      "cg7EvidenceRequired": "R1+R2+R3"
+    },
+    {
+      "id": "defrost_functional_aggregate",
+      "question": "Is defrost_system a canonical functional node or orchestration across heater + sensor + control_board?",
+      "cg7EvidenceRequired": "R1+R2+R3"
+    },
+    {
+      "id": "airflow_vs_fan_damper",
+      "question": "Does airflow_path earn a canonical node or do evaporator_fan + air_damper suffice?",
+      "cg7EvidenceRequired": "R1+R2+R3"
+    },
+    {
+      "id": "compressor_controller_boundary",
+      "question": "Is compressor_controller distinct from control_board on modern inverter platforms?",
+      "cg7EvidenceRequired": "R2+R3 likely required"
+    },
+    {
+      "id": "physical_coil_canonicality",
+      "question": "Do condenser and evaporator belong in canonical graph or remain sealed-system physical overlay?",
+      "cg7EvidenceRequired": "R2+R3"
+    },
+    {
+      "id": "optional_ice_water_domain",
+      "question": "Are ice_maker and water_dispenser canonical feature domains or platform-only modules?",
+      "cg7EvidenceRequired": "R2+R3 — Jazz manual defers"
+    }
+  ],
+  "pipelineDiscipline": {
+    "stage": "R1_observation",
+    "canonicalDirectoryMutable": false,
+    "allowedStages": [
+      "MANUAL_EVIDENCE",
+      "R1_OBSERVATION",
+      "CANDIDATE_GRAPH",
+      "R2_BOUNDARY_TEST",
+      "R3_TRIANGULATION",
+      "HUMAN_FREEZE_GATE",
+      "CANONICAL_REV1"
+    ],
+    "r1ManualOnly": "W10322959"
+  }
+}

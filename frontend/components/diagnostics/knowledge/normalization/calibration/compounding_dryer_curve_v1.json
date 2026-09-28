@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg6_dryer_compounding_curve",
+  "frozenAt": "2026-09-14T05:15:00+00:00",
+  "canonicalOntologyId": "vented_dryer",
+  "overlayFile": "whirlpool_vented_dryer.json",
+  "headline": "W8178559: 25/25 new decisions → W10680150 native: 13/30 new decisions (zero new canonical concepts)",
+  "cohortAccountingRule": "Native w10680150-* is authoritative. Supplemental w10881701-* / w11169659-* tracked separately — does not affect headline.",
+  "manuals": {
+    "W8178559": {
+      "platformFamilyId": "whirlpool_duet_sport_mce_dryer",
+      "role": "baseline",
+      "procedures": 13,
+      "mappingCandidates": 24,
+      "canonicalAutoResolve": 10,
+      "reviewRecords": 28,
+      "humanGateApprovals": 15,
+      "humanGateRejections": 10,
+      "newHumanDecisions": 25,
+      "newHumanDecisionRate": 1.0,
+      "newCanonicalConcepts": 0,
+      "publishedAt": "2026-09-14",
+      "equivalence": true,
+      "artifacts": {
+        "mappingTable": "W8178559_overlay_mapping_table_v1.json",
+        "compilerLoop": "compiler_loop_W8178559.json",
+        "equivalence": "promotion_equivalence_W8178559.json"
+      }
+    },
+    "W10680150": {
+      "platformFamilyId": "whirlpool_ccu_dryer",
+      "role": "compounding_target",
+      "authoritativeCohort": {
+        "procedurePrefix": "w10680150-",
+        "procedures": 13,
+        "mappingCandidates": 26,
+        "canonicalAutoResolve": 9,
+        "reviewRecords": 30,
+        "humanGateApprovals": 15,
+        "humanGateRejections": 11,
+        "newHumanDecisions": 13,
+        "inheritedAtGate": 17,
+        "newHumanDecisionRate": 0.433,
+        "inheritedResolutionRate": 0.567,
+        "newCanonicalConcepts": 0,
+        "inheritedCorpusConcepts": 7,
+        "inheritedWhirlpoolDryerAliases": 4,
+        "newCcuPlatformConcepts": 1
+      },
+      "supplementalCohort": {
+        "procedurePrefixes": ["w10881701-", "w11169659-"],
+        "procedures": 20,
+        "reviewRecords": 14,
+        "humanGateApprovals": 6,
+        "humanGateRejections": 4,
+        "publishedAt": "2026-09-14",
+        "note": "Not included in headline compounding metric"
+      },
+      "combinedPlatformManifest": {
+        "procedures": 33,
+        "reviewRecords": 44,
+        "newHumanDecisions": 19,
+        "inheritedAtGate": 25,
+        "note": "Informational only"
+      },
+      "publishedAt": "2026-09-14",
+      "equivalence": true,
+      "artifacts": {
+        "mappingTable": "W10680150_overlay_mapping_table_v1.json",
+        "gatePreview": "compounding_dryer2_gate_preview_W10680150.json",
+        "compilerLoop": "compiler_loop_W10680150.json",
+        "equivalence": "promotion_equivalence_W10680150.json"
+      }
+    }
+  },
+  "compoundingSignal": {
+    "decisionsAvoided": 12,
+    "newDecisionRateDelta": -0.567,
+    "interpretation": "Second dryer manual teaches platform implementation (CCU/ACU) on frozen vented_dryer ontology — hierarchy learning, not ontology expansion."
+  },
+  "validationGate": {
+    "validate_canonical_graph": "pass",
+    "validate_normalization_candidates_W10680150": "pass",
+    "promotion_equivalence_W10680150": true,
+    "promotion_equivalence_W8178559_regression": "unchanged",
+    "cg6_vented_dryer_ontology": "pass",
+    "vented_dryer_torture": "pass"
+  }
+}

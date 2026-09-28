@@ -1,0 +1,213 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg12_induction_range_fit_analysis",
+  "workstream": "CG-12",
+  "stage": "fit_falsification_analysis",
+  "status": "human_boundary_approved",
+  "generatedAt": "2026-09-16T19:24:00+00:00",
+  "contract": "CG12_INDUCTION_FIT_TEST_CONTRACT_v1.json",
+  "humanBoundaryApprovalRequired": true,
+  "humanBoundaryApprovedAt": "2026-09-16T19:26:00+00:00",
+  "humanBoundaryApprovedOutcome": "A",
+  "r1SufficientForClosure": true,
+  "r2RequiredForClosure": false,
+  "closureArtifact": "CG12_INDUCTION_FIT_CLOSURE_v1.json",
+  "canonicalMutationAuthorized": false,
+  "canonicalRenameAuthorized": false,
+  "recommendedOutcome": "A",
+  "recommendedOutcomeLabel": "induction_fits_electric_contract",
+  "r2Required": false,
+  "r2Mandatory": false,
+  "r2OptionalFor": "cross_manufacturer_consistency_matrix — not required to establish R1 implementation fit",
+  "r2WaivedForR1FitReason": "R1 Samsung NE58R9560 produces zero DIVERGES across 11 probes with INHERITS on all five frozen components, both bake/broil instance scopes, and evidenced convection_heating_element. R2 is a separate family-confidence decision.",
+  "frozenContractUnderTest": {
+    "id": "electric_range",
+    "file": "frontend/components/diagnostics/knowledge/canonical/electric_range.json",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-16T15:26:00+00:00",
+    "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "hashMutatedDuringCg12": false,
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "priorFitClosed": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json"
+  },
+  "evidenceChain": {
+    "r1Observation": "SAMSUNG_NE58R9560WS_IR_CG12X_OBSERVATION_v1.json",
+    "manualId": "SAMSUNG-NE58R9560-INDUCTION",
+    "platformId": "samsung_range_ne58r9560",
+    "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+    "fuelFilter": "induction_range",
+    "fitHypothesis": "electric_range_induction_fit_hypothesis_v1.json",
+    "cg10FrozenContract": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "cg11GasFitClosure": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json"
+  },
+  "dualEvaluation": {
+    "r1ImplementationFit": {
+      "question": "Does NE58R9560 demonstrate that induction can be represented by the frozen electric_range rev1 contract?",
+      "verdict": "yes_zero_divergence",
+      "diverges": 0,
+      "canonicalExpansionRequired": 0,
+      "contractRevisionRequired": false,
+      "recommendedOutcome": "A",
+      "summary": "Samsung induction R1 witness fits frozen contract at functional layer — specialized induction hardware remains platform knowledge."
+    },
+    "familyLevelConfidence": {
+      "question": "Is one Samsung witness enough to make a broader induction-family statement, or should Whirlpool R2 be run?",
+      "verdict": "r1_fit_valid_single_witness_insufficient_for_cross_manufacturer_matrix",
+      "crossManufacturerConsistency": "PENDING — all R1 matrix cells remain PENDING",
+      "inductionFamilyStatementAuthorized": false,
+      "r2Recommended": false,
+      "r2Optional": true,
+      "r2Purpose": "Populate Whirlpool WFI505 column in cross-manufacturer matrix — not required to prove R1 implementation fit",
+      "humanGateOptions": [
+        "Accept R1 as sufficient for CG-12 fit question (Outcome A) without R2",
+        "Require R2 specifically to populate cross-manufacturer induction matrix before closure"
+      ],
+      "note": "Outcome A on R1 fit does not pretend one Samsung manual proves cross-manufacturer consistency."
+    }
+  },
+  "classificationSummary": {
+    "INHERITS": 9,
+    "CONDITIONAL": 2,
+    "DIVERGES": 0,
+    "PLATFORM_ONLY": 11,
+    "NO_EVIDENCE": 0,
+    "DEFERRED": 0,
+    "allFiveCanonicalComponentsInherit": true,
+    "bothInstanceScopesInherit": true,
+    "convectionHeatingElementEvidenced": true,
+    "inductionHardwarePromotedToCanonical": false
+  },
+  "layerDisposition": {
+    "components": {
+      "power_supply": "INHERITS",
+      "control_board": "INHERITS",
+      "user_interface": "INHERITS",
+      "temperature_sensor": "INHERITS",
+      "surface_heating_system": "INHERITS"
+    },
+    "instanceScopes": {
+      "bake_heating_element": "INHERITS",
+      "broil_heating_element": "INHERITS"
+    },
+    "conditionalInstanceScopes": {
+      "convection_heating_element": "INHERITS"
+    },
+    "conditionalConcepts": {
+      "convection_fan": "INHERITS",
+      "thermal_protection": "CONDITIONAL",
+      "oven_door_switch": "CONDITIONAL"
+    },
+    "removedConcepts": {
+      "oven_heating_system": "remains_removed"
+    }
+  },
+  "centerpieceFinding": {
+    "id": "surface_heating_system_induction_functional_equivalence",
+    "title": "Induction surface architecture survives as surface_heating_system without canonical divergence",
+    "physicalImplementationDelta": {
+      "electric_resistance": "control → relay/infinite switch → radiant element",
+      "induction": "control → Assy-Inverter Module / Touch PCB → working coil + IGBT + pan detection"
+    },
+    "diagnosticStructurePreserved": {
+      "cooktop": {
+        "independentlyAddressable": true,
+        "separateFaultFamily": "§4-2 cooktop codes: Top Sensor, IGBT Sensor, Pan Detection, Over Temperature, Communication, DC Motor Locking",
+        "separateFromOvenPaths": true,
+        "sourceProvenance": ["§4-2 p.48", "§4-2-8 Pan Detection p.55", "§4-3 Heating Failure IGBT p.57"]
+      },
+      "ovenBakeBroil": {
+        "conventionalElectricElements": true,
+        "note": "This platform uses induction cooktop + conventional electric oven — bake/broil instance scopes evidenced separately from cooktop"
+      }
+    },
+    "conclusion": "Radically different surface implementation produces zero functional divergences. surface_heating_system remains the canonical functional role; induction_coil, inverter, IGBT, pan_detection, and coil sensors are platform vocabulary — not ontology expansion.",
+    "platformVocabularyNotCanonical": [
+      "assy_working_coil",
+      "assy_induction_module",
+      "inverter_pcb",
+      "igbt_sensor",
+      "top_sensor",
+      "pan_detection",
+      "igbt_terminal_resistance"
+    ],
+    "topologyNotCanonical": "control_board → inverter module → induction coil is implementation evidence — not promoted to canonical topology"
+  },
+  "conditionalConvectionCrossWitness": {
+    "title": "convection_heating_element: INHERITS (induction R1) vs NO_EVIDENCE (CG-11 gas R1) — not a contradiction",
+    "conceptId": "convection_heating_element",
+    "frozenLayer": "conditionalInstanceScopes[]",
+    "witnessComparison": {
+      "cg11_gas_samsung_nx60": {
+        "classification": "NO_EVIDENCE",
+        "reason": "Fan-only gas convection — no dedicated convection element test path"
+      },
+      "cg12_induction_samsung_ne58r9560": {
+        "classification": "INHERITS",
+        "reason": "§4-3 Convection Heater component test with dedicated resistance and 240V terminal voltage"
+      }
+    },
+    "contractSemantics": "The canonical contract permits the convection heating function without requiring every implementation to expose it. NO_EVIDENCE means the conditional scope is unbound on that configuration — not invalid. INHERITS on induction means the conditional scope binds when the platform evidences a dedicated element test.",
+    "notAContradiction": true,
+    "doesNotRequireCanonicalRevision": true
+  },
+  "centerpieceQuestionAnswer": {
+    "questionId": "induction_vs_frozen_electric_contract",
+    "answer": "On Samsung NE58R9560 induction R1 evidence, the frozen electric_range rev1 contract represents this induction implementation without canonical divergence.",
+    "confidence": "high_r1_implementation_fit",
+    "familyLevelCaveat": "Cross-manufacturer induction-family confidence remains PENDING — one Samsung witness does not populate Whirlpool/LG matrix columns.",
+    "r2NotRequiredForR1Fit": true
+  },
+  "governanceConclusion": {
+    "statement": "CG-12 R1 demonstrates functional compatibility of the frozen electric-range ontology with an induction-range implementation. It does not establish that every induction-specific implementation detail belongs in the canonical ontology, nor does it authorize renaming the ontology. R1 fit does not substitute for cross-manufacturer matrix completion.",
+    "functionalCompatibility": true,
+    "inductionImplementationInCanonical": false,
+    "ontologyRenameAuthorized": false,
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0,
+    "normalizationCompoundingAuthorized": false,
+    "doesNotAuthorize": [
+      "mutating electric_range.json",
+      "creating induction_range.json",
+      "promoting induction_coil, resonant_inverter, igbt_module, pan_detection to canonical",
+      "automatic rename electric_range → range_oven",
+      "claiming cross-manufacturer induction consistency from R1 alone",
+      "normalization or manufacturer overlay compounding"
+    ]
+  },
+  "surfaceHeatFinding": {
+    "classification": "INHERITS",
+    "summary": "surface_heating_system survives induction inverter/coil/pan-detection architecture — cooktop heat generation remains independently diagnosable; induction hardware stays platform vocabulary."
+  },
+  "fitOutcomeRecommendation": {
+    "outcome": "A",
+    "label": "induction_fits_electric_contract",
+    "description": "Frozen electric_range rev1 absorbs Samsung induction R1 functional architecture without canonical expansion, divergence, or induction-side ontology. Induction hardware remains platform overlay vocabulary bound to frozen layers.",
+    "scope": "r1_implementation_fit",
+    "automaticClosure": false,
+    "requiresHumanBoundaryApproval": true,
+    "humanGateMayAlsoDecide": "Whether to run R2 Whirlpool WFI505 for cross-manufacturer matrix before CG-12 closure"
+  },
+  "deferredOrganizationalQuestion": {
+    "id": "electric_range_to_range_oven_rename",
+    "question": "Should the broader contract be renamed from electric_range to range_oven (or similar)?",
+    "trigger": "Cumulative fit evidence across fuel families — separate from CG-12 R1 alone",
+    "authorizedByThisAnalysis": false,
+    "separateHumanGate": true,
+    "note": "CG-12 R1 adds induction to gas fit evidence — rename remains organizational gate after family boundary review."
+  },
+  "postApprovalSequence": [
+    "Human reviews CG12_INDUCTION_FIT_ANALYSIS_v1.json and dual evaluation (R1 fit vs family confidence)",
+    "Human approves Outcome A, B, or C",
+    "Human optionally requires R2 Whirlpool WFI505 before closure — not mandatory for Outcome A on R1 fit",
+    "If Outcome A approved: author CG12_INDUCTION_FIT_CLOSURE_v1.json",
+    "CG-12 CLOSED — electric_range.json remains immutable; no normalization/compounding",
+    "Deferred: CG-13 dual-fuel fit; family boundary review; organizational rename gate"
+  ],
+  "futureWork": {
+    "cg13": "dual_fuel fit test — same frozen contract",
+    "optionalR2": "Whirlpool WFI505 — cross-manufacturer matrix only",
+    "optionalR3": "LG LSIL6334F — third matrix column",
+    "normalizationCompounding": "After CG-13 and family boundary review — not during CG-12",
+    "organizationalRenameGate": "electric_range → range_oven — cumulative evidence, separate human gate"
+  }
+}

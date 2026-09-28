@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_heat_pump_dryer_discovery_contract",
+  "workstream": "CG-HEAT-PUMP-DRYER-DISCOVERY",
+  "status": "active",
+  "activatedAt": "2026-09-17T15:00:00+00:00",
+  "humanAuthorization": {
+    "approvedAt": "2026-09-17T15:00:00+00:00",
+    "authorizationStatement": "APPROVED — AUTHORIZE CG-HEAT-PUMP-DRYER-DISCOVERY. Fit-test architectural_divergence GREEN with three-manufacturer convergence.",
+    "priorFitOutcome": "architectural_divergence",
+    "priorDivergencePackage": "CG_HEAT_PUMP_DRYER_FIT_DIVERGENCE_PACKAGE_v1.json"
+  },
+  "discoveryMode": "minimum_manufacturer_neutral_functional_contract",
+  "coreConstraint": "Establish minimum functional responsibilities for heat-pump drying — NOT a canonical copy of the physical refrigeration loop (compressor, evaporator, condenser, expansion device as separate nodes).",
+  "immutableFitInputs": {
+    "policy": "Read-only",
+    "artifacts": [
+      "CG_HEAT_PUMP_DRYER_FIT_TEST_CONTRACT_v1.json",
+      "CG_HPD_DV22N8650_FIT_OBSERVATION_v1.json",
+      "CG_HPD_DLHC1455_FIT_OBSERVATION_v1.json",
+      "CG_HEAT_PUMP_DRYER_FIT_TRIANGULATION_v1.json",
+      "CG_HEAT_PUMP_DRYER_FIT_ANALYSIS_v1.json",
+      "CG_HEAT_PUMP_DRYER_FIT_DIVERGENCE_PACKAGE_v1.json"
+    ]
+  },
+  "aioDependencyReference": {
+    "usage": "downstream_compatibility_check_only",
+    "artifacts": [
+      "CG_AIO_WD53DBA900_FIT_OBSERVATION_v1.json",
+      "CG_AIO_WFW9620_CORROBORATION_OBSERVATION_v1.json"
+    ],
+    "rule": "WD53/WFW9620 are NOT HP-dryer witnesses; do not create HP concepts from AIO alone"
+  },
+  "discoveryRules": [
+    "Functional responsibilities only — no manufacturer-specific component ontology.",
+    "Compressor, evaporator, condenser, expansion device, refrigerant thermistors, IPM/inverter, condensate pump are implementation vocabulary unless a higher-level abstraction is required.",
+    "Preserve vented_dryer concepts where they genuinely apply — reuse, do not duplicate.",
+    "Identify only functions that cannot be represented cleanly by vented_dryer.",
+    "Prefer minimum reusable functional boundaries.",
+    "Do not recreate ordinary dryer functions merely because implementation differs.",
+    "Do not infer a canonical node from a single manufacturer's terminology.",
+    "Do NOT encode the refrigeration hardware diagram as the canonical graph."
+  ],
+  "notCreating": [
+    "heat_pump_dryer.json",
+    "frozen:true canonical file",
+    "manufacturer overlays",
+    "mutations to vented_dryer.json",
+    "mutations to aio_laundry_combo candidate artifacts",
+    "corpus-wide normalization or compounding",
+    "automatic return to AIO workstream"
+  ],
+  "witnesses": {
+    "W1": { "manufacturer": "Samsung", "model": "DV22N6850", "manualId": "SAMSUNG-HP-DRYER-DV22N" },
+    "W2": { "manufacturer": "LG", "model": "DLHC1455", "manualId": "LG-DLHC1455-HP-DRYER" },
+    "W3": { "manufacturer": "Whirlpool", "model": "HybridCare", "manualId": "W10764068" }
+  },
+  "centerpieceQuestion": {
+    "question": "What is the minimum manufacturer-neutral functional ontology required to diagnose a standalone heat-pump dryer without encoding manufacturer-specific refrigeration hardware?",
+    "rejectedShortcut": "Promoting compressor, evaporator, condenser, and expansion valve as four canonical nodes because the sealed-system diagram labels them"
+  },
+  "requiredArtifacts": [
+    "CG_HEAT_PUMP_DRYER_DISCOVERY_TRIANGULATION_v1.json",
+    "heat_pump_dryer_functional_contract_candidate_v1.json",
+    "CG_HEAT_PUMP_DRYER_DISCOVERY_CLOSURE_v1.json"
+  ],
+  "permittedDiscoveryOutcomes": [
+    "candidate_ready_for_freeze",
+    "discovery_insufficient",
+    "existing_family_can_be_extended"
+  ]
+}

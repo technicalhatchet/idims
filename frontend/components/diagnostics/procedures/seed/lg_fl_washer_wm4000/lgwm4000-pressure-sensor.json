@@ -1,0 +1,66 @@
+{
+  "id": "lgwm4000-pressure-sensor",
+  "version": "1.0.0",
+  "title": "\u00a78: Pressure sensor",
+  "platformId": "lg_fl_washer_wm4000",
+  "componentIds": [
+    "water_level_sensor",
+    "pressure_hose"
+  ],
+  "tags": [
+    "water_level_failure"
+  ],
+  "source": {
+    "manualId": "LG-FL-WASHER",
+    "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+    "sourcePdf": "backend/docs/manuals/lg wm4000h fl washer service manual.pdf",
+    "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "8",
+    "oemTestTitle": "PRESSURE SENSOR",
+    "pages": [
+      33,
+      53
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_harness"
+    },
+    {
+      "id": "sensor_harness",
+      "order": 2,
+      "type": "instruction",
+      "title": "Pressure sensor harness",
+      "body": "Verify PRESSURE SENSOR connector and hose.",
+      "sourceExcerpt": "Verify PRESSURE SENSOR connector and hose.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_ok"
+    },
+    {
+      "id": "replace_sensor",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace pressure sensor",
+      "oemOutcome": "Replace sensor or hose when harness verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Pressure sensor OK",
+      "oemOutcome": "Water level pressure path verified.",
+      "requiresInput": false
+    }
+  ]
+}

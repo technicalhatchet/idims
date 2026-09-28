@@ -1,0 +1,368 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "microwave",
+  "manufacturer": "Samsung",
+  "label": "Samsung ME11 over-the-range microwave (ME11A7510DSAA*)",
+  "gateArtifact": "SAMSUNG_ME11_MICROWAVE_overlay_mapping_table_v1.json",
+  "normalizationSource": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json",
+  "evidenceIndependence": {
+    "rule": "Samsung realizations must be established by SAMSUNG-ME11-MICROWAVE evidence only",
+    "noBorrowFromLgOverlay": true,
+    "lgCompoundingNotEvidence": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_v1.json is not a Samsung evidence source"
+  },
+  "implementationRealizationPrecedence": {
+    "governanceClosure": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+    "authoritativeMapping": { "magnetron": "rf_cavity" },
+    "staleMetadataGuard": "Do not read microwave.json overlayOnlyConcepts.magnetron.realizes=hv_generation — non-authoritative per Branch A"
+  },
+  "platformFamilies": [
+    {
+      "platformFamilyId": "samsung_microwave_otr",
+      "platformId": "samsung_microwave_otr",
+      "manualId": "SAMSUNG-ME11-MICROWAVE",
+      "label": "Samsung ME11A7510DSAA over-the-range microwave",
+      "appliesTo": {
+        "templateIds": ["microwave"],
+        "manufacturers": ["Samsung"],
+        "modelPatterns": ["ME11A7510*", "ME11*"],
+        "platformIds": ["samsung_microwave_otr"]
+      },
+      "oemTermAliases": {
+        "main_pcb": "control_board",
+        "sub_pcb": "control_board",
+        "touch_panel": "user_interface",
+        "keypad": "user_interface",
+        "primary_interlock": "door_interlock_chain",
+        "secondary_interlock": "door_interlock_chain",
+        "monitor_switch": "door_interlock_chain",
+        "door_sensing_switch": "door_interlock_chain",
+        "power_relay": "hv_generation",
+        "ry206": "hv_generation",
+        "hv_transformer": "hv_generation",
+        "hv_capacitor": "hv_generation",
+        "hv_diode": "hv_generation",
+        "magnetron": "rf_cavity",
+        "turntable_motor": "rf_cavity",
+        "waveguide_cover": "rf_cavity",
+        "magnetron_tco": "thermal_protection",
+        "cavity_tco": "thermal_protection",
+        "hood_tco": "thermal_protection",
+        "bottom_tco": "thermal_protection",
+        "humidity_sensor": "control_and_sensing",
+        "temp_sensor": "control_and_sensing",
+        "vent_blower_motor": "ventilation_otr",
+        "run_capacitor": "ventilation_otr",
+        "supply": "power_supply",
+        "line_fuse": "power_supply"
+      },
+      "displayTerms": {
+        "power_supply": "120 VAC line / dead-unit supply path",
+        "control_board": "Main PCB + power relay RY206 HV enable",
+        "user_interface": "Touch keypad (C-F2 / C-d0)",
+        "door_interlock_chain": "Primary / secondary / monitor / door-sensing chain (§4-6)",
+        "hv_generation": "Power relay → transformer → capacitor → diode (§4-1–4-4)",
+        "rf_cavity": "Magnetron RF generation + turntable (§4-2, §3-7)",
+        "thermal_protection": "Four-TCO network — cavity/hood/bottom/magnetron (§4-8)",
+        "control_and_sensing": "Humidity + cavity temp sensor (§4-9/4-10, C-20)",
+        "ventilation_otr": "OTR vent blower + run capacitor (§4-7)"
+      },
+      "functionalRealizations": [
+        {
+          "canonicalLayer": "power_supply",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "line_supply", "displayLabel": "Line supply / dead-unit path" },
+          "diagnosticEvidence": {
+            "procedureIds": ["samsungotrmw-line-power"],
+            "branchIds": ["me11-dead-unit-tco-trip"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-ME11-MICROWAVE", "section": "5-1-dead", "pages": [32] }
+        },
+        {
+          "canonicalLayer": "control_board",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "power_relay", "displayLabel": "Power relay RY206 contacts" },
+          "diagnosticEvidence": {
+            "spec": "Relay contact continuity gates HV cascade after interlock + TCO",
+            "procedureIds": ["samsungotrmw-no-heat"],
+            "branchIds": ["me11-relay-contacts-open", "me11-relay-contacts-normal"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-ME11-MICROWAVE", "section": "5-1-no-heat", "pages": [33] }
+        },
+        {
+          "canonicalLayer": "control_board",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "main_pcb_comm", "displayLabel": "Main/sub PCB communication" },
+          "diagnosticEvidence": {
+            "procedureIds": ["samsungotrmw-pcb-comm"],
+            "errorCodes": ["C-F0", "C-F1"],
+            "branchIds": ["me11-pcb-comm-fail"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-ME11-MICROWAVE", "section": "5-3-2", "pages": [35] }
+        },
+        {
+          "canonicalLayer": "user_interface",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "touch_keypad", "displayLabel": "Touch membrane keypad" },
+          "diagnosticEvidence": {
+            "procedureIds": ["samsungotrmw-keypad-touch"],
+            "errorCodes": ["C-F2", "C-d0"],
+            "branchIds": ["me11-keypad-fail", "me11-keypad-pass"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-ME11-MICROWAVE", "section": "5-3-3", "pages": [35] }
+        },
+        {
+          "canonicalLayer": "door_interlock_chain",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "interlock_network", "displayLabel": "Four-switch interlock + door sensing" },
+          "diagnosticEvidence": {
+            "spec": "§4-6 latch adjustment; COM–NO per door state; vent cap discharge prerequisite",
+            "measurementIds": ["me11-door-primary", "me11-door-monitor", "me11-door-secondary"],
+            "procedureIds": ["samsungotrmw-door-interlock", "samsungotrmw-no-heat", "samsungotrmw-line-power"],
+            "errorCodes": ["C-F0"],
+            "branchIds": ["me11-interlock-primary-fail", "me11-interlock-monitor-fail"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-ME11-MICROWAVE", "section": "4-6", "pages": [24, 25] }
+        },
+        {
+          "canonicalLayer": "hv_generation",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "hv_transformer", "displayLabel": "High-voltage transformer (§4-1)" },
+          "diagnosticEvidence": {
+            "measurementIds": ["me11-hv-xfmr-primary-ohms", "me11-hv-xfmr-secondary-ohms"],
+            "procedureIds": ["samsungotrmw-hv-transformer", "samsungotrmw-no-heat"],
+            "branchIds": ["me11-hv-xfmr-primary-open", "me11-hv-xfmr-secondary-open"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-ME11-MICROWAVE", "section": "4-1", "pages": [20] }
+        },
+        {
+          "canonicalLayer": "hv_generation",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "hv_capacitor", "displayLabel": "High-voltage capacitor (§4-3)" },
+          "diagnosticEvidence": {
+            "procedureIds": ["samsungotrmw-hv-capacitor", "samsungotrmw-no-heat"],
+            "branchIds": ["me11-hv-cap-short", "me11-hv-cap-open"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-ME11-MICROWAVE", "section": "4-3", "pages": [22] }
+        },
+        {
+          "canonicalLayer": "hv_generation",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "hv_diode", "displayLabel": "High-voltage diode (§4-4)" },
+          "diagnosticEvidence": {
+            "measurementIds": ["me11-hv-diode-check"],
+            "procedureIds": ["samsungotrmw-hv-diode", "samsungotrmw-no-heat"],
+            "branchIds": ["me11-hv-diode-open", "me11-hv-diode-normal"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-ME11-MICROWAVE", "section": "4-4", "pages": [23] }
+        },
+        {
+          "canonicalLayer": "rf_cavity",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "magnetron", "displayLabel": "Magnetron (§4-2 RF generation)" },
+          "diagnosticEvidence": {
+            "spec": "Filament Ω with cavity coupling — downstream of HV cascade",
+            "measurementIds": ["me11-magnetron-filament-ohms"],
+            "procedureIds": ["samsungotrmw-magnetron", "samsungotrmw-no-heat"],
+            "branchIds": ["me11-mag-filament-open", "me11-mag-filament-normal"],
+            "precedenceNote": "magnetron→rf_cavity per Branch A — not hv_generation"
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-ME11-MICROWAVE", "section": "4-2", "pages": [21] }
+        },
+        {
+          "canonicalLayer": "rf_cavity",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "turntable_motor", "displayLabel": "Turntable drive motor (§3-7)" },
+          "diagnosticEvidence": {
+            "procedureIds": ["samsungotrmw-turntable"],
+            "branchIds": ["me11-turntable-harness-fail", "me11-turntable-motor-fail"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-ME11-MICROWAVE", "section": "3-7", "pages": [18] }
+        },
+        {
+          "canonicalLayer": "thermal_protection",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "four_tco_network", "displayLabel": "Cavity / hood / bottom / magnetron TCO network" },
+          "diagnosticEvidence": {
+            "spec": "248°F cavity/bottom; 158°F hood; 302°F resettable magnetron TCO",
+            "measurementIds": ["me11-cavity-tco", "me11-hood-tco", "me11-bottom-tco", "me11-magnetron-tco"],
+            "procedureIds": ["samsungotrmw-thermal-cutout", "samsungotrmw-line-power", "samsungotrmw-no-heat"],
+            "errorCodes": ["C-21"],
+            "branchIds": ["me11-tco-cavity-open", "me11-tco-magnetron-open"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-ME11-MICROWAVE", "section": "4-8", "pages": [26, 28] }
+        },
+        {
+          "canonicalLayer": "control_and_sensing",
+          "canonicalLayerKind": "conditionalConcept",
+          "implementation": { "platformTerm": "humidity_sensor", "displayLabel": "Humidity (gas) sensor (§4-14 / C-10)" },
+          "diagnosticEvidence": {
+            "measurementIds": ["me11-humidity-heater-ohms"],
+            "procedureIds": ["samsungotrmw-humidity-sensor"],
+            "errorCodes": ["C-10"],
+            "branchIds": ["me11-humidity-sensor-fault"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-ME11-MICROWAVE", "section": "4-14", "pages": [29] }
+        },
+        {
+          "canonicalLayer": "control_and_sensing",
+          "canonicalLayerKind": "conditionalConcept",
+          "implementation": { "platformTerm": "temp_sensor", "displayLabel": "Cavity temperature sensor (C-20)" },
+          "diagnosticEvidence": {
+            "procedureIds": ["samsungotrmw-temp-sensor"],
+            "errorCodes": ["C-20"],
+            "branchIds": ["me11-temp-sensor-short", "me11-temp-sensor-open"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-ME11-MICROWAVE", "section": "4-9", "pages": [27] }
+        },
+        {
+          "canonicalLayer": "ventilation_otr",
+          "canonicalLayerKind": "conditionalConcept",
+          "implementation": { "platformTerm": "vent_blower_motor", "displayLabel": "OTR vent exhaust blower (§4-7)" },
+          "diagnosticEvidence": {
+            "measurementIds": ["me11-vent-blower-ohms"],
+            "procedureIds": ["samsungotrmw-vent-motor"],
+            "branchIds": ["me11-vent-motor-open", "me11-vent-cap-discharge"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-ME11-MICROWAVE", "section": "4-7", "pages": [25] }
+        }
+      ],
+      "conditionalBindings": [
+        {
+          "conditionalConceptId": "control_and_sensing",
+          "implementationTerms": ["humidity_sensor", "temp_sensor"],
+          "procedureIds": ["samsungotrmw-humidity-sensor", "samsungotrmw-temp-sensor"]
+        },
+        {
+          "conditionalConceptId": "ventilation_otr",
+          "implementationTerms": ["vent_blower_motor", "run_capacitor"],
+          "procedureIds": ["samsungotrmw-vent-motor"]
+        }
+      ],
+      "add": {
+        "components": [
+          { "id": "power_relay", "name": "Power relay RY206", "aliases": ["power_relay", "ry206"], "systemId": "hv_excitation", "type": "actuator", "implementsCanonicalId": "hv_generation" },
+          { "id": "hv_transformer", "name": "High-voltage transformer", "aliases": ["hv_transformer"], "systemId": "hv_excitation", "type": "actuator", "implementsCanonicalId": "hv_generation" },
+          { "id": "hv_capacitor", "name": "High-voltage capacitor", "aliases": ["hv_capacitor"], "systemId": "hv_excitation", "type": "passive", "implementsCanonicalId": "hv_generation" },
+          { "id": "hv_diode", "name": "High-voltage diode", "aliases": ["hv_diode"], "systemId": "hv_excitation", "type": "passive", "implementsCanonicalId": "hv_generation" },
+          {
+            "id": "magnetron",
+            "name": "Magnetron",
+            "aliases": ["magnetron"],
+            "systemId": "rf_delivery",
+            "type": "actuator",
+            "implementsCanonicalId": "rf_cavity",
+            "note": "RF generation downstream of HV cascade — Samsung §4-2; realizes rf_cavity per Branch A precedence."
+          },
+          { "id": "turntable_motor", "name": "Turntable drive motor", "aliases": ["turntable_motor"], "systemId": "rf_delivery", "type": "actuator", "implementsCanonicalId": "rf_cavity" },
+          { "id": "primary_interlock", "name": "Primary interlock switch", "aliases": ["primary_interlock"], "systemId": "safety", "type": "sensor", "implementsCanonicalId": "door_interlock_chain" },
+          { "id": "secondary_interlock", "name": "Secondary interlock switch", "aliases": ["secondary_interlock"], "systemId": "safety", "type": "sensor", "implementsCanonicalId": "door_interlock_chain" },
+          { "id": "monitor_switch", "name": "Monitor interlock switch", "aliases": ["monitor_switch"], "systemId": "safety", "type": "sensor", "implementsCanonicalId": "door_interlock_chain" },
+          { "id": "door_sensing_switch", "name": "Door sensing switch", "aliases": ["door_sensing_switch"], "systemId": "safety", "type": "sensor", "implementsCanonicalId": "door_interlock_chain" },
+          { "id": "cavity_tco", "name": "Cavity TCO", "aliases": ["cavity_tco"], "systemId": "thermal", "type": "protective", "implementsCanonicalId": "thermal_protection" },
+          { "id": "hood_tco", "name": "Hood TCO", "aliases": ["hood_tco"], "systemId": "thermal", "type": "protective", "implementsCanonicalId": "thermal_protection" },
+          { "id": "bottom_tco", "name": "Bottom TCO", "aliases": ["bottom_tco"], "systemId": "thermal", "type": "protective", "implementsCanonicalId": "thermal_protection" },
+          { "id": "magnetron_tco", "name": "Magnetron TCO", "aliases": ["magnetron_tco"], "systemId": "thermal", "type": "protective", "implementsCanonicalId": "thermal_protection" },
+          { "id": "humidity_sensor", "name": "Humidity sensor", "aliases": ["humidity_sensor"], "systemId": "control", "type": "sensor", "implementsConditionalConceptId": "control_and_sensing" },
+          { "id": "temp_sensor", "name": "Cavity temperature sensor", "aliases": ["temp_sensor"], "systemId": "control", "type": "sensor", "implementsConditionalConceptId": "control_and_sensing" },
+          { "id": "vent_blower_motor", "name": "Vent blower motor", "aliases": ["vent_blower_motor"], "systemId": "thermal", "type": "actuator", "implementsConditionalConceptId": "ventilation_otr" },
+          { "id": "run_capacitor", "name": "Vent run capacitor", "aliases": ["run_capacitor"], "systemId": "thermal", "type": "passive", "implementsConditionalConceptId": "ventilation_otr" }
+        ],
+        "relationships": [
+          { "from": "power_relay", "to": "hv_generation", "type": "enables", "source": "service_manual", "confidence": "high" },
+          { "from": "hv_transformer", "to": "hv_generation", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "hv_capacitor", "to": "hv_generation", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "hv_diode", "to": "hv_generation", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "magnetron", "to": "rf_cavity", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "turntable_motor", "to": "rf_cavity", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "cavity_tco", "to": "thermal_protection", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "hood_tco", "to": "thermal_protection", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "bottom_tco", "to": "thermal_protection", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "magnetron_tco", "to": "thermal_protection", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "door_interlock_chain", "to": "hv_generation", "type": "inhibits", "source": "service_manual", "confidence": "high" },
+          { "from": "thermal_protection", "to": "hv_generation", "type": "inhibits", "source": "service_manual", "confidence": "high" }
+        ]
+      },
+      "procedureBindings": [
+        { "procedureId": "samsungotrmw-line-power", "canonicalComponents": ["power_supply", "control_board", "thermal_protection"], "displayTitle": "§5-1: Dead unit (no display)", "oemSection": "5-1-dead", "sourcePages": [32] },
+        { "procedureId": "samsungotrmw-keypad-touch", "canonicalComponents": ["user_interface", "control_board"], "displayTitle": "C-F2 / C-d0: Touch and key failure", "oemSection": "5-3-3", "sourcePages": [35] },
+        { "procedureId": "samsungotrmw-pcb-comm", "canonicalComponents": ["control_board"], "displayTitle": "C-F0 / C-F1: PCB communication", "oemSection": "5-3-2", "sourcePages": [35] },
+        { "procedureId": "samsungotrmw-door-interlock", "canonicalComponents": ["door_interlock_chain"], "displayTitle": "§4-6: Door interlock switches", "oemSection": "4-6", "sourcePages": [24, 25] },
+        { "procedureId": "samsungotrmw-hv-transformer", "canonicalComponents": ["hv_generation"], "displayTitle": "§4-1: High-voltage transformer", "oemSection": "4-1", "sourcePages": [20] },
+        { "procedureId": "samsungotrmw-hv-capacitor", "canonicalComponents": ["hv_generation"], "displayTitle": "§4-3: High-voltage capacitor", "oemSection": "4-3", "sourcePages": [22] },
+        { "procedureId": "samsungotrmw-hv-diode", "canonicalComponents": ["hv_generation"], "displayTitle": "§4-4: High-voltage diode", "oemSection": "4-4", "sourcePages": [23] },
+        { "procedureId": "samsungotrmw-magnetron", "canonicalComponents": ["rf_cavity"], "displayTitle": "§4-2: Magnetron", "oemSection": "4-2", "sourcePages": [21], "note": "magnetron→rf_cavity per precedence exception" },
+        { "procedureId": "samsungotrmw-turntable", "canonicalComponents": ["rf_cavity"], "displayTitle": "§3-7: Turntable drive motor", "oemSection": "3-7", "sourcePages": [18] },
+        { "procedureId": "samsungotrmw-no-heat", "canonicalComponents": ["hv_generation", "rf_cavity", "door_interlock_chain", "thermal_protection"], "displayTitle": "§5-1: No heat (timer runs)", "oemSection": "5-1-no-heat", "sourcePages": [33] },
+        { "procedureId": "samsungotrmw-thermal-cutout", "canonicalComponents": ["thermal_protection"], "displayTitle": "§4-8: Thermal cutouts (TCO)", "oemSection": "4-8", "sourcePages": [26, 28] },
+        { "procedureId": "samsungotrmw-humidity-sensor", "conditionalConcepts": ["control_and_sensing"], "displayTitle": "§4-14 / C-10: Humidity sensor", "oemSection": "4-14", "sourcePages": [29] },
+        { "procedureId": "samsungotrmw-temp-sensor", "conditionalConcepts": ["control_and_sensing"], "displayTitle": "C-20: Temperature sensor", "oemSection": "4-9", "sourcePages": [27] },
+        { "procedureId": "samsungotrmw-vent-motor", "conditionalConcepts": ["ventilation_otr"], "displayTitle": "§4-7: Vent exhaust blower", "oemSection": "4-7", "sourcePages": [25] }
+      ],
+      "measurementBindings": [
+        { "normalizationId": "me11-door-primary", "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms", "procedureId": "samsungotrmw-door-interlock", "canonicalLayer": "door_interlock_chain", "testPoint": "Primary interlock COM-NO" },
+        { "normalizationId": "me11-door-monitor", "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms", "procedureId": "samsungotrmw-door-interlock", "canonicalLayer": "door_interlock_chain", "testPoint": "Monitor switch COM-NO" },
+        { "normalizationId": "me11-door-secondary", "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms", "procedureId": "samsungotrmw-door-interlock", "canonicalLayer": "door_interlock_chain", "testPoint": "Secondary interlock COM-NO" },
+        { "normalizationId": "me11-dead-unit-tco", "measurementKnowledgeId": "microwaveThermalCutoutOhms", "procedureId": "samsungotrmw-line-power", "canonicalLayer": "thermal_protection", "testPoint": "Magnetron TCO on dead-unit path" },
+        { "normalizationId": "me11-no-heat-magnetron-tco", "measurementKnowledgeId": "microwaveThermalCutoutOhms", "procedureId": "samsungotrmw-no-heat", "canonicalLayer": "thermal_protection", "testPoint": "Magnetron TCO on no-heat path" },
+        { "normalizationId": "me11-cavity-tco", "measurementKnowledgeId": "microwaveThermalCutoutOhms", "procedureId": "samsungotrmw-thermal-cutout", "canonicalLayer": "thermal_protection", "testPoint": "Cavity/flame TCO 248°F" },
+        { "normalizationId": "me11-hood-tco", "measurementKnowledgeId": "microwaveThermalCutoutOhms", "procedureId": "samsungotrmw-thermal-cutout", "canonicalLayer": "thermal_protection", "testPoint": "Hood TCO 158°F" },
+        { "normalizationId": "me11-hv-xfmr-primary-ohms", "measurementKnowledgeId": "samsungMe11HvTransformerPrimaryOhms", "procedureId": "samsungotrmw-hv-transformer", "canonicalLayer": "hv_generation" },
+        { "normalizationId": "me11-hv-xfmr-secondary-ohms", "measurementKnowledgeId": "samsungMe11HvTransformerSecondaryOhms", "procedureId": "samsungotrmw-hv-transformer", "canonicalLayer": "hv_generation" },
+        { "normalizationId": "me11-hv-diode-check", "measurementKnowledgeId": "microwaveHVDiodeCheck", "procedureId": "samsungotrmw-hv-diode", "canonicalLayer": "hv_generation" },
+        { "normalizationId": "me11-magnetron-filament-ohms", "measurementKnowledgeId": "microwaveMagnetronFilamentOhms", "procedureId": "samsungotrmw-magnetron", "canonicalLayer": "rf_cavity" },
+        { "normalizationId": "me11-humidity-heater-ohms", "measurementKnowledgeId": "samsungMe11HumiditySensorHeaterOhms", "procedureId": "samsungotrmw-humidity-sensor", "conditionalConcept": "control_and_sensing" },
+        { "normalizationId": "me11-vent-blower-ohms", "measurementKnowledgeId": "samsungMe11VentBlowerOhms", "procedureId": "samsungotrmw-vent-motor", "conditionalConcept": "ventilation_otr" }
+      ],
+      "decisionBranchBindings": [
+        { "branchId": "me11-interlock-primary-fail", "procedureId": "samsungotrmw-door-interlock", "canonicalLayer": "door_interlock_chain", "executable": true },
+        { "branchId": "me11-interlock-monitor-fail", "procedureId": "samsungotrmw-door-interlock", "canonicalLayer": "door_interlock_chain", "executable": true },
+        { "branchId": "me11-relay-contacts-open", "procedureId": "samsungotrmw-no-heat", "canonicalLayer": "hv_generation", "executable": true },
+        { "branchId": "me11-hv-xfmr-primary-open", "procedureId": "samsungotrmw-hv-transformer", "canonicalLayer": "hv_generation", "executable": true },
+        { "branchId": "me11-hv-diode-open", "procedureId": "samsungotrmw-hv-diode", "canonicalLayer": "hv_generation", "executable": true },
+        { "branchId": "me11-mag-filament-open", "procedureId": "samsungotrmw-magnetron", "canonicalLayer": "rf_cavity", "executable": true },
+        { "branchId": "me11-mag-filament-normal", "procedureId": "samsungotrmw-magnetron", "canonicalLayer": "rf_cavity", "executable": true },
+        { "branchId": "me11-tco-magnetron-open", "procedureId": "samsungotrmw-thermal-cutout", "canonicalLayer": "thermal_protection", "executable": true },
+        { "branchId": "me11-tco-cavity-open", "procedureId": "samsungotrmw-thermal-cutout", "canonicalLayer": "thermal_protection", "executable": true },
+        { "branchId": "me11-humidity-sensor-fault", "procedureId": "samsungotrmw-humidity-sensor", "conditionalConcept": "control_and_sensing", "executable": true },
+        { "branchId": "me11-temp-sensor-short", "procedureId": "samsungotrmw-temp-sensor", "conditionalConcept": "control_and_sensing", "executable": true },
+        { "branchId": "me11-vent-motor-open", "procedureId": "samsungotrmw-vent-motor", "conditionalConcept": "ventilation_otr", "executable": true },
+        { "branchId": "me11-keypad-fail", "procedureId": "samsungotrmw-keypad-touch", "canonicalLayer": "user_interface", "executable": true },
+        { "branchId": "me11-pcb-comm-fail", "procedureId": "samsungotrmw-pcb-comm", "canonicalLayer": "control_board", "executable": true }
+      ],
+      "routingRejections": [
+        { "conceptId": "magnetron", "verdict": "reject_hv_generation_realization", "note": "Branch A precedence — magnetron binds rf_cavity only." },
+        { "conceptId": "pcb_thermistor", "verdict": "reject_lg_only_borrowing", "note": "LG pcb_thermistor realization not evidenced on Samsung ME11 manual — use four-TCO network." },
+        { "conceptId": "noise_filter_coil", "verdict": "reject_lg_only_borrowing", "note": "LG-specific supply path — not Samsung ME11 evidence." },
+        { "conceptId": "hv_fuse", "verdict": "reject_unevidenced_borrowing", "note": "Samsung ME11 normalization has no dedicated HV fuse procedure — do not inherit LG hv_fuse realization." },
+        { "conceptId": "magnetron", "verdict": "reject_canonical_promotion", "note": "Platform vocabulary only." }
+      ]
+    }
+  ],
+  "status": "published",
+  "gateKind": "samsung_me11_second_microwave_compounding",
+  "compoundingEvidence": {
+    "phase": "CG-MICROWAVE-COMPOUNDING",
+    "sequence": 2,
+    "manualId": "SAMSUNG-ME11-MICROWAVE",
+    "platformId": "samsung_microwave_otr",
+    "normalizationArtifact": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json",
+    "gateArtifact": "SAMSUNG_ME11_MICROWAVE_overlay_mapping_table_v1.json",
+    "auditArtifact": "CG_MICROWAVE_SAMSUNG_ME11_COMPOUNDING_AUDIT_v1.json",
+    "priorSequenceAudit": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_AUDIT_v1.json",
+    "accounting": {
+      "canonicalInheritances": 7,
+      "conditionalBindings": 2,
+      "overlayImplementationComponents": 18,
+      "proceduresBound": 14,
+      "measurementsBound": 13,
+      "decisionBranchesExecutable": 14,
+      "functionalRealizations": 14,
+      "canonicalExpansion": 0,
+      "ontologyMutations": 0,
+      "staleMagnetronRealizesNotPropagated": true,
+      "lgEvidenceBorrowing": 0
+    },
+    "publishedAt": "2026-09-17T12:50:00+00:00"
+  }
+}

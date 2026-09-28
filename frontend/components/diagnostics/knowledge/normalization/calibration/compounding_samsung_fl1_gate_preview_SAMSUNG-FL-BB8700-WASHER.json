@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "samsung_fl_gate_preview",
+  "experiment": "CG-5.6 Samsung FL #1 — cross-manufacturer (gate-preview metrics only)",
+  "manualId": "SAMSUNG-FL-BB8700-WASHER",
+  "platformId": "samsung_fl_washer_bb8700",
+  "model": "WF53BB8700",
+  "corpusPriorManualIds": ["W8178558", "W11169652"],
+  "platformPriorManualIds": [],
+  "generatedAt": "2026-09-13T14:15:00+00:00",
+  "metricsSource": "gate_preview",
+  "gatePreview": {
+    "reviewRecords": 29,
+    "inheritedCorpusKnowledge": 14,
+    "inheritedPlatformFamilyKnowledge": 0,
+    "newPlatformKnowledge": 1,
+    "newModelSpecificKnowledge": 0,
+    "newCanonicalKnowledge": 0,
+    "newHumanDecisionCount": 6,
+    "newHumanDecisionRate": 0.2069,
+    "gateTermResolutions": {
+      "inherited_corpus_knowledge": 5,
+      "new_platform_knowledge": 1
+    },
+    "killerMetric": "1 new platform / 0 new canonical"
+  },
+  "fourQuestions": {
+    "canonicalTransfer": "5/6 gate mappings inherited corpus + 14 total inherited corpus concepts",
+    "platformIsolation": "0 inherited Whirlpool platform family",
+    "samsungPlatformEstablishment": "inverter_board (9C5 current sense) — platform additive component",
+    "ontologyPressure": "0 new canonical — high bar intact"
+  },
+  "architectureBoundary": "cg5-samsung-fl-architecture-boundary.test.ts PASS",
+  "published": {
+    "promotionId": "promo-SAMSUNG-FL-BB8700-WASHER-20260913142749",
+    "equivalence": "PASS",
+    "canonicalGraphValidation": "PASS",
+    "frozenBaseline": "compounding_baseline_v1_samsung_fl1.json"
+  },
+  "pipelineReport": "compounding_pipeline_SAMSUNG-FL-BB8700-WASHER.json",
+  "methodology": "compounding_methodology_v1.json"
+}

@@ -1,0 +1,1350 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "compoundingRole": "corroboration",
+  "notRetroactiveFitEvidence": true,
+  "canonicalOntologyId": "range_oven",
+  "manufacturer": "Whirlpool",
+  "manufacturerFamily": [
+    "Whirlpool",
+    "Maytag",
+    "KitchenAid",
+    "Kenmore",
+    "JennAir",
+    "IKEA",
+    "Amana"
+  ],
+  "label": "Whirlpool-family freestanding range \u2014 W11174814 corroboration corpus",
+  "gateArtifact": "WHIRLPOOL_W11174814_RANGE_overlay_mapping_table_v1.json",
+  "normalizationSource": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+  "corroborationPolicy": {
+    "purpose": "Cross-manufacturer corroboration of range_oven contract \u2014 not retroactive CG-10\u201313 fit evidence",
+    "notRetroactiveFitEvidence": true,
+    "doesNotReopen": [
+      "CG-10",
+      "CG-11",
+      "CG-12",
+      "CG-13"
+    ],
+    "samsungWitnessOverlaysUntouched": [
+      "samsung_range_nx60.json",
+      "samsung_range_ne58.json",
+      "samsung_range_ny63.json"
+    ]
+  },
+  "platformFamilies": [
+    {
+      "platformFamilyId": "whirlpool_freestanding_range_w11174814",
+      "platformId": "whirlpool_freestanding_range",
+      "manualId": "W11174814",
+      "label": "Whirlpool-family freestanding range (W11174814 corroboration)",
+      "appliesTo": {
+        "templateIds": [
+          "electric_range",
+          "gas_range",
+          "induction_range",
+          "dual_fuel_range"
+        ],
+        "manufacturers": [
+          "Whirlpool",
+          "Maytag",
+          "KitchenAid",
+          "Kenmore",
+          "JennAir",
+          "IKEA",
+          "Amana"
+        ],
+        "modelPatterns": [
+          "WFE*",
+          "WFG*",
+          "MER*",
+          "MGR*",
+          "KFE*",
+          "KFG*",
+          "JES*",
+          "JGS*",
+          "AER*",
+          "AGR*"
+        ],
+        "platformIds": [
+          "whirlpool_freestanding_range"
+        ]
+      },
+      "fuelImplementationSlices": [
+        "electric_radiant",
+        "induction",
+        "gas",
+        "dual_fuel"
+      ],
+      "oemTermAliases": {
+        "infinite_switch": "surface_heating_system",
+        "ceran_element": "surface_heating_system",
+        "ipc_induction_power_control": "surface_heating_system",
+        "surface_spark_module": "surface_heating_system",
+        "dsi_board": "control_board",
+        "bake_element": "bake_heating_element",
+        "hidden_bake_element": "bake_heating_element",
+        "broil_element": "broil_heating_element",
+        "hot_surface_igniter": "bake_heating_element",
+        "door_latch_motor": "oven_door_switch",
+        "thermo_fuse": "thermal_protection"
+      },
+      "displayTerms": {
+        "power_supply": "240 V wall outlet + 120 V control supply",
+        "control_board": "Maxwell / LCX-LCC / Indigo / Copernicus + DSI boards",
+        "user_interface": "Touch keypad / infinite knobs / Indigo UI",
+        "temperature_sensor": "Main oven RTD \u2014 1000\u20131200 \u03a9 @ room",
+        "surface_heating_system": "Radiant infinite switch / ceran / IPC induction / gas spark",
+        "bake_heating_element": "Electric bake or gas DSI/igniter path",
+        "broil_heating_element": "Electric broil or gas igniter path",
+        "convection_heating_element": "Convection element (~16 \u03a9 gas Maxwell)",
+        "convection_fan": "Convection fan motor \u2014 family-specific \u03a9 bands",
+        "thermal_protection": "Thermo fuse + cooktop limiter switches",
+        "oven_door_switch": "Door latch motor 500\u20133000 \u03a9 (F5E1)"
+      },
+      "functionalRealizations": [
+        {
+          "canonicalLayer": "temperature_sensor",
+          "canonicalLayerKind": "component",
+          "implementation": {
+            "platformTerm": "oven_rtd",
+            "displayLabel": "Main oven temperature sensor (RTD)"
+          },
+          "diagnosticEvidence": {
+            "spec": "1000\u20131200 \u03a9 @ room \u2014 P10/P3/Con3 test points per control family",
+            "measurementIds": [
+              "w11174814-oven-sensor-ohms"
+            ],
+            "procedureIds": [
+              "w11174426-oven-sensor",
+              "w11746350-oven-sensor"
+            ],
+            "branchIds": [
+              "w11174814-f3e0-sensor-fault"
+            ],
+            "errorCodes": [
+              "F3E0"
+            ]
+          },
+          "corroborationNote": "Samsung witnesses ~1080 \u03a9 \u2014 same functional layer, OEM band differs",
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "3-33 / 3-41",
+            "pages": [
+              45,
+              73
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "surface_heating_system",
+          "canonicalLayerKind": "component",
+          "fuelSlice": "electric_radiant",
+          "implementation": {
+            "platformTerm": "infinite_switch",
+            "displayLabel": "Cooktop infinite switch + limiter"
+          },
+          "diagnosticEvidence": {
+            "procedureIds": [
+              "w11174426-infinite-switch",
+              "w11746350-bridge-element"
+            ],
+            "branchIds": [
+              "w11174814-infinite-switch-fault"
+            ]
+          },
+          "corroborationNote": "Radiant surface path \u2014 parallels electric ceran surface vocabulary",
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "3-41",
+            "pages": [
+              45,
+              47
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "surface_heating_system",
+          "canonicalLayerKind": "component",
+          "fuelSlice": "electric_radiant",
+          "implementation": {
+            "platformTerm": "ceran_element",
+            "displayLabel": "Ceran radiant cooktop element"
+          },
+          "diagnosticEvidence": {
+            "spec": "23\u201383 \u03a9 H1\u2194H2; thermal limiter opens 1100\u00b0F",
+            "measurementIds": [
+              "w11174814-ceran-element-ohms"
+            ],
+            "procedureIds": [
+              "w11174814-ceran-element"
+            ],
+            "branchIds": [
+              "w11174814-ceran-open-replace"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "3-47",
+            "pages": [
+              86,
+              87
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "surface_heating_system",
+          "canonicalLayerKind": "component",
+          "fuelSlice": "induction",
+          "implementation": {
+            "platformTerm": "ipc_induction_power_control",
+            "displayLabel": "Induction Power Control (IPC) module"
+          },
+          "diagnosticEvidence": {
+            "procedureIds": [
+              "w11174814-induction-ipc-path"
+            ],
+            "branchIds": [
+              "w11174814-ipc-replace-module"
+            ],
+            "implementationTerms": [
+              "coil_thermistor_j604_j605",
+              "blower_j205"
+            ]
+          },
+          "corroborationNote": "Whirlpool IPC parallels Samsung inverter/IGBT \u2014 surface_heating_system only",
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "4-05 / 4-10",
+            "pages": [
+              66,
+              67
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "surface_heating_system",
+          "canonicalLayerKind": "component",
+          "fuelSlice": "gas",
+          "implementation": {
+            "platformTerm": "surface_spark_module",
+            "displayLabel": "Surface burner spark module"
+          },
+          "diagnosticEvidence": {
+            "spec": "120 VAC L\u2194N with knob in LITE",
+            "measurementIds": [
+              "w11174814-surface-spark-vac"
+            ],
+            "procedureIds": [
+              "w11174426-surface-spark",
+              "w11746350-surface-spark"
+            ],
+            "branchIds": [
+              "w11174814-surface-spark-no-voltage"
+            ]
+          },
+          "corroborationNote": "Gas surface spark \u2014 parallels NX60/NY63 spark_module vocabulary",
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "3-44",
+            "pages": [
+              47
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "bake_heating_element",
+          "canonicalLayerKind": "instanceScope",
+          "fuelSlice": "electric_radiant",
+          "implementation": {
+            "platformTerm": "bake_element",
+            "displayLabel": "Visible/hidden electric bake element"
+          },
+          "diagnosticEvidence": {
+            "spec": "10\u201340 \u03a9 visible; ~23.3 \u03a9 Copernicus hidden bake",
+            "measurementIds": [
+              "w11174814-bake-element-ohms",
+              "w11174814-hidden-bake-ohms"
+            ],
+            "procedureIds": [
+              "w11174426-bake-element",
+              "w11746350-bake-element"
+            ],
+            "branchIds": [
+              "w11174814-bake-element-out-of-range"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "3-33 / 3",
+            "pages": [
+              73,
+              47
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "bake_heating_element",
+          "canonicalLayerKind": "instanceScope",
+          "fuelSlice": "gas",
+          "implementation": {
+            "platformTerm": "bake_igniter",
+            "displayLabel": "Gas oven bake hot-surface igniter"
+          },
+          "diagnosticEvidence": {
+            "spec": "40\u2013400 \u03a9 cold; DSI coil 216 \u03a9",
+            "measurementIds": [
+              "w11174814-gas-igniter-ohms",
+              "w11174814-dsi-coil-ohms"
+            ],
+            "procedureIds": [
+              "w11174814-gas-igniter",
+              "w11174426-dsi-board",
+              "w11746350-dsi-gas-valve"
+            ],
+            "branchIds": [
+              "w11174814-igniter-out-of-range",
+              "w11174814-dsi-coil-fault"
+            ]
+          },
+          "corroborationNote": "Gas bake path via DSI \u2014 parallels NX60 HSI instance scope binding",
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "3-47 / 3-36",
+            "pages": [
+              76,
+              86
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "broil_heating_element",
+          "canonicalLayerKind": "instanceScope",
+          "implementation": {
+            "platformTerm": "broil_element",
+            "displayLabel": "Electric or gas broil path"
+          },
+          "diagnosticEvidence": {
+            "spec": "10\u201340 \u03a9 electric broil; gas igniter 40\u2013400 \u03a9",
+            "measurementIds": [
+              "w11174814-broil-element-ohms",
+              "w11174814-gas-igniter-ohms"
+            ],
+            "procedureIds": [
+              "w11174426-broil-element",
+              "w11174814-gas-igniter"
+            ],
+            "branchIds": [
+              "w11174814-broil-element-out-of-range",
+              "w11174814-igniter-out-of-range"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "3-33 / 3-47",
+            "pages": [
+              73,
+              86
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "convection_heating_element",
+          "canonicalLayerKind": "conditionalInstanceScope",
+          "implementation": {
+            "platformTerm": "convection_heater",
+            "displayLabel": "Convection heating element"
+          },
+          "diagnosticEvidence": {
+            "spec": "~16 \u03a9 Maxwell gas convection element",
+            "measurementIds": [
+              "w11174814-convection-element-ohms"
+            ],
+            "procedureIds": [
+              "w11746350-convect-element"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "3-36",
+            "pages": [
+              76
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "convection_fan",
+          "canonicalLayerKind": "conditionalConcept",
+          "implementation": {
+            "platformTerm": "convection_fan_motor",
+            "displayLabel": "Convection fan motor"
+          },
+          "diagnosticEvidence": {
+            "spec": "85\u201390 \u03a9 Maxwell; 80\u201395 \u03a9 Indigo; 10\u201380 \u03a9 LCC gas",
+            "measurementIds": [
+              "w11174814-convection-fan-ohms"
+            ],
+            "procedureIds": [
+              "w11746350-vent-fan"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "3-33",
+            "pages": [
+              73
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "oven_door_switch",
+          "canonicalLayerKind": "conditionalConcept",
+          "implementation": {
+            "platformTerm": "door_latch_motor",
+            "displayLabel": "Door latch motor / position switch"
+          },
+          "diagnosticEvidence": {
+            "spec": "500\u20133000 \u03a9 latch motor",
+            "measurementIds": [
+              "w11174814-door-latch-ohms"
+            ],
+            "procedureIds": [
+              "w11174426-door-latch",
+              "w11746350-door-latch"
+            ],
+            "branchIds": [
+              "w11174814-door-latch-fault"
+            ],
+            "errorCodes": [
+              "F5E1"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "3-41",
+            "pages": [
+              45
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "thermal_protection",
+          "canonicalLayerKind": "conditionalConcept",
+          "implementation": {
+            "platformTerm": "thermo_fuse",
+            "displayLabel": "Oven thermo fuse + cooktop limiter"
+          },
+          "diagnosticEvidence": {
+            "spec": "Thermo fuse continuity; opens >363\u00b0F rear; limiter 1050\u00b0F",
+            "procedureIds": [
+              "w11746350-thermal-fuse"
+            ],
+            "branchIds": [
+              "w11174814-thermo-fuse-open"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "3-33",
+            "pages": [
+              73
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "control_board",
+          "canonicalLayerKind": "component",
+          "implementation": {
+            "platformTerm": "control_family",
+            "displayLabel": "Maxwell / LCX-LCC / Indigo / Copernicus ACU + DSI"
+          },
+          "diagnosticEvidence": {
+            "spec": "DSI 8\u201318 VDC; coil 216 \u03a9; multi-family diagnostic entry bundles",
+            "measurementIds": [
+              "w11174814-dsi-voltage",
+              "w11174814-dsi-coil-ohms",
+              "w11174814-control-supply-vac"
+            ],
+            "procedureIds": [
+              "w11174426-acu-power",
+              "w11174426-dsi-board",
+              "w11746350-acu-power",
+              "w11746350-dsi-gas-valve"
+            ],
+            "branchIds": [
+              "w11174814-dsi-coil-fault",
+              "w11174814-control-replace",
+              "w11174814-acu-comm-fault"
+            ]
+          },
+          "corroborationNote": "Cross-domain control without dual_fuel canonical node \u2014 corroborates CG-13",
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "2 / 3-36",
+            "pages": [
+              25,
+              76
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "user_interface",
+          "canonicalLayerKind": "component",
+          "implementation": {
+            "platformTerm": "touch_keypad",
+            "displayLabel": "Touch keypad / infinite knobs / Indigo UI"
+          },
+          "diagnosticEvidence": {
+            "procedureIds": [
+              "w11174426-hmi",
+              "w11746350-hmi"
+            ],
+            "branchIds": [
+              "w11174814-hmi-replace-control"
+            ],
+            "errorCodes": [
+              "F2E1"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "2",
+            "pages": [
+              25,
+              26
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "power_supply",
+          "canonicalLayerKind": "component",
+          "implementation": {
+            "platformTerm": "line_supply",
+            "displayLabel": "240 V wall outlet + 120 V control supply"
+          },
+          "diagnosticEvidence": {
+            "spec": "240+10%/-15% V wall; 120 VAC P1-1\u2194P1-3",
+            "measurementIds": [
+              "w11174814-wall-supply-vac",
+              "w11174814-control-supply-vac"
+            ],
+            "procedureIds": [
+              "w11174426-acu-power",
+              "w11746350-acu-power"
+            ],
+            "branchIds": [
+              "w11174814-control-replace"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+            "sourceManual": "W11174814",
+            "section": "2 / 3-33",
+            "pages": [
+              25,
+              73
+            ]
+          }
+        }
+      ],
+      "instanceScopeBindings": [
+        {
+          "instanceScopeId": "bake_heating_element",
+          "implementationTerms": [
+            "bake_element",
+            "hidden_bake_element",
+            "bake_igniter",
+            "dsi_board"
+          ],
+          "fuelSlices": [
+            "electric_radiant",
+            "gas"
+          ]
+        },
+        {
+          "instanceScopeId": "broil_heating_element",
+          "implementationTerms": [
+            "broil_element",
+            "broil_igniter"
+          ],
+          "fuelSlices": [
+            "electric_radiant",
+            "gas"
+          ]
+        }
+      ],
+      "conditionalInstanceScopeBindings": [
+        {
+          "conditionalInstanceScopeId": "convection_heating_element",
+          "implementationTerms": [
+            "convection_heater"
+          ],
+          "procedureIds": [
+            "w11746350-convect-element"
+          ]
+        }
+      ],
+      "conditionalConceptBindings": [
+        {
+          "conditionalConceptId": "convection_fan",
+          "implementationTerms": [
+            "convection_fan_motor"
+          ],
+          "procedureIds": [
+            "w11746350-vent-fan"
+          ]
+        },
+        {
+          "conditionalConceptId": "thermal_protection",
+          "implementationTerms": [
+            "thermo_fuse",
+            "limiter_switch"
+          ],
+          "procedureIds": [
+            "w11746350-thermal-fuse"
+          ]
+        },
+        {
+          "conditionalConceptId": "oven_door_switch",
+          "implementationTerms": [
+            "door_latch_motor"
+          ],
+          "procedureIds": [
+            "w11174426-door-latch",
+            "w11746350-door-latch"
+          ]
+        }
+      ],
+      "add": {
+        "components": [
+          {
+            "id": "infinite_switch",
+            "name": "Cooktop infinite switch",
+            "systemId": "surface_heating",
+            "type": "actuator",
+            "implementsCanonicalId": "surface_heating_system",
+            "fuelSlice": "electric_radiant"
+          },
+          {
+            "id": "ceran_element",
+            "name": "Ceran radiant element",
+            "systemId": "surface_heating",
+            "type": "actuator",
+            "implementsCanonicalId": "surface_heating_system",
+            "fuelSlice": "electric_radiant"
+          },
+          {
+            "id": "ipc_induction_power_control",
+            "name": "Induction Power Control module",
+            "aliases": [
+              "IPC",
+              "induction_module"
+            ],
+            "systemId": "surface_heating",
+            "type": "actuator",
+            "implementsCanonicalId": "surface_heating_system",
+            "fuelSlice": "induction"
+          },
+          {
+            "id": "surface_spark_module",
+            "name": "Surface burner spark module",
+            "systemId": "surface_heating",
+            "type": "actuator",
+            "implementsCanonicalId": "surface_heating_system",
+            "fuelSlice": "gas"
+          },
+          {
+            "id": "dsi_board",
+            "name": "DSI ignition board",
+            "systemId": "oven_heat_generation",
+            "type": "actuator",
+            "implementsCanonicalId": "control_board",
+            "fuelSlice": "gas"
+          },
+          {
+            "id": "bake_element",
+            "name": "Electric bake element",
+            "systemId": "oven_heat_generation",
+            "type": "actuator",
+            "implementsInstanceScopeId": "bake_heating_element"
+          },
+          {
+            "id": "hidden_bake_element",
+            "name": "Hidden bake element (Copernicus)",
+            "systemId": "oven_heat_generation",
+            "type": "actuator",
+            "implementsInstanceScopeId": "bake_heating_element"
+          },
+          {
+            "id": "broil_element",
+            "name": "Electric broil element",
+            "systemId": "oven_heat_generation",
+            "type": "actuator",
+            "implementsInstanceScopeId": "broil_heating_element"
+          },
+          {
+            "id": "bake_igniter",
+            "name": "Gas bake hot-surface igniter",
+            "systemId": "oven_heat_generation",
+            "type": "actuator",
+            "implementsInstanceScopeId": "bake_heating_element",
+            "fuelSlice": "gas"
+          },
+          {
+            "id": "convection_heater",
+            "name": "Convection heating element",
+            "systemId": "oven_heat_generation",
+            "type": "actuator",
+            "implementsConditionalInstanceScopeId": "convection_heating_element"
+          },
+          {
+            "id": "convection_fan_motor",
+            "name": "Convection fan motor",
+            "systemId": "oven_airflow",
+            "type": "actuator",
+            "implementsConditionalConceptId": "convection_fan"
+          },
+          {
+            "id": "door_latch_motor",
+            "name": "Door latch motor",
+            "systemId": "door_authorization",
+            "type": "actuator",
+            "implementsConditionalConceptId": "oven_door_switch"
+          },
+          {
+            "id": "thermo_fuse",
+            "name": "Oven thermo fuse",
+            "systemId": "thermal_management",
+            "type": "passive",
+            "implementsConditionalConceptId": "thermal_protection"
+          },
+          {
+            "id": "warming_drawer_element",
+            "name": "Warming drawer element",
+            "systemId": "accessory",
+            "type": "actuator",
+            "note": "PLATFORM_ONLY \u2014 accessory, not canonical"
+          },
+          {
+            "id": "warming_drawer_rtd",
+            "name": "Warming drawer RTD",
+            "systemId": "accessory",
+            "type": "sensor",
+            "note": "PLATFORM_ONLY \u2014 F3E2 accessory sensor"
+          },
+          {
+            "id": "oven_light_assembly",
+            "name": "Oven light assembly",
+            "systemId": "accessory",
+            "type": "actuator",
+            "note": "PLATFORM_ONLY \u2014 not canonical oven_light node"
+          }
+        ],
+        "relationships": [
+          {
+            "from": "ipc_induction_power_control",
+            "to": "surface_heating_system",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Corroborates CG-12 \u2014 induction under surface_heating_system."
+          },
+          {
+            "from": "surface_spark_module",
+            "to": "surface_heating_system",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Corroborates CG-11 gas surface vocabulary."
+          },
+          {
+            "from": "bake_element",
+            "to": "bake_heating_element",
+            "type": "implements_instance_scope",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "dsi_board",
+            "to": "control_board",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Gas oven DSI orchestration \u2014 dual-domain corroboration for CG-13."
+          }
+        ]
+      },
+      "procedureBindings": [
+        {
+          "procedureId": "w11174814-warming-drawer-sensor",
+          "displayTitle": "\u00a73-33+: Warming drawer RTD (F3E2)",
+          "oemSection": "3-33 / 3-37",
+          "sourcePages": [
+            73,
+            77
+          ],
+          "fuelSlice": "electric_radiant",
+          "controlFamily": "maxwell_mrc",
+          "platformOnly": true,
+          "corroborationNote": "Accessory/platform procedure \u2014 not canonical promotion",
+          "canonicalComponents": [
+            "temperature_sensor"
+          ]
+        },
+        {
+          "procedureId": "w11174814-warming-drawer-element",
+          "displayTitle": "\u00a73-33+: Warming drawer element",
+          "oemSection": "3-33 / 3-36",
+          "sourcePages": [
+            73,
+            76
+          ],
+          "fuelSlice": "electric_radiant",
+          "platformOnly": true,
+          "corroborationNote": "Accessory/platform procedure \u2014 not canonical promotion"
+        },
+        {
+          "procedureId": "w11174814-gas-igniter",
+          "displayTitle": "\u00a73-47: Indigo gas oven bake/broil igniters",
+          "oemSection": "3-47",
+          "sourcePages": [
+            86,
+            87
+          ],
+          "fuelSlice": "gas",
+          "controlFamily": "indigo"
+        },
+        {
+          "procedureId": "w11174814-ceran-element",
+          "displayTitle": "\u00a73-47: Indigo ceran cooktop element",
+          "oemSection": "3-47",
+          "sourcePages": [
+            86,
+            87
+          ],
+          "fuelSlice": "electric_radiant",
+          "controlFamily": "indigo",
+          "canonicalComponents": [
+            "surface_heating_system"
+          ]
+        },
+        {
+          "procedureId": "w11174814-oven-light",
+          "displayTitle": "\u00a73-33+: Oven light assembly",
+          "oemSection": "3-33",
+          "sourcePages": [
+            73,
+            76,
+            86
+          ],
+          "fuelSlice": "all"
+        },
+        {
+          "procedureId": "w11174814-induction-ipc-path",
+          "displayTitle": "\u00a75 wiring + \u00a74-05/4-10: Induction module / IPC service path",
+          "oemSection": "4-05 / 4-10 / 5",
+          "sourcePages": [
+            55,
+            66,
+            67
+          ],
+          "fuelSlice": "induction",
+          "canonicalComponents": [
+            "surface_heating_system",
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "w11174426-oven-sensor",
+          "displayTitle": "\u00a73-41 LCX: Oven RTD (F3E0)",
+          "oemSection": "3-41",
+          "sourcePages": [
+            45,
+            46
+          ],
+          "fuelSlice": "electric_radiant",
+          "controlFamily": "lcx_lcc",
+          "canonicalComponents": [
+            "temperature_sensor"
+          ]
+        },
+        {
+          "procedureId": "w11174426-bake-element",
+          "displayTitle": "\u00a73-33 Maxwell / \u00a73-41 LCX: Bake element",
+          "oemSection": "3-33 / 3-41",
+          "sourcePages": [
+            73,
+            45
+          ],
+          "fuelSlice": "electric_radiant",
+          "instanceScope": "bake_heating_element"
+        },
+        {
+          "procedureId": "w11174426-broil-element",
+          "displayTitle": "\u00a73-33 Maxwell: Broil element",
+          "oemSection": "3-33",
+          "sourcePages": [
+            73
+          ],
+          "fuelSlice": "electric_radiant",
+          "instanceScope": "broil_heating_element"
+        },
+        {
+          "procedureId": "w11174426-door-latch",
+          "displayTitle": "\u00a73-41 LCX: Door latch (F5E1)",
+          "oemSection": "3-41",
+          "sourcePages": [
+            45,
+            46
+          ],
+          "fuelSlice": "all",
+          "conditionalConcepts": [
+            "oven_door_switch"
+          ]
+        },
+        {
+          "procedureId": "w11174426-infinite-switch",
+          "displayTitle": "\u00a73-41 LCX: Cooktop infinite switches",
+          "oemSection": "3-41",
+          "sourcePages": [
+            45,
+            46,
+            47
+          ],
+          "fuelSlice": "electric_radiant",
+          "controlFamily": "lcx_lcc",
+          "canonicalComponents": [
+            "surface_heating_system"
+          ]
+        },
+        {
+          "procedureId": "w11174426-dsi-board",
+          "displayTitle": "\u00a73-44 LCC gas: DSI board",
+          "oemSection": "3-44 / 3-36",
+          "sourcePages": [
+            76,
+            47
+          ],
+          "fuelSlice": "gas",
+          "controlFamily": "lcx_lcc",
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "w11174426-surface-spark",
+          "displayTitle": "\u00a73-44 LCC gas: Surface burner spark module",
+          "oemSection": "3-44",
+          "sourcePages": [
+            47
+          ],
+          "fuelSlice": "gas",
+          "canonicalComponents": [
+            "surface_heating_system"
+          ]
+        },
+        {
+          "procedureId": "w11174426-acu-power",
+          "displayTitle": "\u00a72 LCX: Control power & supply",
+          "oemSection": "2",
+          "sourcePages": [
+            25,
+            26
+          ],
+          "fuelSlice": "all",
+          "controlFamily": "lcx_lcc",
+          "canonicalComponents": [
+            "power_supply",
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "w11174426-hmi",
+          "displayTitle": "\u00a72 LCX: Keypad / HMI (F2E1)",
+          "oemSection": "2",
+          "sourcePages": [
+            25,
+            26
+          ],
+          "fuelSlice": "all",
+          "canonicalComponents": [
+            "user_interface"
+          ]
+        },
+        {
+          "procedureId": "w11746350-acu-power",
+          "displayTitle": "\u00a72 Copernicus: ACU power & communication",
+          "oemSection": "2",
+          "sourcePages": [
+            14,
+            29,
+            30
+          ],
+          "fuelSlice": "electric_radiant",
+          "controlFamily": "copernicus_acu",
+          "canonicalComponents": [
+            "power_supply",
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "w11746350-oven-sensor",
+          "displayTitle": "\u00a73-33 Maxwell: Oven sensor P10-1\u2194P10-2",
+          "oemSection": "3-33",
+          "sourcePages": [
+            73
+          ],
+          "fuelSlice": "all",
+          "controlFamily": "maxwell_mrc",
+          "canonicalComponents": [
+            "temperature_sensor"
+          ]
+        },
+        {
+          "procedureId": "w11746350-bake-element",
+          "displayTitle": "\u00a73 Copernicus: Hidden bake element",
+          "oemSection": "3",
+          "sourcePages": [
+            21,
+            41,
+            47
+          ],
+          "fuelSlice": "electric_radiant",
+          "controlFamily": "copernicus_acu",
+          "instanceScope": "bake_heating_element"
+        },
+        {
+          "procedureId": "w11746350-bridge-element",
+          "displayTitle": "\u00a73 Copernicus: Bridge/single/warming cooktop zones",
+          "oemSection": "3",
+          "sourcePages": [
+            46,
+            47
+          ],
+          "fuelSlice": "electric_radiant",
+          "canonicalComponents": [
+            "surface_heating_system"
+          ]
+        },
+        {
+          "procedureId": "w11746350-dsi-gas-valve",
+          "displayTitle": "\u00a73 Maxwell/MRC gas: DSI board & gas regulator",
+          "oemSection": "3-36",
+          "sourcePages": [
+            76
+          ],
+          "fuelSlice": "gas",
+          "controlFamily": "maxwell_mrc",
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "w11746350-door-latch",
+          "displayTitle": "\u00a73 Maxwell gas MRC: Rear door latch motor",
+          "oemSection": "3",
+          "sourcePages": [
+            12,
+            34,
+            35,
+            45
+          ],
+          "fuelSlice": "all",
+          "conditionalConcepts": [
+            "oven_door_switch"
+          ]
+        },
+        {
+          "procedureId": "w11746350-thermal-fuse",
+          "displayTitle": "\u00a73-33 Maxwell: Thermo fuse",
+          "oemSection": "3-33",
+          "sourcePages": [
+            73,
+            51,
+            52
+          ],
+          "fuelSlice": "all",
+          "conditionalConcepts": [
+            "thermal_protection"
+          ]
+        },
+        {
+          "procedureId": "w11746350-vent-fan",
+          "displayTitle": "\u00a73-33 Maxwell: Convection fan motor",
+          "oemSection": "3-33",
+          "sourcePages": [
+            73,
+            14,
+            29
+          ],
+          "fuelSlice": "all",
+          "conditionalConcepts": [
+            "convection_fan"
+          ]
+        },
+        {
+          "procedureId": "w11746350-convect-element",
+          "displayTitle": "\u00a73-36 Maxwell gas: Convection element",
+          "oemSection": "3-36",
+          "sourcePages": [
+            76
+          ],
+          "fuelSlice": "gas",
+          "conditionalInstanceScope": "convection_heating_element"
+        },
+        {
+          "procedureId": "w11746350-surface-spark",
+          "displayTitle": "\u00a73 Maxwell: Surface burner spark module",
+          "oemSection": "3",
+          "sourcePages": [
+            49,
+            50
+          ],
+          "fuelSlice": "gas",
+          "canonicalComponents": [
+            "surface_heating_system"
+          ]
+        },
+        {
+          "procedureId": "w11746350-hmi",
+          "displayTitle": "\u00a72 Copernicus: HMI / touch interface",
+          "oemSection": "2",
+          "sourcePages": [
+            26,
+            31,
+            32
+          ],
+          "fuelSlice": "all",
+          "controlFamily": "copernicus_acu",
+          "canonicalComponents": [
+            "user_interface"
+          ]
+        }
+      ],
+      "measurementBindings": [
+        {
+          "normalizationId": "w11174814-oven-sensor-ohms",
+          "procedureId": "w11174426-oven-sensor",
+          "canonicalLayer": "temperature_sensor"
+        },
+        {
+          "normalizationId": "w11174814-warming-drawer-sensor-ohms",
+          "platformOnly": true,
+          "procedureId": "w11174814-warming-drawer-sensor"
+        },
+        {
+          "normalizationId": "w11174814-bake-element-ohms",
+          "procedureId": "w11174426-bake-element",
+          "instanceScope": "bake_heating_element"
+        },
+        {
+          "normalizationId": "w11174814-broil-element-ohms",
+          "procedureId": "w11174426-broil-element",
+          "instanceScope": "broil_heating_element"
+        },
+        {
+          "normalizationId": "w11174814-hidden-bake-ohms",
+          "procedureId": "w11746350-bake-element",
+          "instanceScope": "bake_heating_element"
+        },
+        {
+          "normalizationId": "w11174814-ceran-element-ohms",
+          "procedureId": "w11174814-ceran-element",
+          "canonicalLayer": "surface_heating_system"
+        },
+        {
+          "normalizationId": "w11174814-gas-igniter-ohms",
+          "procedureId": "w11174814-gas-igniter",
+          "instanceScope": "bake_heating_element"
+        },
+        {
+          "normalizationId": "w11174814-dsi-coil-ohms",
+          "procedureId": "w11174426-dsi-board",
+          "canonicalLayer": "control_board"
+        },
+        {
+          "normalizationId": "w11174814-dsi-voltage",
+          "procedureId": "w11174426-dsi-board",
+          "canonicalLayer": "control_board"
+        },
+        {
+          "normalizationId": "w11174814-surface-spark-vac",
+          "procedureId": "w11174426-surface-spark",
+          "canonicalLayer": "surface_heating_system"
+        },
+        {
+          "normalizationId": "w11174814-door-latch-ohms",
+          "procedureId": "w11174426-door-latch",
+          "conditionalConcept": "oven_door_switch"
+        },
+        {
+          "normalizationId": "w11174814-convection-fan-ohms",
+          "procedureId": "w11746350-vent-fan",
+          "conditionalConcept": "convection_fan"
+        },
+        {
+          "normalizationId": "w11174814-convection-element-ohms",
+          "procedureId": "w11746350-convect-element",
+          "conditionalInstanceScope": "convection_heating_element"
+        },
+        {
+          "normalizationId": "w11174814-warming-drawer-element-ohms",
+          "platformOnly": true,
+          "procedureId": "w11174814-warming-drawer-element"
+        },
+        {
+          "normalizationId": "w11174814-oven-light-ohms",
+          "procedureId": "w11174814-oven-light"
+        },
+        {
+          "normalizationId": "w11174814-control-supply-vac",
+          "procedureId": "w11174426-acu-power",
+          "canonicalLayer": "power_supply"
+        },
+        {
+          "normalizationId": "w11174814-wall-supply-vac",
+          "canonicalLayer": "power_supply"
+        }
+      ],
+      "decisionBranchBindings": [
+        {
+          "branchId": "w11174814-f3e0-sensor-fault",
+          "procedureId": "w11174426-oven-sensor",
+          "executable": true,
+          "canonicalLayer": "temperature_sensor"
+        },
+        {
+          "branchId": "w11174814-f3e2-replace-drawer-sensor",
+          "procedureId": "w11174814-warming-drawer-sensor",
+          "executable": true,
+          "platformOnly": true
+        },
+        {
+          "branchId": "w11174814-bake-element-out-of-range",
+          "procedureId": "w11174426-bake-element",
+          "executable": true,
+          "instanceScope": "bake_heating_element"
+        },
+        {
+          "branchId": "w11174814-dsi-coil-fault",
+          "procedureId": "w11174426-dsi-board",
+          "executable": true,
+          "canonicalLayer": "control_board"
+        },
+        {
+          "branchId": "w11174814-surface-spark-no-voltage",
+          "procedureId": "w11174426-surface-spark",
+          "executable": true,
+          "canonicalLayer": "surface_heating_system"
+        },
+        {
+          "branchId": "w11174814-igniter-out-of-range",
+          "procedureId": "w11174814-gas-igniter",
+          "executable": true,
+          "instanceScope": "bake_heating_element"
+        },
+        {
+          "branchId": "w11174814-ceran-open-replace",
+          "procedureId": "w11174814-ceran-element",
+          "executable": true,
+          "canonicalLayer": "surface_heating_system"
+        },
+        {
+          "branchId": "w11174814-door-latch-fault",
+          "procedureId": "w11174426-door-latch",
+          "executable": true,
+          "conditionalConcept": "oven_door_switch"
+        },
+        {
+          "branchId": "w11174814-thermo-fuse-open",
+          "procedureId": "w11746350-thermal-fuse",
+          "executable": true,
+          "conditionalConcept": "thermal_protection"
+        },
+        {
+          "branchId": "w11174814-infinite-switch-fault",
+          "procedureId": "w11174426-infinite-switch",
+          "executable": true,
+          "canonicalLayer": "surface_heating_system"
+        },
+        {
+          "branchId": "w11174814-ipc-replace-module",
+          "procedureId": "w11174814-induction-ipc-path",
+          "executable": true,
+          "canonicalLayer": "surface_heating_system"
+        },
+        {
+          "branchId": "w11174814-control-replace",
+          "procedureId": "w11174426-acu-power",
+          "executable": true,
+          "canonicalLayer": "control_board"
+        }
+      ],
+      "routingRejections": [
+        {
+          "conceptId": "dual_fuel_range.json",
+          "verdict": "reject_fuel_specific_canonical",
+          "note": "No dual_fuel_range canonical ontology \u2014 range_oven only."
+        },
+        {
+          "conceptId": "whirlpool_freestanding_range.json",
+          "verdict": "reject_fuel_specific_canonical",
+          "note": "Platform overlay only \u2014 not canonical graph."
+        },
+        {
+          "conceptId": "oven_heating_system",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "Monolithic aggregate remains removed per CG-10."
+        },
+        {
+          "conceptId": "warming_drawer",
+          "verdict": "platform_accessory_only",
+          "note": "Optional accessory \u2014 not canonical promotion."
+        }
+      ]
+    }
+  ],
+  "status": "published",
+  "gateKind": "whirlpool_w11174814_range_corroboration_compounding",
+  "compoundingEvidence": {
+    "phase": "CG-RANGE-COMPOUNDING",
+    "sequence": 4,
+    "role": "corroboration",
+    "notRetroactiveFitEvidence": true,
+    "manualId": "W11174814",
+    "platformId": "whirlpool_freestanding_range",
+    "normalizationArtifact": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+    "gateArtifact": "WHIRLPOOL_W11174814_RANGE_overlay_mapping_table_v1.json",
+    "auditArtifact": "CG_RANGE_W11174814_COMPOUNDING_AUDIT_v1.json",
+    "accounting": {
+      "canonicalInheritances": 5,
+      "instanceScopeBindings": 2,
+      "conditionalInstanceScopeBindings": 1,
+      "conditionalBindings": 3,
+      "overlayImplementationComponents": 16,
+      "proceduresBound": 26,
+      "measurementsBound": 17,
+      "decisionBranchesExecutable": 12,
+      "functionalRealizations": 15,
+      "platformOnlyProcedures": 3,
+      "canonicalExpansion": 0,
+      "ontologyMutations": 0,
+      "fitArtifactsReopened": 0
+    },
+    "publishedAt": "2026-09-17T06:30:00+00:00"
+  }
+}

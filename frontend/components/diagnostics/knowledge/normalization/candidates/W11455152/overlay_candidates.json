@@ -1,0 +1,463 @@
+{
+  "manualId": "W11455152",
+  "candidates": [
+    {
+      "id": "overlay-W11455152-w11455152-test-03-drive-system-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11455152-test-03-drive-system",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "TEST #3: Drive System (pre-test)",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "provenance": {
+        "manualId": "W11455152",
+        "platformId": "whirlpool_tl_dd_6157",
+        "procedureId": "w11455152-test-03-drive-system",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11455152",
+            "platformId": "whirlpool_tl_dd_6157"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11455152-test-03-drive-system",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11455152_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11455152-w11455152-test-03a-shifter-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11455152-test-03a-shifter",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "TEST #3a: Drive System \u2014 Shifter",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "provenance": {
+        "manualId": "W11455152",
+        "platformId": "whirlpool_tl_dd_6157",
+        "procedureId": "w11455152-test-03a-shifter",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11455152",
+            "platformId": "whirlpool_tl_dd_6157"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11455152-test-03a-shifter",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11455152_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11455152-w11455152-test-03a-shifter-meas-whirlpoolMvw6200WasherShifterOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11455152-test-03a-shifter",
+      "measurementKnowledgeId": "whirlpoolMvw6200WasherShifterOhms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11455152",
+        "platformId": "whirlpool_tl_dd_6157",
+        "procedureId": "w11455152-test-03a-shifter",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11455152",
+            "platformId": "whirlpool_tl_dd_6157"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11455152-test-03a-shifter",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolMvw6200WasherShifterOhms",
+            "stepTitle": "Shifter coil resistance J6-2 to J6-6"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11455152-w11455152-test-03b-motor-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11455152-test-03b-motor",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "TEST #3b: Drive System \u2014 Motor",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "provenance": {
+        "manualId": "W11455152",
+        "platformId": "whirlpool_tl_dd_6157",
+        "procedureId": "w11455152-test-03b-motor",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11455152",
+            "platformId": "whirlpool_tl_dd_6157"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11455152-test-03b-motor",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11455152_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11455152-w11455152-test-03b-motor-meas-whirlpoolMvw6200WasherMotorWindingOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11455152-test-03b-motor",
+      "measurementKnowledgeId": "whirlpoolMvw6200WasherMotorWindingOhms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11455152",
+        "platformId": "whirlpool_tl_dd_6157",
+        "procedureId": "w11455152-test-03b-motor",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11455152",
+            "platformId": "whirlpool_tl_dd_6157"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11455152-test-03b-motor",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolMvw6200WasherMotorWindingOhms",
+            "stepTitle": "Motor winding resistance at J6"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11455152-w11455152-test-03b-motor-meas-whirlpoolMvw6200WasherMotorWindingOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11455152-test-03b-motor",
+      "measurementKnowledgeId": "whirlpoolMvw6200WasherMotorWindingOhms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11455152",
+        "platformId": "whirlpool_tl_dd_6157",
+        "procedureId": "w11455152-test-03b-motor",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11455152",
+            "platformId": "whirlpool_tl_dd_6157"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11455152-test-03b-motor",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolMvw6200WasherMotorWindingOhms",
+            "stepTitle": "Motor resistance at drive connector"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11455152-w11455152-test-05-water-level-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11455152-test-05-water-level",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "TEST #5: Water Level",
+      "componentIds": [
+        "water_level_sensor"
+      ],
+      "provenance": {
+        "manualId": "W11455152",
+        "platformId": "whirlpool_tl_dd_6157",
+        "procedureId": "w11455152-test-05-water-level",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11455152",
+            "platformId": "whirlpool_tl_dd_6157"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11455152-test-05-water-level",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11455152_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11455152-w11455152-test-06-drain-pump-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11455152-test-06-drain-pump",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "TEST #6: Drain Pump",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "W11455152",
+        "platformId": "whirlpool_tl_dd_6157",
+        "procedureId": "w11455152-test-06-drain-pump",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11455152",
+            "platformId": "whirlpool_tl_dd_6157"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11455152-test-06-drain-pump",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11455152_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11455152-w11455152-test-06-drain-pump-meas-whirlpoolMvw6200WasherDrainPumpOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11455152-test-06-drain-pump",
+      "measurementKnowledgeId": "whirlpoolMvw6200WasherDrainPumpOhms",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11455152",
+        "platformId": "whirlpool_tl_dd_6157",
+        "procedureId": "w11455152-test-06-drain-pump",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11455152",
+            "platformId": "whirlpool_tl_dd_6157"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11455152-test-06-drain-pump",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolMvw6200WasherDrainPumpOhms",
+            "stepTitle": "Drain pump resistance J6-3 to J6-6"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11455152-w11455152-test-06-drain-pump-meas-whirlpoolMvw6200WasherDrainPumpOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11455152-test-06-drain-pump",
+      "measurementKnowledgeId": "whirlpoolMvw6200WasherDrainPumpOhms",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11455152",
+        "platformId": "whirlpool_tl_dd_6157",
+        "procedureId": "w11455152-test-06-drain-pump",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11455152",
+            "platformId": "whirlpool_tl_dd_6157"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11455152-test-06-drain-pump",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolMvw6200WasherDrainPumpOhms",
+            "stepTitle": "Resistance at drain pump terminals"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11455152-w11455152-test-07-lid-lock-door_lock_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11455152-test-07-lid-lock",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.92,
+      "displayTitle": "TEST #7: Lid Lock",
+      "componentIds": [
+        "door_lock"
+      ],
+      "provenance": {
+        "manualId": "W11455152",
+        "platformId": "whirlpool_tl_dd_6157",
+        "procedureId": "w11455152-test-07-lid-lock",
+        "pages": [
+          28,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11455152",
+            "platformId": "whirlpool_tl_dd_6157"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11455152-test-07-lid-lock",
+            "pages": [
+              28,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11455152_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11455152-w11455152-test-07-lid-lock-meas-whirlpoolMvw6200WasherLidLockSolenoidOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11455152-test-07-lid-lock",
+      "measurementKnowledgeId": "whirlpoolMvw6200WasherLidLockSolenoidOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11455152",
+        "platformId": "whirlpool_tl_dd_6157",
+        "procedureId": "w11455152-test-07-lid-lock",
+        "pages": [
+          28,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11455152",
+            "platformId": "whirlpool_tl_dd_6157"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11455152-test-07-lid-lock",
+            "pages": [
+              28,
+              29
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolMvw6200WasherLidLockSolenoidOhms",
+            "stepTitle": "Lid lock solenoid J4-2 to J4-3"
+          }
+        ]
+      }
+    }
+  ]
+}

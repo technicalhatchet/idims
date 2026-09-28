@@ -1,0 +1,485 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg10_electric_range_freeze_recommendation",
+  "workstream": "CG-10",
+  "stage": "human_approved_pending_canonical_validation",
+  "status": "recommendation_approved",
+  "provisionalDiscoveryOutcome": "A",
+  "provisionalOutcomeLabel": "candidate_survives_with_refinement",
+  "ontologyId": "electric_range",
+  "candidateOntologyId": "electric_range_oven_candidate",
+  "generatedAt": "2026-09-16T14:45:00+00:00",
+  "canonicalExpansion": 0,
+  "humanApprovalRequired": false,
+  "humanFreezeApprovedAt": "2026-09-16T15:01:00+00:00",
+  "humanFreezeApprovedNote": "Recommendation approved for rev1 authoring — approval is not the canonical freeze; electric_range.json requires independent validation before frozen:true.",
+  "canonicalOntologyFile": "electric_range.json",
+  "canonicalOntologyRevision": "rev1",
+  "canonicalOntologyFrozen": true,
+  "canonicalOntologyFrozenAt": "2026-09-16T15:26:00+00:00",
+  "freezeLockArtifact": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+  "canonicalOntologyNotCreated": true,
+  "candidateSkeletonUnmodified": true,
+  "canonicalDirectoryMutable": false,
+  "allowedFreezeOutcomes": {
+    "A": "candidate_survives_with_refinement",
+    "B": "candidate_needs_structural_revision",
+    "C": "electric_range_not_one_canonical_functional_model"
+  },
+  "recommendedOutcome": "A",
+  "evidenceChain": {
+    "R1": {
+      "manualId": "W11746350",
+      "platformId": "whirlpool_freestanding_range",
+      "role": "discovery_first_observation",
+      "keyFinding": "Exposed monolithic oven_heating_system problem; bake/broil initially platform_implementation on Copernicus ACU relay path"
+    },
+    "R2": {
+      "manualId": "LG-LRE-RANGE",
+      "platformId": "lg_freestanding_range",
+      "role": "discovery_manufacturer_boundary",
+      "keyFinding": "Independently confirmed bake/broil/convection as distinct testable heating functions; strengthened temperature_sensor and convection_fan"
+    },
+    "R3": {
+      "manualId": "W11174426",
+      "platformId": "whirlpool_freestanding_range",
+      "role": "discovery_platform_falsification",
+      "keyFinding": "Surface-control implementation changes (infinite switch vs ACU relay) while control_board → surface_heating_system invariant survives"
+    },
+    "R4": {
+      "manualId": "SAMSUNG-NE58-RANGE",
+      "platformId": "samsung_range_ne58",
+      "role": "manufacturer_boundary_validation",
+      "excludedFromDiscoveryCorpus": true,
+      "keyFinding": "7/7 boundary probes confirmed on PDF-grounded Samsung NE58 evidence; Samsung hardware names remain platform vocabulary"
+    }
+  },
+  "observationArtifacts": {
+    "r1": "W11746350_er_cg10x_observation_v1.json",
+    "r2": "LG_LRE_RANGE_er_cg10x_observation_v1.json",
+    "r3": "W11174426_er_cg10x_observation_v1.json",
+    "r4": "SAMSUNG_NE58_RANGE_er_cg10x_observation_v1.json"
+  },
+  "freezeDispositionVocabulary": [
+    "KEEP",
+    "INSTANCE_SCOPE",
+    "CONDITIONAL",
+    "PLATFORM_ONLY",
+    "REMOVE",
+    "DEFER"
+  ],
+  "freezeRecommendationHistogram": {
+    "KEEP": 5,
+    "INSTANCE_SCOPE": 2,
+    "CONDITIONAL": 4,
+    "PLATFORM_ONLY": 5,
+    "REMOVE": 1,
+    "DEFER": 3
+  },
+  "dispositionBuckets": {
+    "KEEP": [
+      "power_supply",
+      "control_board",
+      "user_interface",
+      "temperature_sensor",
+      "surface_heating_system"
+    ],
+    "INSTANCE_SCOPE": [
+      "bake_heating_element",
+      "broil_heating_element"
+    ],
+    "CONDITIONAL": [
+      "convection_heating_element",
+      "convection_fan",
+      "thermal_protection",
+      "oven_door_switch"
+    ],
+    "PLATFORM_ONLY": [
+      "surface_control",
+      "surface_heating_element",
+      "door_latch_motor",
+      "oven_lamp",
+      "thermal_protection_platform_encoding"
+    ],
+    "REMOVE": [
+      "oven_heating_system"
+    ],
+    "DEFER": [
+      "oven_cavity",
+      "cooling_fan",
+      "warming_drawer"
+    ]
+  },
+  "conceptRecommendations": [
+    {
+      "conceptId": "power_supply",
+      "r1Status": "canonical_functional",
+      "r2Status": "canonical_functional",
+      "r3Status": "canonical_functional",
+      "r4Status": "canonical_functional",
+      "triangulationResult": "functional_role_all_four",
+      "evidenceStrength": "strong",
+      "conditionalFlags": [],
+      "freezeRecommendation": "KEEP",
+      "freezeRationale": "Mains supply prerequisite independently tested on all four manuals (Copernicus ACU power, LG no-power, LCX terminal block, Samsung SMPS/240 VAC). Distinct from control orchestration."
+    },
+    {
+      "conceptId": "control_board",
+      "r1Status": "canonical_functional",
+      "r2Status": "canonical_functional",
+      "r3Status": "canonical_functional",
+      "r4Status": "canonical_functional",
+      "triangulationResult": "functional_role_all_four",
+      "evidenceStrength": "strong",
+      "conditionalFlags": [],
+      "freezeRecommendation": "KEEP",
+      "freezeRationale": "Control orchestration recurs across ACU, LG Main PCB, LCX control board, and Samsung Main/Sub PCB relay paths. Implementation names (ACU, sub PCB, relay bank) stay platform — functional control_board node holds."
+    },
+    {
+      "conceptId": "user_interface",
+      "r1Status": "canonical_functional",
+      "r2Status": "canonical_functional",
+      "r3Status": "canonical_functional",
+      "r4Status": "canonical_functional",
+      "triangulationResult": "functional_role_all_four",
+      "evidenceStrength": "strong",
+      "conditionalFlags": [],
+      "freezeRecommendation": "KEEP",
+      "freezeRationale": "Touch/keypad/HMI diagnostic domain distinct from control PCB on all four families (F2E1, F-1, -SE-, etc.)."
+    },
+    {
+      "conceptId": "temperature_sensor",
+      "r1Status": "needs_second_manual",
+      "r2Status": "canonical_functional",
+      "r3Status": "canonical_functional",
+      "r4Status": "canonical_functional",
+      "triangulationResult": "functional_role_confirmed_r2_r3_r4",
+      "evidenceStrength": "strong",
+      "conditionalFlags": [],
+      "freezeRecommendation": "KEEP",
+      "freezeRationale": "R1 deferred pending cross-manufacturer evidence. R2–R4 each provide dedicated oven RTD procedures with independent failure routing (F-3/F3E0, E-21/E-22). Cavity temperature feedback earns canonical status."
+    },
+    {
+      "conceptId": "oven_heating_system",
+      "r1Status": "needs_second_manual",
+      "r2Status": "reject_monolithic_aggregate",
+      "r3Status": "reject_monolithic_aggregate",
+      "r4Status": "reject_monolithic_aggregate",
+      "triangulationResult": "aggregate_rejected_r2_r3_r4",
+      "evidenceStrength": "strong",
+      "conditionalFlags": [],
+      "freezeRecommendation": "REMOVE",
+      "freezeRationale": "R1 posed the question; R2 LG proved separate bake/broil/convection element tests. R3 LCX and R4 Samsung list distinct element rows/procedures. Monolithic aggregate has no independent diagnostic meaning — heat generation is a functional domain with instance-scoped functions, not one opaque node."
+    },
+    {
+      "conceptId": "bake_heating_element",
+      "r1Status": "platform_implementation",
+      "r2Status": "instance_functional_role",
+      "r3Status": "instance_functional_role",
+      "r4Status": "instance_functional_role",
+      "triangulationResult": "instance_function_invariant_r2_r3_r4",
+      "evidenceStrength": "strong",
+      "conditionalFlags": [],
+      "freezeRecommendation": "INSTANCE_SCOPE",
+      "freezeRationale": "Dedicated bake procedure on LG, LCX, and Samsung; R1 Copernicus treated bake as relay-mediated platform test but did not contradict separate diagnostic function. Freeze as instance scope under oven heat generation domain — NOT a separate canonical component type.",
+      "instanceScopeBinding": "oven_heat_generation.bake"
+    },
+    {
+      "conceptId": "broil_heating_element",
+      "r1Status": "platform_implementation",
+      "r2Status": "instance_functional_role",
+      "r3Status": "instance_functional_role",
+      "r4Status": "instance_functional_role",
+      "triangulationResult": "instance_function_invariant_r2_r3_r4",
+      "evidenceStrength": "strong",
+      "conditionalFlags": [],
+      "freezeRecommendation": "INSTANCE_SCOPE",
+      "freezeRationale": "Same evidence posture as bake — independent broil test on R2/R3/R4. Instance scope under oven heat generation domain.",
+      "instanceScopeBinding": "oven_heat_generation.broil"
+    },
+    {
+      "conceptId": "convection_heating_element",
+      "r1Status": "deferred",
+      "r2Status": "instance_functional_role",
+      "r3Status": "deferred",
+      "r4Status": "instance_functional_role",
+      "triangulationResult": "instance_function_electric_convection_2_of_4",
+      "evidenceStrength": "conditional",
+      "conditionalFlags": [
+        "electric_convection_platform_required",
+        "absent_on_lcx_r3",
+        "absent_gas_only_platforms"
+      ],
+      "freezeRecommendation": "CONDITIONAL",
+      "freezeSecondaryDisposition": "INSTANCE_SCOPE",
+      "freezeRationale": "Strong instance-scoped evidence on LG R2 and Samsung R4 electric convection element procedures. R3 LCX has no convection element proc; R1 deferred (gas convection path on Copernicus). Encode as INSTANCE_SCOPE when platform manual evidences electric convection element test — not unconditional canonical component.",
+      "instanceScopeBinding": "oven_heat_generation.convection",
+      "conditionalRule": "Include in instanceScopes[] when procedure evidence exists for electric convection element; omit on platforms without dedicated convection heat path."
+    },
+    {
+      "conceptId": "surface_heating_system",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_r3_architecture_probe",
+      "r3Status": "canonical_functional",
+      "r4Status": "canonical_functional",
+      "triangulationResult": "functional_domain_confirmed_r3_r4",
+      "evidenceStrength": "strong",
+      "conditionalFlags": [
+        "zone_granularity_overlay_when_evidenced"
+      ],
+      "freezeRecommendation": "KEEP",
+      "freezeRationale": "R3 infinite-switch and R4 radiant cooktop both test surface heat as a functional domain. R2 per-zone element procedures show overlay granularity (LF/LR/RR/RF/CR) without requiring per-zone canonical nodes. Functional domain: cooktop heat generation."
+    },
+    {
+      "conceptId": "surface_control",
+      "r1Status": "deferred",
+      "r2Status": "deferred",
+      "r3Status": "platform_implementation",
+      "r4Status": "platform_implementation",
+      "triangulationResult": "implementation_only_infinite_switch_relay_knob",
+      "evidenceStrength": "strong",
+      "conditionalFlags": [],
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "freezeRationale": "R3 falsified surface_control as canonical — infinite switch is LCX implementation. R4 Samsung knob/infinite-switch same posture. R1 ACU relay and R2 cook-top relay PCB are platform switching paths. Functional invariant: control_board → surface_heating_system. Do NOT promote infinite_switch, relay PCB, or sub PCB relay to canonical.",
+      "platformVocabulary": ["infinite_switch", "acu_relay_surface", "cooktop_relay_pcb", "sub_pcb_heater_relays"]
+    },
+    {
+      "conceptId": "surface_heating_element",
+      "r1Status": "platform_implementation",
+      "r2Status": "platform_implementation",
+      "r3Status": "platform_implementation",
+      "r4Status": "platform_implementation",
+      "triangulationResult": "platform_instance_all_four",
+      "evidenceStrength": "strong",
+      "conditionalFlags": ["per_zone_overlay_when_oem_evidences"],
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "freezeRationale": "Physical radiant/bridge/ceran elements are platform instances under surface_heating_system. LG per-zone Ω procedures are overlay scope when OEM provides zone tests — not canonical component types."
+    },
+    {
+      "conceptId": "convection_fan",
+      "r1Status": "needs_second_manual",
+      "r2Status": "canonical_functional",
+      "r3Status": "needs_procedure_evidence",
+      "r4Status": "canonical_functional",
+      "triangulationResult": "functional_role_3_of_4_with_procedure_gap",
+      "evidenceStrength": "conditional",
+      "conditionalFlags": [
+        "requires_dedicated_fan_procedure",
+        "r3_lcx_documentation_only",
+        "r1_combined_vent_convection_ambiguity"
+      ],
+      "freezeRecommendation": "CONDITIONAL",
+      "freezeRationale": "LG R2 and Samsung R4 provide dedicated convection fan motor tests separate from heating elements. R1 combined vent/convection fan procedure creates ambiguity. R3 LCX documents fan behavior without fan procedure seed. Canonical only when platform procedure evidence distinguishes convection air circulation actuator — not unconditional on all electric ranges."
+    },
+    {
+      "conceptId": "cooling_fan",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_r3_architecture_probe",
+      "r3Status": "deferred",
+      "r4Status": "deferred",
+      "triangulationResult": "no_cross_manual_procedure_support",
+      "evidenceStrength": "insufficient",
+      "conditionalFlags": [
+        "distinct_from_convection_fan_unresolved",
+        "electronics_cooling_not_evidenced"
+      ],
+      "freezeRecommendation": "DEFER",
+      "freezeRationale": "No manual in R1–R4 provides a dedicated electronics cooling fan procedure distinct from convection fan. R1 vent/convection combination insufficient to split. Revisit only if future manual evidences separate cooling vs convection diagnostic paths."
+    },
+    {
+      "conceptId": "thermal_protection",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_r3_architecture_probe",
+      "r3Status": "implementation_specific",
+      "r4Status": "implementation_specific",
+      "triangulationResult": "implementation_diverges_functional_vocabulary_only",
+      "evidenceStrength": "conditional",
+      "conditionalFlags": [
+        "fuse_proc_r1_copernicus",
+        "sensor_routed_overtemp_r2_r3",
+        "thermostat_continuity_r4_samsung",
+        "not_unified_canonical_component"
+      ],
+      "freezeRecommendation": "CONDITIONAL",
+      "freezeSecondaryDisposition": "PLATFORM_ONLY",
+      "freezeRationale": "Protection behavior is real but implementation paths diverge: dedicated thermal-fuse proc (R1), F-6/F6E1 sensor route (R2/R3), thermostat continuity + E-08 (R4). Model as conditional/platform vocabulary (fuse vs hi-limit vs sensor-limited path) — analogous to refrigerator conditional concepts. Do NOT freeze a single thermal_protection canonical component.",
+      "platformVocabulary": ["thermal_fuse", "hi_limit", "thermostat", "overtemp_sensor_route"]
+    },
+    {
+      "conceptId": "oven_door_switch",
+      "r1Status": "needs_second_manual",
+      "r2Status": "canonical_functional",
+      "r3Status": "platform_implementation",
+      "r4Status": "canonical_functional",
+      "triangulationResult": "functional_role_holds_test_style_varies",
+      "evidenceStrength": "conditional",
+      "conditionalFlags": [
+        "standalone_proc_r2_r4",
+        "embedded_in_latch_r3_lcx",
+        "door_authorization_function_invariant"
+      ],
+      "freezeRecommendation": "CONDITIONAL",
+      "freezeRationale": "Door authorization function recurs (LG standalone door switch, Samsung plunger switch, LCX latch-embedded logic). Functional door-state role holds; test packaging varies by platform. Conditional canonical — include when OEM provides distinct door-switch vs latch-actuator procedures.",
+      "relatedPlatformOnly": ["door_latch_motor"]
+    },
+    {
+      "conceptId": "door_latch_motor",
+      "r1Status": "platform_implementation",
+      "r2Status": "platform_implementation",
+      "r3Status": "platform_implementation",
+      "r4Status": "platform_implementation",
+      "triangulationResult": "platform_actuator_all_four",
+      "evidenceStrength": "strong",
+      "conditionalFlags": [],
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "freezeRationale": "Self-clean latch motor/micro-switch implementations on all four families. Actuator is platform knowledge; door authorization function may be CONDITIONAL via oven_door_switch when separately tested."
+    },
+    {
+      "conceptId": "oven_cavity",
+      "r1Status": "deferred",
+      "r2Status": "deferred",
+      "r3Status": "deferred",
+      "r4Status": "deferred",
+      "triangulationResult": "no_standalone_diagnostic_all_four",
+      "evidenceStrength": "insufficient",
+      "conditionalFlags": [],
+      "freezeRecommendation": "DEFER",
+      "freezeRationale": "Cavity referenced in safety/operation text only — no standalone cavity diagnostic procedure on any manual in corpus."
+    },
+    {
+      "conceptId": "oven_lamp",
+      "r1Status": "deferred",
+      "r2Status": "platform_implementation",
+      "r3Status": "deferred",
+      "r4Status": "platform_implementation",
+      "triangulationResult": "accessory_platform_test_only",
+      "evidenceStrength": "weak",
+      "conditionalFlags": ["optional_accessory"],
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "freezeRationale": "Oven lamp procedures exist on LG and Samsung as accessory tests — not core electric range functional ontology. Platform overlay only."
+    },
+    {
+      "conceptId": "warming_drawer",
+      "r1Status": "deferred",
+      "r2Status": "needs_second_manual",
+      "r3Status": "deferred",
+      "r4Status": "deferred",
+      "triangulationResult": "optional_feature_insufficient_triangulation",
+      "evidenceStrength": "insufficient",
+      "conditionalFlags": ["lg_lre30755_optional"],
+      "freezeRecommendation": "DEFER",
+      "freezeRationale": "Optional feature domain — LG warming drawer sensor/element on select models only. Insufficient cross-manufacturer evidence for rev1 canonical inclusion."
+    }
+  ],
+  "functionalArchitecture": {
+    "ovenHeatGeneration": {
+      "domain": "oven_heat_generation",
+      "monolithicNode": "REMOVE oven_heating_system",
+      "instanceScopes": ["bake_heating_element", "broil_heating_element"],
+      "conditionalInstanceScopes": ["convection_heating_element"],
+      "invariant": "Heat generation is a functional domain; bake, broil, convection are instance-scoped diagnostic functions — not three canonical component types."
+    },
+    "surfaceHeatGeneration": {
+      "domain": "surface_heating_system",
+      "canonicalNode": "KEEP surface_heating_system",
+      "controlInvariant": "control_board → surface_heating_system",
+      "platformSwitching": "PLATFORM_ONLY surface_control (infinite_switch / relay / knob paths)",
+      "zoneOverlay": "Per-zone element tests are overlay scope when OEM evidences — not required canonical split"
+    },
+    "controlToHeat": {
+      "invariant": "control_board commands oven and surface heat generation",
+      "platformHardwareNotCanonical": [
+        "infinite_switch",
+        "sub_pcb",
+        "dlb_relay",
+        "acu_relay",
+        "main_pcb_relay_bank"
+      ]
+    }
+  },
+  "ontologyContract": {
+    "conditionalNotBlindlyPromoted": true,
+    "instanceScopeNotSeparateCanonicalNodes": true,
+    "rule": "INSTANCE_SCOPE and CONDITIONAL concepts encoded per ontologyContract below — not silently promoted during rev1 authoring.",
+    "rev1AuthoringGuidance": {
+      "componentsArray": "KEEP concepts only",
+      "instanceScopesArray": "INSTANCE_SCOPE concepts (bake, broil; convection when conditional rule met)",
+      "conditionalConceptsArray": "CONDITIONAL concepts with platform/optional semantics",
+      "platformVocabularyRegistry": "PLATFORM_ONLY concepts — overlay bindings, never canonical expansion",
+      "removedConcepts": ["oven_heating_system"]
+    },
+    "instanceSemanticsAppliesTo": [
+      "bake_heating_element",
+      "broil_heating_element",
+      "convection_heating_element"
+    ],
+    "conditionalSemanticsAppliesTo": [
+      "convection_heating_element",
+      "convection_fan",
+      "thermal_protection",
+      "oven_door_switch"
+    ]
+  },
+  "summary": {
+    "keep": [
+      "power_supply",
+      "control_board",
+      "user_interface",
+      "temperature_sensor",
+      "surface_heating_system"
+    ],
+    "instanceScope": [
+      "bake_heating_element",
+      "broil_heating_element"
+    ],
+    "conditional": [
+      "convection_heating_element",
+      "convection_fan",
+      "thermal_protection",
+      "oven_door_switch"
+    ],
+    "platformOnly": [
+      "surface_control",
+      "surface_heating_element",
+      "door_latch_motor",
+      "oven_lamp"
+    ],
+    "remove": [
+      "oven_heating_system"
+    ],
+    "defer": [
+      "oven_cavity",
+      "cooling_fan",
+      "warming_drawer"
+    ]
+  },
+  "humanFreezeReviewNotes": {
+    "power_supply": "Uncontroversial — all four manuals test supply prerequisite.",
+    "control_board": "Strong 4-manufacturer recurrence; never collapse relay/sub-PCB hardware into canonical.",
+    "user_interface": "Strong recurrence across touch/keypad domains.",
+    "temperature_sensor": "R1 correctly withheld; R2–R4 closed the gap.",
+    "oven_heating_system": "Central CG-10 discovery result — REMOVE aggregate.",
+    "bake_heating_element": "INSTANCE_SCOPE not canonical node — key architectural decision.",
+    "broil_heating_element": "Same as bake.",
+    "convection_heating_element": "CONDITIONAL + INSTANCE_SCOPE when evidenced — respect R3 LCX gap.",
+    "surface_heating_system": "KEEP functional domain; zone splits are overlay.",
+    "surface_control": "PLATFORM_ONLY — R3+R4 guardrail is load-bearing.",
+    "convection_fan": "CONDITIONAL — do not over-canonicalize from R2+R4 alone.",
+    "thermal_protection": "CONDITIONAL/PLATFORM_ONLY — implementation divergence is the finding.",
+    "oven_door_switch": "CONDITIONAL — function holds, packaging varies.",
+    "cooling_fan": "DEFER — no tri-manual procedure support.",
+    "oven_cavity": "DEFER — no diagnostic procedure."
+  },
+  "gateNote": "Recommendation only — electric_range.json NOT created. Human approval required before rev1 canonical authoring. Candidate skeleton electric_range_oven_cg10x_candidate_v1.json remains unmodified until gate clears.",
+  "postApprovalSequence": [
+    "Human reviews conceptRecommendations and dispositionBuckets",
+    "Author electric_range.json rev1 per ontologyContract",
+    "Validate canonical graph + tsc",
+    "Begin manufacturer overlay compounding (CG-10 compounding phase — separate from discovery)"
+  ],
+  "futureFitTests": {
+    "CG-11": "gas_range — does frozen electric contract fit?",
+    "CG-12": "induction_range — does frozen electric contract fit?",
+    "CG-13": "dual_fuel — does frozen electric contract fit?"
+  }
+}

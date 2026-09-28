@@ -1,0 +1,157 @@
+{
+  "id": "samsungne58-power",
+  "version": "1.0.0",
+  "title": "\u00a74-2: No power / main \u2194 sub PCB",
+  "platformId": "samsung_range_ne58",
+  "componentIds": [
+    "supply",
+    "main_control"
+  ],
+  "tags": [
+    "no_power",
+    "display_dead",
+    "E-83"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58-RANGE",
+    "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+    "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "cg10-r4-assisted-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Electrical malfunction \u2014 power",
+    "pages": [
+      39,
+      42
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+      "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range.",
+      "requiresInput": false,
+      "defaultNextStepId": "restore_pwr"
+    },
+    {
+      "id": "restore_pwr",
+      "order": 2,
+      "type": "instruction",
+      "title": "Check breaker and terminal block",
+      "body": "Verify 240 VAC 60 Hz at terminal block.",
+      "sourceExcerpt": "Verify 240 VAC 60 Hz at terminal block.",
+      "requiresInput": false,
+      "defaultNextStepId": "smps_check"
+    },
+    {
+      "id": "smps_check",
+      "order": 3,
+      "type": "measurement",
+      "title": "Main PCB SMPS",
+      "body": "CN08/CN09 on main PCB \u2014 120 VAC L\u2013N. SMPS input 120 V, output 12 V / 5 V.",
+      "sourceExcerpt": "CN08/CN09 on main PCB \u2014 120 VAC L\u2013N. SMPS input 120 V, output 12 V / 5 V.",
+      "measurementKnowledgeId": "supplyVoltage120",
+      "testPoint": {
+        "connector": "CN08/CN09",
+        "pins": "L1 \u2194 N",
+        "label": "Main PCB SMPS"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pwr_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "pwr_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "pwr_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "pwr_pass",
+          "label": "120 VAC",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "comm_check",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "comm_check",
+      "order": 4,
+      "type": "instruction",
+      "title": "Main \u2194 sub harness",
+      "body": "Verify TE400/CN201 harness between main PCB and sub PCB seated \u2014 E-83 path.",
+      "sourceExcerpt": "Verify TE400/CN201 harness between main PCB and sub PCB seated \u2014 E-83 path.",
+      "requiresInput": false,
+      "defaultNextStepId": "power_ok"
+    },
+    {
+      "id": "replace_pcb",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace PCB or harness",
+      "oemOutcome": "Replace defected main PCB, sub PCB, or communication harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "power_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Power path OK",
+      "oemOutcome": "Supply and PCB power verified.",
+      "requiresInput": false
+    }
+  ]
+}

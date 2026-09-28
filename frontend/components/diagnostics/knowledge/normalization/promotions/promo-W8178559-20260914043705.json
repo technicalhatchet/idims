@@ -1,0 +1,64 @@
+{
+  "promotionId": "promo-W8178559-20260914043705",
+  "manualId": "W8178559",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "overlayFile": "whirlpool_vented_dryer.json",
+  "platformFamilyId": "whirlpool_duet_sport_mce_dryer",
+  "status": "published",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-W8178559-compound-user_interface",
+    "map-W8178559-door_switch-door_switch",
+    "map-W8178559-moisture_sensor-moisture_sensor",
+    "map-W8178559-compound-exhaust_thermistor",
+    "map-W8178559-exhaust-thermistor-temperature_sensor",
+    "map-w8178559-unresolved-w8178559-gas-ignitor-igniter",
+    "map-W8178559-compound-test-#3-(gas):-ignitor",
+    "map-W8178559-compound-gas_valve",
+    "map-W8178559-heating_element-heat_source",
+    "map-W8178559-thermal_fuse-thermal_fuse",
+    "map-W8178559-thermal_cutoff-thermal_cutoff",
+    "map-W8178559-moisture-sensor-moisture_sensor",
+    "map-W8178559-motor-drive_motor",
+    "map-w8178559-unresolved-w8178559-supply-connections-supply",
+    "map-W8178559-thermal-fuse-thermal_fuse"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {
+        "TEST #3a: Exhaust Thermistor": "temperature_sensor",
+        "TEST #3 (gas): Ignitor": "heat_source",
+        "TEST #4: Moisture Sensor": "moisture_sensor",
+        "TEST #3b: Thermal Fuse": "thermal_fuse"
+      },
+      "skip": {
+        "user_interface": "hmi_control",
+        "door_switch": "door_switch",
+        "moisture_sensor": "moisture_sensor",
+        "exhaust_thermistor": "temperature_sensor",
+        "igniter": "heat_source",
+        "gas_valve": "heat_source",
+        "heating_element": "heat_source",
+        "thermal_fuse": "thermal_fuse",
+        "thermal_cutoff": "thermal_cutoff",
+        "motor": "drive_motor",
+        "supply": "power_supply"
+      }
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [],
+      "skip": []
+    }
+  },
+  "plannedAt": "2026-09-14T04:37:05.198546+00:00",
+  "publishedAt": "2026-09-14T04:37:05.309546+00:00"
+}

@@ -1,0 +1,61 @@
+{
+  "manualId": "SAMSUNG-FL-BB8700-WASHER",
+  "platformId": "samsung_fl_washer_bb8700",
+  "templateId": "washer",
+  "label": "Samsung FL washer BB8700 (WF50/53BB, WF51CG)",
+  "status": "candidate",
+  "ontologyId": "front_load_washer",
+  "generatedAt": "2026-09-13T14:27:49.974876+00:00",
+  "topologySignature": "direct_drive_motor",
+  "counts": {
+    "procedures": 10,
+    "mappingCandidates": 20,
+    "overlayCandidates": 9,
+    "conflicts": 0,
+    "extractionFiltered": 6
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 6,
+    "invalidExtraction": 0,
+    "totalFiltered": 6,
+    "samples": [
+      {
+        "rawTerm": "AC6",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungbb8700-communication",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "DC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungbb8700-door-lock",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "LC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungbb8700-drain-pump",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C5",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungbb8700-power-supply",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "HC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungbb8700-wash-heater",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungbb8700-wash-thermistor",
+        "source": "title_token"
+      }
+    ]
+  }
+}

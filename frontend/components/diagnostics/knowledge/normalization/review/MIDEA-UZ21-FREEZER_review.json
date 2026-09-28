@@ -1,0 +1,1402 @@
+{
+  "manualId": "MIDEA-UZ21-FREEZER",
+  "platformId": "midea_uz21",
+  "templateId": "standalone_freezer",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:16.756877+00:00",
+  "records": [
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-thermistor-wash_ntc",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.85,
+      "what": "thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "wash_ntc",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "global_hint",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: thermistor \u2192 wash_ntc"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-ambient-sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermistor": "wash_ntc"
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-ambient-sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-ambient-sensor",
+            "pages": [
+              38,
+              39,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "global_hint"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-compound-e7:-ambient-temperature-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a79.6 E7: Ambient temperature sensor",
+      "extractedTerm": "E7: Ambient temperature sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "e7 ambient temperature",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a79.6 E7: Ambient temperature sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-ambient-sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a79.6 E7: Ambient temperature sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-ambient-sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-ambient-sensor",
+            "pages": [
+              38,
+              39,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "e7 ambient temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-compound-display_panel",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "display_panel",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: display_panel \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-communication",
+        "pages": [
+          38,
+          39
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "display_panel": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-communication",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-communication",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-main_control-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.96,
+      "what": "main_control",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.96,
+        "matcherLayer": "platform_overlay:samsung_fl_washer_wf6000r",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: main_control \u2192 control_board"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-communication",
+        "pages": [
+          38,
+          39
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "main_control": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-communication",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-communication",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-compound-e6:-display-\u2194-main-communication",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a79.6 E6: Display \u2194 main communication",
+      "extractedTerm": "E6: Display \u2194 main communication",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a79.6 E6: Display \u2194 main communication \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-communication",
+        "pages": [
+          38,
+          39
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a79.6 E6: Display \u2194 main communication": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-communication",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-communication",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-compound-evap_fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "evap_fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: evap_fan \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-evap-fan",
+        "pages": [
+          22,
+          38
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "evap_fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-evap-fan",
+        "pages": [
+          22,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-evap-fan",
+            "pages": [
+              22,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-compound-/-\u00a79.6-e9:-freezer-evaporator-fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a77.5 / \u00a79.6 E9: Freezer evaporator fan",
+      "extractedTerm": "/ \u00a79.6 E9: Freezer evaporator fan",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a77.5 / \u00a79.6 E9: Freezer evaporator fan \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-evap-fan",
+        "pages": [
+          22,
+          38
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a77.5 / \u00a79.6 E9: Freezer evaporator fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-evap-fan",
+        "pages": [
+          22,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-evap-fan",
+            "pages": [
+              22,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-midea-uz21-freezer-unresolved-mideauz21-fz-defrost-heater-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-defrost-heater",
+        "pages": [
+          14,
+          23,
+          37
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-defrost-heater",
+        "pages": [
+          14,
+          23,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-fz-defrost-heater",
+            "pages": [
+              14,
+              23,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-compound-defrost_heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "defrost_heater",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: defrost_heater \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-defrost-heater",
+        "pages": [
+          14,
+          23,
+          37
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "defrost_heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-defrost-heater",
+        "pages": [
+          14,
+          23,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-fz-defrost-heater",
+            "pages": [
+              14,
+              23,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-compound-/-\u00a77.6:-freezer-defrost-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a75.1 / \u00a77.6: Freezer defrost heater",
+      "extractedTerm": "/ \u00a77.6: Freezer defrost heater",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "7 6 freezer defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a75.1 / \u00a77.6: Freezer defrost heater \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-defrost-heater",
+        "pages": [
+          14,
+          23,
+          37
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a75.1 / \u00a77.6: Freezer defrost heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-defrost-heater",
+        "pages": [
+          14,
+          23,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-fz-defrost-heater",
+            "pages": [
+              14,
+              23,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "7 6 freezer defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-compound-defrost_thermostat",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "defrost_thermostat",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: defrost_thermostat \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-defrost-sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "defrost_thermostat": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-defrost-sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-fz-defrost-sensor",
+            "pages": [
+              38,
+              39,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-compound-e5:-freezer-defrost-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a79.6 E5: Freezer defrost sensor",
+      "extractedTerm": "E5: Freezer defrost sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "e5 freezer defrost",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a79.6 E5: Freezer defrost sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-defrost-sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a79.6 E5: Freezer defrost sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-defrost-sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-fz-defrost-sensor",
+            "pages": [
+              38,
+              39,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "e5 freezer defrost",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-compound-e2:-freezer-temperature-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a79.6 E2: Freezer temperature sensor",
+      "extractedTerm": "E2: Freezer temperature sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "e2 freezer temperature",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a79.6 E2: Freezer temperature sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-temp-sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a79.6 E2: Freezer temperature sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-temp-sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-fz-temp-sensor",
+            "pages": [
+              38,
+              39,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "e2 freezer temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-compound-door_switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "door_switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "door",
+          "component": null,
+          "actuator": "switch"
+        },
+        "summary": "alias: door_switch \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-high-temp-alarm",
+        "pages": [
+          38,
+          39
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-high-temp-alarm",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-high-temp-alarm",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-midea-uz21-freezer-unresolved-mideauz21-high-temp-alarm-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-high-temp-alarm",
+        "pages": [
+          38,
+          39
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-high-temp-alarm",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-high-temp-alarm",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-compound-light_switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "light_switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "light",
+          "actuator": "switch"
+        },
+        "summary": "alias: light_switch \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-high-temp-alarm",
+        "pages": [
+          38,
+          39
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "light_switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-high-temp-alarm",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-high-temp-alarm",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "light",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-MIDEA-UZ21-FREEZER-compound-e9:-high-temperature-alarm",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a79.6 E9: High-temperature alarm",
+      "extractedTerm": "E9: High-temperature alarm",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a79.6 E9: High-temperature alarm \u2192 None"
+      },
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-high-temp-alarm",
+        "pages": [
+          38,
+          39
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a79.6 E9: High-temperature alarm": null
+        }
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-high-temp-alarm",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-high-temp-alarm",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 17,
+    "byStatus": {
+      "candidate": 2,
+      "needs_review": 15
+    },
+    "byApprovalLevel": {
+      "normal": 1,
+      "blocked": 15,
+      "easy": 1
+    },
+    "byType": {
+      "canonicalMapping": 17
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 1,
+      "medium_0.80_0.94": 1,
+      "low_lt_0.80": 0,
+      "unresolved": 15
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 2
+    }
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_overlay_mapping_gate_table",
+  "manualId": "LG-LMHM2237-MICROWAVE",
+  "platformId": "lg_microwave_otr",
+  "platformFamilyId": "lg_microwave_otr",
+  "canonicalOntologyId": "microwave",
+  "proposedOverlayFile": "lg_microwave_otr.json",
+  "normalizationArtifact": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+  "compoundingContract": "CG_MICROWAVE_COMPOUNDING_v1.json",
+  "compoundingSequence": 1,
+  "status": "published",
+  "generatedAt": "2026-09-17T11:45:00+00:00",
+  "gateFraming": {
+    "question": "How does normalized LG LMHM2237 evidence realize the frozen microwave rev1 contract?",
+    "not": "What LG hardware should become new canonical components?",
+    "validOutcomes": ["canonical_inheritance", "conditional_binding", "overlay_implementation", "platform_only"]
+  },
+  "gatePolicy": {
+    "gateKind": "lg_lmhm2237_first_microwave_compounding",
+    "compoundingPhase": "CG-MICROWAVE-COMPOUNDING",
+    "canonicalGraph": "microwave.json rev1 FROZEN",
+    "freezeReopenBlocked": true,
+    "implementationRealizationPrecedence": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+    "publishBlocked": false
+  },
+  "canonicalContract": {
+    "graph": "microwave",
+    "revision": "rev1",
+    "frozen": true,
+    "frozenHash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "allowedCanonicalIds": [
+      "power_supply",
+      "control_board",
+      "user_interface",
+      "door_interlock_chain",
+      "hv_generation",
+      "rf_cavity",
+      "thermal_protection"
+    ],
+    "conditionalBindingIds": ["control_and_sensing"],
+    "contractRule": "HV cascade hardware binds hv_generation; magnetron binds rf_cavity — never components[]."
+  },
+  "accounting": {
+    "canonicalInheritance": 7,
+    "conditionalBinding": 1,
+    "overlayImplementation": 15,
+    "proceduresBound": 12,
+    "measurementsBound": 12,
+    "decisionBranchesExecutable": 12,
+    "functionalRealizations": 13,
+    "canonicalExpansion": 0,
+    "ontologyMutations": 0,
+    "staleMagnetronRealizesNotPropagated": true
+  },
+  "contractTeachingRows": [
+    {
+      "teachingId": "lgotr-hv-cascade-realization",
+      "gateQuestion": "Where do transformer/capacitor/diode/fuse bind?",
+      "outcome": "canonical_inheritance",
+      "canonicalTarget": "hv_generation",
+      "implementationTerms": ["hv_transformer", "hv_capacitor", "hv_diode", "hv_fuse"],
+      "procedureIds": ["lgotrmw-hv-transformer", "lgotrmw-hv-capacitor", "lgotrmw-hv-diode", "lgotrmw-hv-fuse"],
+      "gateAction": "approve_compounded",
+      "rationale": "HV conditioning cascade realizes hv_generation — not separate canonical nodes."
+    },
+    {
+      "teachingId": "lgotr-magnetron-rf-cavity-precedence",
+      "gateQuestion": "Where does magnetron bind given stale overlayOnlyConcepts.realizes?",
+      "outcome": "overlay_implementation",
+      "canonicalTarget": "rf_cavity",
+      "implementationTerms": ["magnetron"],
+      "procedureIds": ["lgotrmw-magnetron", "lgotrmw-no-heat"],
+      "measurementIds": ["lgotr-magnetron-filament-ohms"],
+      "gateAction": "approve_compounded",
+      "rationale": "Magnetron is RF-generation device downstream of HV supply — authoritative mapping rf_cavity per Branch A governance closure; stale realizes=hv_generation must not propagate."
+    },
+    {
+      "teachingId": "lgotr-interlock-safety-contract",
+      "gateQuestion": "How does §9-2 interlock chain bind?",
+      "outcome": "canonical_inheritance",
+      "canonicalTarget": "door_interlock_chain",
+      "implementationTerms": ["primary_switch", "secondary_switch", "monitor_switch"],
+      "procedureIds": ["lgotrmw-door-interlock"],
+      "gateAction": "approve_compounded"
+    },
+    {
+      "teachingId": "lgotr-pcb-thermistor-dual-role",
+      "gateQuestion": "How is PCB thermistor dual protective/sensing role preserved?",
+      "outcome": "canonical_inheritance",
+      "canonicalTarget": "thermal_protection",
+      "implementationTerms": ["pcb_thermistor"],
+      "conditionalCrossRef": "control_and_sensing",
+      "procedureIds": ["lgotrmw-pcb-thermistor"],
+      "gateAction": "approve_compounded",
+      "note": "Primary thermal_protection; F-1/F-2 service test cross-reference preserved at implementation level."
+    },
+    {
+      "teachingId": "lgotr-vent-deferred",
+      "gateQuestion": "Is ventilation_otr manufactured?",
+      "outcome": "platform_only",
+      "verdict": "deferred",
+      "gateAction": "reject_conditional_manufacture",
+      "rationale": "Insufficient LG vent evidence — normalization deferral preserved."
+    }
+  ]
+}

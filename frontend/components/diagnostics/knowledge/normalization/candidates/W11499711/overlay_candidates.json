@@ -1,0 +1,83 @@
+{
+  "manualId": "W11499711",
+  "candidates": [
+    {
+      "id": "overlay-W11499711-w11499711-wash-motor-ssm-circulation_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11499711-wash-motor-ssm",
+      "canonicalTestTarget": "circulation_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-15: Wash Motor (SSM, WDT750)",
+      "componentIds": [
+        "circulation_pump"
+      ],
+      "provenance": {
+        "manualId": "W11499711",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "pages": [
+          53,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11499711",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11499711-wash-motor-ssm",
+            "pages": [
+              53,
+              54
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11499711_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11499711-w11499711-wash-motor-ssm-meas-whirlpoolDishwasherAcuWashMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11499711-wash-motor-ssm",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+      "canonicalTestTarget": "circulation_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11499711",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "pages": [
+          53,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11499711",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11499711-wash-motor-ssm",
+            "pages": [
+              53,
+              54
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+            "stepTitle": "Wash motor \u2014 P5 pins 1 & 2"
+          }
+        ]
+      }
+    }
+  ]
+}

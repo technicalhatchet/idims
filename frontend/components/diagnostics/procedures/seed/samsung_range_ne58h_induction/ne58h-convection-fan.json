@@ -1,0 +1,67 @@
+{
+  "id": "ne58h-convection-fan",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Convection fan motor",
+  "platformId": "samsung_range_ne58",
+  "templateIds": [
+    "induction_range"
+  ],
+  "componentIds": [
+    "convection_fan"
+  ],
+  "tags": [
+    "long_bake"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+    "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+    "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Convection fan",
+    "pages": [
+      44
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the range.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_check"
+    },
+    {
+      "id": "fan_check",
+      "order": 2,
+      "type": "instruction",
+      "title": "Convection fan motor",
+      "body": "Measure convection fan motor and voltage when cycling.",
+      "sourceExcerpt": "Measure convection fan motor and voltage when cycling.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_ok"
+    },
+    {
+      "id": "replace_fan",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace convection fan",
+      "oemOutcome": "Replace fan motor or convection element.",
+      "requiresInput": false
+    },
+    {
+      "id": "fan_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Convection fan OK",
+      "oemOutcome": "Convection fan verified.",
+      "requiresInput": false
+    }
+  ]
+}

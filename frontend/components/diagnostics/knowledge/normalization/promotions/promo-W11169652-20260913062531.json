@@ -1,0 +1,194 @@
+{
+  "promotionId": "promo-W11169652-20260913062531",
+  "manualId": "W11169652",
+  "platformId": "whirlpool_fl_dd",
+  "overlayFile": "whirlpool_front_load_washer.json",
+  "platformFamilyId": "whirlpool_fl_dd_direct_drive",
+  "status": "planned",
+  "blocked": true,
+  "blockReasons": [
+    "map-W11169652-compound-acu-power-check: blocked approval level",
+    "map-W11169652-compound-human-machine-interface-(hmi): blocked approval level",
+    "map-W11169652-compound-motor-circuit: blocked approval level",
+    "map-W11169652-compound-drum-light: blocked approval level",
+    "map-W11169652-compound-water-inlet-valves: blocked approval level",
+    "map-W11169652-compound-single-dose-dispenser: blocked approval level",
+    "map-W11169652-compound-optimal-dosing-pump: blocked approval level",
+    "map-W11169652-compound-drawer-bulk-dispenser: blocked approval level",
+    "map-W11169652-compound-bulk-dispenser-level-sensing: blocked approval level"
+  ],
+  "approvedCandidateIds": [
+    "map-W11169652-supply-supply",
+    "map-W11169652-compound-acu-power-check",
+    "map-W11169652-acu-control_board",
+    "map-W11169652-hmi_control-hmi_control",
+    "map-W11169652-compound-human-machine-interface-(hmi)",
+    "map-W11169652-drive_motor-drive_motor",
+    "map-W11169652-compound-motor-circuit",
+    "map-W11169652-door_lock-door_lock",
+    "map-W11169652-compound-door-lock-system",
+    "map-W11169652-compound-drum-light",
+    "map-W11169652-inlet_valve-inlet_valve",
+    "map-W11169652-compound-water-inlet-valves",
+    "map-W11169652-water_level_sensor-water_level_sensor",
+    "map-W11169652-water-level-sensor-water_level_sensor",
+    "map-W11169652-drain_pump-drain_pump",
+    "map-W11169652-compound-drain/recirculation-pump",
+    "map-W11169652-wash_heater-wash_heater",
+    "map-W11169652-compound-wash-heating-element",
+    "map-W11169652-wash_ntc-wash_ntc",
+    "map-W11169652-wash-temperature-sensor-wash_ntc",
+    "map-W11169652-dosing_pump-dosing_pump",
+    "map-W11169652-compound-single-dose-dispenser",
+    "map-W11169652-compound-optimal-dosing-pump",
+    "map-W11169652-bulk_level_switch-bulk_level_switch",
+    "map-W11169652-compound-drawer-bulk-dispenser",
+    "map-W11169652-compound-bulk-dispenser-level-sensing",
+    "map-W11169652-vent_fan-vent_fan",
+    "map-W11169652-vent-fan-motor-vent_fan",
+    "map-W11169652-vent_baffle-vent_baffle",
+    "map-W11169652-vent-baffle-solenoid-vent_baffle",
+    "map-W11169652-dry_heater-dry_heater",
+    "map-W11169652-dry-heating-element-dry_heater",
+    "map-W11169652-dry_ntc-dry_ntc",
+    "map-W11169652-dry-temperature-sensor-dry_ntc",
+    "map-W11169652-dry_blower-dry_blower",
+    "map-W11169652-dry-blower-motor-dry_blower",
+    "overlay-W11169652-w11169652-test-03-motor-circuit-motor_output_test",
+    "overlay-W11169652-w11169652-test-03-motor-circuit-meas-whirlpoolFlWasherMotorOhms",
+    "overlay-W11169652-w11169652-test-03-motor-circuit-meas-whirlpoolFlWasherMotorOhms",
+    "overlay-W11169652-w11169652-test-03-motor-circuit-meas-whirlpoolFlWasherMotorOhms",
+    "overlay-W11169652-w11169652-test-04-door-lock-door_lock_test",
+    "overlay-W11169652-w11169652-test-04-door-lock-meas-whirlpoolFlWasherDoorLockSwitchLockedOhms",
+    "overlay-W11169652-w11169652-test-04-door-lock-meas-whirlpoolFlWasherDoorLockSolenoidOhms",
+    "overlay-W11169652-w11169652-test-07-water-level-sensor-drain_test",
+    "overlay-W11169652-w11169652-test-07-water-level-sensor-meas-whirlpoolFlWasherAps5Vdc",
+    "overlay-W11169652-w11169652-test-08-drain-pump-drain_test",
+    "overlay-W11169652-w11169652-test-08-drain-pump-meas-whirlpoolFlWasherDrainPumpOhms",
+    "overlay-W11169652-w11169652-test-08-drain-pump-meas-whirlpoolFlWasherRecircPumpOhms",
+    "overlay-W11169652-w11169652-test-08-drain-pump-meas-whirlpoolFlWasherDrainPumpOhms"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {
+        "supply": "supply",
+        "TEST #1: ACU Power Check": null,
+        "ACU": "control_board",
+        "hmi_control": "hmi_control",
+        "TEST #2: Human-Machine Interface (HMI)": null,
+        "drive_motor": "drive_motor",
+        "TEST #3: Motor Circuit": null,
+        "door_lock": "door_lock",
+        "TEST #4: Door Lock System": "door_lock",
+        "TEST #5: Drum Light": null,
+        "inlet_valve": "inlet_valve",
+        "TEST #6: Water Inlet Valves": null,
+        "water_level_sensor": "water_level_sensor",
+        "TEST #7: Water Level Sensor": "water_level_sensor",
+        "drain_pump": "drain_pump",
+        "TEST #8: Drain/Recirculation Pump": "recirc_pump",
+        "wash_heater": "wash_heater",
+        "TEST #9: Wash Heating Element": "wash_heater",
+        "wash_ntc": "wash_ntc",
+        "TEST #10: Wash Temperature Sensor": "wash_ntc",
+        "dosing_pump": "dosing_pump",
+        "TEST #11A: Single Dose Dispenser": null,
+        "TEST #11B: Optimal Dosing Pump": null,
+        "bulk_level_switch": "bulk_level_switch",
+        "TEST #12A: Drawer Bulk Dispenser": null,
+        "TEST #12B: Bulk Dispenser Level Sensing": null,
+        "vent_fan": "vent_fan",
+        "TEST #13: Vent Fan Motor": "vent_fan",
+        "vent_baffle": "vent_baffle",
+        "TEST #14: Vent Baffle Solenoid": "vent_baffle",
+        "dry_heater": "dry_heater",
+        "TEST #15: Dry Heating Element": "dry_heater",
+        "dry_ntc": "dry_ntc",
+        "TEST #16: Dry Temperature Sensor": "dry_ntc",
+        "dry_blower": "dry_blower",
+        "TEST #17: Dry Blower Motor": "dry_blower"
+      },
+      "skip": {}
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [
+        {
+          "procedureId": "w11169652-test-03-motor-circuit",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3: Motor Circuit"
+        },
+        {
+          "procedureId": "w11169652-test-04-door-lock",
+          "testTargetId": "door_lock_test",
+          "displayTitle": "TEST #4: Door Lock System"
+        },
+        {
+          "procedureId": "w11169652-test-07-water-level-sensor",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #7: Water Level Sensor"
+        },
+        {
+          "procedureId": "w11169652-test-08-drain-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #8: Drain/Recirculation Pump"
+        }
+      ],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [
+        {
+          "procedureId": "w11169652-test-03-motor-circuit",
+          "measurementKnowledgeId": "whirlpoolFlWasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w11169652-test-03-motor-circuit",
+          "measurementKnowledgeId": "whirlpoolFlWasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w11169652-test-03-motor-circuit",
+          "measurementKnowledgeId": "whirlpoolFlWasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w11169652-test-04-door-lock",
+          "measurementKnowledgeId": "whirlpoolFlWasherDoorLockSwitchLockedOhms",
+          "testTargetId": "door_lock_test"
+        },
+        {
+          "procedureId": "w11169652-test-04-door-lock",
+          "measurementKnowledgeId": "whirlpoolFlWasherDoorLockSolenoidOhms",
+          "testTargetId": "door_lock_test"
+        },
+        {
+          "procedureId": "w11169652-test-07-water-level-sensor",
+          "measurementKnowledgeId": "whirlpoolFlWasherAps5Vdc",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11169652-test-08-drain-pump",
+          "measurementKnowledgeId": "whirlpoolFlWasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11169652-test-08-drain-pump",
+          "measurementKnowledgeId": "whirlpoolFlWasherRecircPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11169652-test-08-drain-pump",
+          "measurementKnowledgeId": "whirlpoolFlWasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        }
+      ],
+      "skip": []
+    }
+  },
+  "plannedAt": "2026-09-13T06:25:31.185880+00:00"
+}

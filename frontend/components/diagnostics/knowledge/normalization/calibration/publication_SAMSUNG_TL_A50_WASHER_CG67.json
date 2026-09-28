@@ -1,0 +1,132 @@
+{
+  "manualId": "SAMSUNG-TL-A50-WASHER",
+  "gateKind": "samsung_tl_first_manual_compounding",
+  "promotionId": "promo-SAMSUNG-TL-A50-CG67-20260915223232",
+  "publishedAt": "2026-09-15T22:32:32.010583+00:00",
+  "publishMode": "gate_table_first_manual_compounding",
+  "isLearningEvent": true,
+  "isCertification": false,
+  "verdict": "PUBLISHED",
+  "accounting": {
+    "infrastructureCorrectionHits": 6,
+    "observationCanonicalInheritance": 17,
+    "postRoutingCanonicalInheritance": 23,
+    "newOverlaySemanticDecisions": 6,
+    "canonicalExpansion": 0,
+    "forbiddenFamilyLeaks": {
+      "whirlpoolTl": 0,
+      "whirlpoolFl": 0,
+      "samsungFl": 0
+    },
+    "candidateLedgerApproved": 24,
+    "candidateLedgerDeferred": 14,
+    "note": "newOverlaySemanticDecisions counts approved Samsung overlay vocabulary in bucket B only. Bucket A inheritance is rev1 reuse, not new learning."
+  },
+  "infrastructureCorrection": {
+    "workPackage": "WP1.1_boundary_cleanup_reobservation",
+    "classification": "matcher_routing_hygiene_not_learning",
+    "newSemanticDecisions": 0,
+    "canonicalExpansion": 0,
+    "before": {
+      "canonicalInheritance": 17,
+      "samsungKnowledgeCreation": 1,
+      "canonicalExpansionCandidates": 0,
+      "unresolvedProceduralNoise": 10,
+      "pipelineFlOntologyPollution": 6,
+      "pipelineFlTestTargetPollution": 4,
+      "forbiddenWhirlpoolDependent": 0
+    },
+    "after": {
+      "canonicalInheritance": 23,
+      "samsungKnowledgeCreation": 2,
+      "canonicalExpansionCandidates": 0,
+      "unresolvedProceduralNoise": 14,
+      "pipelineFlOntologyPollution": 0,
+      "pipelineFlTestTargetPollution": 0,
+      "forbiddenWhirlpoolDependent": 0
+    },
+    "deltas": {
+      "canonicalExpansionCandidates": 0,
+      "canonicalInheritance": 6,
+      "forbiddenWhirlpoolDependent": 0,
+      "pipelineFlOntologyPollution": -6,
+      "pipelineFlTestTargetPollution": -4,
+      "samsungKnowledgeCreation": 1,
+      "unresolvedProceduralNoise": 4
+    },
+    "attribution": "Six additional canonical inheritance hits (17\u219223) are correct ontology routing under top_load_washer rev1 \u2014 not newly learned Samsung concepts. Previously classified FL pollution: door_lock, supply, wash_ntc functional remaps plus compound title resolutions.",
+    "successCriteria": {
+      "canonicalInheritancePreserved": true,
+      "flOntologyPollutionZero": true,
+      "flTestTargetPollutionZero": true,
+      "whirlpoolDependencyZero": true,
+      "samsungFlDependencyZero": true
+    },
+    "semanticLearningFromRouting": 0,
+    "note": "WP1 observation: 17 canonical hits. WP1.1 routing correction: +6 hits. Semantic learning from routing: 0. WP3 overlay vocabulary decisions are separate from infrastructure correction."
+  },
+  "learningDecisionIds": [
+    "seed:clutch",
+    "seed:door_lock",
+    "seed:main_control",
+    "seed:supply",
+    "seed:user_interface",
+    "seed:wash_ntc"
+  ],
+  "appliedCounts": {
+    "oemSeedAliases": 9,
+    "platformComponents": 3,
+    "procedureBindings": 8,
+    "measurementBindings": 5,
+    "procedureRoleEvidence": 2,
+    "deferredArtifacts": 12,
+    "learningDecisions": 6
+  },
+  "publicationChecks": {
+    "canonicalHashUnchanged": true,
+    "overlayPublished": true,
+    "isLearningEvent": true,
+    "isCertificationFalse": true,
+    "learningDecisionsSix": true,
+    "learningDecisionIdsExact": true,
+    "whirlpoolTlOverlayByteStable": true,
+    "whirlpoolFlOverlayByteStable": true,
+    "samsungFlOverlayByteStable": true,
+    "gatePublisherNoFailures": true,
+    "procedureBindingsEight": true,
+    "measurementBindingsFive": true,
+    "deferredArtifactsTwelve": true
+  },
+  "hashes": {
+    "canonicalBefore": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+    "gateTableBefore": "ff1d1d33bc56fa36d0742495f307067dcc2c4440bbd915ac9e17fd3e73f7e467",
+    "ledgerBefore": "64d30946d130951d358016a48a3855efed04f05fb7e2d55863be1f0a1bce054d",
+    "dryRunReportBefore": "909a6d3879d4a400a380f42aa8d3c87a0734c48e000801d5626f9423aa44b20d",
+    "publicationPlanBefore": "f0677dc510236827180afb4fabe2df8a2d7eb71e1ee6991fd4d93baf08ceadf9",
+    "whirlpoolTlOverlayBefore": "e6039a9e03f707c30c94c03c44faf76b91d82924db4b4239294095d326df66fd",
+    "whirlpoolFlOverlayBefore": "4cf4c6ce4de36f79644902564bf80262aff65cec0f6fdd0467a77ad58fb728e8",
+    "samsungFlOverlayBefore": "ef6c046fe1e50939ea918203bb2bbb6562638bcb53028d0204887640454a9024",
+    "canonicalAfter": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+    "overlayAfter": "e57d6f10b768090ca2a2023c3948ef1ee047022211375cfc3e12b68961220f08",
+    "whirlpoolTlOverlayAfter": "e6039a9e03f707c30c94c03c44faf76b91d82924db4b4239294095d326df66fd",
+    "whirlpoolFlOverlayAfter": "4cf4c6ce4de36f79644902564bf80262aff65cec0f6fdd0467a77ad58fb728e8",
+    "samsungFlOverlayAfter": "ef6c046fe1e50939ea918203bb2bbb6562638bcb53028d0204887640454a9024",
+    "publicationPlanAfter": "24e30084ba7a227649e7abac6fa487e315dc48e4dbcbe6d7d0942f652348f625",
+    "gateTableAfter": "61920bbb9915452dd2934c4f3e548a775fe751bb2ec54bf86593ced02aa4e045"
+  },
+  "testResults": {
+    "components/diagnostics/session/__tests__/scenarios/cg5-tl-architecture-boundary.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/cg66-whirlpool-tl-certification-closure.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/cg67-samsung-tl-a50-promotion-dry-run.test.ts": 0
+  },
+  "overlayFile": "samsung_top_load_washer.json",
+  "gateArtifact": "SAMSUNG_TL_A50_WASHER_overlay_mapping_table_v1.json",
+  "ledgerArtifact": "SAMSUNG_TL_A50_WASHER_gate_decision_ledger_v1.json",
+  "dryRunReportArtifact": "promotion_dry_run_SAMSUNG_TL_A50_WASHER_CG67.json",
+  "publicationPlanArtifact": "publication_plan_SAMSUNG_TL_A50_WASHER_CG67.json",
+  "notes": [
+    "First Samsung TL semantic learning event \u2014 6 gated teaching decisions promoted exactly.",
+    "WP1.1 +6 inheritance delta is infrastructure correction (zero teaching cost).",
+    "Fresh scaffold application \u2014 no working-tree overlay edits carried into publication."
+  ]
+}

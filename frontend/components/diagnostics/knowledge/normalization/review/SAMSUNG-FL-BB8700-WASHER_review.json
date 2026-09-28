@@ -1,0 +1,3684 @@
+{
+  "manualId": "SAMSUNG-FL-BB8700-WASHER",
+  "platformId": "samsung_fl_washer_bb8700",
+  "templateId": "washer",
+  "ontologyId": "front_load_washer",
+  "materializedAt": "2026-09-13T14:27:49.983377+00:00",
+  "records": [
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-main_control-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.96,
+      "what": "main_control",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.96,
+        "matcherLayer": "platform_overlay:samsung_fl_washer_wf6000r",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: main_control \u2192 control_board"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-communication",
+        "pages": [
+          45,
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "main_control": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-communication",
+        "pages": [
+          45,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-communication",
+            "pages": [
+              45,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:57.838485+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-inverter-motor_controller",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.96,
+      "what": "inverter",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_controller",
+      "why": {
+        "confidence": 0.96,
+        "matcherLayer": "platform_overlay:samsung_fl_washer_wf6000r",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: inverter \u2192 motor_controller"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-communication",
+        "pages": [
+          45,
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inverter": "motor_controller"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-communication",
+        "pages": [
+          45,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-communication",
+            "pages": [
+              45,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:59.199985+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-pba-communication-(ac,-ac6)",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "\u00a74-3: PBA communication (AC, AC6)",
+      "extractedTerm": "PBA communication (AC, AC6)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-3: PBA communication (AC, AC6) \u2192 control_board"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-communication",
+        "pages": [
+          45,
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-3: PBA communication (AC, AC6)": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-communication",
+        "pages": [
+          45,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-communication",
+            "pages": [
+              45,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.216364+00:00",
+          "status": "approved",
+          "reviewer": "term-resolution",
+          "reason": "inherited_corpus_knowledge: \u00a74-3: PBA communication (AC, AC6) -> control_board"
+        }
+      ],
+      "reviewer": "term-resolution",
+      "resolutionClassification": "inherited_corpus_knowledge"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-door_lock-door_lock",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "door_lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: door_lock \u2192 door_lock"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_lock": "door_lock"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-door-lock",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:57.978984+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-door-lock-and-switch-(dc,-dc1)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.85,
+      "what": "\u00a74-3: Door lock and switch (DC, DC1)",
+      "extractedTerm": "Door lock and switch (DC, DC1)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "door lock",
+        "decomposition": {
+          "domain": "door",
+          "component": "lock and",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a74-3: Door lock and switch (DC, DC1) \u2192 door_lock"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-3: Door lock and switch (DC, DC1)": "door_lock"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-door-lock",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "door lock",
+            "decomposition": {
+              "domain": "door",
+              "component": "lock and",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-drain_pump-drain_pump",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "drain_pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: drain_pump \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-drain-pump",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drain_pump": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-drain-pump",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-drain-pump",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.141986+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-drain-/-leakage-(lc,-lc1)",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "\u00a74-3: Drain / leakage (LC, LC1)",
+      "extractedTerm": "Drain / leakage (LC, LC1)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "drain",
+          "component": "leakage lc lc1",
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-3: Drain / leakage (LC, LC1) \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-drain-pump",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-3: Drain / leakage (LC, LC1)": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-drain-pump",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-drain-pump",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "drain",
+              "component": "leakage lc lc1",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.224364+00:00",
+          "status": "approved",
+          "reviewer": "term-resolution",
+          "reason": "inherited_corpus_knowledge: \u00a74-3: Drain / leakage (LC, LC1) -> drain_pump"
+        }
+      ],
+      "reviewer": "term-resolution",
+      "resolutionClassification": "inherited_corpus_knowledge"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-inlet_valve-inlet_valve",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "inlet_valve",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: inlet_valve \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-inlet-valves",
+        "pages": [
+          46
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_valve": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-inlet-valves",
+        "pages": [
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-inlet-valves",
+            "pages": [
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.492484+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-inlet-valves-(co-/-ho-manual-check)",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "\u00a74-2: Inlet valves (Co / Ho manual check)",
+      "extractedTerm": "Inlet valves (Co / Ho manual check)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "inlet",
+          "component": "valves co ho manual check",
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-2: Inlet valves (Co / Ho manual check) \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-inlet-valves",
+        "pages": [
+          46
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-2: Inlet valves (Co / Ho manual check)": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-inlet-valves",
+        "pages": [
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-inlet-valves",
+            "pages": [
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "inlet",
+              "component": "valves co ho manual check",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.231865+00:00",
+          "status": "approved",
+          "reviewer": "term-resolution",
+          "reason": "inherited_corpus_knowledge: \u00a74-2: Inlet valves (Co / Ho manual check) -> inlet_valve"
+        }
+      ],
+      "reviewer": "term-resolution",
+      "resolutionClassification": "inherited_corpus_knowledge"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-drive_motor-drive_motor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "drive_motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: drive_motor \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-motor-circuit",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drive_motor": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-motor-circuit",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-motor-circuit",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.340487+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-washing-motor-(3c)",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "\u00a74-3: Washing motor (3C)",
+      "extractedTerm": "Washing motor (3C)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "washing",
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a74-3: Washing motor (3C) \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-motor-circuit",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-3: Washing motor (3C)": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-motor-circuit",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-motor-circuit",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "washing",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.240864+00:00",
+          "status": "approved",
+          "reviewer": "term-resolution",
+          "reason": "inherited_corpus_knowledge: \u00a74-3: Washing motor (3C) -> drive_motor"
+        }
+      ],
+      "reviewer": "term-resolution",
+      "resolutionClassification": "inherited_corpus_knowledge"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-water_level_sensor-water_level_sensor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "water_level_sensor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_sensor",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: water_level_sensor \u2192 water_level_sensor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-overflow",
+        "pages": [
+          45,
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "water_level_sensor": "water_level_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-overflow",
+        "pages": [
+          45,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-overflow",
+            "pages": [
+              45,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.648984+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-overflow-(oc)",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "\u00a74-3: Overflow (OC)",
+      "extractedTerm": "Overflow (OC)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_sensor",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-3: Overflow (OC) \u2192 water_level_sensor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-overflow",
+        "pages": [
+          45,
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-3: Overflow (OC)": "water_level_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-overflow",
+        "pages": [
+          45,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-overflow",
+            "pages": [
+              45,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.250866+00:00",
+          "status": "approved",
+          "reviewer": "term-resolution",
+          "reason": "inherited_corpus_knowledge: \u00a74-3: Overflow (OC) -> water_level_sensor"
+        }
+      ],
+      "reviewer": "term-resolution",
+      "resolutionClassification": "inherited_corpus_knowledge"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-supply-supply",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "supply",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 supply"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-power-supply",
+        "pages": [
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": "supply"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-power-supply",
+        "pages": [
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-power-supply",
+            "pages": [
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.372365+00:00",
+          "status": "approved",
+          "reviewer": "auto-easy",
+          "reason": "auto-approved (easy alias)"
+        }
+      ],
+      "reviewer": "auto-easy"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-power-/-current-sense-(9c5)",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "\u00a74-3: Power / current sense (9C5)",
+      "extractedTerm": "Power / current sense (9C5)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "inverter_board",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-3: Power / current sense (9C5) \u2192 inverter_board"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-power-supply",
+        "pages": [
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-3: Power / current sense (9C5)": "inverter_board"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-power-supply",
+        "pages": [
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-power-supply",
+            "pages": [
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.259365+00:00",
+          "status": "approved",
+          "reviewer": "term-resolution",
+          "reason": "new_platform_knowledge: \u00a74-3: Power / current sense (9C5) -> inverter_board"
+        }
+      ],
+      "reviewer": "term-resolution",
+      "resolutionClassification": "new_platform_knowledge"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-wash_heater-wash_heater",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "wash_heater",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "wash_heater",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: wash_heater \u2192 wash_heater"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-wash-heater",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "wash_heater": "wash_heater"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-wash-heater",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-wash-heater",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:59.091484+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-wash_ntc-wash_ntc",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "wash_ntc",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "wash_ntc",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: wash_ntc \u2192 wash_ntc"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-wash-heater",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "wash_ntc": "wash_ntc"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-wash-heater",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-wash-heater",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T04:57:58.957485+00:00",
+          "status": "approved",
+          "reviewer": "alias-family",
+          "reason": "CG-5.4 alias family approval"
+        }
+      ],
+      "reviewer": "alias-family"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-wash-heater-(hc,-hc1)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.85,
+      "what": "\u00a74-3: Wash heater (HC, HC1)",
+      "extractedTerm": "Wash heater (HC, HC1)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "wash_heater",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "wash heater",
+        "decomposition": {
+          "domain": "wash",
+          "component": null,
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a74-3: Wash heater (HC, HC1) \u2192 wash_heater"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-wash-heater",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-3: Wash heater (HC, HC1)": "wash_heater"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-wash-heater",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-wash-heater",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash heater",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-wash-temperature-sensor-(tc1)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.85,
+      "what": "\u00a74-3: Wash temperature sensor (TC1)",
+      "extractedTerm": "Wash temperature sensor (TC1)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "wash_ntc",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "wash temperature sensor",
+        "decomposition": {
+          "domain": "wash",
+          "component": "temperature",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-3: Wash temperature sensor (TC1) \u2192 wash_ntc"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-wash-thermistor",
+        "pages": [
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-3: Wash temperature sensor (TC1)": "wash_ntc"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-wash-thermistor",
+        "pages": [
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-wash-thermistor",
+            "pages": [
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash temperature sensor",
+            "decomposition": {
+              "domain": "wash",
+              "component": "temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-water-level-sensor-(1c)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.86,
+      "what": "\u00a74-3: Water level sensor (1C)",
+      "extractedTerm": "Water level sensor (1C)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_sensor",
+      "why": {
+        "confidence": 0.86,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "water level sensor",
+        "decomposition": {
+          "domain": "water",
+          "component": "level",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-3: Water level sensor (1C) \u2192 water_level_sensor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-water-level-sensor",
+        "pages": [
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-3: Water level sensor (1C)": "water_level_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-water-level-sensor",
+        "pages": [
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-water-level-sensor",
+            "pages": [
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "water level sensor",
+            "decomposition": {
+              "domain": "water",
+              "component": "level",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-door-lock-door_lock_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungbb8700-door-lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungbb8700-door-lock \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungbb8700-door-lock",
+          "testTargetId": "door_lock_test",
+          "displayTitle": "\u00a74-3: Door lock and switch (DC, DC1)",
+          "componentIds": [
+            "door_lock"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-door-lock",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.279366+00:00",
+          "status": "approved",
+          "reviewer": "batch-review",
+          "reason": "batch-approved mechanical binding"
+        }
+      ],
+      "reviewer": "batch-review"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-door-lock-meas-samsungFlBb8700WasherDoorSwitchOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungbb8700-door-lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungFlBb8700WasherDoorSwitchOhms \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungbb8700-door-lock",
+          "measurementKnowledgeId": "samsungFlBb8700WasherDoorSwitchOhms",
+          "testTargetId": "door_lock_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-door-lock",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungFlBb8700WasherDoorSwitchOhms",
+            "stepTitle": "TYPE 1 door switch (pins 1\u20133)"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.287864+00:00",
+          "status": "approved",
+          "reviewer": "batch-review",
+          "reason": "batch-approved mechanical binding"
+        }
+      ],
+      "reviewer": "batch-review"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-door-lock-meas-samsungFlBb8700WasherDoorLockOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungbb8700-door-lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungFlBb8700WasherDoorLockOhms \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungbb8700-door-lock",
+          "measurementKnowledgeId": "samsungFlBb8700WasherDoorLockOhms",
+          "testTargetId": "door_lock_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-door-lock",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungFlBb8700WasherDoorLockOhms",
+            "stepTitle": "TYPE 2 lock switch (pins 2\u20133)"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.296364+00:00",
+          "status": "approved",
+          "reviewer": "batch-review",
+          "reason": "batch-approved mechanical binding"
+        }
+      ],
+      "reviewer": "batch-review"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-door-lock-meas-samsungFlBb8700WasherDoorLockMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungbb8700-door-lock",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungFlBb8700WasherDoorLockMotorOhms \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungbb8700-door-lock",
+          "measurementKnowledgeId": "samsungFlBb8700WasherDoorLockMotorOhms",
+          "testTargetId": "door_lock_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-door-lock",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-door-lock",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungFlBb8700WasherDoorLockMotorOhms",
+            "stepTitle": "Add-door lock motor (1\u20132)"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.304867+00:00",
+          "status": "approved",
+          "reviewer": "batch-review",
+          "reason": "batch-approved mechanical binding"
+        }
+      ],
+      "reviewer": "batch-review"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-drain-pump-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungbb8700-drain-pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungbb8700-drain-pump \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-drain-pump",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungbb8700-drain-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a74-3: Drain / leakage (LC, LC1)",
+          "componentIds": [
+            "drain_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-drain-pump",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-drain-pump",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.315365+00:00",
+          "status": "approved",
+          "reviewer": "batch-review",
+          "reason": "batch-approved mechanical binding"
+        }
+      ],
+      "reviewer": "batch-review"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-motor-circuit-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungbb8700-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungbb8700-motor-circuit \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-motor-circuit",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungbb8700-motor-circuit",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a74-3: Washing motor (3C)",
+          "componentIds": [
+            "drive_motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-motor-circuit",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-motor-circuit",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.326865+00:00",
+          "status": "approved",
+          "reviewer": "batch-review",
+          "reason": "batch-approved mechanical binding"
+        }
+      ],
+      "reviewer": "batch-review"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-motor-circuit-meas-samsungFlBb8700WasherMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungbb8700-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungFlBb8700WasherMotorOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-motor-circuit",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungbb8700-motor-circuit",
+          "measurementKnowledgeId": "samsungFlBb8700WasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-motor-circuit",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-motor-circuit",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungFlBb8700WasherMotorOhms",
+            "stepTitle": "Motor winding resistance"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.337364+00:00",
+          "status": "approved",
+          "reviewer": "batch-review",
+          "reason": "batch-approved mechanical binding"
+        }
+      ],
+      "reviewer": "batch-review"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-overflow-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungbb8700-overflow",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungbb8700-overflow \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-overflow",
+        "pages": [
+          45,
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungbb8700-overflow",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a74-3: Overflow (OC)",
+          "componentIds": [
+            "water_level_sensor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-overflow",
+        "pages": [
+          45,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-overflow",
+            "pages": [
+              45,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.346365+00:00",
+          "status": "approved",
+          "reviewer": "batch-review",
+          "reason": "batch-approved mechanical binding"
+        }
+      ],
+      "reviewer": "batch-review"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-BB8700-WASHER-samsungbb8700-water-level-sensor-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungbb8700-water-level-sensor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungbb8700-water-level-sensor \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-water-level-sensor",
+        "pages": [
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+      },
+      "conflicts": [
+        {
+          "id": "conflict-topology-washer-family-mix",
+          "status": "CONFLICT_REQUIRES_REVIEW",
+          "conflictType": "RELATIONSHIP_CONFLICT",
+          "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+          "assertions": [
+            {
+              "topologySignature": "direct_drive_motor",
+              "manualIds": [
+                "W11169652",
+                "SAMSUNG-FL-BB8700-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "ccu_mcu_motor",
+              "manualIds": [
+                "W8178558",
+                "SAMSUNG-FL-WF6000R-WASHER",
+                "SAMSUNG-FLEXWASH-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "motor_present_unknown_path",
+              "manualIds": [
+                "W10864849",
+                "W11416787",
+                "W11800233",
+                "W11697231",
+                "W11455152",
+                "W11416395",
+                "W11428632",
+                "SAMSUNG-TL-A50-WASHER",
+                "SAMSUNG-TL-CG71-WASHER"
+              ]
+            },
+            {
+              "topologySignature": "unknown",
+              "manualIds": [
+                "W10785366A"
+              ]
+            }
+          ]
+        }
+      ],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungbb8700-water-level-sensor",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a74-3: Water level sensor (1C)",
+          "componentIds": [
+            "water_level_sensor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "procedureId": "samsungbb8700-water-level-sensor",
+        "pages": [
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "platformId": "samsung_fl_washer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-water-level-sensor",
+            "pages": [
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-13T14:21:19.354364+00:00",
+          "status": "approved",
+          "reviewer": "batch-review",
+          "reason": "batch-approved mechanical binding"
+        }
+      ],
+      "reviewer": "batch-review"
+    }
+  ],
+  "summary": {
+    "total": 29,
+    "byStatus": {
+      "approved": 25,
+      "COMPOUND_TERM_CANDIDATE": 4
+    },
+    "byApprovalLevel": {
+      "easy": 10,
+      "blocked": 6,
+      "careful": 4,
+      "normal": 9
+    },
+    "byType": {
+      "canonicalMapping": 20,
+      "procedureTestBinding": 5,
+      "measurementBinding": 4
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 10,
+      "medium_0.80_0.94": 13,
+      "low_lt_0.80": 0,
+      "unresolved": 6
+    },
+    "byBlockedReason": {}
+  }
+}

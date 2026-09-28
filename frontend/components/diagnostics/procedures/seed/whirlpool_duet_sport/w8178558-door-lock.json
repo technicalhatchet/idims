@@ -418,6 +418,17 @@
               "componentId": "control_board",
               "evidenceId": "eliminate_control_board_ccu_door_lock_ok"
             }
+          ],
+          "nextTestCandidates": [
+            { "testId": "motor_command_test", "priorityAdjustment": 0.35 },
+            { "testId": "motor_output_test", "priorityAdjustment": 0.3 },
+            { "testId": "drain_test", "priorityAdjustment": 0.25 }
+          ],
+          "deprioritize": [
+            { "target": "door_lock_test", "amount": 0.5 }
+          ],
+          "deprioritizeDomains": [
+            "door_interlock_failure"
           ]
         },
         {

@@ -1,0 +1,156 @@
+{
+  "promotionId": "promo-SAMSUNG-FL-WF6000R-WASHER-20260913194211",
+  "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+  "platformId": "samsung_fl_washer_wf6000r",
+  "overlayFile": "samsung_front_load_washer.json",
+  "platformFamilyId": "samsung_fl_wf6000r_direct_drive",
+  "status": "published",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-SAMSUNG-FL-WF6000R-WASHER-main_control-control_board",
+    "map-SAMSUNG-FL-WF6000R-WASHER-inverter-motor_controller",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-pba-communication-(ac,-ac3\u2013ac6)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-door_lock-door_lock",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-door-lock-and-switch-(dc,-dc1)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-drain_pump-drain_pump",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-drain-/-leakage-(lc,-5c)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-switch-error-(bc2)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-inlet_valve-inlet_valve",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-inlet-valves-(4c,-co/ho-manual-check)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-mems-pba-(8c,-8c1,-8c2)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-drive_motor-drive_motor",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-washing-motor-(3c)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-water_level_sensor-water_level_sensor",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-overflow-(oc)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-supply-supply",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-power-/-voltage-(9c1,-9c2)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-suspension-suspension",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-unbalance-(uv,-ub)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-wash_heater-wash_heater",
+    "map-SAMSUNG-FL-WF6000R-WASHER-wash_ntc-wash_ntc",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-wash-heater-(hc,-hc1)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-wash-temperature-sensor-(tc1)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-water-level-sensor-(1c)",
+    "overlay-SAMSUNG-FL-WF6000R-WASHER-samsungwf6000r-door-lock-door_lock_test",
+    "overlay-SAMSUNG-FL-WF6000R-WASHER-samsungwf6000r-door-lock-meas-samsungFlWf6000rWasherDoorSwitchOhms",
+    "overlay-SAMSUNG-FL-WF6000R-WASHER-samsungwf6000r-door-lock-meas-samsungFlWf6000rWasherDoorLockOhms",
+    "overlay-SAMSUNG-FL-WF6000R-WASHER-samsungwf6000r-door-lock-meas-samsungFlWf6000rWasherDoorLockMotorOhms",
+    "overlay-SAMSUNG-FL-WF6000R-WASHER-samsungwf6000r-drain-pump-drain_test",
+    "overlay-SAMSUNG-FL-WF6000R-WASHER-samsungwf6000r-motor-circuit-motor_output_test",
+    "overlay-SAMSUNG-FL-WF6000R-WASHER-samsungwf6000r-motor-circuit-meas-samsungFlWf6000rWasherMotorOhms",
+    "overlay-SAMSUNG-FL-WF6000R-WASHER-samsungwf6000r-motor-circuit-meas-samsungFlWf6000rWasherHallSensorOhms",
+    "overlay-SAMSUNG-FL-WF6000R-WASHER-samsungwf6000r-overflow-drain_test",
+    "overlay-SAMSUNG-FL-WF6000R-WASHER-samsungwf6000r-unbalance-motor_output_test",
+    "overlay-SAMSUNG-FL-WF6000R-WASHER-samsungwf6000r-water-level-sensor-drain_test",
+    "overlay-SAMSUNG-FL-WF6000R-WASHER-samsungwf6000r-water-level-sensor-meas-samsungFlWf6000rWasherWaterLevelFrequency"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {
+        "\u00a74-3: Door lock and switch (DC, DC1)": "door_lock",
+        "\u00a74-3: Wash heater (HC, HC1)": "wash_heater",
+        "\u00a74-3: Wash temperature sensor (TC1)": "wash_ntc"
+      },
+      "skip": {
+        "main_control": "control_board",
+        "inverter": "motor_controller",
+        "\u00a74-3: PBA communication (AC, AC3\u2013AC6)": "control_board",
+        "door_lock": "door_lock",
+        "drain_pump": "drain_pump",
+        "\u00a74-3: Drain / leakage (LC, 5C)": "drain_pump",
+        "\u00a74-1: Switch error (BC2)": "hmi_control",
+        "inlet_valve": "inlet_valve",
+        "\u00a74-3: Inlet valves (4C, Co/Ho manual check)": "inlet_valve",
+        "\u00a74-1: MEMS PBA (8C, 8C1, 8C2)": "mems_sensor",
+        "drive_motor": "drive_motor",
+        "\u00a74-3: Washing motor (3C)": "drive_motor",
+        "water_level_sensor": "water_level_sensor",
+        "\u00a74-3: Overflow (OC)": "water_level_sensor",
+        "supply": "supply",
+        "\u00a74-1: Power / voltage (9C1, 9C2)": "inverter_board",
+        "suspension": "suspension",
+        "\u00a74-3: Unbalance (UV, UB)": "suspension",
+        "wash_heater": "wash_heater",
+        "wash_ntc": "wash_ntc",
+        "\u00a74-3: Water level sensor (1C)": "water_level_sensor"
+      }
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [],
+      "skip": [
+        {
+          "procedureId": "samsungwf6000r-door-lock",
+          "testTargetId": "door_lock_test",
+          "displayTitle": "\u00a74-3: Door lock and switch (DC, DC1)"
+        },
+        {
+          "procedureId": "samsungwf6000r-drain-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a74-3: Drain / leakage (LC, 5C)"
+        },
+        {
+          "procedureId": "samsungwf6000r-motor-circuit",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a74-3: Washing motor (3C)"
+        },
+        {
+          "procedureId": "samsungwf6000r-overflow",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a74-3: Overflow (OC)"
+        },
+        {
+          "procedureId": "samsungwf6000r-unbalance",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a74-3: Unbalance (UV, UB)"
+        },
+        {
+          "procedureId": "samsungwf6000r-water-level-sensor",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a74-3: Water level sensor (1C)"
+        }
+      ]
+    },
+    "measurementBindings": {
+      "add": [],
+      "skip": [
+        {
+          "procedureId": "samsungwf6000r-door-lock",
+          "measurementKnowledgeId": "samsungFlWf6000rWasherDoorSwitchOhms",
+          "testTargetId": "door_lock_test"
+        },
+        {
+          "procedureId": "samsungwf6000r-door-lock",
+          "measurementKnowledgeId": "samsungFlWf6000rWasherDoorLockOhms",
+          "testTargetId": "door_lock_test"
+        },
+        {
+          "procedureId": "samsungwf6000r-door-lock",
+          "measurementKnowledgeId": "samsungFlWf6000rWasherDoorLockMotorOhms",
+          "testTargetId": "door_lock_test"
+        },
+        {
+          "procedureId": "samsungwf6000r-motor-circuit",
+          "measurementKnowledgeId": "samsungFlWf6000rWasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "samsungwf6000r-motor-circuit",
+          "measurementKnowledgeId": "samsungFlWf6000rWasherHallSensorOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "samsungwf6000r-water-level-sensor",
+          "measurementKnowledgeId": "samsungFlWf6000rWasherWaterLevelFrequency",
+          "testTargetId": "drain_test"
+        }
+      ]
+    }
+  },
+  "plannedAt": "2026-09-13T19:42:11.664857+00:00",
+  "publishedAt": "2026-09-13T19:42:11.769358+00:00"
+}

@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "1.0.0",
+  "canonicalOntologyId": "microwave",
+  "description": "Reference platform overlays for CG-MICROWAVE-FREEZE rev1 discovery corpus (LG LMHM2237, Samsung ME11). HV component and waveguide procedures bind to functional domains — not canonical component nodes. Manufacturer compounding overlays are a separate phase after canonical freeze.",
+  "platforms": [
+    {
+      "platformId": "lg_microwave_otr",
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "smokeModel": "LMHM2237BD",
+      "label": "LG LMHM2237 over-the-range microwave (R1 fit witness)",
+      "componentAliases": {
+        "main_pcb": "control_board",
+        "sub_pcb": "control_board",
+        "touch_panel": "user_interface",
+        "keypad": "user_interface",
+        "membrane": "user_interface",
+        "primary_switch": "door_interlock_chain",
+        "secondary_switch": "door_interlock_chain",
+        "monitor_switch": "door_interlock_chain",
+        "magnetron": "rf_cavity",
+        "hv_transformer": "hv_generation",
+        "hv_capacitor": "hv_generation",
+        "hv_diode": "hv_generation",
+        "hv_fuse": "hv_generation",
+        "waveguide_cover": "rf_cavity",
+        "turntable_motor": "rf_cavity",
+        "magnetron_tco": "thermal_protection",
+        "cavity_tco": "thermal_protection",
+        "pcb_thermistor": "thermal_protection",
+        "supply": "power_supply",
+        "line_fuse": "power_supply",
+        "door_interlock": "door_interlock_chain",
+        "thermal_cutout": "thermal_protection"
+      },
+      "implementationNotes": [
+        "R1 fit witness — HV cascade procedures map to hv_generation functional domain, not separate canonical nodes.",
+        "HV cascade procedures map to hv_generation; magnetron and turntable map to rf_cavity.",
+        "lgotrmw-humidity-sensor binds to conditional control_and_sensing — not canonical component.",
+        "Door interlock multi-switch chain maps to door_interlock_chain — not oven_door_switch."
+      ],
+      "procedures": [
+        { "procedureId": "lgotrmw-line-power", "canonicalComponents": ["power_supply", "control_board"], "failureDomains": ["power_failure", "control_failure"] },
+        { "procedureId": "lgotrmw-keypad", "canonicalComponents": ["user_interface", "control_board"], "failureDomains": ["user_interface_failure", "control_failure"] },
+        { "procedureId": "lgotrmw-door-interlock", "canonicalComponents": ["door_interlock_chain"], "failureDomains": ["interlock_failure"] },
+        { "procedureId": "lgotrmw-magnetron", "canonicalComponents": ["rf_cavity"], "failureDomains": ["rf_cavity_failure"], "mappingNote": "magnetron is platform vocabulary realizing rf_cavity — RF generation downstream of HV cascade" },
+        { "procedureId": "lgotrmw-hv-transformer", "canonicalComponents": ["hv_generation"], "failureDomains": ["hv_generation_failure"] },
+        { "procedureId": "lgotrmw-hv-capacitor", "canonicalComponents": ["hv_generation"], "failureDomains": ["hv_generation_failure"] },
+        { "procedureId": "lgotrmw-hv-diode", "canonicalComponents": ["hv_generation"], "failureDomains": ["hv_generation_failure"] },
+        { "procedureId": "lgotrmw-hv-fuse", "canonicalComponents": ["hv_generation"], "failureDomains": ["hv_generation_failure"] },
+        { "procedureId": "lgotrmw-no-heat", "canonicalComponents": ["hv_generation", "rf_cavity", "door_interlock_chain"], "failureDomains": ["hv_generation_failure", "rf_cavity_failure", "interlock_failure"] },
+        { "procedureId": "lgotrmw-turntable", "canonicalComponents": ["rf_cavity"], "failureDomains": ["rf_cavity_failure"], "mappingNote": "turntable motor is platform vocabulary realizing rf_cavity" },
+        { "procedureId": "lgotrmw-pcb-thermistor", "canonicalComponents": ["thermal_protection"], "failureDomains": ["thermal_protection_failure"] },
+        { "procedureId": "lgotrmw-humidity-sensor", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "control_and_sensing conditional — platform humidity sensor vocabulary" }
+      ],
+      "gaps": [
+        { "conditionalConcept": "ventilation_otr", "confidence": "medium", "note": "LG OTR vent path — conditional binding deferred to compounding phase." }
+      ]
+    },
+    {
+      "platformId": "samsung_microwave_otr",
+      "manualId": "SAMSUNG-ME11-MICROWAVE",
+      "smokeModel": "ME11A7510DSAA",
+      "label": "Samsung ME11 over-the-range microwave (R2 fit witness)",
+      "componentAliases": {
+        "main_pcb": "control_board",
+        "touch_panel": "user_interface",
+        "keypad": "user_interface",
+        "primary_switch": "door_interlock_chain",
+        "secondary_switch": "door_interlock_chain",
+        "monitor_switch": "door_interlock_chain",
+        "door_sensing_switch": "door_interlock_chain",
+        "magnetron": "rf_cavity",
+        "hv_transformer": "hv_generation",
+        "hv_capacitor": "hv_generation",
+        "hv_diode": "hv_generation",
+        "waveguide_cover": "rf_cavity",
+        "turntable_motor": "rf_cavity",
+        "supply": "power_supply",
+        "line_fuse": "power_supply",
+        "door_interlock": "door_interlock_chain",
+        "thermal_cutout": "thermal_protection"
+      },
+      "implementationNotes": [
+        "R2 fit witness — Samsung multi-TCO thermal network maps to single thermal_protection canonical function.",
+        "samsungotrmw-thermal-cutout procedures bind thermal_protection — individual TCO types are overlay vocabulary.",
+        "samsungotrmw-vent-motor binds to conditional ventilation_otr — not canonical component.",
+        "HV/RF split preserved: no-heat orchestration may touch both hv_generation and rf_cavity independently."
+      ],
+      "procedures": [
+        { "procedureId": "samsungotrmw-line-power", "canonicalComponents": ["power_supply", "control_board", "thermal_protection"], "failureDomains": ["power_failure", "control_failure", "thermal_protection_failure"] },
+        { "procedureId": "samsungotrmw-keypad-touch", "canonicalComponents": ["user_interface", "control_board"], "failureDomains": ["user_interface_failure", "control_failure"] },
+        { "procedureId": "samsungotrmw-door-interlock", "canonicalComponents": ["door_interlock_chain"], "failureDomains": ["interlock_failure"] },
+        { "procedureId": "samsungotrmw-magnetron", "canonicalComponents": ["rf_cavity"], "failureDomains": ["rf_cavity_failure"], "mappingNote": "magnetron realizes rf_cavity — not hv_generation" },
+        { "procedureId": "samsungotrmw-hv-transformer", "canonicalComponents": ["hv_generation"], "failureDomains": ["hv_generation_failure"] },
+        { "procedureId": "samsungotrmw-hv-capacitor", "canonicalComponents": ["hv_generation"], "failureDomains": ["hv_generation_failure"] },
+        { "procedureId": "samsungotrmw-hv-diode", "canonicalComponents": ["hv_generation"], "failureDomains": ["hv_generation_failure"] },
+        { "procedureId": "samsungotrmw-no-heat", "canonicalComponents": ["hv_generation", "rf_cavity", "door_interlock_chain"], "failureDomains": ["hv_generation_failure", "rf_cavity_failure", "interlock_failure"] },
+        { "procedureId": "samsungotrmw-turntable", "canonicalComponents": ["rf_cavity"], "failureDomains": ["rf_cavity_failure"] },
+        { "procedureId": "samsungotrmw-thermal-cutout", "canonicalComponents": ["thermal_protection"], "failureDomains": ["thermal_protection_failure"] },
+        { "procedureId": "samsungotrmw-humidity-sensor", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "control_and_sensing conditional" },
+        { "procedureId": "samsungotrmw-temp-sensor", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "control_and_sensing conditional" },
+        { "procedureId": "samsungotrmw-vent-motor", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "ventilation_otr conditional — OTR vent blower" }
+      ],
+      "gaps": []
+    }
+  ]
+}

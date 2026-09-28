@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_fit_closure",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T09:00:00+00:00",
+  "phase": "CG-MICROWAVE-FIT",
+  "verdict": "CLOSED / MICROWAVE_GENUINE_FUNCTIONAL_DIVERGENCE",
+  "closureStatement": "LG R1 and Samsung R2 triangulation demonstrate cross-manufacturer recurrence of microwave functional diagnostic domains (HV generation, interlock safety chain, RF cavity, thermal network) with no legitimate host in any of the six frozen canonical contracts. range_oven variant hypothesis rejected. Fit boundary crossed with Outcome B — authorizes CG-MICROWAVE-DISCOVERY only; microwave.json remains blocked until discovery/freeze gate.",
+  "approvedFitOutcome": {
+    "outcome": "B",
+    "label": "genuine_divergence_documented",
+    "humanBoundaryApprovedAt": "2026-09-17T09:00:00+00:00"
+  },
+  "governanceConclusion": {
+    "functionalDivergence": true,
+    "fitsAnyFrozenContract": false,
+    "rangeOvenVariantRejected": true,
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0,
+    "microwaveJsonAuthorized": false,
+    "discoveryAuthorized": true
+  },
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0,
+    "manufacturersTriangulated": 2,
+    "proceduresTriangulated": 26,
+    "divergingFunctionalDomains": 4,
+    "conditionalDomains": 1,
+    "partialRecurrenceDomains": 1,
+    "rangeOvenHashMutated": false
+  },
+  "humanApproval": {
+    "fitAnalysisArtifact": "CG_MICROWAVE_FIT_ANALYSIS_v1.json",
+    "fitTestContract": "CG_MICROWAVE_FIT_TEST_CONTRACT_v1.json",
+    "triangulationArtifact": "CG_MICROWAVE_FIT_TRIANGULATION_v1.json",
+    "approvedOutcome": "B",
+    "approvedOutcomeLabel": "genuine_divergence_documented"
+  },
+  "evidenceChain": {
+    "inventory": "CG_CANONICAL_FAMILY_INVENTORY_v1.json",
+    "fitContract": "CG_MICROWAVE_FIT_TEST_CONTRACT_v1.json",
+    "r1Gate": "CG_MICROWAVE_FIT_R1_GATE_v1.json",
+    "r1Observation": "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+    "r2Observation": "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json",
+    "triangulation": "CG_MICROWAVE_FIT_TRIANGULATION_v1.json",
+    "fitAnalysis": "CG_MICROWAVE_FIT_ANALYSIS_v1.json"
+  },
+  "immutableFitArtifacts": [
+    "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+    "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json",
+    "CG_MICROWAVE_FIT_TRIANGULATION_v1.json",
+    "CG_MICROWAVE_FIT_R1_GATE_v1.json"
+  ],
+  "authorizedNextWorkstream": "CG_MICROWAVE_DISCOVERY_CONTRACT_v1.json",
+  "nextDisciplinedStep": "CG-MICROWAVE-DISCOVERY — propose minimal functional contract; microwave.json blocked until freeze gate"
+}

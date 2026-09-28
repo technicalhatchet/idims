@@ -5,10 +5,13 @@ import {
   formatServiceModeRequirements,
 } from '../diagnostics/procedures/recommendServiceProcedures';
 import { useProcedureRun } from '../diagnostics/procedures/useProcedureRun';
+import { buildProcedureStepPresentationContext } from '../diagnostics/procedures/procedureStepPresentation';
 import ProcedureStepView from '../diagnostics/procedures/ui/ProcedureStepView';
 import ProcedureRunReview from '../diagnostics/procedures/ui/ProcedureRunReview';
 import ServiceModeQuickReferenceAccordion from '../diagnostics/procedures/ui/ServiceModeQuickReferenceAccordion';
 import OemSpecsLoadedBanner from './OemSpecsLoadedBanner';
+import OemCatalogBrowseSections, { OemCatalogBrowseToggle } from './OemCatalogBrowseSections';
+import { partitionOemCatalogEntries } from '../diagnostics/procedures/oemWizardDecisions';
 import {
   SOLOMON_GLASS_PANEL_CLASS,
   SOLOMON_REFERENCE_EYEBROW_CLASS,
@@ -22,6 +25,9 @@ function ProcedureRunCard({
   onRunStateChange,
   variant,
   showReason = true,
+  intelligence = null,
+  templateId = null,
+  presentationAudience = 'tech',
 }) {
   const { procedure, reason } = recommendation;
   const serviceModeBadges = useMemo(
@@ -56,10 +62,18 @@ function ProcedureRunCard({
     onRunStateChange: handleRunStateChange,
   });
 
+  const presentationContext = useMemo(
+    () => buildProcedureStepPresentationContext(recommendation, {
+      intelligence,
+      templateId,
+    }),
+    [recommendation, intelligence, templateId],
+  );
+
   const statusLabel = isComplete
     ? 'Complete'
     : isRunning
-      ? `Step ${stepIndex} of ${stepTotal}`
+      ? (stepIndex > 0 ? `Step ${stepIndex}` : 'In progress')
       : savedRunState
         ? 'Paused'
         : 'Not started';
@@ -74,6 +88,9 @@ function ProcedureRunCard({
         className="flex w-full items-start gap-3 px-3 py-3 text-left hover:bg-[var(--solomon-surface-elevated)]/60"
       >
         <div className="min-w-0 flex-1">
+          <p className="text-[10px] uppercase tracking-wide text-[var(--solomon-text-muted)]">
+            OEM diagnostic procedure
+          </p>
           <p className="text-sm font-semibold text-[var(--solomon-text-primary)]">{procedure.title}</p>
           {showReason && reason ? (
             <p className="mt-1 text-xs leading-relaxed text-[var(--solomon-text-secondary)]">{reason}</p>
@@ -88,6 +105,23 @@ function ProcedureRunCard({
                   {badge}
                 </span>
               ))}
+            </div>
+          ) : null}
+          {recommendation.canonicalDomainMatches?.length ? (
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {recommendation.canonicalDomainMatches.map((domainId) => (
+                <span
+                  key={domainId}
+                  className="rounded-full border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 text-[10px] font-medium text-sky-100"
+                >
+                  {domainId.replace(/_failure$/, '').replace(/_/g, ' ')}
+                </span>
+              ))}
+              {recommendation.canonicalBoost ? (
+                <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-200">
+                  +{recommendation.canonicalBoost} canonical
+                </span>
+              ) : null}
             </div>
           ) : null}
         </div>
@@ -118,6 +152,7 @@ function ProcedureRunCard({
 
           {isRunning && currentStep ? (
             <ProcedureStepView
+              procedureId={procedure.id}
               step={currentStep}
               stepIndex={stepIndex}
               stepTotal={stepTotal}
@@ -126,8 +161,14 @@ function ProcedureRunCard({
               onCheckpoint={submitCheckpoint}
               onSubmitMeasurement={submitMeasurement}
               onContinue={continueStep}
-              lastEvaluation={lastResult?.evaluation}
-              matchedBranch={lastResult?.matchedBranch}
+              lastEvaluation={
+                lastResult?.stepId === currentStep?.id ? lastResult?.evaluation : null
+              }
+              matchedBranch={
+                lastResult?.stepId === currentStep?.id ? lastResult?.matchedBranch : null
+              }
+              variant={variant}
+              presentationAudience={presentationAudience}
             />
           ) : null}
 
@@ -156,6 +197,9 @@ export function SolomonOemCatalogAccordion({
   variant = 'mobile',
   density = 'default',
   className = '',
+  intelligence = null,
+  templateId = null,
+  oemWizardLeadDecisions,
 }) {
   const recommendedIds = useMemo(
     () => new Set(recommendations.map((item) => item.procedureId)),
@@ -165,6 +209,14 @@ export function SolomonOemCatalogAccordion({
     () => catalog.filter((item) => !recommendedIds.has(item.procedureId)),
     [catalog, recommendedIds],
   );
+  const availableCatalogOnly = useMemo(() => {
+    const partitioned = partitionOemCatalogEntries(
+      catalogOnly,
+      procedureRuns,
+      oemWizardLeadDecisions,
+    );
+    return partitioned.available;
+  }, [catalogOnly, procedureRuns, oemWizardLeadDecisions]);
 
   const [catalogOpen, setCatalogOpen] = useState(false);
   const [expandedId, setExpandedId] = useState(activeProcedureId || null);
@@ -191,52 +243,49 @@ export function SolomonOemCatalogAccordion({
     [onActiveProcedureChange, onProcedureRunChange],
   );
 
-  if (!catalogOnly.length && !platformId) return null;
+  const hasCatalogBrowse = catalog.length > 0 || Boolean(platformId);
+  if (!hasCatalogBrowse) return null;
+
+  const renderCatalogEntry = (entry) => (
+    <ProcedureRunCard
+      key={entry.procedureId}
+      recommendation={entry}
+      savedRunState={procedureRuns[entry.procedureId] || null}
+      isExpanded={expandedId === entry.procedureId}
+      onToggle={() => handleToggle(entry.procedureId)}
+      onRunStateChange={handleRunStateChange}
+      variant={variant}
+      showReason={false}
+      intelligence={intelligence}
+      templateId={templateId}
+    />
+  );
 
   return (
     <section className={`${SOLOMON_GLASS_PANEL_CLASS} ${className}`}>
       <ServiceModeQuickReferenceAccordion
         platformId={platformId}
         density={density}
-        className={catalogOnly.length ? (isCompact ? 'mb-2' : 'mb-2.5') : ''}
+        className={catalog.length ? (isCompact ? 'mb-2' : 'mb-2.5') : ''}
       />
 
-      {!catalogOnly.length ? null : (
+      {!catalog.length ? null : (
         <>
-          <button
-            type="button"
-            onClick={() => setCatalogOpen((current) => !current)}
-            className="flex w-full items-center justify-between gap-2 rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/50 px-3 py-2.5 text-left hover:bg-[var(--solomon-surface-elevated)]/60"
-            aria-expanded={catalogOpen}
-          >
-            <div className="min-w-0">
-              <p className="text-sm font-medium text-[var(--solomon-text-primary)]">
-                All OEM tests
-              </p>
-              <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
-                Browse manual tests
-              </p>
-            </div>
-            <span className="shrink-0 text-xs text-[var(--solomon-text-muted)]">
-              {catalogOpen ? 'Hide' : 'Show'}
-            </span>
-          </button>
+          <OemCatalogBrowseToggle
+            catalogOpen={catalogOpen}
+            onToggle={() => setCatalogOpen((current) => !current)}
+            availableCount={availableCatalogOnly.length}
+          />
 
           {catalogOpen ? (
-            <div className={`space-y-2 ${isCompact ? 'mt-2' : 'mt-2.5'}`}>
-              {catalogOnly.map((entry) => (
-                <ProcedureRunCard
-                  key={entry.procedureId}
-                  recommendation={entry}
-                  savedRunState={procedureRuns[entry.procedureId] || null}
-                  isExpanded={expandedId === entry.procedureId}
-                  onToggle={() => handleToggle(entry.procedureId)}
-                  onRunStateChange={handleRunStateChange}
-                  variant={variant}
-                  showReason={false}
-                />
-              ))}
-            </div>
+            <OemCatalogBrowseSections
+              catalogEntries={catalog}
+              catalogOnlyAvailable={catalogOnly}
+              procedureRuns={procedureRuns}
+              oemWizardLeadDecisions={oemWizardLeadDecisions}
+              renderEntry={renderCatalogEntry}
+              isCompact={isCompact}
+            />
           ) : null}
         </>
       )}
@@ -259,6 +308,10 @@ export default function SolomonProcedurePanel({
   catalogPlacement = 'none',
   bannerOnly = false,
   hideRecommendations = false,
+  intelligence = null,
+  templateId = null,
+  presentationAudience = 'tech',
+  oemWizardLeadDecisions,
 }) {
   const recommendedIds = useMemo(
     () => new Set(recommendations.map((item) => item.procedureId)),
@@ -268,6 +321,14 @@ export default function SolomonProcedurePanel({
     () => catalog.filter((item) => !recommendedIds.has(item.procedureId)),
     [catalog, recommendedIds],
   );
+  const availableCatalogOnly = useMemo(() => {
+    const partitioned = partitionOemCatalogEntries(
+      catalogOnly,
+      procedureRuns,
+      oemWizardLeadDecisions,
+    );
+    return partitioned.available;
+  }, [catalogOnly, procedureRuns, oemWizardLeadDecisions]);
 
   const [expandedId, setExpandedId] = useState(activeProcedureId || recommendations[0]?.procedureId || null);
   const [catalogOpen, setCatalogOpen] = useState(false);
@@ -309,6 +370,7 @@ export default function SolomonProcedurePanel({
         platformLabel={platformBanner?.platformLabel}
         equipmentMake={platformBanner?.equipmentMake}
         equipmentModel={platformBanner?.equipmentModel}
+        canonicalDomainLabels={platformBanner?.canonicalDomainLabels || []}
         compact={isCompact}
       />
     );
@@ -321,6 +383,7 @@ export default function SolomonProcedurePanel({
         platformLabel={platformBanner.platformLabel}
         equipmentMake={platformBanner.equipmentMake}
         equipmentModel={platformBanner.equipmentModel}
+        canonicalDomainLabels={platformBanner.canonicalDomainLabels || []}
         compact={isCompact}
       />
     );
@@ -333,6 +396,7 @@ export default function SolomonProcedurePanel({
           platformLabel={platformBanner.platformLabel}
           equipmentMake={platformBanner.equipmentMake}
           equipmentModel={platformBanner.equipmentModel}
+          canonicalDomainLabels={platformBanner.canonicalDomainLabels || []}
           compact={isCompact}
           className={isCompact ? 'mb-2' : 'mb-3'}
         />
@@ -351,6 +415,9 @@ export default function SolomonProcedurePanel({
                 onToggle={() => handleToggle(recommendation.procedureId)}
                 onRunStateChange={handleRunStateChange}
                 variant={variant}
+                intelligence={intelligence}
+                templateId={templateId}
+                presentationAudience={presentationAudience}
               />
             ))}
           </div>
@@ -365,30 +432,22 @@ export default function SolomonProcedurePanel({
             className={catalogOnly.length ? (isCompact ? 'mb-2' : 'mb-2.5') : ''}
           />
 
-          {!catalogOnly.length ? null : (
+          {!catalog.length ? null : (
             <>
-              <button
-                type="button"
-                onClick={() => setCatalogOpen((current) => !current)}
-                className="flex w-full items-center justify-between gap-2 rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/50 px-3 py-2.5 text-left hover:bg-[var(--solomon-surface-elevated)]/60"
-                aria-expanded={catalogOpen}
-              >
-                <div className="min-w-0">
-                  <p className="text-sm font-medium text-[var(--solomon-text-primary)]">
-                    All OEM tests
-                  </p>
-                  <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
-                    Browse manual tests
-                  </p>
-                </div>
-                <span className="shrink-0 text-xs text-[var(--solomon-text-muted)]">
-                  {catalogOpen ? 'Hide' : 'Show'}
-                </span>
-              </button>
+              <OemCatalogBrowseToggle
+                catalogOpen={catalogOpen}
+                onToggle={() => setCatalogOpen((current) => !current)}
+                availableCount={availableCatalogOnly.length}
+              />
 
               {catalogOpen ? (
-                <div className={`space-y-2 ${isCompact ? 'mt-2' : 'mt-2.5'}`}>
-                  {catalogOnly.map((entry) => (
+                <OemCatalogBrowseSections
+                  catalogEntries={catalog}
+                  catalogOnlyAvailable={catalogOnly}
+                  procedureRuns={procedureRuns}
+                  oemWizardLeadDecisions={oemWizardLeadDecisions}
+                  isCompact={isCompact}
+                  renderEntry={(entry) => (
                     <ProcedureRunCard
                       key={entry.procedureId}
                       recommendation={entry}
@@ -398,9 +457,12 @@ export default function SolomonProcedurePanel({
                       onRunStateChange={handleRunStateChange}
                       variant={variant}
                       showReason={false}
+                      intelligence={intelligence}
+                      templateId={templateId}
+                      presentationAudience={presentationAudience}
                     />
-                  ))}
-                </div>
+                  )}
+                />
               ) : null}
             </>
           )}

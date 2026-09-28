@@ -1,0 +1,358 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_family_review",
+  "workstream": "CG-RANGE-FAMILY-REVIEW",
+  "status": "closed",
+  "openedAt": "2026-09-16T20:08:00+00:00",
+  "closedAt": "2026-09-16T21:57:00+00:00",
+  "closureArtifact": "CG_RANGE_FAMILY_REVIEW_CLOSURE_v1.json",
+  "closureVerdict": "CLOSED / THREE_ORGANIZATIONAL_DECISIONS_APPROVED",
+  "humanBoundaryApprovedAt": "2026-09-16T21:57:00+00:00",
+  "priorPhaseClosed": "CG13_DUAL_FUEL_FIT_CLOSURE_v1.json",
+  "priorPhaseVerdict": "CLOSED / DUAL_FUEL_FITS_ELECTRIC_CONTRACT",
+  "reviewMode": "organizational_gate_not_diagnostic",
+  "fitExperimentComplete": true,
+  "normalizationBlockedUntilReview": true,
+  "compoundingBlockedUntilReview": true,
+  "purpose": "Separate organizational decisions (canonical naming, template routing, historical reference policy) after CG-10–13 fit experiment — before normalizing W11174814 or Samsung/LG witness manuals.",
+  "threeQuestionStructure": {
+    "question1": "canonicalNamingDecision — Does electric_range remain the canonical identifier or rename to fuel-neutral range_oven?",
+    "question2": "templateRoutingDecision — How do gas_range, induction, dual_fuel, and electric_range templates route to the shared functional contract?",
+    "question3": "historicalReferencePolicy — What happens to existing electric_range references across the codebase?",
+    "governanceRule": "Do not bundle naming with routing — each decision has independent outcomes and human approval."
+  },
+  "cumulativeFitEvidence": {
+    "frozenContract": {
+      "id": "electric_range",
+      "revision": "rev1",
+      "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+      "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+      "canonicalHashMutationsAcrossFitTests": 0
+    },
+    "implementationsTested": [
+      {
+        "phase": "CG-10",
+        "family": "electric_radiant",
+        "role": "discovery_and_freeze",
+        "artifact": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json"
+      },
+      {
+        "phase": "CG-11",
+        "family": "gas",
+        "verdict": "CLOSED / GAS_FITS_ELECTRIC_CONTRACT",
+        "closureArtifact": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json",
+        "diverges": 0
+      },
+      {
+        "phase": "CG-12",
+        "family": "induction",
+        "verdict": "CLOSED / INDUCTION_FITS_ELECTRIC_CONTRACT",
+        "closureArtifact": "CG12_INDUCTION_FIT_CLOSURE_v1.json",
+        "diverges": 0,
+        "crossManufacturerMatrix": "PENDING"
+      },
+      {
+        "phase": "CG-13",
+        "family": "dual_fuel",
+        "verdict": "CLOSED / DUAL_FUEL_FITS_ELECTRIC_CONTRACT",
+        "closureArtifact": "CG13_DUAL_FUEL_FIT_CLOSURE_v1.json",
+        "diverges": 0,
+        "crossManufacturerMatrix": "PENDING"
+      }
+    ],
+    "significance": "Same frozen functional model subjected to four materially different heating implementations without canonical mutation — fit experiment complete; remaining work is organizational."
+  },
+  "canonicalNamingDecision": {
+    "status": "approved",
+    "currentIdentifier": "electric_range",
+    "currentFile": "frontend/components/diagnostics/knowledge/canonical/electric_range.json",
+    "currentOntologyName": "Electric Range / Oven",
+    "question": "Does electric_range remain an appropriate canonical identifier, or should the functional family be renamed to a fuel-neutral identifier such as range_oven?",
+    "evidenceSpan": ["electric_radiant", "gas", "induction", "dual_fuel"],
+    "framing": "Rename proposal — NOT an automatic consequence of CG-11/12/13 fit tests.",
+    "possibleOutcomes": {
+      "KEEP_ELECTRIC_RANGE": {
+        "label": "Keep electric_range as canonical id",
+        "description": "Frozen rev1 file and id remain; fuel diversity absorbed via fit-test evidence and platform vocabulary without organizational rename.",
+        "requiresAliasRecord": false
+      },
+      "RENAME_TO_RANGE_OVEN": {
+        "label": "Rename canonical family to range_oven",
+        "description": "Fuel-neutral organizational identifier; explicit compatibility/alias record so existing references do not silently break.",
+        "proposedMapping": {
+          "from": "electric_range",
+          "to": "range_oven",
+          "canonicalFileRename": "electric_range.json → range_oven.json (separate implementation gate — not automatic)"
+        },
+        "requiresAliasRecord": true,
+        "aliasRecordRequired": {
+          "primaryId": "range_oven",
+          "legacyIds": ["electric_range"],
+          "frozenRev1Hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+          "note": "Alias preserves runtime and historical resolution — not a silent string replace"
+        }
+      },
+      "DEFER_RENAME": {
+        "label": "Defer rename decision",
+        "description": "Proceed with template routing and normalization under electric_range id; revisit rename after compounding evidence."
+      }
+    },
+    "approvedOutcome": "RENAME_TO_RANGE_OVEN",
+    "approvedAt": "2026-09-16T21:57:00+00:00",
+    "approvedRationale": "Same frozen functional contract survived electric, gas, induction, and dual-fuel with zero divergence — electric_range is a misleading organizational name for what the contract represents.",
+    "implementationNote": "Non-destructive migration via implementation gate — range_oven primary with electric_range legacy alias; do not mutate CG-10 freeze artifact or rewrite fit-test historical record.",
+    "notAuthorizedByFitTestsAlone": true
+  },
+  "templateRoutingDecision": {
+    "status": "approved",
+    "question": "How should implementation templates (gas_range, induction, dual_fuel, electric_range) route while sharing one functional canonical contract?",
+    "coreRule": "Template routing selects the appropriate implementation/template overlay while resolving against the same functional canonical contract — do not create four competing canonical ontologies.",
+    "proposedRoutingModel": {
+      "diagram": "gas_range | induction_range | dual_fuel_range | electric_range → shared functional contract (range_oven or electric_range per naming decision)",
+      "implementationTemplates": [
+        {
+          "templateId": "electric_range",
+          "status": "exists",
+          "canonicalRouteToday": "electric_range",
+          "notes": "Primary discovery template; complaint chips and wizard exist"
+        },
+        {
+          "templateId": "gas_range",
+          "status": "exists_partial",
+          "canonicalRouteToday": "null — resolveCanonicalOntologyId returns null for gas_range templateId",
+          "notes": "Separate complaint chips and elimination config; no canonical graph route today"
+        },
+        {
+          "templateId": "induction_range",
+          "status": "not_registered",
+          "canonicalRouteToday": "falls_through — induction WO text may resolve to electric_range via diagnosticTemplates heuristic",
+          "notes": "No dedicated template entry in diagnosticTemplates.js"
+        },
+        {
+          "templateId": "dual_fuel_range",
+          "status": "not_registered",
+          "canonicalRouteToday": "unclassified",
+          "notes": "No template entry; NY63 witness used fuelFilter dual_fuel_range in fit test only"
+        }
+      ]
+    },
+    "possibleOutcomes": {
+      "ROUTE_ALL_RANGE_IMPLEMENTATIONS_TO_SHARED_CONTRACT": {
+        "label": "Route all range implementation templates to shared functional contract",
+        "description": "gas_range, induction_range, dual_fuel_range, and electric_range templates all resolve to the same canonical ontology id (electric_range or range_oven per naming gate). Implementation differences live in platform overlays and procedure seeds.",
+        "doesNotCreate": ["gas_range.json", "induction_range.json", "dual_fuel_range.json"]
+      },
+      "KEEP_IMPLEMENTATION_TEMPLATES_SEPARATE": {
+        "label": "Keep implementation templates separate without canonical routing",
+        "description": "Templates remain distinct for wizard/complaint UX; only electric_range (or renamed id) receives canonical graph — status quo for gas_range null route."
+      },
+      "DEFER_ROUTING": {
+        "label": "Defer routing changes",
+        "description": "Document target model; implement routing in a follow-on gate after naming decision."
+      }
+    },
+    "approvedOutcome": "ROUTE_ALL_RANGE_IMPLEMENTATIONS_TO_SHARED_CONTRACT",
+    "approvedAt": "2026-09-16T21:57:00+00:00",
+    "approvedRationale": "Implementation templates describe fuel-specific entry behavior; all resolve to shared range_oven functional ontology via platform overlays — not separate canonical ontologies.",
+    "resolverPolicy": "Explicit authoritative mapping — replace WO-text heuristic for induction/dual-fuel routing",
+    "independentFromNamingDecision": true
+  },
+  "historicalReferencePolicy": {
+    "status": "approved",
+    "question": "Before any rename is authorized, how should existing electric_range references be handled?",
+    "inventoryGeneratedAt": "2026-09-16T20:08:00+00:00",
+    "referenceCategories": {
+      "canonicalGraph": {
+        "policyDefault": "rename_or_alias_if_naming_approved",
+        "artifacts": [
+          "frontend/components/diagnostics/knowledge/canonical/electric_range.json",
+          "frontend/components/diagnostics/knowledge/canonical/platform_overlays/electric_range.reference.json",
+          "frontend/components/diagnostics/knowledge/canonical/canonicalRegistry.ts — ONTOLOGY_BY_ID, OVERLAY_BY_ONTOLOGY, resolveCanonicalOntologyId"
+        ]
+      },
+      "fitTestAndClosureArtifacts": {
+        "policyDefault": "historically_frozen",
+        "note": "CG-10–13 are clean experimental record — do not rewrite to prettier name",
+        "artifacts": [
+          "CG10_ELECTRIC_RANGE_ONTOLOGY_DISCOVERY_CONTRACT_v1.json",
+          "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+          "CG10_ELECTRIC_RANGE_FREEZE_RECOMMENDATION_v1.json",
+          "CG11_GAS_RANGE_FIT_*_v1.json (contract, analysis, closure)",
+          "CG12_INDUCTION_FIT_*_v1.json",
+          "CG13_DUAL_FUEL_FIT_*_v1.json",
+          "electric_range_gas_fit_hypothesis_v1.json",
+          "electric_range_induction_fit_hypothesis_v1.json",
+          "electric_range_dual_fuel_fit_hypothesis_v1.json",
+          "SAMSUNG_*_CG11X/CG12X/CG13X observation artifacts",
+          "CG_RANGE_FAMILY_WORKSTREAM_SEQUENCE_v1.json"
+        ],
+        "frozenHistoricalRecord": {
+          "CG-10": "electric_range rev1 discovery and freeze",
+          "CG-11": "fit against electric_range rev1",
+          "CG-12": "fit against electric_range rev1",
+          "CG-13": "fit against electric_range rev1"
+        }
+      },
+      "normalizationSchemas": {
+        "policyDefault": "forward_rename_or_alias_on_compound",
+        "artifacts": [
+          "frontend/components/diagnostics/knowledge/normalization/candidates/*/pipeline_manifest.json",
+          "frontend/components/diagnostics/knowledge/normalization/candidates/*/normalized_procedures.json",
+          "frontend/components/diagnostics/knowledge/normalization/calibration/*_er_cg10x_observation_v1.json",
+          "frontend/components/diagnostics/knowledge/normalization/calibration/electric_range_oven_cg10x_candidate_v1.json",
+          "frontend/components/diagnostics/knowledge/normalization/calibration/normalization_metrics_v1.json",
+          "frontend/components/diagnostics/knowledge/normalization/calibration/normalization_metrics_v2.json",
+          "frontend/components/diagnostics/knowledge/normalization/review/*_review.json"
+        ]
+      },
+      "procedureManifestsAndSeeds": {
+        "policyDefault": "platform_id_unchanged_canonical_ref_may_alias",
+        "artifacts": [
+          "frontend/components/diagnostics/procedures/procedureManualManifest.json",
+          "frontend/components/diagnostics/procedures/seed/whirlpool_freestanding_range/*",
+          "frontend/components/diagnostics/procedures/seed/samsung_range_nx60/*",
+          "frontend/components/diagnostics/procedures/seed/samsung_range_ne58/*",
+          "frontend/components/diagnostics/procedures/seed/lg_freestanding_range/*",
+          "backend/scripts/generate_*_range_procedure_seeds.py",
+          "backend/scripts/run_*_cg10x_observation.py"
+        ]
+      },
+      "routingAndTemplateRegistries": {
+        "policyDefault": "update_on_routing_approval_with_alias",
+        "artifacts": [
+          "frontend/components/diagnostics/knowledge/platformRegistry.ts — templateId electric_range | gas_range per platform",
+          "frontend/constants/diagnosticTemplates.js — electric_range and gas_range templates; range_oven alias key",
+          "frontend/components/diagnostics/registry/wizardRegistry.ts",
+          "frontend/components/diagnostics/knowledge/knowledgeRegistry.ts — elimination configs",
+          "backend/app/data/diagnostic_template_catalog.json",
+          "backend/app/services/diagnostic_booking_service.py"
+        ],
+        "currentRoutingGaps": [
+          "gas_range templateId → resolveCanonicalOntologyId returns null",
+          "induction_range template not registered — heuristic maps induction text to electric_range",
+          "dual_fuel_range template not registered"
+        ]
+      },
+      "runtimeProductSurfaces": {
+        "policyDefault": "alias_preserves_user_facing_keys",
+        "artifacts": [
+          "frontend/components/diagnostics/electric_range/electricRangeWizard.ts",
+          "frontend/components/diagnostics/gas_range/*",
+          "frontend/components/diagnostics/knowledge/elimination/electric_range.json",
+          "frontend/components/diagnostics/knowledge/elimination/gas_range.json",
+          "frontend/components/diagnostics/knowledge/evidence/electric_range.json",
+          "frontend/components/diagnostics/intelligence/evidenceRegistry.ts",
+          "frontend/components/diagnostics/knowledge/seed/measurement-knowledge-batch31.json",
+          "frontend/components/diagnostics/knowledge/seed/measurement-knowledge-batch32.json",
+          "frontend/components/diagnostics/knowledge/seed/measurement-knowledge-batch48.json",
+          "frontend/constants/bookingAppliances.js",
+          "frontend/constants/applianceSymptoms.js",
+          "frontend/components/work_orders/EquipmentDetails.js"
+        ]
+      },
+      "regressionTests": {
+        "policyDefault": "historically_frozen_test_names_ok",
+        "artifacts": [
+          "cg10-electric-range-*.test.ts",
+          "cg11-gas-range-*.test.ts",
+          "cg12-induction-*.test.ts",
+          "cg13-dual-fuel-*.test.ts",
+          "cg-range-family-workstream-sequence.test.ts"
+        ],
+        "note": "Test file names may retain electric_range for audit trail; new tests may use range_oven if rename approved"
+      },
+      "validationTooling": {
+        "policyDefault": "update_with_alias",
+        "artifacts": [
+          "backend/scripts/validate_canonical_graph.py"
+        ]
+      }
+    },
+    "referenceDispositionOptions": {
+      "renamed": "Active code paths updated to primary id (e.g. range_oven) — requires migration plan",
+      "aliased": "Legacy electric_range resolves to primary id via explicit alias registry — preferred for non-breaking migration",
+      "historically_frozen": "Artifact text left unchanged — CG-10–13 fit record, closure statements, observation provenance"
+    },
+    "recommendedPolicyDraft": {
+      "fitTestArtifacts": "historically_frozen — preserve CG-10→CG-13 experimental record under electric_range rev1",
+      "activeCanonicalAndRouting": "aliased_if_rename_approved — range_oven primary, electric_range legacy alias",
+      "normalizationCandidates": "forward_on_compound — canonicalOntologyId field may use alias resolution",
+      "procedureSeeds": "unchanged_platform_ids — platformId stable; ontology reference via resolver",
+      "notRetroactive": "W11174814 and other corroborating manuals do not reopen CG-12/CG-13 R1 evidence"
+    },
+    "possibleOutcomes": {
+      "FREEZE_HISTORICAL_FREEZE_FORWARD_ALIAS": {
+        "label": "Freeze CG-10–13 artifacts; alias for forward code",
+        "description": "Historical fit-test record immutable; active resolver accepts electric_range as alias to range_oven if rename approved."
+      },
+      "FREEZE_ALL_REFERENCES": {
+        "label": "Keep electric_range everywhere",
+        "description": "No rename; historical and active references unchanged."
+      },
+      "FULL_RENAME_MIGRATION": {
+        "label": "Rename all active references",
+        "description": "Broad migration — higher risk; still freeze CG-10–13 closure artifact text."
+      },
+      "DEFER_REFERENCE_POLICY": {
+        "label": "Defer reference policy",
+        "description": "Document inventory only; decide during implementation gate."
+      }
+    },
+    "approvedOutcome": "APPROVE_RECOMMENDED_POLICY",
+    "approvedAt": "2026-09-16T21:57:00+00:00",
+    "approvedDisposition": {
+      "fitTestAndClosureArtifacts": "historically_frozen",
+      "activeCanonicalAndRouting": "aliased_if_rename_approved",
+      "normalizationCandidates": "update_through_resolver_on_compound",
+      "procedureSeeds": "stable_platformId_ontology_via_resolver"
+    },
+    "historicalRecordPreserved": "CG-11/12/13 tested electric_range rev1 — that is what happened; current system migrates to range_oven with electric_range as explicit legacy alias"
+  },
+  "corroboratingEvidenceNotHistoricalR1": {
+    "policy": "W11174814 does not retroactively reopen CG-12 or CG-13 closed R1 witnesses",
+    "manualId": "W11174814",
+    "sourcePdf": "backend/docs/manuals/service-manual-w11174814-revb whirlpool maytag kitchenaid kenmore jennair amana ranges.pdf",
+    "inRepo": true,
+    "useAfterReview": [
+      "Optional cross-manufacturer matrix population",
+      "Normalization/compounding under settled hierarchy",
+      "Template routing validation for Whirlpool-family induction and dual-fuel models"
+    ],
+    "exampleModels": {
+      "dualFuel": ["JDS1450F", "WEG745H0F", "KSDG950E"],
+      "induction": ["JIS1450D", "KSIB900E", "IEL730C"],
+      "caveat": "WFI505S0JZ (CG-12 planned R2) not in W11174814 wiring index"
+    }
+  },
+  "blockedUntilReviewCompletes": {
+    "normalization": [
+      "W11174814 Whirlpool-family multi-fuel manual",
+      "Samsung NY63 / NE58 / NX63 fit witnesses",
+      "LG LSDL6336F optional dual-fuel matrix",
+      "CG-10 electric discovery corpus re-compound"
+    ],
+    "compounding": "Manufacturer/platform overlay population for range family",
+    "notBlocked": "Further fit tests — experiment complete unless new divergence discovered"
+  },
+  "decisionSequence": [
+    "1. canonicalNamingDecision — KEEP | RENAME_TO_RANGE_OVEN | DEFER_RENAME",
+    "2. templateRoutingDecision — ROUTE_ALL | KEEP_SEPARATE | DEFER_ROUTING (independent of naming unless alias registry needed)",
+    "3. historicalReferencePolicy — approve disposition per reference category",
+    "4. If rename/routing approved: author implementation gate artifact (separate from this review)",
+    "5. Then CG-RANGE-NORMALIZATION and CG-RANGE-COMPOUNDING unlock"
+  ],
+  "successCriteria": {
+    "allThreeDecisionsApproved": true,
+    "canonicalNamingApproved": true,
+    "templateRoutingApproved": true,
+    "historicalReferencePolicyApproved": true,
+    "closureArtifact": "CG_RANGE_FAMILY_REVIEW_CLOSURE_v1.json",
+    "closureStatus": "closed_successful",
+    "implementationGateArtifact": "CG_RANGE_ORGANIZATIONAL_IMPLEMENTATION_GATE_v1.json"
+  },
+  "deferredWork": {
+    "immediateNext": "CG_RANGE_ORGANIZATIONAL_IMPLEMENTATION_GATE_v1.json — non-destructive range_oven identity + alias + resolver + routing",
+    "afterImplementationGate": "CG-RANGE-NORMALIZATION → CG-RANGE-COMPOUNDING",
+    "normalizationNotForRenameValidation": "CG-10–13 already answered architectural question — normalization populates knowledge hierarchy beneath approved decision"
+  }
+}

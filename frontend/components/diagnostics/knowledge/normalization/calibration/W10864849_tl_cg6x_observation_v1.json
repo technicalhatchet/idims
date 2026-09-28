@@ -1,0 +1,380 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg6x_tl_washer_cg3_observation",
+  "experiment": "First Whirlpool TL manual \u2014 fresh CG-3 vs CG-6.x candidate graph (no dishwasher assumptions carried forward)",
+  "manualId": "W10864849",
+  "platformId": "whirlpool_tl_dd",
+  "ontologyId": "top_load_washer",
+  "ontologyFrozen": false,
+  "generatedAt": "2026-09-15T18:38:40.970093+00:00",
+  "metricsSource": "fresh_cg3_observation",
+  "publishBlocked": true,
+  "priorPhaseLocked": "CG65_DISHWASHER_FAMILY_LOCK_v1.json",
+  "graphArtifacts": {
+    "legacyCanonical": "frontend\\components\\diagnostics\\knowledge\\canonical\\top_load_washer.json",
+    "cg6xCandidate": "frontend\\components\\diagnostics\\knowledge\\normalization\\calibration\\top_load_washer_cg6x_candidate_v1.json",
+    "publishedOverlay": "frontend\\components\\diagnostics\\knowledge\\canonical\\manufacturer_overlays\\whirlpool_top_load_washer.json"
+  },
+  "pipelineCounts": {
+    "procedures": 14,
+    "mappingCandidates": 25,
+    "overlayCandidates": 12,
+    "conflicts": 0,
+    "extractionFiltered": 15
+  },
+  "normalizeRun": {
+    "manualId": "W10864849",
+    "generatedAt": null
+  },
+  "conflicts": 0,
+  "classificationSummary": {
+    "mappingBuckets": {
+      "both_graphs": 9,
+      "unresolved": 12,
+      "legacy_and_overlay_expected": 3,
+      "neither_graph": 1
+    },
+    "uniqueCanonicalTargets": 12,
+    "overlayTestTargets": {
+      "motor_output_test": 5,
+      "drain_test": 5,
+      "door_lock_test": 2
+    }
+  },
+  "canonicalTargetHistogram": {
+    "control_board": 2,
+    "supply": 1,
+    "inlet_valve": 1,
+    "drive_motor": 1,
+    "hmi_control": 1,
+    "wash_ntc": 1,
+    "water_level_sensor": 1,
+    "drain_pump": 1,
+    "recirc_pump": 1,
+    "door_lock": 1,
+    "wash_heater": 1,
+    "bulk_level_switch": 1
+  },
+  "legacyOnlyGapsInCandidate": [],
+  "overlayExpectedInLegacy": [
+    "bulk_level_switch",
+    "recirc_pump",
+    "wash_heater"
+  ],
+  "openQuestions": {
+    "transmission_or_shifter_canonical": {
+      "verdict": "candidate_supported_with_overlay_implementation",
+      "evidence": "W10864849 maps 1 shifter-related terms to mode_shifter (legacy) / transmission_or_shifter (candidate). Platform overlay teaches splutch/clutch implementation \u2014 not canonical.",
+      "w10864849ShifterMappings": 1,
+      "overlayUsesModeShifter": true
+    },
+    "lid_switch_vs_lid_lock": {
+      "verdict": "split_supported_candidate_not_observed_in_w10864849",
+      "evidence": "W10864849 maps 1 terms to lid_lock only (door_lock seed). No separate lid_switch mapping in first manual \u2014 split remains candidate hypothesis for multi-platform evidence, not contradicted.",
+      "w10864849LidLockMappings": 1,
+      "candidateHasLidSwitch": true
+    },
+    "drive_system_abstraction": {
+      "verdict": "scrutinize_hardest_abstraction",
+      "evidence": "W10864849 has 4 drive-system-related mappings targeting drive_motor at canonical layer. Candidate drive_system node has no direct matcher hits \u2014 functional aggregate may be overlay/orchestration only.",
+      "w10864849DriveMappings": 4,
+      "candidateDriveSystemDirectHits": 0,
+      "recommendation": "Keep drive_system as candidate-only until a second TL manual requires it at canonical layer; procedure orchestration may suffice."
+    }
+  },
+  "architectureComparison": {
+    "publishedOverlayFamily": "whirlpool_tl_dd_direct_drive",
+    "oemAliasCount": 28,
+    "platformComponentCount": 0,
+    "procedureBindingCount": 6,
+    "keyOverlayOnlyConcepts": [
+      "bulk_level_switch",
+      "dosing_pump",
+      "drum_bearing",
+      "mode_shifter",
+      "motor_controller",
+      "pressure_chamber",
+      "pressure_hose",
+      "pressure_sensor",
+      "recirc_pump",
+      "wash_heater",
+      "wash_ntc"
+    ],
+    "candidateConceptsNotInLegacy": [
+      "agitator_or_impeller",
+      "basket",
+      "drain_path",
+      "drive_system",
+      "lid_switch",
+      "spin_system",
+      "tub"
+    ]
+  },
+  "candidateVsLegacy": {
+    "legacyComponentCount": 20,
+    "candidateComponentCount": 18,
+    "sharedAfterMapping": 11,
+    "legacyToCandidateRenames": {
+      "supply": "power_supply",
+      "mode_shifter": "transmission_or_shifter",
+      "wash_ntc": "temperature_sensor",
+      "pressure_sensor": "water_level_sensor",
+      "suspension": "suspension_system"
+    }
+  },
+  "recommendation": {
+    "freezeCandidateNow": false,
+    "rationale": "W10864849 CG-3 supports functional TL candidate direction but exposes legacy-only platform concepts (pressure_sensor, recirc_pump, wash_heater, bulk_level_switch) that belong in overlay. Run W11697231 / W11416787 CG-3 before freezing rev1. Do not fix Samsung dishwasher matcher defects here.",
+    "nextManuals": [
+      "W11697231",
+      "W11416787"
+    ]
+  },
+  "mappingSample": [
+    {
+      "id": "map-W10864849-supply-supply",
+      "sourceTerm": "supply",
+      "canonicalId": "supply",
+      "procedureId": "w10864849-test-01-acu-power",
+      "classification": {
+        "bucket": "both_graphs",
+        "legacy": true,
+        "candidate": true,
+        "candidateMappedId": "power_supply",
+        "overlayOnlyExpected": false
+      }
+    },
+    {
+      "id": "map-W10864849-compound-main-control-(acu)",
+      "sourceTerm": "TEST #1: Main Control (ACU)",
+      "canonicalId": "control_board",
+      "procedureId": "w10864849-test-01-acu-power",
+      "classification": {
+        "bucket": "both_graphs",
+        "legacy": true,
+        "candidate": true,
+        "candidateMappedId": null,
+        "overlayOnlyExpected": false
+      }
+    },
+    {
+      "id": "map-W10864849-acu-control_board",
+      "sourceTerm": "ACU",
+      "canonicalId": "control_board",
+      "procedureId": "w10864849-test-01-acu-power",
+      "classification": {
+        "bucket": "both_graphs",
+        "legacy": true,
+        "candidate": true,
+        "candidateMappedId": null,
+        "overlayOnlyExpected": false
+      }
+    },
+    {
+      "id": "map-W10864849-inlet_valve-inlet_valve",
+      "sourceTerm": "inlet_valve",
+      "canonicalId": "inlet_valve",
+      "procedureId": "w10864849-test-02-valves",
+      "classification": {
+        "bucket": "both_graphs",
+        "legacy": true,
+        "candidate": true,
+        "candidateMappedId": null,
+        "overlayOnlyExpected": false
+      }
+    },
+    {
+      "id": "map-w10864849-unresolved-w10864849-test-02-valves-test-#2:-valves",
+      "sourceTerm": "TEST #2: Valves",
+      "canonicalId": null,
+      "procedureId": "w10864849-test-02-valves",
+      "classification": {
+        "bucket": "unresolved",
+        "legacy": false,
+        "candidate": false
+      }
+    },
+    {
+      "id": "map-W10864849-drive_motor-drive_motor",
+      "sourceTerm": "drive_motor",
+      "canonicalId": "drive_motor",
+      "procedureId": "w10864849-test-03-drive-system",
+      "classification": {
+        "bucket": "both_graphs",
+        "legacy": true,
+        "candidate": true,
+        "candidateMappedId": null,
+        "overlayOnlyExpected": false
+      }
+    },
+    {
+      "id": "map-W10864849-compound-drive-system-(pre-test)",
+      "sourceTerm": "TEST #3: Drive System (pre-test)",
+      "canonicalId": null,
+      "procedureId": "w10864849-test-03-drive-system",
+      "classification": {
+        "bucket": "unresolved",
+        "legacy": false,
+        "candidate": false
+      }
+    },
+    {
+      "id": "map-W10864849-compound-drive-system-\u2014-shifter",
+      "sourceTerm": "TEST #3a: Drive System \u2014 Shifter",
+      "canonicalId": null,
+      "procedureId": "w10864849-test-03a-shifter",
+      "classification": {
+        "bucket": "unresolved",
+        "legacy": false,
+        "candidate": false
+      }
+    },
+    {
+      "id": "map-W10864849-compound-drive-system-\u2014-motor",
+      "sourceTerm": "TEST #3b: Drive System \u2014 Motor",
+      "canonicalId": null,
+      "procedureId": "w10864849-test-03b-motor",
+      "classification": {
+        "bucket": "unresolved",
+        "legacy": false,
+        "candidate": false
+      }
+    },
+    {
+      "id": "map-W10864849-hmi_control-hmi_control",
+      "sourceTerm": "hmi_control",
+      "canonicalId": "hmi_control",
+      "procedureId": "w10864849-test-04-keys-encoders",
+      "classification": {
+        "bucket": "both_graphs",
+        "legacy": true,
+        "candidate": true,
+        "candidateMappedId": null,
+        "overlayOnlyExpected": false
+      }
+    },
+    {
+      "id": "map-W10864849-compound-keys-and-encoders",
+      "sourceTerm": "TEST #4: Keys and Encoders",
+      "canonicalId": null,
+      "procedureId": "w10864849-test-04-keys-encoders",
+      "classification": {
+        "bucket": "unresolved",
+        "legacy": false,
+        "candidate": false
+      }
+    },
+    {
+      "id": "map-W10864849-wash_ntc-wash_ntc",
+      "sourceTerm": "wash_ntc",
+      "canonicalId": "wash_ntc",
+      "procedureId": "w10864849-test-05-temp-thermistor",
+      "classification": {
+        "bucket": "both_graphs",
+        "legacy": true,
+        "candidate": true,
+        "candidateMappedId": "temperature_sensor",
+        "overlayOnlyExpected": true
+      }
+    },
+    {
+      "id": "map-W10864849-compound-temperature-thermistor",
+      "sourceTerm": "TEST #5: Temperature Thermistor",
+      "canonicalId": null,
+      "procedureId": "w10864849-test-05-temp-thermistor",
+      "classification": {
+        "bucket": "unresolved",
+        "legacy": false,
+        "candidate": false
+      }
+    },
+    {
+      "id": "map-W10864849-water_level_sensor-water_level_sensor",
+      "sourceTerm": "water_level_sensor",
+      "canonicalId": "water_level_sensor",
+      "procedureId": "w10864849-test-06-water-level",
+      "classification": {
+        "bucket": "both_graphs",
+        "legacy": true,
+        "candidate": true,
+        "candidateMappedId": null,
+        "overlayOnlyExpected": false
+      }
+    },
+    {
+      "id": "map-W10864849-compound-water-level",
+      "sourceTerm": "TEST #6: Water Level",
+      "canonicalId": null,
+      "procedureId": "w10864849-test-06-water-level",
+      "classification": {
+        "bucket": "unresolved",
+        "legacy": false,
+        "candidate": false
+      }
+    },
+    {
+      "id": "map-W10864849-drain_pump-drain_pump",
+      "sourceTerm": "drain_pump",
+      "canonicalId": "drain_pump",
+      "procedureId": "w10864849-test-07-drain-recirc-pump",
+      "classification": {
+        "bucket": "both_graphs",
+        "legacy": true,
+        "candidate": true,
+        "candidateMappedId": null,
+        "overlayOnlyExpected": false
+      }
+    },
+    {
+      "id": "map-W10864849-compound-drain-&-recirculation-pump",
+      "sourceTerm": "TEST #7: Drain & Recirculation Pump",
+      "canonicalId": "recirc_pump",
+      "procedureId": "w10864849-test-07-drain-recirc-pump",
+      "classification": {
+        "bucket": "legacy_and_overlay_expected",
+        "legacy": true,
+        "candidate": false,
+        "candidateMappedId": null,
+        "overlayOnlyExpected": true
+      }
+    },
+    {
+      "id": "map-W10864849-door_lock-door_lock",
+      "sourceTerm": "door_lock",
+      "canonicalId": "door_lock",
+      "procedureId": "w10864849-test-08-lid-lock",
+      "classification": {
+        "bucket": "neither_graph",
+        "legacy": false,
+        "candidate": false,
+        "candidateMappedId": null,
+        "overlayOnlyExpected": false
+      }
+    },
+    {
+      "id": "map-W10864849-compound-lid-lock",
+      "sourceTerm": "TEST #8: Lid Lock",
+      "canonicalId": null,
+      "procedureId": "w10864849-test-08-lid-lock",
+      "classification": {
+        "bucket": "unresolved",
+        "legacy": false,
+        "candidate": false
+      }
+    },
+    {
+      "id": "map-W10864849-wash_heater-wash_heater",
+      "sourceTerm": "wash_heater",
+      "canonicalId": "wash_heater",
+      "procedureId": "w10864849-test-09-heater",
+      "classification": {
+        "bucket": "legacy_and_overlay_expected",
+        "legacy": true,
+        "candidate": false,
+        "candidateMappedId": null,
+        "overlayOnlyExpected": true
+      }
+    }
+  ],
+  "compoundingNote": "W10864849 overlay already published under legacy top_load_washer.json. This observation informs candidate freeze \u2014 it does not republish overlay."
+}

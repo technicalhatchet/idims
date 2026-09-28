@@ -1,0 +1,1805 @@
+{
+  "manualId": "W11509412",
+  "platformId": "whirlpool_ka_french_door",
+  "templateId": "refrigerator",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:17.074878+00:00",
+  "records": [
+    {
+      "candidateId": "map-W11509412-thermistor-wash_ntc",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.85,
+      "what": "thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "wash_ntc",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "global_hint",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: thermistor \u2192 wash_ntc"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-01-fc-thermistor",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermistor": "wash_ntc"
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-01-fc-thermistor",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-01-fc-thermistor",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "global_hint"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-service-test-1:-freezer-compartment-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 1: Freezer compartment thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 1 freezer compartment",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service Test 1: Freezer compartment thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-01-fc-thermistor",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 1: Freezer compartment thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-01-fc-thermistor",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-01-fc-thermistor",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 1 freezer compartment",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-service-test-2:-refrigerator-compartment-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 2: Refrigerator compartment thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 2 refrigerator compartment",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service Test 2: Refrigerator compartment thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-02-rc-thermistor",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 2: Refrigerator compartment thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-02-rc-thermistor",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-02-rc-thermistor",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 2 refrigerator compartment",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-evap_fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "evap_fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: evap_fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-03-evap-fan-damper",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "evap_fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-03-evap-fan-damper",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-03-evap-fan-damper",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-damper_motor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "damper_motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "damper",
+          "actuator": "motor"
+        },
+        "summary": "alias: damper_motor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-03-evap-fan-damper",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "damper_motor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-03-evap-fan-damper",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-03-evap-fan-damper",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "damper",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-service-test-3:-evaporator-fan-&-air-baffle",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 3: Evaporator fan & air baffle",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 3: Evaporator fan & air baffle \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-03-evap-fan-damper",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 3: Evaporator fan & air baffle": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-03-evap-fan-damper",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-03-evap-fan-damper",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11509412-unresolved-w11509412-test-04-compressor-compressor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "compressor",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: compressor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-04-compressor",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "compressor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-04-compressor",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-04-compressor",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-condenser_fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "condenser_fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: condenser_fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-04-compressor",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "condenser_fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-04-compressor",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-04-compressor",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-service-test-4:-compressor-&-condenser-fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 4: Compressor & condenser fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 4: Compressor & condenser fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-04-compressor",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 4: Compressor & condenser fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-04-compressor",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-04-compressor",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-defrost_heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "defrost_heater",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: defrost_heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-06-defrost",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "defrost_heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-06-defrost",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-06-defrost",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-defrost_thermostat",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "defrost_thermostat",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: defrost_thermostat \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-06-defrost",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "defrost_thermostat": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-06-defrost",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-06-defrost",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-service-test-6:-defrost-heater-&-bimetal",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 6: Defrost heater & bimetal",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 6 defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: Service Test 6: Defrost heater & bimetal \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-06-defrost",
+        "pages": [
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 6: Defrost heater & bimetal": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-06-defrost",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-06-defrost",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 6 defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-ice_maker",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "ice_maker",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: ice_maker \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-19-fill-tube-heater",
+        "pages": [
+          3
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ice_maker": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-19-fill-tube-heater",
+        "pages": [
+          3
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-19-fill-tube-heater",
+            "pages": [
+              3
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-water_valve",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "water_valve",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "water",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: water_valve \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-19-fill-tube-heater",
+        "pages": [
+          3
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "water_valve": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-19-fill-tube-heater",
+        "pages": [
+          3
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-19-fill-tube-heater",
+            "pages": [
+              3
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-service-test-19:-fill-tube-&-fascia-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 19: Fill tube & fascia heater",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 19 fill tube fascia",
+          "actuator": "heater"
+        },
+        "summary": "alias: Service Test 19: Fill tube & fascia heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-19-fill-tube-heater",
+        "pages": [
+          3
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 19: Fill tube & fascia heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-19-fill-tube-heater",
+        "pages": [
+          3
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-19-fill-tube-heater",
+            "pages": [
+              3
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 19 fill tube fascia",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-service-test-36:-ice-box-fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 36: Ice box fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 36: Ice box fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-36-ice-box-fan",
+        "pages": [
+          3
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 36: Ice box fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-36-ice-box-fan",
+        "pages": [
+          3
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-36-ice-box-fan",
+            "pages": [
+              3
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-service-test-37:-ice-box-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 37: Ice box thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 37 ice box",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service Test 37: Ice box thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-37-ice-box-thermistor",
+        "pages": [
+          3
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 37: Ice box thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-37-ice-box-thermistor",
+        "pages": [
+          3
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-37-ice-box-thermistor",
+            "pages": [
+              3
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 37 ice box",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-service-test-45:-ice-maker-water-fill",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 45: Ice maker water fill",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 45: Ice maker water fill \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-45-ice-water-fill",
+        "pages": [
+          3,
+          4
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 45: Ice maker water fill": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-45-ice-water-fill",
+        "pages": [
+          3,
+          4
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-45-ice-water-fill",
+            "pages": [
+              3,
+              4
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-service-test-56:-ice-maker-error-codes-(e0\u2013e5)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 56: Ice maker error codes (E0\u2013E5)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 56: Ice maker error codes (E0\u2013E5) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-56-ice-maker-errors",
+        "pages": [
+          4
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 56: Ice maker error codes (E0\u2013E5)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-56-ice-maker-errors",
+        "pages": [
+          4
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-56-ice-maker-errors",
+            "pages": [
+              4
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-service-test-57:-ice-maker-harvest",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 57: Ice maker harvest",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 57: Ice maker harvest \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-57-ice-harvest",
+        "pages": [
+          4
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 57: Ice maker harvest": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-57-ice-harvest",
+        "pages": [
+          4
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-57-ice-harvest",
+            "pages": [
+              4
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-service-test-58:-ice-maker-heater-&-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 58: Ice maker heater & thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 58 ice maker heater",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service Test 58: Ice maker heater & thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-58-ice-heater-thermistor",
+        "pages": [
+          4
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 58: Ice maker heater & thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-58-ice-heater-thermistor",
+        "pages": [
+          4
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-58-ice-heater-thermistor",
+            "pages": [
+              4
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 58 ice maker heater",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11509412-compound-service-test-59:-ice-maker-motor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 59: Ice maker motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 59 ice maker",
+          "actuator": "motor"
+        },
+        "summary": "alias: Service Test 59: Ice maker motor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-59-ice-motor",
+        "pages": [
+          4
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 59: Ice maker motor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-59-ice-motor",
+        "pages": [
+          4
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-59-ice-motor",
+            "pages": [
+              4
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 59 ice maker",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11509412-w11509412-test-59-ice-motor-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11509412-test-59-ice-motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11509412-test-59-ice-motor \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-59-ice-motor",
+        "pages": [
+          4
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11509412-test-59-ice-motor",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "Service Test 59: Ice maker motor",
+          "componentIds": [
+            "ice_maker"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-59-ice-motor",
+        "pages": [
+          4
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-59-ice-motor",
+            "pages": [
+              4
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 23,
+    "byStatus": {
+      "candidate": 2,
+      "needs_review": 21
+    },
+    "byApprovalLevel": {
+      "normal": 2,
+      "blocked": 21
+    },
+    "byType": {
+      "canonicalMapping": 22,
+      "procedureTestBinding": 1
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 0,
+      "medium_0.80_0.94": 2,
+      "low_lt_0.80": 0,
+      "unresolved": 21
+    },
+    "byBlockedReason": {
+      "UNRESOLVED_COMPONENT": 1
+    }
+  }
+}

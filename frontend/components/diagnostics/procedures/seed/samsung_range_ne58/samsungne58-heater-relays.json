@@ -1,0 +1,134 @@
+{
+  "id": "samsungne58-heater-relays",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Heater relays E-24",
+  "platformId": "samsung_range_ne58",
+  "componentIds": [
+    "main_control"
+  ],
+  "tags": [
+    "E-24",
+    "relay_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58-RANGE",
+    "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+    "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "cg10-r4-assisted-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "DLB / bake / broil / convection relays",
+    "pages": [
+      30
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+      "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range.",
+      "requiresInput": false,
+      "defaultNextStepId": "relay_contacts"
+    },
+    {
+      "id": "relay_contacts",
+      "order": 2,
+      "type": "measurement",
+      "title": "Sub PCB relay contacts",
+      "body": "Power off. Measure DLB, bake, broil, convection relay contacts \u2014 open (\u221e \u03a9) at rest.",
+      "sourceExcerpt": "Power off. Measure DLB, bake, broil, convection relay contacts \u2014 open (\u221e \u03a9) at rest.",
+      "measurementKnowledgeId": "samsungNx60HeaterRelayContactsOhms",
+      "testPoint": {
+        "connector": "Sub PCB relays",
+        "pins": "contacts",
+        "label": "Sub PCB relay contacts"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "relay_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sub_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "main_control",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "relay_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sub_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "main_control",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "relay_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sub_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "main_control",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "relay_pass",
+          "label": "Open at rest",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "relay_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "main_control",
+              "evidenceId": "eliminate_bake_element_ol_bake_element_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_sub_pcb",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace sub PCB",
+      "oemOutcome": "Replace sub PCB when relay contacts shorted or damaged \u2014 E-24 path.",
+      "requiresInput": false
+    },
+    {
+      "id": "relay_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Heater relays OK",
+      "oemOutcome": "Oven heater relay contacts verified.",
+      "requiresInput": false
+    }
+  ]
+}

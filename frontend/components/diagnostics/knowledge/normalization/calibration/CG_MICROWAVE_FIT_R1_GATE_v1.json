@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_fit_r1_gate",
+  "workstream": "CG-MICROWAVE-FIT",
+  "status": "closed",
+  "verdict": "GREEN / R1_APPROVED_AUTHORIZE_R2",
+  "reviewedAt": "2026-09-17T08:45:00+00:00",
+  "observationArtifact": "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+  "contract": "CG_MICROWAVE_FIT_TEST_CONTRACT_v1.json",
+  "preliminaryLeanApproved": "genuine_divergence_preliminary",
+  "preliminaryRemainsLocked": true,
+  "r1Approvals": [
+    "HV generation NO_HOST classification — diagnostic cascade not oven heat implementation",
+    "door_interlock_chain CONTAMINATES_IF_MERGED — monitor-chain HV safety not oven_door_switch",
+    "thermal_protection CONTAMINATES_IF_MERGED — TCO + cabinet thermistor broader than range conditional",
+    "rf_cavity abstraction — functional domain not magnetron component promotion",
+    "range_oven not reopened — contamination risks documented"
+  ],
+  "authorizedNextStep": {
+    "phase": "R2",
+    "manualId": "SAMSUNG-ME11-MICROWAVE",
+    "platformId": "samsung_microwave_otr",
+    "purpose": "Cross-manufacturer functional-behavior triangulation — not LG component-list confirmation",
+    "triangulationDomains": [
+      "hv_generation",
+      "door_interlock_chain",
+      "rf_cavity",
+      "thermal_protection",
+      "control_and_sensing"
+    ]
+  },
+  "explicitNonActions": [
+    "No microwave.json",
+    "No canonical mutation",
+    "No overlay compounding",
+    "No fit closure from R1 alone"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "manualId": "SAMSUNG-HP-DRYER-DV22N",
+  "platformId": "samsung_hp_dryer_dv22n",
+  "templateId": "electric_dryer",
+  "label": "Samsung DV22N6850 heat-pump dryer",
+  "status": "candidate",
+  "ontologyId": "heat_pump_dryer",
+  "generatedAt": "2026-09-17T18:46:12.907755+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 10,
+    "mappingCandidates": 23,
+    "overlayCandidates": 1,
+    "conflicts": 0,
+    "extractionFiltered": 7
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 7,
+    "invalidExtraction": 0,
+    "totalFiltered": 7,
+    "samples": [
+      {
+        "rawTerm": "bC2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungdv22n-hmi-button",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "AC6",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungdv22n-pba-communication",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungdv22n-power-supply",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungdv22n-power-supply",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "tC5",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungdv22n-refrigerant-thermistors",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "tC7",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungdv22n-refrigerant-thermistors",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "tC8",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungdv22n-refrigerant-thermistors",
+        "source": "title_token"
+      }
+    ]
+  }
+}

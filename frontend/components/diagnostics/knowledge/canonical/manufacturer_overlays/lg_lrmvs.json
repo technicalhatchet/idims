@@ -1,0 +1,460 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "french_door_refrigerator",
+  "manufacturer": "LG",
+  "label": "LG LRMVS InstaView French-door refrigerator (LRMVS3006)",
+  "gateArtifact": "LG_LRMVS_FD_overlay_mapping_table_v1.json",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "lg_lrmvs",
+      "platformId": "lg_lrmvs",
+      "manualId": "LG-LRMVS-FRIDGE",
+      "label": "LG LRMVS3006 InstaView 4-door French door",
+      "appliesTo": {
+        "templateId": "refrigerator",
+        "manufacturers": [
+          "LG"
+        ],
+        "modelPatterns": [
+          "LRMVS*",
+          "LRMDS*"
+        ],
+        "platformIds": [
+          "lg_lrmvs"
+        ]
+      },
+      "oemTermAliases": {
+        "main pcb": "control_board",
+        "main pba": "control_board",
+        "test mode": "control_board",
+        "display panel": "user_interface",
+        "display_panel": "user_interface",
+        "demo mode": "user_interface",
+        "evap_fan": "evaporator_fan",
+        "r-fan": "evaporator_fan",
+        "f-fan": "evaporator_fan",
+        "i-fan": "evaporator_fan",
+        "damper": "air_damper",
+        "thermistor": "temperature_sensor",
+        "compressor": "compressor",
+        "linear compressor": "compressor",
+        "condenser fan": "condenser_fan",
+        "ice maker": "ice_maker",
+        "sealed system": "sealed_system"
+      },
+      "displayTerms": {
+        "control_board": "Main PCB (test mode \u00d71/\u00d72/\u00d73 orchestration)",
+        "user_interface": "Display panel (E CO / demo OFF mode)",
+        "evaporator_fan": "R/F/I evaporator-path fans (E rF/FF/IF)",
+        "air_damper": "Damper close test (22 22 display)",
+        "defrost_heater": "FF/FZ defrost heaters (r dH / F dH)",
+        "temperature_sensor": "Compartment NTCs (rS/FS/IS/CS \u2014 conditional scopes)",
+        "compressor": "Linear R-600a compressor (conditional)",
+        "condenser_fan": "Condenser fan (E CF \u2014 conditional)",
+        "linear_compressor": "Linear compressor drive (platform)",
+        "sealed_system": "CH/CL leak-cycle routing \u2014 not canonical",
+        "ice_maker": "In-door ice maker kit (conditional optional feature)"
+      },
+      "conditionalConceptBindings": [
+        {
+          "conditionalConceptId": "compressor",
+          "instanceScope": "linear_compressor_r600a",
+          "procedureIds": [
+            "lglrmvs-sealed-system"
+          ]
+        },
+        {
+          "conditionalConceptId": "condenser_fan",
+          "procedureIds": [
+            "lglrmvs-condenser-fan"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "fresh_food",
+          "procedureIds": [
+            "lglrmvs-ff-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "freezer",
+          "procedureIds": [
+            "lglrmvs-fz-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "convert_drawer",
+          "procedureIds": [
+            "lglrmvs-convert-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "icing_room",
+          "procedureIds": [
+            "lglrmvs-icing-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "ice_maker",
+          "procedureIds": [
+            "lglrmvs-ice-maker-electrical"
+          ]
+        }
+      ],
+      "add": {
+        "components": [
+          {
+            "id": "linear_compressor",
+            "name": "Linear compressor (R-600a)",
+            "aliases": [
+              "linear compressor",
+              "linear_compressor"
+            ],
+            "systemId": "cooling",
+            "type": "actuator",
+            "implementsPlatformId": "compressor_controller",
+            "implementsConditionalConceptId": "compressor",
+            "conditionalInstanceScope": "linear_compressor_r600a",
+            "note": "LG linear drive path \u2014 platform layer, not canonical compressor."
+          },
+          {
+            "id": "freezer_defrost_ntc",
+            "name": "Freezer defrost NTC (F dS)",
+            "aliases": [
+              "f ds",
+              "freezer defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "freezer"
+          },
+          {
+            "id": "fridge_defrost_ntc",
+            "name": "Fridge defrost NTC (r dS)",
+            "aliases": [
+              "r ds",
+              "fridge defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "fresh_food"
+          },
+          {
+            "id": "icing_fan",
+            "name": "Icing compartment fan",
+            "aliases": [
+              "icing fan",
+              "i-fan"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "evaporator_fan",
+            "instanceScope": "icing_room",
+            "note": "E IF \u2014 platform detail under canonical evaporator_fan."
+          },
+          {
+            "id": "wifi_modem",
+            "name": "ThinQ Wi-Fi modem",
+            "aliases": [
+              "wifi modem",
+              "thinQ modem"
+            ],
+            "systemId": "connectivity",
+            "type": "controller",
+            "note": "E Od connectivity \u2014 platform adjunct, not canonical user_interface."
+          },
+          {
+            "id": "ice_maker_module",
+            "name": "Ice maker module",
+            "aliases": [
+              "ice maker module",
+              "ice_maker_module"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "E ID/E IU \u2014 implements conditional ice_maker only."
+          },
+          {
+            "id": "linear_compressor",
+            "name": "Linear compressor (R-600a)",
+            "aliases": [
+              "linear compressor",
+              "linear_compressor"
+            ],
+            "systemId": "cooling",
+            "type": "actuator",
+            "implementsPlatformId": "compressor_controller",
+            "implementsConditionalConceptId": "compressor",
+            "conditionalInstanceScope": "linear_compressor_r600a",
+            "note": "LG linear drive path \u2014 platform layer, not canonical compressor."
+          },
+          {
+            "id": "freezer_defrost_ntc",
+            "name": "Freezer defrost NTC (F dS)",
+            "aliases": [
+              "f ds",
+              "freezer defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "freezer"
+          },
+          {
+            "id": "fridge_defrost_ntc",
+            "name": "Fridge defrost NTC (r dS)",
+            "aliases": [
+              "r ds",
+              "fridge defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "fresh_food"
+          },
+          {
+            "id": "icing_fan",
+            "name": "Icing compartment fan",
+            "aliases": [
+              "icing fan",
+              "i-fan"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "evaporator_fan",
+            "instanceScope": "icing_room",
+            "note": "E IF \u2014 platform detail under canonical evaporator_fan."
+          },
+          {
+            "id": "wifi_modem",
+            "name": "ThinQ Wi-Fi modem",
+            "aliases": [
+              "wifi modem",
+              "thinQ modem"
+            ],
+            "systemId": "connectivity",
+            "type": "controller",
+            "note": "E Od connectivity \u2014 platform adjunct, not canonical user_interface."
+          },
+          {
+            "id": "ice_maker_module",
+            "name": "Ice maker module",
+            "aliases": [
+              "ice maker module",
+              "ice_maker_module"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "E ID/E IU \u2014 implements conditional ice_maker only."
+          }
+        ],
+        "relationships": []
+      },
+      "procedureBindings": [
+        {
+          "procedureId": "lglrmvs-test-mode-entry",
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "lglrmvs-display-communication",
+          "canonicalComponents": [
+            "control_board",
+            "user_interface"
+          ]
+        },
+        {
+          "procedureId": "lglrmvs-display-mode",
+          "canonicalComponents": [
+            "control_board",
+            "user_interface"
+          ]
+        },
+        {
+          "procedureId": "lglrmvs-damper-test",
+          "canonicalComponents": [
+            "air_damper"
+          ]
+        },
+        {
+          "procedureId": "lglrmvs-ff-fan",
+          "canonicalComponents": [
+            "evaporator_fan"
+          ],
+          "instanceScope": "fresh_food"
+        },
+        {
+          "procedureId": "lglrmvs-fz-fan",
+          "canonicalComponents": [
+            "evaporator_fan"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "lglrmvs-fz-defrost-heater",
+          "canonicalComponents": [
+            "defrost_heater"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "lglrmvs-ff-defrost-heater",
+          "canonicalComponents": [
+            "defrost_heater"
+          ],
+          "instanceScope": "fresh_food"
+        },
+        {
+          "procedureId": "lglrmvs-sealed-system",
+          "conditionalConcepts": [
+            "compressor"
+          ],
+          "instanceScope": "linear_compressor_r600a"
+        },
+        {
+          "procedureId": "lglrmvs-condenser-fan",
+          "conditionalConcepts": [
+            "condenser_fan"
+          ]
+        },
+        {
+          "procedureId": "lglrmvs-ff-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "fresh_food"
+        },
+        {
+          "procedureId": "lglrmvs-fz-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "lglrmvs-convert-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "convert_drawer"
+        },
+        {
+          "procedureId": "lglrmvs-icing-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "icing_room"
+        },
+        {
+          "procedureId": "lglrmvs-ice-maker-electrical",
+          "conditionalConcepts": [
+            "ice_maker"
+          ]
+        }
+      ],
+      "procedureRoleEvidence": [],
+      "deferredArtifacts": [
+        {
+          "teachingId": "lg-door-switch-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_insufficient_procedure_evidence",
+          "note": "No LRMVS door-switch procedure \u2014 CG-7 triangulation phrases not imported."
+        },
+        {
+          "teachingId": "lg-water-dispenser-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_no_standalone_diagnostic"
+        },
+        {
+          "teachingId": "lg-humidity-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_single_manufacturer_feature"
+        },
+        {
+          "teachingId": "lg-power-supply-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_cg7_deferred_concept"
+        }
+      ],
+      "routingRejections": [
+        {
+          "conceptId": "sealed_system",
+          "teachingId": "lg-sealed-system-routing",
+          "verdict": "reject_canonical_promotion",
+          "note": "E CH/E CL routing \u2014 PLATFORM_ONLY per CG-7 freeze."
+        },
+        {
+          "conceptId": "defrost_system",
+          "teachingId": "lg-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection"
+        },
+        {
+          "conceptId": "cooling_system",
+          "teachingId": "lg-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection"
+        },
+        {
+          "conceptId": "airflow_path",
+          "teachingId": "lg-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection"
+        }
+      ],
+      "manufacturerIsolation": {
+        "priorPublishedManualIds": [
+          "W10322959",
+          "SAMSUNG-RF23BB-FRIDGE"
+        ],
+        "priorOverlays": [
+          "whirlpool_jazz_french_door.json",
+          "samsung_fridge_bespoke.json"
+        ],
+        "discoveryCorpusImportBlocked": true
+      }
+    }
+  ],
+  "status": "published",
+  "gateKind": "lg_lrmvs_third_manual_compounding",
+  "compoundingEvidence": {
+    "phase": "CG-8",
+    "workPackage": "WP3",
+    "manualId": "LG-LRMVS-FRIDGE",
+    "platformId": "lg_lrmvs",
+    "priorPublishedManualIds": [
+      "W10322959",
+      "SAMSUNG-RF23BB-FRIDGE"
+    ],
+    "isLearningEvent": true,
+    "isCertification": false,
+    "gateArtifact": "LG_LRMVS_FD_overlay_mapping_table_v1.json",
+    "ledgerArtifact": "LG_LRMVS_FD_gate_decision_ledger_v1.json",
+    "accounting": {
+      "canonicalInheritances": 5,
+      "conditionalBindings": 7,
+      "overlayLearningEvents": 7,
+      "intentionalAbstentions": 4,
+      "newOverlaySemanticDecisions": 7,
+      "canonicalExpansion": 0,
+      "discoveryCorpusInheritance": 0,
+      "freezeReopening": 0,
+      "ontologyMutations": 0,
+      "semanticLearningFromRouting": 0
+    },
+    "headlineMetric": {
+      "canonicalExpansion": 0
+    },
+    "hardInvariants": {
+      "canonicalExpansion": 0,
+      "discoveryCorpusInheritance": 0
+    },
+    "publishedAt": "2026-09-16T06:46:19.434793+00:00"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "manualId": "W11499711",
+  "priorManualIds": [
+    "W11633848",
+    "W11480208"
+  ],
+  "gateKind": "mechanical_only",
+  "promotionId": "promo-W11499711-20260915074133",
+  "equivalent": true,
+  "checks": {
+    "canonicalAliases": true,
+    "procedureBindings": true,
+    "measurementBindings": true,
+    "topologyOverrides": true
+  },
+  "ledgerScope": {
+    "totalRecords": 4,
+    "approvedMappings": 0,
+    "approvedProcedureBindings": 1,
+    "approvedMeasurementBindings": 1,
+    "mappingsExactly0": true,
+    "procedureBindingsExactly1": true,
+    "measurementBindingsExactly1": true,
+    "nativeProcedureTarget": true,
+    "nativeMeasurementKnowledgeId": true,
+    "newCanonicalConcepts": 0,
+    "newHumanSemanticDecisions": 0
+  },
+  "architecturePreservation": {
+    "dishwasher_ontology_frozen_rev1": true,
+    "no_diverter_valve_canonical": true,
+    "ssm_anchor_intact": true,
+    "vsm_knowledge_intact": true,
+    "ssm_measurement_anchor_intact": true,
+    "vsm_measurement_not_on_native_cohort": true,
+    "native_procedure_not_prematurely_published": true
+  },
+  "promotionDiffChecks": {
+    "noAliasAdds": true,
+    "oneProcedureAdd": true,
+    "oneMeasurementAdd": true,
+    "procedureTargetCirculationTest": true,
+    "measurementTargetCirculationTest": true
+  },
+  "promotionDiff": {
+    "oemTermAliases": {
+      "add": {},
+      "skip": {}
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [
+        {
+          "procedureId": "w11499711-wash-motor-ssm",
+          "testTargetId": "circulation_test",
+          "displayTitle": "\u00a73-15: Wash Motor (SSM, WDT750)"
+        }
+      ],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [
+        {
+          "procedureId": "w11499711-wash-motor-ssm",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+          "testTargetId": "circulation_test"
+        }
+      ],
+      "skip": []
+    }
+  },
+  "dishwasherOntologyFrozen": true,
+  "dishwasherFrozenRevision": "rev1",
+  "publish": false,
+  "compoundingMetrics": {
+    "newHumanSemanticDecisions": 0,
+    "mechanicalRegistrations": 1,
+    "inheritanceValidation": "Published VSM knowledge did not contaminate SSM implementation.",
+    "documentation": "W11499711 provides narrow post-publication inheritance validation: its sole native diagnostic delta was semantically inherited with zero new human decisions, while correctly selecting the published SSM path rather than the subsequently published VSM implementation.",
+    "evidenceKinds": {
+      "W11633848": {
+        "role": "establishes_dishwasher_functional_vocabulary",
+        "newHumanSemanticDecisions": 11
+      },
+      "W11480208": {
+        "role": "establishes_platform_compounding",
+        "subtitle": "VSM / diverter / ProDry",
+        "newHumanSemanticDecisions": 5
+      },
+      "W11499711": {
+        "role": "validates_downstream_inheritance",
+        "subtitle": "SSM correctly distinguished from VSM",
+        "newHumanSemanticDecisions": 0,
+        "documentation": "W11499711 provides narrow post-publication inheritance validation: its sole native diagnostic delta was semantically inherited with zero new human decisions, while correctly selecting the published SSM path rather than the subsequently published VSM implementation.",
+        "scopeLimit": "Not a third full-manual validation \u2014 one native procedure only. Broader dishwasher compounding evidence remains open."
+      }
+    },
+    "teachingCostCurve": {
+      "W11633848": 11,
+      "W11480208": 5,
+      "W11499711": 0
+    }
+  },
+  "notes": [
+    "Mechanical dry-run registers w11499711-wash-motor-ssm under published SSM semantics.",
+    "No OEM aliases, platform components, or canonical expansion.",
+    "VSM/diverter/ProDry published knowledge preserved unchanged.",
+    "W11499711 provides narrow post-publication inheritance validation: its sole native diagnostic delta was semantically inherited with zero new human decisions, while correctly selecting the published SSM path rather than the subsequently published VSM implementation."
+  ]
+}

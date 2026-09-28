@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_compounding_audit",
+  "workstream": "CG-MICROWAVE-COMPOUNDING",
+  "sequence": 1,
+  "targetId": "lg_lmhm2237_otr",
+  "status": "closed",
+  "verdict": "GREEN / LG_COMPOUNDING_AUDIT_PASSED",
+  "auditedAt": "2026-09-17T11:45:00+00:00",
+  "humanApprovedAt": "2026-09-17T12:05:00+00:00",
+  "compoundingArtifact": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_v1.json",
+  "normalizationSource": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+  "overlayFile": "lg_microwave_otr.json",
+  "summary": {
+    "proceduresBound": "12/12",
+    "measurementsBound": "12/12",
+    "decisionBranchesExecutable": "12/12",
+    "functionalRealizations": 13,
+    "canonicalExpansion": 0,
+    "hierarchicalInheritance": true,
+    "flatFactDump": false,
+    "staleMagnetronRealizesNotPropagated": true
+  },
+  "integrityChecks": {
+    "canonicalOntologyId": "microwave",
+    "microwaveJsonHash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "microwaveRev1Unchanged": true,
+    "rangeOvenJsonHash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+    "rangeOvenUnchanged": true,
+    "noCanonicalPromotion": true,
+    "hvHardwareInOverlayOnly": true,
+    "magnetronBindsRfCavityNotHvGeneration": true
+  },
+  "precedenceChecks": {
+    "governanceClosure": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+    "overlayDocumentsPrecedenceException": true,
+    "magnetronImplementsCanonicalId": "rf_cavity",
+    "rejectsStaleOverlayOnlyRealizes": true,
+    "routingRejectionPresent": "reject_hv_generation_realization"
+  },
+  "provenanceChecks": {
+    "normalizationToCompoundingLineage": true,
+    "everyProcedureRetainsSourcePages": true,
+    "everyMeasurementRetainsKnowledgeId": true,
+    "decisionBranchesRetainConditionalLogic": true,
+    "functionalRealizationsHaveProvenance": true
+  },
+  "hierarchyChecks": {
+    "canonicalFunctionToImplementationToEvidence": true,
+    "implementationVocabularyNotPromoted": true,
+    "examples": [
+      "hv_generation → hv_transformer → primary/secondary Ω",
+      "hv_generation → hv_diode → rectifier check",
+      "rf_cavity → magnetron → filament Ω (downstream of HV cascade)",
+      "rf_cavity → turntable_motor → 2.5–3.5 kΩ",
+      "door_interlock_chain → primary/monitor switches → COM–NO sequencing",
+      "thermal_protection → pcb_thermistor → F-1/F-2",
+      "control_and_sensing → humidity_sensor → F-4 conditional"
+    ]
+  },
+  "auditChecks": [
+    { "id": "twelve_procedures_bound_with_source", "status": "green" },
+    { "id": "twelve_measurements_with_provenance", "status": "green" },
+    { "id": "twelve_decision_branches_executable", "status": "green" },
+    { "id": "functional_realization_hierarchy", "status": "green" },
+    { "id": "canonical_contract_unchanged", "status": "green" },
+    { "id": "hv_hardware_overlay_only", "status": "green" },
+    { "id": "magnetron_rf_cavity_precedence", "status": "green" },
+    { "id": "stale_realizes_not_propagated", "status": "green" },
+    { "id": "no_canonical_expansion", "status": "green" },
+    { "id": "provenance_chain_complete", "status": "green" },
+    { "id": "ventilation_otr_not_manufactured", "status": "green" }
+  ],
+  "regressionProof": {
+    "testSuite": "cg-microwave-lg-lmhm2237-compounding.test.ts",
+    "testsPassing": 6,
+    "validateCanonicalGraph": "pass"
+  },
+  "humanApprovals": {
+    "magnetron_rf_cavity_precedence": "APPROVED",
+    "hv_cascade_hv_generation": "APPROVED",
+    "door_interlock_thermal_protection": "APPROVED",
+    "samsung_me11_sequence_2": "AUTHORIZED"
+  },
+  "gateStatus": {
+    "samsungMe11CompoundingBlocked": false,
+    "nextSequence": 2,
+    "nextTarget": "samsung_me11_otr",
+    "openOnlyAfter": "LG compounding audit green — satisfied"
+  },
+  "humanReviewQuestions": [
+    "Approve magnetron → rf_cavity compounding under precedence exception?",
+    "Approve HV cascade → hv_generation functional realizations?",
+    "Approve door interlock chain and thermal_protection bindings?",
+    "Authorize Samsung ME11 compounding after audit green?"
+  ],
+  "nextDisciplinedStep": "CG-MICROWAVE-COMPOUNDING sequence 2 — Samsung ME11 (authorized)"
+}

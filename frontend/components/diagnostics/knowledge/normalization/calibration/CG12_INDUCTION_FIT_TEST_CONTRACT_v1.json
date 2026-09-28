@@ -1,0 +1,419 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg12_induction_range_fit_test_contract",
+  "status": "closed",
+  "phase": "CG-12",
+  "activatedAt": "2026-09-16T16:23:00+00:00",
+  "closedAt": "2026-09-16T19:26:00+00:00",
+  "closureArtifact": "CG12_INDUCTION_FIT_CLOSURE_v1.json",
+  "closureVerdict": "CLOSED / INDUCTION_FITS_ELECTRIC_CONTRACT",
+  "approvedFitOutcome": "A",
+  "humanBoundaryApprovedAt": "2026-09-16T19:26:00+00:00",
+  "r1SufficientForClosure": true,
+  "r2RequiredForClosure": false,
+  "priorPhaseClosed": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json",
+  "priorPhaseVerdict": "CLOSED / GAS_FITS_ELECTRIC_CONTRACT",
+  "fitTestMode": "fit_falsification_against_frozen_contract",
+  "fuelScope": "induction_range_only",
+  "notCreating": [
+    "induction_range.json",
+    "range_oven.json",
+    "mutations to electric_range.json",
+    "canonical expansion on electric_range rev1",
+    "manufacturer overlay compounding",
+    "normalization compounding targets",
+    "automatic promotion of induction_coil",
+    "automatic promotion of resonant_inverter",
+    "automatic promotion of igbt_module",
+    "automatic promotion of power_module",
+    "automatic promotion of pan_detection",
+    "automatic promotion of coil_temperature_sensor",
+    "instance-scope compounding machinery"
+  ],
+  "frozenContractUnderTest": {
+    "id": "electric_range",
+    "file": "frontend/components/diagnostics/knowledge/canonical/electric_range.json",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-16T15:26:00+00:00",
+    "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "immutable": true,
+    "canonicalHashMutationsAllowed": 0,
+    "note": "electric_range.json is immutable contract truth for CG-12. Induction evidence may fit, falsify, or document boundary — it may not teach the frozen contract merely by being different."
+  },
+  "fitHypothesisArtifact": "electric_range_induction_fit_hypothesis_v1.json",
+  "centerpieceQuestion": {
+    "id": "induction_vs_frozen_electric_contract",
+    "question": "Can the frozen electric_range rev1 functional ontology represent an induction-range implementation without canonical divergence?",
+    "framing": "This is the centerpiece of CG-12 — not whether induction hardware looks like electric resistance hardware.",
+    "allowedOutcomes": [
+      "induction_fits — frozen contract absorbs induction functional architecture with platform overlay vocabulary only",
+      "partial_fit — documented boundary extensions without mutating frozen electric rev1",
+      "induction_diverges — induction exposes functional architecture the frozen contract cannot absorb; document boundary, do not mutate electric"
+    ],
+    "disallowedShortcut": "Treating induction surface heating as equivalent to a resistance element merely because both produce heat, or promoting inverter/coil vocabulary to canonical without fit-test classification"
+  },
+  "criticalInductionProbe": {
+    "id": "surface_heating_system_induction_falsification",
+    "question": "Does induction introduce a new functional dependency required by the diagnostic ontology, or merely a radically different implementation of the existing surface_heating_system function?",
+    "frozenContractNode": "surface_heating_system",
+    "layer": "components[]",
+    "falsificationFraming": "Stronger than word-matching — tests whether surface_heating_system remains the canonical functional role while implementation vocabulary stays platform-only.",
+    "notEquivalentBecause": "Induction surface heating must not be treated as equivalent to an electric resistance element merely because both produce heat.",
+    "platformVocabularyGuard": [
+      "induction_coil",
+      "resonant_inverter",
+      "igbt_module",
+      "power_module",
+      "induction_sensor",
+      "pan_detection",
+      "coil_temperature_sensor",
+      "infinite_switch_replacement_absent"
+    ],
+    "divergenceOnlyIf": [
+      "surface_heating_system conflates two functions induction proves must be independently diagnosable",
+      "induction requires a new canonical functional domain with no place in frozen ontology"
+    ]
+  },
+  "divergenceCriteria": {
+    "classifyDivergenceOnlyWhen": "The induction implementation demonstrates that the frozen ontology cannot represent an independently meaningful functional diagnostic relationship.",
+    "isDivergence": [
+      "A required functional domain has no place in the frozen ontology",
+      "An existing canonical relationship becomes invalid",
+      "A canonical node conflates two functions that induction proves must be independently diagnosable",
+      "The oven/range diagnostic contract requires a new functional concept rather than merely an implementation-specific component"
+    ],
+    "isNotDivergence": [
+      "Different hardware",
+      "Different power electronics",
+      "Different terminology",
+      "Different surface-heating mechanism",
+      "Additional sensors",
+      "Pan detection",
+      "Inverter/power-module architecture",
+      "Different service procedures",
+      "Different component topology"
+    ],
+    "policy": "CG-5.3 — single-manual evidence cannot create ontology concepts. Fit witnesses are not normalization/compounding targets."
+  },
+  "methodologyDimensions": {
+    "implementation_fit": "Does this manufacturer's induction implementation map to frozen contract layers without divergence?",
+    "cross_manufacturer_consistency": "Does the same layer disposition hold across Samsung, Whirlpool, and LG induction witnesses?",
+    "note": "CG-12 extends CG-11 with explicit cross-manufacturer matrix — conclusion can address induction as a family, not merely one manual."
+  },
+  "crossManufacturerMatrix": {
+    "status": "template_pending_observation",
+    "columns": [
+      { "id": "samsung", "manufacturer": "Samsung", "smokeModel": "NE58R9560WS/AA" },
+      { "id": "whirlpool", "manufacturer": "Whirlpool", "smokeModel": "WFI505S0JZ" },
+      { "id": "lg", "manufacturer": "LG", "smokeModel": "LSIL6334F" }
+    ],
+    "rows": [
+      { "probeId": "power_supply_induction", "label": "power_supply", "frozenContractNode": "power_supply", "layer": "components[]" },
+      { "probeId": "control_board_induction", "label": "control_board", "frozenContractNode": "control_board", "layer": "components[]" },
+      { "probeId": "user_interface_induction", "label": "user_interface", "frozenContractNode": "user_interface", "layer": "components[]" },
+      { "probeId": "temperature_sensor_induction", "label": "temperature_sensor", "frozenContractNode": "temperature_sensor", "layer": "components[]" },
+      { "probeId": "surface_heating_system_induction", "label": "surface_heating_system", "frozenContractNode": "surface_heating_system", "layer": "components[]", "criticalProbe": true },
+      { "probeId": "bake_instance_scope_induction", "label": "bake_heating_element", "frozenContractNode": "bake_heating_element", "layer": "instanceScopes[]" },
+      { "probeId": "broil_instance_scope_induction", "label": "broil_heating_element", "frozenContractNode": "broil_heating_element", "layer": "instanceScopes[]" },
+      { "probeId": "convection_heating_element_induction", "label": "convection_heating_element", "frozenContractNode": "convection_heating_element", "layer": "conditionalInstanceScopes[]" },
+      { "probeId": "convection_fan_induction", "label": "convection_fan", "frozenContractNode": "convection_fan", "layer": "conditionalConcepts[]" },
+      { "probeId": "thermal_protection_induction", "label": "thermal_protection", "frozenContractNode": "thermal_protection", "layer": "conditionalConcepts[]" },
+      { "probeId": "oven_door_switch_induction", "label": "oven_door_switch", "frozenContractNode": "oven_door_switch", "layer": "conditionalConcepts[]" }
+    ],
+    "cellSchema": {
+      "implementation_fit": "INHERITS | CONDITIONAL | DIVERGES | PLATFORM_ONLY | NO_EVIDENCE | DEFERRED",
+      "cross_manufacturer_consistency": "consistent | inconsistent | insufficient_evidence | pending"
+    },
+    "cells": {}
+  },
+  "boundaryQuestions": [
+    {
+      "id": "power_supply_induction",
+      "question": "Does the induction implementation retain the same functional power prerequisite?",
+      "frozenContractNode": "power_supply",
+      "layer": "components[]",
+      "classificationOptions": ["fits_frozen_contract", "conditional_extension", "contract_boundary", "platform_implementation_only"]
+    },
+    {
+      "id": "control_board_induction",
+      "question": "Does control/orchestration remain representable?",
+      "frozenContractNode": "control_board",
+      "layer": "components[]",
+      "classificationOptions": ["fits_frozen_contract", "platform_implementation_only", "contract_boundary"],
+      "platformVocabularyGuard": ["inverter_board", "power_module", "sub_pcb", "relay_bank"]
+    },
+    {
+      "id": "user_interface_induction",
+      "question": "Does UI/command interaction remain representable?",
+      "frozenContractNode": "user_interface",
+      "layer": "components[]",
+      "classificationOptions": ["fits_frozen_contract", "platform_implementation_only"]
+    },
+    {
+      "id": "temperature_sensor_induction",
+      "question": "Does oven temperature feedback remain representable?",
+      "frozenContractNode": "temperature_sensor",
+      "layer": "components[]",
+      "classificationOptions": ["fits_frozen_contract", "conditional_extension", "contract_boundary"]
+    },
+    {
+      "id": "surface_heating_system_induction",
+      "question": "Can induction surface heating map to the existing surface_heating_system functional layer without conflating coil/inverter implementation with the canonical role?",
+      "frozenContractNode": "surface_heating_system",
+      "layer": "components[]",
+      "criticalProbe": true,
+      "classificationOptions": [
+        "fits_frozen_contract",
+        "conditional_extension",
+        "contract_boundary",
+        "platform_implementation_only"
+      ],
+      "platformVocabularyGuard": [
+        "induction_coil",
+        "resonant_inverter",
+        "igbt_module",
+        "power_module",
+        "induction_sensor",
+        "pan_detection",
+        "coil_temperature_sensor"
+      ]
+    },
+    {
+      "id": "bake_instance_scope_induction",
+      "question": "Does the oven bake function remain independently addressable?",
+      "frozenContractNode": "bake_heating_element",
+      "layer": "instanceScopes[]",
+      "classificationOptions": [
+        "functional_equivalent_instance_scope",
+        "instance_scope_needs_induction_specific_binding",
+        "contract_boundary_requires_separate_ontology"
+      ],
+      "platformVocabularyGuard": ["bake_element", "convection_bake_element", "hidden_bake_element"]
+    },
+    {
+      "id": "broil_instance_scope_induction",
+      "question": "Does the oven broil function remain independently addressable?",
+      "frozenContractNode": "broil_heating_element",
+      "layer": "instanceScopes[]",
+      "classificationOptions": [
+        "functional_equivalent_instance_scope",
+        "instance_scope_needs_induction_specific_binding",
+        "no_meaningful_induction_equivalent",
+        "contract_boundary_requires_separate_ontology"
+      ]
+    },
+    {
+      "id": "convection_heating_element_induction",
+      "question": "Is there actual evidence for convection_heating_element, or simply no evidence?",
+      "frozenContractNode": "convection_heating_element",
+      "layer": "conditionalInstanceScopes[]",
+      "classificationOptions": [
+        "evidenced_electric_convection_element",
+        "no_evidence_not_invalid",
+        "fan_only_convection",
+        "conditional_instance_scope_extends",
+        "contract_boundary"
+      ],
+      "noEvidenceSemantics": "NO_EVIDENCE means this configuration does not bind the conditional scope — not that the conditional scope is false."
+    },
+    {
+      "id": "convection_fan_induction",
+      "question": "Does the existing convection_fan conditional concept survive?",
+      "frozenContractNode": "convection_fan",
+      "layer": "conditionalConcepts[]",
+      "classificationOptions": ["fits_frozen_conditional", "conditional_extension", "contract_boundary"]
+    },
+    {
+      "id": "thermal_protection_induction",
+      "question": "Does thermal protection remain representable without assuming implementation?",
+      "frozenContractNode": "thermal_protection",
+      "layer": "conditionalConcepts[]",
+      "classificationOptions": ["fits_frozen_conditional", "platform_implementation_only", "contract_boundary"]
+    },
+    {
+      "id": "oven_door_switch_induction",
+      "question": "Does door-state functionality remain representable?",
+      "frozenContractNode": "oven_door_switch",
+      "layer": "conditionalConcepts[]",
+      "classificationOptions": ["fits_frozen_conditional", "platform_implementation_only", "latch_actuator_only"],
+      "relatedPlatformOnly": ["door_latch_motor"]
+    }
+  ],
+  "vocabularyGuardrails": {
+    "doNotAutoCreateCanonical": [
+      "induction_coil",
+      "resonant_inverter",
+      "igbt_module",
+      "power_module",
+      "inverter_board",
+      "induction_sensor",
+      "pan_detection",
+      "pan_sensor",
+      "coil_temperature_sensor",
+      "glass_cooktop_sensor"
+    ],
+    "requiredClassification": [
+      "fits_frozen_contract",
+      "functional_equivalent_instance_scope",
+      "conditional_extension",
+      "platform_implementation_only",
+      "contract_boundary",
+      "no_evidence_not_invalid",
+      "deferred_pending_second_manual"
+    ],
+    "rule": "Induction OEM hardware names must be classified against frozen electric_range layers — never promoted to canonical merely because the manual tests them."
+  },
+  "discoveryCorpus": {
+    "openingRequirement": "Three manufacturers are recommended witnesses — not a requirement to open CG-12. Run R1 with one strong service manual if needed; define R2/R3 escalation explicitly.",
+    "witnessPolicy": "Fit-test witnesses only — not normalization/compounding targets until family boundary review after CG-13.",
+    "R1": {
+      "manualId": "SAMSUNG-NE58R9560-INDUCTION",
+      "platformId": "samsung_range_ne58r9560",
+      "smokeModel": "NE58R9560WS/AA",
+      "manufacturer": "Samsung",
+      "role": "first_induction_fit_observation",
+      "fuelFilter": "induction_range",
+      "templateFilter": "induction_range",
+      "plannedManualId": "SAMSUNG-NE58R9560-INDUCTION",
+      "plannedPlatformId": "samsung_range_ne58r9560",
+      "rationale": "Samsung induction slide-in — distinct from CG-10 NE58F9710WS electric boundary observation on samsung_range_ne58. Tests induction implementation boundary without reusing CG-10 electric discovery corpus as induction evidence.",
+      "observationArtifact": "SAMSUNG_NE58R9560WS_IR_CG12X_OBSERVATION_v1.json",
+      "observationStatus": "complete",
+      "observationCompletedAt": "2026-09-16T17:30:00+00:00",
+      "observationMode": "strictly_observational",
+      "manualStatus": "in_repo",
+      "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+      "excludeFromR1": {
+        "observationArtifacts": ["SAMSUNG_NE58_RANGE_er_cg10x_observation_v1.json"],
+        "reason": "CG-10 R4 electric boundary — not induction implementation evidence"
+      }
+    },
+    "R2": {
+      "status": "planned",
+      "smokeModel": "WFI505S0JZ",
+      "manufacturer": "Whirlpool",
+      "role": "second_induction_fit_witness",
+      "plannedManualId": "WHIRLPOOL-WFI505-INDUCTION",
+      "plannedPlatformId": "whirlpool_induction_range_wfi505",
+      "requirement": "Independent Whirlpool induction witness for cross_manufacturer_consistency — escalate if R1 inconclusive or for family-level conclusion",
+      "observationStatus": "not_started",
+      "manualStatus": "acquire_for_fit_test"
+    },
+    "R3": {
+      "status": "planned",
+      "smokeModel": "LSIL6334F",
+      "manufacturer": "LG",
+      "role": "third_induction_fit_witness",
+      "plannedManualId": "LG-LSIL6334-INDUCTION",
+      "plannedPlatformId": "lg_induction_range_lsil6334",
+      "requirement": "Independent LG induction witness — completes cross-manufacturer matrix for family-level conclusion",
+      "observationStatus": "not_started",
+      "manualStatus": "acquire_for_fit_test",
+      "note": "LG-LRE-RANGE is electric in CG-10 — LG induction manual is fresh manufacturer+implementation boundary"
+    }
+  },
+  "cg10Cg11CorpusExclusion": {
+    "note": "CG-10 electric discovery and CG-11 gas fit observations are not reused as induction evidence — fit test evaluates against frozen contract only",
+    "cg10ElectricDiscoveryManufacturers": ["Whirlpool", "LG"],
+    "cg10ElectricBoundaryOnly": ["Samsung NE58F9710WS electric"],
+    "cg11GasFitClosed": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json",
+    "inductionR1MustNotReuse": [
+      "CG-10 electric discovery corpus procedures as induction proof",
+      "CG-11 Samsung NX60 gas observation as induction proof"
+    ]
+  },
+  "immutableRules": [
+    "CG-12 is fit/falsification only — success includes proving induction does NOT fit the frozen electric contract.",
+    "electric_range.json hash must remain 0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54 through CG-12 unless a new discovery workstream explicitly reopens CG-10.",
+    "No writes to frontend/components/diagnostics/knowledge/canonical/electric_range.json during CG-12.",
+    "No induction_range.json — induction either fits frozen contract, documents boundary, or proves divergence.",
+    "Procedure seeds inform observations — they do not auto-promote induction hardware to canonical.",
+    "Normalization and compounding remain downstream of CG-13 and family boundary review.",
+    "CG-10 freeze lock, CG-11 closure, and recommendation artifacts remain authoritative evidence chain — not overwritten."
+  ],
+  "decisionGates": {
+    "afterR1": {
+      "ask": "Which frozen electric_range layers survive first induction witness as functional equivalents, conditionals, platform vocabulary, or NO_EVIDENCE?",
+      "doNotAsk": "Does Samsung induction match Whirlpool electric?",
+      "doNotPromote": "induction_coil, resonant_inverter, igbt_module, pan_detection to canonical without fit-test classification",
+      "then": "fit_falsification_analysis — CG12_INDUCTION_FIT_ANALYSIS_v1.json (authored after R1 observation)"
+    },
+    "afterR2R3": {
+      "requirement": "Cross-manufacturer matrix population when second/third witnesses available — not required to open CG-12",
+      "ask": "Does cross_manufacturer_consistency hold for each probed layer?",
+      "then": "triangulation or human_boundary_decision_gate"
+    },
+    "humanBoundaryDecision": {
+      "outcomes": {
+        "A": "induction_fits_electric_contract — DIVERGES=0, canonicalExpansion=0, canonicalHashMutations=0",
+        "B": "partial_fit_requires_contract_revision — documented boundary without mutating frozen electric rev1",
+        "C": "induction_diverges — document split; electric_range remains frozen; do not mutate canonical"
+      },
+      "policy": "Human gate required before any canonical rename, expansion, or induction_range.json creation. Do not pre-decide Outcome A in contract artifacts."
+    }
+  },
+  "fitTestOutcomes": {
+    "A": {
+      "label": "induction_fits_electric_contract",
+      "description": "Frozen electric_range behaves as range/oven functional ontology for induction; maps to same components[], instanceScopes[], and conditionals with platform overlay vocabulary only",
+      "successMetrics": {
+        "DIVERGES": 0,
+        "canonicalExpansion": 0,
+        "canonicalHashMutations": 0
+      },
+      "predecided": false
+    },
+    "B": {
+      "label": "partial_fit_requires_contract_revision",
+      "description": "Most layers fit; specific instance-scope or conditional extensions documented without mutating frozen electric rev1 canonical file",
+      "predecided": false
+    },
+    "C": {
+      "label": "induction_diverges",
+      "description": "Induction exposes functional architecture electric contract cannot absorb — document boundary; do not mutate electric_range.json",
+      "predecided": false
+    },
+    "policy": "Fit test earns every classification — automatic canonical expansion prohibited. Outcomes A/B/C are falsifiable; contract does not assume A."
+  },
+  "successCriteria": {
+    "minimum": "R1 induction observation complete against frozen contract layers (one strong manual sufficient to open analysis)",
+    "recommended": "R1 + R2 + R3 cross-manufacturer witnesses for family-level conclusion",
+    "canonicalMutation": 0,
+    "canonicalExpansion": 0,
+    "fitAnalysisArtifact": "CG12_INDUCTION_FIT_ANALYSIS_v1.json",
+    "fitAnalysisStatus": "human_boundary_approved",
+    "fitAnalysisArtifactAuthored": true,
+    "recommendedFitOutcome": "A",
+    "approvedFitOutcome": "A",
+    "humanBoundaryApprovalRequired": true,
+    "humanBoundaryApprovedAt": "2026-09-16T19:26:00+00:00",
+    "r1SufficientForClosure": true,
+    "r2RequiredForClosure": false,
+    "r1ObservationArtifact": "SAMSUNG_NE58R9560WS_IR_CG12X_OBSERVATION_v1.json",
+    "r1ObservationStatus": "complete",
+    "r2Required": null,
+    "r3Required": null,
+    "crossManufacturerMatrixComplete": false,
+    "closureArtifact": "CG12_INDUCTION_FIT_CLOSURE_v1.json",
+    "closureStatus": "closed_successful",
+    "crossManufacturerMatrixStatus": "PENDING",
+    "r2Mandatory": false,
+    "r2Status": "DEFERRED_OPTIONAL",
+    "r2OptionalForCrossManufacturerMatrix": true
+  },
+  "progression": [
+    "CG-11 gas fit closed",
+    "CG-12 R1 induction observation (minimum one witness)",
+    "R2/R3 escalation if inconclusive or for cross-manufacturer matrix",
+    "fit/falsification analysis",
+    "human boundary decision",
+    "either induction fits frozen contract OR document divergence without mutating electric"
+  ],
+  "deferredWork": {
+    "normalizationCompounding": "After CG-13 and family boundary review — not during CG-12",
+    "manufacturerOverlayCompounding": "After fit family boundary — witnesses are not compounding targets",
+    "organizationalRename": "electric_range → range_oven — separate human gate after CG-13 family review",
+    "workstreamSequence": "CG_RANGE_FAMILY_WORKSTREAM_SEQUENCE_v1.json"
+  }
+}

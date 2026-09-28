@@ -1,0 +1,61 @@
+{
+  "manualId": "MIDEA-UZ21-FREEZER",
+  "platformId": "midea_uz21",
+  "templateId": "standalone_freezer",
+  "label": "Midea/Insignia NS-UZ upright freezer",
+  "status": "candidate",
+  "ontologyId": null,
+  "generatedAt": "2026-09-12T22:21:05.997877+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 7,
+    "mappingCandidates": 17,
+    "overlayCandidates": 0,
+    "conflicts": 0,
+    "extractionFiltered": 6
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 6,
+    "invalidExtraction": 0,
+    "totalFiltered": 6,
+    "samples": [
+      {
+        "rawTerm": "E7",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "mideauz21-ambient-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E6",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "mideauz21-communication",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E9",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "mideauz21-evap-fan",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E5",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "mideauz21-fz-defrost-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "mideauz21-fz-temp-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E9",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "mideauz21-high-temp-alarm",
+        "source": "title_token"
+      }
+    ]
+  }
+}

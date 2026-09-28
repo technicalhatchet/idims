@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_compounding_evidence",
+  "manualId": "SAMSUNG-ME11-MICROWAVE",
+  "platformId": "samsung_microwave_otr",
+  "compoundingPhase": "CG-MICROWAVE-COMPOUNDING",
+  "compoundingSequence": 2,
+  "generatedAt": "2026-09-17T12:50:00+00:00",
+  "normalizationArtifact": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json",
+  "gateArtifact": "SAMSUNG_ME11_MICROWAVE_overlay_mapping_table_v1.json",
+  "overlayFile": "samsung_microwave_otr.json",
+  "priorSequenceAudit": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_AUDIT_v1.json",
+  "metadataGovernanceClosure": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+  "evidenceIndependence": {
+    "samsungManualOnly": true,
+    "lgOverlayNotEvidence": true,
+    "lgEvidenceBorrowing": 0
+  },
+  "canonicalOntology": {
+    "id": "microwave",
+    "revision": "rev1",
+    "immutable": true,
+    "frozenHash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d"
+  },
+  "compoundingCurve": {
+    "framing": "functional_realization_hierarchy",
+    "canonicalInheritance": 7,
+    "conditionalBinding": 2,
+    "overlayImplementation": 18,
+    "proceduresBound": 14,
+    "measurementsBound": 13,
+    "decisionBranchesExecutable": 14,
+    "functionalRealizations": 14,
+    "canonicalExpansion": 0,
+    "note": "Second microwave compounding — Samsung evidence independent of LG; precedence guard shared, realizations not borrowed."
+  },
+  "hierarchyTest": {
+    "frozenKeepStable": true,
+    "hvCascadeUnderHvGeneration": true,
+    "magnetronUnderRfCavity": true,
+    "fourTcoUnderThermalProtection": true,
+    "ventilationOtrConditionalOnly": true,
+    "noLgRealizationBorrowing": true,
+    "verdict": "Samsung compounding separates frozen microwave functions from ME11-specific HV/RF/TCO/vent implementation without canonical expansion or LG evidence borrowing."
+  },
+  "provenanceChain": {
+    "flow": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json → SAMSUNG_ME11_MICROWAVE_overlay_mapping_table_v1.json → samsung_microwave_otr.json",
+    "fitWitnessReferenceOnly": "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json",
+    "notRetroactiveFitEvidence": true
+  },
+  "nextSteps": [
+    "CG_MICROWAVE_SAMSUNG_ME11_COMPOUNDING_AUDIT_v1.json human review",
+    "Family closure remains blocked pending Samsung audit + cross-manufacturer regression proof"
+  ]
+}

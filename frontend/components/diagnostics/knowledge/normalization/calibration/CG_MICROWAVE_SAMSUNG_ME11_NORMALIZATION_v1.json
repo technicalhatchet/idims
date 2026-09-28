@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_target_normalization",
+  "workstream": "CG-MICROWAVE-NORMALIZATION",
+  "targetId": "samsung_me11_otr",
+  "status": "approved",
+  "humanApprovedAt": "2026-09-17T10:26:00+00:00",
+  "revisionNote": "Rev 1.1 — magnetron implementation realization moved from hv_generation to rf_cavity per frozen HV→RF causal boundary",
+  "normalizedAt": "2026-09-17T10:00:00+00:00",
+  "parentWorkstream": "CG_MICROWAVE_NORMALIZATION_CONTRACT_v1.json",
+  "canonicalOntologyId": "microwave",
+  "implementationTemplateId": "microwave",
+  "coreConstraint": "Maps Samsung ME11 service-manual evidence onto frozen microwave functions. Fit R2 observation is triangulation witness only — not re-derived as ontology evidence.",
+  "evidenceLineageGuardrail": {
+    "serviceManualPath": {
+      "flow": "SERVICE MANUAL → normalized evidence → implementation/platform knowledge → microwave function realization",
+      "sourceType": "service_manual"
+    },
+    "fitEvidencePath": {
+      "flow": "CG-MICROWAVE-FIT R2 → triangulation witness → historical architectural evidence",
+      "sourceType": "fit_test_record",
+      "observationArtifact": "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json",
+      "notNormalizedAsOntologyEvidence": true
+    }
+  },
+  "sourceMetadata": {
+    "manualId": "SAMSUNG-ME11-MICROWAVE",
+    "manufacturer": "Samsung",
+    "platformId": "samsung_microwave_otr",
+    "smokeModel": "ME11A7510DSAA",
+    "sourcePdf": "backend/docs/manuals/Samsung ME11A7510DSAA.pdf",
+    "extractedText": "backend/docs/manuals/Samsung ME11A7510DSAA microwave-extracted.txt",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md",
+    "procedureSeedDir": "frontend/components/diagnostics/procedures/seed/samsung_microwave_otr",
+    "referenceOverlay": "frontend/components/diagnostics/knowledge/canonical/platform_overlays/microwave.reference.json"
+  },
+  "canonicalFunctionalMappings": [
+    {
+      "canonicalId": "power_supply",
+      "microwaveLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungotrmw-line-power"],
+        "oemSections": ["5-1-dead"],
+        "platformTerms": ["line_fuse", "supply"],
+        "manualPhrases": ["dead unit", "no display", "120 VAC"]
+      }
+    },
+    {
+      "canonicalId": "control_board",
+      "microwaveLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungotrmw-line-power", "samsungotrmw-no-heat", "samsungotrmw-pcb-comm"],
+        "oemSections": ["4-2", "5-1"],
+        "platformTerms": ["main_pcb", "sub_pcb", "power_relay", "ry206"],
+        "errorCodes": ["C-F1"]
+      }
+    },
+    {
+      "canonicalId": "user_interface",
+      "microwaveLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungotrmw-keypad-touch"],
+        "oemSections": ["4-2"],
+        "platformTerms": ["touch_panel", "keypad", "membrane"],
+        "errorCodes": ["C-F2"],
+        "serviceModeEntry": "samsungotrmw-sensor-quick-test bundle"
+      }
+    },
+    {
+      "canonicalId": "door_interlock_chain",
+      "microwaveLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungotrmw-door-interlock", "samsungotrmw-no-heat", "samsungotrmw-line-power"],
+        "oemSections": ["4-6"],
+        "platformTerms": ["primary_interlock", "monitor_switch", "secondary_interlock", "door_sensing_switch"],
+        "measurementKnowledge": ["microwaveDoorInterlockSwitchOhms"],
+        "errorCodes": ["C-F0"],
+        "sequencingNote": "Latch adjustment before switch replacement; vent cap discharge prerequisite"
+      }
+    },
+    {
+      "canonicalId": "hv_generation",
+      "microwaveLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": [
+          "samsungotrmw-hv-transformer",
+          "samsungotrmw-hv-capacitor",
+          "samsungotrmw-hv-diode",
+          "samsungotrmw-no-heat"
+        ],
+        "oemSections": ["4-1", "4-3", "4-4", "5-1-no-heat"],
+        "implementationRealizations": [
+          { "term": "hv_transformer", "procedureId": "samsungotrmw-hv-transformer", "measurementKnowledge": ["samsungMe11HvTransformerPrimaryOhms", "samsungMe11HvTransformerSecondaryOhms"] },
+          { "term": "hv_capacitor", "procedureId": "samsungotrmw-hv-capacitor" },
+          { "term": "hv_diode", "procedureId": "samsungotrmw-hv-diode" },
+          { "term": "power_relay", "procedureId": "samsungotrmw-no-heat", "note": "Relay contact continuity gates HV enable — still hv_generation orchestration" }
+        ],
+        "orchestrationNote": "Power relay contact check gates HV cascade after interlock + TCO; magnetron is downstream under rf_cavity",
+        "notPromotedToCanonical": true
+      }
+    },
+    {
+      "canonicalId": "rf_cavity",
+      "microwaveLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungotrmw-magnetron", "samsungotrmw-turntable", "samsungotrmw-no-heat"],
+        "oemSections": ["4-2", "4-5", "complaint routing"],
+        "implementationRealizations": [
+          { "term": "magnetron", "procedureId": "samsungotrmw-magnetron", "role": "RF generation device downstream of HV supply — filament test with cavity coupling" },
+          { "term": "turntable_motor", "procedureId": "samsungotrmw-turntable" },
+          { "term": "waveguide_cover", "complaintRoute": "arcing" },
+          { "term": "cavity_field_path", "note": "RF energy delivery/containment — distinct from HV conditioning cascade" }
+        ],
+        "notPromotedToCanonical": true
+      }
+    },
+    {
+      "canonicalId": "thermal_protection",
+      "microwaveLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungotrmw-thermal-cutout", "samsungotrmw-line-power", "samsungotrmw-no-heat"],
+        "oemSections": ["4-8"],
+        "platformTerms": ["magnetron_tco", "cavity_tco", "hood_tco", "bottom_tco"],
+        "note": "Samsung multi-TCO network realizes single thermal_protection function — individual TCOs not canonical"
+      }
+    },
+    {
+      "canonicalId": "control_and_sensing",
+      "microwaveLayer": "conditionalConcepts[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungotrmw-humidity-sensor", "samsungotrmw-temp-sensor"],
+        "oemSections": ["4-9", "4-10"],
+        "platformTerms": ["humidity_sensor", "temp_sensor"],
+        "errorCodes": ["C-20"],
+        "conditionalBinding": "Sensor-cook and cavity temperature paths — conditional on platform"
+      }
+    },
+    {
+      "canonicalId": "ventilation_otr",
+      "microwaveLayer": "conditionalConcepts[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungotrmw-vent-motor"],
+        "oemSections": ["4-7"],
+        "platformTerms": ["vent_blower_motor", "run_capacitor"],
+        "conditionalBinding": "OTR configuration only — must not become universal microwave requirement"
+      }
+    }
+  ],
+  "implementationRealizationTree": {
+    "hv_generation": ["hv_transformer", "hv_capacitor", "hv_diode", "power_relay"],
+    "rf_cavity": ["magnetron", "waveguide_cover", "turntable_motor", "cavity_field_path"],
+    "thermal_protection": ["magnetron_tco", "cavity_tco", "hood_tco", "bottom_tco"],
+    "door_interlock_chain": ["primary_interlock", "monitor_switch", "secondary_interlock", "door_sensing_switch"],
+    "ventilation_otr": ["vent_blower_motor", "run_capacitor"]
+  },
+  "crossManufacturerNormalizationNotes": [
+    {
+      "frozenFunction": "door_interlock_chain",
+      "lgTerminology": ["primary_switch", "secondary_switch", "monitor_switch"],
+      "samsungTerminology": ["primary_interlock", "secondary_interlock", "monitor_switch", "door_sensing_switch"],
+      "normalizationVerdict": "Same safety contract — platform vocabulary differs"
+    },
+    {
+      "frozenFunction": "thermal_protection",
+      "lgTerminology": ["pcb_thermistor", "magnetron_tco"],
+      "samsungTerminology": ["four TCO types §4-8"],
+      "normalizationVerdict": "Same protective domain — topology differs in overlay"
+    }
+  ],
+  "canonicalPromotionCount": 0,
+  "humanReviewQuestions": [
+    "Is Samsung four-TCO network correctly bound to single thermal_protection?",
+    "Should door_sensing_switch bind only under door_interlock_chain?",
+    "Is ventilation_otr conditional binding complete for ME11?"
+  ]
+}

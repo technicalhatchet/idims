@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_cross_manufacturer_regression_proof",
+  "status": "locked",
+  "generatedAt": "2026-09-17T13:05:00+00:00",
+  "parentWorkstream": "CG_MICROWAVE_COMPOUNDING_v1.json",
+  "canonicalOntology": {
+    "ontologyId": "microwave",
+    "revision": "rev1",
+    "file": "frontend/components/diagnostics/knowledge/canonical/microwave.json",
+    "hash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d"
+  },
+  "regressionQuestions": [
+    {
+      "id": "microwave_rev1_byte_stable",
+      "question": "Is microwave.json rev1 byte-stable across both compounding sequences?",
+      "expected": true,
+      "evidence": "LG + Samsung compounding audits report microwaveRev1Unchanged: true"
+    },
+    {
+      "id": "magnetron_rf_cavity_both_overlays",
+      "question": "Do both manufacturer overlays bind magnetron under rf_cavity (not hv_generation)?",
+      "expected": true,
+      "evidence": "implementationRealizationPrecedence + overlay component implementsCanonicalId"
+    },
+    {
+      "id": "stale_realizes_not_propagated",
+      "question": "Is overlayOnlyConcepts.magnetron.realizes=hv_generation prevented from compounding?",
+      "expected": true,
+      "evidence": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json Branch A"
+    },
+    {
+      "id": "samsung_no_lg_borrowing",
+      "question": "Does Samsung overlay reject LG-only realizations?",
+      "expected": true,
+      "evidence": "rejectedLgOnlyRealizations: pcb_thermistor, noise_filter_coil, hv_fuse"
+    },
+    {
+      "id": "lg_no_samsung_conditionals_manufactured",
+      "question": "Does LG overlay defer ventilation_otr without manufacturing Samsung conditionals?",
+      "expected": true,
+      "evidence": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_AUDIT_v1.json ventilation_otr_not_manufactured"
+    },
+    {
+      "id": "canonical_expansion_zero",
+      "question": "Is cumulative canonicalExpansion zero across both sequences?",
+      "expected": true,
+      "evidence": "LG rollup 0 + Samsung rollup 0"
+    },
+    {
+      "id": "both_overlays_resolver_discoverable",
+      "question": "Are LG and Samsung overlays registered on microwave ontology?",
+      "expected": true,
+      "evidence": "resolveDiagnosticGraph.ts MANUFACTURER_OVERLAYS_BY_ONTOLOGY.microwave length=2"
+    },
+    {
+      "id": "platform_extensions_inherit_witness",
+      "question": "Do ME21 and LMVM platform extensions inherit witness normalization without new compounding?",
+      "expected": true,
+      "evidence": "CG_MICROWAVE_SAMSUNG_ME21_PLATFORM_EXTENSION_v1.json + CG_MICROWAVE_LG_LMVM_PLATFORM_EXTENSION_v1.json"
+    },
+    {
+      "id": "range_oven_untouched",
+      "question": "Is range_oven hash unchanged?",
+      "expected": true,
+      "evidence": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5"
+    }
+  ],
+  "overlayHashesAtRegressionProof": {
+    "lg_microwave_otr.json": "d60bff809b9025e5728314b657c6be9c9355e2a8f51a8fbafe301ff3f35ab4ee",
+    "samsung_microwave_otr.json": "48c6002809b05e2a237b1fa3477f8c717435b00725b9e8193006ad3f25658b27"
+  },
+  "regressionSuites": {
+    "normalization": {
+      "tests": 11,
+      "suites": [
+        "cg-microwave-normalization-contract.test.ts",
+        "cg-microwave-normalization-audit.test.ts",
+        "cg-microwave-frozen-metadata-governance.test.ts",
+        "cg-microwave-platform-extension-normalization.test.ts"
+      ]
+    },
+    "compounding": {
+      "tests": 20,
+      "suites": [
+        "cg-microwave-compounding.test.ts",
+        "cg-microwave-lg-lmhm2237-compounding.test.ts",
+        "cg-microwave-samsung-me11-compounding.test.ts",
+        "cg-microwave-cross-manufacturer-regression.test.ts"
+      ]
+    }
+  },
+  "rollup": {
+    "lgProcedures": 12,
+    "lgMeasurements": 12,
+    "lgBranches": 12,
+    "lgFunctionalRealizations": 13,
+    "samsungProcedures": 14,
+    "samsungMeasurements": 13,
+    "samsungBranches": 14,
+    "samsungFunctionalRealizations": 14,
+    "canonicalExpansion": 0,
+    "lgEvidenceBorrowing": 0
+  }
+}

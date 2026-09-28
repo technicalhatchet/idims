@@ -1,0 +1,1835 @@
+{
+  "manualId": "MIDEA-UZ21-FREEZER",
+  "procedures": [
+    {
+      "procedureId": "mideauz21-ambient-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "midea_uz21",
+      "templateId": "standalone_freezer",
+      "title": "\u00a79.6 E7: Ambient temperature sensor",
+      "purpose": "Error code E7 \u2014 ambient temperature sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "E7",
+        "thermistor_check",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the freezer before resistance checks or harness service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "harness_check",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Main PCB harness seating",
+          "body": "Verify ambient temperature sensor connector at main PCB is fully seated with no foreign matter.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "harness_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": "Replace sensor when resistance out of range."
+            }
+          ],
+          "sourceExcerpt": "Verify ambient temperature sensor connector at main PCB is fully seated with no foreign matter."
+        },
+        {
+          "id": "bench_ntc",
+          "order": 3,
+          "type": "instruction",
+          "title": "Bench B3839 resistance",
+          "body": "Disconnect power. Pull sensor connector at main PCB. Measure ambient sensor at hinge/cabinet (\u00a78.1) \u2014 B3839 \u00a78.4 R/T (~2.0 k\u03a9 @ 25\u00b0C).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Pull sensor connector at main PCB. Measure ambient sensor at hinge/cabinet (\u00a78.1) \u2014 B3839 \u00a78.4 R/T (~2.0 k\u03a9 @ 25\u00b0C)."
+        },
+        {
+          "id": "ntc_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "ambient temperature sensor resistance",
+          "body": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 cabinet band.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+              "testPoint": {
+                "connector": "main PCB harness",
+                "pins": "ambient temperature sensor pair",
+                "label": "ambient temperature sensor resistance"
+              },
+              "title": "ambient temperature sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "~2.0 k\u03a9 @ 25\u00b0C",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 cabinet band."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pcb",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+          "testPoint": {
+            "connector": "main PCB harness",
+            "pins": "ambient temperature sensor pair",
+            "label": "ambient temperature sensor resistance"
+          },
+          "title": "ambient temperature sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_check"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace sensor when resistance out of range.",
+          "stepId": "harness_check"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~2.0 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "manualTitle": "Midea/Insignia NS-UZ21 Upright Freezer (HS-772FWE)",
+        "oemTestNumber": "9.6",
+        "oemTestTitle": "Error code E7 \u2014 ambient temperature sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-ambient-sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-ambient-sensor",
+            "pages": [
+              38,
+              39,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "mideauz21-communication",
+      "manufacturer": "Unknown",
+      "platformId": "midea_uz21",
+      "templateId": "standalone_freezer",
+      "title": "\u00a79.6 E6: Display \u2194 main communication",
+      "purpose": "Communication failure",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel",
+        "main_control"
+      ],
+      "tags": [
+        "E6",
+        "hmi_check",
+        "display_dead"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the freezer before resistance checks or harness service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "harness_seated",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Display and main PCB harness",
+          "body": "Verify display, hinge cover, and main PCB connectors are seated with no foreign matter.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "wire_continuity",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "harness_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_door",
+              "terminal": true,
+              "oemOutcome": "Replace door when door harness wire is open (\u221e \u03a9)."
+            }
+          ],
+          "sourceExcerpt": "Verify display, hinge cover, and main PCB connectors are seated with no foreign matter."
+        },
+        {
+          "id": "wire_continuity",
+          "order": 3,
+          "type": "instruction",
+          "title": "Wire resistance display \u2194 main",
+          "body": "Pull all connectors. Measure wire resistance between display PCB and main PCB \u2014 \u221e \u03a9 indicates broken wire.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Pull all connectors. Measure wire resistance between display PCB and main PCB \u2014 \u221e \u03a9 indicates broken wire."
+        },
+        {
+          "id": "comm_board_swap",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Replace display then main",
+          "body": "If wire OK, replace display control board. If E6 persists, replace main PCB.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_main",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_main_out",
+              "terminal": true,
+              "oemOutcome": "Replace main PCB when display swap failed."
+            }
+          ],
+          "sourceExcerpt": "If wire OK, replace display control board. If E6 persists, replace main PCB."
+        },
+        {
+          "id": "replace_door",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace door assembly",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wire_continuity",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_seated"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door",
+          "terminal": true,
+          "oemOutcome": "Replace door when door harness wire is open (\u221e \u03a9).",
+          "stepId": "harness_seated"
+        },
+        {
+          "id": "comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_board_swap"
+        },
+        {
+          "id": "replace_main",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_out",
+          "terminal": true,
+          "oemOutcome": "Replace main PCB when display swap failed.",
+          "stepId": "comm_board_swap"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "manualTitle": "Midea/Insignia NS-UZ21 Upright Freezer (HS-772FWE)",
+        "oemTestNumber": "9.6",
+        "oemTestTitle": "Communication failure",
+        "pages": [
+          38,
+          39
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-communication",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-communication",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "mideauz21-evap-fan",
+      "manufacturer": "Unknown",
+      "platformId": "midea_uz21",
+      "templateId": "standalone_freezer",
+      "title": "\u00a77.5 / \u00a79.6 E9: Freezer evaporator fan",
+      "purpose": "Freezer chamber fan motor",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "airflow",
+        "not_cooling",
+        "E9"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the freezer before resistance checks or harness service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in test mode",
+          "body": "Test mode entered (\u00a79.7). Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM maintenance steps."
+        },
+        {
+          "id": "access_fan",
+          "order": 3,
+          "type": "instruction",
+          "title": "Access evaporator fan",
+          "body": "Remove freezer air duct per \u00a77.5. Verify DC 12 V fan motor (2020 r/min spec) is seated on shaft.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove freezer air duct per \u00a77.5. Verify DC 12 V fan motor (2020 r/min spec) is seated on shaft."
+        },
+        {
+          "id": "fan_test_mode",
+          "order": 4,
+          "type": "instruction",
+          "title": "Forced cooling test",
+          "body": "Enter test mode (LOCK + \u2212 3 s). Press + for forced cooling (display 1) \u2014 compressor and fan should run.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Enter test mode (LOCK + \u2212 3 s). Press + for forced cooling (display 1) \u2014 compressor and fan should run."
+        },
+        {
+          "id": "fan_runs",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Fan runs in forced cooling",
+          "body": "With forced cooling active, does freezer fan rotate and move air?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fan_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fan_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_fan",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_fan_out",
+              "terminal": true,
+              "oemOutcome": "Replace fan motor per \u00a77.5."
+            }
+          ],
+          "sourceExcerpt": "With forced cooling active, does freezer fan rotate and move air?"
+        },
+        {
+          "id": "replace_fan_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace evaporator fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Evaporator fan OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "fan_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_runs"
+        },
+        {
+          "id": "replace_fan",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fan_out",
+          "terminal": true,
+          "oemOutcome": "Replace fan motor per \u00a77.5.",
+          "stepId": "fan_runs"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "manualTitle": "Midea/Insignia NS-UZ21 Upright Freezer (HS-772FWE)",
+        "oemTestNumber": "7.5",
+        "oemTestTitle": "Freezer chamber fan motor",
+        "pages": [
+          22,
+          38
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-evap-fan",
+        "pages": [
+          22,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-evap-fan",
+            "pages": [
+              22,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "mideauz21-fz-defrost-heater",
+      "manufacturer": "Unknown",
+      "platformId": "midea_uz21",
+      "templateId": "standalone_freezer",
+      "title": "\u00a75.1 / \u00a77.6: Freezer defrost heater",
+      "purpose": "Freezer defrost heater 115 V 320 W",
+      "prerequisites": [],
+      "componentIds": [
+        "heater",
+        "defrost_heater"
+      ],
+      "tags": [
+        "defrost_heater",
+        "frost_buildup",
+        "no_defrost",
+        "E5",
+        "E9"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the freezer before resistance checks or harness service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in test mode",
+          "body": "Test mode entered (\u00a79.7). Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM maintenance steps."
+        },
+        {
+          "id": "disconnect_heater",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect defrost heater",
+          "body": "Power off. Disconnect defrost heater with sensor/fuse assembly at evaporator (\u00a77.6).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Disconnect defrost heater with sensor/fuse assembly at evaporator (\u00a77.6)."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "FZ defrost heater resistance",
+          "body": "115 V 320 W heater \u2014 calculated R \u2248 41 \u03a9 (38\u201348 \u03a9 normal band).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "mideaUz21DefrostHeaterOhms",
+              "testPoint": {
+                "connector": "defrost heater",
+                "pins": "heater terminals",
+                "label": "FZ defrost heater resistance"
+              },
+              "title": "FZ defrost heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "heater_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_pass",
+              "label": "38\u201348 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "115 V 320 W heater \u2014 calculated R \u2248 41 \u03a9 (38\u201348 \u03a9 normal band)."
+        },
+        {
+          "id": "replace_heater",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace defrost heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Defrost heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "mideaUz21DefrostHeaterOhms",
+          "testPoint": {
+            "connector": "defrost heater",
+            "pins": "heater terminals",
+            "label": "FZ defrost heater resistance"
+          },
+          "title": "FZ defrost heater resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_pass",
+          "label": "38\u201348 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "manualTitle": "Midea/Insignia NS-UZ21 Upright Freezer (HS-772FWE)",
+        "oemTestNumber": "5.1",
+        "oemTestTitle": "Freezer defrost heater 115 V 320 W",
+        "pages": [
+          14,
+          23,
+          37
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-defrost-heater",
+        "pages": [
+          14,
+          23,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-fz-defrost-heater",
+            "pages": [
+              14,
+              23,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "mideauz21-fz-defrost-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "midea_uz21",
+      "templateId": "standalone_freezer",
+      "title": "\u00a79.6 E5: Freezer defrost sensor",
+      "purpose": "Error code E5 \u2014 freezer defrost sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor",
+        "defrost_thermostat"
+      ],
+      "tags": [
+        "E5",
+        "thermistor_check",
+        "sensor_check",
+        "defrost",
+        "frost_buildup",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the freezer before resistance checks or harness service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in test mode",
+          "body": "Test mode entered (\u00a79.7). Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM maintenance steps."
+        },
+        {
+          "id": "harness_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Main PCB harness seating",
+          "body": "Verify freezer defrost sensor connector at main PCB is fully seated with no foreign matter.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "harness_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": "Replace sensor when resistance out of range."
+            }
+          ],
+          "sourceExcerpt": "Verify freezer defrost sensor connector at main PCB is fully seated with no foreign matter."
+        },
+        {
+          "id": "bench_ntc",
+          "order": 4,
+          "type": "instruction",
+          "title": "Bench B3839 resistance",
+          "body": "Disconnect power. Pull sensor connector at main PCB. Measure evaporator defrost sensor (\u00a77.6) \u2014 B3839 \u00a78.4 R/T (~2.0 k\u03a9 @ 25\u00b0C).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Pull sensor connector at main PCB. Measure evaporator defrost sensor (\u00a77.6) \u2014 B3839 \u00a78.4 R/T (~2.0 k\u03a9 @ 25\u00b0C)."
+        },
+        {
+          "id": "ntc_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "freezer defrost sensor resistance",
+          "body": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 cabinet band.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+              "testPoint": {
+                "connector": "main PCB harness",
+                "pins": "freezer defrost sensor pair",
+                "label": "freezer defrost sensor resistance"
+              },
+              "title": "freezer defrost sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "~2.0 k\u03a9 @ 25\u00b0C",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 cabinet band."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pcb",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+          "testPoint": {
+            "connector": "main PCB harness",
+            "pins": "freezer defrost sensor pair",
+            "label": "freezer defrost sensor resistance"
+          },
+          "title": "freezer defrost sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_check"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace sensor when resistance out of range.",
+          "stepId": "harness_check"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~2.0 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "manualTitle": "Midea/Insignia NS-UZ21 Upright Freezer (HS-772FWE)",
+        "oemTestNumber": "9.6",
+        "oemTestTitle": "Error code E5 \u2014 freezer defrost sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-defrost-sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-fz-defrost-sensor",
+            "pages": [
+              38,
+              39,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "mideauz21-fz-temp-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "midea_uz21",
+      "templateId": "standalone_freezer",
+      "title": "\u00a79.6 E2: Freezer temperature sensor",
+      "purpose": "Error code E2 \u2014 freezer cabinet temperature sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "E2",
+        "thermistor_check",
+        "sensor_check",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the freezer before resistance checks or harness service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in test mode",
+          "body": "Test mode entered (\u00a79.7). Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM maintenance steps."
+        },
+        {
+          "id": "harness_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Main PCB harness seating",
+          "body": "Verify freezer cabinet temperature sensor connector at main PCB is fully seated with no foreign matter.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "harness_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": "Replace sensor when resistance out of range."
+            }
+          ],
+          "sourceExcerpt": "Verify freezer cabinet temperature sensor connector at main PCB is fully seated with no foreign matter."
+        },
+        {
+          "id": "bench_ntc",
+          "order": 4,
+          "type": "instruction",
+          "title": "Bench B3839 resistance",
+          "body": "Disconnect power. Pull sensor connector at main PCB. Measure freezer chamber sensor (\u00a78.2) \u2014 B3839 \u00a78.4 R/T (~2.0 k\u03a9 @ 25\u00b0C).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Pull sensor connector at main PCB. Measure freezer chamber sensor (\u00a78.2) \u2014 B3839 \u00a78.4 R/T (~2.0 k\u03a9 @ 25\u00b0C)."
+        },
+        {
+          "id": "ntc_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "freezer cabinet temperature sensor resistance",
+          "body": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 cabinet band.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+              "testPoint": {
+                "connector": "main PCB harness",
+                "pins": "freezer cabinet temperature sensor pair",
+                "label": "freezer cabinet temperature sensor resistance"
+              },
+              "title": "freezer cabinet temperature sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "~2.0 k\u03a9 @ 25\u00b0C",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 cabinet band."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pcb",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+          "testPoint": {
+            "connector": "main PCB harness",
+            "pins": "freezer cabinet temperature sensor pair",
+            "label": "freezer cabinet temperature sensor resistance"
+          },
+          "title": "freezer cabinet temperature sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_check"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace sensor when resistance out of range.",
+          "stepId": "harness_check"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~2.0 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "manualTitle": "Midea/Insignia NS-UZ21 Upright Freezer (HS-772FWE)",
+        "oemTestNumber": "9.6",
+        "oemTestTitle": "Error code E2 \u2014 freezer cabinet temperature sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-fz-temp-sensor",
+        "pages": [
+          38,
+          39,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-fz-temp-sensor",
+            "pages": [
+              38,
+              39,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "mideauz21-high-temp-alarm",
+      "manufacturer": "Unknown",
+      "platformId": "midea_uz21",
+      "templateId": "standalone_freezer",
+      "title": "\u00a79.6 E9: High-temperature alarm",
+      "purpose": "High temperature alarm in freezing chamber",
+      "prerequisites": [],
+      "componentIds": [
+        "door_switch",
+        "evap_fan",
+        "heater",
+        "light_switch"
+      ],
+      "tags": [
+        "E9",
+        "not_cooling",
+        "high_temp_alarm"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the freezer before resistance checks or harness service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in test mode",
+          "body": "Test mode entered (\u00a79.7). Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM maintenance steps."
+        },
+        {
+          "id": "door_gasket",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Door seal and gasket",
+          "body": "Verify door fully closed with no gasket leakage or deformation.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "evap_frost",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_door",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_door_out",
+              "terminal": true,
+              "oemOutcome": "Reshape or replace door gasket."
+            }
+          ],
+          "sourceExcerpt": "Verify door fully closed with no gasket leakage or deformation."
+        },
+        {
+          "id": "evap_frost",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Evaporator frost and fan",
+          "body": "Inspect evaporator for heavy frost or frozen fan. Does evaporator need defrost heater service?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "frost_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fan_runs",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "service_defrost",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "defrost_heater_path",
+              "terminal": true,
+              "oemOutcome": "Follow defrost heater procedure when evaporator iced."
+            }
+          ],
+          "sourceExcerpt": "Inspect evaporator for heavy frost or frozen fan. Does evaporator need defrost heater service?"
+        },
+        {
+          "id": "fan_runs",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Freezer fan motor",
+          "body": "Reseat fan motor connectors. Does fan run normally?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fan_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "e9_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_fan",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_fan_out",
+              "terminal": true,
+              "oemOutcome": "Replace freezer fan motor."
+            }
+          ],
+          "sourceExcerpt": "Reseat fan motor connectors. Does fan run normally?"
+        },
+        {
+          "id": "defrost_heater_path",
+          "order": 6,
+          "type": "instruction",
+          "title": "Service defrost heater",
+          "body": "When evaporator frosted, run forced defrost test mode (\u00a79.7) and verify defrost heater ohms.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "When evaporator frosted, run forced defrost test mode (\u00a79.7) and verify defrost heater ohms."
+        },
+        {
+          "id": "fix_door_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Correct door seal",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_fan_out",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace fan motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "e9_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "E9 path complete",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "evap_frost",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_gasket"
+        },
+        {
+          "id": "fix_door",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_door_out",
+          "terminal": true,
+          "oemOutcome": "Reshape or replace door gasket.",
+          "stepId": "door_gasket"
+        },
+        {
+          "id": "frost_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_runs",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "evap_frost"
+        },
+        {
+          "id": "service_defrost",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "defrost_heater_path",
+          "terminal": true,
+          "oemOutcome": "Follow defrost heater procedure when evaporator iced.",
+          "stepId": "evap_frost"
+        },
+        {
+          "id": "fan_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "e9_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_runs"
+        },
+        {
+          "id": "replace_fan",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fan_out",
+          "terminal": true,
+          "oemOutcome": "Replace freezer fan motor.",
+          "stepId": "fan_runs"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "manualTitle": "Midea/Insignia NS-UZ21 Upright Freezer (HS-772FWE)",
+        "oemTestNumber": "9.6",
+        "oemTestTitle": "High temperature alarm in freezing chamber",
+        "pages": [
+          38,
+          39
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "platformId": "midea_uz21",
+        "procedureId": "mideauz21-high-temp-alarm",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-UZ21-FREEZER",
+            "platformId": "midea_uz21"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "mideauz21-high-temp-alarm",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

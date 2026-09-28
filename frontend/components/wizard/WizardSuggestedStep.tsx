@@ -18,12 +18,32 @@ export default function WizardSuggestedStep({ className = '' }) {
 
   const ctx = context as WizardIntelContext & {
     oemRepairDecisionPending?: boolean;
+    oemDiagnosticTreeExhausted?: boolean;
+    unifiedTopWizardStepKey?: string | null;
+    activeOemProcedureId?: string | null;
   };
   const intelligence = ctx?.intelligence;
   const stepKeyLabels = intelligence?.stepKeyLabels || {};
 
   if (ctx?.oemRepairDecisionPending) {
     return null;
+  }
+
+  if (ctx?.oemDiagnosticTreeExhausted) {
+    return null;
+  }
+
+  if (ctx?.activeOemProcedureId) {
+    return (
+      <p
+        className={`text-[11px] px-1 ${
+          variant === 'mobile' ? 'text-cyan-200/80' : 'text-cyan-800 dark:text-cyan-200/80'
+        }`}
+        data-wizard-suggested-oem-active
+      >
+        Continue the OEM test above.
+      </p>
+    );
   }
 
   const jumpIndex = resolveRecommendedWizardStepIndex(
@@ -38,8 +58,12 @@ export default function WizardSuggestedStep({ className = '' }) {
   if (!jumpKey) return null;
 
   const recommendedKeys = intelligence?.recommendedStepKeys || [];
-  const targetKey = recommendedKeys.find(
-    (key) => key && !(ctx?.visitedStepKeys || []).includes(key),
+  const visitedKeys = ctx?.visitedStepKeys || [];
+  const targetKey = (
+    ctx?.unifiedTopWizardStepKey
+    && !visitedKeys.includes(ctx.unifiedTopWizardStepKey)
+      ? ctx.unifiedTopWizardStepKey
+      : recommendedKeys.find((key) => key && !visitedKeys.includes(key))
   );
   const isPrerequisiteJump = Boolean(targetKey && jumpKey !== targetKey);
 

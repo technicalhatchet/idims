@@ -1,0 +1,43 @@
+{
+  "manualId": "SAMSUNG-FL-DV6000-DRYER",
+  "platformId": "samsung_fl_dryer_dv6000",
+  "templateId": "electric_dryer",
+  "label": "Samsung FL dryer DV6000T (DVE45T6000/6005/6200)",
+  "status": "candidate",
+  "ontologyId": "vented_dryer",
+  "generatedAt": "2026-09-14T15:08:53.780604+00:00",
+  "topologySignature": "motor_present_unknown_path",
+  "counts": {
+    "procedures": 8,
+    "mappingCandidates": 19,
+    "overlayCandidates": 4,
+    "conflicts": 0,
+    "extractionFiltered": 3
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 3,
+    "invalidExtraction": 0,
+    "totalFiltered": 3,
+    "samples": [
+      {
+        "rawTerm": "bC2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungdv6000-hmi",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungdv6000-power",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "tC5",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungdv6000-thermistor",
+        "source": "title_token"
+      }
+    ]
+  }
+}

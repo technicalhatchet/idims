@@ -1,0 +1,1016 @@
+{
+  "manualId": "W11633848",
+  "candidates": [
+    {
+      "id": "map-w11633848-unresolved-w11633848-acu-power-supply",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-acu-power",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11633848-compound-acu-power-&-dc-supplies",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-6: ACU Power & DC Supplies",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-acu-power",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "ACU Power & DC Supplies"
+    },
+    {
+      "id": "map-W11633848-acu-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ACU",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.98,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-acu-power",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_fl_dd_direct_drive"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11633848-heater-heat_source",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "heater",
+      "extractedTerm": null,
+      "canonicalId": "heat_source",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dc-fan",
+        "pages": [
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dc-fan",
+            "pages": [
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11633848-compound-dc-fan-motor",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-17: DC Fan Motor",
+      "canonicalId": "drying_system",
+      "confidence": 0.81,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "dc fan",
+        "actuator": "motor"
+      },
+      "matchedPhrase": "dc fan",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dc-fan",
+        "pages": [
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dc-fan",
+            "pages": [
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:template_hint",
+            "matchedPhrase": "dc fan",
+            "decomposition": {
+              "domain": null,
+              "component": "dc fan",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "DC Fan Motor"
+    },
+    {
+      "id": "map-W11633848-inlet_valve-inlet_valve",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inlet_valve",
+      "extractedTerm": null,
+      "canonicalId": "inlet_valve",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dispenser",
+        "pages": [
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dispenser",
+            "pages": [
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11633848-dispenser-solenoid-detergent_dispenser",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-9: Dispenser Solenoid",
+      "extractedTerm": "Dispenser Solenoid",
+      "canonicalId": "detergent_dispenser",
+      "confidence": 0.9,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dispenser",
+        "pages": [
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dispenser",
+            "pages": [
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "template_hint"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a73-9: Dispenser Solenoid",
+            "extractedTerm": "Dispenser Solenoid",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11633848-circulation_pump-circulation_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "circulation_pump",
+      "extractedTerm": null,
+      "canonicalId": "circulation_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-motor",
+        "pages": [
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-diverter-motor",
+            "pages": [
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11633848-diverter-motor-circulation_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-13: Diverter Motor",
+      "extractedTerm": "Diverter Motor",
+      "canonicalId": "circulation_pump",
+      "confidence": 0.9,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-motor",
+        "pages": [
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-diverter-motor",
+            "pages": [
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "template_hint"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a73-13: Diverter Motor",
+            "extractedTerm": "Diverter Motor",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11633848-compound-diverter-position-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-14: Diverter Position Sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "diverter position",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-sensor",
+        "pages": [
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-diverter-sensor",
+            "pages": [
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "diverter position",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Diverter Position Sensor"
+    },
+    {
+      "id": "map-W11633848-compound-door_gasket",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_gasket",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": "gasket",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": "gasket",
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11633848-compound-door-switch-circuit",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-7: Door Switch Circuit",
+      "canonicalId": "door_switch",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": null,
+        "actuator": "switch"
+      },
+      "matchedPhrase": "door switch",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "door switch",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Door Switch Circuit"
+    },
+    {
+      "id": "map-W11633848-drain_pump-drain_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drain_pump",
+      "extractedTerm": null,
+      "canonicalId": "drain_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-drain-motor",
+            "pages": [
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11633848-drain-motor-drain_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-16: Drain Motor",
+      "extractedTerm": "Drain Motor",
+      "canonicalId": "drain_pump",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-drain-motor",
+            "pages": [
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a73-16: Drain Motor",
+            "extractedTerm": "Drain Motor",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11633848-compound-fill-valve-circuit",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-8: Fill Valve Circuit",
+      "canonicalId": "inlet_valve",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "fill",
+        "component": null,
+        "actuator": "valve"
+      },
+      "matchedPhrase": "fill valve",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-fill-valve",
+        "pages": [
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-fill-valve",
+            "pages": [
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "fill valve",
+            "decomposition": {
+              "domain": "fill",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Fill Valve Circuit"
+    },
+    {
+      "id": "map-W11633848-compound-water-heating-/-heat-dry",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-10: Water Heating / Heat Dry",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "heating heat dry",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-heater",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-heater",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "heating heat dry",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water Heating / Heat Dry"
+    },
+    {
+      "id": "map-W11633848-compound-overfill-float-switch",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-12: Overfill Float Switch",
+      "canonicalId": "water_level_sensor",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "overfill float",
+        "actuator": "switch"
+      },
+      "matchedPhrase": "float switch",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-overfill-switch",
+        "pages": [
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-overfill-switch",
+            "pages": [
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "float switch",
+            "decomposition": {
+              "domain": null,
+              "component": "overfill float",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Overfill Float Switch"
+    },
+    {
+      "id": "map-W11633848-compound-owi-/-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-11: OWI / Thermistor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "owi",
+        "actuator": "thermistor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-owi-sensor",
+        "pages": [
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-owi-sensor",
+            "pages": [
+              45
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "owi",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "OWI / Thermistor"
+    },
+    {
+      "id": "map-w11633848-unresolved-w11633848-triac-fuse-supply",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-triac-fuse",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-triac-fuse",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11633848-compound-f500-triac-load-fuse",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-3: F500 Triac Load Fuse",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "f500 triac load",
+        "actuator": "fuse"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-triac-fuse",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-triac-fuse",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "f500 triac load",
+              "actuator": "fuse"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "F500 Triac Load Fuse"
+    },
+    {
+      "id": "map-W11633848-compound-wash-motor-(ssm)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-15: Wash Motor (SSM)",
+      "canonicalId": "circulation_pump",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": null,
+        "actuator": "motor"
+      },
+      "matchedPhrase": "wash motor",
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-wash-motor",
+        "pages": [
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-wash-motor",
+            "pages": [
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash motor",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Wash Motor (SSM)"
+    }
+  ]
+}

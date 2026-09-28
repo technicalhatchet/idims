@@ -1,0 +1,209 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_normalization_audit",
+  "workstream": "CG-RANGE-NORMALIZATION",
+  "status": "closed",
+  "verdict": "GREEN / NORMALIZATION_AUDIT_PASSED",
+  "auditedAt": "2026-09-17T04:10:00+00:00",
+  "parentWorkstream": "CG_RANGE_NORMALIZATION_v1.json",
+  "priorPhaseClosed": "CG_RANGE_ORGANIZATIONAL_IMPLEMENTATION_GATE_CLOSURE_v1.json",
+  "gateSequence": [
+    "4/4 normalization targets normalized",
+    "CG-RANGE-NORMALIZATION AUDIT",
+    "provenance + regression + integrity checks",
+    "GREEN → CG-RANGE-COMPOUNDING unlocks"
+  ],
+  "summary": {
+    "targetsNormalized": "4/4",
+    "perTargetProvenanceAuditsGreen": "4/4",
+    "normalizationRegressionTests": "32/32 green",
+    "canonicalOntologyId": "range_oven",
+    "canonicalExpansionDuringNormalization": 0,
+    "cg10Through13HistoricalMutations": 0
+  },
+  "normalizationArtifacts": {
+    "requiredCount": 4,
+    "presentCount": 4,
+    "allPresent": true,
+    "targets": [
+      {
+        "sequence": 1,
+        "targetId": "samsung_nx60_gas",
+        "artifact": "CG_RANGE_NX60_NORMALIZATION_v1.json",
+        "status": "normalized",
+        "provenanceAudit": "passed",
+        "canonicalOntologyId": "range_oven"
+      },
+      {
+        "sequence": 2,
+        "targetId": "samsung_ne58r9560ws_induction",
+        "artifact": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json",
+        "status": "normalized",
+        "provenanceAudit": "passed",
+        "canonicalOntologyId": "range_oven"
+      },
+      {
+        "sequence": 3,
+        "targetId": "samsung_ny63t8751ss_dual_fuel",
+        "artifact": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+        "status": "normalized",
+        "provenanceAudit": "passed",
+        "canonicalOntologyId": "range_oven"
+      },
+      {
+        "sequence": 4,
+        "targetId": "whirlpool_w11174814_corpus",
+        "artifact": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+        "status": "normalized",
+        "role": "corroboration",
+        "notRetroactiveFitEvidence": true,
+        "provenanceAudit": "passed",
+        "canonicalOntologyId": "range_oven"
+      }
+    ]
+  },
+  "provenanceAuditRollup": {
+    "status": "green",
+    "allTargetsPassed": true,
+    "minimumFieldsEnforced": [
+      "manufacturer",
+      "platformId",
+      "modelOrFamily",
+      "sourceManual",
+      "pageOrSection",
+      "sourceType",
+      "canonicalOntologyId"
+    ],
+    "perTarget": [
+      {
+        "artifact": "CG_RANGE_NX60_NORMALIZATION_v1.json",
+        "provenanceAuditStatus": "passed",
+        "procedureCount": 14,
+        "measurementCount": 16,
+        "branchCount": 11
+      },
+      {
+        "artifact": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json",
+        "provenanceAuditStatus": "passed",
+        "procedureCount": 24,
+        "measurementCount": 25,
+        "branchCount": 11
+      },
+      {
+        "artifact": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+        "provenanceAuditStatus": "passed",
+        "procedureCount": 23,
+        "measurementCount": 20,
+        "branchCount": 13
+      },
+      {
+        "artifact": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+        "provenanceAuditStatus": "passed",
+        "procedureCount": 26,
+        "measurementCount": 17,
+        "branchCount": 12,
+        "corroborationRoleEnforced": true,
+        "notRetroactiveFitEvidence": true
+      }
+    ]
+  },
+  "regressionGates": {
+    "normalizationRegressionGreen": true,
+    "testSuites": [
+      {
+        "file": "cg-range-normalization.test.ts",
+        "tests": 8
+      },
+      {
+        "file": "cg-range-nx60-normalization.test.ts",
+        "tests": 6
+      },
+      {
+        "file": "cg-range-ne58r9560ws-normalization.test.ts",
+        "tests": 6
+      },
+      {
+        "file": "cg-range-ny63t8751ss-normalization.test.ts",
+        "tests": 6
+      },
+      {
+        "file": "cg-range-w11174814-normalization.test.ts",
+        "tests": 6
+      }
+    ],
+    "totalTests": 32,
+    "testsPassing": 32,
+    "auditTestSuite": "cg-range-normalization-audit.test.ts"
+  },
+  "canonicalIntegrity": {
+    "canonicalOntologyId": "range_oven",
+    "electricRangeRev1Frozen": true,
+    "electric_range.json": {
+      "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+      "unchanged": true,
+      "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json"
+    },
+    "range_oven.json": {
+      "hash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+      "organizationalLineageAdoptedFrom": "electric_range",
+      "organizationalLineageAdoptedHash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+      "cg10LineageConsistent": true,
+      "modifiedDuringNormalization": false
+    },
+    "fuelSpecificCanonicalGraphsCreated": false,
+    "absentCanonicalFiles": ["gas_range.json", "induction_range.json", "dual_fuel_range.json"]
+  },
+  "historicalArtifactIntegrity": {
+    "cg10Through13Mutations": 0,
+    "immutable": true,
+    "pinnedHashes": {
+      "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json": "47fbc627c0f106a508e6b92c7146c3379fa3e589dbb54e15b4a0b5941ed8fe02",
+      "CG11_GAS_RANGE_FIT_CLOSURE_v1.json": "620389cb8bc700f3bc28eca411f38a499e8658a97e66ae2a2fc4575bc6ffb8aa",
+      "CG12_INDUCTION_FIT_CLOSURE_v1.json": "d3e2f4d1290939c93c7b645c6e99ba664e881e69f9f38ad954e00bc1771348e4",
+      "CG13_DUAL_FUEL_FIT_CLOSURE_v1.json": "fd03e4fc6ca64f3041bd15525c3420a3fb95f59edd44a8f60f582eb147a63a20",
+      "CG_RANGE_FAMILY_REVIEW_CLOSURE_v1.json": "d139e62b4c251e26760b4b177e940e235b94976356980abe4a3e7a2a71f08d3a",
+      "SAMSUNG_NX60_RANGE_gr_cg11x_observation_v1.json": "b2d24ab6bb1536d841e0cc9d3c85ce66ae5eca6f2e830b25f7139ac3c96754b2",
+      "SAMSUNG_NE58R9560WS_IR_CG12X_OBSERVATION_v1.json": "b9e1aa6cc413a6867461bc5ea2dd7d8e8ca92b6decdbb0411ccfccc2668e418a",
+      "SAMSUNG_NY63T8751SS_DF_CG13X_OBSERVATION_v1.json": "f5cf17e2a0ba6be0e5ad1b59d8efe69a534afc020dc9fdcef3c336256197ccc1"
+    },
+    "allHashesMatch": true
+  },
+  "corroborationPolicy": {
+    "w11174814Role": "corroboration",
+    "notRetroactiveFitEvidence": true,
+    "fitEvidenceReference": null,
+    "noCanonicalExpansionRequired": true,
+    "doesNotReopenCg10Through13": true
+  },
+  "ontologyBoundaryChecks": {
+    "noImplementationVocabularyPromotedToCanonical": true,
+    "noCanonicalExpansionSmuggledThroughNormalization": true,
+    "implementationVocabularyRemainsPlatformKnowledge": true,
+    "excludedFromCanonicalPromotionEnforced": true,
+    "perTargetExcludedTermsSample": {
+      "nx60": ["gas_valve", "spark_module", "hsi", "burner"],
+      "ne58": ["inverter", "igbt", "induction_coil", "bridge_rectifier"],
+      "ny63": ["gas_valve", "spark_module", "bake_element", "broil_element"],
+      "w11174814": ["surface_spark_module", "dsi", "infinite_switch", "warming_drawer"]
+    }
+  },
+  "auditChecks": [
+    { "id": "four_of_four_artifacts_present", "status": "green" },
+    { "id": "all_provenance_audits_green", "status": "green" },
+    { "id": "thirty_two_of_thirty_two_regression_tests_green", "status": "green" },
+    { "id": "canonical_ontology_remains_range_oven", "status": "green" },
+    { "id": "electric_range_json_frozen_hash_unchanged", "status": "green" },
+    { "id": "range_oven_json_lineage_consistent_with_cg10", "status": "green" },
+    { "id": "zero_cg10_through_13_mutations", "status": "green" },
+    { "id": "w11174814_explicit_corroboration_notRetroactiveFitEvidence", "status": "green" },
+    { "id": "no_gas_induction_dual_fuel_canonical_graphs", "status": "green" },
+    { "id": "no_implementation_vocabulary_promoted", "status": "green" },
+    { "id": "no_canonical_expansion_smuggled", "status": "green" },
+    { "id": "provenance_fields_complete_all_four_targets", "status": "green" }
+  ],
+  "unlocks": {
+    "compounding": "CG-RANGE-COMPOUNDING",
+    "compoundingArtifact": "CG_RANGE_COMPOUNDING_v1.json"
+  },
+  "nextDisciplinedStep": "CG-RANGE-COMPOUNDING — bind normalized evidence into range_oven canonical functional knowledge and platform/model overlays without ontology redesign"
+}

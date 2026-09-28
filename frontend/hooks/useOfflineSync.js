@@ -2,7 +2,7 @@
  * Tracks pending offline mutations and flushes queue when online.
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useOnlineStatus } from './useOnlineStatus';
 import {
   getPendingCount,
@@ -57,17 +57,32 @@ export function useOfflineSync() {
     };
   }, [refreshCount]);
 
+  const syncDebounceRef = useRef(null);
+
   useEffect(() => {
-    const trySync = () => {
+    const trySyncNow = () => {
       if (typeof navigator !== 'undefined' && !navigator.onLine) return;
       runSync();
     };
-    window.addEventListener('online', trySync);
-    window.addEventListener(SYNC_EVENT, trySync);
-    trySync();
+    const trySyncDebounced = () => {
+      if (syncDebounceRef.current) {
+        clearTimeout(syncDebounceRef.current);
+      }
+      syncDebounceRef.current = setTimeout(() => {
+        syncDebounceRef.current = null;
+        trySyncNow();
+      }, 2000);
+    };
+    window.addEventListener('online', trySyncNow);
+    window.addEventListener(SYNC_EVENT, trySyncDebounced);
+    trySyncNow();
     return () => {
-      window.removeEventListener('online', trySync);
-      window.removeEventListener(SYNC_EVENT, trySync);
+      window.removeEventListener('online', trySyncNow);
+      window.removeEventListener(SYNC_EVENT, trySyncDebounced);
+      if (syncDebounceRef.current) {
+        clearTimeout(syncDebounceRef.current);
+        syncDebounceRef.current = null;
+      }
     };
   }, [runSync]);
 

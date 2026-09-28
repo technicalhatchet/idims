@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_frozen_metadata_governance",
+  "workstream": "CG-MICROWAVE-FROZEN-METADATA-GOVERNANCE",
+  "status": "closed",
+  "closureArtifact": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+  "verdict": "GREEN / BRANCH_A_APPROVED",
+  "closedAt": "2026-09-17T11:30:00+00:00",
+  "openedAt": "2026-09-17T10:30:00+00:00",
+  "openedBy": "human_gate — CG-MICROWAVE-NORMALIZATION approved_with_governance_hold",
+  "priorPhase": {
+    "workstream": "CG-MICROWAVE-NORMALIZATION",
+    "status": "approved_with_governance_hold",
+    "auditArtifact": "CG_MICROWAVE_NORMALIZATION_AUDIT_v1.json",
+    "normalizationSemanticsApproved": true,
+    "compoundingAuthorized": false
+  },
+  "scope": {
+    "purpose": "Resolve a single frozen-metadata contradiction before CG-MICROWAVE-COMPOUNDING may open",
+    "inScope": [
+      "microwave.json overlayOnlyConcepts[].id=magnetron field realizes",
+      "authoritative precedence for implementation-realization mapping"
+    ],
+    "explicitlyOutOfScope": [
+      "microwave discovery reopen",
+      "microwave functional architecture reconsideration",
+      "microwave.json components[] or conditionalConcepts[] mutation",
+      "range_oven or any other frozen canonical",
+      "normalization semantic revisions (already approved)",
+      "compounding overlay authoring"
+    ],
+    "frozenArtifact": {
+      "ontologyId": "microwave",
+      "file": "frontend/components/diagnostics/knowledge/canonical/microwave.json",
+      "frozenRevision": "rev1",
+      "frozenHash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+      "immutableUntilGovernanceResolution": true
+    }
+  },
+  "contradiction": {
+    "field": "overlayOnlyConcepts[id=magnetron].realizes",
+    "frozenValue": "hv_generation",
+    "approvedNormalizationValue": "rf_cavity",
+    "whyItMatters": "Compounding must not inherit a stale magnetron→hv_generation mapping when normalization and reference overlay bind magnetron→rf_cavity",
+    "notAnOntologyProblem": true,
+    "notAnArchitectureProblem": true
+  },
+  "determinationBranches": [
+    {
+      "branch": "A_non_authoritative_metadata",
+      "label": "Stale / non-authoritative transcription metadata",
+      "outcome": "Document authoritative precedence exception; normalization + reference overlay govern implementation mapping; compounding may proceed without microwave.json byte change",
+      "requiredArtifacts": [
+        "CG_MICROWAVE_MAGNETRON_REALIZES_DETERMINATION_v1.json",
+        "human approval on determination"
+      ]
+    },
+    {
+      "branch": "B_authoritative_frozen_field",
+      "label": "Authoritative frozen contract field",
+      "outcome": "Formal microwave rev2 or metadata-only relock through prescribed freeze-change process; rehash/relock before compounding",
+      "requiredArtifacts": [
+        "CG_MICROWAVE_FREEZE_REV2_CONTRACT_v1.json (or metadata-only relock artifact)",
+        "updated microwave.json with realizes=rf_cavity",
+        "regression proof + new frozen hash"
+      ]
+    }
+  ],
+  "authoritativePrecedenceHypothesis": [
+    "CG_MICROWAVE_NORMALIZATION_CONTRACT_v1.json implementationRealizationPolicy (human-approved)",
+    "platform_overlays/microwave.reference.json componentAliases + procedure bindings",
+    "CG_MICROWAVE_*_NORMALIZATION_v1.json target artifacts",
+    "microwave.json designPrinciples + ontologyContract.semanticBoundaries + components[]",
+    "overlayOnlyConcepts[].realizes — illustrative only unless determination selects branch B"
+  ],
+  "determinationArtifact": "CG_MICROWAVE_MAGNETRON_REALIZES_DETERMINATION_v1.json",
+  "successCriteria": {
+    "determinationAuthored": true,
+    "humanDeterminationApproved": true,
+    "approvedBranch": "A_non_authoritative_metadata",
+    "microwaveJsonMutated": false,
+    "compoundingUnblocked": true
+  },
+  "stopGate": {
+    "compoundingBlocked": false,
+    "reason": "Branch A approved — stale realizes documented as non-authoritative; compounding authorized"
+  },
+  "nextDisciplinedStep": "CG_MICROWAVE_COMPOUNDING_v1.json — LG LMHM2237 sequence 1"
+}

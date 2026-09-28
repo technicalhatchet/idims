@@ -1,0 +1,292 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg6x_tl_washer_adversarial_third_manual_observation",
+  "experiment": "W11416787 adversarial third manual \u2014 fresh CG-3 vs unchanged candidate; final evidence before TOP_LOAD_WASHER rev1 freeze decision",
+  "manualId": "W11416787",
+  "priorManualIds": [
+    "W10864849",
+    "W11697231"
+  ],
+  "platformId": "whirlpool_tl_dd_5100",
+  "ontologyId": "top_load_washer",
+  "ontologyFrozen": false,
+  "candidateGraphUnchanged": true,
+  "generatedAt": "2026-09-15T18:50:25.600061+00:00",
+  "metricsSource": "fresh_cg3_observation",
+  "publishBlocked": true,
+  "priorObservations": [
+    "W10864849_tl_cg6x_observation_v1.json",
+    "W11697231_tl_cg6x_observation_v1.json"
+  ],
+  "graphArtifact": "frontend\\components\\diagnostics\\knowledge\\normalization\\calibration\\top_load_washer_cg6x_candidate_v1.json",
+  "nativeCohortFilter": "procedureId.startsWith('w11416787-')",
+  "pipelineCounts": {
+    "proceduresNative": 11,
+    "mappingCandidatesNative": 21,
+    "overlayCandidatesNative": 12,
+    "conflicts": 0,
+    "extractionFiltered": 12
+  },
+  "canonicalExpansion": {
+    "newCanonicalConcepts": 2,
+    "ids": [
+      "bulk_level_switch",
+      "recirc_pump"
+    ]
+  },
+  "nativeCanonicalTargetHistogram": {
+    "control_board": 2,
+    "supply": 1,
+    "inlet_valve": 1,
+    "drive_motor": 1,
+    "hmi_control": 1,
+    "wash_ntc": 1,
+    "water_level_sensor": 1,
+    "drain_pump": 1,
+    "recirc_pump": 1,
+    "door_lock": 1,
+    "bulk_level_switch": 1
+  },
+  "threeManualCorpus": [
+    {
+      "manualId": "W10864849",
+      "nativeMappings": 25,
+      "driveSystemCandidateHits": 0,
+      "driveMotorHits": 1,
+      "lidSwitchMatcherHits": 0,
+      "lidLockMatcherHits": 1,
+      "shifterProcedurePresent": true,
+      "shifterOverlayBindings": 1,
+      "driveOverlayBindings": 5,
+      "driveOverlayTestTargets": [
+        "motor_output_test"
+      ],
+      "lidProcedureRoleEvidence": {
+        "procedureId": "w10864849-test-08-lid-lock",
+        "lidSwitchMentioned": true,
+        "lockSwitchMentioned": true,
+        "homeSwitchMentioned": false,
+        "distinctRolesInProcedureText": true
+      },
+      "driveProcedureChain": [
+        "w10864849-test-03-drive-system",
+        "w10864849-test-03a-shifter",
+        "w10864849-test-03b-motor"
+      ]
+    },
+    {
+      "manualId": "W11697231",
+      "nativeMappings": 18,
+      "driveSystemCandidateHits": 0,
+      "driveMotorHits": 1,
+      "lidSwitchMatcherHits": 0,
+      "lidLockMatcherHits": 1,
+      "shifterProcedurePresent": true,
+      "shifterOverlayBindings": 2,
+      "driveOverlayBindings": 6,
+      "driveOverlayTestTargets": [
+        "motor_output_test"
+      ],
+      "lidProcedureRoleEvidence": {
+        "procedureId": "w11697231-test-08-lid-lock",
+        "lidSwitchMentioned": true,
+        "lockSwitchMentioned": true,
+        "homeSwitchMentioned": false,
+        "distinctRolesInProcedureText": true
+      },
+      "driveProcedureChain": [
+        "w11697231-test-03-drive-system",
+        "w11697231-test-03a-shifter",
+        "w11697231-test-03b-motor"
+      ]
+    },
+    {
+      "manualId": "W11416787",
+      "nativeMappings": 21,
+      "driveSystemCandidateHits": 0,
+      "driveMotorHits": 1,
+      "lidSwitchMatcherHits": 0,
+      "lidLockMatcherHits": 1,
+      "shifterProcedurePresent": true,
+      "shifterOverlayBindings": 1,
+      "driveOverlayBindings": 5,
+      "driveOverlayTestTargets": [
+        "motor_output_test"
+      ],
+      "lidProcedureRoleEvidence": {
+        "procedureId": "w11416787-test-08-lid-lock",
+        "lidSwitchMentioned": true,
+        "lockSwitchMentioned": true,
+        "homeSwitchMentioned": false,
+        "distinctRolesInProcedureText": true
+      },
+      "driveProcedureChain": [
+        "w11416787-test-03-drive-system",
+        "w11416787-test-03a-shifter",
+        "w11416787-test-03b-motor"
+      ]
+    }
+  ],
+  "adversarialSynthesis": {
+    "drive_system": {
+      "verdict": "remove_from_rev1",
+      "allManualsZeroDriveSystemHits": true,
+      "allManualsCollapseToDriveMotor": true,
+      "perManual": [
+        {
+          "manualId": "W10864849",
+          "driveSystemHits": 0,
+          "driveMotorHits": 1,
+          "driveOverlayTestTargets": [
+            "motor_output_test"
+          ]
+        },
+        {
+          "manualId": "W11697231",
+          "driveSystemHits": 0,
+          "driveMotorHits": 1,
+          "driveOverlayTestTargets": [
+            "motor_output_test"
+          ]
+        },
+        {
+          "manualId": "W11416787",
+          "driveSystemHits": 0,
+          "driveMotorHits": 1,
+          "driveOverlayTestTargets": [
+            "motor_output_test"
+          ]
+        }
+      ]
+    },
+    "transmission_or_shifter": {
+      "verdict": "keep_in_rev1",
+      "allManualsExposeShifterProcedure": true,
+      "canonicalLayer": "mode_selection / wash-spin transition",
+      "overlayLayer": [
+        "shifter",
+        "splutch",
+        "clutch",
+        "gearcase",
+        "actuator"
+      ],
+      "perManual": [
+        {
+          "manualId": "W10864849",
+          "shifterProcedure": true,
+          "shifterOverlays": 1
+        },
+        {
+          "manualId": "W11697231",
+          "shifterProcedure": true,
+          "shifterOverlays": 2
+        },
+        {
+          "manualId": "W11416787",
+          "shifterProcedure": true,
+          "shifterOverlays": 1
+        }
+      ]
+    },
+    "lid_switch": {
+      "verdict": "conditional_in_rev1",
+      "procedureRoleEvidenceManuals": 3,
+      "lidSwitchMatcherHitsTotal": 0,
+      "note": "Procedure evidence across manuals distinguishes authorization vs lock/spin safety; CG-3 did not independently discover lid_switch in any manual.",
+      "perManual": [
+        {
+          "manualId": "W10864849",
+          "lidProcedureRoleEvidence": {
+            "procedureId": "w10864849-test-08-lid-lock",
+            "lidSwitchMentioned": true,
+            "lockSwitchMentioned": true,
+            "homeSwitchMentioned": false,
+            "distinctRolesInProcedureText": true
+          },
+          "lidSwitchMatcherHits": 0,
+          "lidLockMatcherHits": 1
+        },
+        {
+          "manualId": "W11697231",
+          "lidProcedureRoleEvidence": {
+            "procedureId": "w11697231-test-08-lid-lock",
+            "lidSwitchMentioned": true,
+            "lockSwitchMentioned": true,
+            "homeSwitchMentioned": false,
+            "distinctRolesInProcedureText": true
+          },
+          "lidSwitchMatcherHits": 0,
+          "lidLockMatcherHits": 1
+        },
+        {
+          "manualId": "W11416787",
+          "lidProcedureRoleEvidence": {
+            "procedureId": "w11416787-test-08-lid-lock",
+            "lidSwitchMentioned": true,
+            "lockSwitchMentioned": true,
+            "homeSwitchMentioned": false,
+            "distinctRolesInProcedureText": true
+          },
+          "lidSwitchMatcherHits": 0,
+          "lidLockMatcherHits": 1
+        }
+      ]
+    }
+  },
+  "freezeRecommendation": {
+    "revision": "rev1",
+    "freezeRev1Ready": true,
+    "keep": [
+      "lid_lock",
+      "inlet_valve",
+      "water_level_sensor",
+      "drain_pump",
+      "drain_path",
+      "drive_motor",
+      "transmission_or_shifter",
+      "agitator_or_impeller",
+      "spin_system",
+      "suspension_system",
+      "power_supply",
+      "control_board",
+      "hmi_control",
+      "temperature_sensor",
+      "tub",
+      "basket"
+    ],
+    "conditional": [
+      "lid_switch"
+    ],
+    "remove": [
+      "drive_system"
+    ],
+    "overlayOnlyExplicit": [
+      "splutch",
+      "clutch",
+      "gearcase",
+      "capacitor",
+      "stator",
+      "rotor",
+      "manufacturer_motor_controller",
+      "mode_shifter",
+      "pressure_sensor",
+      "recirc_pump",
+      "wash_heater",
+      "bulk_level_switch",
+      "motor_controller",
+      "drum_bearing"
+    ],
+    "canonicalExpansion": 0,
+    "implementationVocabularyRule": "Do not promote OEM implementation terms (splutch, clutch, gearcase, etc.) to canonical rev1 \u2014 they remain manufacturer/platform overlay knowledge."
+  },
+  "hypothesisPath": {
+    "W10864849": "first baseline (BPM DD 6.2 cu ft)",
+    "W11697231": "second convergence (PSC 3.8 cu ft)",
+    "W11416787": "adversarial third (DD 4.7/5.3 cu ft WTW5100 family)"
+  },
+  "recommendation": {
+    "freezeCandidateNow": true,
+    "rationale": "Three-manual corpus supports removing drive_system, keeping transmission_or_shifter as functional mode-selection, and treating lid_switch as conditional (procedure evidence without matcher discovery). No canonical expansion.",
+    "nextStep": "Derive top_load_washer rev1 from freezeRecommendation \u2014 do not copy legacy top_load_washer.json wholesale; apply KEEP/CONDITIONAL/REMOVE against candidate."
+  }
+}

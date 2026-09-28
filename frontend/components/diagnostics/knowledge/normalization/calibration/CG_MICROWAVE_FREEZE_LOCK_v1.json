@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_freeze_lock",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T09:35:00+00:00",
+  "phase": "CG-MICROWAVE-FREEZE",
+  "verdict": "CLOSED / MICROWAVE_ARCHITECTURE_COMPLETE",
+  "closureStatement": "Microwave canonical architecture is closed. CG-MICROWAVE-FIT Outcome B, discovery-approved 7 core + 2 conditional functional contract, and freeze transcription produced rev1 with zero component promotion. HV/RF split and semantic boundaries preserved. Normalization/compounding deferred until explicitly authorized.",
+  "canonicalOntology": {
+    "id": "microwave",
+    "file": "frontend/components/diagnostics/knowledge/canonical/microwave.json",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-17T09:35:00+00:00",
+    "hashBeforeFreeze": "5a5e77a73b4d587432bbfd98af0cfcc448f6372469fab479ffb45ea19f1b69ad",
+    "hash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "hashMutationAtFreeze": "metadata_only — frozen:true + frozenAt + frozenNote + freezeProvenance freeze lock fields",
+    "discoveryLock": "CG_MICROWAVE_FREEZE_RECOMMENDATION_v1.json",
+    "familyLock": "CG_MICROWAVE_FREEZE_LOCK_v1.json"
+  },
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "componentPromotionCount": 0,
+    "coreFunctions": 7,
+    "conditionalFunctions": 2,
+    "fitWitnessManuals": 2,
+    "referencePlatformOverlays": 2,
+    "microwaveRegressionTestsPassing": 14
+  },
+  "ontologyLayers": {
+    "canonicalComponents": {
+      "layer": "components[]",
+      "description": "Discovery-approved core microwave functions — not OEM component nodes",
+      "count": 7,
+      "ids": [
+        "power_supply",
+        "control_board",
+        "user_interface",
+        "door_interlock_chain",
+        "hv_generation",
+        "rf_cavity",
+        "thermal_protection"
+      ]
+    },
+    "conditionalConcepts": {
+      "layer": "conditionalConcepts[]",
+      "description": "Evidence-backed functional roles not universally instantiated",
+      "count": 2,
+      "ids": ["control_and_sensing", "ventilation_otr"]
+    },
+    "platformOnlyConcepts": {
+      "count": 13,
+      "ids": [
+        "magnetron",
+        "hv_transformer",
+        "hv_capacitor",
+        "hv_diode",
+        "hv_fuse",
+        "waveguide",
+        "waveguide_cover",
+        "turntable_motor",
+        "humidity_sensor",
+        "magnetron_tco",
+        "cavity_tco",
+        "hood_tco",
+        "pcb_thermistor"
+      ]
+    }
+  },
+  "semanticBoundaries": {
+    "hv_generation": "Generation/conditioning of electrical energy for microwave generation — not individual HV components.",
+    "rf_cavity": "Functional energy-delivery/containment domain — not synonym for physical cavity enclosure.",
+    "hvRfSplit": true,
+    "causalChain": ["control_board", "hv_generation", "rf_cavity"]
+  },
+  "humanApproval": {
+    "freezeRecommendationArtifact": "CG_MICROWAVE_FREEZE_RECOMMENDATION_v1.json",
+    "humanFreezeApprovedAt": "2026-09-17T09:35:00+00:00",
+    "verdict": "GREEN — FREEZE APPROVED",
+    "transcriptionFidelityConfirmed": true,
+    "approvalIsNotRedesign": true,
+    "canonicalFrozenAt": "2026-09-17T09:35:00+00:00"
+  },
+  "evidenceChain": {
+    "fitClosure": "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+    "discoveryClosure": "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json",
+    "functionalContract": "microwave_functional_contract_candidate_v1.json",
+    "R1": {
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "platformId": "lg_microwave_otr",
+      "observationArtifact": "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json"
+    },
+    "R2": {
+      "manualId": "SAMSUNG-ME11-MICROWAVE",
+      "platformId": "samsung_microwave_otr",
+      "observationArtifact": "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json"
+    }
+  },
+  "validationProof": {
+    "canonicalGraphValidation": {
+      "tool": "backend/scripts/validate_canonical_graph.py",
+      "result": "pass",
+      "validatedAt": "2026-09-17T09:35:00+00:00",
+      "summary": "microwave: 7 components, 8 relationships, 2 reference platforms"
+    },
+    "evidenceRegression": {
+      "result": "pass",
+      "testSuites": [
+        "cg-microwave-freeze-rev1-ontology.test.ts",
+        "cg-microwave-freeze-closure.test.ts",
+        "cg-microwave-discovery-closure.test.ts"
+      ],
+      "note": "Post-freeze regression — resolver registration + byte-stable frozen hash"
+    },
+    "rangeOvenHashUnchanged": {
+      "hash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+      "result": "pass"
+    }
+  },
+  "byteStabilityProof": {
+    "canonicalHashBeforeFreeze": "5a5e77a73b4d587432bbfd98af0cfcc448f6372469fab479ffb45ea19f1b69ad",
+    "canonicalHashAfterFreeze": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d"
+  },
+  "postFreezeInvariants": [
+    "components[] contains exactly seven core functions — no conditional concepts, no platform-only vocabulary",
+    "hv_generation and rf_cavity remain separate canonical functions with causal dependency encoded",
+    "thermal_protection remains one canonical function — per-TCO devices are platform overlay vocabulary",
+    "control_and_sensing and ventilation_otr remain conditionalConcepts[] only",
+    "range_oven hash unchanged — microwave does not contaminate locked range family",
+    "rev1 in-place mutation prohibited — conflicting evidence enters new fit/change process"
+  ],
+  "futureWorkPolicy": {
+    "normalizationCompounding": "STOP — deferred until explicitly authorized after freeze closure gate green",
+    "additionalManualIngest": "coverage work on reference overlay — not architecture validation",
+    "canonicalMutation": "prohibited without new evidence/fit/change workstream"
+  },
+  "hierarchy": {
+    "frozen": "microwave rev1",
+    "discoveryClosure": "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json",
+    "freezeRecommendation": "CG_MICROWAVE_FREEZE_RECOMMENDATION_v1.json",
+    "freezeClosure": "CG_MICROWAVE_FREEZE_CLOSURE_v1.json",
+    "priorPhaseClosed": "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json"
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_pilot_cohort",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-PILOT",
+  "contract": "CG_PRODUCTION_NORMALIZATION_PILOT_CONTRACT_v1.json",
+  "cohortSize": 8,
+  "slots": [
+    {
+      "slotId": "P01",
+      "stressDimension": "known_canonical_family",
+      "manualId": "W11169652",
+      "manufacturer": "Whirlpool",
+      "applianceFamily": "front_load_washer",
+      "frozenOntologyId": "front_load_washer",
+      "platformId": "whirlpool_fl_dd",
+      "templateId": "washer",
+      "sourcePdf": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers.pdf",
+      "readiness": "ready",
+      "expectedPilotOutcomes": ["canonical_mapping", "implementation_specific"],
+      "pilotRole": "Baseline — prove known family maps without canonical mutation"
+    },
+    {
+      "slotId": "P02",
+      "stressDimension": "cross_manufacturer_mapping",
+      "manualId": "SAMSUNG-FL-BB8700-WASHER",
+      "manufacturer": "Samsung",
+      "applianceFamily": "front_load_washer",
+      "frozenOntologyId": "front_load_washer",
+      "platformId": "samsung_fl_washer_bb8700",
+      "templateId": "washer",
+      "sourcePdf": "backend/docs/manuals/samsung fl washer new style wf50bb8700.pdf",
+      "readiness": "ready",
+      "expectedPilotOutcomes": ["canonical_mapping", "implementation_specific"],
+      "pilotRole": "Cross-manufacturer FL mapping onto same frozen ontology"
+    },
+    {
+      "slotId": "P03",
+      "stressDimension": "third_manufacturer_mapping",
+      "manualId": "LG-FL-WASHER",
+      "manufacturer": "LG",
+      "applianceFamily": "front_load_washer",
+      "frozenOntologyId": "front_load_washer",
+      "platformId": "lg_fl_washer_wm4000",
+      "templateId": "washer",
+      "sourcePdf": "backend/docs/manuals/lg wm4000h fl washer service manual.pdf",
+      "readiness": "ready",
+      "expectedPilotOutcomes": ["canonical_mapping", "implementation_specific"],
+      "pilotRole": "Third-manufacturer FL mapping — LG DISPLAY PWB / Smart Diagnosis / circulation pump overlay stress on frozen front_load_washer"
+    },
+    {
+      "slotId": "P04",
+      "stressDimension": "frozen_range_oven",
+      "manualId": "W11746350",
+      "manufacturer": "Whirlpool",
+      "applianceFamily": "range_oven",
+      "frozenOntologyId": "range_oven",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "sourcePdf": "backend/docs/manuals/original.pdf",
+      "readiness": "ready",
+      "expectedPilotOutcomes": ["canonical_mapping", "unresolved"],
+      "pilotRole": "Frozen range_oven mapping with legitimate unresolved surface terms"
+    },
+    {
+      "slotId": "P05",
+      "stressDimension": "implementation_terminology_stress",
+      "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+      "manufacturer": "Samsung",
+      "applianceFamily": "range_oven",
+      "frozenOntologyId": "range_oven",
+      "platformId": "samsung_range_ne58h_induction",
+      "templateId": "electric_range",
+      "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+      "extractedText": "backend/docs/manuals/samsunginductionne58h-extracted.txt",
+      "readiness": "ready",
+      "ingestionArtifact": "CG_PILOT_P05_INGESTION_COMPLETE_v1.json",
+      "prerequisite": {
+        "blocker": "Resolved — procedure seeds + normalization candidates ingested 2026-09-17",
+        "requiredBeforeExecution": [
+          "procedureManualManifest entry for SAMSUNG-NE58H-INDUCTION-RANGE",
+          "Procedure seed generation + normalization pipeline run"
+        ],
+        "implementationTermsMustNotPromote": [
+          "IPC",
+          "IGBT",
+          "inverter",
+          "induction_coil",
+          "glass_touch_panel"
+        ],
+        "fitContext": "CG12_INDUCTION_FIT_CLOSURE_v1.json — induction maps to range_oven surface_heating_system as implementation overlay"
+      },
+      "expectedPilotOutcomes": ["implementation_specific", "canonical_mapping"],
+      "pilotRole": "Implementation terminology must route to overlay — never canonical promotion"
+    },
+    {
+      "slotId": "P06",
+      "stressDimension": "recently_frozen_rich_functional_mapping",
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "manufacturer": "LG",
+      "applianceFamily": "microwave",
+      "frozenOntologyId": "microwave",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "sourcePdf": "backend/docs/manuals/original (2).pdf",
+      "readiness": "ready",
+      "expectedPilotOutcomes": ["canonical_mapping", "implementation_specific"],
+      "pilotRole": "Recently frozen microwave ontology — rich OTR functional mapping"
+    },
+    {
+      "slotId": "P07",
+      "stressDimension": "composition_reference_architecture",
+      "manualId": "SAMSUNG-HP-DRYER-DV22N",
+      "manufacturer": "Samsung",
+      "applianceFamily": "heat_pump_dryer",
+      "frozenOntologyId": "heat_pump_dryer",
+      "platformId": "samsung_hp_dryer_dv22n",
+      "templateId": "electric_dryer",
+      "sourcePdf": "backend/docs/manuals/samsung heat pump dryer dv22n8650.pdf",
+      "extractedText": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt",
+      "readiness": "ready",
+      "ingestionArtifact": "CG_PILOT_P07_INGESTION_COMPLETE_v1.json",
+      "prerequisite": {
+        "blocker": "Resolved — procedure seeds + normalization candidates ingested 2026-09-17",
+        "requiredBeforeExecution": [
+          "procedureManualManifest entry",
+          "Procedure seed generation",
+          "Normalization must bind to frozen heat_pump_dryer with vented_dryer reuse references — not duplicate canonical nodes"
+        ],
+        "fitContext": "CG_HEAT_PUMP_DRYER_FREEZE_LOCK_v1.json"
+      },
+      "expectedPilotOutcomes": ["canonical_mapping", "implementation_specific"],
+      "pilotRole": "Composition/reference — HP thermal + sealed moisture rejection on frozen heat_pump_dryer"
+    },
+    {
+      "slotId": "P08",
+      "stressDimension": "architecture_exception_stop",
+      "manualId": "SAMSUNG-FLEXWASH-WASHER",
+      "manufacturer": "Samsung",
+      "applianceFamily": "front_load_washer",
+      "frozenOntologyId": "front_load_washer",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "sourcePdf": "backend/docs/manuals/samsung flexwash.pdf",
+      "readiness": "ready",
+      "expectedPilotOutcomes": [
+        "architecture_exception",
+        "implementation_specific",
+        "unresolved"
+      ],
+      "architectureExceptionTriggers": [
+        "dual_load_integrated_orchestration",
+        "interload_communication",
+        "upper_lower_drum_diagnostic_partition"
+      ],
+      "pilotRole": "Terminology-heavy dual-load platform — must STOP with architecture_exception if frozen front_load_washer cannot represent without distortion; must NOT silently map or promote",
+      "batchStopExpected": true
+    }
+  ]
+}

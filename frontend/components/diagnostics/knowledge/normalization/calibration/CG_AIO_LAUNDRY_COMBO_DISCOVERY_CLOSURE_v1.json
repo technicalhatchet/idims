@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_discovery_closure",
+  "workstream": "CG-AIO-LAUNDRY-COMBO-DISCOVERY",
+  "status": "closed_discovery_complete",
+  "lockedAt": "2026-09-17T14:10:00+00:00",
+  "verdict": "CLOSED / AIO_CANDIDATE_READY_FOR_FREEZE_REVIEW",
+  "discoveryOutcome": "candidate_ready_for_freeze",
+  "closureStatement": "Discovery complete with conservative single-witness discipline. Minimum new functional contract: 2 new core functions (integrated_laundry_orchestration, sealed_heat_pump_drying) plus composition reference to front_load_washer wash domains. Zero component promotion. Corroboration insufficient — candidate is architecture for freeze review, not manufacturer-independent canonical truth. STOP before freeze — aio_laundry_combo.json remains blocked.",
+  "approvedFunctionalContract": {
+    "artifact": "aio_laundry_combo_functional_contract_candidate_v1.json",
+    "status": "candidate_ready_for_freeze_review",
+    "newCoreFunctions": 2,
+    "reusedFrozenFamilies": ["front_load_washer"],
+    "componentPromotionCount": 0,
+    "ontologyId": "aio_laundry_combo",
+    "notProductionCanonical": true
+  },
+  "discoveryDecisions": {
+    "washPath": "REUSE front_load_washer domains by composition — no AIO-specific wash ontology",
+    "dryPath": "NEW sealed_heat_pump_drying — vented_dryer extension rejected",
+    "integration": "NEW integrated_laundry_orchestration — packaging alone insufficient",
+    "functionBudget": "2 new core functions — hard cap enforced for single witness",
+    "compressor_condenser_evaporator": "REJECTED as canonical nodes — implementation vocabulary under sealed_heat_pump_drying",
+    "auto_open_door": "PLATFORM/PROCEDURE scope — not promoted",
+    "smart_install": "PROCEDURE_ONLY — not promoted"
+  },
+  "corroborationStatus": "insufficient_corpus_evidence",
+  "singleWitnessDiscipline": {
+    "witness": "Samsung WD53DBA900HZA1",
+    "allNewFunctionsLabeled": "single_witness_candidate",
+    "generalizationBlocked": true
+  },
+  "governanceConclusion": {
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0,
+    "aioLaundryComboJsonCreated": false,
+    "overlayCreated": false,
+    "freezeExecuted": false,
+    "normalizationExecuted": false,
+    "compoundingExecuted": false,
+    "familyClosureExecuted": false
+  },
+  "headlineMetrics": {
+    "newCoreFunctions": 2,
+    "conditionalFunctions": 0,
+    "reusedFrozenFamilyReferences": 1,
+    "rejectedComponentNodes": 9,
+    "fitArtifactsMutated": 0,
+    "witnessCount": 1
+  },
+  "evidenceChain": {
+    "fitAnalysis": "CG_AIO_LAUNDRY_COMBO_FIT_ANALYSIS_v1.json",
+    "fitDivergencePackage": "CG_AIO_LAUNDRY_COMBO_FIT_DIVERGENCE_PACKAGE_v1.json",
+    "fitObservation": "CG_AIO_WD53DBA900_FIT_OBSERVATION_v1.json",
+    "discoveryContract": "CG_AIO_LAUNDRY_COMBO_DISCOVERY_CONTRACT_v1.json",
+    "candidate": "aio_laundry_combo_functional_contract_candidate_v1.json"
+  },
+  "immutableInputs": {
+    "fitArtifactsReadOnly": true,
+    "discoveryCandidateFeedsFreezeReviewOnly": true,
+    "notProductionCanonical": true
+  },
+  "authorizedNextWorkstream": "CG-AIO-LAUNDRY-COMBO-FREEZE",
+  "nextDisciplinedStep": "Human freeze gate — evaluate whether single-witness candidate is sufficiently supported to author aio_laundry_combo.json rev1; ingest second AIO witness recommended before high-confidence freeze",
+  "explicitNonActions": [
+    "No aio_laundry_combo.json from discovery closure",
+    "No frozen graph mutation",
+    "No manufacturer overlay compounding",
+    "No corpus-wide normalization",
+    "No family lock or terminal closure"
+  ],
+  "stopCondition": "STOP — await human architectural gate for freeze authorization"
+}

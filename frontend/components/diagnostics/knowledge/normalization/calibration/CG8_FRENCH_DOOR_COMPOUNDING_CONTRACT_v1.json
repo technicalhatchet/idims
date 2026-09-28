@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg8_french_door_compounding_contract",
+  "status": "closed",
+  "closedAt": "2026-09-16T14:00:00+00:00",
+  "closureArtifact": "CG95_REFRIGERATOR_FAMILY_LOCK_v1.json",
+  "verdict": "french_door_compounding_complete",
+  "phase": "CG-8",
+  "activatedAt": "2026-09-16T05:00:00+00:00",
+  "priorPhase": "CG-7",
+  "priorPhaseVerdict": "discovery_closed_canonical_frozen",
+  "canonicalOntology": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "file": "frontend/components/diagnostics/knowledge/canonical/french_door_refrigerator.json",
+    "immutable": true,
+    "lockArtifact": "CG7_FRENCH_DOOR_REFRIGERATOR_LOCK_v1.json"
+  },
+  "compoundingOrder": [
+    {
+      "sequence": 1,
+      "manufacturer": "Whirlpool",
+      "manualId": "W10322959",
+      "platformId": "whirlpool_jazz_french_door",
+      "overlayFile": "whirlpool_jazz_french_door.json",
+      "gateTable": "WHIRLPOOL_JAZZ_FD_overlay_mapping_table_v1.json",
+      "gateKind": "manufacturer_boundary_first_manual"
+    },
+    {
+      "sequence": 2,
+      "manufacturer": "Samsung",
+      "manualId": "SAMSUNG-RF23BB-FRIDGE",
+      "platformId": "samsung_fridge_bespoke",
+      "overlayFile": "samsung_fridge_bespoke.json",
+      "gateTable": "SAMSUNG_RF23BB_FD_overlay_mapping_table_v1.json",
+      "gateKind": "manufacturer_boundary_first_manual"
+    },
+    {
+      "sequence": 3,
+      "manufacturer": "LG",
+      "manualId": "LG-LRMVS-FRIDGE",
+      "platformId": "lg_lrmvs",
+      "overlayFile": "lg_lrmvs.json",
+      "gateTable": "LG_LRMVS_FD_overlay_mapping_table_v1.json",
+      "gateKind": "manufacturer_boundary_first_manual"
+    }
+  ],
+  "immutableRules": [
+    "Load french_door_refrigerator.json rev1 as immutable canonical truth — byte-stable across all CG-8 compounding.",
+    "Manufacturer/manual terms may inherit one of the 6 KEEP canonical components, bind to a conditionalConcept, or create manufacturer/platform knowledge in the overlay.",
+    "They may NOT create or modify canonical components.",
+    "A conditional concept becoming common across manufacturers does NOT automatically promote it — that requires a future canonical change/re-freeze gate.",
+    "Do NOT reopen the CG-7 freeze recommendation when a manual exposes tempting architecture (compressor/inverter/thermistor paths). That is what conditional and platform-only buckets absorb.",
+    "CG-7 discovery corpus (R1/R2/R3 observation artifacts) is reference evidence only — not a backdoor source for overlay inheritance.",
+    "Every learning event must be explicitly attributable and auditable (gate table row + promotion ID), matching CG-6.7 discipline."
+  ],
+  "layerStack": [
+    "canonical_function",
+    "conditional_concept_binding",
+    "manufacturer_implementation",
+    "platform_implementation",
+    "model_specific_behavior"
+  ],
+  "allowedCanonicalTargets": {
+    "keep": [
+      "control_board",
+      "user_interface",
+      "door_switch",
+      "evaporator_fan",
+      "air_damper",
+      "defrost_heater"
+    ],
+    "conditionalBindingOnly": [
+      "temperature_sensor",
+      "compressor",
+      "condenser_fan",
+      "ice_maker",
+      "water_dispenser"
+    ],
+    "platformOnly": [
+      "compressor_controller",
+      "defrost_sensor",
+      "water_inlet_valve",
+      "sealed_system"
+    ],
+    "removedFromRev1": [
+      "airflow_path",
+      "defrost_system",
+      "cooling_system"
+    ],
+    "deferred": [
+      "power_supply",
+      "condenser",
+      "evaporator",
+      "door_heater",
+      "water_level_sensor",
+      "humidity_control"
+    ]
+  },
+  "conditionalConceptContract": {
+    "notInComponentsArray": true,
+    "bindingSemantics": "overlay binds instance scope (compartment, feature, drive path) to conditionalConcept id — does not add canonical component",
+    "mayHaveInstances": ["temperature_sensor", "compressor", "condenser_fan", "evaporator_fan", "defrost_heater"],
+    "optionalFeature": ["ice_maker", "water_dispenser"],
+    "implementationOverlayRequired": ["compressor"]
+  },
+  "stableCrossManufacturerControlGroup": [
+    "control_board",
+    "user_interface",
+    "door_switch",
+    "evaporator_fan",
+    "air_damper",
+    "defrost_heater"
+  ],
+  "discoveryCorpusReferenceOnly": {
+    "policy": "CG-7 observation artifacts inform human review context; they do not auto-approve overlay mappings.",
+    "artifacts": [
+      "W10322959_fd_cg7x_observation_v1.json",
+      "SAMSUNG_RF23BB_fd_cg7x_observation_v1.json",
+      "LG_LRMVS_fd_cg7x_observation_v1.json"
+    ],
+    "referenceOverlay": "canonical/platform_overlays/french_door_refrigerator.reference.json"
+  },
+  "promotionBars": {
+    "canonicalExpansion": 0,
+    "conditionalAutoPromotion": false,
+    "sessionToCanonical": false,
+    "overlayAddComponentsIsNotCanonical": true
+  },
+  "auditRequirements": {
+    "gateTablePerManual": true,
+    "promotionIdPerPublish": true,
+    "genuineHumanSemanticDecisionsCounted": true,
+    "matcherRoutingCorrectionSeparateFromSemanticLearning": true
+  },
+  "notDiscovery": "CG-8 is compounding against a frozen ontology — not another ontology-discovery exercise."
+}

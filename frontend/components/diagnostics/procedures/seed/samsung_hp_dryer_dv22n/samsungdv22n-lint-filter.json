@@ -1,0 +1,57 @@
+{
+  "id": "samsungdv22n-lint-filter",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Case filter restriction (tC)",
+  "platformId": "samsung_hp_dryer_dv22n",
+  "componentIds": [
+    "lint_filter"
+  ],
+  "tags": [
+    "tC",
+    "long_dry"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-HP-DRYER-DV22N",
+    "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+    "sourcePdf": "backend/docs/manuals/samsung heat pump dryer dv22n8650.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Lint filter / airflow",
+    "pages": [
+      25
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "clean_filter"
+    },
+    {
+      "id": "clean_filter",
+      "order": 2,
+      "type": "instruction",
+      "title": "Clean case filter",
+      "body": "Clean case filter per tC error guidance.",
+      "sourceExcerpt": "Clean case filter per tC error guidance.",
+      "requiresInput": false,
+      "defaultNextStepId": "filter_ok"
+    },
+    {
+      "id": "filter_ok",
+      "order": 3,
+      "type": "outcome",
+      "title": "Filter path OK",
+      "oemOutcome": "Case filter restriction cleared.",
+      "requiresInput": false
+    }
+  ]
+}

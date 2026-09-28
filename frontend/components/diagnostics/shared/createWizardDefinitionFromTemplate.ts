@@ -1,15 +1,19 @@
 import { getDiagnosticTemplate } from '../../../constants/diagnosticTemplates';
 import type { DiagnosticWizardStepConfig, WizardDefinition } from '../types';
+import { REPAIR_VERIFICATION_DESCRIPTION } from './repairVerificationStepCopy';
 import { collectsForSection, DEFAULT_STEP_WEIGHT } from './sectionCollects';
 
 export const DIAGNOSTIC_REVIEW_STEP_ID = '__review__';
 
 function stepFromSection(section: { id: string; title: string }, index: number): DiagnosticWizardStepConfig {
+  const description = section.id === 'commonly_missed'
+    ? REPAIR_VERIFICATION_DESCRIPTION
+    : `Complete ${section.title.toLowerCase()} readings and checks.`;
   return {
     sectionId: section.id,
     id: section.id,
     title: section.title,
-    description: `Complete ${section.title.toLowerCase()} readings and checks.`,
+    description,
     estimatedMinutes: 2,
     required: false,
     optional: true,

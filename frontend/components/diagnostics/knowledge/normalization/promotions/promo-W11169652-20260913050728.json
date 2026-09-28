@@ -1,0 +1,56 @@
+{
+  "promotionId": "promo-W11169652-20260913050728",
+  "manualId": "W11169652",
+  "platformId": "whirlpool_fl_dd",
+  "overlayFile": "whirlpool_front_load_washer.json",
+  "platformFamilyId": "whirlpool_fl_dd_direct_drive",
+  "status": "planned",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-W11169652-acu-control_board",
+    "map-W11169652-hmi_control-hmi_control",
+    "map-W11169652-drive_motor-drive_motor",
+    "map-W11169652-door_lock-door_lock",
+    "map-W11169652-inlet_valve-inlet_valve",
+    "map-W11169652-water_level_sensor-water_level_sensor",
+    "map-W11169652-water-level-sensor-water_level_sensor",
+    "map-W11169652-drain_pump-drain_pump",
+    "map-W11169652-wash_heater-wash_heater",
+    "map-W11169652-wash_ntc-wash_ntc",
+    "map-W11169652-wash-temperature-sensor-wash_ntc",
+    "map-W11169652-dosing_pump-dosing_pump"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {
+        "ACU": "control_board",
+        "hmi_control": "hmi_control",
+        "drive_motor": "drive_motor",
+        "door_lock": "door_lock",
+        "inlet_valve": "inlet_valve",
+        "water_level_sensor": "water_level_sensor",
+        "TEST #7: Water Level Sensor": "water_level_sensor",
+        "drain_pump": "drain_pump",
+        "wash_heater": "wash_heater",
+        "wash_ntc": "wash_ntc",
+        "TEST #10: Wash Temperature Sensor": "wash_ntc",
+        "dosing_pump": "dosing_pump"
+      },
+      "skip": {}
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [],
+      "skip": []
+    }
+  },
+  "plannedAt": "2026-09-13T05:07:28.654351+00:00"
+}

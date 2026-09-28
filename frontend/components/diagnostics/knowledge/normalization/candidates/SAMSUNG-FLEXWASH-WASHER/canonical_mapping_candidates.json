@@ -1,0 +1,1605 @@
+{
+  "manualId": "SAMSUNG-FLEXWASH-WASHER",
+  "candidates": [
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-main_control-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "main_control",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-communication",
+        "pages": [
+          31,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-communication",
+            "pages": [
+              31,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-sub/main-pba-communication-(ac)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Sub/main PBA communication (AC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-communication",
+        "pages": [
+          31,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-communication",
+            "pages": [
+              31,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Sub/main PBA communication (AC)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-door_lock-door_lock",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_lock",
+      "extractedTerm": null,
+      "canonicalId": "door_lock",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-door-lock",
+        "pages": [
+          38,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-door-lock",
+            "pages": [
+              38,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-lower-door-lock-(dc,-dc1)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Lower door lock (DC, DC1)",
+      "canonicalId": "door_lock",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "lower door",
+        "actuator": "lock"
+      },
+      "matchedPhrase": "door lock",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-door-lock",
+        "pages": [
+          38,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-door-lock",
+            "pages": [
+              38,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "door lock",
+            "decomposition": {
+              "domain": null,
+              "component": "lower door",
+              "actuator": "lock"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Lower door lock (DC, DC1)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-drain_pump-drain_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drain_pump",
+      "extractedTerm": null,
+      "canonicalId": "drain_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-drain-pump",
+        "pages": [
+          37,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-drain-pump",
+            "pages": [
+              37,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-drain-pump-(5c)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Drain pump (5C)",
+      "canonicalId": "drain_pump",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "drain",
+        "component": null,
+        "actuator": "pump"
+      },
+      "matchedPhrase": "drain pump",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-drain-pump",
+        "pages": [
+          37,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-drain-pump",
+            "pages": [
+              37,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "drain pump",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drain pump (5C)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-seed-user_interface-hmi_control",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "user_interface",
+      "seedComponentId": "user_interface",
+      "canonicalId": "hmi_control",
+      "confidence": 0.92,
+      "mappingType": "seed_component_id",
+      "reviewLevel": "normal",
+      "registryScope": "washer",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-hmi-check",
+        "pages": [
+          33,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-hmi-check",
+            "pages": [
+              33,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "seed_component_registry",
+            "seedComponentId": "user_interface",
+            "notes": "Seed id for UI/console procedures"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-control-panel-(bc2)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Control panel (BC2)",
+      "canonicalId": "hmi_control",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": "control panel",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-hmi-check",
+        "pages": [
+          33,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-hmi-check",
+            "pages": [
+              33,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "control panel",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Control panel (BC2)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-inlet_valve-inlet_valve",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inlet_valve",
+      "extractedTerm": null,
+      "canonicalId": "inlet_valve",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-inlet-valves",
+        "pages": [
+          37,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-inlet-valves",
+            "pages": [
+              37,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-water-supply-(4c,-4c2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Water supply (4C, 4C2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "supply 4c 4c2",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-inlet-valves",
+        "pages": [
+          37,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-inlet-valves",
+            "pages": [
+              37,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "supply 4c 4c2",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water supply (4C, 4C2)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-upper-lower-pba-communication-(ac7)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Upper-lower PBA communication (AC7)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-interload-communication",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-interload-communication",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Upper-lower PBA communication (AC7)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-inverter-motor_controller",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inverter",
+      "extractedTerm": null,
+      "canonicalId": "motor_controller",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-inverter-communication",
+        "pages": [
+          31,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-inverter-communication",
+            "pages": [
+              31,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-inverter-pba-communication-(ac6)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Inverter PBA communication (AC6)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-inverter-communication",
+        "pages": [
+          31,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-inverter-communication",
+            "pages": [
+              31,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Inverter PBA communication (AC6)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-inverter-over-temperature-(tc4)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Inverter over-temperature (TC4)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-inverter-thermal",
+        "pages": [
+          41,
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-inverter-thermal",
+            "pages": [
+              41,
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Inverter over-temperature (TC4)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-water-leakage-(lc,-lc1)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Water leakage (LC, LC1)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "leakage lc lc1",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-leak-check",
+        "pages": [
+          32,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-leak-check",
+            "pages": [
+              32,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "leakage lc lc1",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water leakage (LC, LC1)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-mems-sensor-(8c,-8c1,-8c2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: MEMS sensor (8C, 8C1, 8C2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "mems",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-mems-sensor",
+        "pages": [
+          33,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-mems-sensor",
+            "pages": [
+              33,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "mems",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "MEMS sensor (8C, 8C1, 8C2)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-drive_motor-drive_motor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drive_motor",
+      "extractedTerm": null,
+      "canonicalId": "drive_motor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-motor-circuit",
+        "pages": [
+          37,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-motor-circuit",
+            "pages": [
+              37,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-lower-dd-motor-(3c)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Lower DD motor (3C)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "lower dd",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-motor-circuit",
+        "pages": [
+          37,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-motor-circuit",
+            "pages": [
+              37,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "lower dd",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Lower DD motor (3C)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-water_level_sensor-water_level_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "water_level_sensor",
+      "extractedTerm": null,
+      "canonicalId": "water_level_sensor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-overflow",
+        "pages": [
+          32,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-overflow",
+            "pages": [
+              32,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-overflow-(oc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Overflow (OC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-overflow",
+        "pages": [
+          32,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-overflow",
+            "pages": [
+              32,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Overflow (OC)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-supply-supply",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": "supply",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-power-supply",
+        "pages": [
+          30,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-power-supply",
+            "pages": [
+              30,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-power-(9c1,-9c2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Power (9C1, 9C2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-power-supply",
+        "pages": [
+          30,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-power-supply",
+            "pages": [
+              30,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Power (9C1, 9C2)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-system-fault-(sf)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: System fault (SF)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-system-fault",
+        "pages": [
+          33,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-system-fault",
+            "pages": [
+              33,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "System fault (SF)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-unbalance-(ub)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Unbalance (UB)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-unbalance",
+        "pages": [
+          33,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-unbalance",
+            "pages": [
+              33,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Unbalance (UB)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-upper-compartment-door-(dc4,-dc1)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Upper compartment door (DC4, DC1)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-upper-door",
+        "pages": [
+          33,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-upper-door",
+            "pages": [
+              33,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Upper compartment door (DC4, DC1)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-upper-washer-motor-(3c)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Upper washer motor (3C)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "upper washer",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-upper-motor",
+        "pages": [
+          36,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-upper-motor",
+            "pages": [
+              36,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "upper washer",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Upper washer motor (3C)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-wash_heater-wash_heater",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_heater",
+      "extractedTerm": null,
+      "canonicalId": "wash_heater",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-wash-heater",
+        "pages": [
+          39,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-wash-heater",
+            "pages": [
+              39,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-wash_ntc-wash_ntc",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_ntc",
+      "extractedTerm": null,
+      "canonicalId": "wash_ntc",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-wash-heater",
+        "pages": [
+          39,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-wash-heater",
+            "pages": [
+              39,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-wash-heater-(hc,-hc1)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Wash heater (HC, HC1)",
+      "canonicalId": "wash_heater",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": null,
+        "actuator": "heater"
+      },
+      "matchedPhrase": "wash heater",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-wash-heater",
+        "pages": [
+          39,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-wash-heater",
+            "pages": [
+              39,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash heater",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Wash heater (HC, HC1)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-wash-temperature-sensor-(tc1)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Wash temperature sensor (TC1)",
+      "canonicalId": "wash_ntc",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": "temperature",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": "wash temperature sensor",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-wash-thermistor",
+        "pages": [
+          41,
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-wash-thermistor",
+            "pages": [
+              41,
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash temperature sensor",
+            "decomposition": {
+              "domain": "wash",
+              "component": "temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Wash temperature sensor (TC1)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-water-level-sensor-(1c)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Water level sensor (1C)",
+      "canonicalId": "water_level_sensor",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "level",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": "water level sensor",
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-water-level-sensor",
+        "pages": [
+          35,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-water-level-sensor",
+            "pages": [
+              35,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "water level sensor",
+            "decomposition": {
+              "domain": "water",
+              "component": "level",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water level sensor (1C)"
+    },
+    {
+      "id": "map-SAMSUNG-FLEXWASH-WASHER-compound-wifi-module-communication-(ac4)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: WiFi module communication (AC4)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "wifi",
+        "actuator": "module"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-wifi-communication",
+        "pages": [
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-wifi-communication",
+            "pages": [
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "wifi",
+              "actuator": "module"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "WiFi module communication (AC4)"
+    }
+  ]
+}

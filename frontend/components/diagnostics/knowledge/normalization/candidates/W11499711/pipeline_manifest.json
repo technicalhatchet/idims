@@ -1,0 +1,31 @@
+{
+  "manualId": "W11499711",
+  "platformId": "whirlpool_dishwasher_acu",
+  "templateId": "dishwasher",
+  "label": "KitchenAid/Maytag microfiltration dishwasher WDT750 (W11499711)",
+  "status": "candidate",
+  "ontologyId": "dishwasher",
+  "generatedAt": "2026-09-15T07:41:33.857087+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 1,
+    "mappingCandidates": 2,
+    "overlayCandidates": 2,
+    "conflicts": 0,
+    "extractionFiltered": 1
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 1,
+    "invalidExtraction": 0,
+    "totalFiltered": 1,
+    "samples": [
+      {
+        "rawTerm": "WDT750",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "source": "title_token"
+      }
+    ]
+  }
+}

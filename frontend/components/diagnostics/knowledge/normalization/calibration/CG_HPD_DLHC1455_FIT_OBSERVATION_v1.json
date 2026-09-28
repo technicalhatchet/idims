@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_heat_pump_dryer_fit_observation",
+  "workstream": "CG-HEAT-PUMP-DRYER-FIT-TEST",
+  "witnessId": "W2",
+  "status": "complete",
+  "generatedAt": "2026-09-17T14:52:00+00:00",
+  "contract": "CG_HEAT_PUMP_DRYER_FIT_TEST_CONTRACT_v1.json",
+  "manufacturer": "LG",
+  "model": "DLHC1455V / DLHC1455W",
+  "manualId": "LG-DLHC1455-HP-DRYER",
+  "templateId": "electric_dryer",
+  "dryingArchitecture": "heat_pump_condensation",
+  "sourcePdf": "backend/docs/manuals/lg dlhc1455 heat pump dryer manual.pdf",
+  "extractedText": "backend/docs/manuals/lg dlhc1455 heat pump dryer manual-extracted.txt",
+  "functionalArchitectureSummary": {
+    "productClass": "Standalone heat-pump dryer — DRYING TYPE: Condensation(Heatpump) §1 p.4",
+    "heatGeneration": "Inverter compressor (750W, 60rps); pipe/discharge thermistors; inverter software protection",
+    "moistureRemoval": "Condensed water collected in removable container; sump water electrode sensor; external drain option §5",
+    "airflow": "Sealed heat-pump process loop — manual prohibits connecting exhaust to external vent §5 p.1614",
+    "thermalSensing": "Pipe temperature thermistors (compressor out), drum thermistor, humidity electrode sensor",
+    "dryingControl": "Micom electronic control; Diagnostic Test §10; Condenser Care §6",
+    "lintManagement": "Removable filter; lint filter status indicator"
+  },
+  "classificationHistogram": {
+    "vented_dryer": 4,
+    "shared_function": 2,
+    "implementation_specific": 7,
+    "unresolved": 0
+  },
+  "diagnosticDomainClassifications": [
+    {
+      "domain": "door_switch",
+      "classification": "vented_dryer",
+      "provenance": "§1 SPEC door switch; §7 component test lid switch",
+      "pages": [4, 35]
+    },
+    {
+      "domain": "drum_drive",
+      "classification": "vented_dryer",
+      "provenance": "§1 drum speed 52–53 rpm; motor 115W",
+      "mapsTo": "vented_dryer.drive"
+    },
+    {
+      "domain": "humidity_moisture_sensing",
+      "classification": "vented_dryer",
+      "provenance": "§1 humidity electrode sensor; diagnostic test moisture paths",
+      "mapsTo": "vented_dryer.moisture_sensing"
+    },
+    {
+      "domain": "lint_filter",
+      "classification": "vented_dryer",
+      "provenance": "§1 removable filter; lint filter status indicator",
+      "mapsTo": "vented_dryer.lint_filter — restriction domain without exhaust_path terminal"
+    },
+    {
+      "domain": "control_ui",
+      "classification": "shared_function",
+      "provenance": "§1 Micom electronic control; §10 diagnostic test",
+      "pages": [4, 47]
+    },
+    {
+      "domain": "power_supply",
+      "classification": "shared_function",
+      "provenance": "§1 240V/60Hz; inverter protection",
+      "pages": [4]
+    },
+    {
+      "domain": "inverter_compressor_heat_transfer",
+      "classification": "implementation_specific",
+      "provenance": "§1 COMPRESSOR 750W; §7 inverter compressor set; §9 compressor discharge/Hidden Error",
+      "pages": [4, 35, 38],
+      "ventedDryerFit": "does_not_fit",
+      "reason": "Refrigerant-cycle heat transfer — not vented_dryer heat_source"
+    },
+    {
+      "domain": "condensation_moisture_rejection",
+      "classification": "implementation_specific",
+      "provenance": "§1 Condensation(Heatpump); water full indicator; condensed water container §6",
+      "pages": [4, 6, 27],
+      "ventedDryerFit": "does_not_fit",
+      "reason": "Condensate collection/drain — not exhaust_path rejection"
+    },
+    {
+      "domain": "refrigerant_thermal_sensing",
+      "classification": "implementation_specific",
+      "provenance": "§7 pipe/discharge thermistors 230±1% kΩ; compressor discharge pipe",
+      "pages": [35, 36],
+      "ventedDryerFit": "does_not_fit"
+    },
+    {
+      "domain": "condenser_care_sealed_path",
+      "classification": "implementation_specific",
+      "provenance": "§6 Condenser Care feature; cleans condenser with condensed water",
+      "pages": [27, 28],
+      "ventedDryerFit": "does_not_fit",
+      "reason": "Sealed-system maintenance domain absent from vented_dryer"
+    },
+    {
+      "domain": "sealed_ventless_installation",
+      "classification": "implementation_specific",
+      "provenance": "§5 — do not connect exhaust duct to other vents",
+      "pages": [38],
+      "ventedDryerFit": "does_not_fit",
+      "reason": "Explicit ventless architecture contradicts exhaust_path requirement"
+    },
+    {
+      "domain": "sump_water_sensing",
+      "classification": "implementation_specific",
+      "provenance": "§1 sump water electrode sensor; water full indicator",
+      "pages": [4],
+      "note": "Condensate management — platform implementation of moisture rejection"
+    }
+  ],
+  "fitAgainstVentedDryer": {
+    "superficialOverlaps": ["door_switch", "drive", "moisture_sensing", "lint_filter", "control"],
+    "functionalDivergences": [
+      "inverter_compressor heat vs heat_source",
+      "condensate collection vs exhaust_path",
+      "explicit ventless installation vs external vent terminal",
+      "condenser care sealed-path maintenance"
+    ],
+    "verdict": "does_not_fit_without_mutation"
+  }
+}

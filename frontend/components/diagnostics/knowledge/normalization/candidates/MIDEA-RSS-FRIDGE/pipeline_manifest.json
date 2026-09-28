@@ -1,0 +1,73 @@
+{
+  "manualId": "MIDEA-RSS-FRIDGE",
+  "platformId": "midea_rss",
+  "templateId": "refrigerator",
+  "label": "Midea/Insignia NS-RSS26 side-by-side refrigerator",
+  "status": "candidate",
+  "ontologyId": null,
+  "generatedAt": "2026-09-16T13:51:59.282785+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 11,
+    "mappingCandidates": 28,
+    "overlayCandidates": 0,
+    "conflicts": 0,
+    "extractionFiltered": 8
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 8,
+    "invalidExtraction": 0,
+    "totalFiltered": 8,
+    "samples": [
+      {
+        "rawTerm": "E7",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "midearss-ambient-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E6",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "midearss-communication",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E5",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "midearss-fz-defrost-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "midearss-fz-temp-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E9",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "midearss-high-temp-alarm",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E0",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "midearss-ice-maker",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E4",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "midearss-rc-defrost-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "midearss-rc-temp-sensor",
+        "source": "title_token"
+      }
+    ]
+  }
+}

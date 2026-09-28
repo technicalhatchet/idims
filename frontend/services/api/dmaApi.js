@@ -1,4 +1,5 @@
 import { apiClient } from '../../utils/api-client';
+import { resolveExcludeWorkOrderIdForApi } from '../../utils/resolveExcludeWorkOrderIdForApi';
 
 export async function getDmaCodes() {
   return apiClient('dma/codes');
@@ -64,8 +65,9 @@ export async function getDmaEvidenceNudges({
   params.set('equipment_subtype', subtype);
   if (equipmentMake) params.set('equipment_make', String(equipmentMake));
   tagList.forEach((tag) => params.append('tags', tag));
-  if (excludeWorkOrderId) {
-    params.set('exclude_work_order_id', String(excludeWorkOrderId));
+  const excludeId = resolveExcludeWorkOrderIdForApi(excludeWorkOrderId);
+  if (excludeId) {
+    params.set('exclude_work_order_id', excludeId);
   }
 
   return apiClient(`dma/evidence-nudges?${params.toString()}`);

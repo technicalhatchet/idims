@@ -2,10 +2,16 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getServiceProcedure } from '../procedureRegistry';
+import { formatOemProcedureStepProgressLabel } from '../procedureRunDisplay';
 import { useProcedureRun } from '../useProcedureRun';
 import { buildProcedureRunReviewById } from '../buildProcedureRunReview';
 import type { ProcedureStepTone } from '../procedureRunPresentation';
 import { resolveProcedureRunPresentation } from '../procedureRunPresentation';
+import type {
+  OemContinuationBridgeContext,
+  ProcedureStepPresentationContext,
+} from '../procedureStepPresentation';
+import { formatOemContinuationBridgeMessage } from '../procedureStepPresentation';
 import type { ProcedureRunState } from '../types';
 import ProcedureStepView from './ProcedureStepView';
 
@@ -99,18 +105,53 @@ function CompletedProcedureAccordion({
   );
 }
 
+function OemContinuationBridgeBanner({
+  message,
+  variant,
+}: {
+  message: string;
+  variant: 'mobile' | 'desktop';
+}) {
+  const isMobile = variant === 'mobile';
+  return (
+    <div
+      className={`rounded-lg border px-3 py-2.5 ${
+        isMobile
+          ? 'border-cyan-500/25 bg-cyan-500/5'
+          : 'border-cyan-200 bg-cyan-50/60 dark:border-cyan-800 dark:bg-cyan-950/25'
+      }`}
+      data-oem-continuation-bridge
+    >
+      <p className="text-[10px] uppercase tracking-[0.14em] text-[color:var(--solomon-status-reference)]/90">
+        What happens next
+      </p>
+      <p className="mt-1 text-sm leading-relaxed text-[var(--solomon-text-secondary)]">
+        {message}
+      </p>
+    </div>
+  );
+}
+
 function ActiveProcedureRunner({
   procedureId,
   savedRunState,
   onRunStateChange,
   autoStart = false,
   variant,
+  highlightPrimaryAction = false,
+  continuationBridge,
+  presentationContext,
+  presentationAudience = 'tech',
 }: {
   procedureId: string;
   savedRunState: ProcedureRunState | null;
   onRunStateChange: (procedureId: string, runState: ProcedureRunState) => void;
   autoStart?: boolean;
   variant: 'mobile' | 'desktop';
+  highlightPrimaryAction?: boolean;
+  continuationBridge?: OemContinuationBridgeContext | null;
+  presentationContext?: ProcedureStepPresentationContext | null;
+  presentationAudience?: 'diy' | 'tech';
 }) {
   const procedure = getServiceProcedure(procedureId);
   const isMobile = variant === 'mobile';
@@ -163,12 +204,19 @@ function ActiveProcedureRunner({
     ? 'border-cyan-500/30 bg-cyan-500/10'
     : 'border-cyan-200 bg-cyan-50/80 dark:border-cyan-800 dark:bg-cyan-950/40';
 
+  const continuationMessage = continuationBridge
+    ? formatOemContinuationBridgeMessage(continuationBridge)
+    : null;
+
   if (!isRunning || !currentStep || currentStep.type === 'outcome') {
     return (
       <div
         className={`rounded-lg border px-3 py-3 ${shellClass}`}
         data-oem-procedure-inline
       >
+        {continuationMessage ? (
+          <OemContinuationBridgeBanner message={continuationMessage} variant={variant} />
+        ) : null}
         <p className={`text-sm font-medium ${isMobile ? 'text-cyan-50' : 'text-cyan-950 dark:text-cyan-50'}`}>
           {procedure.title}
         </p>
@@ -176,7 +224,12 @@ function ActiveProcedureRunner({
           <button
             type="button"
             onClick={start}
-            className="mt-3 w-full rounded-lg border border-[color:var(--solomon-primary-border)] bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] px-4 py-2.5 text-sm font-medium text-white"
+            className={`mt-3 w-full rounded-lg border border-[color:var(--solomon-primary-border)] bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] px-4 py-2.5 text-sm font-medium text-white ${
+              highlightPrimaryAction
+                ? 'ring-2 ring-amber-400 ring-offset-2 ring-offset-transparent animate-pulse shadow-lg shadow-amber-500/25'
+                : ''
+            }`}
+            data-oem-procedure-primary-action
           >
             {savedRunState ? 'Resume OEM test' : 'Start OEM test'}
           </button>
@@ -198,13 +251,19 @@ function ActiveProcedureRunner({
         <p className={`text-sm font-medium ${isMobile ? 'text-cyan-50' : 'text-cyan-950 dark:text-cyan-50'}`}>
           {procedure.title}
         </p>
-        <p className="mt-1 text-[11px] text-[var(--solomon-text-secondary)]">
-          Step {stepIndex} of {stepTotal}
-        </p>
+        {stepIndex > 0 ? (
+          <p className="mt-1 text-[11px] text-[var(--solomon-text-secondary)]">
+            {formatOemProcedureStepProgressLabel(stepIndex, stepTotal, procedure, currentStep)}
+          </p>
+        ) : null}
       </div>
 
-      <div className="px-3 py-3">
+      <div className="px-3 py-3 space-y-3">
+        {continuationMessage && stepIndex === 1 ? (
+          <OemContinuationBridgeBanner message={continuationMessage} variant={variant} />
+        ) : null}
         <ProcedureStepView
+          procedureId={procedureId}
           step={currentStep}
           stepIndex={stepIndex}
           stepTotal={stepTotal}
@@ -213,13 +272,25 @@ function ActiveProcedureRunner({
           onCheckpoint={submitCheckpoint}
           onSubmitMeasurement={submitMeasurement}
           onContinue={continueStep}
-          lastEvaluation={lastResult?.evaluation}
-          matchedBranch={lastResult?.matchedBranch}
+          lastEvaluation={
+            lastResult?.stepId === currentStep.id ? lastResult?.evaluation : null
+          }
+          matchedBranch={
+            lastResult?.stepId === currentStep.id ? lastResult?.matchedBranch : null
+          }
+          highlightPrimaryAction={highlightPrimaryAction}
+          variant={variant}
+          presentationContext={presentationContext ?? undefined}
+          presentationAudience={presentationAudience}
         />
       </div>
     </div>
   );
 }
+
+export type OemWizardContinuationBridge = OemContinuationBridgeContext & {
+  targetProcedureId: string;
+};
 
 interface OemProcedureWizardSlotProps {
   procedureRuns: Record<string, ProcedureRunState>;
@@ -228,6 +299,10 @@ interface OemProcedureWizardSlotProps {
   onRunStateChange: (procedureId: string, runState: ProcedureRunState) => void;
   onDismissActiveProcedure: () => void;
   variant?: 'mobile' | 'desktop';
+  highlightPrimaryAction?: boolean;
+  continuationBridge?: OemWizardContinuationBridge | null;
+  procedurePresentationContext?: ProcedureStepPresentationContext | null;
+  presentationAudience?: 'diy' | 'tech';
 }
 
 /** Floating OEM runner above the wizard — launched from the OEM wizard step. */
@@ -237,6 +312,10 @@ export default function OemProcedureWizardSlot({
   autoStartProcedureId,
   onRunStateChange,
   variant = 'desktop',
+  highlightPrimaryAction = false,
+  continuationBridge = null,
+  procedurePresentationContext = null,
+  presentationAudience = 'tech',
 }: OemProcedureWizardSlotProps) {
   const completedIds = useMemo(
     () => Object.entries(procedureRuns)
@@ -251,18 +330,32 @@ export default function OemProcedureWizardSlot({
     && (!activeRun || activeRun.status === 'in_progress'),
   );
 
+  const activeContinuationBridge = useMemo(() => {
+    if (!continuationBridge || !activeProcedureId) return null;
+    if (continuationBridge.targetProcedureId !== activeProcedureId) return null;
+    if (autoStartProcedureId !== activeProcedureId) return null;
+    return continuationBridge;
+  }, [activeProcedureId, autoStartProcedureId, continuationBridge]);
+
   if (!showActiveRunner && !completedIds.length) return null;
+
+  const completedSummaryOnly = showActiveRunner && completedIds.length > 0;
 
   return (
     <div className="space-y-2">
-      {completedIds.map((procedureId) => (
+      {completedSummaryOnly ? (
+        <p className="text-[11px] text-[var(--solomon-text-secondary)] px-1">
+          {completedIds.length} completed OEM procedure{completedIds.length === 1 ? '' : 's'} — continue the active test below.
+        </p>
+      ) : null}
+      {!completedSummaryOnly ? completedIds.map((procedureId) => (
         <CompletedProcedureAccordion
           key={procedureId}
           procedureId={procedureId}
           runState={procedureRuns[procedureId]}
           variant={variant}
         />
-      ))}
+      )) : null}
 
       {showActiveRunner && activeProcedureId ? (
         <ActiveProcedureRunner
@@ -271,6 +364,10 @@ export default function OemProcedureWizardSlot({
           onRunStateChange={onRunStateChange}
           autoStart={autoStartProcedureId === activeProcedureId}
           variant={variant}
+          highlightPrimaryAction={highlightPrimaryAction}
+          continuationBridge={activeContinuationBridge}
+          presentationContext={procedurePresentationContext}
+          presentationAudience={presentationAudience}
         />
       ) : null}
     </div>

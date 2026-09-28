@@ -1,0 +1,1138 @@
+{
+  "manualId": "W10674984",
+  "procedures": [
+    {
+      "procedureId": "w10674984-adc-cooling-voltage",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_wrt311_adc",
+      "templateId": "refrigerator",
+      "title": "ADC 2000 cooling output (P6\u2013P4)",
+      "purpose": "Cooling Output P6 (WH) \u2013 P4 (OR)",
+      "prerequisites": [],
+      "componentIds": [
+        "control_board",
+        "compressor"
+      ],
+      "tags": [
+        "not_cooling",
+        "compressor_wont_start"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before resistance checks. Use caution on live ADC voltage tests.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "thermostat_calling",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Thermostat calling for cooling",
+          "body": "Cold control must be ON and calling for cooling (compressor should run or attempt start). Verify P1 (BK) to P6 (WH) = 120 VAC constant when plugged in.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "calling_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "cooling_v",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "not_calling",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "check_thermostat",
+              "terminal": true,
+              "oemOutcome": "Verify cold control ON and not in defrost pause \u2014 thermostat or ADC input issue."
+            }
+          ],
+          "sourceExcerpt": "Cold control must be ON and calling for cooling (compressor should run or attempt start). Verify P1 (BK) to P6 (WH) = 120 VAC constant when plugged in."
+        },
+        {
+          "id": "cooling_v",
+          "order": 3,
+          "type": "measurement",
+          "title": "ADC cooling output voltage",
+          "body": "Measure P6 (WH) to P4 (OR) \u2014 120 VAC to compressor, evap fan, and condenser fan when cooling.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWrt311AdcCoolingOutputVoltage",
+              "testPoint": {
+                "connector": "ADC 2000",
+                "pins": "P6 (WH) \u2013 P4 (OR)",
+                "label": "ADC cooling output voltage"
+              },
+              "title": "ADC cooling output voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "cooling_v_low",
+              "label": "Low / no voltage",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "adc_cooling_fault",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "cooling_v_warn",
+              "label": "Marginal voltage",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "adc_cooling_fault",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "cooling_v_pass",
+              "label": "~120 VAC",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "cooling_v_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure P6 (WH) to P4 (OR) \u2014 120 VAC to compressor, evap fan, and condenser fan when cooling."
+        },
+        {
+          "id": "check_thermostat",
+          "order": 4,
+          "type": "outcome",
+          "title": "Check thermostat / inputs",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "adc_cooling_fault",
+          "order": 5,
+          "type": "outcome",
+          "title": "ADC cooling output fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "cooling_v_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Cooling output verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWrt311AdcCoolingOutputVoltage",
+          "testPoint": {
+            "connector": "ADC 2000",
+            "pins": "P6 (WH) \u2013 P4 (OR)",
+            "label": "ADC cooling output voltage"
+          },
+          "title": "ADC cooling output voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "calling_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cooling_v",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermostat_calling"
+        },
+        {
+          "id": "not_calling",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_thermostat",
+          "terminal": true,
+          "oemOutcome": "Verify cold control ON and not in defrost pause \u2014 thermostat or ADC input issue.",
+          "stepId": "thermostat_calling"
+        },
+        {
+          "id": "cooling_v_low",
+          "label": "Low / no voltage",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "adc_cooling_fault",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "cooling_v"
+        },
+        {
+          "id": "cooling_v_warn",
+          "label": "Marginal voltage",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "adc_cooling_fault",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "cooling_v"
+        },
+        {
+          "id": "cooling_v_pass",
+          "label": "~120 VAC",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "cooling_v_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cooling_v"
+        }
+      ],
+      "source": {
+        "manualId": "W10674984",
+        "manualTitle": "Whirlpool WRT311 ADC 2000 Wiring Sheet (W10674984 Rev A)",
+        "oemTestNumber": "adc-voltage",
+        "oemTestTitle": "Cooling Output P6 (WH) \u2013 P4 (OR)",
+        "pages": [
+          2
+        ],
+        "extractedTextFile": "backend/docs/manuals/wiring-sheet-W10674984-RevA wrt311fzdt00-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-cooling-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10674984-adc-heater-voltage",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_wrt311_adc",
+      "templateId": "refrigerator",
+      "title": "ADC 2000 defrost heater output (P2\u2013P6)",
+      "purpose": "Defrost Heater Output P2 (PK) \u2013 P6 (WH)",
+      "prerequisites": [],
+      "componentIds": [
+        "defrost_heater",
+        "control_board"
+      ],
+      "tags": [
+        "RD",
+        "DF",
+        "ADCTEST",
+        "frost_buildup",
+        "adc_test"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before resistance checks. Use caution on live ADC voltage tests.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "adc_test_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "ADC defrost test mode active",
+          "body": "Relay click confirms ADC defrost test entry. Heater may run up to 18 minutes or until bi-metal opens.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "In test mode: defrost heater on up to 18 min or until bi-metal opens."
+        },
+        {
+          "id": "restore_power_adc",
+          "order": 3,
+          "type": "instruction",
+          "title": "Restore power for live test",
+          "body": "Plug in refrigerator. Enter ADC defrost test mode (service mode bundle) with bi-metal closed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Plug in refrigerator. Enter ADC defrost test mode (service mode bundle) with bi-metal closed."
+        },
+        {
+          "id": "heater_v",
+          "order": 4,
+          "type": "measurement",
+          "title": "ADC defrost heater output voltage",
+          "body": "Measure P2 (PK) to P6 (WH) at ADC connector \u2014 120 VAC when heater energized in test mode.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWrt311AdcDefrostHeaterVoltage",
+              "testPoint": {
+                "connector": "ADC 2000",
+                "pins": "P2 (PK) \u2013 P6 (WH)",
+                "label": "ADC defrost heater output voltage"
+              },
+              "title": "ADC defrost heater output voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "heater_v_low",
+              "label": "Low / no voltage",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "adc_or_wiring_fault",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_v_warn",
+              "label": "Marginal voltage",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "adc_or_wiring_fault",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_v_pass",
+              "label": "~120 VAC",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_v_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure P2 (PK) to P6 (WH) at ADC connector \u2014 120 VAC when heater energized in test mode."
+        },
+        {
+          "id": "adc_or_wiring_fault",
+          "order": 5,
+          "type": "outcome",
+          "title": "ADC relay or wiring",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_v_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "ADC heater output verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWrt311AdcDefrostHeaterVoltage",
+          "testPoint": {
+            "connector": "ADC 2000",
+            "pins": "P2 (PK) \u2013 P6 (WH)",
+            "label": "ADC defrost heater output voltage"
+          },
+          "title": "ADC defrost heater output voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "heater_v_low",
+          "label": "Low / no voltage",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "adc_or_wiring_fault",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_v"
+        },
+        {
+          "id": "heater_v_warn",
+          "label": "Marginal voltage",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "adc_or_wiring_fault",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_v"
+        },
+        {
+          "id": "heater_v_pass",
+          "label": "~120 VAC",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_v_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_v"
+        }
+      ],
+      "source": {
+        "manualId": "W10674984",
+        "manualTitle": "Whirlpool WRT311 ADC 2000 Wiring Sheet (W10674984 Rev A)",
+        "oemTestNumber": "adc-voltage",
+        "oemTestTitle": "Defrost Heater Output P2 (PK) \u2013 P6 (WH)",
+        "pages": [
+          2
+        ],
+        "extractedTextFile": "backend/docs/manuals/wiring-sheet-W10674984-RevA wrt311fzdt00-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-heater-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-heater-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10674984-defrost-bimetal",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_wrt311_adc",
+      "templateId": "refrigerator",
+      "title": "WRT311 defrost bi-metal (opens 58\u00b0F)",
+      "purpose": "Defrost Bi-Metal",
+      "prerequisites": [],
+      "componentIds": [
+        "defrost_thermostat"
+      ],
+      "tags": [
+        "DF",
+        "frost_buildup",
+        "defrost_thermostat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before resistance checks. Use caution on live ADC voltage tests.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "access_bimetal",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access defrost bi-metal",
+          "body": "Remove evaporator cover. Disconnect bi-metal harness. Service note: opens at 58\u00b0F on WRT311.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove evaporator cover. Disconnect bi-metal harness. Service note: opens at 58\u00b0F on WRT311."
+        },
+        {
+          "id": "bimetal_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Defrost bi-metal resistance",
+          "body": "Cold/frosted evaporator: <1 \u03a9 closed. Open when warm after defrost is normal.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWrt311DefrostBimetalOhms",
+              "testPoint": {
+                "connector": "defrost bi-metal",
+                "pins": "bi-metal terminals",
+                "label": "Defrost bi-metal resistance"
+              },
+              "title": "Defrost bi-metal resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "bimetal_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_pass",
+              "label": "<1 \u03a9 closed",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "bimetal_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Cold/frosted evaporator: <1 \u03a9 closed. Open when warm after defrost is normal."
+        },
+        {
+          "id": "replace_bimetal",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace bi-metal",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "bimetal_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Bi-metal verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWrt311DefrostBimetalOhms",
+          "testPoint": {
+            "connector": "defrost bi-metal",
+            "pins": "bi-metal terminals",
+            "label": "Defrost bi-metal resistance"
+          },
+          "title": "Defrost bi-metal resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "bimetal_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "bimetal_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "bimetal_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "bimetal_pass",
+          "label": "<1 \u03a9 closed",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bimetal_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W10674984",
+        "manualTitle": "Whirlpool WRT311 ADC 2000 Wiring Sheet (W10674984 Rev A)",
+        "oemTestNumber": "component",
+        "oemTestTitle": "Defrost Bi-Metal",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/wiring-sheet-W10674984-RevA wrt311fzdt00-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-defrost-bimetal",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-defrost-bimetal",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10674984-defrost-heater",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_wrt311_adc",
+      "templateId": "refrigerator",
+      "title": "WRT311 defrost heater resistance (30\u201342 \u03a9)",
+      "purpose": "Defrost Heater 350\u2013480 W @ 120 V",
+      "prerequisites": [],
+      "componentIds": [
+        "defrost_heater",
+        "heater"
+      ],
+      "tags": [
+        "RD",
+        "DF",
+        "frost_buildup",
+        "defrost_heater"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before resistance checks. Use caution on live ADC voltage tests.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "adc_test_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "ADC defrost test mode active",
+          "body": "Relay click confirms ADC defrost test entry. Heater may run up to 18 minutes or until bi-metal opens.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "In test mode: defrost heater on up to 18 min or until bi-metal opens."
+        },
+        {
+          "id": "access_heater",
+          "order": 3,
+          "type": "instruction",
+          "title": "Access defrost heater",
+          "body": "Remove evaporator cover. Disconnect defrost heater harness. Power must be off for ohms.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove evaporator cover. Disconnect defrost heater harness. Power must be off for ohms."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Defrost heater resistance",
+          "body": "350\u2013480 W @ 120 V \u2192 42\u201330 \u03a9 (Embraco EM3Z/EM3D). Differs from W10330404 ~30 \u03a9 generic spec.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWrt311DefrostHeaterOhms",
+              "testPoint": {
+                "connector": "defrost heater",
+                "pins": "heater terminals",
+                "label": "Defrost heater resistance"
+              },
+              "title": "Defrost heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "heater_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_pass",
+              "label": "30\u201342 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "350\u2013480 W @ 120 V \u2192 42\u201330 \u03a9 (Embraco EM3Z/EM3D). Differs from W10330404 ~30 \u03a9 generic spec."
+        },
+        {
+          "id": "replace_heater",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace defrost heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Defrost heater verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWrt311DefrostHeaterOhms",
+          "testPoint": {
+            "connector": "defrost heater",
+            "pins": "heater terminals",
+            "label": "Defrost heater resistance"
+          },
+          "title": "Defrost heater resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_pass",
+          "label": "30\u201342 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W10674984",
+        "manualTitle": "Whirlpool WRT311 ADC 2000 Wiring Sheet (W10674984 Rev A)",
+        "oemTestNumber": "component",
+        "oemTestTitle": "Defrost Heater 350\u2013480 W @ 120 V",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/wiring-sheet-W10674984-RevA wrt311fzdt00-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-defrost-heater",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-defrost-heater",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10674984-ptc-start",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_wrt311_adc",
+      "templateId": "refrigerator",
+      "title": "PTC start device (WRT311 / Embraco)",
+      "purpose": "PTC Start Device",
+      "prerequisites": [],
+      "componentIds": [
+        "start_device",
+        "compressor"
+      ],
+      "tags": [
+        "PTCOPEN",
+        "OL",
+        "compressor_wont_start"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before resistance checks. Use caution on live ADC voltage tests.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "cooldown",
+          "order": 2,
+          "type": "instruction",
+          "title": "Allow PTC cool-down",
+          "body": "Disconnect power. Allow ~10 min cool-down if compressor was recently run.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Allow ~10 min cool-down if compressor was recently run."
+        },
+        {
+          "id": "ptc_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "PTC cold resistance",
+          "body": "Unplug start module from Embraco compressor. ~5 \u03a9 cold per W10330404 PTC guidance.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWrtPtcStartOhms",
+              "testPoint": {
+                "connector": "PTC start module",
+                "pins": "PTC terminals",
+                "label": "PTC cold resistance"
+              },
+              "title": "PTC cold resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ptc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ptc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ptc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ptc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ptc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ptc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ptc_pass",
+              "label": "~3\u20138 \u03a9 cold",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ptc_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Unplug start module from Embraco compressor. ~5 \u03a9 cold per W10330404 PTC guidance."
+        },
+        {
+          "id": "replace_ptc",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace start module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ptc_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "PTC verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWrtPtcStartOhms",
+          "testPoint": {
+            "connector": "PTC start module",
+            "pins": "PTC terminals",
+            "label": "PTC cold resistance"
+          },
+          "title": "PTC cold resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ptc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ptc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ptc_ohms"
+        },
+        {
+          "id": "ptc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ptc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ptc_ohms"
+        },
+        {
+          "id": "ptc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ptc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ptc_ohms"
+        },
+        {
+          "id": "ptc_pass",
+          "label": "~3\u20138 \u03a9 cold",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ptc_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ptc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W10674984",
+        "manualTitle": "Whirlpool WRT311 ADC 2000 Wiring Sheet (W10674984 Rev A)",
+        "oemTestNumber": "component",
+        "oemTestTitle": "PTC Start Device",
+        "pages": [
+          1,
+          2
+        ],
+        "extractedTextFile": "backend/docs/manuals/wiring-sheet-W10674984-RevA wrt311fzdt00-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-ptc-start",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-ptc-start",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

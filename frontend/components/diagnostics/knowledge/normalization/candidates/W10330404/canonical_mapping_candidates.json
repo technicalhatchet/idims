@@ -1,0 +1,895 @@
+{
+  "manualId": "W10330404",
+  "candidates": [
+    {
+      "id": "map-w10330404-unresolved-w10330404-compressor-windings-compressor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "compressor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-compressor-windings",
+        "pages": [
+          60,
+          61
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-compressor-windings",
+            "pages": [
+              60,
+              61
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W10330404-compound-compressor-winding-identification",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-6: Compressor winding identification",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-compressor-windings",
+        "pages": [
+          60,
+          61
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-compressor-windings",
+            "pages": [
+              60,
+              61
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Compressor winding identification"
+    },
+    {
+      "id": "map-W10330404-compound-condenser_fan",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "condenser_fan",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-condenser-fan",
+        "pages": [
+          58,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-condenser-fan",
+            "pages": [
+              58,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W10330404-compound-condenser-fan-motor-(shaded-pole)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Condenser fan motor (shaded pole)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "condenser fan",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-condenser-fan",
+        "pages": [
+          58,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-condenser-fan",
+            "pages": [
+              58,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "condenser fan",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Condenser fan motor (shaded pole)"
+    },
+    {
+      "id": "map-W10330404-compound-defrost_thermostat",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "defrost_thermostat",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-defrost-bimetal",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-defrost-bimetal",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W10330404-compound-defrost-bimetal-/-terminator",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-8: Defrost bimetal / terminator",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-defrost-bimetal",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-defrost-bimetal",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Defrost bimetal / terminator"
+    },
+    {
+      "id": "map-W10330404-compound-defrost_heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "defrost_heater",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "defrost",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-defrost-heater",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-defrost-heater",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w10330404-unresolved-w10330404-defrost-heater-heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "heater",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-defrost-heater",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-defrost-heater",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W10330404-compound-defrost-heater-resistance",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-5: Defrost heater resistance",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "defrost",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-defrost-heater",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-defrost-heater",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Defrost heater resistance"
+    },
+    {
+      "id": "map-W10330404-compound-defrost_timer",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "defrost_timer",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-defrost-timer",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-defrost-timer",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W10330404-compound-control_board",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "control_board",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "control",
+        "actuator": "board"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-defrost-timer",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-defrost-timer",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "control",
+              "actuator": "board"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W10330404-compound-mechanical-defrost-timer-contacts",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a73-12: Mechanical defrost timer contacts",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-defrost-timer",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-defrost-timer",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Mechanical defrost timer contacts"
+    },
+    {
+      "id": "map-W10330404-compound-ice_maker_module",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ice_maker_module",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "ice maker",
+        "actuator": "module"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-ice-maker-fuse",
+        "pages": [
+          75,
+          76
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-ice-maker-fuse",
+            "pages": [
+              75,
+              76
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice maker",
+              "actuator": "module"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W10330404-compound-ice-maker-harness-thermal-fuse",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a76-2: Ice maker harness thermal fuse",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "ice maker harness thermal",
+        "actuator": "fuse"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-ice-maker-fuse",
+        "pages": [
+          75,
+          76
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-ice-maker-fuse",
+            "pages": [
+              75,
+              76
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice maker harness thermal",
+              "actuator": "fuse"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Ice maker harness thermal fuse"
+    },
+    {
+      "id": "map-W10330404-compound-start_device",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "start_device",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-ptc-start",
+        "pages": [
+          63,
+          64
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-ptc-start",
+            "pages": [
+              63,
+              64
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w10330404-unresolved-w10330404-ptc-start-compressor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "compressor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-ptc-start",
+        "pages": [
+          63,
+          64
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-ptc-start",
+            "pages": [
+              63,
+              64
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W10330404-compound-ptc-start-device-(cold)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-9: PTC start device (cold)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-ptc-start",
+        "pages": [
+          63,
+          64
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-ptc-start",
+            "pages": [
+              63,
+              64
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "PTC start device (cold)"
+    }
+  ]
+}

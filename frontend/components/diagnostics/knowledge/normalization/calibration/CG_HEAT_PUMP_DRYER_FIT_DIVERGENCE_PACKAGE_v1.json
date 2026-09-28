@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_heat_pump_dryer_fit_divergence_package",
+  "workstream": "CG-HEAT-PUMP-DRYER-FIT-TEST",
+  "status": "awaiting_human_authorization",
+  "generatedAt": "2026-09-17T14:55:00+00:00",
+  "fitOutcome": "architectural_divergence",
+  "analysisArtifact": "CG_HEAT_PUMP_DRYER_FIT_ANALYSIS_v1.json",
+  "authorizationRequestedFor": "CG-HEAT-PUMP-DRYER-DISCOVERY",
+  "exactFunctionalDivergences": [
+    {
+      "id": "refrigerant_cycle_heat_transfer",
+      "description": "Primary dry heat via sealed refrigerant/compressor loop — not resistive/gas heat_source on air stream",
+      "affectedFrozenContract": "vented_dryer",
+      "whyCannotRepresent": "vented_dryer heat_source models thermal addition to drying air via element/burner protected by thermal_fuse/cutoff. Compressor inverter faults (3CA, HC) are a different heat-generation and protection contract.",
+      "crossManufacturerEvidence": ["Samsung DV22N §4-1", "LG DLHC1455 §1/§7", "Whirlpool W10764068 §1-3 TEST #4B"]
+    },
+    {
+      "id": "condensation_moisture_rejection",
+      "description": "Moisture removed via condensation into tank/drain/sump — not external exhaust vent terminal",
+      "affectedFrozenContract": "vented_dryer",
+      "whyCannotRepresent": "vented_dryer airflow_operation and heated_airflow_path require exhaust_path as functional terminal. HP dryers explicitly ventless with condensate management.",
+      "crossManufacturerEvidence": ["Samsung 5C/water tank", "LG condensate container", "Whirlpool TEST #9 drain + ventless statement"]
+    },
+    {
+      "id": "sealed_process_airflow",
+      "description": "Recirculating sealed heat-pump airflow through condenser/evaporator loop — not blower→external exhaust",
+      "affectedFrozenContract": "vented_dryer",
+      "whyCannotRepresent": "lint_filter vs exhaust_path distinction collapses without exhaust terminal; sealed condenser path is different functional topology",
+      "crossManufacturerEvidence": ["Samsung condenser cover/check", "LG no external duct", "Whirlpool sealed system diagram"]
+    },
+    {
+      "id": "refrigerant_thermal_protection",
+      "description": "Multi-node refrigerant/discharge/compressor thermal network — not element thermal fuse series alone",
+      "affectedFrozenContract": "vented_dryer",
+      "whyCannotRepresent": "vented_dryer thermal protection protects heat_source on air path; HP uses refrigerant circuit thermistors and compressor IPM protection",
+      "crossManufacturerEvidence": ["Samsung tC/tCA family", "LG discharge pipe thermistor", "Whirlpool TEST #4c"]
+    }
+  ],
+  "superficialOverlapPreserved": {
+    "vented_dryer_domains": ["door_switch", "drive", "moisture_sensing", "lint_filter", "control", "user_interface", "power"],
+    "note": "Overlap insufficient for proven_variant — core dry architecture diverges"
+  },
+  "aioQueueImplication": {
+    "aioStatus": "DISCOVERY_COMPLETE / FREEZE_BLOCKED / CORROBORATION_PAUSED",
+    "implication": "AIO sealed_heat_pump_drying candidate gains independent HP-dryer corpus support; AIO orchestration layer still requires return gate after HP dryer architecture resolved",
+    "doNotAutoReturnToAio": true
+  },
+  "unresolvedQuestions": [
+    "Minimum canonical function count for HP dryer discovery (collapse vs split heat transfer / moisture rejection)",
+    "Relationship to ventless condenser-resistive AIO (Whirlpool WFW9620) — sibling sealed_dry abstraction vs HP-only family",
+    "Supplemental resistive heater on HP platforms (Samsung dry heater auxiliary, Whirlpool TEST #4a) — sub-realization scope"
+  ],
+  "canonicalExpansionCount": 0,
+  "frozenHashesUnchanged": {
+    "vented_dryer": "db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714"
+  },
+  "humanGateRequest": {
+    "action": "Authorize or reject CG-HEAT-PUMP-DRYER-DISCOVERY",
+    "stopAfterGate": true,
+    "doNotReturnToAioAutomatically": true
+  }
+}

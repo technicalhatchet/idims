@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "W11499711",
+  "platformId": "whirlpool_dishwasher_acu",
+  "platformFamilyId": "whirlpool_dishwasher_acu",
+  "canonicalOntologyId": "dishwasher",
+  "proposedOverlayFile": "whirlpool_dishwasher.json",
+  "priorPublishedManualIds": [
+    "W11633848",
+    "W11480208"
+  ],
+  "status": "published",
+  "generatedAt": "2026-09-15T07:38:00+00:00",
+  "pipelineManifest": "frontend/components/diagnostics/knowledge/normalization/candidates/W11499711/pipeline_manifest.json",
+  "compoundingPreviewArtifact": "frontend/components/diagnostics/knowledge/normalization/calibration/W11499711_compounding_preview_v1.json",
+  "priorGateArtifacts": [
+    "frontend/components/diagnostics/knowledge/normalization/calibration/W11633848_overlay_mapping_table_v1.json",
+    "frontend/components/diagnostics/knowledge/normalization/calibration/W11480208_overlay_mapping_table_v1.json"
+  ],
+  "gatePolicy": {
+    "gateKind": "mechanical_only",
+    "canonicalGraph": "dishwasher.json rev1 FROZEN \u2014 zero new canonical concepts.",
+    "cohortRule": "Native W11499711 only (source.manualId === W11499711; 1 procedure).",
+    "registrationRule": "Register w11499711-wash-motor-ssm under published SSM semantics only.",
+    "noOemAliasPromotion": "Mapping candidates recorded for provenance \u2014 not gate-approved; no \u00a7 title aliases.",
+    "noPlatformDelta": "No new platform components, relationships, or VSM knowledge changes.",
+    "noReusedSeedInference": "Do not infer mappings from reused w11633848-* / w11480208-* seed procedures.",
+    "publishBlocked": true
+  },
+  "compoundingAccounting": {
+    "evidenceKinds": {
+      "W11633848": {
+        "role": "establishes_dishwasher_functional_vocabulary",
+        "newHumanSemanticDecisions": 11
+      },
+      "W11480208": {
+        "role": "establishes_platform_compounding",
+        "subtitle": "VSM / diverter / ProDry",
+        "newHumanSemanticDecisions": 5
+      },
+      "W11499711": {
+        "role": "validates_downstream_inheritance",
+        "subtitle": "SSM correctly distinguished from VSM",
+        "newHumanSemanticDecisions": 0,
+        "documentation": "W11499711 provides narrow post-publication inheritance validation: its sole native diagnostic delta was semantically inherited with zero new human decisions, while correctly selecting the published SSM path rather than the subsequently published VSM implementation.",
+        "scopeLimit": "Not a third full-manual validation \u2014 one native procedure only. Broader dishwasher compounding evidence remains open."
+      }
+    },
+    "teachingCostCurve": {
+      "W11633848": 11,
+      "W11480208": 5,
+      "W11499711": 0
+    },
+    "authoritativeCohort": {
+      "label": "Native W11499711 (w11499711-*)",
+      "procedurePrefix": "w11499711-",
+      "procedures": 1,
+      "mappingCandidates": 2,
+      "overlayCandidates": 2,
+      "gateApprovedProcedureBindings": 1,
+      "gateApprovedMeasurementBindings": 1,
+      "gateApprovedMappings": 0,
+      "projectedNewHumanSemanticDecisions": 0,
+      "newCanonicalConcepts": 0
+    }
+  },
+  "gateSummary": {
+    "mappingCandidatesTotal": 2,
+    "mappingApprovals": 0,
+    "mappingRejections": 0,
+    "mappingDeferredProvenanceOnly": 2,
+    "procedureBindingsApproved": 1,
+    "measurementBindingsApproved": 1,
+    "overlayBindingsRejected": 0,
+    "newHumanSemanticDecisions": 0,
+    "mechanicalRegistrations": 1,
+    "newCanonicalConcepts": 0,
+    "newPlatformKnowledge": 0,
+    "newModelSpecificKnowledge": 0,
+    "gatedAt": "2026-09-15T12:34:12.301594+00:00"
+  },
+  "layerDefinitions": {
+    "mechanical_registration": "Overlay procedure/measurement binding under published SSM semantics \u2014 integrity check only.",
+    "provenance_only_mapping": "Canonical mapping candidate retained for audit; not promoted as OEM alias."
+  },
+  "mappings": [
+    {
+      "manualConcept": "circulation_pump",
+      "layer": "provenance_only_mapping",
+      "candidate": "circulation_pump",
+      "gateAction": "defer_provenance",
+      "candidateIds": [
+        "map-W11499711-circulation_pump-circulation_pump"
+      ],
+      "rationale": "Seed componentId reuse \u2014 no OEM alias promotion."
+    },
+    {
+      "manualConcept": "\u00a73-15: Wash Motor (SSM, WDT750)",
+      "layer": "provenance_only_mapping",
+      "candidate": "circulation_pump",
+      "matchedPhrase": "wash motor",
+      "implementationComponent": "ssm_wash_motor",
+      "gateAction": "defer_provenance",
+      "candidateIds": [
+        "map-W11499711-compound-wash-motor-(ssm,-wdt750)"
+      ],
+      "rationale": "Inherited via published wash motor \u2192 circulation_pump; \u00a7 title not promoted as alias."
+    }
+  ],
+  "procedureBindings": [
+    {
+      "procedureId": "w11499711-wash-motor-ssm",
+      "testTargetId": "circulation_test",
+      "canonicalComponents": [
+        "circulation_pump"
+      ],
+      "implementationComponent": "ssm_wash_motor",
+      "failureDomains": [
+        "circulation_failure"
+      ],
+      "displayTitle": "\u00a73-15: Wash Motor (SSM, WDT750)",
+      "semanticAnchor": "w11633848-wash-motor",
+      "overlayCandidateIds": [
+        "overlay-W11499711-w11499711-wash-motor-ssm-circulation_test"
+      ],
+      "gateAction": "approve_mechanical",
+      "layer": "mechanical_registration"
+    }
+  ],
+  "measurementBindings": [
+    {
+      "procedureId": "w11499711-wash-motor-ssm",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+      "testTargetId": "circulation_test",
+      "implementationComponent": "ssm_wash_motor",
+      "semanticAnchor": "w11633848-wash-motor",
+      "overlayCandidateIds": [
+        "overlay-W11499711-w11499711-wash-motor-ssm-meas-whirlpoolDishwasherAcuWashMotorOhms"
+      ],
+      "gateAction": "approve_mechanical",
+      "layer": "mechanical_registration"
+    }
+  ],
+  "compoundingEvidence": {
+    "cohortRole": "narrow_post_publication_inheritance_validation",
+    "priorManualIds": [
+      "W11633848",
+      "W11480208"
+    ],
+    "newHumanSemanticDecisions": 0,
+    "mechanicalRegistrations": 1,
+    "inheritedSsmPath": true,
+    "vsmContaminationAvoided": true,
+    "newCanonicalConcepts": 0,
+    "newPlatformKnowledge": 0,
+    "newModelSpecificKnowledge": 0,
+    "inheritanceValidation": "Published VSM knowledge did not contaminate SSM implementation.",
+    "documentation": "W11499711 provides narrow post-publication inheritance validation: its sole native diagnostic delta was semantically inherited with zero new human decisions, while correctly selecting the published SSM path rather than the subsequently published VSM implementation."
+  },
+  "publishPolicy": {
+    "allowedMutations": [
+      "procedureBindings",
+      "measurementBindings",
+      "compoundingManualIds",
+      "modelPatterns"
+    ],
+    "forbiddenMutations": [
+      "oemTermAliases",
+      "add.components",
+      "add.relationships",
+      "canonicalOntology"
+    ]
+  },
+  "publishedAt": "2026-09-15T12:34:22.540089+00:00",
+  "promotionId": "promo-W11499711-20260915074133"
+}

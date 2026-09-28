@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg66_whirlpool_tl_rev1_certification",
+  "status": "locked",
+  "verdict": "CERTIFIED",
+  "lockedAt": "2026-09-15T20:08:07.094569+00:00",
+  "experiment": "Retroactive certification of already-published Whirlpool TL overlay against frozen top_load_washer rev1 \u2014 not new compounding.",
+  "canonicalOntology": {
+    "id": "top_load_washer",
+    "frozen": true,
+    "frozenRevision": "rev1",
+    "hashBefore": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+    "hashAfter": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+    "canonicalExpansion": 0
+  },
+  "certificationSemantics": {
+    "certifiedArtifactsRepresented": 85,
+    "knowledgeArtifactsAdded": 0,
+    "overlaySemanticDelta": 0,
+    "note": "certifiedArtifactsRepresented counts gate-table artifacts certified in the publication record \u2014 not new knowledge added to the overlay."
+  },
+  "overlayDelta": {
+    "semanticHashBefore": "70822aa2be480d3cc4e6e5576f8f29f65ca244d1c29d9f6f1d1cbb792f1d4b40",
+    "semanticHashAfter": "70822aa2be480d3cc4e6e5576f8f29f65ca244d1c29d9f6f1d1cbb792f1d4b40",
+    "semanticDelta": 0,
+    "metadataAttachment": "certification provenance + gate/ledger references"
+  },
+  "hashes": {
+    "canonical": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+    "gateTable": "7a88a3ef6ed66cd2defe47a64ebc8f501e877b78f4d6c127f27b9c79cc360a4a",
+    "ledger": "324ddd60975bf14dfe87695a4f75710639b9d0d10cb9a17d3b58ebbac720a2ed",
+    "publicationPlan": "dcfafc5425e799bd41755566036b86340800b30c162eb68be4772a7b23dbaf2c",
+    "dryRunReport": "315568db94387210b6431a8142664315358700e0151a207a5ebb3a1c5c0939d9",
+    "overlaySemanticBefore": "70822aa2be480d3cc4e6e5576f8f29f65ca244d1c29d9f6f1d1cbb792f1d4b40",
+    "overlaySemanticAfter": "70822aa2be480d3cc4e6e5576f8f29f65ca244d1c29d9f6f1d1cbb792f1d4b40",
+    "publicationReport": "7ab30503fe6f6449018ee558cf9aaf92464842cd696520ea8e654549c8c0ede3"
+  },
+  "counts": {
+    "certifiedArtifactsRepresented": 85,
+    "certificationDecisions": 35,
+    "inheritedKnowledge": 50,
+    "certificationWorkItems": 85,
+    "deferred": 17,
+    "contractRejections": 2,
+    "newSemanticDecisions": 0,
+    "canonicalExpansion": 0
+  },
+  "historicalCompounding": {
+    "manuals": [
+      {
+        "manualId": "W10864849",
+        "promotionId": "promo-W10864849-20260913070539",
+        "historicalNewDecisions": 14
+      },
+      {
+        "manualId": "W11697231",
+        "promotionId": "promo-W11697231-20260913133238",
+        "historicalNewDecisions": 0
+      },
+      {
+        "manualId": "W11416787",
+        "promotionId": "promo-W11416787-20260913135602",
+        "historicalNewDecisions": 2
+      }
+    ],
+    "cg66TeachingCost": 0,
+    "note": "Historical compounding decisions are provenance only \u2014 not CG-6.6 teaching cost."
+  },
+  "cg66TeachingCost": 0,
+  "publication": {
+    "promotionId": "cert-WHIRLPOOL-TL-CG66-20260915200807",
+    "publishedAt": "2026-09-15T20:08:07.094569+00:00",
+    "publishMode": "gate_table_certification",
+    "overlayFile": "whirlpool_top_load_washer.json",
+    "gateArtifact": "WHIRLPOOL_TOP_LOAD_WASHER_CG66_overlay_mapping_table_v1.json",
+    "ledgerArtifact": "WHIRLPOOL_TOP_LOAD_WASHER_CG66_gate_decision_ledger_v1.json",
+    "publicationArtifact": "publication_WHIRLPOOL_TOP_LOAD_WASHER_CG66.json",
+    "publicationPlanArtifact": "publication_plan_WHIRLPOOL_TOP_LOAD_WASHER_CG66.json",
+    "dryRunReportArtifact": "promotion_dry_run_WHIRLPOOL_TOP_LOAD_WASHER_CG66.json",
+    "certificationEvidenceArtifact": "WHIRLPOOL_TOP_LOAD_WASHER_CG66_CERTIFICATION_EVIDENCE_v1.json"
+  },
+  "regression": {
+    "checks": {
+      "canonicalHashUnchanged": true,
+      "canonicalFrozenRev1": true,
+      "overlaySemanticUnchanged": true,
+      "metadataOnlyDelta": true,
+      "flOverlayByteStable": true,
+      "samsungFlOverlayByteStable": true,
+      "gateTableFullyApplied": true,
+      "knowledgeArtifactsAddedZero": true,
+      "canonicalMutationsZero": true,
+      "newSemanticDecisionsZero": true,
+      "certifiedArtifacts85": true,
+      "deferred17": true,
+      "contractRejections2": true
+    }
+  },
+  "manufacturerIsolation": {
+    "flOverlayUnchanged": true,
+    "samsungFlOverlayUnchanged": true,
+    "flLeakage": 0,
+    "samsungLeakage": 0,
+    "verdict": "clean"
+  },
+  "hashRefreshNote": "publicationPlan hash refreshed after ledger accounting alignment (35/50 vs gate-table totals)."
+}

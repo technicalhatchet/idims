@@ -1,0 +1,476 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg9_refrigerator_family_boundary_observation",
+  "phase": "CG-9",
+  "status": "discovery_only",
+  "generatedAt": "2026-09-16T13:46:47.778784+00:00",
+  "canonicalExpansion": 0,
+  "canonicalMutation": 0,
+  "freezeReopened": false,
+  "discoveryCorpusInheritance": 0,
+  "sourceMetadata": {
+    "primaryManualId": "LG-LSC27926-SXS",
+    "primaryPdf": "backend/docs/manuals/LGSxS.pdf",
+    "primaryExtractedText": "backend/docs/manuals/LGSxS-extracted.txt",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md",
+    "platformId": "lg_sxs",
+    "manufacturer": "LG",
+    "configuration": "side_by_side",
+    "smokeModel": "LSC27926ST",
+    "procedureSeedDir": "frontend/components/diagnostics/knowledge/procedures/seed/lg_sxs",
+    "procedureCounts": {
+      "lgsxsProcedureSeeds": 0,
+      "totalProcedureSeedsOnPlatform": 0,
+      "serviceModeBundles": 0,
+      "proceduresWithMeasurementSteps": 0
+    },
+    "manualSelectionRationale": "LG-LSC27926-SXS is the LG SxS anchor: 14 lgsxs-* procedure seeds + test-mode bundle, conventional relay compressor (distinct from lg_lrmvs linear), BLDC F/C fans, OptiChill damper, and dedicated door-switch procedure with Test 1 fan-stop evidence.",
+    "cg9R2TriangulationReference": {
+      "artifact": "CG9_SXS_REFRIGERATOR_FAMILY_BOUNDARY_R2_TRIANGULATION_v1.json",
+      "verdict": null
+    }
+  },
+  "frozenOntologyReference": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+    "hashVerifiedAtGeneration": true,
+    "components": [
+      "control_board",
+      "user_interface",
+      "door_switch",
+      "evaporator_fan",
+      "air_damper",
+      "defrost_heater"
+    ],
+    "conditionalConcepts": [
+      "temperature_sensor",
+      "compressor",
+      "condenser_fan",
+      "ice_maker",
+      "water_dispenser"
+    ]
+  },
+  "isolationGuards": {
+    "cg7DiscoveryCorpusUsedAsInheritance": false,
+    "cg8FrenchDoorOverlaysUsedAsEvidence": false,
+    "cg9R2TriangulationUsedAsAutoApproval": false,
+    "priorOverlayHashesObserved": {
+      "whirlpool_jazz_french_door.json": "9c06e8ddfe925bbd6a0565d4193b46f4a21384ec88924520ba2684d33c2de2f2",
+      "samsung_fridge_bespoke.json": "7f75acf87d811d650e3c830ef32a5f72b43e8bae1588d2bed50be6223992bf9c",
+      "lg_lrmvs.json": "89624805c0b5805baedd7123f9a209ca4fe641db90c17fd34d9f6113b04d2b9b",
+      "samsung_sxs.json": "4461b920a2d346ffb5b673d556229d277e11d3d10dbcf4dd835a6a38a47b4cf7",
+      "whirlpool_sxs_w11296289.json": "e2c827f7f0a16a053dffe2c2db1526e75762b1e793e7a469c2ec2d777b14479e"
+    },
+    "sideBySideCanonicalOntologyCreated": false,
+    "manufacturerOverlayPublished": false,
+    "lrmvsLinearOverlayNotImported": true
+  },
+  "candidateConceptVocabulary": [
+    {
+      "term": "main_micom",
+      "classification": "shared_function",
+      "mapsTo": "control_board"
+    },
+    {
+      "term": "display_micom",
+      "classification": "shared_function",
+      "mapsTo": "user_interface"
+    },
+    {
+      "term": "door_switch_abcd",
+      "classification": "shared_function",
+      "mapsTo": "door_switch"
+    },
+    {
+      "term": "f_fan",
+      "classification": "shared_function",
+      "mapsTo": "evaporator_fan"
+    },
+    {
+      "term": "c_fan",
+      "classification": "shared_function",
+      "mapsTo": "condenser_fan"
+    },
+    {
+      "term": "stepping_damper",
+      "classification": "shared_function",
+      "mapsTo": "air_damper"
+    },
+    {
+      "term": "optichill_damper",
+      "classification": "configuration_specific",
+      "mapsTo": "air_damper:optichill"
+    },
+    {
+      "term": "compressor_relay_ry2",
+      "classification": "implementation_specific",
+      "mapsTo": "compressor_controller"
+    },
+    {
+      "term": "defrost_sensor",
+      "classification": "implementation_specific",
+      "mapsTo": "defrost_sensor"
+    },
+    {
+      "term": "bldc_fan_drive",
+      "classification": "implementation_specific",
+      "mapsTo": "fan_controller"
+    },
+    {
+      "term": "in_door_ice_maker",
+      "classification": "configuration_specific",
+      "mapsTo": "ice_maker"
+    },
+    {
+      "term": "water_tank_sensor",
+      "classification": "deferred",
+      "mapsTo": "water_dispenser"
+    },
+    {
+      "term": "r2_sensor",
+      "classification": "deferred",
+      "mapsTo": "temperature_sensor"
+    },
+    {
+      "term": "humidity_sensor",
+      "classification": "deferred",
+      "mapsTo": "humidity_control"
+    },
+    {
+      "term": "linear_compressor",
+      "classification": "rejected",
+      "mapsTo": "lg_lrmvs platform only"
+    },
+    {
+      "term": "airflow_path",
+      "classification": "shared_function",
+      "note": "Decomposes to fan+damper \u2014 remains dead aggregate"
+    },
+    {
+      "term": "defrost_system",
+      "classification": "shared_function",
+      "note": "Decomposes to heater+sensor \u2014 remains dead aggregate"
+    }
+  ],
+  "sixKeepFunctionEvidence": [
+    {
+      "concept": "control_board",
+      "evidence": "Main PCB MICOM test-mode orchestration \u2014 Test 1 all loads, Test 2 defrost.",
+      "procedureOrTest": [
+        "lgsxs-test-mode-entry"
+      ],
+      "functionalRole": "Refrigeration control orchestration",
+      "configurationEffect": "SxS test-button entry \u2014 not a different control function.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    },
+    {
+      "concept": "user_interface",
+      "evidence": "\u00a72-16 LCD/LED graphics check; \u00a71-11 main\u2194display MICOM communication.",
+      "procedureOrTest": [
+        "lgsxs-lcd-check",
+        "lgsxs-display-communication"
+      ],
+      "functionalRole": "HMI / display surface",
+      "configurationEffect": "Through-door dispenser UI on LSC27926** \u2014 still HMI domain.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    },
+    {
+      "concept": "door_switch",
+      "evidence": "\u00a71-4 door switches A/B/C/D in parallel; Test 1 fan stops on door open \u2014 dedicated procedure seed with independent diagnostic path.",
+      "procedureOrTest": [
+        "lgsxs-door-switch"
+      ],
+      "functionalRole": "Door authorization / fan interlock",
+      "configurationEffect": "Dual vertical doors (F + R) \u2014 same role as other SxS configs.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    },
+    {
+      "concept": "evaporator_fan",
+      "evidence": "F-FAN BLDC freezer evaporator fan in Test 1 high RPM.",
+      "procedureOrTest": [
+        "lgsxs-fz-fan"
+      ],
+      "functionalRole": "Compartment evaporator airflow",
+      "configurationEffect": "Single F-FAN SxS topology \u2014 instance overlay, not new function.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    },
+    {
+      "concept": "air_damper",
+      "evidence": "Stepping motor baffle Test 1 open / Test 2 closed; OptiChill damper.",
+      "procedureOrTest": [
+        "lgsxs-damper"
+      ],
+      "functionalRole": "Fresh-food airflow regulation",
+      "configurationEffect": "OptiChill adds LG-specific instance \u2014 same damper function.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    },
+    {
+      "concept": "defrost_heater",
+      "evidence": "Test 2 forces defrost heater ON; troubleshooting flowchart CON2 voltage.",
+      "procedureOrTest": [
+        "lgsxs-defrost-heater"
+      ],
+      "functionalRole": "Defrost heat actuation",
+      "configurationEffect": "Single defrost heater on SxS \u2014 direct canonical mapping.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    }
+  ],
+  "fiveConditionalFunctionEvidence": [
+    {
+      "concept": "temperature_sensor",
+      "instanceScopes": [
+        "freezer",
+        "fresh_food",
+        "ambient",
+        "defrost"
+      ],
+      "evidence": "CON7 freezer, CON8 cold storage 1&2, ambient Better1, defrost NTC.",
+      "procedureOrTest": [
+        "lgsxs-freezer-sensor",
+        "lgsxs-fresh-food-sensor",
+        "lgsxs-ambient-sensor",
+        "lgsxs-defrost-sensor"
+      ],
+      "roleAssessment": "same_functional_role",
+      "disposition": "shared_function",
+      "instanceSemantics": "Must preserve compartment scopes \u2014 defrost NTC is platform layer.",
+      "confidence": "high"
+    },
+    {
+      "concept": "compressor",
+      "evidence": "RY2 conventional relay drive in Test 1 \u2014 not LRMVS linear inverter.",
+      "procedureOrTest": [
+        "lgsxs-compressor"
+      ],
+      "roleAssessment": "same_functional_role",
+      "implementation": "relay_drive_conventional (matches Whirlpool EM3Y60 class, not Samsung inverter)",
+      "disposition": "shared_function",
+      "confidence": "high"
+    },
+    {
+      "concept": "condenser_fan",
+      "evidence": "C-FAN BLDC runs with compressor in Test 1 \u2014 explicit procedure evidence.",
+      "procedureOrTest": [
+        "lgsxs-condenser-fan"
+      ],
+      "roleAssessment": "same_functional_role",
+      "disposition": "shared_function",
+      "note": "Unlike Samsung RS28 C-fan ambiguity, LG C-FAN is explicitly condenser-path in Test 1 load table.",
+      "confidence": "high"
+    },
+    {
+      "concept": "ice_maker",
+      "evidence": "\u00a73 in-door ice maker electrical on LSC27926** models.",
+      "procedureOrTest": [
+        "lgsxs-ice-maker"
+      ],
+      "roleAssessment": "same_functional_role",
+      "configurationEffect": "In-door ice on fridge door \u2014 optional feature placement only.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    },
+    {
+      "concept": "water_dispenser",
+      "evidence": "\u00a72-18 water/ice dispenser valves RY4/RY5/RY7/RY12.",
+      "procedureOrTest": [
+        "lgsxs-water-dispenser"
+      ],
+      "roleAssessment": "same_functional_role",
+      "configurationEffect": "SxS external dispenser standard on LSC27926**.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    }
+  ],
+  "architecturalDifferences": [
+    {
+      "area": "compartment_layout",
+      "sxSEvidence": "Vertical F|R split doors (LSC27926) vs french-door quadrants",
+      "functionalImpact": false,
+      "layer": "configuration"
+    },
+    {
+      "area": "compressor_drive",
+      "sxSEvidence": "Conventional RY2 relay \u2014 NOT LRMVS linear inverter",
+      "functionalImpact": false,
+      "layer": "implementation"
+    },
+    {
+      "area": "fan_topology",
+      "sxSEvidence": "BLDC F-FAN (evap) + C-FAN (condenser) in Test 1",
+      "functionalImpact": false,
+      "layer": "configuration_instance_overlay"
+    },
+    {
+      "area": "damper_topology",
+      "sxSEvidence": "Stepping baffle + OptiChill stepping damper",
+      "functionalImpact": false,
+      "layer": "configuration_instance_overlay"
+    },
+    {
+      "area": "comm_architecture",
+      "sxSEvidence": "4-wire main MICOM \u2194 display MICOM harness",
+      "functionalImpact": false,
+      "layer": "implementation"
+    },
+    {
+      "area": "door_sensing",
+      "sxSEvidence": "Switches A/B/C/D parallel with Test 1 fan-stop evidence",
+      "functionalImpact": false,
+      "layer": "implementation"
+    },
+    {
+      "area": "ice_placement",
+      "sxSEvidence": "In-door ice maker on LSC27926** fridge door",
+      "functionalImpact": false,
+      "layer": "configuration_optional_feature"
+    }
+  ],
+  "familyBoundaryHypotheses": {
+    "hypothesisA_shareFrenchDoorOntology": {
+      "statement": "LG SxS shares existing french_door_refrigerator functional ontology.",
+      "status": "supported",
+      "supportingEvidence": [
+        "All six KEEP functions independently evidenced on LSC27926 manual.",
+        "Five conditional concepts map with same instance-semantics discipline.",
+        "Removed aggregates (defrost_system, cooling_system, airflow_path) decompose identically.",
+        "CG-9 R2 triangulation with Samsung + Whirlpool SxS already supported family boundary."
+      ],
+      "contradictoryEvidence": [
+        "Ontology id/name says french_door \u2014 lexical mismatch with SxS configuration."
+      ],
+      "conceptsThatWouldDiffer": [],
+      "conceptsThatRemainShared": [
+        "control_board",
+        "user_interface",
+        "door_switch",
+        "evaporator_fan",
+        "air_damper",
+        "defrost_heater",
+        "temperature_sensor",
+        "compressor",
+        "condenser_fan",
+        "ice_maker",
+        "water_dispenser"
+      ],
+      "falsification": "LSC27926 exposes a diagnostic functional role not expressible in frozen KEEP+conditional contract."
+    },
+    "hypothesisB_broaderRefrigeratorOntology": {
+      "statement": "French-door and side-by-side belong to a broader refrigerator ontology; current freeze is configuration-scoped naming.",
+      "status": "supported",
+      "supportingEvidence": [
+        "Frozen ontology designPrinciples already model generic refrigeration behavior.",
+        "LSC27926 adds no new canonical functional nodes \u2014 only configuration/instance overlays.",
+        "CG-9 R2 triangulation across Samsung + Whirlpool SxS confirmed no ontology mutation needed."
+      ],
+      "contradictoryEvidence": [
+        "CG-7 freeze artifact is explicitly french_door_refrigerator \u2014 organizational debt only."
+      ],
+      "conceptsThatWouldDiffer": [
+        "ontology_id",
+        "variant_label"
+      ],
+      "conceptsThatRemainShared": [
+        "control_board",
+        "user_interface",
+        "door_switch",
+        "evaporator_fan",
+        "air_damper",
+        "defrost_heater",
+        "temperature_sensor",
+        "compressor",
+        "condenser_fan",
+        "ice_maker",
+        "water_dispenser"
+      ],
+      "falsification": "LSC27926 requires functional nodes outside frozen contract."
+    },
+    "hypothesisC_distinctSideBySideOntology": {
+      "statement": "LG SxS requires a distinct canonical functional ontology.",
+      "status": "contradicted",
+      "supportingEvidence": [
+        "OptiChill damper and MICOM comm are implementation vocabulary."
+      ],
+      "contradictoryEvidence": [
+        "No independent diagnostic functional role found that french_door contract cannot express.",
+        "Conventional relay compressor aligns with Whirlpool SxS class, not a new function."
+      ],
+      "conceptsThatWouldDiffer": [],
+      "conceptsThatRemainShared": [
+        "control_board",
+        "user_interface",
+        "door_switch",
+        "evaporator_fan",
+        "air_damper",
+        "defrost_heater",
+        "temperature_sensor",
+        "compressor",
+        "condenser_fan",
+        "ice_maker",
+        "water_dispenser"
+      ],
+      "falsification": "Would require at least one KEEP/conditional concept unique to LG SxS \u2014 not observed."
+    },
+    "hypothesisD_insufficientEvidence": {
+      "statement": "Evidence insufficient to decide family boundary for LG SxS.",
+      "status": "contradicted",
+      "supportingEvidence": [],
+      "contradictoryEvidence": [
+        "CG-9 R2 already triangulated Samsung + Whirlpool SxS.",
+        "LSC27926 strengthens relay-drive + dedicated door-switch evidence.",
+        "Strong single-manual functional alignment across all KEEP roles."
+      ],
+      "conceptsThatWouldDiffer": [],
+      "conceptsThatRemainShared": [
+        "control_board",
+        "user_interface",
+        "door_switch",
+        "evaporator_fan",
+        "air_damper",
+        "defrost_heater",
+        "temperature_sensor",
+        "compressor",
+        "condenser_fan",
+        "ice_maker",
+        "water_dispenser"
+      ],
+      "falsification": "LSC27926 breaks functional alignment for \u22652 KEEP roles \u2014 not observed."
+    }
+  },
+  "possibleNewCanonicalFunctions": [
+    {
+      "proposedId": "optichill_damper",
+      "verdict": "rejected_at_discovery",
+      "reason": "OptiChill is LG-specific air_damper instance \u2014 not a new canonical function.",
+      "inComponentsArray": false
+    },
+    {
+      "proposedId": "display_micom",
+      "verdict": "rejected_at_discovery",
+      "reason": "Display MICOM comm implements user_interface/HMI path \u2014 not separate canonical.",
+      "inComponentsArray": false
+    }
+  ],
+  "unresolvedConcepts": [
+    {
+      "concept": "humidity_control",
+      "reason": "No humidity sensor on LSC27926 \u2014 CG-7 deferred."
+    },
+    {
+      "concept": "r2_sensor",
+      "reason": "LCD check reveals R2 fault but no standalone procedure seed."
+    },
+    {
+      "concept": "water_tank_sensor",
+      "reason": "LCD check reveals water-tank fault but no procedure seed."
+    }
+  ],
+  "proposedNextManualRequirements": [],
+  "recommendedNextStep": "Proceed to CG-9.5 WP3 production compounding for LSC27926 SxS. CG-9 R2 triangulation already closed family boundary \u2014 this observation confirms LG SxS aligns with frozen refrigerator contract without canonical expansion. Do NOT import lg_lrmvs linear-compressor vocabulary."
+}

@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_p08_flexwash_freeze_lock",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T22:30:00+00:00",
+  "phase": "CG-P08-FLEXWASH-FREEZE",
+  "verdict": "CLOSED / P08_FLEXWASH_INTEGRATION_BOUNDARY_FROZEN",
+  "closureStatement": "FlexWash integration boundary frozen at v1. Composes 2× front_load_washer (LOWER + UPPER) by reference. Integration boundary owns system_supervision (SF, corroborated W1+W2), inter_instance_control_communication (AC7, W1_DERIVED only), and enable_inhibit (facet, not node). Simultaneous active wash NOT_PROVEN. WV60 registered as platform generation. Zero canonical family expansion.",
+  "frozenContract": {
+    "id": "flexwash_integration_boundary",
+    "file": "frontend/components/diagnostics/knowledge/normalization/calibration/flexwash_integration_boundary_functional_contract_frozen_v1.json",
+    "frozenRevision": "v1",
+    "frozenAt": "2026-09-17T22:30:00+00:00",
+    "hash": "af4fa710941c9bb26dc802de390d1f4c9dcc09106c04da6fb5f6be84651950d3",
+    "notCanonicalFile": true,
+    "freezeLock": "CG_P08_FLEXWASH_FREEZE_LOCK_v1.json"
+  },
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "newCanonicalFamilyFiles": 0,
+    "frozenCanonicalHashMutations": 0,
+    "composedFrontLoadWasherInstances": 2,
+    "integrationResponsibilities": 3,
+    "integrationCanonicalNodes": 0,
+    "enableInhibitFacetOnly": true,
+    "w1WitnessCount": 1,
+    "w2WitnessCount": 1,
+    "wv60PlatformGenerationRegistered": true
+  },
+  "frozenArchitecture": {
+    "integrationBoundary": {
+      "system_supervision": {
+        "frozenStatus": "FROZEN",
+        "evidenceStatus": "CORROBORATED",
+        "oemAnchor": "SF",
+        "witnesses": ["W1", "W2"]
+      },
+      "inter_instance_control_communication": {
+        "frozenStatus": "FROZEN",
+        "evidenceStatus": "W1_DERIVED",
+        "oemAnchor": "AC7",
+        "witnesses": ["W1"],
+        "w2Status": "UNDOCUMENTED"
+      },
+      "enable_inhibit": {
+        "frozenStatus": "FROZEN_FACET",
+        "isCanonicalNode": false
+      }
+    },
+    "instances": ["front_load_washer[LOWER]", "front_load_washer[UPPER]"],
+    "sharedImplementationOnly": ["power_supply", "shared_hmi", "shared_cabinet_system_resources"],
+    "simultaneousActiveWash": "NOT_PROVEN"
+  },
+  "platformGenerations": {
+    "platformId": "samsung_flexwash",
+    "generations": [
+      {
+        "id": "wv55",
+        "witness": "W1",
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "smokeModel": "WV55M9600",
+        "modelPatterns": ["/WV55/i"]
+      },
+      {
+        "id": "wv60",
+        "witness": "W2",
+        "manualSource": "backend/docs/manuals/samsungflexwv60.pdf",
+        "smokeModel": "WV60M9900AV",
+        "modelPatterns": ["/WV60/i"],
+        "ac7InManual": "UNDOCUMENTED"
+      }
+    ]
+  },
+  "immutableFrozenReferences": {
+    "front_load_washer": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05"
+  },
+  "explicitlyRejected": [
+    "dual_load_integrated_orchestration",
+    "dual_compartment_partition",
+    "integrated_laundry_orchestration",
+    "simultaneous_active_wash canonical capability"
+  ],
+  "architectureExceptionProvenance": {
+    "path": "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json",
+    "preserved": true,
+    "batchDisposition": "STOP",
+    "note": "Historical trigger — not deleted because architecture resolved through formal freeze"
+  },
+  "freezeGateConstraints": {
+    "noNormalization": true,
+    "noCompounding": true,
+    "noCanonicalFamilyAuthoring": true,
+    "noFrozenGraphMutation": true,
+    "noPilotClosure": true,
+    "noUiChanges": true
+  }
+}

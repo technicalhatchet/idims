@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_fit_triangulation",
+  "workstream": "CG-AIO-LAUNDRY-COMBO-FIT-TEST",
+  "status": "complete_single_witness_limitation",
+  "generatedAt": "2026-09-17T13:50:00+00:00",
+  "contract": "CG_AIO_LAUNDRY_COMBO_FIT_TEST_CONTRACT_v1.json",
+  "witnessCount": 1,
+  "crossManufacturerTriangulation": false,
+  "limitation": {
+    "statement": "Corpus contains one ingested AIO laundry-combo implementation (Samsung WD53/WD80 heat-pump). No second independent AIO manufacturer manual available for cross-witness triangulation.",
+    "excludedMisclassifiedWitnesses": [
+      {
+        "candidate": "GE GUD27",
+        "reason": "Stacked laundry center — separate washer and dryer chambers; inventory hypothesis decomposes to front_load_washer + vented_dryer sections"
+      },
+      {
+        "candidate": "Samsung FlexWash WV55M9600",
+        "reason": "Dual-load washer — no integrated dry path in same drum"
+      },
+      {
+        "candidate": "Samsung DV22N8650 heat-pump dryer",
+        "reason": "Standalone heat-pump dryer — shares dry architecture class but is not AIO; separate fit-test candidate (heat_pump_dryer)"
+      }
+    ],
+    "deferredCorpus": [
+      "LG WM6998 WashTower/combo (inventory suggestion — not ingested)",
+      "Samsung Bespoke FlexDry combo (inventory suggestion — not ingested)"
+    ],
+    "impactOnConfidence": "Dry-architecture divergence from vented_dryer is established from WD53 manual with high internal consistency (§2 features, §4-2 dry codes, §4-5 refrigerant thermistors). Cross-manufacturer recurrence of AIO integration patterns is unproven."
+  },
+  "witnesses": [
+    {
+      "witnessId": "W1",
+      "manufacturer": "Samsung",
+      "model": "WD53DBA900HZA1",
+      "observationArtifact": "CG_AIO_WD53DBA900_FIT_OBSERVATION_v1.json"
+    }
+  ],
+  "recurringFunctionalDomains": {
+    "fromSingleWitness": [
+      {
+        "domain": "fl_wash_path_overlap",
+        "recurrence": "single_witness_only",
+        "evidence": "9 procedures classify front_load_washer; inlet, drain, level, wash heat, door, overflow, unbalance, leak",
+        "supportsExistingFamily": "front_load_washer (wash portion)"
+      },
+      {
+        "domain": "heat_pump_ventless_dry",
+        "recurrence": "single_witness_only",
+        "evidence": "Compressor 3CA, EVA thermistors, dehumidifying kit NC, supplemental dry heater, no exhaust-path diagnostics",
+        "conflictsWithFrozenFamily": "vented_dryer"
+      },
+      {
+        "domain": "integrated_wash_dry_orchestration",
+        "recurrence": "single_witness_only",
+        "evidence": "Smart Install steps 1–10; shared motor; AC comm spanning inverters; ULC cross-mode foam",
+        "conflictsWithFrozenFamily": "composed front_load_washer + vented_dryer hypothesis"
+      }
+    ]
+  },
+  "manufacturerSpecificImplementationDetails": [
+    "Samsung MEMS 8C vibration sensor",
+    "Samsung Smart Install hidden mode entry (password washerdryer.1!)",
+    "Samsung BLDC compressor 3CA inverter fault family",
+    "Samsung auto-open door DC5",
+    "Samsung drawer door lock SDC (deferred procedure)"
+  ],
+  "genuinelyDivergentFunctionalDomains": [
+    {
+      "domainId": "sealed_heat_pump_moisture_rejection",
+      "question": "New functional responsibility or different implementation of vented exhaust moisture rejection?",
+      "answer": "Different functional responsibility — vented_dryer models exhaust_path as required terminal; AIO uses condensation/refrigerant loop with no exhaust-path diagnostic domain",
+      "evidence": "W1 §4-2 NC/ULC/3CA/HC; vented_dryer heated_airflow_path requires exhaust_path",
+      "ambiguous": false
+    },
+    {
+      "domainId": "refrigerant_loop_heat_generation",
+      "question": "New functional responsibility or variant of vented_dryer heat_source?",
+      "answer": "Different functional responsibility — compressor-driven refrigerant heat exchange vs heat_source adding thermal energy to air stream",
+      "evidence": "W1 §4-5 EVA IN/OUT, compressor top thermistor; vented_dryer heat_source protected_by thermal_fuse/cutoff on element/burner path",
+      "ambiguous": false
+    },
+    {
+      "domainId": "integrated_single_drum_wash_dry_cycle",
+      "question": "New functional responsibility or physical packaging only?",
+      "answer": "Functional relationship — cross-mode contamination (ULC), shared motor authorization, unified Smart Install spanning wash and dry",
+      "evidence": "W1 Smart Install manual check steps 1–10; ULC foam in dehumidification",
+      "ambiguous": false
+    }
+  ],
+  "evidenceSupportingExistingFamily": {
+    "front_load_washer": "Wash-path domains (fill, drain, level, wash heat, door lock wash codes, unbalance, leak) align with FL washer functional systems",
+    "vented_dryer": "None — dry path does not map to vented_dryer functional relationships without forcing exhaust_path and heat_source semantics",
+    "top_load_washer": "Not applicable"
+  },
+  "evidenceConflictingWithExistingFamily": {
+    "vented_dryer": [
+      "No external exhaust vent as primary moisture rejection",
+      "Compressor + refrigerant thermistor network vs heat_source + heated_airflow_path",
+      "Dehumidifying kit magnet interlock vs lint_filter/exhaust_path restriction model",
+      "Auto-open door dry exit (DC5) absent from vented_dryer"
+    ],
+    "composed_hypothesis": [
+      "Cannot document as composed front_load_washer + vented_dryer variant because dry portion fails vented_dryer fit"
+    ]
+  },
+  "triangulationVerdict": {
+    "crossManufacturerRecurrenceProven": false,
+    "singleWitnessDivergenceDocumented": true,
+    "recommendAnalysisOutcome": "architectural_divergence",
+    "doNotResolveAmbiguousInFavorOfNewGraph": true,
+    "note": "Single witness limits generalization but does not block documenting vented_dryer functional misfit on WD53 evidence"
+  }
+}

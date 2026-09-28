@@ -1,0 +1,68 @@
+{
+  "id": "ne58h-cd1-door-lock",
+  "version": "1.0.0",
+  "title": "C-d1: Door lock mispositioned",
+  "platformId": "samsung_range_ne58",
+  "templateIds": [
+    "induction_range"
+  ],
+  "componentIds": [
+    "door_lock"
+  ],
+  "tags": [
+    "C-d1",
+    "door_lock_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+    "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+    "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Door lock motor",
+    "pages": [
+      36
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the range.",
+      "requiresInput": false,
+      "defaultNextStepId": "lock_harness"
+    },
+    {
+      "id": "lock_harness",
+      "order": 2,
+      "type": "instruction",
+      "title": "Door lock harness",
+      "body": "Verify harness to lock motor and microswitch.",
+      "sourceExcerpt": "Verify harness to lock motor and microswitch.",
+      "requiresInput": false,
+      "defaultNextStepId": "lock_ok"
+    },
+    {
+      "id": "replace_lock",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace door lock",
+      "oemOutcome": "Replace door lock motor or switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "lock_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Door lock OK",
+      "oemOutcome": "Door lock verified.",
+      "requiresInput": false
+    }
+  ]
+}

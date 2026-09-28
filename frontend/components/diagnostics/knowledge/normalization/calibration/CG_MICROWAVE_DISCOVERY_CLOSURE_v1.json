@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_discovery_closure",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T09:25:00+00:00",
+  "phase": "CG-MICROWAVE-DISCOVERY",
+  "verdict": "CLOSED / MICROWAVE_FUNCTIONAL_CONTRACT_APPROVED",
+  "closureStatement": "Human discovery review approved minimal microwave functional contract: 7 core + 2 conditional functions with zero component promotion. HV/RF split preserved with explicit semantic boundaries. thermal_protection remains single canonical function. control_and_sensing and ventilation_otr remain conditional. Candidate feeds CG-MICROWAVE-FREEZE; microwave.json remains blocked until freeze gate.",
+  "approvedFunctionalContract": {
+    "artifact": "microwave_functional_contract_candidate_v1.json",
+    "status": "approved_for_freeze_preparation",
+    "coreCount": 7,
+    "conditionalCount": 2,
+    "componentPromotionCount": 0,
+    "ontologyId": "microwave"
+  },
+  "discoveryDecisions": {
+    "hv_vs_rf_split": "KEEP SPLIT — distinct diagnostic domains with causal chain control_board → hv_generation → rf_cavity",
+    "thermal_network": "SINGLE CANONICAL FUNCTION thermal_protection — no conditional TCO instance scopes",
+    "control_and_sensing": "CONDITIONAL — not universal",
+    "ventilation_otr": "CONDITIONAL — OTR configuration only",
+    "function_budget": "HARD CAP — 7 core + 2 conditional approved"
+  },
+  "semanticBoundaryClarifications": {
+    "hv_generation": "Generation/conditioning of electrical energy for microwave generation — not individual HV components",
+    "rf_cavity": "Functional energy-delivery/containment domain — not synonym for physical cavity enclosure"
+  },
+  "governanceConclusion": {
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0,
+    "microwaveJsonAuthorized": false,
+    "freezeGateAuthorized": true,
+    "rangeOvenImmutable": true,
+    "componentNodesPromoted": 0
+  },
+  "headlineMetrics": {
+    "coreFunctions": 7,
+    "conditionalFunctions": 2,
+    "rejectedComponentNodes": 11,
+    "fitArtifactsMutated": 0
+  },
+  "humanApproval": {
+    "discoveryContract": "CG_MICROWAVE_DISCOVERY_CONTRACT_v1.json",
+    "candidateArtifact": "microwave_functional_contract_candidate_v1.json",
+    "approvedAt": "2026-09-17T09:25:00+00:00"
+  },
+  "evidenceChain": {
+    "fitClosure": "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+    "triangulation": "CG_MICROWAVE_FIT_TRIANGULATION_v1.json",
+    "r1Observation": "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+    "r2Observation": "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json",
+    "discoveryContract": "CG_MICROWAVE_DISCOVERY_CONTRACT_v1.json"
+  },
+  "immutableInputs": {
+    "fitArtifactsReadOnly": true,
+    "discoveryCandidateFeedsFreezeOnly": true,
+    "notProductionCanonical": true
+  },
+  "authorizedNextWorkstream": "CG_MICROWAVE_FREEZE_CONTRACT_v1.json",
+  "nextDisciplinedStep": "CG-MICROWAVE-FREEZE — author microwave.json rev1 from approved functional contract; human freeze approval required"
+}

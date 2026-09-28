@@ -1,0 +1,4311 @@
+{
+  "manualId": "W11366142",
+  "platformId": "whirlpool_dishwasher_acu",
+  "templateId": "dishwasher",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:17.005915+00:00",
+  "records": [
+    {
+      "candidateId": "map-W11366142-compound-inlet_valve",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "inlet_valve",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "inlet valve",
+        "decomposition": {
+          "domain": "inlet",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: inlet_valve \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-dispenser",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_valve": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-dispenser",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-dispenser",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "inlet valve",
+            "decomposition": {
+              "domain": "inlet",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-dispenser-solenoid-(310\u2013380-\u03c9)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Dispenser Solenoid (310\u2013380 \u03a9)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "dispenser",
+          "component": null,
+          "actuator": "solenoid"
+        },
+        "summary": "alias: Dispenser Solenoid (310\u2013380 \u03a9) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-dispenser",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Dispenser Solenoid (310\u2013380 \u03a9)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-dispenser",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-dispenser",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "dispenser",
+              "component": null,
+              "actuator": "solenoid"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-drain_pump",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "drain_pump",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "drain pump",
+        "decomposition": {
+          "domain": "drain",
+          "component": null,
+          "actuator": "pump"
+        },
+        "summary": "alias: drain_pump \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-drain-motor",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drain_pump": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-drain-motor",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-drain-motor",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "drain pump",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-drain-motor-(ssm,-27.4\u201332.2-\u03c9)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Drain Motor (SSM, 27.4\u201332.2 \u03a9)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "drain",
+          "component": null,
+          "actuator": "motor"
+        },
+        "summary": "alias: Drain Motor (SSM, 27.4\u201332.2 \u03a9) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-drain-motor",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Drain Motor (SSM, 27.4\u201332.2 \u03a9)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-drain-motor",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-drain-motor",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-circulation_pump",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "circulation_pump",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "circulation",
+          "actuator": "pump"
+        },
+        "summary": "alias: circulation_pump \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-rif-filter",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "circulation_pump": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-rif-filter",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-rif-filter",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "circulation",
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-rif-filter-plugged-(f7e4)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "RIF Filter Plugged (F7E4)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: RIF Filter Plugged (F7E4) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-rif-filter",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "RIF Filter Plugged (F7E4)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-rif-filter",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-rif-filter",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11366142-unresolved-w11366142-tub-light-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-tub-light",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-tub-light",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-tub-light",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-tub-light-(12-v-pwm)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Tub Light (12 V PWM)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Tub Light (12 V PWM) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-tub-light",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Tub Light (12 V PWM)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-tub-light",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-tub-light",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11366142-unresolved-w11366142-vent-wax-motor-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-vent-wax-motor",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-vent-wax-motor",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-vent-wax-motor",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-vent-wax-motor-(1890\u20132310-\u03c9-each-coil)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Vent Wax Motor (1890\u20132310 \u03a9 each coil)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "vent wax motor 1890 2310 each",
+          "actuator": "coil"
+        },
+        "summary": "alias: Vent Wax Motor (1890\u20132310 \u03a9 each coil) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-vent-wax-motor",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Vent Wax Motor (1890\u20132310 \u03a9 each coil)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-vent-wax-motor",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-vent-wax-motor",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "vent wax motor 1890 2310 each",
+              "actuator": "coil"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-variable-speed-wash-motor-(a-synch)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "Variable-Speed Wash Motor (A-SYNCH)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "wash motor",
+        "decomposition": {
+          "domain": null,
+          "component": "variable speed wash",
+          "actuator": "motor"
+        },
+        "summary": "alias: Variable-Speed Wash Motor (A-SYNCH) \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-wash-motor-vsm",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Variable-Speed Wash Motor (A-SYNCH)": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-wash-motor-vsm",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-wash-motor-vsm",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "wash motor",
+            "decomposition": {
+              "domain": null,
+              "component": "variable speed wash",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11366142-unresolved-w11480208-dc-fan-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-dc-fan",
+        "pages": [
+          62,
+          63
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-dc-fan",
+        "pages": [
+          62,
+          63
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-dc-fan",
+            "pages": [
+              62,
+              63
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-dc-fan-motor-(prodry)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-20: DC Fan Motor (ProDry)",
+      "extractedTerm": "DC Fan Motor (ProDry)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "dc fan",
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a73-20: DC Fan Motor (ProDry) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-dc-fan",
+        "pages": [
+          62,
+          63
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-20: DC Fan Motor (ProDry)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-dc-fan",
+        "pages": [
+          62,
+          63
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-dc-fan",
+            "pages": [
+              62,
+              63
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "dc fan",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-diverter-motor-(p6)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-14: Diverter Motor (P6)",
+      "extractedTerm": "Diverter Motor (P6)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "diverter",
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a73-14: Diverter Motor (P6) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-diverter-motor",
+        "pages": [
+          56,
+          57
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-14: Diverter Motor (P6)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-diverter-motor",
+        "pages": [
+          56,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-diverter-motor",
+            "pages": [
+              56,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "diverter",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-door_gasket",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "door_gasket",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "door",
+          "component": "gasket",
+          "actuator": null
+        },
+        "summary": "alias: door_gasket \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_gasket": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-door-switch",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": "gasket",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-door-switch-circuit-(p12)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-8: Door Switch Circuit (P12)",
+      "extractedTerm": "Door Switch Circuit (P12)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "door",
+          "component": null,
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a73-8: Door Switch Circuit (P12) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-8: Door Switch Circuit (P12)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-door-switch",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-acu-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.85,
+      "what": "ACU",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "global_hint",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: ACU \u2192 control_board"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ACU": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-door-switch",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "global_hint"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-drain-motor-(variable-speed-platform)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-19: Drain Motor (Variable Speed platform)",
+      "extractedTerm": "Drain Motor (Variable Speed platform)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "drain",
+          "component": null,
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a73-19: Drain Motor (Variable Speed platform) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-drain-motor-vsm",
+        "pages": [
+          61,
+          62
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-19: Drain Motor (Variable Speed platform)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-drain-motor-vsm",
+        "pages": [
+          61,
+          62
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-drain-motor-vsm",
+            "pages": [
+              61,
+              62
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11366142-unresolved-w11480208-heater-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-heater",
+        "pages": [
+          53,
+          54
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-heater",
+        "pages": [
+          53,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-heater",
+            "pages": [
+              53,
+              54
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-water-heating-/-heat-dry",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-11: Water Heating / Heat Dry",
+      "extractedTerm": "Water Heating / Heat Dry",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "water",
+          "component": "heating heat dry",
+          "actuator": null
+        },
+        "summary": "alias: \u00a73-11: Water Heating / Heat Dry \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-heater",
+        "pages": [
+          53,
+          54
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-11: Water Heating / Heat Dry": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-heater",
+        "pages": [
+          53,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-heater",
+            "pages": [
+              53,
+              54
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "heating heat dry",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11366142-unresolved-w11480208-interior-led-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-interior-led",
+        "pages": [
+          63,
+          64
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-interior-led",
+        "pages": [
+          63,
+          64
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-interior-led",
+            "pages": [
+              63,
+              64
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-interior-led-lighting",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-21: Interior LED Lighting",
+      "extractedTerm": "Interior LED Lighting",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a73-21: Interior LED Lighting \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-interior-led",
+        "pages": [
+          63,
+          64
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-21: Interior LED Lighting": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-interior-led",
+        "pages": [
+          63,
+          64
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-interior-led",
+            "pages": [
+              63,
+              64
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-overfill-float-switch-(p11)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-13: Overfill Float Switch (P11)",
+      "extractedTerm": "Overfill Float Switch (P11)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "overfill float",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a73-13: Overfill Float Switch (P11) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-overfill-switch",
+        "pages": [
+          55,
+          56
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-13: Overfill Float Switch (P11)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-overfill-switch",
+        "pages": [
+          55,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-overfill-switch",
+            "pages": [
+              55,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "overfill float",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-wash-motor-(variable-speed)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "\u00a73-17: Wash Motor (Variable Speed)",
+      "extractedTerm": "Wash Motor (Variable Speed)",
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "wash motor",
+        "decomposition": {
+          "domain": "wash",
+          "component": null,
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a73-17: Wash Motor (Variable Speed) \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-wash-motor-vsm",
+        "pages": [
+          59,
+          60
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-17: Wash Motor (Variable Speed)": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-wash-motor-vsm",
+        "pages": [
+          59,
+          60
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-wash-motor-vsm",
+            "pages": [
+              59,
+              60
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "wash motor",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-wash-motor-(ssm,-wdt750)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "\u00a73-15: Wash Motor (SSM, WDT750)",
+      "extractedTerm": "Wash Motor (SSM, WDT750)",
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "wash motor",
+        "decomposition": {
+          "domain": "wash",
+          "component": null,
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a73-15: Wash Motor (SSM, WDT750) \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "pages": [
+          53,
+          54
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-15: Wash Motor (SSM, WDT750)": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "pages": [
+          53,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11499711-wash-motor-ssm",
+            "pages": [
+              53,
+              54
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "wash motor",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11366142-unresolved-w11633848-acu-power-supply",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-acu-power",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-acu-power-&-dc-supplies",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-6: ACU Power & DC Supplies",
+      "extractedTerm": "ACU Power & DC Supplies",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a73-6: ACU Power & DC Supplies \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-6: ACU Power & DC Supplies": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-acu-power",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11366142-unresolved-w11633848-dc-fan-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dc-fan",
+        "pages": [
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dc-fan",
+        "pages": [
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dc-fan",
+            "pages": [
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-dc-fan-motor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-17: DC Fan Motor",
+      "extractedTerm": "DC Fan Motor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "dc fan",
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a73-17: DC Fan Motor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dc-fan",
+        "pages": [
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-17: DC Fan Motor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dc-fan",
+        "pages": [
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dc-fan",
+            "pages": [
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "dc fan",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-dispenser-solenoid",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-9: Dispenser Solenoid",
+      "extractedTerm": "Dispenser Solenoid",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "dispenser",
+          "component": null,
+          "actuator": "solenoid"
+        },
+        "summary": "alias: \u00a73-9: Dispenser Solenoid \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dispenser",
+        "pages": [
+          43
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-9: Dispenser Solenoid": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dispenser",
+        "pages": [
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dispenser",
+            "pages": [
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "dispenser",
+              "component": null,
+              "actuator": "solenoid"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-diverter-motor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-13: Diverter Motor",
+      "extractedTerm": "Diverter Motor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "diverter",
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a73-13: Diverter Motor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-motor",
+        "pages": [
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-13: Diverter Motor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-motor",
+        "pages": [
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-diverter-motor",
+            "pages": [
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "diverter",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-diverter-position-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-14: Diverter Position Sensor",
+      "extractedTerm": "Diverter Position Sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "diverter position",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a73-14: Diverter Position Sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-sensor",
+        "pages": [
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-14: Diverter Position Sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-sensor",
+        "pages": [
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-diverter-sensor",
+            "pages": [
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "diverter position",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-door-switch-circuit",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-7: Door Switch Circuit",
+      "extractedTerm": "Door Switch Circuit",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "door",
+          "component": null,
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a73-7: Door Switch Circuit \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-7: Door Switch Circuit": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-drain-motor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-16: Drain Motor",
+      "extractedTerm": "Drain Motor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "drain",
+          "component": null,
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a73-16: Drain Motor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-16: Drain Motor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-drain-motor",
+            "pages": [
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-fill-valve-circuit",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "\u00a73-8: Fill Valve Circuit",
+      "extractedTerm": "Fill Valve Circuit",
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "fill valve",
+        "decomposition": {
+          "domain": "fill",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: \u00a73-8: Fill Valve Circuit \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-fill-valve",
+        "pages": [
+          42
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-8: Fill Valve Circuit": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-fill-valve",
+        "pages": [
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-fill-valve",
+            "pages": [
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "fill valve",
+            "decomposition": {
+              "domain": "fill",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11366142-unresolved-w11633848-heater-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-heater",
+        "pages": [
+          44
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-heater",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-heater",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-overfill-float-switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-12: Overfill Float Switch",
+      "extractedTerm": "Overfill Float Switch",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "overfill float",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a73-12: Overfill Float Switch \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-overfill-switch",
+        "pages": [
+          46
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-12: Overfill Float Switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-overfill-switch",
+        "pages": [
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-overfill-switch",
+            "pages": [
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "overfill float",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11366142-unresolved-w11633848-owi-sensor-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-owi-sensor",
+        "pages": [
+          45
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-owi-sensor",
+        "pages": [
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-owi-sensor",
+            "pages": [
+              45
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-owi-/-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-11: OWI / Thermistor",
+      "extractedTerm": "OWI / Thermistor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "owi",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: \u00a73-11: OWI / Thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-owi-sensor",
+        "pages": [
+          45
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-11: OWI / Thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-owi-sensor",
+        "pages": [
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-owi-sensor",
+            "pages": [
+              45
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "owi",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11366142-unresolved-w11633848-triac-fuse-supply",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-triac-fuse",
+        "pages": [
+          37
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-triac-fuse",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-triac-fuse",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-f500-triac-load-fuse",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-3: F500 Triac Load Fuse",
+      "extractedTerm": "F500 Triac Load Fuse",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "f500 triac load",
+          "actuator": "fuse"
+        },
+        "summary": "alias: \u00a73-3: F500 Triac Load Fuse \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-triac-fuse",
+        "pages": [
+          37
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-3: F500 Triac Load Fuse": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-triac-fuse",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-triac-fuse",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "f500 triac load",
+              "actuator": "fuse"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-wash-motor-(ssm)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "\u00a73-15: Wash Motor (SSM)",
+      "extractedTerm": "Wash Motor (SSM)",
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "wash motor",
+        "decomposition": {
+          "domain": "wash",
+          "component": null,
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a73-15: Wash Motor (SSM) \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-wash-motor",
+        "pages": [
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-15: Wash Motor (SSM)": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-wash-motor",
+        "pages": [
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-wash-motor",
+            "pages": [
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "wash motor",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11366142-compound-door-opening-system-(d.o.s.)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a73-19: Door Opening System (D.O.S.)",
+      "extractedTerm": "Door Opening System (D.O.S.)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "door",
+          "component": "opening system d o s",
+          "actuator": null
+        },
+        "summary": "alias: \u00a73-19: Door Opening System (D.O.S.) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11794121-door-opening-system",
+        "pages": [
+          139,
+          140
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-19: Door Opening System (D.O.S.)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11794121-door-opening-system",
+        "pages": [
+          139,
+          140
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11794121-door-opening-system",
+            "pages": [
+              139,
+              140
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": "opening system d o s",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11366142-w11366142-drain-motor-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11366142-drain-motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11366142-drain-motor \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-drain-motor",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11366142-drain-motor",
+          "testTargetId": "drain_test",
+          "displayTitle": "Drain Motor (SSM, 27.4\u201332.2 \u03a9)",
+          "componentIds": [
+            "drain_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-drain-motor",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-drain-motor",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11366142-w11366142-drain-motor-meas-whirlpoolDishwasherPremiumDrainMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11366142-drain-motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDishwasherPremiumDrainMotorOhms \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-drain-motor",
+        "pages": [
+          1,
+          2
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11366142-drain-motor",
+          "measurementKnowledgeId": "whirlpoolDishwasherPremiumDrainMotorOhms",
+          "testTargetId": "drain_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-drain-motor",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-drain-motor",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherPremiumDrainMotorOhms",
+            "stepTitle": "Drain motor \u2014 P5 pins 3 & 4"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11366142-w11480208-door-switch-door_lock_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11480208-door-switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11480208-door-switch \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11480208-door-switch",
+          "testTargetId": "door_lock_test",
+          "displayTitle": "\u00a73-8: Door Switch Circuit (P12)",
+          "componentIds": [
+            "door_gasket"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-door-switch",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11366142-w11480208-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11480208-door-switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: dishwasherDoorLatchSwitchOhms \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11480208-door-switch",
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testTargetId": "door_lock_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-door-switch",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+            "stepTitle": "Door closed \u2014 P12 pins 9 & 11"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11366142-w11480208-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11480208-door-switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: dishwasherDoorLatchSwitchOhms \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11480208-door-switch",
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testTargetId": "door_lock_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-door-switch",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+            "stepTitle": "Door open \u2014 P12 pins 9 & 11"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11366142-w11480208-drain-motor-vsm-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11480208-drain-motor-vsm",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11480208-drain-motor-vsm \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-drain-motor-vsm",
+        "pages": [
+          61,
+          62
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11480208-drain-motor-vsm",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a73-19: Drain Motor (Variable Speed platform)",
+          "componentIds": [
+            "drain_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-drain-motor-vsm",
+        "pages": [
+          61,
+          62
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-drain-motor-vsm",
+            "pages": [
+              61,
+              62
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11366142-w11480208-drain-motor-vsm-meas-whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11480208-drain-motor-vsm",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDishwasherFiltrationVsmDrainMotorOhms \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-drain-motor-vsm",
+        "pages": [
+          61,
+          62
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11480208-drain-motor-vsm",
+          "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+          "testTargetId": "drain_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-drain-motor-vsm",
+        "pages": [
+          61,
+          62
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-drain-motor-vsm",
+            "pages": [
+              61,
+              62
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+            "stepTitle": "VSM drain motor \u2014 P5 pins 5 & 6"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11366142-w11633848-door-switch-door_lock_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-door-switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-door-switch \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-door-switch",
+          "testTargetId": "door_lock_test",
+          "displayTitle": "\u00a73-7: Door Switch Circuit",
+          "componentIds": [
+            "door_gasket"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11366142-w11633848-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11633848-door-switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: dishwasherDoorLatchSwitchOhms \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-door-switch",
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testTargetId": "door_lock_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+            "stepTitle": "Door closed \u2014 P9 pins 5 & 6"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11366142-w11633848-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11633848-door-switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: dishwasherDoorLatchSwitchOhms \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-door-switch",
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testTargetId": "door_lock_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+            "stepTitle": "Door open \u2014 P9 pins 5 & 6"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11366142-w11633848-drain-motor-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11633848-drain-motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11633848-drain-motor \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-drain-motor",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a73-16: Drain Motor",
+          "componentIds": [
+            "drain_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-drain-motor",
+            "pages": [
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11366142-w11633848-drain-motor-meas-whirlpoolDishwasherAcuDrainMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11633848-drain-motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDishwasherAcuDrainMotorOhms \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11633848-drain-motor",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuDrainMotorOhms",
+          "testTargetId": "drain_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-drain-motor",
+            "pages": [
+              50
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherAcuDrainMotorOhms",
+            "stepTitle": "Drain motor \u2014 P5 pins 3 & 4"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11366142-w11794121-door-opening-system-door_lock_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11794121-door-opening-system",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "door_lock_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11794121-door-opening-system \u2192 door_lock_test"
+      },
+      "source": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11794121-door-opening-system",
+        "pages": [
+          139,
+          140
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11794121-door-opening-system",
+          "testTargetId": "door_lock_test",
+          "displayTitle": "\u00a73-19: Door Opening System (D.O.S.)",
+          "componentIds": [
+            "door_gasket"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11366142",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11794121-door-opening-system",
+        "pages": [
+          139,
+          140
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11366142",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11794121-door-opening-system",
+            "pages": [
+              139,
+              140
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 56,
+    "byStatus": {
+      "COMPOUND_TERM_CANDIDATE": 7,
+      "needs_review": 35,
+      "candidate": 14
+    },
+    "byApprovalLevel": {
+      "careful": 7,
+      "blocked": 35,
+      "normal": 14
+    },
+    "byType": {
+      "canonicalMapping": 43,
+      "procedureTestBinding": 6,
+      "measurementBinding": 7
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 0,
+      "medium_0.80_0.94": 14,
+      "low_lt_0.80": 7,
+      "unresolved": 35
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 10
+    }
+  }
+}

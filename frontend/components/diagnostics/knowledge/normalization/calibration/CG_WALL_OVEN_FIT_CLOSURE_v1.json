@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_wall_oven_fit_closure",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T19:15:00+00:00",
+  "phase": "CG-WALL-OVEN-FIT-TEST",
+  "verdict": "CLOSED / WALL_OVEN_COMPOSITION_OF_RANGE_OVEN",
+  "closureStatement": "Built-in wall oven fits frozen range_oven via oven-only composition — no new canonical graph. Whirlpool W11174422 witness (single + double electric) and Samsung NV51 witness (single electric): all classified diagnostic paths map to existing range_oven functional domains with surface_heating_system not instantiated. Double wall oven decomposes to dual oven-instance composition. Cavity cooling fan maps to deferred cooling_fan platform overlay — not architectural divergence. Freestanding range manuals remain excluded. wall_oven.json not authorized.",
+  "approvedFitOutcome": {
+    "outcome": "composition",
+    "label": "oven_only_composition_of_range_oven",
+    "humanBoundaryApprovedAt": "2026-09-17T19:15:00+00:00"
+  },
+  "governanceConclusion": {
+    "functionalCompatibility": true,
+    "fitsExistingFrozenContracts": true,
+    "hostFamily": "range_oven",
+    "hostFamilyProven": true,
+    "newCanonicalGraphRequired": false,
+    "discoveryAuthorized": false,
+    "freezeAuthorized": false,
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0,
+    "normalizationAuthorized": false,
+    "compoundingAuthorized": false,
+    "fitConclusive": true
+  },
+  "architecturalDisposition": {
+    "categoryId": "wall_oven",
+    "inventoryClassificationUpdate": "composition_of_range_oven — oven-only compartment scope",
+    "hostCanonicalOntologyId": "range_oven",
+    "compartmentScope": "oven_only",
+    "rangeDomainsOmitted": ["surface_heating_system", "surface_control", "cooktop_spark_gas_valve"],
+    "doubleOvenDisposition": "dual oven-instance composition on range_oven — not new family",
+    "implementationRemainsOverlay": true
+  },
+  "evidenceWitnesses": {
+    "used": [
+      {
+        "witnessId": "W1",
+        "manufacturer": "Whirlpool/Maytag/KitchenAid",
+        "model": "WOS/WOD Smart Wall Oven",
+        "manualId": "W11174422",
+        "sourcePdf": "backend/docs/manuals/service-manual-w11174422-revBwplwallovens.pdf",
+        "configurations": ["single_electric", "double_electric"]
+      },
+      {
+        "witnessId": "W2",
+        "manufacturer": "Samsung",
+        "model": "NV51K6650D",
+        "manualId": "SAMSUNG-NV51-WALL-OVEN",
+        "sourcePdf": "backend/docs/manuals/samsungwallovennv51k6650d.pdf",
+        "configurations": ["single_electric"]
+      }
+    ],
+    "notInCorpus": [
+      "LG built-in wall oven service manual",
+      "Dedicated gas wall oven service manual"
+    ],
+    "explicitlyExcludedSubstitutes": [
+      "W11174426 freestanding range",
+      "W11746350 freestanding range",
+      "W11174814 freestanding range",
+      "Samsung NE58 freestanding range",
+      "LG LRE freestanding range"
+    ],
+    "corpusSurveyCorrection": "Initial fit gate reported zero witnesses due to filename-index gap — manuals were present in backend/docs/manuals/"
+  },
+  "functionalMappings": [
+    { "domain": "bake_broil_convection_thermal", "host": "oven_heat_generation + instanceScopes" },
+    { "domain": "temperature_sensing_control", "host": "temperature_sensor (+ upper/lower instance on double)" },
+    { "domain": "control_board", "host": "control_board (Copernicus ACU / Main PCB)" },
+    { "domain": "oven_ui_control", "host": "user_interface + control_board" },
+    { "domain": "door_latch_safety", "host": "conditionalConcept.oven_door_switch" },
+    { "domain": "convection_fan", "host": "conditionalConcept.convection_fan" },
+    { "domain": "cooling_ventilation", "host": "deferredConcept.cooling_fan platform overlay" },
+    { "domain": "double_oven", "host": "dual oven-instance composition — not new canonical graph" }
+  ],
+  "genuineDivergences": [],
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "wallOvenJsonCreated": false,
+    "witnessCount": 2,
+    "diagnosticPathClassifications": 17,
+    "frozenGraphMutations": 0
+  },
+  "frozenContractsPreserved": {
+    "range_oven": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+    "electric_range": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "french_door_refrigerator": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+    "vented_dryer": "db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714",
+    "heat_pump_dryer": "d7a98c826d011a9fdef4b8c91ebd4d66ff88629f7d7b91357d43fee42c32d3bb",
+    "aio_laundry_combo": "be3799a991b3d778b62e60a7ec3d91dfd6fe82432e3f9ac8663d607008081183",
+    "microwave": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d"
+  },
+  "evidenceChain": {
+    "inventory": "CG_CANONICAL_FAMILY_INVENTORY_v1.json",
+    "fitContract": "CG_WALL_OVEN_FIT_TEST_CONTRACT_v1.json",
+    "observations": ["CG_W11174422_FIT_OBSERVATION_v1.json", "CG_SAMSUNG_NV51_FIT_OBSERVATION_v1.json"],
+    "triangulation": "CG_WALL_OVEN_FIT_TRIANGULATION_v1.json",
+    "fitAnalysis": "CG_WALL_OVEN_FIT_ANALYSIS_v1.json"
+  },
+  "immutableFitArtifacts": [
+    "CG_W11174422_FIT_OBSERVATION_v1.json",
+    "CG_SAMSUNG_NV51_FIT_OBSERVATION_v1.json",
+    "CG_WALL_OVEN_FIT_TRIANGULATION_v1.json",
+    "CG_WALL_OVEN_FIT_ANALYSIS_v1.json"
+  ],
+  "authorizedNextWorkstream": null,
+  "nextDisciplinedStep": "STOP — fit gate closed GREEN. Final architecture gate: CG-COOKTOP-FIT-TEST. No normalization until architecture-complete STOP."
+}

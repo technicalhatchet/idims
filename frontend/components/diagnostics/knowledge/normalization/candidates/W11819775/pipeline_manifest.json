@@ -1,0 +1,91 @@
+{
+  "manualId": "W11819775",
+  "platformId": "whirlpool_acu_fd_inverter",
+  "templateId": "refrigerator",
+  "label": "Whirlpool ACU inverter French door 31 cu ft (W11819775)",
+  "status": "candidate",
+  "ontologyId": null,
+  "generatedAt": "2026-09-12T22:21:05.800877+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 13,
+    "mappingCandidates": 24,
+    "overlayCandidates": 0,
+    "conflicts": 0,
+    "extractionFiltered": 11
+  },
+  "extractionFilters": {
+    "proceduralNoise": 11,
+    "structuralNoise": 0,
+    "invalidExtraction": 0,
+    "totalFiltered": 11,
+    "samples": [
+      {
+        "rawTerm": "Service Test 01",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11819775-test-01-rc-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 03",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11819775-test-03-fc-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 05",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11819775-test-05-fc-evap-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 7",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11819775-test-07-im-tray-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 10",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11819775-test-10-rh-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 23",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11819775-test-23-compressor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 25",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11819775-test-25-damper",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 27",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11819775-test-27-fc-fan",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 28",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11819775-test-28-condenser-fan",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 38",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11819775-test-38-defrost",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 40",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11819775-test-40-mullion-heater",
+        "source": "title_token"
+      }
+    ]
+  }
+}

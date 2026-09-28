@@ -1,0 +1,302 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg11_gas_range_fit_test_contract",
+  "status": "closed",
+  "phase": "CG-11",
+  "activatedAt": "2026-09-16T15:34:00+00:00",
+  "closedAt": "2026-09-16T15:49:00+00:00",
+  "closureArtifact": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json",
+  "closureVerdict": "CLOSED / GAS_FITS_ELECTRIC_CONTRACT",
+  "approvedFitOutcome": "A",
+  "humanBoundaryApprovedAt": "2026-09-16T15:49:00+00:00",
+  "priorPhaseClosed": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+  "priorPhaseVerdict": "CLOSED / ELECTRIC_RANGE_ARCHITECTURE_COMPLETE",
+  "fitTestMode": "fit_falsification_against_frozen_contract",
+  "fuelScope": "gas_range_only",
+  "notCreating": [
+    "gas_range.json",
+    "range_oven.json",
+    "mutations to electric_range.json",
+    "canonical expansion on electric_range rev1",
+    "manufacturer overlay compounding",
+    "automatic promotion of gas_burner",
+    "automatic promotion of igniter",
+    "automatic promotion of flame_sensor",
+    "automatic promotion of gas_valve",
+    "automatic promotion of spark_module",
+    "automatic promotion of safety_valve",
+    "instance-scope compounding machinery"
+  ],
+  "frozenContractUnderTest": {
+    "id": "electric_range",
+    "file": "frontend/components/diagnostics/knowledge/canonical/electric_range.json",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-16T15:26:00+00:00",
+    "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "immutable": true,
+    "canonicalHashMutationsAllowed": 0,
+    "note": "electric_range.json is immutable contract truth for CG-11. Gas evidence may fit, falsify, or document boundary — it may not teach the frozen contract merely by being different."
+  },
+  "fitHypothesisArtifact": "electric_range_gas_fit_hypothesis_v1.json",
+  "centerpieceQuestion": {
+    "id": "electric_vs_range_oven_contract",
+    "question": "Is the frozen electric_range contract actually a broader range/oven functional contract, or is it specifically an electric-range ontology?",
+    "framing": "This is the centerpiece of CG-11 — not whether gas hardware looks like electric hardware.",
+    "allowedOutcomes": [
+      "gas_fits — frozen contract behaves as generic range/oven functional ontology; organizational rename may follow as separate human gate",
+      "gas_fits_with_documented_boundary — instance scope / conditional extensions documented without mutating frozen electric rev1",
+      "genuine_divergence — electric and gas require separate canonical contracts; document boundary, do not mutate electric"
+    ],
+    "disallowedShortcut": "Creating gas_range.json or expanding electric_range.json because gas manuals expose igniter/valve vocabulary"
+  },
+  "boundaryQuestions": [
+    {
+      "id": "power_supply_gas",
+      "question": "Does power_supply remain functionally canonical even though the heat source is gas?",
+      "frozenContractNode": "power_supply",
+      "layer": "components[]",
+      "r1EvidenceHooks": ["samsungnx60-power"],
+      "classificationOptions": ["fits_frozen_contract", "conditional_extension", "contract_boundary", "platform_implementation_only"]
+    },
+    {
+      "id": "control_board_gas",
+      "question": "Does control_board remain canonical?",
+      "frozenContractNode": "control_board",
+      "layer": "components[]",
+      "r1EvidenceHooks": ["samsungnx60-heater-relays", "samsungnx60-touch-comm"],
+      "classificationOptions": ["fits_frozen_contract", "platform_implementation_only"],
+      "platformVocabularyGuard": ["sub_pcb", "relay_bank", "dlb_relay"]
+    },
+    {
+      "id": "user_interface_gas",
+      "question": "Does user_interface remain canonical?",
+      "frozenContractNode": "user_interface",
+      "layer": "components[]",
+      "r1EvidenceHooks": ["samsungnx60-hmi-touch", "samsungnx60-touch-comm"],
+      "classificationOptions": ["fits_frozen_contract", "platform_implementation_only"]
+    },
+    {
+      "id": "temperature_sensor_gas",
+      "question": "Does temperature_sensor retain the same functional role?",
+      "frozenContractNode": "temperature_sensor",
+      "layer": "components[]",
+      "r1EvidenceHooks": ["samsungnx60-oven-sensor"],
+      "classificationOptions": ["fits_frozen_contract", "conditional_extension", "contract_boundary"]
+    },
+    {
+      "id": "surface_heating_system_gas",
+      "question": "Does surface_heating_system survive when the surface heat source is gas burners?",
+      "frozenContractNode": "surface_heating_system",
+      "layer": "components[]",
+      "r1EvidenceHooks": ["samsungnx60-spark-module"],
+      "classificationOptions": ["fits_frozen_contract", "conditional_extension", "contract_boundary"],
+      "platformVocabularyGuard": ["spark_module", "surface_burner", "gas_burner"]
+    },
+    {
+      "id": "bake_instance_scope_gas",
+      "question": "Does the electric bake_heating_element instance scope map cleanly to a gas oven heat-generation function, or does that expose a deeper contract boundary?",
+      "frozenContractNode": "bake_heating_element",
+      "layer": "instanceScopes[]",
+      "r1EvidenceHooks": ["samsungnx60-bake-ignitor", "samsungnx60-safety-valve", "samsungnx60-heater-relays"],
+      "classificationOptions": [
+        "functional_equivalent_instance_scope",
+        "instance_scope_needs_gas_specific_binding",
+        "contract_boundary_requires_separate_ontology"
+      ],
+      "platformVocabularyGuard": ["bake_ignitor", "hsi", "safety_valve", "gas_valve"],
+      "excludeFromR1": ["samsungnx60-bake-element"],
+      "excludeReason": "NE63 electric variant procedure — not gas R1 evidence"
+    },
+    {
+      "id": "broil_instance_scope_gas",
+      "question": "Does broil_heating_element have a meaningful gas equivalent?",
+      "frozenContractNode": "broil_heating_element",
+      "layer": "instanceScopes[]",
+      "r1EvidenceHooks": ["samsungnx60-broil-ignitor", "samsungnx60-heater-relays"],
+      "classificationOptions": [
+        "functional_equivalent_instance_scope",
+        "instance_scope_needs_gas_specific_binding",
+        "no_meaningful_gas_equivalent",
+        "contract_boundary_requires_separate_ontology"
+      ],
+      "platformVocabularyGuard": ["broil_ignitor", "hsi"],
+      "excludeFromR1": ["samsungnx60-broil-element"]
+    },
+    {
+      "id": "thermal_protection_gas",
+      "question": "Does thermal_protection remain conditional/platform-specific?",
+      "frozenContractNode": "thermal_protection",
+      "layer": "conditionalConcepts[]",
+      "r1EvidenceHooks": ["samsungnx60-cooling-fan", "samsungnx60-oven-vent"],
+      "classificationOptions": ["fits_frozen_conditional", "platform_implementation_only", "contract_boundary"]
+    },
+    {
+      "id": "oven_door_switch_gas",
+      "question": "Does oven_door_switch remain a useful functional role?",
+      "frozenContractNode": "oven_door_switch",
+      "layer": "conditionalConcepts[]",
+      "r1EvidenceHooks": ["samsungnx60-door-lock"],
+      "classificationOptions": ["fits_frozen_conditional", "platform_implementation_only", "latch_actuator_only"],
+      "relatedPlatformOnly": ["door_latch_motor"]
+    },
+    {
+      "id": "convection_fan_gas",
+      "question": "What happens to convection_fan?",
+      "frozenContractNode": "convection_fan",
+      "layer": "conditionalConcepts[]",
+      "r1EvidenceHooks": ["samsungnx60-convection-fan"],
+      "classificationOptions": ["fits_frozen_conditional", "conditional_extension", "contract_boundary"]
+    },
+    {
+      "id": "convection_heating_element_gas",
+      "question": "Does convection_heating_element conditional instance scope apply on gas, or is convection fan-only on gas platforms?",
+      "frozenContractNode": "convection_heating_element",
+      "layer": "conditionalInstanceScopes[]",
+      "r1EvidenceHooks": ["samsungnx60-convection-fan"],
+      "classificationOptions": ["not_applicable_gas", "fan_only_gas_convection", "conditional_instance_scope_extends", "contract_boundary"]
+    }
+  ],
+  "vocabularyGuardrails": {
+    "doNotAutoCreateCanonical": [
+      "gas_burner",
+      "igniter",
+      "hot_surface_ignitor",
+      "hsi",
+      "flame_sensor",
+      "gas_valve",
+      "safety_valve",
+      "spark_module",
+      "spark_ignition",
+      "dsi_board"
+    ],
+    "requiredClassification": [
+      "fits_frozen_contract",
+      "functional_equivalent_instance_scope",
+      "conditional_extension",
+      "platform_implementation_only",
+      "contract_boundary",
+      "deferred_pending_second_manual"
+    ],
+    "rule": "Gas OEM hardware names must be classified against frozen electric_range layers — never promoted to canonical merely because the manual tests them."
+  },
+  "discoveryCorpus": {
+    "R1": {
+      "manualId": "SAMSUNG-NX60-RANGE",
+      "platformId": "samsung_range_nx60",
+      "smokeModel": "NX60T8311SS",
+      "manufacturer": "Samsung",
+      "role": "first_gas_fit_observation",
+      "fuelFilter": "gas_range",
+      "templateFilter": "gas_range",
+      "rationale": "Samsung gas slide-in range — manufacturer present in CG-10 only as excluded R4 electric boundary (NE58), not in electric discovery corpus. Tests fuel boundary without reusing Whirlpool/LG electric evidence.",
+      "extractionDoc": "SAMSUNG_NX60_RANGE_EXTRACTION.md",
+      "procedureSeedPlatform": "samsung_range_nx60",
+      "observationArtifact": "SAMSUNG_NX60_RANGE_gr_cg11x_observation_v1.json",
+      "observationStatus": "complete",
+      "observationCompletedAt": "2026-09-16T15:41:00+00:00",
+      "excludeProcedureIds": [
+        "samsungnx60-bake-element",
+        "samsungnx60-broil-element"
+      ],
+      "excludeReason": "NE63 electric variant procedures on dual-template platform — out of gas R1 fuel filter"
+    },
+    "R2": {
+      "status": "deferred",
+      "requirement": "Independent gas manufacturer manual if R1 fit/falsification is inconclusive",
+      "candidates": [
+        {
+          "manualId": "LG gas freestanding range",
+          "note": "LG-LRE-RANGE is electric in CG-10 — LG gas manual would be fresh manufacturer+fuel boundary",
+          "status": "manual_in_repo_unscoped"
+        },
+        {
+          "manualId": "W11174814 / Whirlpool gas range",
+          "note": "Whirlpool gas on whirlpool_freestanding_range platform — use only after R1 if triangulation needed",
+          "status": "procedure_seeds_exist_gas_procedures"
+        }
+      ]
+    }
+  },
+  "cg10CorpusExclusion": {
+    "note": "CG-10 electric discovery corpus is not reused as gas evidence — fit test evaluates against frozen contract, not electric manual triangulation",
+    "electricDiscoveryManufacturers": ["Whirlpool", "LG"],
+    "electricBoundaryOnly": ["Samsung NE58F9710WS"],
+    "gasR1Manufacturer": "Samsung NX60 — distinct fuel family on partially shared Samsung range platform"
+  },
+  "immutableRules": [
+    "CG-11 is fit/falsification only — success includes proving gas does NOT fit the frozen electric contract.",
+    "electric_range.json hash must remain 0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54 through CG-11 unless a new discovery workstream explicitly reopens CG-10.",
+    "No writes to frontend/components/diagnostics/knowledge/canonical/electric_range.json during CG-11.",
+    "No gas_range.json — gas either fits frozen contract, documents boundary, or proves divergence.",
+    "Procedure seeds inform observations — they do not auto-promote gas hardware to canonical.",
+    "Instance-scope compounding machinery remains deferred until CG-11 boundary decision.",
+    "CG-10 freeze lock and recommendation artifacts remain authoritative evidence chain — not overwritten."
+  ],
+  "decisionGates": {
+    "afterR1": {
+      "ask": "Which frozen electric_range layers survive Samsung gas architecture as functional equivalents, conditionals, or platform vocabulary?",
+      "doNotAsk": "Does Samsung gas match Whirlpool electric?",
+      "doNotPromote": "igniter, safety_valve, spark_module, gas_valve to canonical without fit-test classification",
+      "artifact": "SAMSUNG_NX60_RANGE_gr_cg11x_observation_v1.json",
+      "then": "fit_falsification_analysis — CG11_GAS_RANGE_FIT_ANALYSIS_v1.json"
+    },
+    "afterR2": {
+      "requirement": "Only if R1 inconclusive — second independent gas manufacturer",
+      "then": "human_boundary_decision_gate"
+    },
+    "humanBoundaryDecision": {
+      "outcomes": {
+        "A": "gas_fits_electric_contract — broader range/oven contract viable",
+        "B": "gas_fits_with_documented_boundary — extensions documented without mutating frozen electric rev1",
+        "C": "genuine_functional_divergence — document split; electric_range remains frozen electric ontology"
+      },
+      "policy": "Human gate required before any canonical rename, expansion, or gas_range.json creation"
+    }
+  },
+  "fitTestOutcomes": {
+    "A": {
+      "label": "gas_fits_electric_contract",
+      "description": "Frozen electric_range behaves as generic range/oven functional ontology; gas maps to same components[], instanceScopes[], and conditionals with platform overlay vocabulary only"
+    },
+    "B": {
+      "label": "gas_fits_with_documented_boundary",
+      "description": "Most layers fit; specific instance-scope or conditional extensions documented without mutating frozen electric rev1 canonical file"
+    },
+    "C": {
+      "label": "genuine_functional_divergence",
+      "description": "Gas exposes functional architecture electric contract cannot absorb — document boundary; do not mutate electric_range.json"
+    },
+    "policy": "Fit test earns every classification — automatic canonical expansion prohibited"
+  },
+  "successCriteria": {
+    "minimum": "R1 Samsung NX60 gas observation complete against frozen contract layers",
+    "recommended": "R1 + independent R2 gas manual if R1 inconclusive",
+    "canonicalMutation": 0,
+    "canonicalExpansion": 0,
+    "fitAnalysisArtifact": "CG11_GAS_RANGE_FIT_ANALYSIS_v1.json",
+    "fitAnalysisStatus": "human_boundary_approved",
+    "fitAnalysisArtifactAuthored": true,
+    "humanBoundaryApprovalRequired": true,
+    "humanBoundaryApprovedAt": "2026-09-16T15:49:00+00:00",
+    "approvedFitOutcome": "A",
+    "r1ObservationArtifact": "SAMSUNG_NX60_RANGE_gr_cg11x_observation_v1.json",
+    "recommendedFitOutcome": "A",
+    "r2Required": false,
+    "closureArtifact": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json",
+    "closureStatus": "closed_successful"
+  },
+  "progression": [
+    "CG-10 frozen electric contract",
+    "CG-11 R1 gas observation (Samsung NX60)",
+    "fit/falsification analysis",
+    "additional independent gas manual if needed",
+    "human boundary decision",
+    "either broader range contract remains viable OR document divergence without mutating electric"
+  ],
+  "deferredWork": {
+    "instanceScopeCompounding": "After CG-11 boundary decision — not before",
+    "manufacturerOverlayCompounding": "After fit test closure — not during CG-11 discovery",
+    "organizationalRename": "electric_range → range_oven — separate human gate only if Outcome A"
+  }
+}

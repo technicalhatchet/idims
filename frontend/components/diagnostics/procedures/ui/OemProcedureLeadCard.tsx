@@ -1,6 +1,7 @@
 'use client';
 
 import type { ProcedureRecommendation } from '../recommendServiceProcedures';
+import { sanitizeUserFacingExplanation } from '../procedureStepPresentation';
 import {
   isStrongProcedureLead,
   resolveWizardStepLabelForProcedure,
@@ -35,6 +36,7 @@ export default function OemProcedureLeadCard({
     recommendation.procedure,
     wizardStepLabels,
   );
+  const reasonText = sanitizeUserFacingExplanation(recommendation.reason);
 
   const handleOpen = () => {
     onOpenProcedure?.(recommendation.procedureId);
@@ -64,13 +66,13 @@ export default function OemProcedureLeadCard({
       >
         {recommendation.procedure.title}
       </p>
-      {recommendation.reason ? (
+      {reasonText ? (
         <p
           className={`mt-1 text-xs leading-relaxed ${
             isMobile ? 'text-cyan-100/80' : 'text-cyan-900/80 dark:text-cyan-100/80'
           }`}
         >
-          {recommendation.reason}
+          {reasonText}
         </p>
       ) : null}
       {wizardStepLabel ? (

@@ -1,0 +1,182 @@
+{
+  "promotionId": "promo-W11480208-20260915054600",
+  "manualId": "W11480208",
+  "platformId": "whirlpool_dishwasher_acu",
+  "overlayFile": "whirlpool_dishwasher.json",
+  "platformFamilyId": "whirlpool_dishwasher_acu",
+  "status": "published",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-W11480208-heater-heat_source",
+    "map-W11480208-compound-dc-fan-motor-(prodry)",
+    "map-W11480208-circulation_pump-circulation_pump",
+    "map-W11480208-compound-diverter-motor-(p6)",
+    "map-W11480208-compound-door-switch-circuit-(p12)",
+    "map-W11480208-acu-control_board",
+    "map-W11480208-drain_pump-drain_pump",
+    "map-W11480208-compound-drain-motor-(variable-speed-platform)",
+    "map-W11480208-inlet_valve-inlet_valve",
+    "map-W11480208-compound-overfill-float-switch-(p11)",
+    "map-W11480208-compound-wash-motor-(variable-speed)",
+    "overlay-W11480208-w11480208-dc-fan-heater_command_test",
+    "overlay-W11480208-w11480208-dc-fan-meas-whirlpoolDishwasherFiltrationDcFanOhms",
+    "overlay-W11480208-w11480208-diverter-motor-circulation_test",
+    "overlay-W11480208-w11480208-diverter-motor-meas-whirlpoolDishwasherFiltrationDiverterMotorOhms",
+    "overlay-W11480208-w11480208-door-switch-door_switch_test",
+    "overlay-W11480208-w11480208-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+    "overlay-W11480208-w11480208-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+    "overlay-W11480208-w11480208-drain-motor-vsm-drain_test",
+    "overlay-W11480208-w11480208-drain-motor-vsm-meas-whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+    "overlay-W11480208-w11480208-heater-heater_command_test",
+    "overlay-W11480208-w11480208-heater-meas-whirlpoolDishwasherAcuHeaterOhms",
+    "overlay-W11480208-w11480208-overfill-switch-fill_test",
+    "overlay-W11480208-w11480208-overfill-switch-meas-dishwasherFloatSwitchOhms",
+    "overlay-W11480208-w11480208-overfill-switch-meas-dishwasherFloatSwitchOhms",
+    "overlay-W11480208-w11480208-wash-motor-vsm-circulation_test",
+    "overlay-W11480208-w11480208-wash-motor-vsm-meas-whirlpoolDishwasherFiltrationVsmWashMotorOhms"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {},
+      "skip": "no new manufacturer aliases"
+    },
+    "procedureBindings": {
+      "add": [
+        {
+          "procedureId": "w11480208-door-switch",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "door_authorization_failure"
+          ],
+          "displayTitle": "\u00a73-8: Door Switch Circuit (P12)",
+          "canonicalComponents": [
+            "door_switch"
+          ]
+        },
+        {
+          "procedureId": "w11480208-overfill-switch",
+          "testTargetId": "water_level_test",
+          "failureDomains": [
+            "fill_failure"
+          ],
+          "displayTitle": "\u00a73-13: Overfill Float Switch (P11)",
+          "canonicalComponents": [
+            "water_level_sensor"
+          ],
+          "platformNote": "Gate correction: fill_test \u2192 water_level_test"
+        },
+        {
+          "procedureId": "w11480208-heater",
+          "testTargetId": "heater_command_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "\u00a73-11: Water Heating / Heat Dry",
+          "canonicalComponents": [
+            "heat_source"
+          ]
+        },
+        {
+          "procedureId": "w11480208-diverter-motor",
+          "testTargetId": "circulation_test",
+          "failureDomains": [
+            "circulation_failure"
+          ],
+          "displayTitle": "\u00a73-14: Diverter Motor (P6)",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "diverter_motor"
+        },
+        {
+          "procedureId": "w11480208-drain-motor-vsm",
+          "testTargetId": "drain_test",
+          "failureDomains": [
+            "drain_failure"
+          ],
+          "displayTitle": "\u00a73-19: Drain Motor (Variable Speed platform)",
+          "canonicalComponents": [
+            "drain_pump"
+          ],
+          "implementationComponent": "vsm_drain_motor"
+        },
+        {
+          "procedureId": "w11480208-wash-motor-vsm",
+          "testTargetId": "circulation_test",
+          "failureDomains": [
+            "circulation_failure"
+          ],
+          "displayTitle": "\u00a73-17: Wash Motor (Variable Speed)",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "vsm_wash_motor"
+        },
+        {
+          "procedureId": "w11480208-dc-fan",
+          "testTargetId": "drying_airflow_test",
+          "failureDomains": [
+            "drying_failure"
+          ],
+          "displayTitle": "\u00a73-20: DC Fan Motor (ProDry)",
+          "canonicalComponents": [
+            "drying_system"
+          ],
+          "implementationComponent": "dc_fan_motor",
+          "platformNote": "Gate correction: heater_command_test \u2192 drying_airflow_test"
+        }
+      ]
+    },
+    "measurementBindings": {
+      "add": [
+        {
+          "procedureId": "w11480208-door-switch",
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testTargetId": "door_switch_test"
+        },
+        {
+          "procedureId": "w11480208-overfill-switch",
+          "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+          "testTargetId": "water_level_test"
+        },
+        {
+          "procedureId": "w11480208-heater",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuHeaterOhms",
+          "testTargetId": "heater_command_test"
+        },
+        {
+          "procedureId": "w11480208-diverter-motor",
+          "measurementKnowledgeId": "whirlpoolDishwasherFiltrationDiverterMotorOhms",
+          "testTargetId": "circulation_test",
+          "implementationComponent": "diverter_motor"
+        },
+        {
+          "procedureId": "w11480208-drain-motor-vsm",
+          "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+          "testTargetId": "drain_test",
+          "implementationComponent": "vsm_drain_motor"
+        },
+        {
+          "procedureId": "w11480208-wash-motor-vsm",
+          "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmWashMotorOhms",
+          "testTargetId": "circulation_test",
+          "implementationComponent": "vsm_wash_motor"
+        },
+        {
+          "procedureId": "w11480208-dc-fan",
+          "measurementKnowledgeId": "whirlpoolDishwasherFiltrationDcFanOhms",
+          "testTargetId": "drying_airflow_test",
+          "implementationComponent": "dc_fan_motor"
+        }
+      ]
+    },
+    "platformComponentsAdded": [
+      "vsm_wash_motor",
+      "vsm_drain_motor"
+    ]
+  },
+  "plannedAt": "2026-09-15T05:46:00.575367+00:00",
+  "publishedAt": "2026-09-15T05:46:11.245368+00:00",
+  "publishMode": "gate_table_bindings_and_platform_delta"
+}

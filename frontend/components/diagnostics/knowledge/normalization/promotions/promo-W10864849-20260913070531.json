@@ -1,0 +1,235 @@
+{
+  "promotionId": "promo-W10864849-20260913070531",
+  "manualId": "W10864849",
+  "platformId": "whirlpool_tl_dd",
+  "overlayFile": "whirlpool_top_load_washer.json",
+  "platformFamilyId": "whirlpool_tl_dd_direct_drive",
+  "status": "planned",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-W10864849-supply-supply",
+    "map-W10864849-compound-main-control-(acu)",
+    "map-W10864849-acu-control_board",
+    "map-W10864849-inlet_valve-inlet_valve",
+    "map-w10864849-unresolved-w10864849-test-02-valves-test-#2:-valves",
+    "map-W10864849-drive_motor-drive_motor",
+    "map-W10864849-compound-drive-system-(pre-test)",
+    "map-W10864849-compound-drive-system-\u2014-shifter",
+    "map-W10864849-compound-drive-system-\u2014-motor",
+    "map-W10864849-hmi_control-hmi_control",
+    "map-W10864849-compound-keys-and-encoders",
+    "map-W10864849-wash_ntc-wash_ntc",
+    "map-W10864849-compound-temperature-thermistor",
+    "map-W10864849-water_level_sensor-water_level_sensor",
+    "map-W10864849-compound-water-level",
+    "map-W10864849-drain_pump-drain_pump",
+    "map-W10864849-compound-drain-&-recirculation-pump",
+    "map-W10864849-door_lock-door_lock",
+    "map-W10864849-compound-lid-lock",
+    "map-W10864849-wash_heater-wash_heater",
+    "map-W10864849-compound-heater-element",
+    "map-W10864849-compound-service-leds",
+    "map-W10864849-compound-basket-light",
+    "map-W10864849-bulk_level_switch-bulk_level_switch",
+    "map-W10864849-compound-bulk-dispense-pump-and-rex-board",
+    "map-W10864849-main-control-control_board",
+    "map-w10864849-unresolved-w11697231-test-02-valves-test-#2:-valves",
+    "map-W10864849-compound-console-and-indicators",
+    "map-W10864849-drain-pump-drain_pump",
+    "overlay-W10864849-w10864849-test-03-drive-system-motor_output_test",
+    "overlay-W10864849-w10864849-test-03a-shifter-motor_output_test",
+    "overlay-W10864849-w10864849-test-03b-motor-motor_output_test",
+    "overlay-W10864849-w10864849-test-03b-motor-meas-whirlpoolTlDdWasherMotorOhms",
+    "overlay-W10864849-w10864849-test-03b-motor-meas-whirlpoolTlDdWasherMotorOhms",
+    "overlay-W10864849-w10864849-test-06-water-level-drain_test",
+    "overlay-W10864849-w10864849-test-07-drain-recirc-pump-drain_test",
+    "overlay-W10864849-w10864849-test-07-drain-recirc-pump-meas-whirlpoolTlDdWasherDrainPumpOhms",
+    "overlay-W10864849-w10864849-test-07-drain-recirc-pump-meas-whirlpoolTlDdWasherRecircPumpOhms",
+    "overlay-W10864849-w10864849-test-07-drain-recirc-pump-meas-whirlpoolTlDdWasherDrainPumpOhms",
+    "overlay-W10864849-w10864849-test-08-lid-lock-door_lock_test",
+    "overlay-W10864849-w10864849-test-08-lid-lock-meas-whirlpoolTlDdWasherLidLockMotorOhms",
+    "overlay-W10864849-w11697231-test-03-drive-system-motor_output_test",
+    "overlay-W10864849-w11697231-test-03a-shifter-motor_output_test",
+    "overlay-W10864849-w11697231-test-03a-shifter-meas-whirlpoolWtw4950WasherShifterOhms",
+    "overlay-W10864849-w11697231-test-03b-motor-motor_output_test",
+    "overlay-W10864849-w11697231-test-03b-motor-meas-whirlpoolWtw4950WasherMotorWindingOhms",
+    "overlay-W10864849-w11697231-test-03b-motor-meas-whirlpoolWtw4950WasherMotorWindingOhms",
+    "overlay-W10864849-w11697231-test-06-water-level-drain_test",
+    "overlay-W10864849-w11697231-test-07-drain-pump-drain_test",
+    "overlay-W10864849-w11697231-test-07-drain-pump-meas-whirlpoolWtw4950WasherDrainPumpOhms",
+    "overlay-W10864849-w11697231-test-07-drain-pump-meas-whirlpoolWtw4950WasherDrainPumpOhms",
+    "overlay-W10864849-w11697231-test-08-lid-lock-door_lock_test",
+    "overlay-W10864849-w11697231-test-08-lid-lock-meas-whirlpoolWtw4950WasherLidLockSolenoidOhms"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {
+        "supply": "supply",
+        "TEST #1: Main Control (ACU)": "control_board",
+        "ACU": "control_board",
+        "inlet_valve": "inlet_valve",
+        "TEST #2: Valves": "inlet_valve",
+        "drive_motor": "drive_motor",
+        "TEST #3: Drive System (pre-test)": "drive_motor",
+        "TEST #3a: Drive System \u2014 Shifter": "mode_shifter",
+        "TEST #3b: Drive System \u2014 Motor": "drive_motor",
+        "hmi_control": "hmi_control",
+        "TEST #4: Keys and Encoders": "hmi_control",
+        "wash_ntc": "wash_ntc",
+        "TEST #5: Temperature Thermistor": "wash_ntc",
+        "water_level_sensor": "water_level_sensor",
+        "TEST #6: Water Level": "pressure_sensor",
+        "drain_pump": "drain_pump",
+        "TEST #7: Drain & Recirculation Pump": "drain_pump",
+        "door_lock": "door_lock",
+        "TEST #8: Lid Lock": "lid_lock",
+        "wash_heater": "wash_heater",
+        "TEST #9: Heater Element": "wash_heater",
+        "TEST #10: Service LEDs": "hmi_control",
+        "TEST #11: Basket Light": "supply",
+        "bulk_level_switch": "bulk_level_switch",
+        "TEST #12: Bulk Dispense Pump and REX Board": "bulk_level_switch",
+        "TEST #1: Main Control": "control_board",
+        "TEST #4: Console and Indicators": "hmi_control",
+        "TEST #7: Drain Pump": "drain_pump"
+      },
+      "skip": {}
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [
+        {
+          "procedureId": "w10864849-test-03-drive-system",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3: Drive System (pre-test)"
+        },
+        {
+          "procedureId": "w10864849-test-03a-shifter",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3a: Drive System \u2014 Shifter"
+        },
+        {
+          "procedureId": "w10864849-test-03b-motor",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3b: Drive System \u2014 Motor"
+        },
+        {
+          "procedureId": "w10864849-test-06-water-level",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #6: Water Level"
+        },
+        {
+          "procedureId": "w10864849-test-07-drain-recirc-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #7: Drain & Recirculation Pump"
+        },
+        {
+          "procedureId": "w10864849-test-08-lid-lock",
+          "testTargetId": "door_lock_test",
+          "displayTitle": "TEST #8: Lid Lock"
+        },
+        {
+          "procedureId": "w11697231-test-03-drive-system",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3: Drive System (pre-test)"
+        },
+        {
+          "procedureId": "w11697231-test-03a-shifter",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3a: Drive System \u2014 Shifter"
+        },
+        {
+          "procedureId": "w11697231-test-03b-motor",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3b: Drive System \u2014 Motor"
+        },
+        {
+          "procedureId": "w11697231-test-06-water-level",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #6: Water Level"
+        },
+        {
+          "procedureId": "w11697231-test-07-drain-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #7: Drain Pump"
+        },
+        {
+          "procedureId": "w11697231-test-08-lid-lock",
+          "testTargetId": "door_lock_test",
+          "displayTitle": "TEST #8: Lid Lock"
+        }
+      ],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [
+        {
+          "procedureId": "w10864849-test-03b-motor",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w10864849-test-03b-motor",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w10864849-test-07-drain-recirc-pump",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w10864849-test-07-drain-recirc-pump",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherRecircPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w10864849-test-07-drain-recirc-pump",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w10864849-test-08-lid-lock",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherLidLockMotorOhms",
+          "testTargetId": "door_lock_test"
+        },
+        {
+          "procedureId": "w11697231-test-03a-shifter",
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherShifterOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w11697231-test-03b-motor",
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherMotorWindingOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w11697231-test-03b-motor",
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherMotorWindingOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w11697231-test-07-drain-pump",
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11697231-test-07-drain-pump",
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11697231-test-08-lid-lock",
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherLidLockSolenoidOhms",
+          "testTargetId": "door_lock_test"
+        }
+      ],
+      "skip": []
+    }
+  },
+  "plannedAt": "2026-09-13T07:05:31.271870+00:00"
+}

@@ -1,0 +1,1393 @@
+{
+  "manualId": "W8178558",
+  "candidates": [
+    {
+      "id": "map-W8178558-dosing_pump-dosing_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "dosing_pump",
+      "extractedTerm": null,
+      "canonicalId": "dosing_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-dispenser-motor",
+        "pages": [
+          74
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-dispenser-motor",
+            "pages": [
+              74
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-compound-detergent-dispenser-motor",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-4: Detergent Dispenser Motor",
+      "canonicalId": "dosing_pump",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "detergent",
+        "component": "dispenser",
+        "actuator": "motor"
+      },
+      "matchedPhrase": "dispenser motor",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-dispenser-motor",
+        "pages": [
+          74
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-dispenser-motor",
+            "pages": [
+              74
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "dispenser motor",
+            "decomposition": {
+              "domain": "detergent",
+              "component": "dispenser",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Detergent Dispenser Motor"
+    },
+    {
+      "id": "map-W8178558-ccu-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "CCU",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.98,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-dispenser-motor",
+        "pages": [
+          74
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-dispenser-motor",
+            "pages": [
+              74
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-door_lock-door_lock",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_lock",
+      "extractedTerm": null,
+      "canonicalId": "door_lock",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-compound-door-lock-/-switch-circuit",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-5: Door Lock / Switch Circuit",
+      "canonicalId": "door_lock",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": "lock",
+        "actuator": "switch"
+      },
+      "matchedPhrase": "door lock",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "door lock",
+            "decomposition": {
+              "domain": "door",
+              "component": "lock",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Door Lock / Switch Circuit"
+    },
+    {
+      "id": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "DL3",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "DL3",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "DL3",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "DL3",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "DL3",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "DL3",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "DL3",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w8178558-unresolved-w8178558-door-lock-dl3",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "DL3",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-door-lock",
+        "pages": [
+          75
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-door-lock",
+            "pages": [
+              75
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-drain_pump-drain_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drain_pump",
+      "extractedTerm": null,
+      "canonicalId": "drain_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-drain-pump",
+            "pages": [
+              76
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-compound-drain-pump-circuit",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-6: Drain Pump Circuit",
+      "canonicalId": "drain_pump",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "drain",
+        "component": null,
+        "actuator": "pump"
+      },
+      "matchedPhrase": "drain pump",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-drain-pump",
+            "pages": [
+              76
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "drain pump",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drain Pump Circuit"
+    },
+    {
+      "id": "map-W8178558-dp2-drain_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "DP2",
+      "extractedTerm": null,
+      "canonicalId": "drain_pump",
+      "confidence": 0.98,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-drain-pump",
+        "pages": [
+          76
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-drain-pump",
+            "pages": [
+              76
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-inlet_valve-inlet_valve",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inlet_valve",
+      "extractedTerm": null,
+      "canonicalId": "inlet_valve",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-inlet-valves",
+        "pages": [
+          71
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-inlet-valves",
+            "pages": [
+              71
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-compound-water-inlet-valve-solenoids",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-1: Water Inlet Valve Solenoids",
+      "canonicalId": "inlet_valve",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "inlet",
+        "actuator": "valve"
+      },
+      "matchedPhrase": "inlet valve",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-inlet-valves",
+        "pages": [
+          71
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-inlet-valves",
+            "pages": [
+              71
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "inlet valve",
+            "decomposition": {
+              "domain": "water",
+              "component": "inlet",
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water Inlet Valve Solenoids"
+    },
+    {
+      "id": "map-W8178558-supply-supply",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": "supply",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-interlock-switch",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-interlock-switch",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-compound-interlock-switch-(nc-ground)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-8: Interlock Switch (NC ground)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "interlock",
+        "actuator": "switch"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-interlock-switch",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-interlock-switch",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "interlock",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Interlock Switch (NC ground)"
+    },
+    {
+      "id": "map-W8178558-drive_motor-drive_motor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drive_motor",
+      "extractedTerm": null,
+      "canonicalId": "drive_motor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-motor-circuit",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-compound-drive-motor-circuit",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-8: Drive Motor Circuit",
+      "canonicalId": "drive_motor",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "drive",
+        "actuator": "motor"
+      },
+      "matchedPhrase": "drive motor",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-motor-circuit",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "drive motor",
+            "decomposition": {
+              "domain": null,
+              "component": "drive",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drive Motor Circuit"
+    },
+    {
+      "id": "map-W8178558-mcu-motor_controller",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "MCU",
+      "extractedTerm": null,
+      "canonicalId": "motor_controller",
+      "confidence": 0.98,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-motor-circuit",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-ms2-drive_motor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "MS2",
+      "extractedTerm": null,
+      "canonicalId": "drive_motor",
+      "confidence": 0.98,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-motor-circuit",
+        "pages": [
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-motor-circuit",
+            "pages": [
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-water_level_sensor-water_level_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "water_level_sensor",
+      "extractedTerm": null,
+      "canonicalId": "water_level_sensor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-pressure-switch",
+        "pages": [
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-pressure-switch",
+            "pages": [
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-compound-pressure-switch-(f20)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-2: Pressure Switch (F20)",
+      "canonicalId": "water_level_sensor",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "pressure",
+        "component": null,
+        "actuator": "switch"
+      },
+      "matchedPhrase": "pressure switch",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-pressure-switch",
+        "pages": [
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-pressure-switch",
+            "pages": [
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "pressure switch",
+            "decomposition": {
+              "domain": "pressure",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Pressure Switch (F20)"
+    },
+    {
+      "id": "map-W8178558-pr6-water_level_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "PR6",
+      "extractedTerm": null,
+      "canonicalId": "water_level_sensor",
+      "confidence": 0.98,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-pressure-switch",
+        "pages": [
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-pressure-switch",
+            "pages": [
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-wash_heater-wash_heater",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_heater",
+      "extractedTerm": null,
+      "canonicalId": "wash_heater",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-wash-heater",
+        "pages": [
+          77
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-wash-heater",
+            "pages": [
+              77
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-compound-wash-heater-(ht-models)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-7: Wash Heater (Ht models)",
+      "canonicalId": "wash_heater",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": null,
+        "actuator": "heater"
+      },
+      "matchedPhrase": "wash heater",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-wash-heater",
+        "pages": [
+          77
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-wash-heater",
+            "pages": [
+              77
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash heater",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Wash Heater (Ht models)"
+    },
+    {
+      "id": "map-W8178558-wash_ntc-wash_ntc",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_ntc",
+      "extractedTerm": null,
+      "canonicalId": "wash_ntc",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-wash-ntc",
+        "pages": [
+          77
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-wash-ntc",
+            "pages": [
+              77
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178558-compound-wash-ntc-(th2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-7: Wash NTC (TH2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": "ntc th2",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "procedureId": "w8178558-wash-ntc",
+        "pages": [
+          77
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178558",
+            "platformId": "whirlpool_duet_sport"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178558-wash-ntc",
+            "pages": [
+              77
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "wash",
+              "component": "ntc th2",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Wash NTC (TH2)"
+    }
+  ]
+}

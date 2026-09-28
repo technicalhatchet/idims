@@ -1,0 +1,78 @@
+{
+
+  "schemaVersion": "1.0.0",
+
+  "reportType": "cg_pilot_prerequisite_ingestion_status",
+
+  "workstream": "CG-PRODUCTION-NORMALIZATION-PILOT",
+
+  "contract": "CG_PILOT_PREREQUISITE_INGESTION_CONTRACT_v1.json",
+
+  "status": "complete",
+
+  "updatedAt": "2026-09-17T23:00:00+00:00",
+
+  "summary": "P03, P05, and P07 ingested with procedure seeds and normalization candidates. All prerequisite slots ready. P08 untouched. Pilot outcome artifacts not modified.",
+
+  "slots": {
+
+    "P03": {
+
+      "manualId": "LG-FL-WASHER",
+
+      "readiness": "ready",
+
+      "status": "ingestion_complete",
+
+      "artifact": "CG_PILOT_P03_INGESTION_COMPLETE_v1.json"
+
+    },
+
+    "P05": {
+
+      "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+
+      "readiness": "ready",
+
+      "status": "ingestion_complete",
+
+      "artifact": "CG_PILOT_P05_INGESTION_COMPLETE_v1.json"
+
+    },
+
+    "P07": {
+
+      "manualId": "SAMSUNG-HP-DRYER-DV22N",
+
+      "readiness": "ready",
+
+      "status": "ingestion_complete",
+
+      "artifact": "CG_PILOT_P07_INGESTION_COMPLETE_v1.json"
+
+    }
+
+  },
+
+  "p08Untouched": true,
+
+  "pilotOutcomeArtifactsUnmodified": [
+
+    "CG_PRODUCTION_NORMALIZATION_PILOT_RESULTS_v1.json",
+
+    "CG_PRODUCTION_NORMALIZATION_PILOT_ANALYSIS_v1.json",
+
+    "CG_PRODUCTION_NORMALIZATION_PILOT_CLOSURE_v1.json"
+
+  ],
+
+  "nextStep": "Pilot GATE closed GREEN — CG-PRODUCTION-NORMALIZATION-BATCH contract is next disciplined step",
+
+  "freshPilotRunAuthorized": true,
+
+  "pilotGateClosed": true,
+
+  "productionBatchAuthorized": false
+
+}
+

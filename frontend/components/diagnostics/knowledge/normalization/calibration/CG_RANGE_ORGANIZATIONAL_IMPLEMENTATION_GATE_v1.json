@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_organizational_implementation_gate",
+  "workstream": "CG-RANGE-IMPLEMENTATION-GATE",
+  "status": "closed",
+  "openedAt": "2026-09-16T21:57:00+00:00",
+  "priorPhaseClosed": "CG_RANGE_FAMILY_REVIEW_CLOSURE_v1.json",
+  "priorReviewVerdict": "CLOSED / THREE_ORGANIZATIONAL_DECISIONS_APPROVED",
+  "implementationMode": "non_destructive_migration",
+  "normalizationBlockedUntilGateGreen": true,
+  "compoundingBlockedUntilGateGreen": true,
+  "approvedOrganizationalIdentity": {
+    "primaryCanonicalId": "range_oven",
+    "legacyAliasIds": ["electric_range"],
+    "aliasSemantics": "explicit compatibility and history — electric_range is NOT a second ontology",
+    "frozenHistoricalContract": {
+      "id": "electric_range",
+      "revision": "rev1",
+      "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+      "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+      "historicalArtifactsImmutable": true
+    }
+  },
+  "approvedTemplateRouting": {
+    "outcome": "ROUTE_ALL_RANGE_IMPLEMENTATIONS_TO_SHARED_CONTRACT",
+    "implementationTemplates": [
+      "electric_range",
+      "gas_range",
+      "induction_range",
+      "dual_fuel_range"
+    ],
+    "resolveTo": "range_oven",
+    "doesNotCreate": ["gas_range.json", "induction_range.json", "dual_fuel_range.json"],
+    "stack": "template → platform/implementation overlay → range_oven ontology → diagnostic graph",
+    "resolverPolicy": "explicit authoritative mapping — replace WO-text heuristic for induction/dual-fuel"
+  },
+  "implementationTasks": [
+    {
+      "id": "create_range_oven_identity",
+      "label": "Create range_oven canonical identity",
+      "status": "complete",
+      "note": "May copy/adopt electric_range rev1 graph under range_oven id — hash lineage documented; do not silently mutate CG-10 freeze record"
+    },
+    {
+      "id": "establish_legacy_alias",
+      "label": "Establish electric_range → range_oven alias registry",
+      "status": "complete",
+      "targets": ["canonicalRegistry.ts", "resolveCanonicalOntologyId", "alias registry artifact"]
+    },
+    {
+      "id": "update_resolver",
+      "label": "Update resolver for all range implementation templates",
+      "status": "complete",
+      "fixes": [
+        "gas_range templateId currently returns null — route to range_oven",
+        "register induction_range and dual_fuel_range templates",
+        "remove reliance on WO-text heuristic as primary routing"
+      ]
+    },
+    {
+      "id": "update_template_routing",
+      "label": "Update template routing registries",
+      "status": "complete",
+      "targets": [
+        "diagnosticTemplates.js",
+        "platformRegistry.ts",
+        "wizardRegistry.ts",
+        "diagnostic_template_catalog.json"
+      ]
+    },
+    {
+      "id": "preserve_historical_references",
+      "label": "Preserve historical references",
+      "status": "complete",
+      "policy": "CG-10–13 fit/closure artifacts historically_frozen — no text rewrite"
+    },
+    {
+      "id": "regression_suite",
+      "label": "Run regression suite",
+      "status": "complete",
+      "gates": ["validate_canonical_graph.py", "npx tsc --noEmit", "test:diagnostic-session range family chain"]
+    }
+  ],
+  "explicitNonGoals": [
+    "Do not rename electric_range.json in place as first step",
+    "Do not rewrite CG-11/12/13 closure or observation artifacts",
+    "Do not use normalization corpus to re-validate rename decision",
+    "Do not open CG-RANGE-NORMALIZATION until this gate is green"
+  ],
+  "unlockOnSuccess": {
+    "normalization": "CG-RANGE-NORMALIZATION",
+    "compounding": "CG-RANGE-COMPOUNDING",
+    "firstNormalizationTargets": [
+      "W11174814 Whirlpool-family multi-fuel manual",
+      "Samsung NY63 / NE58 / NX60 fit witnesses",
+      "CG-10 electric discovery corpus"
+    ]
+  },
+  "successCriteria": {
+    "allTasksComplete": true,
+    "regressionGreen": true,
+    "closureArtifact": "CG_RANGE_ORGANIZATIONAL_IMPLEMENTATION_GATE_CLOSURE_v1.json",
+    "closureStatus": "closed"
+  }
+}

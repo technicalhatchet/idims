@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_freeze_contract",
+  "workstream": "CG-MICROWAVE-FREEZE",
+  "status": "closed",
+  "closedAt": "2026-09-17T09:35:00+00:00",
+  "closureArtifact": "CG_MICROWAVE_FREEZE_CLOSURE_v1.json",
+  "closureVerdict": "CLOSED / MICROWAVE_FAMILY_LOCKED",
+  "freezeLock": "CG_MICROWAVE_FREEZE_LOCK_v1.json",
+  "phase": "CG-MICROWAVE-FREEZE",
+  "activatedAt": "2026-09-17T09:25:00+00:00",
+  "priorPhaseClosed": "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json",
+  "priorPhaseVerdict": "CLOSED / MICROWAVE_FUNCTIONAL_CONTRACT_APPROVED",
+  "freezeMode": "canonical_ontology_authoring_from_approved_functional_contract",
+  "coreConstraint": "Freeze gate authors microwave.json from discovery-approved functional contract only. Fit and discovery artifacts are immutable input evidence.",
+  "approvedFunctionalContract": {
+    "artifact": "microwave_functional_contract_candidate_v1.json",
+    "status": "approved_for_freeze_preparation",
+    "coreFunctions": 7,
+    "conditionalFunctions": 2,
+    "ontologyId": "microwave",
+    "templateId": "microwave"
+  },
+  "immutableInputs": {
+    "policy": "Read-only — freeze must not mutate fit or discovery closure evidence",
+    "artifacts": [
+      "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+      "CG_MICROWAVE_FIT_ANALYSIS_v1.json",
+      "CG_MICROWAVE_FIT_TRIANGULATION_v1.json",
+      "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json",
+      "microwave_functional_contract_candidate_v1.json",
+      "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+      "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json"
+    ],
+    "rangeOvenFamilyLock": "CG_RANGE_FAMILY_LOCK_v1.json",
+    "rangeOvenImmutable": true
+  },
+  "semanticBoundariesInherited": {
+    "hv_generation": "Generation/conditioning of electrical energy for microwave generation — not individual HV components",
+    "rf_cavity": "Functional energy-delivery/containment domain — not synonym for physical cavity enclosure",
+    "hvRfSplit": true,
+    "thermalProtectionSingleFunction": true
+  },
+  "notCreatingUntilHumanFreezeApproval": [
+    "frozen:true microwave.json",
+    "manufacturer overlay compounding",
+    "canonical promotion of magnetron",
+    "canonical promotion of hv_capacitor",
+    "canonical promotion of hv_diode",
+    "canonical promotion of hv_transformer",
+    "canonical promotion of waveguide",
+    "canonical promotion of turntable_motor",
+    "canonical promotion of humidity_sensor",
+    "mutations to any existing frozen canonical ontology",
+    "range_oven routing changes"
+  ],
+  "targetCanonicalArtifact": {
+    "file": "frontend/components/diagnostics/knowledge/canonical/microwave.json",
+    "ontologyId": "microwave",
+    "revision": "rev1",
+    "frozen": false,
+    "note": "Author only after human freeze gate approval — discovery approval is not the freeze"
+  },
+  "freezeRecommendation": "CG_MICROWAVE_FREEZE_RECOMMENDATION_v1.json",
+  "canonicalArtifactAuthored": {
+    "file": "microwave.json",
+    "referenceOverlay": "microwave.reference.json",
+    "preFreezeHash": "5a5e77a73b4d587432bbfd98af0cfcc448f6372469fab479ffb45ea19f1b69ad",
+    "frozen": true,
+    "frozenHash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "registryRegistered": true
+  },
+  "successCriteria": {
+    "microwaveJsonAuthored": true,
+    "humanFreezeApprovalRequired": true,
+    "humanFreezeApprovalStatus": "approved",
+    "validateCanonicalGraphPass": true,
+    "tscPass": true,
+    "freezeLockCreated": true,
+    "registryRegistered": true,
+    "coreFunctionCount": 7,
+    "conditionalFunctionCount": 2,
+    "componentPromotionCount": 0,
+    "rangeOvenHashUnchanged": true,
+    "microwaveFamilyLocked": true
+  },
+  "progression": [
+    "CG-MICROWAVE-DISCOVERY closed — functional contract approved",
+    "Author microwave.json rev1 skeleton from approved 7+2 function contract",
+    "Apply semantic boundaries (HV/RF split, thermal single function)",
+    "Human freeze gate review",
+    "validate_canonical_graph + tsc",
+    "Freeze lock artifact + registry entry"
+  ],
+  "nextDisciplinedStep": "Microwave family LOCKED — normalization/compounding deferred until explicitly authorized"
+}

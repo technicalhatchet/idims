@@ -1,0 +1,318 @@
+{
+  "schemaVersion": "1.0.0",
+  "ontology": {
+    "id": "top_load_washer",
+    "name": "Top-Load Washer",
+    "templateId": "washer",
+    "variant": "top_load",
+    "description": "CG-6.x candidate canonical graph — functional and architecture-agnostic. Direct-drive, belt-drive, splutch, shifter, and lid-lock implementations belong in overlays. NOT frozen — evidence from W10864849 CG-3 observation required before rev1.",
+    "frozen": false,
+    "candidateRevision": "cg6x_v1",
+    "candidateNote": "Conservative functional ontology. Splutch, clutch, gearcase, rotor, stator, capacitor, and mode_shifter implementations are overlay knowledge — not canonical."
+  },
+  "designPrinciples": [
+    "Model functional behavior rather than physical wiring or platform-specific drive topology.",
+    "Keep power, authorization, fill, level, drain, drive, mode selection, and output (agitate/spin) diagnostically distinct.",
+    "lid_switch and lid_lock are separate canonical concepts — platforms may implement authorization differently.",
+    "drive_system is an intentional functional abstraction between drive_motor and agitate/spin outputs; scrutinize before freeze.",
+    "transmission_or_shifter represents functional mode-selection — not a specific splutch/clutch implementation.",
+    "agitator_or_impeller is intentionally functional — do not split agitator vs impeller at canonical layer.",
+    "temperature_sensor is included conservatively; not a required dependency for ordinary wash operation.",
+    "Manufacturer-specific implementations extend via overlays — they do not replace canonical function."
+  ],
+  "relationshipTypes": [
+    "supplies",
+    "controls",
+    "commands",
+    "provides_feedback_to",
+    "mechanically_drives",
+    "mechanically_connected_to",
+    "depends_on",
+    "enables",
+    "inhibits"
+  ],
+  "systems": [
+    { "id": "power", "name": "Power", "categoryId": "electrical_supply" },
+    { "id": "control", "name": "Control", "categoryId": "control_board" },
+    { "id": "user_interface", "name": "User Interface", "categoryId": "control_hmi" },
+    { "id": "lid_authorization", "name": "Lid Authorization", "categoryId": "lid_lock" },
+    { "id": "water_inlet", "name": "Water Inlet", "categoryId": "fill_supply" },
+    { "id": "water_level", "name": "Water Level", "categoryId": "water_level" },
+    { "id": "drain", "name": "Drain", "categoryId": "drain_pump" },
+    { "id": "drive", "name": "Drive", "categoryId": "drive_motor" },
+    { "id": "mechanical", "name": "Mechanical", "categoryId": "mechanical" },
+    { "id": "temperature", "name": "Temperature", "categoryId": "wash_heating" }
+  ],
+  "components": [
+    {
+      "id": "power_supply",
+      "name": "Power Supply",
+      "systemId": "power",
+      "categoryId": "electrical_supply",
+      "type": "external_input"
+    },
+    {
+      "id": "control_board",
+      "name": "Control Board",
+      "aliases": ["ACU", "Main Control", "main_control"],
+      "systemId": "control",
+      "categoryId": "control_board",
+      "type": "controller"
+    },
+    {
+      "id": "hmi_control",
+      "name": "HMI Control",
+      "aliases": ["UI", "Console", "user_interface"],
+      "systemId": "user_interface",
+      "categoryId": "control_hmi",
+      "type": "interface"
+    },
+    {
+      "id": "lid_switch",
+      "name": "Lid Switch",
+      "aliases": ["lid closed switch"],
+      "systemId": "lid_authorization",
+      "categoryId": "lid_lock",
+      "type": "sensor",
+      "note": "Cycle-start authorization — distinct from lid_lock spin safety."
+    },
+    {
+      "id": "lid_lock",
+      "name": "Lid Lock",
+      "aliases": ["door_lock", "lid interlock"],
+      "systemId": "lid_authorization",
+      "categoryId": "lid_lock",
+      "type": "actuator"
+    },
+    {
+      "id": "inlet_valve",
+      "name": "Inlet Valve",
+      "systemId": "water_inlet",
+      "categoryId": "fill_supply",
+      "type": "actuator"
+    },
+    {
+      "id": "water_level_sensor",
+      "name": "Water Level Sensor",
+      "systemId": "water_level",
+      "categoryId": "water_level",
+      "type": "sensor"
+    },
+    {
+      "id": "drain_pump",
+      "name": "Drain Pump",
+      "systemId": "drain",
+      "categoryId": "drain_pump",
+      "type": "actuator"
+    },
+    {
+      "id": "drain_path",
+      "name": "Drain Path",
+      "systemId": "drain",
+      "categoryId": "drain_pump",
+      "type": "passive",
+      "note": "Hose, filter, and sump path — functional drain completion concept."
+    },
+    {
+      "id": "drive_motor",
+      "name": "Drive Motor",
+      "systemId": "drive",
+      "categoryId": "drive_motor",
+      "type": "actuator"
+    },
+    {
+      "id": "drive_system",
+      "name": "Drive System",
+      "systemId": "drive",
+      "categoryId": "drive_motor",
+      "type": "functional_aggregate",
+      "note": "Functional motion-transfer node — scrutinize before freeze; may be overlay-only."
+    },
+    {
+      "id": "agitator_or_impeller",
+      "name": "Agitator / Impeller",
+      "systemId": "drive",
+      "categoryId": "drive_motor",
+      "type": "actuator"
+    },
+    {
+      "id": "spin_system",
+      "name": "Spin System",
+      "systemId": "drive",
+      "categoryId": "drive_motor",
+      "type": "functional_aggregate"
+    },
+    {
+      "id": "transmission_or_shifter",
+      "name": "Transmission / Shifter",
+      "aliases": ["mode shifter", "shifter", "transmission"],
+      "systemId": "drive",
+      "categoryId": "mode_shifter",
+      "type": "actuator",
+      "note": "Functional mode-selection — splutch/clutch implementations belong in overlay."
+    },
+    {
+      "id": "tub",
+      "name": "Tub",
+      "systemId": "mechanical",
+      "categoryId": "mechanical",
+      "type": "mechanical"
+    },
+    {
+      "id": "basket",
+      "name": "Basket",
+      "systemId": "mechanical",
+      "categoryId": "mechanical",
+      "type": "mechanical"
+    },
+    {
+      "id": "suspension_system",
+      "name": "Suspension System",
+      "aliases": ["suspension", "shocks", "dampers"],
+      "systemId": "mechanical",
+      "categoryId": "mechanical",
+      "type": "mechanical"
+    },
+    {
+      "id": "temperature_sensor",
+      "name": "Temperature Sensor",
+      "aliases": ["thermistor", "NTC", "wash_ntc"],
+      "systemId": "temperature",
+      "categoryId": "wash_heating",
+      "type": "sensor",
+      "optional": true
+    }
+  ],
+  "relationships": [
+    { "from": "power_supply", "type": "supplies", "to": "control_board" },
+    { "from": "control_board", "type": "controls", "to": "hmi_control" },
+    { "from": "hmi_control", "type": "commands", "to": "control_board" },
+    { "from": "lid_switch", "type": "enables", "to": "control_board" },
+    { "from": "lid_lock", "type": "enables", "to": "drive_system" },
+    { "from": "control_board", "type": "controls", "to": "inlet_valve" },
+    { "from": "inlet_valve", "type": "supplies", "to": "tub" },
+    { "from": "water_level_sensor", "type": "provides_feedback_to", "to": "control_board" },
+    { "from": "control_board", "type": "controls", "to": "drive_system" },
+    { "from": "drive_motor", "type": "mechanically_drives", "to": "drive_system" },
+    { "from": "drive_system", "type": "mechanically_drives", "to": "agitator_or_impeller" },
+    { "from": "drive_system", "type": "mechanically_drives", "to": "spin_system" },
+    { "from": "transmission_or_shifter", "type": "controls", "to": "drive_system" },
+    { "from": "basket", "type": "mechanically_connected_to", "to": "tub" },
+    { "from": "suspension_system", "type": "mechanically_connected_to", "to": "tub" },
+    { "from": "control_board", "type": "controls", "to": "drain_pump" },
+    { "from": "drain_pump", "type": "supplies", "to": "drain_path" },
+    { "from": "temperature_sensor", "type": "provides_feedback_to", "to": "control_board" }
+  ],
+  "functionalDependencies": [
+    {
+      "id": "cycle_start_authorization",
+      "requires": ["power_supply", "control_board", "lid_switch"],
+      "enables": ["fill_operation", "drive_operation"]
+    },
+    {
+      "id": "fill_operation",
+      "requires": ["control_board", "inlet_valve"],
+      "feedback": ["water_level_sensor"]
+    },
+    {
+      "id": "water_level_authorization",
+      "requires": ["water_level_sensor"],
+      "enables": ["drive_operation"]
+    },
+    {
+      "id": "agitation_operation",
+      "requires": ["drive_motor", "drive_system", "agitator_or_impeller"]
+    },
+    {
+      "id": "spin_authorization",
+      "requires": ["lid_lock", "water_level_sensor", "drain_completion"],
+      "enables": ["spin_operation"]
+    },
+    {
+      "id": "spin_operation",
+      "requires": ["drive_motor", "drive_system", "spin_system"]
+    },
+    {
+      "id": "drain_operation",
+      "requires": ["control_board", "drain_pump", "drain_path"]
+    }
+  ],
+  "establishedFactSources": [
+    "lid_closed",
+    "lid_locked",
+    "fill_command_present",
+    "water_level_reached",
+    "agitation_command_present",
+    "agitation_present",
+    "spin_command_present",
+    "spin_present",
+    "drain_command_present",
+    "drain_completion",
+    "motor_command_present",
+    "motor_output_present",
+    "temperature_rising",
+    "temperature_not_rising"
+  ],
+  "testTargets": [
+    { "id": "lid_switch", "roles": ["authorization"] },
+    { "id": "lid_lock", "roles": ["authorization", "spin_safety"] },
+    { "id": "inlet_valve", "roles": ["fill_operation"] },
+    { "id": "water_level_sensor", "roles": ["fill_authorization", "overflow_detection"] },
+    { "id": "drain_pump", "roles": ["drain_operation"] },
+    { "id": "drain_path", "roles": ["drain_completion"] },
+    { "id": "drive_motor", "roles": ["agitation_operation", "spin_operation"] },
+    { "id": "drive_system", "roles": ["agitation_operation", "spin_operation"] },
+    { "id": "agitator_or_impeller", "roles": ["agitation_output"] },
+    { "id": "spin_system", "roles": ["spin_output"] },
+    { "id": "transmission_or_shifter", "roles": ["mode_selection"] },
+    { "id": "suspension_system", "roles": ["stability"] },
+    { "id": "control_board", "roles": ["command_generation"] }
+  ],
+  "failureDomains": [
+    "power",
+    "start_authorization",
+    "fill",
+    "water_level",
+    "agitation",
+    "spin",
+    "drain",
+    "drive",
+    "mechanical_mode_selection",
+    "suspension",
+    "control",
+    "feedback"
+  ],
+  "entryPoints": [
+    "wont_start",
+    "wont_fill",
+    "overfills",
+    "wont_agitate",
+    "wont_spin",
+    "wont_drain",
+    "stops_mid_cycle",
+    "no_motor_operation",
+    "agitates_but_wont_spin",
+    "spins_but_wont_agitate",
+    "loud_or_unbalanced",
+    "water_level_incorrect"
+  ],
+  "openQuestionsBeforeFreeze": [
+    {
+      "id": "transmission_or_shifter_canonical",
+      "question": "Is transmission_or_shifter sufficiently canonical, or should mode-selection be overlay-only?",
+      "cg3EvidenceRequired": true
+    },
+    {
+      "id": "lid_switch_vs_lid_lock",
+      "question": "Should lid_switch remain separate from lid_lock at canonical layer?",
+      "hypothesis": "yes — DD and PSC platforms differ materially in authorization implementation",
+      "cg3EvidenceRequired": true
+    },
+    {
+      "id": "drive_system_abstraction",
+      "question": "Is drive_system worth having as a canonical functional node?",
+      "scrutiny": "highest — may create unnecessary abstraction between drive_motor and output",
+      "cg3EvidenceRequired": true
+    }
+  ]
+}

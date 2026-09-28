@@ -1,0 +1,147 @@
+{
+  "promotionId": "promo-W11416787-20260913135602",
+  "manualId": "W11416787",
+  "platformId": "whirlpool_tl_dd_5100",
+  "overlayFile": "whirlpool_top_load_washer.json",
+  "platformFamilyId": "whirlpool_tl_dd_5100_direct_drive",
+  "status": "published",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-W11416787-supply-supply",
+    "map-W11416787-compound-main-control-(acu)",
+    "map-W11416787-acu-control_board",
+    "map-W11416787-inlet_valve-inlet_valve",
+    "map-W11416787-drive_motor-drive_motor",
+    "map-W11416787-compound-drive-system-(pre-test)",
+    "map-W11416787-compound-drive-system-\u2014-shifter",
+    "map-W11416787-compound-drive-system-\u2014-motor",
+    "map-W11416787-hmi_control-hmi_control",
+    "map-w11416787-unresolved-w11416787-test-04-hmi-test-#4:-hmi",
+    "map-W11416787-wash_ntc-wash_ntc",
+    "map-W11416787-compound-temperature-thermistor",
+    "map-W11416787-water_level_sensor-water_level_sensor",
+    "map-W11416787-compound-water-level",
+    "map-W11416787-drain_pump-drain_pump",
+    "map-W11416787-compound-drain-&-recirculation-pump",
+    "map-W11416787-door_lock-door_lock",
+    "map-W11416787-compound-lid-lock",
+    "map-W11416787-bulk_level_switch-bulk_level_switch",
+    "map-W11416787-compound-load-&-go-detergent",
+    "overlay-W11416787-w11416787-test-03-drive-system-motor_output_test",
+    "overlay-W11416787-w11416787-test-03a-shifter-motor_output_test",
+    "overlay-W11416787-w11416787-test-03b-motor-motor_output_test",
+    "overlay-W11416787-w11416787-test-03b-motor-meas-whirlpoolTlDd5100WasherMotorOhms",
+    "overlay-W11416787-w11416787-test-03b-motor-meas-whirlpoolTlDd5100WasherMotorOhms",
+    "overlay-W11416787-w11416787-test-06-water-level-drain_test",
+    "overlay-W11416787-w11416787-test-07-drain-recirc-pump-drain_test",
+    "overlay-W11416787-w11416787-test-07-drain-recirc-pump-meas-whirlpoolTlDd5100WasherDrainPumpOhms",
+    "overlay-W11416787-w11416787-test-07-drain-recirc-pump-meas-whirlpoolTlDd5100WasherRecircPumpOhms",
+    "overlay-W11416787-w11416787-test-07-drain-recirc-pump-meas-whirlpoolTlDd5100WasherDrainPumpOhms",
+    "overlay-W11416787-w11416787-test-08-lid-lock-door_lock_test",
+    "overlay-W11416787-w11416787-test-08-lid-lock-meas-whirlpoolTlDd5100WasherLidLockSolenoidOhms"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {},
+      "skip": {
+        "supply": "supply",
+        "TEST #1: Main Control (ACU)": "control_board",
+        "ACU": "control_board",
+        "inlet_valve": "inlet_valve",
+        "drive_motor": "drive_motor",
+        "TEST #3: Drive System (pre-test)": "drive_motor",
+        "TEST #3a: Drive System \u2014 Shifter": "mode_shifter",
+        "TEST #3b: Drive System \u2014 Motor": "drive_motor",
+        "hmi_control": "hmi_control",
+        "TEST #4: HMI": "hmi_control",
+        "wash_ntc": "wash_ntc",
+        "TEST #5: Temperature Thermistor": "wash_ntc",
+        "water_level_sensor": "water_level_sensor",
+        "TEST #6: Water Level": "pressure_sensor",
+        "drain_pump": "drain_pump",
+        "TEST #7: Drain & Recirculation Pump": "drain_pump",
+        "door_lock": "lid_lock",
+        "TEST #8: Lid Lock": "lid_lock",
+        "bulk_level_switch": "bulk_level_switch",
+        "TEST #9: Load & Go Detergent": "bulk_level_switch"
+      }
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [
+        {
+          "procedureId": "w11416787-test-03-drive-system",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3: Drive System (pre-test)"
+        },
+        {
+          "procedureId": "w11416787-test-03a-shifter",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3a: Drive System \u2014 Shifter"
+        },
+        {
+          "procedureId": "w11416787-test-03b-motor",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3b: Drive System \u2014 Motor"
+        },
+        {
+          "procedureId": "w11416787-test-06-water-level",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #6: Water Level"
+        },
+        {
+          "procedureId": "w11416787-test-07-drain-recirc-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "TEST #7: Drain & Recirculation Pump"
+        },
+        {
+          "procedureId": "w11416787-test-08-lid-lock",
+          "testTargetId": "lid_lock_test",
+          "displayTitle": "TEST #8: Lid Lock"
+        }
+      ],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [
+        {
+          "procedureId": "w11416787-test-03b-motor",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w11416787-test-03b-motor",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherMotorOhms",
+          "testTargetId": "motor_output_test"
+        },
+        {
+          "procedureId": "w11416787-test-07-drain-recirc-pump",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11416787-test-07-drain-recirc-pump",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherRecircPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11416787-test-07-drain-recirc-pump",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherDrainPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11416787-test-08-lid-lock",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherLidLockSolenoidOhms",
+          "testTargetId": "lid_lock_test"
+        }
+      ],
+      "skip": []
+    }
+  },
+  "plannedAt": "2026-09-13T13:56:02.708382+00:00",
+  "publishedAt": "2026-09-13T13:56:02.819382+00:00"
+}

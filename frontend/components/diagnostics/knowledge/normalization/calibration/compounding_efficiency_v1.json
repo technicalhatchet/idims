@@ -1,0 +1,472 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "compounding_efficiency",
+  "version": "v1",
+  "phase": "CG-6.2",
+  "generatedAt": "2026-09-14T00:09:34.680335+00:00",
+  "readOnly": true,
+  "metricsSource": "gate_preview",
+  "calibrationCorpus": "compounding_calibration_corpus_v1.json",
+  "outputArtifact": "compounding_efficiency_v1.json",
+  "headlineQuestion": "As Solomon sees more manuals, how much human work does each additional manual require?",
+  "methodology": {
+    "authoritative": "Frozen gate-preview baselines only",
+    "doesNot": [
+      "mutate baselines",
+      "recalculate historical classifications",
+      "introduce semantic matching",
+      "mix post-publish pipeline metrics"
+    ],
+    "contract": "knowledge_hierarchy_contract_v1.json"
+  },
+  "summary": {
+    "manualCount": 7,
+    "totalHumanGateDecisions": 48,
+    "averageHumanGateDecisions": 6.86,
+    "minHumanGateDecisions": 0,
+    "maxHumanGateDecisions": 14,
+    "inheritanceCurveHumanDecisions": [
+      10,
+      9,
+      14,
+      0,
+      2,
+      6,
+      7
+    ],
+    "inheritanceCurveLabels": [
+      "Whirlpool FL #1",
+      "Whirlpool FL #2",
+      "Whirlpool TL #1",
+      "Whirlpool TL #2",
+      "Whirlpool TL #3",
+      "Samsung FL #1",
+      "Samsung FL #2"
+    ],
+    "newCanonicalKnowledgeAcrossCohort": 0,
+    "documentedSemanticInheritanceCases": 1
+  },
+  "inheritanceCurve": [
+    {
+      "sequence": 1,
+      "label": "Whirlpool FL #1",
+      "manualId": "W8178558",
+      "humanGateDecisions": 10,
+      "exactInheritanceAtGate": 20,
+      "semanticInheritanceHumanBurden": 0
+    },
+    {
+      "sequence": 2,
+      "label": "Whirlpool FL #2",
+      "manualId": "W11169652",
+      "humanGateDecisions": 9,
+      "exactInheritanceAtGate": 40,
+      "semanticInheritanceHumanBurden": 0
+    },
+    {
+      "sequence": 3,
+      "label": "Whirlpool TL #1",
+      "manualId": "W10864849",
+      "humanGateDecisions": 14,
+      "exactInheritanceAtGate": 39,
+      "semanticInheritanceHumanBurden": 0
+    },
+    {
+      "sequence": 4,
+      "label": "Whirlpool TL #2",
+      "manualId": "W11697231",
+      "humanGateDecisions": 0,
+      "exactInheritanceAtGate": 51,
+      "semanticInheritanceHumanBurden": 0
+    },
+    {
+      "sequence": 5,
+      "label": "Whirlpool TL #3",
+      "manualId": "W11416787",
+      "humanGateDecisions": 2,
+      "exactInheritanceAtGate": 19,
+      "semanticInheritanceHumanBurden": 0
+    },
+    {
+      "sequence": 6,
+      "label": "Samsung FL #1",
+      "manualId": "SAMSUNG-FL-BB8700-WASHER",
+      "humanGateDecisions": 6,
+      "exactInheritanceAtGate": 14,
+      "semanticInheritanceHumanBurden": 0
+    },
+    {
+      "sequence": 7,
+      "label": "Samsung FL #2",
+      "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+      "humanGateDecisions": 7,
+      "exactInheritanceAtGate": 16,
+      "semanticInheritanceHumanBurden": 1
+    }
+  ],
+  "barChart": {
+    "title": "Human gate decisions / manual (gate-preview)",
+    "maxValue": 14,
+    "rows": [
+      {
+        "label": "Whirlpool FL #1",
+        "manualId": "W8178558",
+        "value": 10,
+        "bar": "##############|"
+      },
+      {
+        "label": "Whirlpool FL #2",
+        "manualId": "W11169652",
+        "value": 9,
+        "bar": "#############|"
+      },
+      {
+        "label": "Whirlpool TL #1",
+        "manualId": "W10864849",
+        "value": 14,
+        "bar": "####################"
+      },
+      {
+        "label": "Whirlpool TL #2",
+        "manualId": "W11697231",
+        "value": 0,
+        "bar": "|"
+      },
+      {
+        "label": "Whirlpool TL #3",
+        "manualId": "W11416787",
+        "value": 2,
+        "bar": "###|"
+      },
+      {
+        "label": "Samsung FL #1",
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "value": 6,
+        "bar": "#########|"
+      },
+      {
+        "label": "Samsung FL #2",
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "value": 7,
+        "bar": "##########|"
+      }
+    ]
+  },
+  "manuals": [
+    {
+      "sequence": 1,
+      "manualId": "W8178558",
+      "label": "Whirlpool FL #1",
+      "cohort": "whirlpool_fl",
+      "role": "fl_corpus_seed",
+      "platformId": "whirlpool_duet_sport",
+      "gatePreview": {
+        "metricsSource": "gate_preview",
+        "baselineArtifact": "compounding_baseline_v1_whirlpool_fl.json",
+        "reviewRecords": 41,
+        "newHumanDecisionCount": 10,
+        "newHumanDecisionRate": 0.2439,
+        "exactInheritanceAtGate": 20,
+        "inheritedCorpusKnowledge": null,
+        "inheritedPlatformFamilyKnowledge": null,
+        "inheritedResolvedAutomatically": 20,
+        "newPlatformKnowledge": null,
+        "newModelSpecificKnowledge": null,
+        "newCanonicalKnowledge": null,
+        "inheritedWhirlpoolPlatform": null,
+        "equivalence": "PASS"
+      },
+      "supplementalMatcherLayer": null,
+      "semanticInheritance": {
+        "documentedCases": [],
+        "humanBurdenCount": 0,
+        "note": "Counted only from frozen semantic_inheritance catalog \u2014 not inferred."
+      },
+      "humanGateDecisions": 10,
+      "exactInheritanceAtGate": 20
+    },
+    {
+      "sequence": 2,
+      "manualId": "W11169652",
+      "label": "Whirlpool FL #2",
+      "cohort": "whirlpool_fl",
+      "role": "fl_corpus_compound",
+      "platformId": "whirlpool_fl_dd",
+      "gatePreview": {
+        "metricsSource": "gate_preview",
+        "baselineArtifact": "compounding_baseline_v1_whirlpool_fl.json",
+        "reviewRecords": 49,
+        "newHumanDecisionCount": 9,
+        "newHumanDecisionRate": 0.1837,
+        "exactInheritanceAtGate": 40,
+        "inheritedCorpusKnowledge": null,
+        "inheritedPlatformFamilyKnowledge": null,
+        "inheritedResolvedAutomatically": 40,
+        "newPlatformKnowledge": null,
+        "newModelSpecificKnowledge": null,
+        "newCanonicalKnowledge": null,
+        "inheritedWhirlpoolPlatform": null,
+        "equivalence": "PASS"
+      },
+      "supplementalMatcherLayer": null,
+      "semanticInheritance": {
+        "documentedCases": [],
+        "humanBurdenCount": 0,
+        "note": "Counted only from frozen semantic_inheritance catalog \u2014 not inferred."
+      },
+      "humanGateDecisions": 9,
+      "exactInheritanceAtGate": 40
+    },
+    {
+      "sequence": 3,
+      "manualId": "W10864849",
+      "label": "Whirlpool TL #1",
+      "cohort": "whirlpool_tl",
+      "role": "tl_platform_establish",
+      "platformId": "whirlpool_tl_dd",
+      "gatePreview": {
+        "metricsSource": "gate_preview",
+        "baselineArtifact": "compounding_baseline_v1_whirlpool_tl.json",
+        "reviewRecords": 53,
+        "newHumanDecisionCount": 14,
+        "newHumanDecisionRate": 0.264,
+        "exactInheritanceAtGate": 39,
+        "inheritedCorpusKnowledge": null,
+        "inheritedPlatformFamilyKnowledge": null,
+        "inheritedResolvedAutomatically": 39,
+        "newPlatformKnowledge": null,
+        "newModelSpecificKnowledge": null,
+        "newCanonicalKnowledge": 0,
+        "inheritedWhirlpoolPlatform": null,
+        "equivalence": "PASS"
+      },
+      "supplementalMatcherLayer": null,
+      "semanticInheritance": {
+        "documentedCases": [],
+        "humanBurdenCount": 0,
+        "note": "Counted only from frozen semantic_inheritance catalog \u2014 not inferred."
+      },
+      "humanGateDecisions": 14,
+      "exactInheritanceAtGate": 39
+    },
+    {
+      "sequence": 4,
+      "manualId": "W11697231",
+      "label": "Whirlpool TL #2",
+      "cohort": "whirlpool_tl",
+      "role": "tl_platform_reproduce",
+      "platformId": "whirlpool_tl_dd",
+      "gatePreview": {
+        "metricsSource": "gate_preview",
+        "baselineArtifact": "compounding_baseline_v1_whirlpool_tl2.json",
+        "reviewRecords": 53,
+        "newHumanDecisionCount": 0,
+        "newHumanDecisionRate": null,
+        "exactInheritanceAtGate": 51,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 51,
+        "inheritedResolvedAutomatically": null,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": null,
+        "newCanonicalKnowledge": 0,
+        "inheritedWhirlpoolPlatform": null,
+        "equivalence": null
+      },
+      "supplementalMatcherLayer": null,
+      "semanticInheritance": {
+        "documentedCases": [],
+        "humanBurdenCount": 0,
+        "note": "Counted only from frozen semantic_inheritance catalog \u2014 not inferred."
+      },
+      "humanGateDecisions": 0,
+      "exactInheritanceAtGate": 51
+    },
+    {
+      "sequence": 5,
+      "manualId": "W11416787",
+      "label": "Whirlpool TL #3",
+      "cohort": "whirlpool_tl",
+      "role": "tl_platform_replicate_seed_boundary",
+      "platformId": "whirlpool_tl_dd_5100",
+      "gatePreview": {
+        "metricsSource": "gate_preview",
+        "baselineArtifact": "compounding_baseline_v1_whirlpool_tl3.json",
+        "reviewRecords": 33,
+        "newHumanDecisionCount": 2,
+        "newHumanDecisionRate": 0.061,
+        "exactInheritanceAtGate": 19,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 19,
+        "inheritedResolvedAutomatically": null,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 2,
+        "newCanonicalKnowledge": 0,
+        "inheritedWhirlpoolPlatform": null,
+        "equivalence": null
+      },
+      "supplementalMatcherLayer": null,
+      "semanticInheritance": {
+        "documentedCases": [],
+        "humanBurdenCount": 0,
+        "note": "Counted only from frozen semantic_inheritance catalog \u2014 not inferred."
+      },
+      "humanGateDecisions": 2,
+      "exactInheritanceAtGate": 19
+    },
+    {
+      "sequence": 6,
+      "manualId": "SAMSUNG-FL-BB8700-WASHER",
+      "label": "Samsung FL #1",
+      "cohort": "samsung_fl",
+      "role": "cross_manufacturer_canonical + samsung_platform_establish",
+      "platformId": "samsung_fl_washer_bb8700",
+      "gatePreview": {
+        "metricsSource": "gate_preview",
+        "baselineArtifact": "compounding_baseline_v1_samsung_fl1.json",
+        "reviewRecords": 29,
+        "newHumanDecisionCount": 6,
+        "newHumanDecisionRate": 0.2069,
+        "exactInheritanceAtGate": 14,
+        "inheritedCorpusKnowledge": 14,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "inheritedResolvedAutomatically": null,
+        "newPlatformKnowledge": 1,
+        "newModelSpecificKnowledge": 0,
+        "newCanonicalKnowledge": 0,
+        "inheritedWhirlpoolPlatform": null,
+        "equivalence": null
+      },
+      "supplementalMatcherLayer": null,
+      "semanticInheritance": {
+        "documentedCases": [],
+        "humanBurdenCount": 0,
+        "note": "Counted only from frozen semantic_inheritance catalog \u2014 not inferred."
+      },
+      "humanGateDecisions": 6,
+      "exactInheritanceAtGate": 14
+    },
+    {
+      "sequence": 7,
+      "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+      "label": "Samsung FL #2",
+      "cohort": "samsung_fl",
+      "role": "samsung_platform_compound",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "gatePreview": {
+        "metricsSource": "gate_preview",
+        "baselineArtifact": "compounding_baseline_v1_samsung_fl2.json",
+        "reviewRecords": null,
+        "newHumanDecisionCount": 7,
+        "newHumanDecisionRate": 0.1944,
+        "exactInheritanceAtGate": 16,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 16,
+        "inheritedResolvedAutomatically": null,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 7,
+        "newCanonicalKnowledge": 0,
+        "inheritedWhirlpoolPlatform": 0,
+        "equivalence": null,
+        "humanResolvedGatePreview": {
+          "artifact": "samsung-fl-wf6000r-washer_human_classification.json",
+          "note": "Knowledge hierarchy AFTER human adjudication of 7 gate decisions.",
+          "inheritedCorpusKnowledge": 3,
+          "inheritedPlatformFamilyKnowledge": 1,
+          "inheritedWhirlpoolPlatform": 0,
+          "newPlatformKnowledge": 1,
+          "newModelSpecificKnowledge": 2,
+          "newCanonicalKnowledge": 0,
+          "newHumanDecisionCount": 7,
+          "gateTermResolutions": {
+            "inherited_corpus_knowledge": 3,
+            "inherited_platform_family": 1,
+            "new_platform_knowledge": 1,
+            "new_model_specific": 2
+          },
+          "autoInheritedPlatformExactMatch": [
+            "\u00a74-3: Washing motor (3C)",
+            "\u00a74-3: Overflow (OC)"
+          ],
+          "killerMetric": "inverter_board classified inherited_platform_family \u2014 first clean Samsung platform compounding across models."
+        }
+      },
+      "supplementalMatcherLayer": {
+        "artifact": "compounding_samsung_fl2_gate_preview_SAMSUNG-FL-WF6000R-WASHER.json",
+        "metricsSource": "gate_preview",
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 16,
+        "newHumanDecisionCount": 7,
+        "newHumanDecisionRate": 0.1944,
+        "autoInheritedPlatformExactMatch": 2,
+        "primaryKiller": {
+          "question": "Does inverter_board inherit from Samsung FL #1?",
+          "autoInheritAtGate": false,
+          "reason": "OEM term mismatch \u2014 BB8700 '\u00a74-3: Power / current sense (9C5)' vs WF6000R '\u00a74-1: Power / voltage (9C1, 9C2)'. Concept reuse expected at human review (inherited_platform_family), not new platform knowledge.",
+          "wf6000rGateTerm": "\u00a74-1: Power / voltage (9C1, 9C2)",
+          "bb8700PlatformAlias": "\u00a74-3: Power / current sense (9C5) \u2192 inverter_board"
+        }
+      },
+      "semanticInheritance": {
+        "documentedCases": [
+          {
+            "concept": "inverter_board",
+            "priorOemTerm": "\u00a74-3: Power / current sense (9C5)",
+            "priorManualId": "SAMSUNG-FL-BB8700-WASHER",
+            "gateOemTerm": "\u00a74-1: Power / voltage (9C1, 9C2)",
+            "humanClassification": "inherited_platform_family",
+            "matcherAutoInheritAtGate": false,
+            "artifact": "compounding_samsung_fl2_gate_preview_SAMSUNG-FL-WF6000R-WASHER.json",
+            "note": "Knowledge existed on Samsung platform layer; matcher blocked on OEM title variant."
+          }
+        ],
+        "humanBurdenCount": 1,
+        "note": "Matcher gap required human inherited_platform_family."
+      },
+      "humanGateDecisions": 7,
+      "exactInheritanceAtGate": 16
+    }
+  ],
+  "leakage": {
+    "samsung_to_whirlpool_platform": 0,
+    "whirlpool_to_samsung_platform": 0,
+    "newCanonicalAcrossCohort": 0,
+    "frozenOntologyCandidatesTouched": 0,
+    "perManual": [
+      {
+        "manualId": "W8178558",
+        "newCanonicalKnowledge": null,
+        "inheritedWhirlpoolPlatform": null
+      },
+      {
+        "manualId": "W11169652",
+        "newCanonicalKnowledge": null,
+        "inheritedWhirlpoolPlatform": null
+      },
+      {
+        "manualId": "W10864849",
+        "newCanonicalKnowledge": 0,
+        "inheritedWhirlpoolPlatform": null
+      },
+      {
+        "manualId": "W11697231",
+        "newCanonicalKnowledge": 0,
+        "inheritedWhirlpoolPlatform": null
+      },
+      {
+        "manualId": "W11416787",
+        "newCanonicalKnowledge": 0,
+        "inheritedWhirlpoolPlatform": null
+      },
+      {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "newCanonicalKnowledge": 0,
+        "inheritedWhirlpoolPlatform": null
+      },
+      {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "newCanonicalKnowledge": 0,
+        "inheritedWhirlpoolPlatform": 0
+      }
+    ]
+  }
+}

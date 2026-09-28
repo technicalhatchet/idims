@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_normalization_audit",
+  "workstream": "CG-MICROWAVE-NORMALIZATION",
+  "status": "approved",
+  "auditedAt": "2026-09-17T10:15:00+00:00",
+  "humanApprovedAt": "2026-09-17T10:26:00+00:00",
+  "gateDecision": "APPROVED WITH GOVERNANCE HOLD",
+  "priorRevision": {
+    "gateDecision": "YELLOW / REVISE",
+    "issue": "magnetron incorrectly mapped to hv_generation in normalization drafts",
+    "resolution": "Rev 1.1 — magnetron moved to rf_cavity implementation realization in LG + Samsung artifacts and reference overlay"
+  },
+  "humanNormalizationApprovals": {
+    "magnetron_rf_cavity": "APPROVED",
+    "samsung_four_tco_thermal_protection": "APPROVED",
+    "lg_vent_deferral": "APPROVED",
+    "pcb_thermistor_dual_role": "APPROVED — pass_with_note provenance preserved"
+  },
+  "governanceHold": {
+    "reason": "microwave.json overlayOnlyConcepts.magnetron.realizes=hv_generation contradicts approved normalization mapping",
+    "resolved": true,
+    "resolution": "Branch A — non-authoritative stale metadata; exception documented",
+    "closureArtifact": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+    "blockingCompounding": false
+  },
+  "normalizationContract": "CG_MICROWAVE_NORMALIZATION_CONTRACT_v1.json",
+  "targetArtifacts": [
+    "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+    "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json"
+  ],
+  "platformExtensionArtifacts": [
+    "CG_MICROWAVE_LG_LMVM_PLATFORM_EXTENSION_v1.json",
+    "CG_MICROWAVE_SAMSUNG_ME21_PLATFORM_EXTENSION_v1.json"
+  ],
+  "frozenContract": {
+    "ontologyId": "microwave",
+    "frozenHash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "mutated": false
+  },
+  "auditChecks": [
+    {
+      "id": "microwave_json_immutable",
+      "question": "Was microwave.json unchanged?",
+      "result": "pass",
+      "frozenHash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d"
+    },
+    {
+      "id": "magnetron_rf_cavity_realization",
+      "question": "Is magnetron mapped to rf_cavity (not hv_generation) as implementation realization?",
+      "result": "pass",
+      "evidence": "LG + Samsung normalization rev 1.1; microwave.reference.json procedure bindings updated"
+    },
+    {
+      "id": "hv_cascade_hv_generation",
+      "question": "Do transformer/capacitor/diode/fuse remain hv_generation realizations?",
+      "result": "pass"
+    },
+    {
+      "id": "zero_canonical_promotion",
+      "question": "Are all targets canonicalPromotionCount 0?",
+      "result": "pass"
+    },
+    {
+      "id": "thermal_protection_single_function",
+      "question": "Is Samsung multi-TCO network bound to thermal_protection without TCO canonical promotion?",
+      "result": "pass"
+    },
+    {
+      "id": "ventilation_otr_conditional",
+      "question": "Is ventilation_otr conditional only (Samsung ME11) without LG vent manufacture?",
+      "result": "pass",
+      "note": "LG vent deferred — correct per evidence gate"
+    },
+    {
+      "id": "pcb_thermistor_dual_role",
+      "question": "Is PCB thermistor dual protective/sensing role preserved at implementation level?",
+      "result": "pass_with_note",
+      "note": "thermal_protection primary; control_and_sensing conditional cross-reference on LG F-1/F-2 service test"
+    },
+    {
+      "id": "range_oven_untouched",
+      "question": "Is range_oven hash unchanged?",
+      "result": "pass",
+      "hash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5"
+    },
+    {
+      "id": "compounding_not_authorized",
+      "question": "Is compounding blocked pending governance resolution?",
+      "result": "pass",
+      "note": "Normalization approved; compounding held for frozen-metadata governance"
+    },
+    {
+      "id": "frozen_metadata_drift_documented",
+      "question": "Is overlayOnlyConcepts.magnetron.realizes drift explicitly governed?",
+      "result": "pass",
+      "evidence": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CONTRACT_v1.json opened"
+    }
+  ],
+  "regressionProof": {
+    "testSuite": "cg-microwave-normalization-contract.test.ts + cg-microwave-frozen-metadata-governance.test.ts",
+    "testsPassing": 11,
+    "validateCanonicalGraph": "pass"
+  },
+  "nextDisciplinedStep": "CG-MICROWAVE-COMPOUNDING — LG LMHM2237 sequence 1 (authorized)"
+}

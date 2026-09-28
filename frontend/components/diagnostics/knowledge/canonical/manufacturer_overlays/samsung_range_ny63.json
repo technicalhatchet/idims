@@ -1,0 +1,1306 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "range_oven",
+  "manufacturer": "Samsung",
+  "label": "Samsung NY63T8751 dual-fuel range (NY63T8751*)",
+  "gateArtifact": "SAMSUNG_NY63T8751SS_RANGE_overlay_mapping_table_v1.json",
+  "normalizationSource": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "samsung_range_ny63",
+      "platformId": "samsung_range_ny63",
+      "manualId": "SAMSUNG-NY63-DUAL-FUEL",
+      "label": "Samsung NY63T8751SS dual-fuel slide-in range",
+      "appliesTo": {
+        "templateIds": [
+          "dual_fuel_range"
+        ],
+        "manufacturers": [
+          "Samsung"
+        ],
+        "modelPatterns": [
+          "NY63T8751*",
+          "NY63T8751SS"
+        ],
+        "platformIds": [
+          "samsung_range_ny63"
+        ]
+      },
+      "oemTermAliases": {
+        "main_pcb": "control_board",
+        "sub_pcb": "control_board",
+        "glass_touch_panel": "user_interface",
+        "touch_film_cns801": "user_interface",
+        "cooktop_knobs": "user_interface",
+        "oven_sensor": "temperature_sensor",
+        "spark_module": "surface_heating_system",
+        "valve_cooktop": "surface_heating_system",
+        "switch_ignition": "surface_heating_system",
+        "electrode": "surface_heating_system",
+        "gas_pressure_regulator": "surface_heating_system",
+        "gas_orifice_nozzle": "surface_heating_system",
+        "surface_burner": "surface_heating_system",
+        "heater_bake": "bake_heating_element",
+        "heater_broil": "broil_heating_element",
+        "convection_heater": "convection_heating_element",
+        "door_lock_motor": "oven_door_switch"
+      },
+      "displayTerms": {
+        "power_supply": "240/120V terminal block + gas supply valve prerequisite",
+        "control_board": "Main PCB + Sub PCB (DLB / bake / broil / convection relays + spark path)",
+        "user_interface": "Glass touch panel + cooktop knobs (C-d0 / C-F2)",
+        "temperature_sensor": "Oven RTD \u2014 1080 \u03a9 @ room; CNS600 connector",
+        "surface_heating_system": "Gas cooktop \u2014 spark module / valve / ignition / orifice / GPR",
+        "bake_heating_element": "Electric bake element \u2014 19 \u03a9 @ room",
+        "broil_heating_element": "Electric broil element \u2014 13 \u03a9 @ room",
+        "convection_heating_element": "Electric convection element \u2014 44 \u03a9 @ room",
+        "convection_fan": "Upper/lower convection fan motor \u2014 25\u201330 \u03a9",
+        "thermal_protection": "Oven thermostat + display cooling fan (C-A2)",
+        "oven_door_switch": "Door lock motor + micro-switch (C-d1)"
+      },
+      "functionalRealizations": [
+        {
+          "canonicalLayer": "temperature_sensor",
+          "canonicalLayerKind": "component",
+          "implementation": {
+            "platformTerm": "oven_sensor",
+            "displayLabel": "Oven temperature sensor (RTD)"
+          },
+          "diagnosticEvidence": {
+            "spec": "1080 \u03a9 @ room; CNS600 open >2950 \u03a9 / short <930 \u03a9",
+            "measurementIds": [
+              "ny63-oven-sensor-ohms",
+              "ny63-cns600-connector-ohms"
+            ],
+            "procedureIds": [
+              "ny63-c20-oven-sensor",
+              "ny63-c21-abnormal-temp"
+            ],
+            "branchIds": [
+              "ny63-c20-sensor-fault"
+            ],
+            "errorCodes": [
+              "C-20",
+              "C-21"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-1",
+            "pages": [
+              54,
+              55,
+              56
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "surface_heating_system",
+          "canonicalLayerKind": "component",
+          "implementation": {
+            "platformTerm": "spark_module",
+            "displayLabel": "Cooktop spark ignition module"
+          },
+          "diagnosticEvidence": {
+            "spec": "120 VAC at spark module burner terminals in LITE position",
+            "measurementIds": [
+              "ny63-spark-module-vac"
+            ],
+            "procedureIds": [
+              "ny63-cooktop-spark-all-burners",
+              "ny63-cooktop-one-burner-electric",
+              "ny63-symptom-cooktop-none-light",
+              "ny63-symptom-one-burner-no-light"
+            ],
+            "branchIds": [
+              "ny63-spark-replace-module",
+              "ny63-one-burner-electrode"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-3",
+            "pages": [
+              73,
+              74
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "surface_heating_system",
+          "canonicalLayerKind": "component",
+          "implementation": {
+            "platformTerm": "switch_ignition",
+            "displayLabel": "Burner ignition switch (LITE)"
+          },
+          "diagnosticEvidence": {
+            "spec": "120 VAC at ignition switch housing terminal in LITE",
+            "measurementIds": [
+              "ny63-ignition-switch-vac"
+            ],
+            "procedureIds": [
+              "ny63-cooktop-one-burner-electric"
+            ],
+            "branchIds": [
+              "ny63-one-burner-ignition-switch"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-3",
+            "pages": [
+              74
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "surface_heating_system",
+          "canonicalLayerKind": "component",
+          "implementation": {
+            "platformTerm": "valve_cooktop",
+            "displayLabel": "Cooktop gas manifold valve"
+          },
+          "diagnosticEvidence": {
+            "procedureIds": [
+              "ny63-cooktop-gas-supply",
+              "ny63-gas-leak-check",
+              "ny63-symptom-burners-wont-stay-lit"
+            ],
+            "branchIds": [
+              "ny63-gas-gpr-shutoff",
+              "ny63-stay-lit-gpr-fault"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-3",
+            "pages": [
+              72,
+              75
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "surface_heating_system",
+          "canonicalLayerKind": "component",
+          "implementation": {
+            "platformTerm": "gas_pressure_regulator",
+            "displayLabel": "Gas pressure regulator (GPR)"
+          },
+          "diagnosticEvidence": {
+            "procedureIds": [
+              "ny63-cooktop-gas-supply",
+              "ny63-symptom-burners-wont-stay-lit",
+              "ny63-flame-abnormal-orifice"
+            ],
+            "branchIds": [
+              "ny63-gas-gpr-shutoff",
+              "ny63-stay-lit-gpr-fault",
+              "ny63-flame-gpr-direction"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-3",
+            "pages": [
+              72,
+              77
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "surface_heating_system",
+          "canonicalLayerKind": "component",
+          "implementation": {
+            "platformTerm": "gas_orifice_nozzle",
+            "displayLabel": "Burner orifice nozzle (NG/LP sizing)"
+          },
+          "diagnosticEvidence": {
+            "spec": "Per-burner NG/LP orifice diameter table",
+            "measurementIds": [
+              "ny63-orifice-diameter-table"
+            ],
+            "procedureIds": [
+              "ny63-flame-abnormal-orifice",
+              "ny63-symptom-one-burner-no-light"
+            ],
+            "branchIds": [
+              "ny63-flame-orifice-size",
+              "ny63-one-burner-orifice"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-3",
+            "pages": [
+              76,
+              77
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "bake_heating_element",
+          "canonicalLayerKind": "instanceScope",
+          "implementation": {
+            "platformTerm": "heater_bake",
+            "displayLabel": "Electric bake element (3000W)"
+          },
+          "diagnosticEvidence": {
+            "spec": "19 \u03a9 @ room temp",
+            "measurementIds": [
+              "ny63-bake-heater-ohms"
+            ],
+            "procedureIds": [
+              "ny63-c21-abnormal-temp",
+              "ny63-symptom-oven-temp-slow",
+              "ny63-symptom-oven-temp-fast"
+            ],
+            "branchIds": [
+              "ny63-heater-out-of-range",
+              "ny63-fast-temp-relay-shorted"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-1",
+            "pages": [
+              64,
+              65
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "broil_heating_element",
+          "canonicalLayerKind": "instanceScope",
+          "implementation": {
+            "platformTerm": "heater_broil",
+            "displayLabel": "Electric broil element (4200W)"
+          },
+          "diagnosticEvidence": {
+            "spec": "13 \u03a9 @ room temp",
+            "measurementIds": [
+              "ny63-broil-heater-ohms"
+            ],
+            "procedureIds": [
+              "ny63-c21-abnormal-temp",
+              "ny63-symptom-oven-temp-slow",
+              "ny63-symptom-oven-temp-fast"
+            ],
+            "branchIds": [
+              "ny63-heater-out-of-range"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-1",
+            "pages": [
+              64
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "convection_heating_element",
+          "canonicalLayerKind": "conditionalInstanceScope",
+          "implementation": {
+            "platformTerm": "convection_heater",
+            "displayLabel": "Electric convection element (1300W)"
+          },
+          "diagnosticEvidence": {
+            "spec": "44 \u03a9 @ room temp",
+            "measurementIds": [
+              "ny63-convection-heater-ohms"
+            ],
+            "procedureIds": [
+              "ny63-c21-abnormal-temp",
+              "ny63-symptom-oven-temp-slow"
+            ],
+            "branchIds": [
+              "ny63-heater-out-of-range"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-1",
+            "pages": [
+              64
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "convection_fan",
+          "canonicalLayerKind": "conditionalConcept",
+          "implementation": {
+            "platformTerm": "convection_fan_motor",
+            "displayLabel": "Upper/lower convection fan motor"
+          },
+          "diagnosticEvidence": {
+            "spec": "25\u201330 \u03a9 motor; SSR200/RY211 and SSR201/RY212 relays",
+            "measurementIds": [
+              "ny63-convection-fan-ohms"
+            ],
+            "procedureIds": [
+              "ny63-symptom-convection-fan"
+            ],
+            "branchIds": [
+              "ny63-convection-fan-motor-fault"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-1",
+            "pages": [
+              65
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "oven_door_switch",
+          "canonicalLayerKind": "conditionalConcept",
+          "implementation": {
+            "platformTerm": "door_lock_motor",
+            "displayLabel": "Door lock motor + micro-switch"
+          },
+          "diagnosticEvidence": {
+            "spec": "1750\u20131850 \u03a9 motor; 120 VAC when commanded; CNS600 pins 7,9 switch OL when open",
+            "measurementIds": [
+              "ny63-door-lock-motor-ohms",
+              "ny63-door-lock-motor-vac",
+              "ny63-door-lock-switch-ohms"
+            ],
+            "procedureIds": [
+              "ny63-cd1-door-lock"
+            ],
+            "branchIds": [
+              "ny63-cd1-lock-motor-fault",
+              "ny63-cd1-microswitch-fault"
+            ],
+            "errorCodes": [
+              "C-d1"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-1",
+            "pages": [
+              59,
+              60
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "thermal_protection",
+          "canonicalLayerKind": "conditionalConcept",
+          "implementation": {
+            "platformTerm": "cooling_fan_motor",
+            "displayLabel": "Display cooling fan + oven thermostat"
+          },
+          "diagnosticEvidence": {
+            "spec": "Thermostat 0 \u03a9 closed; cooling fan 120 VAC Broil Hi white-yellow",
+            "measurementIds": [
+              "ny63-thermostat-ohms",
+              "ny63-cooling-fan-vac"
+            ],
+            "procedureIds": [
+              "ny63-ca2-display-overtemp",
+              "ny63-symptom-oven-temp-fast"
+            ],
+            "branchIds": [
+              "ny63-ca2-cooling-fan-fault"
+            ],
+            "errorCodes": [
+              "C-A2",
+              "C-21"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-1",
+            "pages": [
+              63,
+              64
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "control_board",
+          "canonicalLayerKind": "component",
+          "implementation": {
+            "platformTerm": "main_pcb",
+            "displayLabel": "Main PCB \u2014 electric oven relays + gas spark path"
+          },
+          "diagnosticEvidence": {
+            "spec": "CN300 5V/12V; heater relays OL de-energized; C-F0 Main\u2194Sub comm",
+            "measurementIds": [
+              "ny63-cn300-5v-12v",
+              "ny63-heater-relay-ohms",
+              "ny63-cn200-5v-12v"
+            ],
+            "procedureIds": [
+              "ny63-cf0-main-sub-comm",
+              "ny63-c21-abnormal-temp",
+              "ny63-symptom-oven-no-power",
+              "ny63-control-no-display"
+            ],
+            "branchIds": [
+              "ny63-c21-relay-check",
+              "ny63-cf0-replace-main-pcb"
+            ],
+            "errorCodes": [
+              "C-F0",
+              "C-21"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-1 / 4-2 / 6-3",
+            "pages": [
+              57,
+              61,
+              69,
+              88
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "user_interface",
+          "canonicalLayerKind": "component",
+          "implementation": {
+            "platformTerm": "glass_touch_panel",
+            "displayLabel": "Glass touch panel + cooktop knobs"
+          },
+          "diagnosticEvidence": {
+            "procedureIds": [
+              "ny63-cd0-key-short",
+              "ny63-cf2-touch-comm",
+              "ny63-control-touch-keypad",
+              "ny63-symptom-keypad-fault"
+            ],
+            "branchIds": [
+              "ny63-cd0-knob-jam",
+              "ny63-cf2-replace-sub-pcb"
+            ],
+            "errorCodes": [
+              "C-d0",
+              "C-F2"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-1 / 4-2",
+            "pages": [
+              58,
+              62,
+              70
+            ]
+          }
+        },
+        {
+          "canonicalLayer": "power_supply",
+          "canonicalLayerKind": "component",
+          "implementation": {
+            "platformTerm": "terminal_block",
+            "displayLabel": "240/120V terminal block + gas supply prerequisite"
+          },
+          "diagnosticEvidence": {
+            "spec": "240/120V or 208/120V @ terminal block; CNP100 L1~N 120V; gas valve open for cooktop",
+            "measurementIds": [
+              "ny63-terminal-block-vac",
+              "ny63-cnp100-vac",
+              "ny63-power-cord-vac"
+            ],
+            "procedureIds": [
+              "ny63-symptom-oven-no-power",
+              "ny63-cooktop-gas-supply",
+              "ny63-control-no-display"
+            ],
+            "branchIds": [
+              "ny63-power-harness-fault",
+              "ny63-gas-gpr-shutoff"
+            ]
+          },
+          "provenance": {
+            "normalizationRef": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+            "sourceManual": "SAMSUNG-NY63-DUAL-FUEL",
+            "section": "4-1 / 4-3",
+            "pages": [
+              64,
+              69,
+              72
+            ]
+          }
+        }
+      ],
+      "instanceScopeBindings": [
+        {
+          "instanceScopeId": "bake_heating_element",
+          "implementationTerms": [
+            "heater_bake",
+            "bake_relay_ry203"
+          ],
+          "procedureIds": [
+            "ny63-c21-abnormal-temp",
+            "ny63-symptom-oven-temp-slow"
+          ]
+        },
+        {
+          "instanceScopeId": "broil_heating_element",
+          "implementationTerms": [
+            "heater_broil",
+            "broil_relay_ry202"
+          ],
+          "procedureIds": [
+            "ny63-c21-abnormal-temp",
+            "ny63-symptom-oven-temp-slow"
+          ]
+        }
+      ],
+      "conditionalInstanceScopeBindings": [
+        {
+          "conditionalInstanceScopeId": "convection_heating_element",
+          "implementationTerms": [
+            "convection_heater",
+            "convection_relay_ry207"
+          ],
+          "procedureIds": [
+            "ny63-c21-abnormal-temp",
+            "ny63-symptom-oven-temp-slow"
+          ]
+        }
+      ],
+      "conditionalConceptBindings": [
+        {
+          "conditionalConceptId": "convection_fan",
+          "implementationTerms": [
+            "upper_convection_fan",
+            "lower_convection_fan",
+            "ssr200_ssr201_fan_relays"
+          ],
+          "procedureIds": [
+            "ny63-symptom-convection-fan"
+          ]
+        },
+        {
+          "conditionalConceptId": "thermal_protection",
+          "implementationTerms": [
+            "thermostat",
+            "cooling_fan_motor",
+            "control_pba_ntc"
+          ],
+          "procedureIds": [
+            "ny63-ca2-display-overtemp",
+            "ny63-symptom-oven-temp-fast"
+          ],
+          "errorCodes": [
+            "C-A2",
+            "C-21"
+          ]
+        },
+        {
+          "conditionalConceptId": "oven_door_switch",
+          "implementationTerms": [
+            "door_lock_motor",
+            "door_lock_switch"
+          ],
+          "procedureIds": [
+            "ny63-cd1-door-lock"
+          ]
+        }
+      ],
+      "add": {
+        "components": [
+          {
+            "id": "spark_module",
+            "name": "Cooktop spark module",
+            "aliases": [
+              "spark_module"
+            ],
+            "systemId": "surface_heating",
+            "type": "actuator",
+            "implementsCanonicalId": "surface_heating_system"
+          },
+          {
+            "id": "valve_cooktop",
+            "name": "Cooktop gas manifold valve",
+            "aliases": [
+              "valve_cooktop",
+              "assy_valve_cooktop"
+            ],
+            "systemId": "surface_heating",
+            "type": "actuator",
+            "implementsCanonicalId": "surface_heating_system"
+          },
+          {
+            "id": "switch_ignition",
+            "name": "Burner ignition switch",
+            "aliases": [
+              "switch_ignition"
+            ],
+            "systemId": "surface_heating",
+            "type": "actuator",
+            "implementsCanonicalId": "surface_heating_system"
+          },
+          {
+            "id": "electrode",
+            "name": "Spark electrode",
+            "aliases": [
+              "electrode"
+            ],
+            "systemId": "surface_heating",
+            "type": "actuator",
+            "implementsCanonicalId": "surface_heating_system"
+          },
+          {
+            "id": "gas_pressure_regulator",
+            "name": "Gas pressure regulator",
+            "aliases": [
+              "gas_pressure_regulator",
+              "gpr"
+            ],
+            "systemId": "surface_heating",
+            "type": "actuator",
+            "implementsCanonicalId": "surface_heating_system"
+          },
+          {
+            "id": "gas_orifice_nozzle",
+            "name": "Burner orifice nozzle",
+            "aliases": [
+              "gas_orifice_nozzle"
+            ],
+            "systemId": "surface_heating",
+            "type": "passive",
+            "implementsCanonicalId": "surface_heating_system"
+          },
+          {
+            "id": "heater_bake",
+            "name": "Electric bake element",
+            "aliases": [
+              "heater_bake"
+            ],
+            "systemId": "oven_heat_generation",
+            "type": "actuator",
+            "implementsInstanceScopeId": "bake_heating_element"
+          },
+          {
+            "id": "heater_broil",
+            "name": "Electric broil element",
+            "aliases": [
+              "heater_broil"
+            ],
+            "systemId": "oven_heat_generation",
+            "type": "actuator",
+            "implementsInstanceScopeId": "broil_heating_element"
+          },
+          {
+            "id": "convection_heater",
+            "name": "Electric convection element",
+            "aliases": [
+              "convection_heater"
+            ],
+            "systemId": "oven_heat_generation",
+            "type": "actuator",
+            "implementsConditionalInstanceScopeId": "convection_heating_element"
+          },
+          {
+            "id": "convection_fan_motor",
+            "name": "Convection fan motor",
+            "aliases": [
+              "upper_convection_fan",
+              "lower_convection_fan"
+            ],
+            "systemId": "oven_airflow",
+            "type": "actuator",
+            "implementsConditionalConceptId": "convection_fan"
+          },
+          {
+            "id": "door_lock_motor",
+            "name": "Oven door lock motor",
+            "aliases": [
+              "door_lock_motor"
+            ],
+            "systemId": "door_authorization",
+            "type": "actuator",
+            "implementsConditionalConceptId": "oven_door_switch"
+          },
+          {
+            "id": "cooling_fan_motor",
+            "name": "Display cooling fan motor",
+            "aliases": [
+              "cooling_fan_motor"
+            ],
+            "systemId": "thermal_management",
+            "type": "actuator",
+            "implementsConditionalConceptId": "thermal_protection"
+          }
+        ],
+        "relationships": [
+          {
+            "from": "spark_module",
+            "to": "surface_heating_system",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "CG-13 witness \u2014 gas cooktop spark path under surface_heating_system."
+          },
+          {
+            "from": "valve_cooktop",
+            "to": "surface_heating_system",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "heater_bake",
+            "to": "bake_heating_element",
+            "type": "implements_instance_scope",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Electric oven domain \u2014 separate from gas cooktop surface."
+          },
+          {
+            "from": "heater_broil",
+            "to": "broil_heating_element",
+            "type": "implements_instance_scope",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "convection_heater",
+            "to": "convection_heating_element",
+            "type": "implements_instance_scope",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "control_board",
+            "to": "surface_heating_system",
+            "type": "controls",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Shared control_board orchestrates electric oven relays and cooktop spark module without dual_fuel canonical node."
+          }
+        ]
+      },
+      "procedureBindings": [
+        {
+          "procedureId": "ny63-c20-oven-sensor",
+          "displayTitle": "\u00a74-1: C-20 Oven sensor open/short",
+          "oemSection": "4-1",
+          "sourcePages": [
+            54,
+            55
+          ],
+          "canonicalComponents": [
+            "temperature_sensor"
+          ]
+        },
+        {
+          "procedureId": "ny63-c21-abnormal-temp",
+          "displayTitle": "\u00a74-1: C-21 Oven heating over",
+          "oemSection": "4-1",
+          "sourcePages": [
+            56,
+            57
+          ],
+          "canonicalComponents": [
+            "temperature_sensor",
+            "control_board"
+          ],
+          "conditionalInstanceScope": "convection_heating_element",
+          "conditionalConcepts": [
+            "thermal_protection"
+          ]
+        },
+        {
+          "procedureId": "ny63-cd0-key-short",
+          "displayTitle": "\u00a74-1: C-d0 Key short (knob jam)",
+          "oemSection": "4-1",
+          "sourcePages": [
+            58
+          ],
+          "canonicalComponents": [
+            "user_interface"
+          ]
+        },
+        {
+          "procedureId": "ny63-cd1-door-lock",
+          "displayTitle": "\u00a74-1: C-d1 Door lock malfunction",
+          "oemSection": "4-1",
+          "sourcePages": [
+            59,
+            60
+          ],
+          "conditionalConcepts": [
+            "oven_door_switch"
+          ]
+        },
+        {
+          "procedureId": "ny63-cf0-main-sub-comm",
+          "displayTitle": "\u00a74-1: C-F0 Main \u2194 Sub PCB communication",
+          "oemSection": "4-1",
+          "sourcePages": [
+            61
+          ],
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "ny63-cf2-touch-comm",
+          "displayTitle": "\u00a74-1: C-F2 Sub \u2194 Touch communication",
+          "oemSection": "4-1",
+          "sourcePages": [
+            62
+          ],
+          "canonicalComponents": [
+            "user_interface",
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "ny63-ca2-display-overtemp",
+          "displayTitle": "\u00a74-1: C-A2 Display PCB ambient overtemp",
+          "oemSection": "4-1",
+          "sourcePages": [
+            63
+          ],
+          "canonicalComponents": [
+            "control_board"
+          ],
+          "conditionalConcepts": [
+            "thermal_protection"
+          ]
+        },
+        {
+          "procedureId": "ny63-symptom-oven-no-power",
+          "displayTitle": "\u00a74-1: Oven not operating (no power / no display)",
+          "oemSection": "4-1",
+          "sourcePages": [
+            64
+          ],
+          "canonicalComponents": [
+            "power_supply",
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "ny63-symptom-oven-temp-slow",
+          "displayTitle": "\u00a74-1: Oven temperature risen slowly",
+          "oemSection": "4-1",
+          "sourcePages": [
+            64
+          ],
+          "canonicalComponents": [
+            "control_board"
+          ],
+          "conditionalInstanceScope": "convection_heating_element"
+        },
+        {
+          "procedureId": "ny63-symptom-oven-temp-fast",
+          "displayTitle": "\u00a74-1: Oven temperature risen fast",
+          "oemSection": "4-1",
+          "sourcePages": [
+            65
+          ],
+          "canonicalComponents": [
+            "control_board"
+          ],
+          "conditionalConcepts": [
+            "thermal_protection"
+          ]
+        },
+        {
+          "procedureId": "ny63-symptom-keypad-fault",
+          "displayTitle": "\u00a74-1: Keypad not working partially or entirely",
+          "oemSection": "4-1",
+          "sourcePages": [
+            65
+          ],
+          "canonicalComponents": [
+            "user_interface",
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "ny63-symptom-convection-fan",
+          "displayTitle": "\u00a74-1: Convection fan not spinning",
+          "oemSection": "4-1",
+          "sourcePages": [
+            65
+          ],
+          "canonicalComponents": [
+            "control_board"
+          ],
+          "conditionalConcepts": [
+            "convection_fan"
+          ]
+        },
+        {
+          "procedureId": "ny63-symptom-cooktop-none-light",
+          "displayTitle": "\u00a74-1: None of the cooktop burners will light",
+          "oemSection": "4-1",
+          "sourcePages": [
+            66
+          ],
+          "canonicalComponents": [
+            "surface_heating_system",
+            "power_supply"
+          ]
+        },
+        {
+          "procedureId": "ny63-symptom-one-burner-no-light",
+          "displayTitle": "\u00a74-1: One cooktop burner does not light",
+          "oemSection": "4-1",
+          "sourcePages": [
+            67
+          ],
+          "canonicalComponents": [
+            "surface_heating_system"
+          ]
+        },
+        {
+          "procedureId": "ny63-symptom-burners-wont-stay-lit",
+          "displayTitle": "\u00a74-1: Cooktop burners light but don't stay lit",
+          "oemSection": "4-1",
+          "sourcePages": [
+            67
+          ],
+          "canonicalComponents": [
+            "surface_heating_system"
+          ]
+        },
+        {
+          "procedureId": "ny63-control-no-display",
+          "displayTitle": "\u00a74-2: No display",
+          "oemSection": "4-2",
+          "sourcePages": [
+            69
+          ],
+          "canonicalComponents": [
+            "power_supply",
+            "control_board",
+            "user_interface"
+          ]
+        },
+        {
+          "procedureId": "ny63-control-touch-keypad",
+          "displayTitle": "\u00a74-2: Touch keypad not working properly",
+          "oemSection": "4-2",
+          "sourcePages": [
+            70
+          ],
+          "canonicalComponents": [
+            "user_interface"
+          ]
+        },
+        {
+          "procedureId": "ny63-control-buzzer",
+          "displayTitle": "\u00a74-2: Buzzer does not beep",
+          "oemSection": "4-2",
+          "sourcePages": [
+            71
+          ],
+          "canonicalComponents": [
+            "user_interface",
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "ny63-cooktop-gas-supply",
+          "displayTitle": "\u00a74-3: Cooktop burner not lighted \u2014 gas malfunction",
+          "oemSection": "4-3",
+          "sourcePages": [
+            72
+          ],
+          "canonicalComponents": [
+            "surface_heating_system"
+          ]
+        },
+        {
+          "procedureId": "ny63-cooktop-spark-all-burners",
+          "displayTitle": "\u00a74-3: Cooktop burners not lighted \u2014 electric malfunction (all burners)",
+          "oemSection": "4-3",
+          "sourcePages": [
+            73
+          ],
+          "canonicalComponents": [
+            "surface_heating_system",
+            "power_supply",
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "ny63-cooktop-one-burner-electric",
+          "displayTitle": "\u00a74-3: One cooktop burner not lighted \u2014 electric malfunction",
+          "oemSection": "4-3",
+          "sourcePages": [
+            74
+          ],
+          "canonicalComponents": [
+            "surface_heating_system"
+          ]
+        },
+        {
+          "procedureId": "ny63-gas-leak-check",
+          "displayTitle": "\u00a74-3: Gas leaked",
+          "oemSection": "4-3",
+          "sourcePages": [
+            75
+          ],
+          "canonicalComponents": [
+            "surface_heating_system"
+          ]
+        },
+        {
+          "procedureId": "ny63-flame-abnormal-orifice",
+          "displayTitle": "\u00a74-3: Flame abnormal / wrong orifice size",
+          "oemSection": "4-3",
+          "sourcePages": [
+            76,
+            77
+          ],
+          "canonicalComponents": [
+            "surface_heating_system"
+          ]
+        }
+      ],
+      "measurementBindings": [
+        {
+          "normalizationId": "ny63-oven-sensor-ohms",
+          "procedureId": "ny63-c20-oven-sensor",
+          "canonicalLayer": "temperature_sensor"
+        },
+        {
+          "normalizationId": "ny63-cns600-connector-ohms",
+          "procedureId": "ny63-c20-oven-sensor",
+          "canonicalLayer": "temperature_sensor"
+        },
+        {
+          "normalizationId": "ny63-bake-heater-ohms",
+          "procedureId": "ny63-c21-abnormal-temp",
+          "instanceScope": "bake_heating_element"
+        },
+        {
+          "normalizationId": "ny63-broil-heater-ohms",
+          "procedureId": "ny63-c21-abnormal-temp",
+          "instanceScope": "broil_heating_element"
+        },
+        {
+          "normalizationId": "ny63-convection-heater-ohms",
+          "procedureId": "ny63-c21-abnormal-temp",
+          "conditionalInstanceScope": "convection_heating_element"
+        },
+        {
+          "normalizationId": "ny63-convection-fan-ohms",
+          "procedureId": "ny63-symptom-convection-fan",
+          "conditionalConcept": "convection_fan"
+        },
+        {
+          "normalizationId": "ny63-door-lock-motor-ohms",
+          "procedureId": "ny63-cd1-door-lock",
+          "conditionalConcept": "oven_door_switch"
+        },
+        {
+          "normalizationId": "ny63-door-lock-motor-vac",
+          "procedureId": "ny63-cd1-door-lock",
+          "conditionalConcept": "oven_door_switch"
+        },
+        {
+          "normalizationId": "ny63-door-lock-switch-ohms",
+          "procedureId": "ny63-cd1-door-lock",
+          "conditionalConcept": "oven_door_switch"
+        },
+        {
+          "normalizationId": "ny63-terminal-block-vac",
+          "procedureId": "ny63-symptom-oven-no-power",
+          "canonicalLayer": "power_supply"
+        },
+        {
+          "normalizationId": "ny63-cnp100-vac",
+          "procedureId": "ny63-symptom-oven-no-power",
+          "canonicalLayer": "power_supply"
+        },
+        {
+          "normalizationId": "ny63-cn300-5v-12v",
+          "procedureId": "ny63-symptom-oven-no-power",
+          "canonicalLayer": "control_board"
+        },
+        {
+          "normalizationId": "ny63-thermostat-ohms",
+          "procedureId": "ny63-symptom-oven-no-power",
+          "conditionalConcept": "thermal_protection"
+        },
+        {
+          "normalizationId": "ny63-heater-relay-ohms",
+          "procedureId": "ny63-c21-abnormal-temp",
+          "canonicalLayer": "control_board"
+        },
+        {
+          "normalizationId": "ny63-spark-module-vac",
+          "procedureId": "ny63-cooktop-spark-all-burners",
+          "canonicalLayer": "surface_heating_system"
+        },
+        {
+          "normalizationId": "ny63-ignition-switch-vac",
+          "procedureId": "ny63-cooktop-one-burner-electric",
+          "canonicalLayer": "surface_heating_system"
+        },
+        {
+          "normalizationId": "ny63-cooling-fan-vac",
+          "procedureId": "ny63-ca2-display-overtemp",
+          "canonicalLayer": "control_board"
+        },
+        {
+          "normalizationId": "ny63-power-cord-vac",
+          "procedureId": "ny63-control-no-display",
+          "canonicalLayer": "power_supply"
+        },
+        {
+          "normalizationId": "ny63-cn200-5v-12v",
+          "procedureId": "ny63-control-no-display",
+          "canonicalLayer": "control_board"
+        },
+        {
+          "normalizationId": "ny63-orifice-diameter-table",
+          "canonicalLayer": "surface_heating_system"
+        }
+      ],
+      "decisionBranchBindings": [
+        {
+          "branchId": "ny63-c20-sensor-fault",
+          "procedureId": "ny63-c20-oven-sensor",
+          "executable": true,
+          "canonicalLayer": "temperature_sensor"
+        },
+        {
+          "branchId": "ny63-c21-relay-check",
+          "procedureId": "ny63-c21-abnormal-temp",
+          "executable": true,
+          "canonicalLayer": "temperature_sensor"
+        },
+        {
+          "branchId": "ny63-cd1-lock-motor-fault",
+          "procedureId": "ny63-cd1-door-lock",
+          "executable": true,
+          "conditionalConcept": "oven_door_switch"
+        },
+        {
+          "branchId": "ny63-cd1-microswitch-fault",
+          "procedureId": "ny63-cd1-door-lock",
+          "executable": true,
+          "conditionalConcept": "oven_door_switch"
+        },
+        {
+          "branchId": "ny63-ca2-cooling-fan-fault",
+          "procedureId": "ny63-ca2-display-overtemp",
+          "executable": true,
+          "canonicalLayer": "control_board"
+        },
+        {
+          "branchId": "ny63-heater-out-of-range",
+          "procedureId": "ny63-symptom-oven-temp-slow",
+          "executable": true,
+          "canonicalLayer": "control_board"
+        },
+        {
+          "branchId": "ny63-fast-temp-relay-shorted",
+          "procedureId": "ny63-symptom-oven-temp-fast",
+          "executable": true,
+          "canonicalLayer": "control_board"
+        },
+        {
+          "branchId": "ny63-spark-replace-module",
+          "procedureId": "ny63-cooktop-spark-all-burners",
+          "executable": true,
+          "canonicalLayer": "surface_heating_system"
+        },
+        {
+          "branchId": "ny63-one-burner-electrode",
+          "procedureId": "ny63-symptom-one-burner-no-light",
+          "executable": true,
+          "canonicalLayer": "surface_heating_system"
+        },
+        {
+          "branchId": "ny63-one-burner-orifice",
+          "procedureId": "ny63-symptom-one-burner-no-light",
+          "executable": true,
+          "canonicalLayer": "surface_heating_system"
+        },
+        {
+          "branchId": "ny63-stay-lit-gpr-fault",
+          "procedureId": "ny63-symptom-burners-wont-stay-lit",
+          "executable": true,
+          "canonicalLayer": "surface_heating_system"
+        },
+        {
+          "branchId": "ny63-gas-gpr-shutoff",
+          "procedureId": "ny63-cooktop-gas-supply",
+          "executable": true,
+          "canonicalLayer": "surface_heating_system"
+        },
+        {
+          "branchId": "ny63-flame-orifice-size",
+          "procedureId": "ny63-flame-abnormal-orifice",
+          "executable": true,
+          "canonicalLayer": "surface_heating_system"
+        }
+      ],
+      "routingRejections": [
+        {
+          "conceptId": "dual_fuel_range.json",
+          "verdict": "reject_fuel_specific_canonical",
+          "note": "No dual_fuel_range canonical ontology \u2014 range_oven only."
+        },
+        {
+          "conceptId": "oven_heating_system",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "Monolithic aggregate remains removed per CG-10."
+        },
+        {
+          "conceptId": "dual_energy_control_split",
+          "verdict": "platform_topology_only",
+          "note": "Electric oven + gas cooktop coexist under control_board \u2014 CG-13 architectural witness, not canonical promotion."
+        }
+      ]
+    }
+  ],
+  "status": "published",
+  "gateKind": "samsung_ny63_dual_fuel_range_compounding",
+  "compoundingEvidence": {
+    "phase": "CG-RANGE-COMPOUNDING",
+    "sequence": 3,
+    "manualId": "SAMSUNG-NY63-DUAL-FUEL",
+    "platformId": "samsung_range_ny63",
+    "normalizationArtifact": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+    "gateArtifact": "SAMSUNG_NY63T8751SS_RANGE_overlay_mapping_table_v1.json",
+    "auditArtifact": "CG_RANGE_NY63T8751SS_COMPOUNDING_AUDIT_v1.json",
+    "accounting": {
+      "canonicalInheritances": 5,
+      "instanceScopeBindings": 2,
+      "conditionalInstanceScopeBindings": 1,
+      "conditionalBindings": 3,
+      "overlayImplementationComponents": 12,
+      "proceduresBound": 23,
+      "measurementsBound": 20,
+      "decisionBranchesExecutable": 13,
+      "functionalRealizations": 15,
+      "canonicalExpansion": 0,
+      "ontologyMutations": 0
+    },
+    "publishedAt": "2026-09-17T06:00:00+00:00"
+  }
+}

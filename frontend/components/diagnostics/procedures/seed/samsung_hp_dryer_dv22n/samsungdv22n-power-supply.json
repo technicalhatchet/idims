@@ -1,0 +1,67 @@
+{
+  "id": "samsungdv22n-power-supply",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Supply voltage (9C1, 9C2)",
+  "platformId": "samsung_hp_dryer_dv22n",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "9C1",
+    "9C2",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-HP-DRYER-DV22N",
+    "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+    "sourcePdf": "backend/docs/manuals/samsung heat pump dryer dv22n8650.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Power condition fault",
+    "pages": [
+      25,
+      26
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "voltage_check"
+    },
+    {
+      "id": "voltage_check",
+      "order": 2,
+      "type": "instruction",
+      "title": "Operating voltage",
+      "body": "Verify supply voltage during heat/dry operation.",
+      "sourceExcerpt": "Verify supply voltage during heat/dry operation.",
+      "requiresInput": false,
+      "defaultNextStepId": "supply_ok"
+    },
+    {
+      "id": "replace_main_pba",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace main PBA",
+      "oemOutcome": "Replace main PBA when supply verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "supply_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Supply OK",
+      "oemOutcome": "Power supply verified.",
+      "requiresInput": false
+    }
+  ]
+}

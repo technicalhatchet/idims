@@ -1,0 +1,65 @@
+{
+  "id": "lgwm4000-door-lock",
+  "version": "1.0.0",
+  "title": "\u00a78: Door lock",
+  "platformId": "lg_fl_washer_wm4000",
+  "componentIds": [
+    "door_lock"
+  ],
+  "tags": [
+    "door_lock_check"
+  ],
+  "source": {
+    "manualId": "LG-FL-WASHER",
+    "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+    "sourcePdf": "backend/docs/manuals/lg wm4000h fl washer service manual.pdf",
+    "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "8",
+    "oemTestTitle": "Door lock component test",
+    "pages": [
+      33,
+      53
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "lock_harness"
+    },
+    {
+      "id": "lock_harness",
+      "order": 2,
+      "type": "instruction",
+      "title": "Door lock harness",
+      "body": "Verify DOOR LOCK harness at MAIN PWB.",
+      "sourceExcerpt": "Verify DOOR LOCK harness at MAIN PWB.",
+      "requiresInput": false,
+      "defaultNextStepId": "lock_ok"
+    },
+    {
+      "id": "replace_lock",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace door lock",
+      "oemOutcome": "Replace door lock assembly when harness verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "lock_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Door lock OK",
+      "oemOutcome": "Door lock verified.",
+      "requiresInput": false
+    }
+  ]
+}

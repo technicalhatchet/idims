@@ -1,0 +1,49 @@
+{
+  "manualId": "SAMSUNG-TL-CG71-DRYER",
+  "platformId": "samsung_tl_dryer_cg71",
+  "templateId": "electric_dryer",
+  "label": "Samsung TL dryer CG71 (DVE55CG7100, DVG55CG)",
+  "status": "candidate",
+  "ontologyId": null,
+  "generatedAt": "2026-09-12T22:21:05.448377+00:00",
+  "topologySignature": "motor_present_unknown_path",
+  "counts": {
+    "procedures": 11,
+    "mappingCandidates": 25,
+    "overlayCandidates": 4,
+    "conflicts": 0,
+    "extractionFiltered": 4
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 4,
+    "invalidExtraction": 0,
+    "totalFiltered": 4,
+    "samples": [
+      {
+        "rawTerm": "M01A",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtlcg71d-gas-valve",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "bC2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtlcg71d-hmi",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtlcg71d-power",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "tC5",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtlcg71d-thermistor",
+        "source": "title_token"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1323 @@
+{
+  "manualId": "SAMSUNG-TL-A50-WASHER",
+  "candidates": [
+    {
+      "id": "map-samsung-tl-a50-washer-unresolved-samsungtla50-clutch-clutch",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "clutch",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-clutch",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-clutch",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-clutch-position-(pc,-pc1)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-2: Clutch position (PC, PC1)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-clutch",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-clutch",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Clutch position (PC, PC1)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-main_control-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "main_control",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.95,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-communication",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-communication",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "component_aliases"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-pba-communication-(ac)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: PBA communication (AC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-communication",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-communication",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "PBA communication (AC)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-door_lock-lid_lock",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_lock",
+      "extractedTerm": null,
+      "canonicalId": "lid_lock",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "top_load_functional_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-mig-efmm-62ec837ed0fc-\u00a75-3:-door-lock-(dc,-dc1,-dc2)",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Door lock (DC, DC1, DC2)",
+      "extractedTerm": "Door lock (DC, DC1, DC2)",
+      "canonicalId": "lid_lock",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-62ec837ed0fc"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a75-3: Door lock (DC, DC1, DC2)",
+            "extractedTerm": "Door lock (DC, DC1, DC2)",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-62ec837ed0fc",
+            "matchedSurface": "door lock (dc, dc1, dc2)",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
+          }
+        ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-mig-efmm-62ec837ed0fc-\u00a75-3:-door-lock-(dc,-dc1,-dc2)",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:11.549Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.628523+00:00"
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-drain_pump-drain_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drain_pump",
+      "extractedTerm": null,
+      "canonicalId": "drain_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-drain-pump",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-drain-pump-(5c)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Drain pump (5C)",
+      "canonicalId": "drain_pump",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "drain",
+        "component": null,
+        "actuator": "pump"
+      },
+      "matchedPhrase": "drain pump",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-drain-pump",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "drain pump",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drain pump (5C)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-user_interface-hmi_control",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "user_interface",
+      "extractedTerm": null,
+      "canonicalId": "hmi_control",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-hmi-check",
+        "pages": [
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-hmi-check",
+            "pages": [
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-control-panel-(bc2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Control panel (BC2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-hmi-check",
+        "pages": [
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-hmi-check",
+            "pages": [
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Control panel (BC2)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-inlet_valve-inlet_valve",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inlet_valve",
+      "extractedTerm": null,
+      "canonicalId": "inlet_valve",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-inlet-valves",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-inlet-valves",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-mig-efmm-5edc6b1da575-\u00a75-3:-water-supply-(4c)",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Water supply (4C)",
+      "extractedTerm": "Water supply (4C)",
+      "canonicalId": "inlet_valve",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-5edc6b1da575"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-inlet-valves",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-inlet-valves",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a75-3: Water supply (4C)",
+            "extractedTerm": "Water supply (4C)",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-5edc6b1da575",
+            "matchedSurface": "water supply (4c)",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
+          }
+        ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-mig-efmm-5edc6b1da575-\u00a75-3:-water-supply-(4c)",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:10.707Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.628023+00:00"
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-water-leakage-(lc,-lc1)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Water leakage (LC, LC1)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "leakage lc lc1",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-leak-check",
+        "pages": [
+          33,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-leak-check",
+            "pages": [
+              33,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "leakage lc lc1",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water leakage (LC, LC1)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-mems-sensor-(8c)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: MEMS sensor (8C)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "mems",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-mems-sensor",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-mems-sensor",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "mems",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "MEMS sensor (8C)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-drive_motor-drive_motor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drive_motor",
+      "extractedTerm": null,
+      "canonicalId": "drive_motor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-motor-circuit",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-washing-motor-(3c)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Washing motor (3C)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "washing",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-motor-circuit",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "washing",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Washing motor (3C)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-water_level_sensor-water_level_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "water_level_sensor",
+      "extractedTerm": null,
+      "canonicalId": "water_level_sensor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-overflow",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-overflow",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-overflow-(oc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Overflow (OC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-overflow",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-overflow",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Overflow (OC)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-supply-power_supply",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": "power_supply",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-power-supply",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-power-supply",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "top_load_functional_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-power-(uc,-9c1,-9c2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Power (UC, 9C1, 9C2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-power-supply",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-power-supply",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Power (UC, 9C1, 9C2)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-unbalance-(ub)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-2: Unbalance (UB)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-unbalance",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-unbalance",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Unbalance (UB)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-wash_heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_heater",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": null,
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-wash-heater",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-wash-heater",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-wash_ntc-temperature_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_ntc",
+      "extractedTerm": null,
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-wash-heater",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-wash-heater",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "top_load_functional_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-wash-heater-(hc,-hc1)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Wash heater (HC, HC1)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": null,
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-wash-heater",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-wash-heater",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Wash heater (HC, HC1)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-temperature-sensors-(tc1\u2013tc4)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Temperature sensors (TC1\u2013TC4)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-wash-thermistor",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-wash-thermistor",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Temperature sensors (TC1\u2013TC4)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-water-level-sensor-(1c)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Water level sensor (1C)",
+      "canonicalId": "water_level_sensor",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "level",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": "water level sensor",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-water-level-sensor",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-water-level-sensor",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "water level sensor",
+            "decomposition": {
+              "domain": "water",
+              "component": "level",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water level sensor (1C)"
+    }
+  ]
+}

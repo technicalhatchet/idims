@@ -1,0 +1,1937 @@
+{
+  "manualId": "SAMSUNG-FL-DV6000-DRYER",
+  "platformId": "samsung_fl_dryer_dv6000",
+  "templateId": "electric_dryer",
+  "ontologyId": "vented_dryer",
+  "materializedAt": "2026-09-14T15:08:53.790105+00:00",
+  "records": [
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-compound-belt_switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "belt_switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "belt",
+          "actuator": "switch"
+        },
+        "summary": "alias: belt_switch \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-belt-cutoff",
+        "pages": [
+          30
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "belt_switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-belt-cutoff",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-belt-cutoff",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "belt",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-compound-belt-cut-off-switch",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-6: Belt cut-off switch",
+      "extractedTerm": "Belt cut-off switch",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "belt cut off",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a74-6: Belt cut-off switch \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-belt-cutoff",
+        "pages": [
+          30
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-6: Belt cut-off switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-belt-cutoff",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-belt-cutoff",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "belt cut off",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.545622+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-door_switch-door_switch",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "door_switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_switch",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: door_switch \u2192 door_switch"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-door-switch",
+        "pages": [
+          29
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_switch": "door_switch"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-door-switch",
+        "pages": [
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-door-switch",
+            "pages": [
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.423120+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-DV6000-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-compound-/-\u00a74-6:-door-switch-(dc,-df)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1 / \u00a74-6: Door switch (dC, dF)",
+      "extractedTerm": "/ \u00a74-6: Door switch (dC, dF)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "4 6 door",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a74-1 / \u00a74-6: Door switch (dC, dF) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-door-switch",
+        "pages": [
+          29
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1 / \u00a74-6: Door switch (dC, dF)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-door-switch",
+        "pages": [
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-door-switch",
+            "pages": [
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "4 6 door",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.517121+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-heating_element-heat_source",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "heating_element",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heating_element \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-heater-electric",
+        "pages": [
+          29,
+          30
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heating_element": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-heater-electric",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-heater-electric",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.456621+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-DV6000-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-compound-electric-heater",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-6: Electric heater",
+      "extractedTerm": "Electric heater",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "electric",
+          "component": null,
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a74-6: Electric heater \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-heater-electric",
+        "pages": [
+          29,
+          30
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-6: Electric heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-heater-electric",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-heater-electric",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "electric",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.572123+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-compound-user_interface",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "user_interface",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "hmi_control",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: user_interface \u2192 hmi_control"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-hmi",
+        "pages": [
+          23
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "user_interface": "hmi_control"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-hmi",
+        "pages": [
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-hmi",
+            "pages": [
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.406120+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-DV6000-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-compound-display-/-buttons-(bc2)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Display / buttons (bC2)",
+      "extractedTerm": "Display / buttons (bC2)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1: Display / buttons (bC2) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-hmi",
+        "pages": [
+          23
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Display / buttons (bC2)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-hmi",
+        "pages": [
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-hmi",
+            "pages": [
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.558621+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-drive_motor-drive_motor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "drive_motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: drive_motor \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-motor-circuit",
+        "pages": [
+          30
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drive_motor": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-motor-circuit",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-motor-circuit",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.440123+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-DV6000-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-compound-motor-windings-and-relay-(3c)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-6: Motor windings and relay (3C)",
+      "extractedTerm": "Motor windings and relay (3C)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "motor windings and",
+          "actuator": "relay"
+        },
+        "summary": "alias: \u00a74-6: Motor windings and relay (3C) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-motor-circuit",
+        "pages": [
+          30
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-6: Motor windings and relay (3C)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-motor-circuit",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-motor-circuit",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "motor windings and",
+              "actuator": "relay"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.588119+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-samsung-fl-dv6000-dryer-unresolved-samsungdv6000-power-supply",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "supply",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": "power_supply",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 power_supply"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-power",
+        "pages": [
+          23
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": "power_supply"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-power",
+        "pages": [
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-power",
+            "pages": [
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.501622+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-DV6000-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-main_control-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.96,
+      "what": "main_control",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.96,
+        "matcherLayer": "platform_overlay:samsung_fl_washer_wf6000r",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: main_control \u2192 control_board"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-power",
+        "pages": [
+          23
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "main_control": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-power",
+        "pages": [
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-power",
+            "pages": [
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.471621+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-DV6000-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-compound-power-and-communication-(9c1,-fc,-ac)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Power and communication (9C1, FC, AC)",
+      "extractedTerm": "Power and communication (9C1, FC, AC)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1: Power and communication (9C1, FC, AC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-power",
+        "pages": [
+          23
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Power and communication (9C1, FC, AC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-power",
+        "pages": [
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-power",
+            "pages": [
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.602625+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-thermal_fuse-thermal_fuse",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "thermal_fuse",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "thermal_fuse",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: thermal_fuse \u2192 thermal_fuse"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-thermal-cutoff",
+        "pages": [
+          29,
+          31
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermal_fuse": "thermal_fuse"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-thermal-cutoff",
+        "pages": [
+          29,
+          31
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-thermal-cutoff",
+            "pages": [
+              29,
+              31
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.486620+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-DV6000-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-compound-high_limit_thermostat",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "high_limit_thermostat",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "thermal_cutoff",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: high_limit_thermostat \u2192 thermal_cutoff"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-thermal-cutoff",
+        "pages": [
+          29,
+          31
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "high_limit_thermostat": "thermal_cutoff"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-thermal-cutoff",
+        "pages": [
+          29,
+          31
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-thermal-cutoff",
+            "pages": [
+              29,
+              31
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.375121+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-DV6000-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-compound-thermal-cutoff-and-hi-limit",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.85,
+      "what": "\u00a74-6: Thermal cutoff and hi-limit",
+      "extractedTerm": "Thermal cutoff and hi-limit",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "thermal_cutoff",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "thermal cutoff",
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-6: Thermal cutoff and hi-limit \u2192 thermal_cutoff"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-thermal-cutoff",
+        "pages": [
+          29,
+          31
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-6: Thermal cutoff and hi-limit": "thermal_cutoff"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-thermal-cutoff",
+        "pages": [
+          29,
+          31
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-thermal-cutoff",
+            "pages": [
+              29,
+              31
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "thermal cutoff",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.618120+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-compound-exhaust_thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "exhaust_thermistor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "temperature_sensor",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "exhaust thermistor",
+        "decomposition": {
+          "domain": null,
+          "component": "exhaust",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: exhaust_thermistor \u2192 temperature_sensor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-thermistor",
+        "pages": [
+          29,
+          30
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "exhaust_thermistor": "temperature_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-thermistor",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-thermistor",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "exhaust thermistor",
+            "decomposition": {
+              "domain": null,
+              "component": "exhaust",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.362621+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-DV6000-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-compound-inlet_thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "inlet_thermistor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "temperature_sensor",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "inlet thermistor",
+        "decomposition": {
+          "domain": "inlet",
+          "component": null,
+          "actuator": "thermistor"
+        },
+        "summary": "alias: inlet_thermistor \u2192 temperature_sensor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-thermistor",
+        "pages": [
+          29,
+          30
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_thermistor": "temperature_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-thermistor",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-thermistor",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "inlet thermistor",
+            "decomposition": {
+              "domain": "inlet",
+              "component": null,
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.390122+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-FL-DV6000-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-DV6000-DRYER-compound-/-\u00a74-6:-thermistors-(tc,-tc5,-hc)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1 / \u00a74-6: Thermistors (tC, tC5, HC)",
+      "extractedTerm": "/ \u00a74-6: Thermistors (tC, tC5, HC)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1 / \u00a74-6: Thermistors (tC, tC5, HC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-thermistor",
+        "pages": [
+          29,
+          30
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1 / \u00a74-6: Thermistors (tC, tC5, HC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-thermistor",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-thermistor",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:01:50.531620+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-6 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-DV6000-DRYER-samsungdv6000-belt-cutoff-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungdv6000-belt-cutoff",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungdv6000-belt-cutoff \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-belt-cutoff",
+        "pages": [
+          30
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungdv6000-belt-cutoff",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a74-6: Belt cut-off switch",
+          "componentIds": [
+            "belt_switch"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-belt-cutoff",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-belt-cutoff",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-DV6000-DRYER-samsungdv6000-motor-circuit-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungdv6000-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungdv6000-motor-circuit \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-motor-circuit",
+        "pages": [
+          30
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungdv6000-motor-circuit",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a74-6: Motor windings and relay (3C)",
+          "componentIds": [
+            "drive_motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-motor-circuit",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-motor-circuit",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-DV6000-DRYER-samsungdv6000-motor-circuit-meas-samsungFlDv6000DryerMotorWinding34Ohms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungdv6000-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungFlDv6000DryerMotorWinding34Ohms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-motor-circuit",
+        "pages": [
+          30
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungdv6000-motor-circuit",
+          "measurementKnowledgeId": "samsungFlDv6000DryerMotorWinding34Ohms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-motor-circuit",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-motor-circuit",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungFlDv6000DryerMotorWinding34Ohms",
+            "stepTitle": "Motor winding pin 3\u20134"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-FL-DV6000-DRYER-samsungdv6000-motor-circuit-meas-samsungFlDv6000DryerMotorWinding45Ohms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungdv6000-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungFlDv6000DryerMotorWinding45Ohms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-motor-circuit",
+        "pages": [
+          30
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungdv6000-motor-circuit",
+          "measurementKnowledgeId": "samsungFlDv6000DryerMotorWinding45Ohms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-motor-circuit",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-motor-circuit",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungFlDv6000DryerMotorWinding45Ohms",
+            "stepTitle": "Motor winding pin 4\u20135"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 23,
+    "byStatus": {
+      "needs_review": 1,
+      "rejected": 8,
+      "approved": 10,
+      "candidate": 4
+    },
+    "byApprovalLevel": {
+      "blocked": 11,
+      "easy": 4,
+      "normal": 5,
+      "careful": 3
+    },
+    "byType": {
+      "canonicalMapping": 19,
+      "procedureTestBinding": 2,
+      "measurementBinding": 2
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 4,
+      "medium_0.80_0.94": 8,
+      "low_lt_0.80": 0,
+      "unresolved": 11
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 1
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "manualId": "W11187658",
+  "platformId": "whirlpool_dishwasher_ada",
+  "templateId": "dishwasher",
+  "label": "Whirlpool ADA built-in dishwasher (18\"/24\")",
+  "status": "candidate",
+  "ontologyId": null,
+  "generatedAt": "2026-09-12T22:21:05.913376+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 6,
+    "mappingCandidates": 10,
+    "overlayCandidates": 3,
+    "conflicts": 0,
+    "extractionFiltered": 5
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 5,
+    "invalidExtraction": 0,
+    "totalFiltered": 5,
+    "samples": [
+      {
+        "rawTerm": "CON2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11187658-drain-pump",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "CN5",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11187658-fill-valve",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E3",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11187658-heater",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11187658-inlet-fill",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E4",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11187658-overflow",
+        "source": "title_token"
+      }
+    ]
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_compounding_observation",
+  "manualId": "SAMSUNG-NY63-DUAL-FUEL",
+  "platformId": "samsung_range_ny63",
+  "compoundingPhase": "CG-RANGE-COMPOUNDING",
+  "compoundingSequence": 3,
+  "observedAt": "2026-09-17T06:00:00+00:00",
+  "normalizationArtifact": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+  "verdict": {
+    "canonicalInheritances": 5,
+    "instanceScopeBindings": 2,
+    "conditionalInstanceScopeBindings": 1,
+    "conditionalBindings": 3,
+    "overlayImplementationComponents": 12,
+    "proceduresBound": 23,
+    "measurementsBound": 20,
+    "decisionBranchesExecutable": 13,
+    "functionalRealizations": 15,
+    "canonicalExpansion": 0,
+    "ontologyMutations": 0,
+    "flatFactDumpAvoided": true,
+    "nx60OverlayUntouched": true,
+    "ne58OverlayUntouched": true
+  },
+  "hierarchyObservation": "Dual-fuel faults decompose as surface_heating_system → spark_module / valve_cooktop / GPR / orifice realizations for gas cooktop; electric oven paths bind to instance scopes (bake 19 Ω, broil 13 Ω, convection 44 Ω) under shared control_board — not dual_fuel canonical promotion.",
+  "gasCooktopHardwareRemainsOverlay": [
+    "spark_module",
+    "valve_cooktop",
+    "switch_ignition",
+    "electrode",
+    "gas_pressure_regulator",
+    "gas_orifice_nozzle"
+  ]
+}

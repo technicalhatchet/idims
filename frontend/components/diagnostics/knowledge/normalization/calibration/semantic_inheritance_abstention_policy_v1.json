@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "semantic_inheritance_abstention_policy",
+  "version": "v1",
+  "ladder": "R5",
+  "status": "FROZEN",
+  "frozenAt": "2026-09-14T03:15:00+00:00",
+  "phase": "CG-6.3",
+  "description": "Permanent abstention boundary — R5 is policy, not another auto-resolve research track. CG-6.3 semantic inheritance is operationalized; do not invent rules to chase 67→66 mapping deltas.",
+  "predecessorArtifacts": [
+    "semantic_inheritance_rules_v1.json",
+    "compounding_semantic_inheritance_rule1_validated_v1.json",
+    "compounding_semantic_inheritance_rule2_validated_v1.json",
+    "compounding_semantic_inheritance_rule3_validated_v1.json",
+    "compounding_semantic_inheritance_rule4_validated_v1.json",
+    "semantic_inheritance_benchmark_v1.json",
+    "compounding_efficiency_v1.json"
+  ],
+  "validatedRuleLadder": {
+    "R1": "Diagnostic-code variation — samsung-fl-inverter-board-power-voltage-codes",
+    "R2": "Compound phrase equivalence — samsung-fl-pba-communication-control-board",
+    "R3": "OEM diagnostic-title variation — samsung-fl-drain-leakage-drain-pump",
+    "R4": "Constrained functional inference (semanticRiskClass: high) — samsung-fl-overflow-oc-water-level-sensor",
+    "R5": "Deliberate abstention boundary — this policy"
+  },
+  "decisionModel": {
+    "flow": [
+      "candidate OEM term or mapping",
+      "exact / corpus / platform alias match?",
+      "enabled semantic rule with full deterministic evidence?",
+      "partial semantic signal in scope?",
+      "→ auto-inherit OR → HUMAN GATE (abstention logged)"
+    ],
+    "forbidden": [
+      "candidate → AI guess → hope",
+      "single-token extrapolation from compound rules",
+      "semantic rule that creates ontology or platform concepts",
+      "cross-manufacturer semantic inheritance",
+      "topology inference from title tokens",
+      "new rules without benchmark regression + abstention matrix + incremental accounting vs prior validated baseline"
+    ]
+  },
+  "abstentionDefinition": {
+    "meaning": "Matcher recognized partial semantic evidence in rule scope but deliberately refused auto-resolve because evidence did not satisfy the frozen rule.",
+    "instrumentedIn": [
+      "normalization/semantic_inheritance.py try_semantic_abstention",
+      "run_semantic_inheritance_benchmark.py regression + mapping simulation"
+    ],
+    "successCriterion": "Abstention is as valuable as auto-resolve when it prevents false inheritance"
+  },
+  "whenToAbstain": [
+    "Partial token overlap without full rule compound (e.g. leakage without drain, PBA without communication, overflow without OC)",
+    "Excluded hostile tokens present (mems, motor, water, inlet, door, drain on overflow rule, etc.)",
+    "Insufficient prior platform/corpus concept — requiredPlatformConcept not established",
+    "semanticRiskClass high rules: any ambiguity → abstain, not extrapolate",
+    "Ambiguous semantic candidate with no human-proven closed loop",
+    "New platform concept disguised as inheritance (e.g. mems_sensor must not be absorbed by PBA communication rule)"
+  ],
+  "whenNotToAddRules": [
+    "Chasing marginal mapping burden reduction (67→66) without new evidence class",
+    "Terminology normalization that does not increase semantic distance proof",
+    "Rules outside frozen calibration corpus without new human gate provenance",
+    "Before appliance graph expansion delivers more manuals to compound against"
+  ],
+  "newRuleGate": {
+    "requires": [
+      "Human-proven closed loop with frozen provenance artifact",
+      "Regression PASS on compounding_calibration_corpus_v1.json",
+      "Hostile abstention matrix tests",
+      "Incremental accounting vs last validated rule baseline",
+      "Explicit semanticRiskClass when crossing into functional inference",
+      "mayNotCreateConcept: true when inheriting existing platform/corpus concepts only"
+    ],
+    "defaultAnswer": "abstain — human gate"
+  },
+  "cg63Closure": {
+    "status": "COMPLETE",
+    "notABlockerFor": "canonical graph expansion (dryer #2 and beyond)",
+    "cumulativeBenchmark": {
+      "mappingGateBurden": "71 → 67",
+      "projectedCohortHumanGateDecisions": "48 → 44",
+      "semanticInheritsAutoResolved": 4,
+      "regressionAbstentions": 2,
+      "falsePositives": 0
+    }
+  },
+  "nextWork": "Canonical graph #2 — dryer ontology + manual→overlay compounding (see CG-6.4-dryer-canonical-graph.md)"
+}

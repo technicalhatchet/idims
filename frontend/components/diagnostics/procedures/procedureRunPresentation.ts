@@ -1,9 +1,12 @@
+import {
+  collectExplicitFailureConfirms,
+  isExplicitFailureEvidenceId,
+} from '../intelligence/componentVerification';
 import { getEvidenceConfig } from '../intelligence/evidenceRegistry';
 import { getPlatformRule } from '../knowledge/platformRegistry';
-import {
-  evaluateProcedureMeasurement,
-  matchProcedureBranch,
-} from './evaluateProcedureMeasurement';
+import { procedureComponentDisplayLabel } from './procedureComponentAliases';
+import { matchProcedureBranch } from './evaluateProcedureMeasurement';
+import { resolveProcedureStepMeasurementEvaluation } from './resolveProcedureStepMeasurementEvaluation';
 import { getServiceProcedure } from './procedureRegistry';
 import { getProcedureStep } from './procedureRunner';
 import type {
@@ -33,6 +36,9 @@ function componentLabel(
   procedure: ServiceProcedure | null | undefined,
   componentId: string,
 ): string {
+  const displayLabel = procedureComponentDisplayLabel(componentId);
+  if (displayLabel !== componentId) return displayLabel;
+
   const templateId = getPlatformRule(procedure?.platformId || '')?.templateId;
   const config = templateId ? getEvidenceConfig(templateId) : null;
   return config?.components?.find((item) => item.id === componentId)?.label || componentId;
@@ -44,8 +50,14 @@ export function repairHeadlineFromConfirm(
   componentId: string,
 ): string {
   switch (componentId) {
+    case 'main_control':
+      return 'Replace main control board';
+    case 'inverter':
+      return 'Replace inverter board';
     case 'control_board':
       return 'Replace CCU / main control board';
+    case 'motor_controller':
+      return 'Replace inverter board';
     case 'door_lock':
       return 'Replace door lock assembly';
     case 'hmi_control':
@@ -92,7 +104,11 @@ export function resolveOutcomeStepFromRun(
   let matchedBranch = null;
 
   if (step.type === 'measurement' && input?.kind === 'measurement') {
-    const evaluation = evaluateProcedureMeasurement(step.measurementKnowledgeId, input.value);
+    const evaluation = resolveProcedureStepMeasurementEvaluation(
+      runState,
+      step,
+      lastInteractiveStepId,
+    );
     matchedBranch = matchProcedureBranch(step.branches, evaluation);
   } else if (step.branches?.length) {
     matchedBranch = matchProcedureBranch(step.branches, null, input?.value);
@@ -118,9 +134,9 @@ export function resolveProcedureRepairHeadline(
 ): string | null {
   if (!procedure) return null;
 
-  const confirms = collectAppliedEffects(runState).filter((effect) => effect.type === 'confirm');
-  if (confirms.length) {
-    const lastConfirm = confirms[confirms.length - 1];
+  const explicitConfirms = collectExplicitFailureConfirms(procedure, runState);
+  if (explicitConfirms.length) {
+    const lastConfirm = explicitConfirms[explicitConfirms.length - 1];
     return repairHeadlineFromConfirm(procedure, lastConfirm.componentId);
   }
 
@@ -145,8 +161,8 @@ export function resolveProcedureRunDisposition(
 
   if (isSuccessOutcomeStepId(outcomeId)) return 'success';
 
-  const confirms = collectAppliedEffects(runState).filter((effect) => effect.type === 'confirm');
-  if (confirms.length) return 'action_required';
+  const explicitConfirms = collectExplicitFailureConfirms(procedure, runState);
+  if (explicitConfirms.length) return 'action_required';
 
   if (isActionOutcomeStepId(outcomeId)) return 'action_required';
 
@@ -157,8 +173,13 @@ export function resolveProcedureRunDisposition(
     if (title.includes('replace') || title.includes('suspect')) return 'action_required';
   }
 
-  if (procedure && resolveOutcomeStepFromRun(procedure, runState)) {
-    return 'action_required';
+  const outcomeFromRun = procedure ? resolveOutcomeStepFromRun(procedure, runState) : null;
+  if (outcomeFromRun) {
+    if (isActionOutcomeStepId(outcomeFromRun.id)) return 'action_required';
+    const outcomeTitle = outcomeFromRun.title.toLowerCase();
+    if (outcomeTitle.includes('replace') || outcomeTitle.includes('suspect')) {
+      return 'action_required';
+    }
   }
 
   if (runState.oemOutcome && /(replace|suspect|failed|no energize)/i.test(runState.oemOutcome)) {
@@ -223,7 +244,13 @@ export function resolveProcedureStepTone(
     if (isSuccessOutcomeStepId(stepId)) return 'success';
   }
 
-  if (effects.some((effect) => effect.type === 'confirm')) return 'failure';
+  if (
+    effects.some(
+      (effect) => effect.type === 'confirm' && isExplicitFailureEvidenceId(effect.evidenceId),
+    )
+  ) {
+    return 'failure';
+  }
 
   const normalizedInput = String(inputValue ?? '').trim().toLowerCase();
   if (normalizedInput === 'no' || normalizedInput === 'fail') return 'failure';

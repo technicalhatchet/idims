@@ -6,6 +6,41 @@ import {
 } from './procedureRunPresentation';
 import type { ProcedureRunState } from './types';
 
+const DOOR_LOCK_VERIFIED_OUTCOME_IDS = new Set([
+  'door_lock_path_verified',
+  'door_lock_verified',
+]);
+
+export function procedureRunRequiresRepairAction(
+  procedureId: string,
+  runState: ProcedureRunState,
+): boolean {
+  const procedure = getServiceProcedure(procedureId);
+  return resolveProcedureRunDisposition(runState, procedure) === 'action_required';
+}
+
+export function isDoorLockPathVerified(
+  procedureId: string,
+  runState: ProcedureRunState | null | undefined,
+): boolean {
+  if (!runState || runState.status !== 'completed') return false;
+  if (procedureId !== 'w8178558-door-lock') return false;
+  if (procedureRunRequiresRepairAction(procedureId, runState)) return false;
+  return DOOR_LOCK_VERIFIED_OUTCOME_IDS.has(runState.currentStepId);
+}
+
+/** After a successful door-lock OEM run, skip redundant electrical wizard checks. */
+export function filterWizardStepsAfterDoorLockVerified(
+  stepKeys: string[],
+  procedureRuns: Record<string, ProcedureRunState> = {},
+): string[] {
+  const doorLockRun = procedureRuns['w8178558-door-lock'];
+  if (!isDoorLockPathVerified('w8178558-door-lock', doorLockRun)) {
+    return stepKeys;
+  }
+  return stepKeys.filter((key) => key !== 'electrical');
+}
+
 /** Wizard stepKey to open after an OEM procedure run finishes (success / continue paths only). */
 export function resolveWizardStepAfterProcedureComplete(
   procedureId: string,
@@ -33,14 +68,6 @@ export function resolveWizardStepAfterProcedureComplete(
   }
 
   return 'mechanical';
-}
-
-export function procedureRunRequiresRepairAction(
-  procedureId: string,
-  runState: ProcedureRunState,
-): boolean {
-  const procedure = getServiceProcedure(procedureId);
-  return resolveProcedureRunDisposition(runState, procedure) === 'action_required';
 }
 
 export function shouldPrefillRootCauseFromProcedureComplete(

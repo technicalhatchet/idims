@@ -1,0 +1,65 @@
+{
+  "id": "lgwm4000-wash-thermistor",
+  "version": "1.0.0",
+  "title": "\u00a78: Wash thermistor",
+  "platformId": "lg_fl_washer_wm4000",
+  "componentIds": [
+    "wash_ntc"
+  ],
+  "tags": [
+    "heating_failure"
+  ],
+  "source": {
+    "manualId": "LG-FL-WASHER",
+    "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+    "sourcePdf": "backend/docs/manuals/lg wm4000h fl washer service manual.pdf",
+    "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "8",
+    "oemTestTitle": "WASH THERMISTOR",
+    "pages": [
+      33,
+      53
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "ntc_harness"
+    },
+    {
+      "id": "ntc_harness",
+      "order": 2,
+      "type": "instruction",
+      "title": "Wash thermistor harness",
+      "body": "Disconnect WASH THERMISTOR at MAIN PWB.",
+      "sourceExcerpt": "Disconnect WASH THERMISTOR at MAIN PWB.",
+      "requiresInput": false,
+      "defaultNextStepId": "ntc_ok"
+    },
+    {
+      "id": "replace_ntc",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace wash thermistor",
+      "oemOutcome": "Replace thermistor when out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "ntc_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Wash thermistor OK",
+      "oemOutcome": "Wash thermistor verified.",
+      "requiresInput": false
+    }
+  ]
+}

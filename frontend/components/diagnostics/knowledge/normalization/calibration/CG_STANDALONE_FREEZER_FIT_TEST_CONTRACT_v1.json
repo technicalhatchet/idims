@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_standalone_freezer_fit_test_contract",
+  "workstream": "CG-STANDALONE-FREEZER-FIT-TEST",
+  "status": "active",
+  "activatedAt": "2026-09-17T18:00:00+00:00",
+  "authorizedBy": "CG_CANONICAL_FAMILY_INVENTORY_v1.json",
+  "priorPhaseClosed": "CG_STACKED_LAUNDRY_CENTER_FIT_CLOSURE_v1.json",
+  "priorPhaseVerdict": "CLOSED / STACKED_LAUNDRY_DECOMPOSES_TO_EXISTING_CONTRACTS",
+  "fitTestMode": "fit_falsification_against_frozen_refrigeration_contract",
+  "applianceScope": "standalone_freezer_upright_and_chest",
+  "hostHypothesis": {
+    "primary": "french_door_refrigerator",
+    "treatedAs": "hypothesis_only",
+    "rationale": "Inventory hypothesis — standalone freezer may absorb as freezer-only composition of existing refrigeration functional architecture; must be proven, not assumed."
+  },
+  "notCreating": [
+    "standalone_freezer.json",
+    "mutations to french_door_refrigerator.json",
+    "mutations to any other frozen canonical graph",
+    "canonical expansion on any frozen family",
+    "manufacturer overlay compounding",
+    "normalization compounding of broader corpus",
+    "discovery contract execution",
+    "freeze execution"
+  ],
+  "hardGateRule": {
+    "description": "Vapor-compression refrigeration alone does not prove fit; absence of fresh-food compartment alone does not prove divergence.",
+    "tree": [
+      "Compare functional diagnostic responsibilities against frozen french_door_refrigerator",
+      "All required domains map with freezer-only compartment scope and refrigerator-specific domains not instantiated → composition or proven_variant",
+      "Genuine freezer-only functional domains that cannot bind to existing contract → architectural_divergence",
+      "Corpus insufficient to falsify hypothesis → insufficient_evidence"
+    ],
+    "physicalComponentGuard": "Compressor, evaporator, condenser names are implementation/platform vocabulary unless independent diagnostic responsibility is demonstrated.",
+    "refrigeratorAbsorptionGuard": "Do not conclude fit merely because both use refrigeration. Do not conclude divergence merely because fresh-food compartments are absent."
+  },
+  "frozenContractsUnderTest": [
+    {
+      "id": "french_door_refrigerator",
+      "file": "frontend/components/diagnostics/knowledge/canonical/french_door_refrigerator.json",
+      "frozenRevision": "rev1",
+      "immutable": true,
+      "primaryFitTarget": true,
+      "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+      "note": "Primary host hypothesis — evaluate freezer-only compartment binding"
+    }
+  ],
+  "fitTestVocabulary": {
+    "procedureClassifications": [
+      "french_door_refrigerator",
+      "shared_function",
+      "implementation_specific",
+      "unresolved"
+    ],
+    "hardOutcomes": [
+      "proven_variant",
+      "composition",
+      "architectural_divergence",
+      "insufficient_evidence"
+    ],
+    "rule": "Fit-test vocabulary only — do not auto-promote to canonical concepts"
+  },
+  "functionalDomainsUnderTest": [
+    "refrigeration_thermal_system",
+    "compressor_refrigerant_cycle_role",
+    "evaporator_condenser_functional_roles",
+    "temperature_sensing_control",
+    "defrost_system",
+    "evaporator_airflow",
+    "control_board",
+    "user_interface",
+    "door_door_switch",
+    "thermal_protection",
+    "fresh_food_refrigerator_specific_domains",
+    "ice_making_water_dispense_optional",
+    "freezer_specific_architecture_not_in_host"
+  ],
+  "candidateWitnesses": {
+    "requested": [
+      { "manufacturer": "Whirlpool", "model": "WZF79R20DW", "corpusStatus": "not_ingested" },
+      { "manufacturer": "Whirlpool", "model": "WZF56R16DW", "corpusStatus": "not_ingested" },
+      { "manufacturer": "Samsung", "model": "RZ11M7074SA/AA", "corpusStatus": "not_ingested" },
+      { "manufacturer": "Samsung", "model": "RZ11T7474AP/AA", "corpusStatus": "not_ingested" }
+    ],
+    "ingested": [
+      {
+        "witnessId": "W1",
+        "manufacturer": "Midea/Insignia",
+        "model": "NS-UZ21WH0",
+        "platformId": "midea_uz21",
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "sourcePdf": "backend/docs/manuals/NS-UZ21WH0 insignia freezer.pdf",
+        "extractedText": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt",
+        "observationArtifact": "CG_MIDEA_UZ21_FIT_OBSERVATION_v1.json"
+      }
+    ]
+  },
+  "corpusLimitations": {
+    "standaloneFreezerWitnessCount": 1,
+    "crossManufacturerTriangulation": false,
+    "rule": "Single ingested standalone-freezer witness — Whirlpool/Samsung candidates absent from corpus. Supplementary pattern corroboration from midea_rss freezer-scoped procedures documented but not counted as second standalone witness."
+  },
+  "successCriteria": {
+    "canonicalExpansion": 0,
+    "standaloneFreezerJsonCreated": false,
+    "frozenGraphMutations": 0,
+    "exactlyOneHardOutcome": true,
+    "normalizationExecuted": false
+  },
+  "stopCondition": "FIT gate only — discovery/freeze authorized only on architectural_divergence with human gate"
+}

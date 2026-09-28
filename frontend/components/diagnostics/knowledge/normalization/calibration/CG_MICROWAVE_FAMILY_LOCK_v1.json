@@ -1,0 +1,168 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_family_lock",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T13:30:00+00:00",
+  "humanAuthorizedAt": "2026-09-17T13:30:00+00:00",
+  "verdict": "CLOSED / MICROWAVE_FAMILY_ARCHITECTURE_COMPLETE",
+  "closureStatement": "Microwave family architecture is closed. CG-MICROWAVE-FIT Outcome B, discovery-approved 7 core + 2 conditional functional contract, freeze rev1, normalization of LG + Samsung OTR witnesses, Branch A frozen-metadata governance, two-sequence compounding, and cross-manufacturer regression demonstrate that one frozen microwave functional contract absorbs LG and Samsung OTR implementations with zero canonical expansion. ME21 and LMVM are zero-delta platform extensions — not independent compounding evidence. Additional microwave manuals are coverage work, not architecture validation.",
+  "canonicalOntology": {
+    "id": "microwave",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-17T09:35:00+00:00",
+    "hash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "hashUnchangedThroughClosure": true,
+    "file": "frontend/components/diagnostics/knowledge/canonical/microwave.json",
+    "freezeLock": "CG_MICROWAVE_FREEZE_LOCK_v1.json",
+    "referenceOverlay": "frontend/components/diagnostics/knowledge/canonical/platform_overlays/microwave.reference.json"
+  },
+  "headlineMetrics": {
+    "fitWitnessManuals": 2,
+    "normalizationWitnesses": 2,
+    "zeroDeltaPlatformExtensions": 2,
+    "compoundingSequencesClosed": 2,
+    "publishedOverlays": 2,
+    "canonicalExpansionCumulative": 0,
+    "canonicalHashMutations": 0,
+    "samsungLgEvidenceBorrowing": 0,
+    "fitArtifactsReopened": 0,
+    "microwaveRegressionTestsAtClosure": 87,
+    "microwaveRegressionSuites": 17
+  },
+  "branchAMetadataGovernance": {
+    "closure": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+    "staleField": "microwave.json overlayOnlyConcepts[id=magnetron].realizes",
+    "staleValue": "hv_generation",
+    "authoritativeMapping": "magnetron → rf_cavity",
+    "nonAuthoritative": true,
+    "notPropagatedToRuntimeOrCompounding": true,
+    "preservedAtClosure": true
+  },
+  "provenanceChain": {
+    "phases": [
+      { "phase": "CG-MICROWAVE-FIT", "label": "Fit test Outcome B", "status": "closed", "artifact": "CG_MICROWAVE_FIT_CLOSURE_v1.json" },
+      { "phase": "CG-MICROWAVE-DISCOVERY", "label": "Functional contract discovery", "status": "closed", "artifact": "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json" },
+      { "phase": "CG-MICROWAVE-FREEZE", "label": "Canonical freeze rev1", "status": "closed", "artifact": "CG_MICROWAVE_FREEZE_LOCK_v1.json" },
+      { "phase": "CG-MICROWAVE-NORMALIZATION", "label": "Witness normalization + platform extensions", "status": "closed", "artifact": "CG_MICROWAVE_NORMALIZATION_AUDIT_v1.json" },
+      { "phase": "CG-MICROWAVE-FROZEN-METADATA-GOVERNANCE", "label": "Branch A magnetron.realizes", "status": "closed", "artifact": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json" },
+      { "phase": "CG-MICROWAVE-COMPOUNDING", "label": "LG + Samsung compounding", "status": "closed", "artifact": "CG_MICROWAVE_COMPOUNDING_v1.json" },
+      { "phase": "CG-MICROWAVE-FAMILY-CLOSURE-PLANNING", "label": "Closure planning + audit", "status": "closed", "artifact": "CG_MICROWAVE_FAMILY_CLOSURE_AUDIT_v1.json" }
+    ],
+    "complete": true
+  },
+  "proofMatrix": {
+    "description": "2 independently compounded OTR witnesses on one frozen microwave rev1 contract + 2 zero-delta platform extensions",
+    "frozenContract": "microwave rev1",
+    "witnessSequences": [
+      {
+        "sequence": 1,
+        "targetId": "lg_lmhm2237_otr",
+        "manufacturer": "LG",
+        "platformId": "lg_microwave_otr",
+        "templateId": "microwave",
+        "overlayFile": "lg_microwave_otr.json",
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "smokeModel": "LMHM2237BD",
+        "fitWitness": "CG-MICROWAVE-FIT R1",
+        "normalizationArtifact": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+        "compoundingAudit": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_AUDIT_v1.json"
+      },
+      {
+        "sequence": 2,
+        "targetId": "samsung_me11_otr",
+        "manufacturer": "Samsung",
+        "platformId": "samsung_microwave_otr",
+        "templateId": "microwave",
+        "overlayFile": "samsung_microwave_otr.json",
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "smokeModel": "ME11A7510DSAA",
+        "fitWitness": "CG-MICROWAVE-FIT R2",
+        "normalizationArtifact": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json",
+        "compoundingAudit": "CG_MICROWAVE_SAMSUNG_ME11_COMPOUNDING_AUDIT_v1.json"
+      }
+    ],
+    "zeroDeltaPlatformExtensions": [
+      {
+        "extensionId": "samsung_me21_otr_extension",
+        "platformId": "samsung_microwave_otr",
+        "smokeModel": "ME21A706BQN",
+        "witnessTargetId": "samsung_me11_otr",
+        "artifact": "CG_MICROWAVE_SAMSUNG_ME21_PLATFORM_EXTENSION_v1.json",
+        "requiresSeparateCompounding": false,
+        "deltaFunctionalMappings": 0
+      },
+      {
+        "extensionId": "lg_lmvm_otr_extension",
+        "platformId": "lg_microwave_otr",
+        "smokeModel": "LMVM2031ST",
+        "witnessTargetId": "lg_lmhm2237_otr",
+        "artifact": "CG_MICROWAVE_LG_LMVM_PLATFORM_EXTENSION_v1.json",
+        "requiresSeparateCompounding": false,
+        "deltaFunctionalMappings": 0
+      }
+    ]
+  },
+  "registeredPlatforms": [
+    {
+      "platformId": "lg_microwave_otr",
+      "label": "LG over-the-range microwave (LMHM/LMVM)",
+      "manufacturers": ["LG"],
+      "templateId": "microwave",
+      "modelPatterns": ["LMHM", "LMVM"]
+    },
+    {
+      "platformId": "samsung_microwave_otr",
+      "label": "Samsung over-the-range microwave (ME11/ME21)",
+      "manufacturers": ["Samsung"],
+      "templateId": "microwave",
+      "modelPatterns": ["ME11", "ME21", "ME21K", "ME21A"]
+    }
+  ],
+  "resolverRegistration": {
+    "ontologyId": "microwave",
+    "registryFile": "canonical/resolveDiagnosticGraph.ts",
+    "overlayCount": 2,
+    "overlays": ["lg_microwave_otr.json", "samsung_microwave_otr.json"]
+  },
+  "byteStabilityProof": {
+    "policy": "Canonical and overlay byte hashes pinned at family closure; CG-MICROWAVE historical artifacts immutable",
+    "microwaveRev1HashBefore": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "microwaveRev1HashAfter": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "rangeOvenHashBefore": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+    "rangeOvenHashAfter": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+    "referenceOverlayHashAtClosure": "48fff2dbb005c4babab5230d6c1f53f0b51d5d1e50c11d494aa3339be9303577",
+    "overlayHashesAtClosure": {
+      "lg_microwave_otr.json": "d60bff809b9025e5728314b657c6be9c9355e2a8f51a8fbafe301ff3f35ab4ee",
+      "samsung_microwave_otr.json": "48c6002809b05e2a237b1fa3477f8c717435b00725b9e8193006ad3f25658b27"
+    },
+    "historicalArtifactHashesAtClosure": {
+      "CG_MICROWAVE_FIT_CLOSURE_v1.json": "cbf44dd1f2c3965cac014e8cf47db4aeb452bf3c277cf6d61a1797c4ea6fbc1c",
+      "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json": "28d80f1de28ae30d9cca8087f27f8e48db1b580ba04cfe5edb43740eb2e72b78",
+      "CG_MICROWAVE_FREEZE_LOCK_v1.json": "1c45bd37cd94ed6ace3ef9decb39758d7dfb9ee1481537b647674a0d515e07df",
+      "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json": "8c8ce5fc8627a90ba66f6fbab8e4a46998bfa30bcbc334180adc8e390821aac3",
+      "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json": "2de806197c869520764d30334f9829ad099b772eb0f231e8ea9480fc448bbff3",
+      "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json": "8b7ef086dca1a47bae36b3baeda7567206af52b7373b2bb35029abbb64f53e44"
+    }
+  },
+  "deferredOrganizational": {
+    "diagramCrops": "platform_only — no procedure diagram crops for lg_microwave_otr or samsung_microwave_otr",
+    "countertopMicrowaveCoverage": "out_of_scope — current corpus is OTR-focused; countertop-only platforms are coverage expansion",
+    "me21HtmlEncoding": "platform_only — ME21 HTML font encoding poor; ME11 PDF remains authoritative procedure source",
+    "woOemPanelLead": "product_integration — Phase 2 WO OEM lead orthogonal to family architectural closure",
+    "additionalManualCoverage": "Additional microwave manuals are coverage work, not architecture validation"
+  },
+  "futureWorkPolicy": {
+    "additionalMicrowaveManuals": "coverage_work_not_architecture_validation",
+    "canonicalExpansion": "requires_separate_ontology_gate",
+    "noReopen": [
+      "CG-MICROWAVE-FIT",
+      "CG-MICROWAVE-DISCOVERY",
+      "CG-MICROWAVE-FREEZE",
+      "CG-MICROWAVE-NORMALIZATION",
+      "CG-MICROWAVE-COMPOUNDING closure artifacts without explicit gate"
+    ]
+  },
+  "closureArtifact": "CG_MICROWAVE_FAMILY_CLOSURE_AUDIT_v1.json",
+  "regressionProof": "CG_MICROWAVE_FAMILY_CLOSURE_PROOF_v1.json",
+  "crossManufacturerRegression": "CG_MICROWAVE_CROSS_MANUFACTURER_REGRESSION_PROOF_v1.json"
+}

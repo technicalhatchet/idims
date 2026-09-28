@@ -1,0 +1,225 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "semantic_inheritance_rules",
+  "version": "v1",
+  "frozen": true,
+  "description": "CG-6.3 — Human-proven semantic relationships as deterministic reusable matching rules. One rule at a time; regression against compounding_calibration_corpus_v1.json.",
+  "ruleLadder": {
+    "R1": "exact functional concept + variant terminology — VALIDATED (Rule #1)",
+    "R2": "compound/phrase semantic equivalence — VALIDATED (Rule #2)",
+    "R3": "OEM diagnostic-title variation — VALIDATED (Rule #3)",
+    "R4": "constrained functional inference — VALIDATED (Rule #4)",
+    "R5": "deliberate abstention boundary — FROZEN POLICY (semantic_inheritance_abstention_policy_v1.json)"
+  },
+  "guardrails": [
+    "semantic matching may improve inheritance",
+    "semantic matching may NOT promote ontology",
+    "semantic matching may NOT bypass human gates where confidence is insufficient",
+    "semantic matching may NOT cross manufacturer boundaries",
+    "semantic matching may NOT infer topology"
+  ],
+  "rules": [
+    {
+      "id": "samsung-fl-inverter-board-power-voltage-codes",
+      "ladder": "R1",
+      "status": "validated",
+      "validatedAt": "2026-09-14T02:20:00+00:00",
+      "validationArtifact": "compounding_semantic_inheritance_rule1_validated_v1.json",
+      "enabled": true,
+      "classification": "inherited_platform_family",
+      "manufacturer": "Samsung",
+      "templateId": "washer",
+      "targetManualIds": ["SAMSUNG-FL-WF6000R-WASHER"],
+      "platformFamilyPriorManualIds": ["SAMSUNG-FL-BB8700-WASHER"],
+      "requiredPlatformConcept": "inverter_board",
+      "canonicalId": "inverter_board",
+      "confidence": 0.95,
+      "matcherLayer": "semantic:inherit_platform_family",
+      "termMatchers": [
+        {
+          "type": "normalized_regex",
+          "pattern": "^§4-1:\\s*power\\s*/\\s*voltage\\s*\\(9c1,\\s*9c2\\)$"
+        },
+        {
+          "type": "diagnostic_codes",
+          "codes": ["9C1", "9C2"],
+          "requireTokens": ["power", "voltage"]
+        }
+      ],
+      "humanProvenance": {
+        "establishedByManual": "SAMSUNG-FL-BB8700-WASHER",
+        "priorOemTerm": "§4-3: Power / current sense (9C5)",
+        "gateOemTerm": "§4-1: Power / voltage (9C1, 9C2)",
+        "artifact": "compounding_samsung_fl2_gate_preview_SAMSUNG-FL-WF6000R-WASHER.json"
+      },
+      "rationale": "Human gate classified inherited_platform_family — BB8700 9C5 established inverter_board; WF6000R 9C1/9C2 is OEM title variant.",
+      "abstentionSignals": [
+        {
+          "type": "diagnostic_codes_partial",
+          "codes": ["9C1", "9C2", "9C5"],
+          "reason": "Inverter PBA diagnostic code family overlap without full human-proven OEM title match — deliberate human gate"
+        }
+      ]
+    },
+    {
+      "id": "samsung-fl-pba-communication-control-board",
+      "ladder": "R2",
+      "status": "validated",
+      "validatedAt": "2026-09-14T02:35:00+00:00",
+      "validationArtifact": "compounding_semantic_inheritance_rule2_validated_v1.json",
+      "enabled": true,
+      "classification": "inherited_corpus_knowledge",
+      "manufacturer": "Samsung",
+      "templateId": "washer",
+      "targetManualIds": ["SAMSUNG-FL-WF6000R-WASHER"],
+      "platformFamilyPriorManualIds": ["SAMSUNG-FL-BB8700-WASHER"],
+      "requiredPlatformConcept": "control_board",
+      "canonicalId": "control_board",
+      "confidence": 0.95,
+      "matcherLayer": "semantic:inherit_corpus_knowledge",
+      "termMatchers": [
+        {
+          "type": "compound_tokens",
+          "requireAll": ["pba", "communication"],
+          "excludeAny": ["mems", "motor"]
+        }
+      ],
+      "humanProvenance": {
+        "establishedByManual": "SAMSUNG-FL-BB8700-WASHER",
+        "priorOemTerm": "§4-3: PBA communication (AC, AC6)",
+        "gateOemTerm": "§4-3: PBA communication (AC, AC3–AC6)",
+        "artifact": "compounding_samsung_fl2_gate_preview_SAMSUNG-FL-WF6000R-WASHER.json",
+        "humanClassification": "samsung-fl-wf6000r-washer_human_classification.json"
+      },
+      "rationale": "Human gate classified inherited_corpus_knowledge — BB8700 PBA communication (AC/AC6) established control_board; WF6000R AC3–AC6 variant is compound phrase equivalence, not single-token extrapolation.",
+      "abstentionSignals": [
+        {
+          "type": "token_cluster",
+          "anyOf": ["pba"],
+          "excludeIfAny": ["communication"],
+          "reason": "Samsung PBA board terminology without communication compound — deliberate human gate (e.g. MEMS PBA)"
+        },
+        {
+          "type": "token_cluster",
+          "anyOf": ["communication"],
+          "excludeIfAny": ["pba"],
+          "reason": "Communication diagnostic without PBA compound — deliberate human gate (e.g. motor communication)"
+        }
+      ]
+    },
+    {
+      "id": "samsung-fl-drain-leakage-drain-pump",
+      "ladder": "R3",
+      "status": "validated",
+      "validatedAt": "2026-09-14T02:45:00+00:00",
+      "validationArtifact": "compounding_semantic_inheritance_rule3_validated_v1.json",
+      "enabled": true,
+      "classification": "inherited_corpus_knowledge",
+      "manufacturer": "Samsung",
+      "templateId": "washer",
+      "targetManualIds": ["SAMSUNG-FL-WF6000R-WASHER"],
+      "platformFamilyPriorManualIds": ["SAMSUNG-FL-BB8700-WASHER"],
+      "requiredPlatformConcept": "drain_pump",
+      "canonicalId": "drain_pump",
+      "confidence": 0.95,
+      "matcherLayer": "semantic:inherit_corpus_knowledge",
+      "termMatchers": [
+        {
+          "type": "compound_tokens",
+          "requireAll": ["drain", "leakage"],
+          "excludeAny": ["water", "inlet", "door"]
+        },
+        {
+          "type": "diagnostic_codes",
+          "codes": ["LC"],
+          "requireTokens": ["drain", "leakage"]
+        }
+      ],
+      "humanProvenance": {
+        "establishedByManual": "SAMSUNG-FL-BB8700-WASHER",
+        "priorOemTerm": "§4-3: Drain / leakage (LC, LC1)",
+        "gateOemTerm": "§4-3: Drain / leakage (LC, 5C)",
+        "artifact": "compounding_samsung_fl2_gate_preview_SAMSUNG-FL-WF6000R-WASHER.json",
+        "humanClassification": "samsung-fl-wf6000r-washer_human_classification.json"
+      },
+      "rationale": "Human gate classified inherited_corpus_knowledge — BB8700 Drain/leakage (LC/LC1) established drain_pump; WF6000R LC/5C variant is OEM diagnostic-title variation. Leakage alone is not drain_pump.",
+      "abstentionSignals": [
+        {
+          "type": "token_cluster",
+          "anyOf": ["leakage"],
+          "excludeIfAny": ["drain"],
+          "reason": "Leakage diagnostic without drain compound — deliberate human gate (e.g. water/inlet/door leakage)"
+        },
+        {
+          "type": "token_cluster",
+          "anyOf": ["drain"],
+          "excludeIfAny": ["leakage"],
+          "reason": "Drain reference without leakage OEM title compound — deliberate human gate"
+        },
+        {
+          "type": "diagnostic_codes_partial",
+          "codes": ["LC", "LC1", "5C"],
+          "reason": "Samsung LC drain/leakage code family without full drain+leakage OEM title match — deliberate human gate"
+        }
+      ]
+    },
+    {
+      "id": "samsung-fl-overflow-oc-water-level-sensor",
+      "ladder": "R4",
+      "status": "validated",
+      "validatedAt": "2026-09-14T03:00:00+00:00",
+      "validationArtifact": "compounding_semantic_inheritance_rule4_validated_v1.json",
+      "semanticRiskClass": "high",
+      "mayNotCreateConcept": true,
+      "enabled": true,
+      "classification": "inherited_platform_family",
+      "manufacturer": "Samsung",
+      "templateId": "washer",
+      "targetManualIds": ["SAMSUNG-FL-WF6000R-WASHER"],
+      "platformFamilyPriorManualIds": ["SAMSUNG-FL-BB8700-WASHER"],
+      "requiredPlatformConcept": "water_level_sensor",
+      "canonicalId": "water_level_sensor",
+      "confidence": 0.92,
+      "matcherLayer": "semantic:inherit_platform_family:functional",
+      "termMatchers": [
+        {
+          "type": "compound_tokens",
+          "requireAll": ["overflow", "oc"],
+          "excludeAny": ["drain", "inlet", "basket", "leakage"]
+        },
+        {
+          "type": "diagnostic_codes",
+          "codes": ["OC"],
+          "requireTokens": ["overflow"]
+        }
+      ],
+      "humanProvenance": {
+        "establishedByManual": "SAMSUNG-FL-BB8700-WASHER",
+        "priorOemTerm": "§4-3: Overflow (OC)",
+        "gateOemTerm": "§4-3: Overflow (OC)",
+        "artifact": "compounding_samsung_fl2_gate_preview_SAMSUNG-FL-WF6000R-WASHER.json",
+        "note": "Gate auto-inherited platform family; matcher mapping gap requires functional inference rule — may not create water_level_sensor"
+      },
+      "rationale": "Constrained functional inference — Overflow/OC OEM diagnostic maps to established water_level_sensor platform concept from BB8700. Overflow alone or OC alone is insufficient; rule may only inherit, never create concept.",
+      "abstentionSignals": [
+        {
+          "type": "token_cluster",
+          "anyOf": ["overflow"],
+          "excludeIfAny": ["oc"],
+          "reason": "Overflow reference without OC diagnostic code — deliberate human gate (e.g. drain/inlet/basket overflow)"
+        },
+        {
+          "type": "diagnostic_codes_partial",
+          "codes": ["OC"],
+          "reason": "Samsung OC code without overflow functional context — deliberate human gate"
+        },
+        {
+          "type": "token_cluster",
+          "anyOf": ["level"],
+          "excludeIfAny": ["overflow"],
+          "reason": "Water level reference without overflow/OC functional inference context — deliberate human gate"
+        }
+      ]
+    }
+  ]
+}

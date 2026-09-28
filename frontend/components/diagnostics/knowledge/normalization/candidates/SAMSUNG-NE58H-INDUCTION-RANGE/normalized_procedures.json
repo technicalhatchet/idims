@@ -1,0 +1,1140 @@
+{
+  "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+  "procedures": [
+    {
+      "procedureId": "ne58h-bake-element",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "induction_range",
+      "title": "\u00a74-3: Bake element component test",
+      "purpose": "Bake heater",
+      "prerequisites": [],
+      "componentIds": [
+        "bake_element"
+      ],
+      "tags": [
+        "no_bake",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range."
+        },
+        {
+          "id": "bake_disconnect",
+          "order": 2,
+          "type": "instruction",
+          "title": "Bake harness",
+          "body": "Disconnect bake element harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect bake element harness."
+        },
+        {
+          "id": "replace_bake",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace bake element",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "bake_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Bake element OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Bake heater",
+        "pages": [
+          44
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-bake-element",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-bake-element",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "ne58h-c20-oven-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "induction_range",
+      "title": "C-20: Oven temperature sensor",
+      "purpose": "Oven sensor open/short",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "C-20",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range."
+        },
+        {
+          "id": "sensor_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Oven sensor harness",
+          "body": "Disconnect sensor at main PCB CN320 path.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect sensor at main PCB CN320 path."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace oven sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Oven sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Oven sensor open/short",
+        "pages": [
+          37
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-c20-oven-sensor",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-c20-oven-sensor",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "ne58h-c21-abnormal-temp",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "induction_range",
+      "title": "C-21: Abnormal internal temperature",
+      "purpose": "Oven over-temperature",
+      "prerequisites": [],
+      "componentIds": [
+        "bake_element",
+        "broil_element",
+        "thermistor"
+      ],
+      "tags": [
+        "C-21",
+        "no_bake"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range."
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 2,
+          "type": "instruction",
+          "title": "Oven sensor ~1080 \u03a9",
+          "body": "Measure oven sensor at room temperature.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Measure oven sensor at room temperature."
+        },
+        {
+          "id": "relay_check",
+          "order": 3,
+          "type": "instruction",
+          "title": "Bake/broil/convection relays",
+          "body": "Verify DLB, bake, broil, convection relays on main PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify DLB, bake, broil, convection relays on main PCB."
+        },
+        {
+          "id": "replace_main",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "temp_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Thermal path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Oven over-temperature",
+        "pages": [
+          37
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-c21-abnormal-temp",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-c21-abnormal-temp",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "ne58h-cd1-door-lock",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "induction_range",
+      "title": "C-d1: Door lock mispositioned",
+      "purpose": "Door lock motor",
+      "prerequisites": [],
+      "componentIds": [
+        "door_lock"
+      ],
+      "tags": [
+        "C-d1",
+        "door_lock_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range."
+        },
+        {
+          "id": "lock_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Door lock harness",
+          "body": "Verify harness to lock motor and microswitch.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify harness to lock motor and microswitch."
+        },
+        {
+          "id": "replace_lock",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace door lock",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "lock_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Door lock OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Door lock motor",
+        "pages": [
+          36
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-cd1-door-lock",
+        "pages": [
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-cd1-door-lock",
+            "pages": [
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "ne58h-cf0-main-sub",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "induction_range",
+      "title": "C-F0: Main \u2194 sub PCB communication",
+      "purpose": "Failure display C-F0",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "C-F0",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range."
+        },
+        {
+          "id": "check_connectors",
+          "order": 2,
+          "type": "instruction",
+          "title": "Main and sub connectors",
+          "body": "Verify main and sub PCB connectors seated.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify main and sub PCB connectors seated."
+        },
+        {
+          "id": "replace_main",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Failure display C-F0",
+        "pages": [
+          36,
+          37
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-cf0-main-sub",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-cf0-main-sub",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "ne58h-cf2-touch",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "induction_range",
+      "title": "C-F2: Touch PCB communication",
+      "purpose": "Failure display C-F2",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel"
+      ],
+      "tags": [
+        "C-F2",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range."
+        },
+        {
+          "id": "sub_touch",
+          "order": 2,
+          "type": "instruction",
+          "title": "Sub PCB touch harness",
+          "body": "Verify sub PCB connector and touch PCB harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify sub PCB connector and touch PCB harness."
+        },
+        {
+          "id": "replace_sub",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace sub or control PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "touch_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Touch comm OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Failure display C-F2",
+        "pages": [
+          36,
+          37
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-cf2-touch",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-cf2-touch",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "ne58h-convection-fan",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "induction_range",
+      "title": "\u00a74-3: Convection fan motor",
+      "purpose": "Convection fan",
+      "prerequisites": [],
+      "componentIds": [
+        "convection_fan"
+      ],
+      "tags": [
+        "long_bake"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range."
+        },
+        {
+          "id": "fan_check",
+          "order": 2,
+          "type": "instruction",
+          "title": "Convection fan motor",
+          "body": "Measure convection fan motor and voltage when cycling.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Measure convection fan motor and voltage when cycling."
+        },
+        {
+          "id": "replace_fan",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace convection fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Convection fan OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Convection fan",
+        "pages": [
+          44
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-convection-fan",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-convection-fan",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "ne58h-induction-comm-inverter",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "induction_range",
+      "title": "Cooktop: Display \u2194 inverter communication",
+      "purpose": "Inverter communication",
+      "prerequisites": [],
+      "componentIds": [
+        "surface_element",
+        "display_panel"
+      ],
+      "tags": [
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range."
+        },
+        {
+          "id": "inverter_voltage",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inverter CN101 5V/12V",
+          "body": "Measure inverter module supply and communication harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Measure inverter module supply and communication harness."
+        },
+        {
+          "id": "replace_inverter_pcb",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace inverter PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_inverter_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Inverter comm OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Inverter communication",
+        "pages": [
+          56,
+          57
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-induction-comm-inverter",
+        "pages": [
+          56,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-induction-comm-inverter",
+            "pages": [
+              56,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "ne58h-induction-igbt-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "induction_range",
+      "title": "Cooktop: IGBT sensor open/short",
+      "purpose": "Assy-Inverter Module IGBT sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "surface_element"
+      ],
+      "tags": [
+        "igbt_check",
+        "surface_burner"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range."
+        },
+        {
+          "id": "inverter_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Assy-Inverter Module",
+          "body": "Access inverter module \u2014 IGBT sensor open/short flows.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Access inverter module \u2014 IGBT sensor open/short flows."
+        },
+        {
+          "id": "replace_inverter",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace Assy-Inverter Module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "igbt_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "IGBT sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Assy-Inverter Module IGBT sensor",
+        "pages": [
+          41,
+          56
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-induction-igbt-sensor",
+        "pages": [
+          41,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-induction-igbt-sensor",
+            "pages": [
+              41,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "ne58h-induction-pan-detection",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "induction_range",
+      "title": "Cooktop: Pan detection / unsuitable cookware",
+      "purpose": "Pan detection fault",
+      "prerequisites": [],
+      "componentIds": [
+        "surface_element"
+      ],
+      "tags": [
+        "surface_burner",
+        "long_bake"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range."
+        },
+        {
+          "id": "cookware_check",
+          "order": 2,
+          "type": "instruction",
+          "title": "Suitable cookware",
+          "body": "Verify suitable ferrous cookware on induction zone.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify suitable ferrous cookware on induction zone."
+        },
+        {
+          "id": "replace_inverter_touch",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace inverter or touch PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "pan_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Pan detection OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Pan detection fault",
+        "pages": [
+          41
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-induction-pan-detection",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-induction-pan-detection",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "ne58h-power",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "induction_range",
+      "title": "\u00a74-3: No power / terminal block",
+      "purpose": "Power troubleshooting",
+      "prerequisites": [],
+      "componentIds": [
+        "supply",
+        "main_control"
+      ],
+      "tags": [
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range."
+        },
+        {
+          "id": "check_breaker",
+          "order": 2,
+          "type": "instruction",
+          "title": "Breaker and terminal block",
+          "body": "Verify 220\u2013240 VAC at terminal block.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify 220\u2013240 VAC at terminal block."
+        },
+        {
+          "id": "smps_check",
+          "order": 3,
+          "type": "instruction",
+          "title": "Main PCB SMPS",
+          "body": "Check SMPS 5 V / 12 V on main PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check SMPS 5 V / 12 V on main PCB."
+        },
+        {
+          "id": "replace_pcb",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "power_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Power path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Power troubleshooting",
+        "pages": [
+          57
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-power",
+        "pages": [
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-power",
+            "pages": [
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

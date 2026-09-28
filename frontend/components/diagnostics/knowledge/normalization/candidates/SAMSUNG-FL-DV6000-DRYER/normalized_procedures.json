@@ -1,0 +1,2224 @@
+{
+  "manualId": "SAMSUNG-FL-DV6000-DRYER",
+  "procedures": [
+    {
+      "procedureId": "samsungdv6000-belt-cutoff",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_dv6000",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-6: Belt cut-off switch",
+      "purpose": "Belt safety switch",
+      "prerequisites": [],
+      "componentIds": [
+        "belt_switch"
+      ],
+      "tags": [
+        "motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "belt_intact",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Belt installed",
+          "body": "Verify belt on drum and motor pulley.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "belt_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "belt_switch_test",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "install_belt",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "install_belt_out",
+              "terminal": true,
+              "oemOutcome": "Install or replace drive belt."
+            }
+          ],
+          "sourceExcerpt": "Verify belt on drum and motor pulley."
+        },
+        {
+          "id": "belt_switch_test",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Belt switch states",
+          "body": "Lever open < 1 \u03a9; lever pushed infinite (open).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "bso_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "belt_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_belt_switch",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_belt_switch_out",
+              "terminal": true,
+              "oemOutcome": "Replace belt cut-off switch."
+            }
+          ],
+          "sourceExcerpt": "Lever open < 1 \u03a9; lever pushed infinite (open)."
+        },
+        {
+          "id": "install_belt_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Service belt",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_belt_switch_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace belt switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "belt_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Belt safety OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "belt_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "belt_switch_test",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "belt_intact"
+        },
+        {
+          "id": "install_belt",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "install_belt_out",
+          "terminal": true,
+          "oemOutcome": "Install or replace drive belt.",
+          "stepId": "belt_intact"
+        },
+        {
+          "id": "bso_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "belt_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "belt_switch_test"
+        },
+        {
+          "id": "replace_belt_switch",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_belt_switch_out",
+          "terminal": true,
+          "oemOutcome": "Replace belt cut-off switch.",
+          "stepId": "belt_switch_test"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer DV6000T Family (DVE45T6000/6005/6200)",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Belt safety switch",
+        "pages": [
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-belt-cutoff",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-belt-cutoff",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv6000-door-switch",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_dv6000",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1 / \u00a74-6: Door switch (dC, dF)",
+      "purpose": "Door switch",
+      "prerequisites": [],
+      "componentIds": [
+        "door_switch"
+      ],
+      "tags": [
+        "dC",
+        "dF",
+        "door_switch_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "door_closed",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Door fully closed",
+          "body": "Close door firmly. Check door sensor unit not loose.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_switch_test",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "secure_door",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "secure_door_out",
+              "terminal": true,
+              "oemOutcome": "Secure door sensor harness and latch."
+            }
+          ],
+          "sourceExcerpt": "Close door firmly. Check door sensor unit not loose."
+        },
+        {
+          "id": "door_switch_test",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Door switch states",
+          "body": "OFF: COM\u2013NC (1\u20133) < 1 \u03a9, COM\u2013NO open. ON: COM\u2013NO < 1 \u03a9, COM\u2013NC open.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "sw_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_door_switch",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_door_switch_out",
+              "terminal": true,
+              "oemOutcome": "Replace door switch assembly."
+            }
+          ],
+          "sourceExcerpt": "OFF: COM\u2013NC (1\u20133) < 1 \u03a9, COM\u2013NO open. ON: COM\u2013NO < 1 \u03a9, COM\u2013NC open."
+        },
+        {
+          "id": "secure_door_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Secure door assembly",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_door_switch_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace door switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "door_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Door switch OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_switch_test",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_closed"
+        },
+        {
+          "id": "secure_door",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "secure_door_out",
+          "terminal": true,
+          "oemOutcome": "Secure door sensor harness and latch.",
+          "stepId": "door_closed"
+        },
+        {
+          "id": "sw_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_switch_test"
+        },
+        {
+          "id": "replace_door_switch",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch_out",
+          "terminal": true,
+          "oemOutcome": "Replace door switch assembly.",
+          "stepId": "door_switch_test"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer DV6000T Family (DVE45T6000/6005/6200)",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Door switch",
+        "pages": [
+          29
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-door-switch",
+        "pages": [
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-door-switch",
+            "pages": [
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv6000-heater-electric",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_dv6000",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-6: Electric heater",
+      "purpose": "Heater element",
+      "prerequisites": [],
+      "componentIds": [
+        "heating_element"
+      ],
+      "tags": [
+        "no_heat",
+        "HC",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "service_mode_after_smart_install",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Smart Install entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_type",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Single vs dual element",
+          "body": "SINGLE 5300 W pin 1\u20133 ~10 \u03a9; DUAL 3700/1500 W pin 2\u20133 ~13 \u03a9 and pin 1\u20132 ~34 \u03a9.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "single",
+              "label": "Single element",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "heater_single_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dual",
+              "label": "Dual element",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "heater_dual_low",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "SINGLE 5300 W pin 1\u20133 ~10 \u03a9; DUAL 3700/1500 W pin 2\u20133 ~13 \u03a9 and pin 1\u20132 ~34 \u03a9."
+        },
+        {
+          "id": "heater_single_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Single element (pin 1\u20133)",
+          "body": "Expected ~10 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlDv6000DryerHeaterSingleOhms",
+              "testPoint": {
+                "connector": "Heater",
+                "pins": "1-3",
+                "label": "Single element (pin 1\u20133)"
+              },
+              "title": "Single element (pin 1\u20133)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "hs_pass",
+              "label": "~10 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hs_open",
+              "label": "Open",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hs_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hs_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Expected ~10 \u03a9."
+        },
+        {
+          "id": "heater_dual_low",
+          "order": 5,
+          "type": "measurement",
+          "title": "Dual element low (pin 2\u20133)",
+          "body": "Expected ~13 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlDv6000DryerHeaterDualLowOhms",
+              "testPoint": {
+                "connector": "Heater",
+                "pins": "2-3",
+                "label": "Dual element low (pin 2\u20133)"
+              },
+              "title": "Dual element low (pin 2\u20133)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "hdl_pass",
+              "label": "~13 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_dual_high",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hdl_open",
+              "label": "Open",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hdl_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hdl_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Expected ~13 \u03a9."
+        },
+        {
+          "id": "heater_dual_high",
+          "order": 6,
+          "type": "measurement",
+          "title": "Dual element high (pin 1\u20132)",
+          "body": "Expected ~34 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlDv6000DryerHeaterDualHighOhms",
+              "testPoint": {
+                "connector": "Heater",
+                "pins": "1-2",
+                "label": "Dual element high (pin 1\u20132)"
+              },
+              "title": "Dual element high (pin 1\u20132)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "hdh_pass",
+              "label": "~34 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hdh_open",
+              "label": "Open",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hdh_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hdh_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Expected ~34 \u03a9."
+        },
+        {
+          "id": "replace_heater",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlDv6000DryerHeaterSingleOhms",
+          "testPoint": {
+            "connector": "Heater",
+            "pins": "1-3",
+            "label": "Single element (pin 1\u20133)"
+          },
+          "title": "Single element (pin 1\u20133)"
+        },
+        {
+          "measurementKnowledgeId": "samsungFlDv6000DryerHeaterDualLowOhms",
+          "testPoint": {
+            "connector": "Heater",
+            "pins": "2-3",
+            "label": "Dual element low (pin 2\u20133)"
+          },
+          "title": "Dual element low (pin 2\u20133)"
+        },
+        {
+          "measurementKnowledgeId": "samsungFlDv6000DryerHeaterDualHighOhms",
+          "testPoint": {
+            "connector": "Heater",
+            "pins": "1-2",
+            "label": "Dual element high (pin 1\u20132)"
+          },
+          "title": "Dual element high (pin 1\u20132)"
+        }
+      ],
+      "branches": [
+        {
+          "id": "single",
+          "label": "Single element",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_single_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_type"
+        },
+        {
+          "id": "dual",
+          "label": "Dual element",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "heater_dual_low",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_type"
+        },
+        {
+          "id": "hs_pass",
+          "label": "~10 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_single_ohms"
+        },
+        {
+          "id": "hs_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_single_ohms"
+        },
+        {
+          "id": "hs_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_single_ohms"
+        },
+        {
+          "id": "hs_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_single_ohms"
+        },
+        {
+          "id": "hdl_pass",
+          "label": "~13 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_dual_high",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_dual_low"
+        },
+        {
+          "id": "hdl_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_dual_low"
+        },
+        {
+          "id": "hdl_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_dual_low"
+        },
+        {
+          "id": "hdl_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_dual_low"
+        },
+        {
+          "id": "hdh_pass",
+          "label": "~34 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_dual_high"
+        },
+        {
+          "id": "hdh_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_dual_high"
+        },
+        {
+          "id": "hdh_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_dual_high"
+        },
+        {
+          "id": "hdh_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_dual_high"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer DV6000T Family (DVE45T6000/6005/6200)",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Heater element",
+        "pages": [
+          29,
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-heater-electric",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-heater-electric",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv6000-hmi",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_dv6000",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1: Display / buttons (bC2)",
+      "purpose": "Button state bC2",
+      "prerequisites": [],
+      "componentIds": [
+        "user_interface"
+      ],
+      "tags": [
+        "bC2",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "service_mode_after_smart_install",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Smart Install entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "display_loose",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Display PCB harness",
+          "body": "Check display PCB connector seated \u2014 no loose or shorted buttons. Rule out Child Lock (Dryness + Temp 3 s).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "hmi_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "hmi_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_display",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_display_out",
+              "terminal": true,
+              "oemOutcome": "Replace display PCB or harness."
+            }
+          ],
+          "sourceExcerpt": "Check display PCB connector seated \u2014 no loose or shorted buttons. Rule out Child Lock (Dryness + Temp 3 s)."
+        },
+        {
+          "id": "replace_display_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace display PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "hmi_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "HMI OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "hmi_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "display_loose"
+        },
+        {
+          "id": "replace_display",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_display_out",
+          "terminal": true,
+          "oemOutcome": "Replace display PCB or harness.",
+          "stepId": "display_loose"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer DV6000T Family (DVE45T6000/6005/6200)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Button state bC2",
+        "pages": [
+          23
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-hmi",
+        "pages": [
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-hmi",
+            "pages": [
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv6000-motor-circuit",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_dv6000",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-6: Motor windings and relay (3C)",
+      "purpose": "Drive motor",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor"
+      ],
+      "tags": [
+        "motor_check",
+        "3C"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "service_mode_after_smart_install",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Smart Install entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_34",
+          "order": 3,
+          "type": "measurement",
+          "title": "Motor winding pin 3\u20134",
+          "body": "Expected 2.88 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlDv6000DryerMotorWinding34Ohms",
+              "testPoint": {
+                "connector": "Motor",
+                "pins": "3-4",
+                "label": "Motor winding pin 3\u20134"
+              },
+              "title": "Motor winding pin 3\u20134"
+            }
+          ],
+          "branches": [
+            {
+              "id": "m34_pass",
+              "label": "2.88 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "motor_45",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "m34_open",
+              "label": "Open",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "m34_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "m34_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Expected 2.88 \u03a9."
+        },
+        {
+          "id": "motor_45",
+          "order": 4,
+          "type": "measurement",
+          "title": "Motor winding pin 4\u20135",
+          "body": "Expected 3.5 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlDv6000DryerMotorWinding45Ohms",
+              "testPoint": {
+                "connector": "Motor",
+                "pins": "4-5",
+                "label": "Motor winding pin 4\u20135"
+              },
+              "title": "Motor winding pin 4\u20135"
+            }
+          ],
+          "branches": [
+            {
+              "id": "m45_pass",
+              "label": "3.5 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "motor_run_test",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "m45_open",
+              "label": "Open",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "m45_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "m45_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Expected 3.5 \u03a9."
+        },
+        {
+          "id": "motor_run_test",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Motor runs",
+          "body": "Restore power with belt on. Motor starts and drum rotates? No 3C relay fault?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "motor_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_motor_out",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_motor_out",
+              "terminal": true,
+              "oemOutcome": "Replace motor assembly."
+            }
+          ],
+          "sourceExcerpt": "Restore power with belt on. Motor starts and drum rotates? No 3C relay fault?"
+        },
+        {
+          "id": "replace_motor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_motor_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Motor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlDv6000DryerMotorWinding34Ohms",
+          "testPoint": {
+            "connector": "Motor",
+            "pins": "3-4",
+            "label": "Motor winding pin 3\u20134"
+          },
+          "title": "Motor winding pin 3\u20134"
+        },
+        {
+          "measurementKnowledgeId": "samsungFlDv6000DryerMotorWinding45Ohms",
+          "testPoint": {
+            "connector": "Motor",
+            "pins": "4-5",
+            "label": "Motor winding pin 4\u20135"
+          },
+          "title": "Motor winding pin 4\u20135"
+        }
+      ],
+      "branches": [
+        {
+          "id": "m34_pass",
+          "label": "2.88 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_45",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_34"
+        },
+        {
+          "id": "m34_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_34"
+        },
+        {
+          "id": "m34_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_34"
+        },
+        {
+          "id": "m34_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_34"
+        },
+        {
+          "id": "m45_pass",
+          "label": "3.5 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_run_test",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_45"
+        },
+        {
+          "id": "m45_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_45"
+        },
+        {
+          "id": "m45_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_45"
+        },
+        {
+          "id": "m45_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_45"
+        },
+        {
+          "id": "motor_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_run_test"
+        },
+        {
+          "id": "replace_motor_out",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_motor_out",
+          "terminal": true,
+          "oemOutcome": "Replace motor assembly.",
+          "stepId": "motor_run_test"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer DV6000T Family (DVE45T6000/6005/6200)",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Drive motor",
+        "pages": [
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-motor-circuit",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-motor-circuit",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv6000-power",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_dv6000",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1: Power and communication (9C1, FC, AC)",
+      "purpose": "Power / PCB",
+      "prerequisites": [],
+      "componentIds": [
+        "supply",
+        "main_control"
+      ],
+      "tags": [
+        "9C1",
+        "FC",
+        "AC",
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "outlet_check",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Outlet and voltage",
+          "body": "Verify proper supply voltage and frequency. Dedicated circuit.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "supply_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "harness_pcb",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_supply",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_supply_out",
+              "terminal": true,
+              "oemOutcome": "Correct electrical supply."
+            }
+          ],
+          "sourceExcerpt": "Verify proper supply voltage and frequency. Dedicated circuit."
+        },
+        {
+          "id": "harness_pcb",
+          "order": 3,
+          "type": "instruction",
+          "title": "PCB and harness",
+          "body": "Inspect PCB wire harness. AC invalid communication \u2014 check harness first.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect PCB wire harness. AC invalid communication \u2014 check harness first."
+        },
+        {
+          "id": "power_verified",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Fault cleared?",
+          "body": "After harness repair and power cycle, do 9C1/FC/AC codes clear?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pwr_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "power_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_pcb",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pcb_out",
+              "terminal": true,
+              "oemOutcome": "Replace main PCB."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, do 9C1/FC/AC codes clear?"
+        },
+        {
+          "id": "fix_supply_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Fix supply",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pcb_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "power_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Power path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "harness_pcb",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "outlet_check"
+        },
+        {
+          "id": "fix_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply_out",
+          "terminal": true,
+          "oemOutcome": "Correct electrical supply.",
+          "stepId": "outlet_check"
+        },
+        {
+          "id": "pwr_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "power_verified"
+        },
+        {
+          "id": "replace_pcb",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcb_out",
+          "terminal": true,
+          "oemOutcome": "Replace main PCB.",
+          "stepId": "power_verified"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer DV6000T Family (DVE45T6000/6005/6200)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Power / PCB",
+        "pages": [
+          23
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-power",
+        "pages": [
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-power",
+            "pages": [
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv6000-thermal-cutoff",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_dv6000",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-6: Thermal cutoff and hi-limit",
+      "purpose": "Thermal cut-off / hi-limit",
+      "prerequisites": [],
+      "componentIds": [
+        "thermal_fuse",
+        "high_limit_thermostat"
+      ],
+      "tags": [
+        "no_heat",
+        "thermal_fuse_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "thermal_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access thermal chain",
+          "body": "Locate thermostat 1, thermal cut-off, thermostat 2/3, and hi-limit in heat path.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Locate thermostat 1, thermal cut-off, thermostat 2/3, and hi-limit in heat path."
+        },
+        {
+          "id": "hi_limit_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Hi-limit 60T21",
+          "body": "Resistance < 1 \u03a9 when closed (room temp).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlDv6000DryerHiLimitOhms",
+              "testPoint": {
+                "connector": "60T21",
+                "pins": "Terminals",
+                "label": "Hi-limit 60T21"
+              },
+              "title": "Hi-limit 60T21"
+            }
+          ],
+          "branches": [
+            {
+              "id": "hl_pass",
+              "label": "< 1 \u03a9 closed",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "thermal_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hl_open",
+              "label": "Open",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_hi_limit",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hl_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_hi_limit",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hl_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_hi_limit",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Resistance < 1 \u03a9 when closed (room temp)."
+        },
+        {
+          "id": "thermal_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Thermal cut-off continuity",
+          "body": "Thermostat 1/2/3 and thermal cut-off show continuity at room temp?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "tc_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "thermal_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_cutoff",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_cutoff_out",
+              "terminal": true,
+              "oemOutcome": "Replace open thermal cut-off or thermostat."
+            }
+          ],
+          "sourceExcerpt": "Thermostat 1/2/3 and thermal cut-off show continuity at room temp?"
+        },
+        {
+          "id": "replace_hi_limit",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace hi-limit",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_cutoff_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace thermal cutoff",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "thermal_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Thermal chain OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlDv6000DryerHiLimitOhms",
+          "testPoint": {
+            "connector": "60T21",
+            "pins": "Terminals",
+            "label": "Hi-limit 60T21"
+          },
+          "title": "Hi-limit 60T21"
+        }
+      ],
+      "branches": [
+        {
+          "id": "hl_pass",
+          "label": "< 1 \u03a9 closed",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermal_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "hi_limit_ohms"
+        },
+        {
+          "id": "hl_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_hi_limit",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "hi_limit_ohms"
+        },
+        {
+          "id": "hl_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_hi_limit",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "hi_limit_ohms"
+        },
+        {
+          "id": "hl_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_hi_limit",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "hi_limit_ohms"
+        },
+        {
+          "id": "tc_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "thermal_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermal_check"
+        },
+        {
+          "id": "replace_cutoff",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cutoff_out",
+          "terminal": true,
+          "oemOutcome": "Replace open thermal cut-off or thermostat.",
+          "stepId": "thermal_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer DV6000T Family (DVE45T6000/6005/6200)",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Thermal cut-off / hi-limit",
+        "pages": [
+          29,
+          31
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-thermal-cutoff",
+        "pages": [
+          29,
+          31
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-thermal-cutoff",
+            "pages": [
+              29,
+              31
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv6000-thermistor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_dv6000",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1 / \u00a74-6: Thermistors (tC, tC5, HC)",
+      "purpose": "Thermistor faults",
+      "prerequisites": [],
+      "componentIds": [
+        "exhaust_thermistor",
+        "inlet_thermistor"
+      ],
+      "tags": [
+        "tC",
+        "tC5",
+        "HC",
+        "thermistor_check",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "service_mode_after_smart_install",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Smart Install entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "vent_precheck",
+          "order": 3,
+          "type": "instruction",
+          "title": "Vent and lint screen",
+          "body": "Clean lint screen. Verify vent not restricted \u2014 tC/tC5 often vent-related.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Clean lint screen. Verify vent not restricted \u2014 tC/tC5 often vent-related."
+        },
+        {
+          "id": "thermistor_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Thermistor resistance",
+          "body": "Measure thermistor \u2014 10 k\u03a9 @ 25\u00b0C per \u00a74-6.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlDv6000DryerThermistor10KOhms",
+              "testPoint": {
+                "connector": "Thermistor",
+                "pins": "Connector",
+                "label": "Thermistor resistance"
+              },
+              "title": "Thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "th_pass",
+              "label": "~10 k\u03a9 @ 25\u00b0C",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "thermistor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "th_open",
+              "label": "Open",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "th_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "th_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure thermistor \u2014 10 k\u03a9 @ 25\u00b0C per \u00a74-6."
+        },
+        {
+          "id": "replace_thermistor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "thermistor_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Thermistors OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlDv6000DryerThermistor10KOhms",
+          "testPoint": {
+            "connector": "Thermistor",
+            "pins": "Connector",
+            "label": "Thermistor resistance"
+          },
+          "title": "Thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "th_pass",
+          "label": "~10 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermistor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "th_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "th_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "th_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer DV6000T Family (DVE45T6000/6005/6200)",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Thermistor faults",
+        "pages": [
+          29,
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-thermistor",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-thermistor",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

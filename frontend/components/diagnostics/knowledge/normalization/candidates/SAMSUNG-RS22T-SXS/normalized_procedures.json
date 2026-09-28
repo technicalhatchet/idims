@@ -1,0 +1,3963 @@
+{
+  "manualId": "SAMSUNG-RS22T-SXS",
+  "procedures": [
+    {
+      "procedureId": "samsungrs28-ambient-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: Ambient sensor",
+      "purpose": "Self-diagnostic \u2014 Ambient-Sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "apply_power",
+          "order": 2,
+          "type": "instruction",
+          "title": "Apply power for voltage test",
+          "body": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Sensor voltage",
+          "body": "Measure voltage CN40 18 \u2194 20 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "refrigeratorThermistorVoltage",
+              "testPoint": {
+                "connector": "CN40",
+                "pins": "18 \u2194 20",
+                "label": "Sensor voltage"
+              },
+              "title": "Sensor voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "sv_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_pass",
+              "label": "4.5\u20131.0 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure voltage CN40 18 \u2194 20 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "refrigeratorThermistorVoltage",
+          "testPoint": {
+            "connector": "CN40",
+            "pins": "18 \u2194 20",
+            "label": "Sensor voltage"
+          },
+          "title": "Sensor voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "sv_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_pass",
+          "label": "4.5\u20131.0 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 Ambient-Sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ambient-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ambient-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-c-fan",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: C fan feedback",
+      "purpose": "Self-diagnostic \u2014 C-FAN",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "evap_fan",
+        "condenser_fan",
+        "airflow",
+        "not_cooling",
+        "22C"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "fan_run",
+          "order": 2,
+          "type": "instruction",
+          "title": "Command fan on",
+          "body": "Close doors 1 minute so evaporator fan runs. Door-open may stop F-fan; C-fan may run with door open.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Close doors 1 minute so evaporator fan runs. Door-open may stop F-fan; C-fan may run with door open."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "fan_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Fan feedback voltage",
+          "body": "Measure CN20 22 \u2194 24 \u2014 7\u201312 V while fan commanded.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "refrigeratorEvapFanFeedbackVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "22 \u2194 24",
+                "label": "Fan feedback voltage"
+              },
+              "title": "Fan feedback voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "7\u201312 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure CN20 22 \u2194 24 \u2014 7\u201312 V while fan commanded."
+        },
+        {
+          "id": "replace_fan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "refrigeratorEvapFanFeedbackVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "22 \u2194 24",
+            "label": "Fan feedback voltage"
+          },
+          "title": "Fan feedback voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_pass",
+          "label": "7\u201312 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 C-FAN",
+        "pages": [
+          67,
+          68
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-c-fan",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-c-fan",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-damper-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: R-room damper heater",
+      "purpose": "Self-diagnostic \u2014 Damper Heater",
+      "prerequisites": [],
+      "componentIds": [
+        "damper_motor",
+        "heater"
+      ],
+      "tags": [
+        "defrost_heater",
+        "damper",
+        "airflow",
+        "weak_cooling_ff",
+        "RD"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "disconnect_cn40",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect CN40",
+          "body": "Power off. Disconnect CN40 from MAIN PCB before resistance test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Disconnect CN40 from MAIN PCB before resistance test."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "damper_heater_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Damper heater resistance",
+          "body": "CN40 pin 25 \u2194 pin 27 \u2014 48 \u03a9 \u00b17% (RS28A500). LED-panel RS28T5B manuals may list 7\u201312 V when commanded.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRs28DamperHeaterOhms",
+              "testPoint": {
+                "connector": "CN40",
+                "pins": "25 \u2194 27",
+                "label": "Damper heater resistance"
+              },
+              "title": "Damper heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "damper_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_damper",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "damper_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_damper",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "damper_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_damper",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "damper_pass",
+              "label": "48 \u03a9 \u00b17%",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "damper_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN40 pin 25 \u2194 pin 27 \u2014 48 \u03a9 \u00b17% (RS28A500). LED-panel RS28T5B manuals may list 7\u201312 V when commanded."
+        },
+        {
+          "id": "replace_damper",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace damper heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "damper_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Damper heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRs28DamperHeaterOhms",
+          "testPoint": {
+            "connector": "CN40",
+            "pins": "25 \u2194 27",
+            "label": "Damper heater resistance"
+          },
+          "title": "Damper heater resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "damper_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_damper",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "damper_heater_ohms"
+        },
+        {
+          "id": "damper_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_damper",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "damper_heater_ohms"
+        },
+        {
+          "id": "damper_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_damper",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "damper_heater_ohms"
+        },
+        {
+          "id": "damper_pass",
+          "label": "48 \u03a9 \u00b17%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "damper_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "damper_heater_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 Damper Heater",
+        "pages": [
+          68,
+          101
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-damper-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-damper-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-dispenser-communication",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: Dispenser panel communication (47Er)",
+      "purpose": "Self-diagnostic \u2014 47Er",
+      "prerequisites": [],
+      "componentIds": [
+        "dispenser_panel",
+        "main_control"
+      ],
+      "tags": [
+        "47Er",
+        "47E",
+        "hmi_check",
+        "water_dispenser"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "code_active",
+          "order": 2,
+          "type": "visual_check",
+          "title": "47Er active",
+          "body": "47Er displayed on panel. Verify harness seating and moisture before condemning PCBs.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "code_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "code_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "comm_ok",
+              "terminal": true,
+              "oemOutcome": "47Er not present \u2014 verify complaint."
+            }
+          ],
+          "sourceExcerpt": "47Er displayed on panel. Verify harness seating and moisture before condemning PCBs."
+        },
+        {
+          "id": "check_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Verify harness",
+          "body": "Inspect door-hinge harness, ribbon/LVDS, and connector pins for damage or moisture.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect door-hinge harness, ribbon/LVDS, and connector pins for damage or moisture."
+        },
+        {
+          "id": "comm_restored",
+          "order": 4,
+          "type": "visual_check",
+          "title": "47Er cleared",
+          "body": "After harness repair and power cycle, is 47Er cleared?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_boards",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_boards_out",
+              "terminal": true,
+              "oemOutcome": "Replace affected PCB(s) per manual."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, is 47Er cleared?"
+        },
+        {
+          "id": "comm_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "No comm fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_boards_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace PCB(s)",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_path_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "code_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "code_active"
+        },
+        {
+          "id": "code_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "comm_ok",
+          "terminal": true,
+          "oemOutcome": "47Er not present \u2014 verify complaint.",
+          "stepId": "code_active"
+        },
+        {
+          "id": "comm_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_restored"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace affected PCB(s) per manual.",
+          "stepId": "comm_restored"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 47Er",
+        "pages": [
+          69
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-dispenser-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-dispenser-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-f-def-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: Freezer defrost sensor (F-DEF-Sensor)",
+      "purpose": "Self-diagnostic \u2014 F-DEF-Sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor",
+        "defrost",
+        "frost_buildup",
+        "5E",
+        "SE"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "apply_power",
+          "order": 2,
+          "type": "instruction",
+          "title": "Apply power for voltage test",
+          "body": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Sensor voltage",
+          "body": "Measure voltage CN20 5 \u2194 7 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "refrigeratorThermistorVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "5 \u2194 7",
+                "label": "Sensor voltage"
+              },
+              "title": "Sensor voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "sv_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_pass",
+              "label": "4.5\u20131.0 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure voltage CN20 5 \u2194 7 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "refrigeratorThermistorVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "5 \u2194 7",
+            "label": "Sensor voltage"
+          },
+          "title": "Sensor voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "sv_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_pass",
+          "label": "4.5\u20131.0 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 F-DEF-Sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-def-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-def-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-f-defrost-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: Freezer defrost heater (F-DEF)",
+      "purpose": "Self-diagnostic \u2014 F-DEF heater",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "defrost_heater",
+        "frost_buildup",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "disconnect_cn70",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect CN70/CN85",
+          "body": "Power off. Disconnect MAIN PCB CN70 and CN85 harnesses before resistance test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Disconnect MAIN PCB CN70 and CN85 harnesses before resistance test."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "f_def_heater_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "F-DEF heater resistance",
+          "body": "CN70 pin 5 \u2194 CN85 pin 3 \u2014 63 \u03a9 (115 V) or 230 \u03a9 (230 V) \u00b17%. 0 \u03a9 = short; OL = open heater or bimetal.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungRefrigeratorDefrostHeaterOhms",
+              "testPoint": {
+                "connector": "CN70",
+                "pins": "5 \u2194 CN85-3",
+                "label": "F-DEF heater resistance"
+              },
+              "title": "F-DEF heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "f_def_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_f_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "f_def_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_f_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "f_def_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_f_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "f_def_pass",
+              "label": "63/230 \u03a9 \u00b17%",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "f_heater_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN70 pin 5 \u2194 CN85 pin 3 \u2014 63 \u03a9 (115 V) or 230 \u03a9 (230 V) \u00b17%. 0 \u03a9 = short; OL = open heater or bimetal."
+        },
+        {
+          "id": "replace_f_heater",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace F-DEF heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "f_heater_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "F-DEF heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungRefrigeratorDefrostHeaterOhms",
+          "testPoint": {
+            "connector": "CN70",
+            "pins": "5 \u2194 CN85-3",
+            "label": "F-DEF heater resistance"
+          },
+          "title": "F-DEF heater resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "f_def_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_f_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "f_def_heater_ohms"
+        },
+        {
+          "id": "f_def_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_f_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "f_def_heater_ohms"
+        },
+        {
+          "id": "f_def_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_f_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "f_def_heater_ohms"
+        },
+        {
+          "id": "f_def_pass",
+          "label": "63/230 \u03a9 \u00b17%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "f_heater_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "f_def_heater_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 F-DEF heater",
+        "pages": [
+          68,
+          101
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-defrost-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-defrost-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-f-fan",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: F fan feedback",
+      "purpose": "Self-diagnostic \u2014 F-FAN",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "evap_fan",
+        "airflow",
+        "not_cooling",
+        "22E"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "fan_run",
+          "order": 2,
+          "type": "instruction",
+          "title": "Command fan on",
+          "body": "Close doors 1 minute so evaporator fan runs. Door-open may stop F-fan; C-fan may run with door open.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Close doors 1 minute so evaporator fan runs. Door-open may stop F-fan; C-fan may run with door open."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "fan_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Fan feedback voltage",
+          "body": "Measure CN20 15 \u2194 17 \u2014 7\u201312 V while fan commanded.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "refrigeratorEvapFanFeedbackVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "15 \u2194 17",
+                "label": "Fan feedback voltage"
+              },
+              "title": "Fan feedback voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "7\u201312 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure CN20 15 \u2194 17 \u2014 7\u201312 V while fan commanded."
+        },
+        {
+          "id": "replace_fan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "refrigeratorEvapFanFeedbackVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "15 \u2194 17",
+            "label": "Fan feedback voltage"
+          },
+          "title": "Fan feedback voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        },
+        {
+          "id": "fan_pass",
+          "label": "7\u201312 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 F-FAN",
+        "pages": [
+          67,
+          68
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-fan",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-fan",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-f-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: Freezer cabinet sensor (F-Sensor)",
+      "purpose": "Self-diagnostic \u2014 F-Sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor",
+        "sensor_check",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "apply_power",
+          "order": 2,
+          "type": "instruction",
+          "title": "Apply power for voltage test",
+          "body": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Sensor voltage",
+          "body": "Measure voltage CN20 1 \u2194 3 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "refrigeratorThermistorVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "1 \u2194 3",
+                "label": "Sensor voltage"
+              },
+              "title": "Sensor voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "sv_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_pass",
+              "label": "4.5\u20131.0 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure voltage CN20 1 \u2194 3 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "refrigeratorThermistorVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "1 \u2194 3",
+            "label": "Sensor voltage"
+          },
+          "title": "Sensor voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "sv_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_pass",
+          "label": "4.5\u20131.0 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 F-Sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-humidity-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: Humidity sensor",
+      "purpose": "Self-diagnostic \u2014 Humidity-Sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor",
+        "sensor_check",
+        "14E"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "apply_power",
+          "order": 2,
+          "type": "instruction",
+          "title": "Apply power for voltage test",
+          "body": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Sensor voltage",
+          "body": "Measure voltage CN40 14 \u2194 20 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "refrigeratorThermistorVoltage",
+              "testPoint": {
+                "connector": "CN40",
+                "pins": "14 \u2194 20",
+                "label": "Sensor voltage"
+              },
+              "title": "Sensor voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "sv_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_pass",
+              "label": "4.5\u20131.0 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure voltage CN40 14 \u2194 20 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "refrigeratorThermistorVoltage",
+          "testPoint": {
+            "connector": "CN40",
+            "pins": "14 \u2194 20",
+            "label": "Sensor voltage"
+          },
+          "title": "Sensor voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "sv_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_pass",
+          "label": "4.5\u20131.0 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 Humidity-Sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-humidity-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-humidity-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-ice-maker-function",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: Ice maker function",
+      "purpose": "Self-diagnostic \u2014 Ice Maker Function",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "ice_maker",
+        "no_ice"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "im_error_count",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Ice maker error history",
+          "body": "Freezer ice maker error displays after 3 failures. Inspect fill tube, harness, and module installation.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "im_clear",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "im_test",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_im",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_im_out",
+              "terminal": true,
+              "oemOutcome": "Replace ice maker module and verify harvest."
+            }
+          ],
+          "sourceExcerpt": "Freezer ice maker error displays after 3 failures. Inspect fill tube, harness, and module installation."
+        },
+        {
+          "id": "im_test",
+          "order": 3,
+          "type": "instruction",
+          "title": "Verify ice maker operation",
+          "body": "After replacement, confirm harvest cycle and fill complete without repeating error.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After replacement, confirm harvest cycle and fill complete without repeating error."
+        },
+        {
+          "id": "replace_im_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace ice maker",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "im_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Ice maker OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "im_clear",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "im_test",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "im_error_count"
+        },
+        {
+          "id": "replace_im",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_im_out",
+          "terminal": true,
+          "oemOutcome": "Replace ice maker module and verify harvest.",
+          "stepId": "im_error_count"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 Ice Maker Function",
+        "pages": [
+          68
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-maker-function",
+        "pages": [
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ice-maker-function",
+            "pages": [
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-ice-maker-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: Ice maker sensor",
+      "purpose": "Self-diagnostic \u2014 Ice Maker Sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor",
+        "ice_maker_module"
+      ],
+      "tags": [
+        "ice_maker",
+        "thermistor",
+        "no_ice"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "apply_power",
+          "order": 2,
+          "type": "instruction",
+          "title": "Apply power for voltage test",
+          "body": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Sensor voltage",
+          "body": "Measure voltage CN90 11 \u2194 13 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "refrigeratorThermistorVoltage",
+              "testPoint": {
+                "connector": "CN90",
+                "pins": "11 \u2194 13",
+                "label": "Sensor voltage"
+              },
+              "title": "Sensor voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "sv_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_pass",
+              "label": "4.5\u20131.0 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure voltage CN90 11 \u2194 13 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "refrigeratorThermistorVoltage",
+          "testPoint": {
+            "connector": "CN90",
+            "pins": "11 \u2194 13",
+            "label": "Sensor voltage"
+          },
+          "title": "Sensor voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "sv_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_pass",
+          "label": "4.5\u20131.0 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 Ice Maker Sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-maker-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ice-maker-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-ice-pipe-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: Ice pipe heater",
+      "purpose": "Self-diagnostic \u2014 Ice Pipe Heater",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_pipe_heater"
+      ],
+      "tags": [
+        "ice_maker",
+        "water_dispenser",
+        "33E"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "ice_pipe_run",
+          "order": 2,
+          "type": "instruction",
+          "title": "Command ice pipe heater",
+          "body": "Dispense water or run ice maker fill so ice pipe heater is commanded on.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Dispense water or run ice maker fill so ice pipe heater is commanded on."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "ice_pipe_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Ice pipe heater voltage",
+          "body": "CN90 pin 1 \u2194 pin 5 \u2014 7\u201312 V while heater commanded.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "refrigeratorEvapFanFeedbackVoltage",
+              "testPoint": {
+                "connector": "CN90",
+                "pins": "1 \u2194 5",
+                "label": "Ice pipe heater voltage"
+              },
+              "title": "Ice pipe heater voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ice_pipe_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ice_pipe",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ice_pipe_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ice_pipe",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ice_pipe_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ice_pipe",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ice_pipe_pass",
+              "label": "7\u201312 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ice_pipe_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN90 pin 1 \u2194 pin 5 \u2014 7\u201312 V while heater commanded."
+        },
+        {
+          "id": "replace_ice_pipe",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace ice pipe heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ice_pipe_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Ice pipe heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "refrigeratorEvapFanFeedbackVoltage",
+          "testPoint": {
+            "connector": "CN90",
+            "pins": "1 \u2194 5",
+            "label": "Ice pipe heater voltage"
+          },
+          "title": "Ice pipe heater voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ice_pipe_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ice_pipe",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ice_pipe_voltage"
+        },
+        {
+          "id": "ice_pipe_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ice_pipe",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ice_pipe_voltage"
+        },
+        {
+          "id": "ice_pipe_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ice_pipe",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ice_pipe_voltage"
+        },
+        {
+          "id": "ice_pipe_pass",
+          "label": "7\u201312 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ice_pipe_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ice_pipe_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 Ice Pipe Heater",
+        "pages": [
+          68,
+          101
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-pipe-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ice-pipe-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-inverter-communication",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: Inverter communication (44Er)",
+      "purpose": "Self-diagnostic \u2014 44Er",
+      "prerequisites": [],
+      "componentIds": [
+        "inverter_board",
+        "main_control"
+      ],
+      "tags": [
+        "44Er",
+        "44E",
+        "hmi_check",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "code_active",
+          "order": 2,
+          "type": "visual_check",
+          "title": "44Er active",
+          "body": "44Er displayed on panel. Verify harness seating and moisture before condemning PCBs.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "code_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "code_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "comm_ok",
+              "terminal": true,
+              "oemOutcome": "44Er not present \u2014 verify complaint."
+            }
+          ],
+          "sourceExcerpt": "44Er displayed on panel. Verify harness seating and moisture before condemning PCBs."
+        },
+        {
+          "id": "check_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Verify harness",
+          "body": "Inspect door-hinge harness, ribbon/LVDS, and connector pins for damage or moisture.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect door-hinge harness, ribbon/LVDS, and connector pins for damage or moisture."
+        },
+        {
+          "id": "comm_restored",
+          "order": 4,
+          "type": "visual_check",
+          "title": "44Er cleared",
+          "body": "After harness repair and power cycle, is 44Er cleared?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_boards",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_boards_out",
+              "terminal": true,
+              "oemOutcome": "Replace affected PCB(s) per manual."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, is 44Er cleared?"
+        },
+        {
+          "id": "comm_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "No comm fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_boards_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace PCB(s)",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_path_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "code_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "code_active"
+        },
+        {
+          "id": "code_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "comm_ok",
+          "terminal": true,
+          "oemOutcome": "44Er not present \u2014 verify complaint.",
+          "stepId": "code_active"
+        },
+        {
+          "id": "comm_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_restored"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace affected PCB(s) per manual.",
+          "stepId": "comm_restored"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 44Er",
+        "pages": [
+          69
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-inverter-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-inverter-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-io-expander-communication",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: I/O expander communication (46Er)",
+      "purpose": "Self-diagnostic \u2014 46Er",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "46Er",
+        "46E",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "code_active",
+          "order": 2,
+          "type": "visual_check",
+          "title": "46Er active",
+          "body": "46Er displayed on panel. Verify harness seating and moisture before condemning PCBs.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "code_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "code_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "comm_ok",
+              "terminal": true,
+              "oemOutcome": "46Er not present \u2014 verify complaint."
+            }
+          ],
+          "sourceExcerpt": "46Er displayed on panel. Verify harness seating and moisture before condemning PCBs."
+        },
+        {
+          "id": "check_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Verify harness",
+          "body": "Inspect door-hinge harness, ribbon/LVDS, and connector pins for damage or moisture.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect door-hinge harness, ribbon/LVDS, and connector pins for damage or moisture."
+        },
+        {
+          "id": "comm_restored",
+          "order": 4,
+          "type": "visual_check",
+          "title": "46Er cleared",
+          "body": "After harness repair and power cycle, is 46Er cleared?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_boards",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_boards_out",
+              "terminal": true,
+              "oemOutcome": "Replace affected PCB(s) per manual."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, is 46Er cleared?"
+        },
+        {
+          "id": "comm_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "No comm fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_boards_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace PCB(s)",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_path_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "code_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "code_active"
+        },
+        {
+          "id": "code_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "comm_ok",
+          "terminal": true,
+          "oemOutcome": "46Er not present \u2014 verify complaint.",
+          "stepId": "code_active"
+        },
+        {
+          "id": "comm_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_restored"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace affected PCB(s) per manual.",
+          "stepId": "comm_restored"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 46Er",
+        "pages": [
+          69
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-io-expander-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-io-expander-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-panel-communication",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: Panel communication (41Er)",
+      "purpose": "Self-diagnostic \u2014 41Er",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel",
+        "main_control"
+      ],
+      "tags": [
+        "41Er",
+        "41E",
+        "hmi_check",
+        "display_dead"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "code_active",
+          "order": 2,
+          "type": "visual_check",
+          "title": "41Er active",
+          "body": "41Er displayed on panel. Verify harness seating and moisture before condemning PCBs.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "code_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "code_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "comm_ok",
+              "terminal": true,
+              "oemOutcome": "41Er not present \u2014 verify complaint."
+            }
+          ],
+          "sourceExcerpt": "41Er displayed on panel. Verify harness seating and moisture before condemning PCBs."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "check_harness",
+          "order": 4,
+          "type": "instruction",
+          "title": "Verify harness",
+          "body": "Inspect door-hinge harness, ribbon/LVDS, and connector pins for damage or moisture.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect door-hinge harness, ribbon/LVDS, and connector pins for damage or moisture."
+        },
+        {
+          "id": "comm_restored",
+          "order": 5,
+          "type": "visual_check",
+          "title": "41Er cleared",
+          "body": "After harness repair and power cycle, is 41Er cleared?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_boards",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_boards_out",
+              "terminal": true,
+              "oemOutcome": "Replace affected PCB(s) per manual."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, is 41Er cleared?"
+        },
+        {
+          "id": "comm_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "No comm fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_boards_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace PCB(s)",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_path_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "code_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "code_active"
+        },
+        {
+          "id": "code_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "comm_ok",
+          "terminal": true,
+          "oemOutcome": "41Er not present \u2014 verify complaint.",
+          "stepId": "code_active"
+        },
+        {
+          "id": "comm_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_restored"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace affected PCB(s) per manual.",
+          "stepId": "comm_restored"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 41Er",
+        "pages": [
+          69
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-panel-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-panel-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-r-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: Fresh-food cabinet sensor (R-Sensor)",
+      "purpose": "Self-diagnostic \u2014 R-Sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor",
+        "sensor_check",
+        "weak_cooling_ff",
+        "8E"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "apply_power",
+          "order": 2,
+          "type": "instruction",
+          "title": "Apply power for voltage test",
+          "body": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After test mode entry, proceed with OEM component tests."
+        },
+        {
+          "id": "sensor_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Sensor voltage",
+          "body": "Measure voltage CN20 10 \u2194 12 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table. LED-panel RS28T5B models may use CN20 2 \u2194 4 instead.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "refrigeratorThermistorVoltage",
+              "testPoint": {
+                "connector": "CN20",
+                "pins": "10 \u2194 12",
+                "label": "Sensor voltage"
+              },
+              "title": "Sensor voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "sv_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "sv_pass",
+              "label": "4.5\u20131.0 V",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure voltage CN20 10 \u2194 12 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table. LED-panel RS28T5B models may use CN20 2 \u2194 4 instead."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "refrigeratorThermistorVoltage",
+          "testPoint": {
+            "connector": "CN20",
+            "pins": "10 \u2194 12",
+            "label": "Sensor voltage"
+          },
+          "title": "Sensor voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "sv_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        },
+        {
+          "id": "sv_pass",
+          "label": "4.5\u20131.0 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 R-Sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-r-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-r-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungrs28-wifi-communication",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "title": "\u00a74-2: Wi-Fi communication (52Er)",
+      "purpose": "Self-diagnostic \u2014 52Er",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel",
+        "main_control"
+      ],
+      "tags": [
+        "52Er",
+        "52E",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts."
+        },
+        {
+          "id": "code_active",
+          "order": 2,
+          "type": "visual_check",
+          "title": "52Er active",
+          "body": "52Er displayed on panel. Verify harness seating and moisture before condemning PCBs.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "code_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "code_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "comm_ok",
+              "terminal": true,
+              "oemOutcome": "52Er not present \u2014 verify complaint."
+            }
+          ],
+          "sourceExcerpt": "52Er displayed on panel. Verify harness seating and moisture before condemning PCBs."
+        },
+        {
+          "id": "check_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Verify harness",
+          "body": "Inspect door-hinge harness, ribbon/LVDS, and connector pins for damage or moisture.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect door-hinge harness, ribbon/LVDS, and connector pins for damage or moisture."
+        },
+        {
+          "id": "comm_restored",
+          "order": 4,
+          "type": "visual_check",
+          "title": "52Er cleared",
+          "body": "After harness repair and power cycle, is 52Er cleared?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_boards",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_boards_out",
+              "terminal": true,
+              "oemOutcome": "Replace affected PCB(s) per manual."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, is 52Er cleared?"
+        },
+        {
+          "id": "comm_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "No comm fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_boards_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace PCB(s)",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_path_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "code_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "code_active"
+        },
+        {
+          "id": "code_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "comm_ok",
+          "terminal": true,
+          "oemOutcome": "52Er not present \u2014 verify complaint.",
+          "stepId": "code_active"
+        },
+        {
+          "id": "comm_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_restored"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace affected PCB(s) per manual.",
+          "stepId": "comm_restored"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "manualTitle": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Self-diagnostic \u2014 52Er",
+        "pages": [
+          69
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+        "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+        "seedSourceManualId": "SAMSUNG-RS28-SXS"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-wifi-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-wifi-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "inherited_procedure",
+            "inheritedFromManualId": "SAMSUNG-RS28-SXS",
+            "targetManualId": "SAMSUNG-RS22T-SXS"
+          }
+        ]
+      }
+    }
+  ]
+}

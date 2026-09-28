@@ -1,0 +1,616 @@
+{
+  "schemaVersion": 1,
+  "reportType": "cg_wave2_pattern_synthesis",
+  "status": "READ_ONLY_SYNTHESIS_COMPLETE",
+  "generatedAt": "2026-09-21T05:26:14.452099+00:00",
+  "wave2Reference": {
+    "waveId": "wave2-new-platform-knowledge",
+    "reviewClass": "newPlatformKnowledge",
+    "closureAudit": "CG_WAVE2_NEW_PLATFORM_KNOWLEDGE_CLOSURE_AUDIT_v1.json",
+    "expectedCandidateCount": 426,
+    "reviewedCandidateCount": 426,
+    "decisionDistribution": {
+      "accepted": 426
+    }
+  },
+  "findings": [
+    {
+      "pattern": "procedureTestBinding",
+      "count": 244,
+      "exampleCandidateIds": [
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-diverter-circulation_test",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-drain_test",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-fill-valve-fill_test",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-heater-heater_command_test",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-inlet-fill-fill_test",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-overflow-drain_test",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-tub-thermistor-heater_command_test",
+        "LG-FL-WASHER::overlay::overlay-LG-FL-WASHER-lgwm4000-display-comm-motor_command_test"
+      ],
+      "decisionDistribution": {
+        "accepted": 244
+      },
+      "examples": [
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-diverter-circulation_test",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-diverter",
+          "sourceTerm": "E8 \u2014 Diverter valve assembly",
+          "proposedCanonicalId": "circulation_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-drain_test",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-drain-pump",
+          "sourceTerm": "Drain pump \u2014 25\u201335 \u03a9",
+          "proposedCanonicalId": "drain_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-fill-valve-fill_test",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-fill-valve",
+          "sourceTerm": "Water inlet valve \u2014 ~1 k\u03a9",
+          "proposedCanonicalId": "fill_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-heater-heater_command_test",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-heater",
+          "sourceTerm": "E3 \u2014 Tub heater 10\u201315 \u03a9",
+          "proposedCanonicalId": "heater_command_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-inlet-fill-fill_test",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-inlet-fill",
+          "sourceTerm": "E1 \u2014 Water inlet failure (4 min fill)",
+          "proposedCanonicalId": "fill_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-overflow-drain_test",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-overflow",
+          "sourceTerm": "E4 \u2014 Overflow / base pan",
+          "proposedCanonicalId": "drain_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        }
+      ],
+      "evidence": "mapsTo.candidateType=procedureTestBinding; OEM test / overlay procedure bindings.",
+      "recommendedDisposition": "human_review_procedure_and_canonical_target_context"
+    },
+    {
+      "pattern": "structural_title_noise",
+      "count": 196,
+      "exampleCandidateIds": [
+        "LG-FL-WASHER::overlay::overlay-LG-FL-WASHER-lgwm4000-display-comm-motor_command_test",
+        "LG-FL-WASHER::overlay::overlay-LG-FL-WASHER-lgwm4000-door-lock-door_lock_test",
+        "LG-FL-WASHER::overlay::overlay-LG-FL-WASHER-lgwm4000-drain-pump-drain_test",
+        "LG-FL-WASHER::overlay::overlay-LG-FL-WASHER-lgwm4000-motor-circuit-motor_output_test",
+        "LG-FL-WASHER::overlay::overlay-LG-FL-WASHER-lgwm4000-power-motor_command_test",
+        "LG-FL-WASHER::overlay::overlay-LG-FL-WASHER-lgwm4000-pressure-sensor-drain_test",
+        "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-bubble-error-door_switch_test",
+        "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-drain-pump-drain_test"
+      ],
+      "decisionDistribution": {
+        "accepted": 196
+      },
+      "examples": [
+        {
+          "candidateId": "LG-FL-WASHER::overlay::overlay-LG-FL-WASHER-lgwm4000-display-comm-motor_command_test",
+          "manualId": "LG-FL-WASHER",
+          "procedureId": "lgwm4000-display-comm",
+          "sourceTerm": "\u00a78: DISPLAY PWB \u2194 MAIN PWB",
+          "proposedCanonicalId": "motor_command_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "lg_fl_washer_wm4000",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "LG-FL-WASHER::overlay::overlay-LG-FL-WASHER-lgwm4000-door-lock-door_lock_test",
+          "manualId": "LG-FL-WASHER",
+          "procedureId": "lgwm4000-door-lock",
+          "sourceTerm": "\u00a78: Door lock",
+          "proposedCanonicalId": "door_lock_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "lg_fl_washer_wm4000",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "LG-FL-WASHER::overlay::overlay-LG-FL-WASHER-lgwm4000-drain-pump-drain_test",
+          "manualId": "LG-FL-WASHER",
+          "procedureId": "lgwm4000-drain-pump",
+          "sourceTerm": "\u00a78: Drain pump",
+          "proposedCanonicalId": "drain_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "lg_fl_washer_wm4000",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "LG-FL-WASHER::overlay::overlay-LG-FL-WASHER-lgwm4000-motor-circuit-motor_output_test",
+          "manualId": "LG-FL-WASHER",
+          "procedureId": "lgwm4000-motor-circuit",
+          "sourceTerm": "\u00a78: Direct-drive motor",
+          "proposedCanonicalId": "motor_output_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "lg_fl_washer_wm4000",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "LG-FL-WASHER::overlay::overlay-LG-FL-WASHER-lgwm4000-power-motor_command_test",
+          "manualId": "LG-FL-WASHER",
+          "procedureId": "lgwm4000-power",
+          "sourceTerm": "\u00a74: Power / MAIN PWB supply",
+          "proposedCanonicalId": "motor_command_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "lg_fl_washer_wm4000",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "LG-FL-WASHER::overlay::overlay-LG-FL-WASHER-lgwm4000-pressure-sensor-drain_test",
+          "manualId": "LG-FL-WASHER",
+          "procedureId": "lgwm4000-pressure-sensor",
+          "sourceTerm": "\u00a78: Pressure sensor",
+          "proposedCanonicalId": "drain_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "lg_fl_washer_wm4000",
+          "reviewStatus": "accepted"
+        }
+      ],
+      "evidence": "OEM TEST #, section headings, or connector-like labels in sourceTerm.",
+      "recommendedDisposition": "prefer_procedure_maps_to_candidate_type_over_sourceTerm_label"
+    },
+    {
+      "pattern": "generated_overlay_identifier",
+      "count": 182,
+      "exampleCandidateIds": [
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-meas-insigniaDishwasherDrainPumpOhms",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-fill-valve-meas-insigniaDishwasherFillValveOhms",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-heater-meas-insigniaDishwasherHeaterOhms",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-tub-thermistor-meas-insigniaDishwasherTubThermistorOhms",
+        "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-drain-pump-meas-lgDishwasherLdt7808DrainPumpOhms",
+        "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-hall-sensor-meas-lgDishwasherLdt7808HallSensorOhms",
+        "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-heater-meas-lgDishwasherLdt7808HeaterOhms",
+        "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-inlet-valve-meas-lgDishwasherLdt7808InletValveOhms"
+      ],
+      "decisionDistribution": {
+        "accepted": 182
+      },
+      "examples": [
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-meas-insigniaDishwasherDrainPumpOhms",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-drain-pump",
+          "sourceTerm": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-meas-insigniaDishwasherDrainPumpOhms",
+          "proposedCanonicalId": "drain_test",
+          "candidateType": "measurementBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-fill-valve-meas-insigniaDishwasherFillValveOhms",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-fill-valve",
+          "sourceTerm": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-fill-valve-meas-insigniaDishwasherFillValveOhms",
+          "proposedCanonicalId": "fill_test",
+          "candidateType": "measurementBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-heater-meas-insigniaDishwasherHeaterOhms",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-heater",
+          "sourceTerm": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-heater-meas-insigniaDishwasherHeaterOhms",
+          "proposedCanonicalId": "heater_command_test",
+          "candidateType": "measurementBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-tub-thermistor-meas-insigniaDishwasherTubThermistorOhms",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-tub-thermistor",
+          "sourceTerm": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-tub-thermistor-meas-insigniaDishwasherTubThermistorOhms",
+          "proposedCanonicalId": "heater_command_test",
+          "candidateType": "measurementBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-drain-pump-meas-lgDishwasherLdt7808DrainPumpOhms",
+          "manualId": "LG-LDT7808-DISHWASHER",
+          "procedureId": "ldt7808-drain-pump",
+          "sourceTerm": "overlay-LG-LDT7808-DISHWASHER-ldt7808-drain-pump-meas-lgDishwasherLdt7808DrainPumpOhms",
+          "proposedCanonicalId": "drain_test",
+          "candidateType": "measurementBinding",
+          "platformId": "lg_dishwasher_ldt7808",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-hall-sensor-meas-lgDishwasherLdt7808HallSensorOhms",
+          "manualId": "LG-LDT7808-DISHWASHER",
+          "procedureId": "ldt7808-hall-sensor",
+          "sourceTerm": "overlay-LG-LDT7808-DISHWASHER-ldt7808-hall-sensor-meas-lgDishwasherLdt7808HallSensorOhms",
+          "proposedCanonicalId": "fill_test",
+          "candidateType": "measurementBinding",
+          "platformId": "lg_dishwasher_ldt7808",
+          "reviewStatus": "accepted"
+        }
+      ],
+      "evidence": "sourceTerm begins with overlay- (generator artifact); substantive context in procedureId/mapsTo.",
+      "recommendedDisposition": "candidate_generation_label_cleanup_candidate_not_auto_reject"
+    },
+    {
+      "pattern": "legitimate_platform_measurement_spec",
+      "count": 182,
+      "exampleCandidateIds": [
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-meas-insigniaDishwasherDrainPumpOhms",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-fill-valve-meas-insigniaDishwasherFillValveOhms",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-heater-meas-insigniaDishwasherHeaterOhms",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-tub-thermistor-meas-insigniaDishwasherTubThermistorOhms",
+        "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-drain-pump-meas-lgDishwasherLdt7808DrainPumpOhms",
+        "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-hall-sensor-meas-lgDishwasherLdt7808HallSensorOhms",
+        "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-heater-meas-lgDishwasherLdt7808HeaterOhms",
+        "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-inlet-valve-meas-lgDishwasherLdt7808InletValveOhms"
+      ],
+      "decisionDistribution": {
+        "accepted": 182
+      },
+      "examples": [
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-meas-insigniaDishwasherDrainPumpOhms",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-drain-pump",
+          "sourceTerm": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-meas-insigniaDishwasherDrainPumpOhms",
+          "proposedCanonicalId": "drain_test",
+          "candidateType": "measurementBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-fill-valve-meas-insigniaDishwasherFillValveOhms",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-fill-valve",
+          "sourceTerm": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-fill-valve-meas-insigniaDishwasherFillValveOhms",
+          "proposedCanonicalId": "fill_test",
+          "candidateType": "measurementBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-heater-meas-insigniaDishwasherHeaterOhms",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-heater",
+          "sourceTerm": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-heater-meas-insigniaDishwasherHeaterOhms",
+          "proposedCanonicalId": "heater_command_test",
+          "candidateType": "measurementBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-tub-thermistor-meas-insigniaDishwasherTubThermistorOhms",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-tub-thermistor",
+          "sourceTerm": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-tub-thermistor-meas-insigniaDishwasherTubThermistorOhms",
+          "proposedCanonicalId": "heater_command_test",
+          "candidateType": "measurementBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-drain-pump-meas-lgDishwasherLdt7808DrainPumpOhms",
+          "manualId": "LG-LDT7808-DISHWASHER",
+          "procedureId": "ldt7808-drain-pump",
+          "sourceTerm": "overlay-LG-LDT7808-DISHWASHER-ldt7808-drain-pump-meas-lgDishwasherLdt7808DrainPumpOhms",
+          "proposedCanonicalId": "drain_test",
+          "candidateType": "measurementBinding",
+          "platformId": "lg_dishwasher_ldt7808",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-hall-sensor-meas-lgDishwasherLdt7808HallSensorOhms",
+          "manualId": "LG-LDT7808-DISHWASHER",
+          "procedureId": "ldt7808-hall-sensor",
+          "sourceTerm": "overlay-LG-LDT7808-DISHWASHER-ldt7808-hall-sensor-meas-lgDishwasherLdt7808HallSensorOhms",
+          "proposedCanonicalId": "fill_test",
+          "candidateType": "measurementBinding",
+          "platformId": "lg_dishwasher_ldt7808",
+          "reviewStatus": "accepted"
+        }
+      ],
+      "evidence": "where.provenanceSources includes type=measurement with stepTitle/measurementKnowledgeId.",
+      "recommendedDisposition": "retain_as_implementation_knowledge"
+    },
+    {
+      "pattern": "measurementBinding",
+      "count": 182,
+      "exampleCandidateIds": [
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-meas-insigniaDishwasherDrainPumpOhms",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-fill-valve-meas-insigniaDishwasherFillValveOhms",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-heater-meas-insigniaDishwasherHeaterOhms",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-tub-thermistor-meas-insigniaDishwasherTubThermistorOhms",
+        "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-drain-pump-meas-lgDishwasherLdt7808DrainPumpOhms",
+        "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-hall-sensor-meas-lgDishwasherLdt7808HallSensorOhms",
+        "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-heater-meas-lgDishwasherLdt7808HeaterOhms",
+        "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-inlet-valve-meas-lgDishwasherLdt7808InletValveOhms"
+      ],
+      "decisionDistribution": {
+        "accepted": 182
+      },
+      "examples": [
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-meas-insigniaDishwasherDrainPumpOhms",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-drain-pump",
+          "sourceTerm": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-meas-insigniaDishwasherDrainPumpOhms",
+          "proposedCanonicalId": "drain_test",
+          "candidateType": "measurementBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-fill-valve-meas-insigniaDishwasherFillValveOhms",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-fill-valve",
+          "sourceTerm": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-fill-valve-meas-insigniaDishwasherFillValveOhms",
+          "proposedCanonicalId": "fill_test",
+          "candidateType": "measurementBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-heater-meas-insigniaDishwasherHeaterOhms",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-heater",
+          "sourceTerm": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-heater-meas-insigniaDishwasherHeaterOhms",
+          "proposedCanonicalId": "heater_command_test",
+          "candidateType": "measurementBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-tub-thermistor-meas-insigniaDishwasherTubThermistorOhms",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-tub-thermistor",
+          "sourceTerm": "overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-tub-thermistor-meas-insigniaDishwasherTubThermistorOhms",
+          "proposedCanonicalId": "heater_command_test",
+          "candidateType": "measurementBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-drain-pump-meas-lgDishwasherLdt7808DrainPumpOhms",
+          "manualId": "LG-LDT7808-DISHWASHER",
+          "procedureId": "ldt7808-drain-pump",
+          "sourceTerm": "overlay-LG-LDT7808-DISHWASHER-ldt7808-drain-pump-meas-lgDishwasherLdt7808DrainPumpOhms",
+          "proposedCanonicalId": "drain_test",
+          "candidateType": "measurementBinding",
+          "platformId": "lg_dishwasher_ldt7808",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "LG-LDT7808-DISHWASHER::overlay::overlay-LG-LDT7808-DISHWASHER-ldt7808-hall-sensor-meas-lgDishwasherLdt7808HallSensorOhms",
+          "manualId": "LG-LDT7808-DISHWASHER",
+          "procedureId": "ldt7808-hall-sensor",
+          "sourceTerm": "overlay-LG-LDT7808-DISHWASHER-ldt7808-hall-sensor-meas-lgDishwasherLdt7808HallSensorOhms",
+          "proposedCanonicalId": "fill_test",
+          "candidateType": "measurementBinding",
+          "platformId": "lg_dishwasher_ldt7808",
+          "reviewStatus": "accepted"
+        }
+      ],
+      "evidence": "mapsTo.candidateType=measurementBinding; often pairs with measurement provenanceSources.",
+      "recommendedDisposition": "retain_as_platform_knowledge_when_measurement_provenance_present"
+    },
+    {
+      "pattern": "human_readable_platform_label",
+      "count": 41,
+      "exampleCandidateIds": [
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-drain_test",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-fill-valve-fill_test",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-tub-thermistor-heater_command_test",
+        "SAMSUNG-DISHWASHER-M9::overlay::overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-power-supply-fill_test",
+        "SAMSUNG-NE58H-INDUCTION-RANGE::overlay::overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-c20-oven-sensor-oven_sensor_test",
+        "SAMSUNG-NE58H-INDUCTION-RANGE::overlay::overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-c21-abnormal-temp-oven_sensor_test",
+        "SAMSUNG-NE58H-INDUCTION-RANGE::overlay::overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-cd1-door-lock-display_communication_test",
+        "SAMSUNG-NE58H-INDUCTION-RANGE::overlay::overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-cf0-main-sub-display_communication_test"
+      ],
+      "decisionDistribution": {
+        "accepted": 41
+      },
+      "examples": [
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-drain-pump-drain_test",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-drain-pump",
+          "sourceTerm": "Drain pump \u2014 25\u201335 \u03a9",
+          "proposedCanonicalId": "drain_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-fill-valve-fill_test",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-fill-valve",
+          "sourceTerm": "Water inlet valve \u2014 ~1 k\u03a9",
+          "proposedCanonicalId": "fill_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-tub-thermistor-heater_command_test",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-tub-thermistor",
+          "sourceTerm": "Tub thermistor \u2014 E6/E7 NTC",
+          "proposedCanonicalId": "heater_command_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "SAMSUNG-DISHWASHER-M9::overlay::overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-power-supply-fill_test",
+          "manualId": "SAMSUNG-DISHWASHER-M9",
+          "procedureId": "samsungdwm9-power-supply",
+          "sourceTerm": "No Power & Power Relay Check",
+          "proposedCanonicalId": "fill_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "samsung_dishwasher_m9",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "SAMSUNG-NE58H-INDUCTION-RANGE::overlay::overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-c20-oven-sensor-oven_sensor_test",
+          "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+          "procedureId": "ne58h-c20-oven-sensor",
+          "sourceTerm": "C-20: Oven temperature sensor",
+          "proposedCanonicalId": "oven_sensor_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "samsung_range_ne58",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "SAMSUNG-NE58H-INDUCTION-RANGE::overlay::overlay-SAMSUNG-NE58H-INDUCTION-RANGE-ne58h-c21-abnormal-temp-oven_sensor_test",
+          "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+          "procedureId": "ne58h-c21-abnormal-temp",
+          "sourceTerm": "C-21: Abnormal internal temperature",
+          "proposedCanonicalId": "oven_sensor_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "samsung_range_ne58",
+          "reviewStatus": "accepted"
+        }
+      ],
+      "evidence": "Human-readable sourceTerm without overlay/test-heading/error-prefix patterns.",
+      "recommendedDisposition": "default_accept_path_when_procedure_and_maps_to_coherent"
+    },
+    {
+      "pattern": "error_code_prefixed_label",
+      "count": 7,
+      "exampleCandidateIds": [
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-diverter-circulation_test",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-heater-heater_command_test",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-inlet-fill-fill_test",
+        "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-overflow-drain_test",
+        "W11187658::overlay::overlay-W11187658-w11187658-heater-heater_command_test",
+        "W11187658::overlay::overlay-W11187658-w11187658-inlet-fill-fill_test",
+        "W11187658::overlay::overlay-W11187658-w11187658-overflow-drain_test"
+      ],
+      "decisionDistribution": {
+        "accepted": 7
+      },
+      "examples": [
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-diverter-circulation_test",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-diverter",
+          "sourceTerm": "E8 \u2014 Diverter valve assembly",
+          "proposedCanonicalId": "circulation_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-heater-heater_command_test",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-heater",
+          "sourceTerm": "E3 \u2014 Tub heater 10\u201315 \u03a9",
+          "proposedCanonicalId": "heater_command_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-inlet-fill-fill_test",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-inlet-fill",
+          "sourceTerm": "E1 \u2014 Water inlet failure (4 min fill)",
+          "proposedCanonicalId": "fill_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-overflow-drain_test",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-overflow",
+          "sourceTerm": "E4 \u2014 Overflow / base pan",
+          "proposedCanonicalId": "drain_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "insignia_dishwasher",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "W11187658::overlay::overlay-W11187658-w11187658-heater-heater_command_test",
+          "manualId": "W11187658",
+          "procedureId": "w11187658-heater",
+          "sourceTerm": "E3 \u2014 Tub heater ~14 \u03a9",
+          "proposedCanonicalId": "heater_command_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "whirlpool_dishwasher_ada",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "W11187658::overlay::overlay-W11187658-w11187658-inlet-fill-fill_test",
+          "manualId": "W11187658",
+          "procedureId": "w11187658-inlet-fill",
+          "sourceTerm": "E1 \u2014 Water inlet failure (4 min fill)",
+          "proposedCanonicalId": "fill_test",
+          "candidateType": "procedureTestBinding",
+          "platformId": "whirlpool_dishwasher_ada",
+          "reviewStatus": "accepted"
+        }
+      ],
+      "evidence": "sourceTerm prefixed with fault/error style codes (e.g. E8 \u2014).",
+      "recommendedDisposition": "treat_code_prefix_as_noise_review_procedure_binding"
+    },
+    {
+      "pattern": "deferred_possible_canonical_gap",
+      "count": 0,
+      "exampleCandidateIds": [],
+      "decisionDistribution": {},
+      "examples": [],
+      "evidence": "Human deferred \u2014 may indicate architecture/canonical abstraction uncertainty.",
+      "recommendedDisposition": "architecture_review_before_wave3_not_auto_promotion"
+    },
+    {
+      "pattern": "rejected_extraction_or_noise",
+      "count": 0,
+      "exampleCandidateIds": [],
+      "decisionDistribution": {},
+      "examples": [],
+      "evidence": "Human rejected \u2014 not legitimate platform knowledge per Wave 2 criteria.",
+      "recommendedDisposition": "candidate_generation_suppression_candidate_after_human_evidence_review"
+    }
+  ],
+  "summary": {
+    "measurementBindingCount": 182,
+    "procedureTestBindingCount": 244,
+    "generatedOverlayIdentifierCount": 182,
+    "structuralTitleNoiseCount": 196
+  },
+  "mutationPolicy": {
+    "canonicalGraphsMutated": false,
+    "candidateArtifactsMutated": false,
+    "reviewDecisionsMutated": false,
+    "normalizationPipelineMutated": false,
+    "automaticFilteringRulesApplied": false
+  },
+  "interpretationNote": "Governance-only synthesis after Wave 2 closure. Patterns inform future generator improvement review; do not auto-apply filters or promotions."
+}

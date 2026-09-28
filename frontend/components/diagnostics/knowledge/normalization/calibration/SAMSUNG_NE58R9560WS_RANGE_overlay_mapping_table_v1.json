@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_overlay_mapping_gate_table",
+  "manualId": "SAMSUNG-NE58R9560-INDUCTION",
+  "platformId": "samsung_range_ne58",
+  "platformFamilyId": "samsung_range_ne58",
+  "canonicalOntologyId": "range_oven",
+  "proposedOverlayFile": "samsung_range_ne58.json",
+  "normalizationArtifact": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json",
+  "compoundingContract": "CG_RANGE_COMPOUNDING_v1.json",
+  "compoundingSequence": 2,
+  "priorSequenceClosed": "CG_RANGE_NX60_COMPOUNDING_AUDIT_v1.json",
+  "status": "published",
+  "generatedAt": "2026-09-17T05:00:00+00:00",
+  "gateFraming": {
+    "question": "How does normalized NE58R induction evidence realize frozen range_oven without creating induction canonical ontology?",
+    "not": "What induction hardware should become new canonical components?",
+    "validOutcomes": [
+      "canonical_inheritance",
+      "instance_scope_binding",
+      "conditional_instance_scope_binding",
+      "conditional_binding",
+      "overlay_implementation",
+      "platform_only"
+    ]
+  },
+  "gatePolicy": {
+    "gateKind": "samsung_ne58_induction_range_compounding",
+    "compoundingPhase": "CG-RANGE-COMPOUNDING",
+    "canonicalGraph": "range_oven.json rev1 FROZEN",
+    "freezeReopenBlocked": true,
+    "publishBlocked": false,
+    "isolatedFromSequence1": true,
+    "sequence1Overlay": "samsung_range_nx60.json"
+  },
+  "canonicalContract": {
+    "graph": "range_oven",
+    "revision": "rev1",
+    "frozen": true,
+    "electricRangeRev1Hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "allowedCanonicalIds": ["power_supply", "control_board", "user_interface", "temperature_sensor", "surface_heating_system"],
+    "instanceScopeIds": ["bake_heating_element", "broil_heating_element"],
+    "conditionalInstanceScopeIds": ["convection_heating_element"],
+    "conditionalBindingIds": ["convection_fan", "thermal_protection", "oven_door_switch"],
+    "contractRule": "Induction inverter/IGBT/coil/pan-detection vocabulary binds under surface_heating_system platform overlay — never components[] or induction_range.json."
+  },
+  "accounting": {
+    "canonicalInheritance": 5,
+    "instanceScopeBinding": 2,
+    "conditionalInstanceScopeBinding": 1,
+    "conditionalBinding": 3,
+    "overlayImplementation": 13,
+    "proceduresBound": 24,
+    "measurementsBound": 25,
+    "decisionBranchesExecutable": 11,
+    "canonicalExpansion": 0,
+    "ontologyMutations": 0
+  },
+  "contractTeachingRows": [
+    {
+      "teachingId": "ne58r-surface-inverter-realization",
+      "gateQuestion": "How does NE58 induction inverter/IGBT express surface_heating_system?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "surface_heating_system",
+      "implementationTerms": ["inverter_pcb", "igbt", "induction_coil", "filter_pcb_fuse"],
+      "procedureIds": ["ne58r-comm-display-inverter", "ne58r-heating-failure-igbt"],
+      "gateAction": "approve_compounded",
+      "rationale": "CG-12 witness — surface_heating_system absorbs induction architecture; inverter is platform realization not canonical node."
+    },
+    {
+      "teachingId": "ne58r-top-sensor-overlay",
+      "gateQuestion": "Where does cooktop top sensor evidence live?",
+      "outcome": "overlay_implementation",
+      "layer": "platform_implementation",
+      "canonicalTarget": "surface_heating_system",
+      "implementationTerm": "top_sensor",
+      "procedureIds": ["ne58r-top-sensor-open", "ne58r-top-sensor-short", "ne58r-over-temperature"],
+      "diagnosticSpec": "A/D thresholds; ceramic >482°F over-temp",
+      "gateAction": "approve_compounded"
+    },
+    {
+      "teachingId": "ne58r-igbt-sensor-overlay",
+      "gateQuestion": "Where does IGBT module sensor evidence live?",
+      "outcome": "overlay_implementation",
+      "implementationTerm": "igbt_sensor",
+      "canonicalTarget": "surface_heating_system",
+      "procedureIds": ["ne58r-igbt-sensor-open", "ne58r-igbt-sensor-short"],
+      "diagnosticSpec": "10 kΩ good condition",
+      "gateAction": "approve_compounded"
+    },
+    {
+      "teachingId": "ne58r-pan-detection-overlay",
+      "gateQuestion": "Where does pan detection bind?",
+      "outcome": "overlay_implementation",
+      "implementationTerm": "pan_detection",
+      "canonicalTarget": "surface_heating_system",
+      "procedureIds": ["ne58r-pan-detection"],
+      "gateAction": "approve_compounded"
+    },
+    {
+      "teachingId": "ne58r-bake-instance-scope",
+      "gateQuestion": "How does electric bake element bind?",
+      "outcome": "instance_scope_binding",
+      "instanceScopeTarget": "bake_heating_element",
+      "implementationTerm": "heater_bake",
+      "procedureIds": ["ne58r-bake-heater-component"],
+      "diagnosticSpec": "17–19 Ω @ room",
+      "gateAction": "approve_compounded"
+    },
+    {
+      "teachingId": "ne58r-broil-instance-scope",
+      "gateQuestion": "How does electric broil element bind?",
+      "outcome": "instance_scope_binding",
+      "instanceScopeTarget": "broil_heating_element",
+      "implementationTerm": "heater_broil",
+      "diagnosticSpec": "12–14 Ω @ room",
+      "gateAction": "approve_compounded"
+    },
+    {
+      "teachingId": "ne58r-convection-element-conditional",
+      "gateQuestion": "How does convection element bind?",
+      "outcome": "conditional_instance_scope_binding",
+      "conditionalInstanceScopeTarget": "convection_heating_element",
+      "implementationTerm": "convection_heater",
+      "diagnosticSpec": "41–46 Ω",
+      "gateAction": "approve_compounded"
+    },
+    {
+      "teachingId": "ne58r-temperature-sensor",
+      "gateQuestion": "How does oven RTD bind to temperature_sensor?",
+      "outcome": "canonical_inheritance",
+      "canonicalTarget": "temperature_sensor",
+      "implementationTerm": "oven_sensor",
+      "diagnosticSpec": "1080 Ω @ room",
+      "gateAction": "approve_compounded"
+    }
+  ]
+}

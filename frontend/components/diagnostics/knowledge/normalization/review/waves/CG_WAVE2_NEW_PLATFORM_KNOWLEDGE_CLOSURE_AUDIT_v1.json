@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "reportType": "candidate_review_wave_closure_audit",
+  "waveId": "wave2-new-platform-knowledge",
+  "reviewClass": "newPlatformKnowledge",
+  "closureTimestamp": "2026-09-21T05:26:12.714099+00:00",
+  "generatedAt": "2026-09-21T05:26:12.714099+00:00",
+  "expectedCandidateCount": 426,
+  "reviewedCandidateCount": 426,
+  "acceptedCount": 426,
+  "rejectedCount": 0,
+  "deferredCount": 0,
+  "missingDecisionCount": 0,
+  "duplicateDecisionCount": 0,
+  "outOfWaveDecisionCount": 0,
+  "decisionReconciliation": {
+    "passed": true,
+    "errors": [],
+    "expectedCandidateCount": 426,
+    "reviewedCandidateCount": 426,
+    "acceptedCount": 426,
+    "deferredCount": 0,
+    "rejectedCount": 0,
+    "missingDecisionCandidateIds": [],
+    "missingDecisionCount": 0,
+    "duplicateDecisionCount": 0,
+    "outOfWaveDecisionCount": 0,
+    "outOfWaveDecisionCandidateIds": []
+  },
+  "wave1Integrity": {
+    "passed": true,
+    "errors": [],
+    "wave1ClosureAuditStatus": "WAVE1_CLOSED",
+    "wave1ReviewedCount": 370,
+    "wave1AcceptedCount": 328,
+    "wave1DeferredCount": 41,
+    "wave1RejectedCount": 1,
+    "wave1DecisionCountInStore": 370,
+    "wave1ExpectedReviewed": 370,
+    "wave1DecisionsModified": false
+  },
+  "acceptedAudit": {
+    "passed": true,
+    "errors": [],
+    "allReviewClassNewPlatformKnowledge": true,
+    "candidateRecordsMutatedByDecisions": false
+  },
+  "decisionIntegrity": {
+    "passed": true,
+    "errors": [],
+    "decisionOnlyArtifact": true,
+    "promotionPerformed": false,
+    "promotionExcluded": true,
+    "totalDecisionCount": 796
+  },
+  "frozenCanonicalHashVerification": {
+    "passed": true,
+    "ontologyCount": 10
+  },
+  "frozenHashValidation": {
+    "passed": true,
+    "errors": [],
+    "canonicalMutationDetected": false,
+    "frozenCanonicalHashVerification": {
+      "passed": true,
+      "ontologyCount": 10
+    }
+  },
+  "canonicalMutationDetected": false,
+  "candidateMutationCheck": {
+    "passed": true,
+    "errors": [],
+    "processingManifestHash": "0d537288a76ed9b2bdc3fd7fec8ccb9e5187bf282dc68b917790a1fd184a4013",
+    "expectedProcessingManifestHash": "0d537288a76ed9b2bdc3fd7fec8ccb9e5187bf282dc68b917790a1fd184a4013",
+    "waveCandidatePoolContentHash": "f700f669a6780308c8d9bca59216ec58f394583f89b0744d3e4e3961d72a3fdb",
+    "candidateMutationDetected": false
+  },
+  "candidateMutationDetected": false,
+  "batchMutationCheck": {
+    "passed": true,
+    "errors": [],
+    "batchAuthorizationChanged": false,
+    "productionNormalizationRunTriggeredByClosure": false
+  },
+  "promotionPerformed": false,
+  "promotionExcluded": true,
+  "provenance": {
+    "waveDefinition": "CG_WAVE2_NEW_PLATFORM_KNOWLEDGE_REVIEW_v1.json",
+    "decisionsArtifact": "CG_PRODUCTION_NORMALIZATION_CANDIDATE_REVIEW_DECISIONS_v1.json",
+    "reviewIndex": "CG_PRODUCTION_NORMALIZATION_CANDIDATE_REVIEW_INDEX_v1.json",
+    "priorWaveClosureAudit": "CG_WAVE1_EXISTING_CANONICAL_MAPPING_CLOSURE_AUDIT_v1.json"
+  },
+  "errors": [],
+  "status": "WAVE2_CLOSED"
+}

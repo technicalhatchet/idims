@@ -153,9 +153,28 @@ const KNOWLEDGE_BY_ID = new Map<string, MeasurementKnowledgeDefinition>(
   ALL_ENTRIES.map((entry) => [entry.id, entry]),
 );
 
+/** Harness-only measurement definitions for scenario tests — not OEM production specs. */
+const HARNESS_MEASUREMENT_KNOWLEDGE: Record<string, MeasurementKnowledgeDefinition> = {
+  flWasherHarnessMotorLoadVoltage120: {
+    id: 'flWasherHarnessMotorLoadVoltage120',
+    name: 'Motor load voltage (FL washer harness)',
+    unit: 'VAC',
+    inputKind: 'voltage',
+    ranges: {
+      normal: { min: 110, max: 130 },
+      warning: { min: 100, max: 135 },
+      critical: { below: 90, above: 140 },
+    },
+    purpose: 'Harness scenario — motor commanded output voltage under load.',
+    appliesTo: {
+      templates: ['washer'],
+    },
+  },
+};
+
 export function getMeasurementKnowledge(id: string | null | undefined): MeasurementKnowledgeDefinition | null {
   if (!id) return null;
-  return KNOWLEDGE_BY_ID.get(id) || null;
+  return HARNESS_MEASUREMENT_KNOWLEDGE[id] || KNOWLEDGE_BY_ID.get(id) || null;
 }
 
 export function listMeasurementKnowledge(): MeasurementKnowledgeDefinition[] {

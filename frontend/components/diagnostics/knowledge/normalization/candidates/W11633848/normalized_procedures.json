@@ -1,0 +1,4152 @@
+{
+  "manualId": "W11633848",
+  "procedures": [
+    {
+      "procedureId": "w11633848-acu-power",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "title": "\u00a73-6: ACU Power & DC Supplies",
+      "purpose": "Power Check",
+      "prerequisites": [],
+      "componentIds": [
+        "supply"
+      ],
+      "tags": [
+        "F1E1",
+        "supply_issue",
+        "voltage_check",
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing."
+        },
+        {
+          "id": "terminal_voltage",
+          "order": 2,
+          "type": "instruction",
+          "title": "Line voltage at terminal block",
+          "body": "Remove access panel and terminal box cover. Volts AC: black probe on white terminal screw (N), red on black screw (L1). Plug in power.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "If 120 VAC is present, proceed to P4 check."
+        },
+        {
+          "id": "terminal_120vac",
+          "order": 3,
+          "type": "visual_check",
+          "title": "120 VAC at terminal block?",
+          "body": "Is 120 VAC present at the dishwasher terminal block (L1 to N)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "p4_voltage_yes",
+              "label": "120 VAC present",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "p4_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "p4_voltage_no",
+              "label": "No / low voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "customer_power",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Is 120 VAC present at the dishwasher terminal block (L1 to N)?"
+        },
+        {
+          "id": "customer_power",
+          "order": 4,
+          "type": "instruction",
+          "title": "Correct customer power",
+          "body": "Have customer correct outlet, breaker, or installation wiring before continuing ACU diagnosis.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Have customer correct outlet, breaker, or installation wiring before continuing ACU diagnosis."
+        },
+        {
+          "id": "p4_voltage",
+          "order": 5,
+          "type": "visual_check",
+          "title": "120 VAC at P4?",
+          "body": "Power off. Remove outer door panel. At connector P4: pin 1 (L1) to pin 4 (N) with power applied \u2014 expect 120 VAC.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "dc_supplies_yes",
+              "label": "120 VAC at P4",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "dc_supplies",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dc_supplies_no",
+              "label": "Missing at P4",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_p4_harness",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Remove outer door panel. At connector P4: pin 1 (L1) to pin 4 (N) with power applied \u2014 expect 120 VAC."
+        },
+        {
+          "id": "repair_p4_harness",
+          "order": 6,
+          "type": "instruction",
+          "title": "Repair terminal-to-P4 harness",
+          "body": "Check for open connection between terminal block and control P4. Repair harness or terminals as needed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check for open connection between terminal block and control P4. Repair harness or terminals as needed."
+        },
+        {
+          "id": "dc_supplies",
+          "order": 7,
+          "type": "visual_check",
+          "title": "5 VDC and 13 VDC present?",
+          "body": "With power on: 5 VDC from P11A-2 or P11B-2 to P10-2 (DC GND). 13 VDC from P11-7 to P10-2. Both within \u00b15%?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "dc_ok_yes",
+              "label": "Both supplies OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "dc_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dc_ok_no",
+              "label": "Missing or low",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "isolate_loaded_supply",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With power on: 5 VDC from P11A-2 or P11B-2 to P10-2 (DC GND). 13 VDC from P11-7 to P10-2. Both within \u00b15%?"
+        },
+        {
+          "id": "isolate_loaded_supply",
+          "order": 8,
+          "type": "instruction",
+          "title": "Isolate loaded-down supply",
+          "body": "Power off. Disconnect loads from control one connector at a time. Restore power and retest missing supply. Replace control if supply stays missing with all loads disconnected.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Disconnect loads from control one connector at a time. Restore power and retest missing supply. Replace control if supply stays missing with all loads disconnected."
+        },
+        {
+          "id": "replace_acu_power",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace ACU",
+          "body": "Replace electronic control if DC supplies or P4 input failed after harness repair.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "dc_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "Power verified",
+          "body": "Incoming and on-board power supplies verified \u2014 reassemble and retest operation.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "p4_voltage_yes",
+          "label": "120 VAC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "p4_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "terminal_120vac"
+        },
+        {
+          "id": "p4_voltage_no",
+          "label": "No / low voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "customer_power",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "terminal_120vac"
+        },
+        {
+          "id": "dc_supplies_yes",
+          "label": "120 VAC at P4",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dc_supplies",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "p4_voltage"
+        },
+        {
+          "id": "dc_supplies_no",
+          "label": "Missing at P4",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_p4_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "p4_voltage"
+        },
+        {
+          "id": "dc_ok_yes",
+          "label": "Both supplies OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dc_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dc_supplies"
+        },
+        {
+          "id": "dc_ok_no",
+          "label": "Missing or low",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "isolate_loaded_supply",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dc_supplies"
+        }
+      ],
+      "source": {
+        "manualId": "W11633848",
+        "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+        "oemTestNumber": "3-6",
+        "oemTestTitle": "Power Check",
+        "pages": [
+          40,
+          41
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-acu-power",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-acu-power",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11633848-dc-fan",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "title": "\u00a73-17: DC Fan Motor",
+      "purpose": "DC Fan Motor",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "F10E3"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing."
+        },
+        {
+          "id": "fan_service_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Fan in Service Diagnostics",
+          "body": "On fan-equipped models: DC fan runs during Service Diagnostics step 4. Skip if model has no fan.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "On fan-equipped models: DC fan runs during Service Diagnostics step 4. Skip if model has no fan."
+        },
+        {
+          "id": "disconnect_p14",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect P14",
+          "body": "Power off. Unplug P14 from control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Unplug P14 from control."
+        },
+        {
+          "id": "fan_ohms",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Fan motor 31\u201341 k\u03a9?",
+          "body": "Ohms between P14-1 and P14-2. Expected 31\u201341 k\u03a9.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "reconnect_p14_yes",
+              "label": "31\u201341 k\u03a9",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "reconnect_p14",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_p14_no",
+              "label": "Open or out of range",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Ohms between P14-1 and P14-2. Expected 31\u201341 k\u03a9."
+        },
+        {
+          "id": "reconnect_p14",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reconnect P14 and restore power",
+          "body": "Reconnect P14. Restore power.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect P14. Restore power."
+        },
+        {
+          "id": "service_mode_before_live_test",
+          "order": 6,
+          "type": "instruction",
+          "title": "Continue after Service Diagnostics entry",
+          "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification."
+        },
+        {
+          "id": "live_fan",
+          "order": 7,
+          "type": "visual_check",
+          "title": "5 VDC and fan spins in Service Diagnostics?",
+          "body": "During fan interval: 5 VDC \u00b15% at P14-1 and P14-2; fan spins.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fan_verified_yes",
+              "label": "Runs",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fan_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_verified_no",
+              "label": "No spin / no voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_fan",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "During fan interval: 5 VDC \u00b15% at P14-1 and P14-2; fan spins."
+        },
+        {
+          "id": "replace_fan",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace fan assembly",
+          "body": "Replace DC fan motor assembly.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_fan",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace ACU",
+          "body": "Fan good but no DC drive \u2014 replace control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_verified",
+          "order": 10,
+          "type": "outcome",
+          "title": "DC fan verified",
+          "body": "DC fan verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "reconnect_p14_yes",
+          "label": "31\u201341 k\u03a9",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "reconnect_p14",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "reconnect_p14_no",
+          "label": "Open or out of range",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "fan_verified_yes",
+          "label": "Runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_fan"
+        },
+        {
+          "id": "fan_verified_no",
+          "label": "No spin / no voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_fan",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_fan"
+        }
+      ],
+      "source": {
+        "manualId": "W11633848",
+        "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+        "oemTestNumber": "3-17",
+        "oemTestTitle": "DC Fan Motor",
+        "pages": [
+          51
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dc-fan",
+        "pages": [
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dc-fan",
+            "pages": [
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11633848-dispenser",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "title": "\u00a73-9: Dispenser Solenoid",
+      "purpose": "Dispenser Circuit",
+      "prerequisites": [],
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "tags": [
+        "F10E1",
+        "F10E2",
+        "F10E3"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing."
+        },
+        {
+          "id": "disp_mechanical",
+          "order": 2,
+          "type": "instruction",
+          "title": "Dispenser mechanical check",
+          "body": "Clear obstructions preventing dispenser lid from opening. If all TRIAC loads dead, check door switch, F500, pilot relay.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Clear obstructions preventing dispenser lid from opening. If all TRIAC loads dead, check door switch, F500, pilot relay."
+        },
+        {
+          "id": "disconnect_p12",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect P12",
+          "body": "Power off. Remove outer door and toe panels. Unplug P12 from control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Remove outer door and toe panels. Unplug P12 from control."
+        },
+        {
+          "id": "dispenser_ohms",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Dispenser solenoid 310\u2013380 \u03a9?",
+          "body": "Ohms between P12-5 and P12-7. Expected 310\u2013380 \u03a9 per strip circuit.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "reconnect_p12_yes",
+              "label": "310\u2013380 \u03a9",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "reconnect_p12",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_p12_no",
+              "label": "Open or out of range",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_dispenser",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Ohms between P12-5 and P12-7. Expected 310\u2013380 \u03a9 per strip circuit."
+        },
+        {
+          "id": "reconnect_p12",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reconnect P12 and restore power",
+          "body": "Reconnect P12. Restore power for Service Diagnostics live test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect P12. Restore power for Service Diagnostics live test."
+        },
+        {
+          "id": "service_mode_before_live_test",
+          "order": 6,
+          "type": "instruction",
+          "title": "Continue after Service Diagnostics entry",
+          "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification."
+        },
+        {
+          "id": "live_dispenser",
+          "order": 7,
+          "type": "visual_check",
+          "title": "Dispenser energizes in Service Diagnostics?",
+          "body": "120 VAC at P12-5 to P12-7 during dispenser interval (solenoid connected).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "dispenser_verified_yes",
+              "label": "Energizes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "dispenser_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dispenser_verified_no",
+              "label": "No output",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_dispenser",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "120 VAC at P12-5 to P12-7 during dispenser interval (solenoid connected)."
+        },
+        {
+          "id": "replace_dispenser",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace dispenser solenoid",
+          "body": "Replace dispenser solenoid or repair harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_dispenser",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace ACU",
+          "body": "Solenoid good but no AC drive \u2014 replace control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "dispenser_verified",
+          "order": 10,
+          "type": "outcome",
+          "title": "Dispenser verified",
+          "body": "Dispenser solenoid verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "reconnect_p12_yes",
+          "label": "310\u2013380 \u03a9",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "reconnect_p12",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dispenser_ohms"
+        },
+        {
+          "id": "reconnect_p12_no",
+          "label": "Open or out of range",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_dispenser",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dispenser_ohms"
+        },
+        {
+          "id": "dispenser_verified_yes",
+          "label": "Energizes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dispenser_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_dispenser"
+        },
+        {
+          "id": "dispenser_verified_no",
+          "label": "No output",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_dispenser",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_dispenser"
+        }
+      ],
+      "source": {
+        "manualId": "W11633848",
+        "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+        "oemTestNumber": "3-9",
+        "oemTestTitle": "Dispenser Circuit",
+        "pages": [
+          43
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-dispenser",
+        "pages": [
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-dispenser",
+            "pages": [
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11633848-diverter-motor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "title": "\u00a73-13: Diverter Motor",
+      "purpose": "Diverter Motor",
+      "prerequisites": [],
+      "componentIds": [
+        "circulation_pump"
+      ],
+      "tags": [
+        "F9E1",
+        "F10E5",
+        "wash_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing."
+        },
+        {
+          "id": "diverter_listen",
+          "order": 2,
+          "type": "instruction",
+          "title": "Diverter in Service Diagnostics",
+          "body": "Run Service Diagnostics \u2014 listen for spray zone changes or inspect diverter shaft rotation. Verify diverter disk installed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Run Service Diagnostics \u2014 listen for spray zone changes or inspect diverter shaft rotation. Verify diverter disk installed."
+        },
+        {
+          "id": "disconnect_p6_diverter",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect P6 / measure at P7",
+          "body": "Power off. Unplug P6. Measure diverter motor at P7-4 and P7-6 (use P10-1 test pad for P7-4 per manual).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Unplug P6. Measure diverter motor at P7-4 and P7-6 (use P10-1 test pad for P7-4 per manual)."
+        },
+        {
+          "id": "diverter_motor_ohms",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Diverter motor 600\u20131800 \u03a9?",
+          "body": "Ohms between P7-4 and P7-6. Expected 600\u20131800 \u03a9.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "reconnect_p6_diverter_yes",
+              "label": "600\u20131800 \u03a9",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "reconnect_p6_diverter",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_p6_diverter_no",
+              "label": "Open or out of range",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_diverter",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Ohms between P7-4 and P7-6. Expected 600\u20131800 \u03a9."
+        },
+        {
+          "id": "reconnect_p6_diverter",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reconnect P6 and restore power",
+          "body": "Reconnect P6. Restore power.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect P6. Restore power."
+        },
+        {
+          "id": "service_mode_before_live_test",
+          "order": 6,
+          "type": "instruction",
+          "title": "Continue after Service Diagnostics entry",
+          "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification."
+        },
+        {
+          "id": "live_diverter",
+          "order": 7,
+          "type": "visual_check",
+          "title": "Diverter rotates in Service Diagnostics?",
+          "body": "120 VAC at P6-4 and P6-6 during diverter interval; motor must be connected.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "diverter_motor_verified_yes",
+              "label": "Rotates",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "diverter_motor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "diverter_motor_verified_no",
+              "label": "No drive/rotation",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_diverter",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "120 VAC at P6-4 and P6-6 during diverter interval; motor must be connected."
+        },
+        {
+          "id": "replace_diverter",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace diverter assembly",
+          "body": "Replace diverter motor assembly if open/out of range.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_diverter",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace ACU",
+          "body": "Motor good but no AC output \u2014 replace control. If error persists, run diverter sensor test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "diverter_motor_verified",
+          "order": 10,
+          "type": "outcome",
+          "title": "Diverter motor verified",
+          "body": "Diverter motor verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "reconnect_p6_diverter_yes",
+          "label": "600\u20131800 \u03a9",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "reconnect_p6_diverter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diverter_motor_ohms"
+        },
+        {
+          "id": "reconnect_p6_diverter_no",
+          "label": "Open or out of range",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_diverter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diverter_motor_ohms"
+        },
+        {
+          "id": "diverter_motor_verified_yes",
+          "label": "Rotates",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "diverter_motor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_diverter"
+        },
+        {
+          "id": "diverter_motor_verified_no",
+          "label": "No drive/rotation",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_diverter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_diverter"
+        }
+      ],
+      "source": {
+        "manualId": "W11633848",
+        "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+        "oemTestNumber": "3-13",
+        "oemTestTitle": "Diverter Motor",
+        "pages": [
+          47
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-motor",
+        "pages": [
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-diverter-motor",
+            "pages": [
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11633848-diverter-sensor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "title": "\u00a73-14: Diverter Position Sensor",
+      "purpose": "Diverter Position Optical Sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "circulation_pump"
+      ],
+      "tags": [
+        "F9E1",
+        "F10E5",
+        "wash_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing."
+        },
+        {
+          "id": "sensor_prereq",
+          "order": 2,
+          "type": "instruction",
+          "title": "Confirm diverter motor first",
+          "body": "If diverter does not route water between zones, complete \u00a73-13 diverter motor test first.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "If diverter does not route water between zones, complete \u00a73-13 diverter motor test first."
+        },
+        {
+          "id": "harness_continuity",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Position switch harness continuity OK?",
+          "body": "Power off. Verify diverter position switch and P11 connectors seated. Check harness continuity switch to P11.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "live_position_sensor_yes",
+              "label": "Continuity OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "live_position_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "live_position_sensor_no",
+              "label": "Harness fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_diverter_harness",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Verify diverter position switch and P11 connectors seated. Check harness continuity switch to P11."
+        },
+        {
+          "id": "service_mode_before_live_test",
+          "order": 4,
+          "type": "instruction",
+          "title": "Continue after Service Diagnostics entry",
+          "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification."
+        },
+        {
+          "id": "live_position_sensor",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Position voltage varies 0\u20138\u201310 V in Service Diagnostics?",
+          "body": "Power on. DC volts: red P11-2, black P10-2. Run Service Diagnostics \u2014 voltage should pulse 0 V to 8\u201310 V as diverter reaches each position.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "sensor_verified_yes",
+              "label": "Varies correctly",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "sensor_verified_no",
+              "label": "Stuck at 0 or 8\u201310 V",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_diverter_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power on. DC volts: red P11-2, black P10-2. Run Service Diagnostics \u2014 voltage should pulse 0 V to 8\u201310 V as diverter reaches each position."
+        },
+        {
+          "id": "repair_diverter_harness",
+          "order": 6,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": "Repair or replace diverter position switch harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_diverter_sensor",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace diverter assembly",
+          "body": "Replace diverter assembly if sensor does not detect positions.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Diverter sensor verified",
+          "body": "Diverter position sensor verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_sensor",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace ACU",
+          "body": "If motor and sensor good but fault persists, replace control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "live_position_sensor_yes",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_position_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_continuity"
+        },
+        {
+          "id": "live_position_sensor_no",
+          "label": "Harness fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_diverter_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_continuity"
+        },
+        {
+          "id": "sensor_verified_yes",
+          "label": "Varies correctly",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_position_sensor"
+        },
+        {
+          "id": "sensor_verified_no",
+          "label": "Stuck at 0 or 8\u201310 V",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_diverter_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_position_sensor"
+        }
+      ],
+      "source": {
+        "manualId": "W11633848",
+        "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+        "oemTestNumber": "3-14",
+        "oemTestTitle": "Diverter Position Optical Sensor",
+        "pages": [
+          48
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-diverter-sensor",
+        "pages": [
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-diverter-sensor",
+            "pages": [
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11633848-door-switch",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "title": "\u00a73-7: Door Switch Circuit",
+      "purpose": "Door Switch Circuit",
+      "prerequisites": [],
+      "componentIds": [
+        "door_gasket"
+      ],
+      "tags": [
+        "F5E1",
+        "F5E2",
+        "door_lock_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing."
+        },
+        {
+          "id": "door_mechanical",
+          "order": 2,
+          "type": "instruction",
+          "title": "Mechanical door checks",
+          "body": "Verify installation/leveling, latch obstructions, door seal seated, and racks not interfering with door closure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify installation/leveling, latch obstructions, door seal seated, and racks not interfering with door closure."
+        },
+        {
+          "id": "disconnect_p9",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect P9",
+          "body": "Power off. Remove outer door panel and toe/access panels. Verify P9 and door latch connectors seated. Disconnect P9 from control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Remove outer door panel and toe/access panels. Verify P9 and door latch connectors seated. Disconnect P9 from control."
+        },
+        {
+          "id": "door_closed_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Door closed \u2014 P9 pins 5 & 6",
+          "body": "Ohms across P9-5 and P9-6 with door closed and strike fully latched. Expect 3 \u03a9 or less.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+              "testPoint": {
+                "connector": "P9",
+                "pins": "5 & 6 (door closed)",
+                "label": "Door closed \u2014 P9 pins 5 & 6"
+              },
+              "title": "Door closed \u2014 P9 pins 5 & 6"
+            }
+          ],
+          "branches": [
+            {
+              "id": "door_open_ohms_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "door_open_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_open_ohms_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "repair_door_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_open_ohms_crit",
+              "label": "Out of spec / open",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "repair_door_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_open_ohms_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "repair_door_harness",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Ohms across P9-5 and P9-6 with door closed and strike fully latched. Expect 3 \u03a9 or less."
+        },
+        {
+          "id": "door_open_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Door open \u2014 P9 pins 5 & 6",
+          "body": "With door open and strike removed from latch, expect infinite resistance (open circuit).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+              "testPoint": {
+                "connector": "P9",
+                "pins": "5 & 6 (door open)",
+                "label": "Door open \u2014 P9 pins 5 & 6"
+              },
+              "title": "Door open \u2014 P9 pins 5 & 6"
+            }
+          ],
+          "branches": [
+            {
+              "id": "door_open_pass",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "door_13v",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_open_fail",
+              "label": "Continuity with door open",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "replace_door_switch",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With door open and strike removed from latch, expect infinite resistance (open circuit)."
+        },
+        {
+          "id": "door_13v",
+          "order": 6,
+          "type": "visual_check",
+          "title": "13 VDC at P9-6 with door open?",
+          "body": "Reconnect P9. Power on, door open: red lead P9-6, black P13-4 (DC GND). Expect 13 VDC.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "live_door_diag_yes",
+              "label": "13 VDC present",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "live_door_diag",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "live_door_diag_no",
+              "label": "Missing",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_door",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Reconnect P9. Power on, door open: red lead P9-6, black P13-4 (DC GND). Expect 13 VDC."
+        },
+        {
+          "id": "service_mode_before_live_test",
+          "order": 7,
+          "type": "instruction",
+          "title": "Continue after Service Diagnostics entry",
+          "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification."
+        },
+        {
+          "id": "live_door_diag",
+          "order": 8,
+          "type": "visual_check",
+          "title": "Door switch OK in Service Diagnostics?",
+          "body": "Run Service Diagnostics cycle. Verify door-open pause and close-resume behavior.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_verified_yes",
+              "label": "Operates correctly",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_verified_no",
+              "label": "Still faulty",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_door",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Run Service Diagnostics cycle. Verify door-open pause and close-resume behavior."
+        },
+        {
+          "id": "repair_door_harness",
+          "order": 9,
+          "type": "outcome",
+          "title": "Repair door harness",
+          "body": "Repair loose connections or harness between door switch and P9.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_door_switch",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace door switch/latch",
+          "body": "Replace door switch/latch assembly and retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_door",
+          "order": 11,
+          "type": "outcome",
+          "title": "Replace ACU",
+          "body": "Door switch and wiring good but control does not sense door \u2014 replace ACU.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "door_verified",
+          "order": 12,
+          "type": "outcome",
+          "title": "Door switch verified",
+          "body": "Door switch circuit verified \u2014 reassemble.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testPoint": {
+            "connector": "P9",
+            "pins": "5 & 6 (door closed)",
+            "label": "Door closed \u2014 P9 pins 5 & 6"
+          },
+          "title": "Door closed \u2014 P9 pins 5 & 6"
+        },
+        {
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testPoint": {
+            "connector": "P9",
+            "pins": "5 & 6 (door open)",
+            "label": "Door open \u2014 P9 pins 5 & 6"
+          },
+          "title": "Door open \u2014 P9 pins 5 & 6"
+        }
+      ],
+      "branches": [
+        {
+          "id": "door_open_ohms_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "door_open_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_closed_ohms"
+        },
+        {
+          "id": "door_open_ohms_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "repair_door_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_closed_ohms"
+        },
+        {
+          "id": "door_open_ohms_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "repair_door_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_closed_ohms"
+        },
+        {
+          "id": "door_open_ohms_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "repair_door_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_closed_ohms"
+        },
+        {
+          "id": "door_open_pass",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "door_13v",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_open_ohms"
+        },
+        {
+          "id": "door_open_fail",
+          "label": "Continuity with door open",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_open_ohms"
+        },
+        {
+          "id": "live_door_diag_yes",
+          "label": "13 VDC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_door_diag",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_13v"
+        },
+        {
+          "id": "live_door_diag_no",
+          "label": "Missing",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_door",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_13v"
+        },
+        {
+          "id": "door_verified_yes",
+          "label": "Operates correctly",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_door_diag"
+        },
+        {
+          "id": "door_verified_no",
+          "label": "Still faulty",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_door",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_door_diag"
+        }
+      ],
+      "source": {
+        "manualId": "W11633848",
+        "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+        "oemTestNumber": "3-7",
+        "oemTestTitle": "Door Switch Circuit",
+        "pages": [
+          41
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11633848-drain-motor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "title": "\u00a73-16: Drain Motor",
+      "purpose": "Drain Motor with SSM",
+      "prerequisites": [],
+      "componentIds": [
+        "drain_pump"
+      ],
+      "tags": [
+        "F9E1",
+        "F9E2",
+        "F8E4",
+        "drain_issue",
+        "pump_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing."
+        },
+        {
+          "id": "drain_mechanical",
+          "order": 2,
+          "type": "instruction",
+          "title": "Drain path mechanical check",
+          "body": "Verify drain hose, disposal plug, check valve, filter. Run Service Diagnostics drain interval first.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify drain hose, disposal plug, check valve, filter. Run Service Diagnostics drain interval first."
+        },
+        {
+          "id": "disconnect_p5_drain",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect P5",
+          "body": "Power off. Unplug P5 from control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Unplug P5 from control."
+        },
+        {
+          "id": "drain_motor_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Drain motor \u2014 P5 pins 3 & 4",
+          "body": "Ohms P5-3 to P5-4. Procedure spec 27\u201333 \u03a9 (platform band 15\u201360 \u03a9).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolDishwasherAcuDrainMotorOhms",
+              "testPoint": {
+                "connector": "P5",
+                "pins": "3 & 4",
+                "label": "Drain motor \u2014 P5 pins 3 & 4"
+              },
+              "title": "Drain motor \u2014 P5 pins 3 & 4"
+            }
+          ],
+          "branches": [
+            {
+              "id": "reconnect_p5_drain_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "reconnect_p5_drain",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_p5_drain_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_drain_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_p5_drain_crit",
+              "label": "Out of spec / open",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_drain_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_p5_drain_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_drain_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Ohms P5-3 to P5-4. Procedure spec 27\u201333 \u03a9 (platform band 15\u201360 \u03a9)."
+        },
+        {
+          "id": "reconnect_p5_drain",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reconnect P5 and restore power",
+          "body": "Reconnect P5. Restore power.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect P5. Restore power."
+        },
+        {
+          "id": "service_mode_before_live_test",
+          "order": 6,
+          "type": "instruction",
+          "title": "Continue after Service Diagnostics entry",
+          "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification."
+        },
+        {
+          "id": "live_drain_motor",
+          "order": 7,
+          "type": "visual_check",
+          "title": "Drain motor runs in Service Diagnostics?",
+          "body": "120 VAC at P5-3 and P5-4 during drain interval (motor connected).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "drain_verified_yes",
+              "label": "Runs",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "drain_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "drain_verified_no",
+              "label": "No run / no voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_drain",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "120 VAC at P5-3 and P5-4 during drain interval (motor connected)."
+        },
+        {
+          "id": "replace_drain_motor",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace drain motor",
+          "body": "Replace drain pump if winding failed or impeller damaged.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_drain",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace ACU",
+          "body": "Motor good but no AC output \u2014 replace control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "drain_verified",
+          "order": 10,
+          "type": "outcome",
+          "title": "Drain motor verified",
+          "body": "Drain motor verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuDrainMotorOhms",
+          "testPoint": {
+            "connector": "P5",
+            "pins": "3 & 4",
+            "label": "Drain motor \u2014 P5 pins 3 & 4"
+          },
+          "title": "Drain motor \u2014 P5 pins 3 & 4"
+        }
+      ],
+      "branches": [
+        {
+          "id": "reconnect_p5_drain_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_p5_drain",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_motor_ohms"
+        },
+        {
+          "id": "reconnect_p5_drain_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_drain_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_motor_ohms"
+        },
+        {
+          "id": "reconnect_p5_drain_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_drain_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_motor_ohms"
+        },
+        {
+          "id": "reconnect_p5_drain_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_drain_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_motor_ohms"
+        },
+        {
+          "id": "drain_verified_yes",
+          "label": "Runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_drain_motor"
+        },
+        {
+          "id": "drain_verified_no",
+          "label": "No run / no voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_drain",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_drain_motor"
+        }
+      ],
+      "source": {
+        "manualId": "W11633848",
+        "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+        "oemTestNumber": "3-16",
+        "oemTestTitle": "Drain Motor with SSM",
+        "pages": [
+          50
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-drain-motor",
+            "pages": [
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11633848-fill-valve",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "title": "\u00a73-8: Fill Valve Circuit",
+      "purpose": "Fill Circuit",
+      "prerequisites": [],
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "tags": [
+        "F8E1",
+        "F8E2",
+        "F6E2",
+        "fill_issue",
+        "water_valve_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing."
+        },
+        {
+          "id": "fill_prereq",
+          "order": 2,
+          "type": "instruction",
+          "title": "Fill path prerequisites",
+          "body": "Verify supply on, adequate line, no siphoning, clean inlet screen, float down (normal). If all TRIAC loads dead, check door switch, F500, pilot relay first.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify supply on, adequate line, no siphoning, clean inlet screen, float down (normal). If all TRIAC loads dead, check door switch, F500, pilot relay first."
+        },
+        {
+          "id": "disconnect_p6_fill",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect P6",
+          "body": "Power off. Remove toe and outer door panels. Unplug P6 from control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Remove toe and outer door panels. Unplug P6 from control."
+        },
+        {
+          "id": "fill_valve_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Fill valve \u2014 P6 pins 1 & 3",
+          "body": "Ohms between P6-1 and P6-3. Manual spec 1200\u20131600 \u03a9 (platform band 890\u20131600 \u03a9).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolDishwasherAcuFillValveOhms",
+              "testPoint": {
+                "connector": "P6",
+                "pins": "1 & 3",
+                "label": "Fill valve \u2014 P6 pins 1 & 3"
+              },
+              "title": "Fill valve \u2014 P6 pins 1 & 3"
+            }
+          ],
+          "branches": [
+            {
+              "id": "reconnect_p6_fill_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "reconnect_p6_fill",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_p6_fill_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fill_valve",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_p6_fill_crit",
+              "label": "Out of spec / open",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fill_valve",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_p6_fill_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fill_valve",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Ohms between P6-1 and P6-3. Manual spec 1200\u20131600 \u03a9 (platform band 890\u20131600 \u03a9)."
+        },
+        {
+          "id": "reconnect_p6_fill",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reconnect P6 and restore power",
+          "body": "Reconnect P6. Reassemble panels as needed for safe live test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect P6. Reassemble panels as needed for safe live test."
+        },
+        {
+          "id": "service_mode_before_live_test",
+          "order": 6,
+          "type": "instruction",
+          "title": "Continue after Service Diagnostics entry",
+          "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification."
+        },
+        {
+          "id": "live_fill_voltage",
+          "order": 7,
+          "type": "visual_check",
+          "title": "120 VAC at fill valve during Service Diagnostics?",
+          "body": "Volts AC at test pads P6-1 and P6-3 during fill interval. Fill valve must remain connected for accurate reading.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fill_verified_yes",
+              "label": "120 VAC, valve energizes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fill_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fill_verified_no",
+              "label": "No voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_fill",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Volts AC at test pads P6-1 and P6-3 during fill interval. Fill valve must remain connected for accurate reading."
+        },
+        {
+          "id": "replace_fill_valve",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace fill valve",
+          "body": "Replace fill valve or repair harness if coil open/out of range.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_fill",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace ACU",
+          "body": "Fill valve and harness good but no AC output \u2014 replace control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fill_verified",
+          "order": 10,
+          "type": "outcome",
+          "title": "Fill valve verified",
+          "body": "Fill valve ohms and live output verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuFillValveOhms",
+          "testPoint": {
+            "connector": "P6",
+            "pins": "1 & 3",
+            "label": "Fill valve \u2014 P6 pins 1 & 3"
+          },
+          "title": "Fill valve \u2014 P6 pins 1 & 3"
+        }
+      ],
+      "branches": [
+        {
+          "id": "reconnect_p6_fill_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_p6_fill",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fill_valve_ohms"
+        },
+        {
+          "id": "reconnect_p6_fill_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fill_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fill_valve_ohms"
+        },
+        {
+          "id": "reconnect_p6_fill_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fill_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fill_valve_ohms"
+        },
+        {
+          "id": "reconnect_p6_fill_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fill_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fill_valve_ohms"
+        },
+        {
+          "id": "fill_verified_yes",
+          "label": "120 VAC, valve energizes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fill_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_fill_voltage"
+        },
+        {
+          "id": "fill_verified_no",
+          "label": "No voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_fill",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_fill_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "W11633848",
+        "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+        "oemTestNumber": "3-8",
+        "oemTestTitle": "Fill Circuit",
+        "pages": [
+          42
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-fill-valve",
+        "pages": [
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-fill-valve",
+            "pages": [
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11633848-heater",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "title": "\u00a73-10: Water Heating / Heat Dry",
+      "purpose": "Water Heating/Heat Dry",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "F4E2",
+        "F4E3",
+        "F7E1",
+        "F7E2",
+        "heating_element_check",
+        "no_heat_dry"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing."
+        },
+        {
+          "id": "disconnect_p4_heater",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect P4",
+          "body": "Power off. Remove toe/access panels. Disconnect P4 from control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Remove toe/access panels. Disconnect P4 from control."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Heater \u2014 P4 pins 2 & 3",
+          "body": "Ohms between P4-2 and P4-3. Expected 8\u201330 \u03a9 including element and hi-limit in circuit.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolDishwasherAcuHeaterOhms",
+              "testPoint": {
+                "connector": "P4",
+                "pins": "2 & 3",
+                "label": "Heater \u2014 P4 pins 2 & 3"
+              },
+              "title": "Heater \u2014 P4 pins 2 & 3"
+            }
+          ],
+          "branches": [
+            {
+              "id": "reconnect_p4_heater_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "reconnect_p4_heater",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_p4_heater_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "heater_open_path",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_p4_heater_crit",
+              "label": "Out of spec / open",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "heater_open_path",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_p4_heater_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "heater_open_path",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Ohms between P4-2 and P4-3. Expected 8\u201330 \u03a9 including element and hi-limit in circuit."
+        },
+        {
+          "id": "heater_open_path",
+          "order": 4,
+          "type": "instruction",
+          "title": "Isolate open heater path",
+          "body": "If open: check heater element and hi-limit thermostat continuity separately. Repair harness or replace open part.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "If open: check heater element and hi-limit thermostat continuity separately. Repair harness or replace open part."
+        },
+        {
+          "id": "reconnect_p4_heater",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reconnect P4 and restore power",
+          "body": "Reconnect P4. Restore power.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect P4. Restore power."
+        },
+        {
+          "id": "service_mode_before_live_test",
+          "order": 6,
+          "type": "instruction",
+          "title": "Continue after Service Diagnostics entry",
+          "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification."
+        },
+        {
+          "id": "live_heater_voltage",
+          "order": 7,
+          "type": "visual_check",
+          "title": "120 VAC at heater during Service Diagnostics?",
+          "body": "Volts AC at P4-2 and P4-3 during heater interval.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "heater_verified_yes",
+              "label": "120 VAC, heater on",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "heater_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_verified_no",
+              "label": "No voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_heater",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Volts AC at P4-2 and P4-3 during heater interval."
+        },
+        {
+          "id": "replace_acu_heater",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace ACU",
+          "body": "Heater circuit good but no AC output \u2014 replace control. If heat error persists, run OWI test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Heater verified",
+          "body": "Heater element and drive verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuHeaterOhms",
+          "testPoint": {
+            "connector": "P4",
+            "pins": "2 & 3",
+            "label": "Heater \u2014 P4 pins 2 & 3"
+          },
+          "title": "Heater \u2014 P4 pins 2 & 3"
+        }
+      ],
+      "branches": [
+        {
+          "id": "reconnect_p4_heater_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_p4_heater",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "reconnect_p4_heater_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "heater_open_path",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "reconnect_p4_heater_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "heater_open_path",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "reconnect_p4_heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "heater_open_path",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_verified_yes",
+          "label": "120 VAC, heater on",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_heater_voltage"
+        },
+        {
+          "id": "heater_verified_no",
+          "label": "No voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_heater",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_heater_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "W11633848",
+        "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+        "oemTestNumber": "3-10",
+        "oemTestTitle": "Water Heating/Heat Dry",
+        "pages": [
+          44
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-heater",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-heater",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11633848-overfill-switch",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "title": "\u00a73-12: Overfill Float Switch",
+      "purpose": "Overfill Switch Circuit",
+      "prerequisites": [],
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "tags": [
+        "F6E4",
+        "F8E5",
+        "fill_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing."
+        },
+        {
+          "id": "overfill_prereq",
+          "order": 2,
+          "type": "instruction",
+          "title": "Overfill prerequisites",
+          "body": "Same fill-path checks as \u00a73-8. Inspect leak pan for water and float freedom.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Same fill-path checks as \u00a73-8. Inspect leak pan for water and float freedom."
+        },
+        {
+          "id": "disconnect_p6_overfill",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect P6",
+          "body": "Power off. Unplug P6 from control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Unplug P6 from control."
+        },
+        {
+          "id": "overfill_valve_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Fill valve \u2014 P6 pins 7 & 9",
+          "body": "Ohms between P6-7 and P6-9. Expected 890\u20131600 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolDishwasherAcuFillValveOhms",
+              "testPoint": {
+                "connector": "P6",
+                "pins": "7 & 9",
+                "label": "Fill valve \u2014 P6 pins 7 & 9"
+              },
+              "title": "Fill valve \u2014 P6 pins 7 & 9"
+            }
+          ],
+          "branches": [
+            {
+              "id": "float_down_ohms_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "float_down_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "float_down_ohms_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fill_valve_overfill",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "float_down_ohms_crit",
+              "label": "Out of spec / open",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fill_valve_overfill",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "float_down_ohms_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fill_valve_overfill",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Ohms between P6-7 and P6-9. Expected 890\u20131600 \u03a9."
+        },
+        {
+          "id": "float_down_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Float down \u2014 P6 pins 4 & 6",
+          "body": "Float in normal (down) position: ohms P6-4 to P6-6. Expect 3 \u03a9 or less.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+              "testPoint": {
+                "connector": "P6",
+                "pins": "4 & 6 (float down)",
+                "label": "Float down \u2014 P6 pins 4 & 6"
+              },
+              "title": "Float down \u2014 P6 pins 4 & 6"
+            }
+          ],
+          "branches": [
+            {
+              "id": "float_up_ohms_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "float_up_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "float_up_ohms_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "repair_float_switch",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "float_up_ohms_crit",
+              "label": "Out of spec / open",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "repair_float_switch",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "float_up_ohms_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "repair_float_switch",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Float in normal (down) position: ohms P6-4 to P6-6. Expect 3 \u03a9 or less."
+        },
+        {
+          "id": "float_up_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Float up \u2014 P6 pins 4 & 6",
+          "body": "Raise float (up position): expect open circuit between P6-4 and P6-6.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+              "testPoint": {
+                "connector": "P6",
+                "pins": "4 & 6 (float up)",
+                "label": "Float up \u2014 P6 pins 4 & 6"
+              },
+              "title": "Float up \u2014 P6 pins 4 & 6"
+            }
+          ],
+          "branches": [
+            {
+              "id": "float_up_pass",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "reconnect_p6_overfill",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "float_up_fail",
+              "label": "Continuity with float up",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "replace_float_switch",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Raise float (up position): expect open circuit between P6-4 and P6-6."
+        },
+        {
+          "id": "reconnect_p6_overfill",
+          "order": 7,
+          "type": "instruction",
+          "title": "Reconnect P6 and restore power",
+          "body": "Reconnect P6. Restore power.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect P6. Restore power."
+        },
+        {
+          "id": "service_mode_before_live_test",
+          "order": 8,
+          "type": "instruction",
+          "title": "Continue after Service Diagnostics entry",
+          "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification."
+        },
+        {
+          "id": "live_overfill_fill",
+          "order": 9,
+          "type": "visual_check",
+          "title": "Fill valve energizes in Service Diagnostics?",
+          "body": "120 VAC between P10-1 and P6-9 during fill interval (valve connected).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "overfill_verified_yes",
+              "label": "Energizes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "overfill_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "overfill_verified_no",
+              "label": "No output",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_overfill",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "120 VAC between P10-1 and P6-9 during fill interval (valve connected)."
+        },
+        {
+          "id": "replace_fill_valve_overfill",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace fill valve",
+          "body": "Replace fill valve if coil failed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "repair_float_switch",
+          "order": 11,
+          "type": "outcome",
+          "title": "Repair float harness",
+          "body": "Repair harness or connections to float switch.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_float_switch",
+          "order": 12,
+          "type": "outcome",
+          "title": "Replace float switch",
+          "body": "Replace overfill/float switch assembly.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_overfill",
+          "order": 13,
+          "type": "outcome",
+          "title": "Replace ACU",
+          "body": "Components good but no fill drive \u2014 replace control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "overfill_verified",
+          "order": 14,
+          "type": "outcome",
+          "title": "Overfill circuit verified",
+          "body": "Fill valve and float switch verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuFillValveOhms",
+          "testPoint": {
+            "connector": "P6",
+            "pins": "7 & 9",
+            "label": "Fill valve \u2014 P6 pins 7 & 9"
+          },
+          "title": "Fill valve \u2014 P6 pins 7 & 9"
+        },
+        {
+          "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+          "testPoint": {
+            "connector": "P6",
+            "pins": "4 & 6 (float down)",
+            "label": "Float down \u2014 P6 pins 4 & 6"
+          },
+          "title": "Float down \u2014 P6 pins 4 & 6"
+        },
+        {
+          "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+          "testPoint": {
+            "connector": "P6",
+            "pins": "4 & 6 (float up)",
+            "label": "Float up \u2014 P6 pins 4 & 6"
+          },
+          "title": "Float up \u2014 P6 pins 4 & 6"
+        }
+      ],
+      "branches": [
+        {
+          "id": "float_down_ohms_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "float_down_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "overfill_valve_ohms"
+        },
+        {
+          "id": "float_down_ohms_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fill_valve_overfill",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "overfill_valve_ohms"
+        },
+        {
+          "id": "float_down_ohms_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fill_valve_overfill",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "overfill_valve_ohms"
+        },
+        {
+          "id": "float_down_ohms_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fill_valve_overfill",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "overfill_valve_ohms"
+        },
+        {
+          "id": "float_up_ohms_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "float_up_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "float_down_ohms"
+        },
+        {
+          "id": "float_up_ohms_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "repair_float_switch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "float_down_ohms"
+        },
+        {
+          "id": "float_up_ohms_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "repair_float_switch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "float_down_ohms"
+        },
+        {
+          "id": "float_up_ohms_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "repair_float_switch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "float_down_ohms"
+        },
+        {
+          "id": "float_up_pass",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "reconnect_p6_overfill",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "float_up_ohms"
+        },
+        {
+          "id": "float_up_fail",
+          "label": "Continuity with float up",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_float_switch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "float_up_ohms"
+        },
+        {
+          "id": "overfill_verified_yes",
+          "label": "Energizes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "overfill_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_overfill_fill"
+        },
+        {
+          "id": "overfill_verified_no",
+          "label": "No output",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_overfill",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_overfill_fill"
+        }
+      ],
+      "source": {
+        "manualId": "W11633848",
+        "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+        "oemTestNumber": "3-12",
+        "oemTestTitle": "Overfill Switch Circuit",
+        "pages": [
+          46
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-overfill-switch",
+        "pages": [
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-overfill-switch",
+            "pages": [
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11633848-owi-sensor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "title": "\u00a73-11: OWI / Thermistor",
+      "purpose": "Water Sensing with OWI Sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "F3E1",
+        "F3E2",
+        "F3E3",
+        "thermistor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing."
+        },
+        {
+          "id": "owi_service_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "OWI in Service Diagnostics",
+          "body": "First check OWI operation during Service Diagnostics cycle (thermistor LED indicators per \u00a72-3 notes).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "First check OWI operation during Service Diagnostics cycle (thermistor LED indicators per \u00a72-3 notes)."
+        },
+        {
+          "id": "disconnect_p10",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect P10",
+          "body": "Power off. Unplug P10 from control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Unplug P10 from control."
+        },
+        {
+          "id": "owi_ntc_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "OWI NTC \u2014 P10 pins 1 & 3",
+          "body": "Ohms between P10-1 and P10-3 at room temp. Platform ref: 46\u201352 k\u03a9 @ 77\u00b0F; use manual R/T table for hot water.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolDishwasherAcuOwiThermistorOhms",
+              "testPoint": {
+                "connector": "P10",
+                "pins": "1 & 3",
+                "label": "OWI NTC \u2014 P10 pins 1 & 3"
+              },
+              "title": "OWI NTC \u2014 P10 pins 1 & 3"
+            }
+          ],
+          "branches": [
+            {
+              "id": "owi_ground_check_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "owi_ground_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "owi_ground_check_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_owi",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "owi_ground_check_crit",
+              "label": "Out of spec / open",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_owi",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "owi_ground_check_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_owi",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Ohms between P10-1 and P10-3 at room temp. Platform ref: 46\u201352 k\u03a9 @ 77\u00b0F; use manual R/T table for hot water."
+        },
+        {
+          "id": "owi_ground_check",
+          "order": 5,
+          "type": "visual_check",
+          "title": "No short to ground on P10-1 or P10-3?",
+          "body": "Ohms from P10-1 to cabinet ground and P10-3 to ground \u2014 both should be open (no continuity).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "reconnect_p10_yes",
+              "label": "No shorts",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "reconnect_p10",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_p10_no",
+              "label": "Short to ground",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_owi_harness",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Ohms from P10-1 to cabinet ground and P10-3 to ground \u2014 both should be open (no continuity)."
+        },
+        {
+          "id": "reconnect_p10",
+          "order": 6,
+          "type": "instruction",
+          "title": "Reconnect P10 and restore power",
+          "body": "Reconnect P10. Restore power.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect P10. Restore power."
+        },
+        {
+          "id": "service_mode_before_live_test",
+          "order": 7,
+          "type": "instruction",
+          "title": "Continue after Service Diagnostics entry",
+          "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification."
+        },
+        {
+          "id": "live_owi_5v",
+          "order": 8,
+          "type": "visual_check",
+          "title": "5 VDC on OWI during Service Diagnostics?",
+          "body": "During OWI/thermistor check interval: 5 VDC between P10-2 (GND) and P10-3.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "owi_verified_yes",
+              "label": "5 VDC present",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "owi_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "owi_verified_no",
+              "label": "Missing",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_owi",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "During OWI/thermistor check interval: 5 VDC between P10-2 (GND) and P10-3."
+        },
+        {
+          "id": "replace_owi",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace OWI sensor",
+          "body": "Replace OWI if NTC out of range or open. Run Service Diagnostics after install to force calibration.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "repair_owi_harness",
+          "order": 10,
+          "type": "outcome",
+          "title": "Repair OWI harness",
+          "body": "Repair or replace harness if shorted to ground.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_owi",
+          "order": 11,
+          "type": "outcome",
+          "title": "Replace ACU",
+          "body": "OWI and harness good but no 5 V supply \u2014 replace control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "owi_verified",
+          "order": 12,
+          "type": "outcome",
+          "title": "OWI verified",
+          "body": "OWI thermistor and supply verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuOwiThermistorOhms",
+          "testPoint": {
+            "connector": "P10",
+            "pins": "1 & 3",
+            "label": "OWI NTC \u2014 P10 pins 1 & 3"
+          },
+          "title": "OWI NTC \u2014 P10 pins 1 & 3"
+        }
+      ],
+      "branches": [
+        {
+          "id": "owi_ground_check_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "owi_ground_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "owi_ntc_ohms"
+        },
+        {
+          "id": "owi_ground_check_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_owi",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "owi_ntc_ohms"
+        },
+        {
+          "id": "owi_ground_check_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_owi",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "owi_ntc_ohms"
+        },
+        {
+          "id": "owi_ground_check_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_owi",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "owi_ntc_ohms"
+        },
+        {
+          "id": "reconnect_p10_yes",
+          "label": "No shorts",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "reconnect_p10",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "owi_ground_check"
+        },
+        {
+          "id": "reconnect_p10_no",
+          "label": "Short to ground",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_owi_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "owi_ground_check"
+        },
+        {
+          "id": "owi_verified_yes",
+          "label": "5 VDC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "owi_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_owi_5v"
+        },
+        {
+          "id": "owi_verified_no",
+          "label": "Missing",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_owi",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_owi_5v"
+        }
+      ],
+      "source": {
+        "manualId": "W11633848",
+        "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+        "oemTestNumber": "3-11",
+        "oemTestTitle": "Water Sensing with OWI Sensor",
+        "pages": [
+          45
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-owi-sensor",
+        "pages": [
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-owi-sensor",
+            "pages": [
+              45
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11633848-triac-fuse",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "title": "\u00a73-3: F500 Triac Load Fuse",
+      "purpose": "Fuse Service and Resistance Check",
+      "prerequisites": [],
+      "componentIds": [
+        "supply"
+      ],
+      "tags": [
+        "F1E1",
+        "supply_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing."
+        },
+        {
+          "id": "fuse_context",
+          "order": 2,
+          "type": "instruction",
+          "title": "TRIAC load fuse context",
+          "body": "F500 protects all TRIAC-controlled loads (fill, drain, dispenser, diverter, etc.). If any TRIAC load runs in Service Diagnostics, F500 is OK.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "F500 protects all TRIAC-controlled loads (fill, drain, dispenser, diverter, etc.). If any TRIAC load runs in Service Diagnostics, F500 is OK."
+        },
+        {
+          "id": "measure_f500",
+          "order": 3,
+          "type": "visual_check",
+          "title": "F500 resistance < 3 \u03a9?",
+          "body": "Power off. Measure F500 fuse on control board (accessible from top). Less than 3 \u03a9 = good; greater than 3 \u03a9 = open.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fuse_ok_yes",
+              "label": "< 3 \u03a9 (good)",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fuse_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fuse_ok_no",
+              "label": "> 3 \u03a9 (open)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "inspect_triac_loads",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure F500 fuse on control board (accessible from top). Less than 3 \u03a9 = good; greater than 3 \u03a9 = open."
+        },
+        {
+          "id": "inspect_triac_loads",
+          "order": 4,
+          "type": "instruction",
+          "title": "Inspect all TRIAC loads",
+          "body": "With fuse open, inspect resistance of every TRIAC load for short, open, overheating, or pinched harness. Replace failed parts before replacing control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "With fuse open, inspect resistance of every TRIAC load for short, open, overheating, or pinched harness. Replace failed parts before replacing control."
+        },
+        {
+          "id": "replace_acu_fuse",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace ACU after load repair",
+          "body": "Replace control if F500 open and all loads check good.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fuse_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "F500 OK",
+          "body": "Triac fuse intact \u2014 if loads still dead, check door switch and pilot relay (K2).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "fuse_ok_yes",
+          "label": "< 3 \u03a9 (good)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fuse_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "measure_f500"
+        },
+        {
+          "id": "fuse_ok_no",
+          "label": "> 3 \u03a9 (open)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "inspect_triac_loads",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "measure_f500"
+        }
+      ],
+      "source": {
+        "manualId": "W11633848",
+        "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+        "oemTestNumber": "3-3",
+        "oemTestTitle": "Fuse Service and Resistance Check",
+        "pages": [
+          37
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-triac-fuse",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-triac-fuse",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11633848-wash-motor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "title": "\u00a73-15: Wash Motor (SSM)",
+      "purpose": "Global Wash Motor SSM",
+      "prerequisites": [],
+      "componentIds": [
+        "circulation_pump"
+      ],
+      "tags": [
+        "F4E3",
+        "F7E1",
+        "wash_issue",
+        "pump_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing."
+        },
+        {
+          "id": "wash_prereq",
+          "order": 2,
+          "type": "instruction",
+          "title": "Wash path prerequisites",
+          "body": "Inspect sump, coarse filter, spray arms. Run Service Diagnostics wash-motor interval first.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect sump, coarse filter, spray arms. Run Service Diagnostics wash-motor interval first."
+        },
+        {
+          "id": "disconnect_p5_wash",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect P5",
+          "body": "Power off. Unplug P5 from control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Unplug P5 from control."
+        },
+        {
+          "id": "wash_motor_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Wash motor \u2014 P5 pins 1 & 2",
+          "body": "Ohms P5-1 to P5-2. Manual SSM spec 6.7\u20138.7 \u03a9 @ 25\u00b0C (platform band 5\u201315 \u03a9).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+              "testPoint": {
+                "connector": "P5",
+                "pins": "1 & 2",
+                "label": "Wash motor \u2014 P5 pins 1 & 2"
+              },
+              "title": "Wash motor \u2014 P5 pins 1 & 2"
+            }
+          ],
+          "branches": [
+            {
+              "id": "wash_fuse_check_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "wash_fuse_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "wash_fuse_check_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_wash_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "wash_fuse_check_crit",
+              "label": "Out of spec / open",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_wash_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "wash_fuse_check_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_wash_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Ohms P5-1 to P5-2. Manual SSM spec 6.7\u20138.7 \u03a9 @ 25\u00b0C (platform band 5\u201315 \u03a9)."
+        },
+        {
+          "id": "wash_fuse_check",
+          "order": 5,
+          "type": "visual_check",
+          "title": "F501 wash fuse < 3 \u03a9 (if equipped)?",
+          "body": "Some models: verify wash motor fuse F501 < 3 \u03a9. If > 3 \u03a9, replace control.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "reconnect_p5_wash_yes",
+              "label": "Fuse OK or N/A",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "reconnect_p5_wash",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reconnect_p5_wash_no",
+              "label": "F501 open",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_wash_fuse",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Some models: verify wash motor fuse F501 < 3 \u03a9. If > 3 \u03a9, replace control."
+        },
+        {
+          "id": "reconnect_p5_wash",
+          "order": 6,
+          "type": "instruction",
+          "title": "Reconnect P5 and restore power",
+          "body": "Reconnect P5. Restore power.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect P5. Restore power."
+        },
+        {
+          "id": "service_mode_before_live_test",
+          "order": 7,
+          "type": "instruction",
+          "title": "Continue after Service Diagnostics entry",
+          "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification."
+        },
+        {
+          "id": "live_wash_motor",
+          "order": 8,
+          "type": "visual_check",
+          "title": "Wash motor runs in Service Diagnostics?",
+          "body": "120 VAC at P5-1 and P5-2 during wash interval.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "wash_verified_yes",
+              "label": "Runs",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "wash_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "wash_verified_no",
+              "label": "No run / no voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_wash",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "120 VAC at P5-1 and P5-2 during wash interval."
+        },
+        {
+          "id": "replace_wash_motor",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace wash motor",
+          "body": "Replace wash motor if winding failed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_wash_fuse",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace ACU (F501)",
+          "body": "Replace control if F501 open.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_wash",
+          "order": 11,
+          "type": "outcome",
+          "title": "Replace ACU",
+          "body": "Motor good but no AC output \u2014 replace control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "wash_verified",
+          "order": 12,
+          "type": "outcome",
+          "title": "Wash motor verified",
+          "body": "Wash motor circuit verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+          "testPoint": {
+            "connector": "P5",
+            "pins": "1 & 2",
+            "label": "Wash motor \u2014 P5 pins 1 & 2"
+          },
+          "title": "Wash motor \u2014 P5 pins 1 & 2"
+        }
+      ],
+      "branches": [
+        {
+          "id": "wash_fuse_check_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wash_fuse_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wash_motor_ohms"
+        },
+        {
+          "id": "wash_fuse_check_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_wash_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wash_motor_ohms"
+        },
+        {
+          "id": "wash_fuse_check_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wash_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wash_motor_ohms"
+        },
+        {
+          "id": "wash_fuse_check_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wash_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wash_motor_ohms"
+        },
+        {
+          "id": "reconnect_p5_wash_yes",
+          "label": "Fuse OK or N/A",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "reconnect_p5_wash",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wash_fuse_check"
+        },
+        {
+          "id": "reconnect_p5_wash_no",
+          "label": "F501 open",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_wash_fuse",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wash_fuse_check"
+        },
+        {
+          "id": "wash_verified_yes",
+          "label": "Runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wash_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_wash_motor"
+        },
+        {
+          "id": "wash_verified_no",
+          "label": "No run / no voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_wash",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_wash_motor"
+        }
+      ],
+      "source": {
+        "manualId": "W11633848",
+        "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+        "oemTestNumber": "3-15",
+        "oemTestTitle": "Global Wash Motor SSM",
+        "pages": [
+          49
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11633848",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-wash-motor",
+        "pages": [
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11633848",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-wash-motor",
+            "pages": [
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "id": "samsungne58-hmi-touch",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Touch keypad / SE / tE",
+  "platformId": "samsung_range_ne58",
+  "componentIds": [
+    "display_panel"
+  ],
+  "tags": [
+    "hmi_check",
+    "SE",
+    "tE"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58-RANGE",
+    "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+    "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "cg10-r4-assisted-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Failure display \u2014 touch communication",
+    "pages": [
+      28,
+      33,
+      34
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+      "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range.",
+      "requiresInput": false,
+      "defaultNextStepId": "keypad_check"
+    },
+    {
+      "id": "keypad_check",
+      "order": 2,
+      "type": "instruction",
+      "title": "Keypad cable TE201",
+      "body": "Disconnect power. Inspect keypad cable at sub PCB TE201 \u2014 -SE- key short path.",
+      "sourceExcerpt": "Disconnect power. Inspect keypad cable at sub PCB TE201 \u2014 -SE- key short path.",
+      "requiresInput": false,
+      "defaultNextStepId": "touch_comm"
+    },
+    {
+      "id": "touch_comm",
+      "order": 3,
+      "type": "instruction",
+      "title": "Touch glass \u2194 sub PCB",
+      "body": "Verify touch glass connector and TE201 on sub PCB \u2014 -tE- communication error path.",
+      "sourceExcerpt": "Verify touch glass connector and TE201 on sub PCB \u2014 -tE- communication error path.",
+      "requiresInput": false,
+      "defaultNextStepId": "hmi_ok"
+    },
+    {
+      "id": "replace_touch",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace touch control PCB",
+      "oemOutcome": "Replace control box (touch PCB + glass) or sub PCB when harness verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "hmi_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "HMI path OK",
+      "oemOutcome": "Touch and keypad communication verified.",
+      "requiresInput": false
+    }
+  ]
+}

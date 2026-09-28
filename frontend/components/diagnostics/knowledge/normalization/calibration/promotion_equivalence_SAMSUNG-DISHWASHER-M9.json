@@ -1,0 +1,62 @@
+{
+  "manualId": "SAMSUNG-DISHWASHER",
+  "equivalent": false,
+  "checks": {
+    "canonicalAliases": true,
+    "procedureBindings": true,
+    "measurementBindings": true,
+    "topologyOverrides": false
+  },
+  "aliasComparison": {
+    "equivalent": true,
+    "referenceCount": 17,
+    "generatedCount": 17,
+    "mismatches": [],
+    "extraGenerated": []
+  },
+  "procedureBindingComparison": {
+    "label": "procedureBindings",
+    "equivalent": true,
+    "referenceCount": 10,
+    "generatedCount": 21,
+    "mismatches": [],
+    "extraGenerated": [
+      "samsungdwm9-circulation-motor",
+      "samsungdwm9-dispenser",
+      "samsungdwm9-distributor",
+      "samsungdwm9-door-switch",
+      "samsungdwm9-drain-pump",
+      "samsungdwm9-dry-system",
+      "samsungdwm9-fill-valve",
+      "samsungdwm9-heater",
+      "samsungdwm9-overflow",
+      "samsungdwm9-thermistor",
+      "samsungdwm9-vane-motor"
+    ]
+  },
+  "measurementBindingComparison": {
+    "label": "measurementBindings",
+    "equivalent": true,
+    "referenceCount": 5,
+    "generatedCount": 15,
+    "mismatches": [],
+    "extraGenerated": [
+      "samsungdwm9-circulation-motor:samsungDishwasherM9CirculationMotorOhms",
+      "samsungdwm9-dispenser:samsungDishwasherM9DispenserOhms",
+      "samsungdwm9-distributor:samsungDishwasherM9DistributorMotorOhms",
+      "samsungdwm9-drain-pump:samsungDishwasherM9DrainPumpOhms",
+      "samsungdwm9-dry-system:samsungDishwasherM9DryFanOhms",
+      "samsungdwm9-dry-system:samsungDishwasherM9ThermalActuatorOhms",
+      "samsungdwm9-fill-valve:samsungDishwasherM9FillValveOhms",
+      "samsungdwm9-heater:samsungDishwasherM9HeaterOhms",
+      "samsungdwm9-thermistor:samsungDishwasherM9ThermistorOhms",
+      "samsungdwm9-vane-motor:samsungDishwasherM9VaneMotorOhms"
+    ]
+  },
+  "provenance": "generated",
+  "notes": [
+    "Semantic equivalence: reference CG-2 mappings must be preserved.",
+    "Extra generated aliases/bindings are allowed.",
+    "Topology overrides remain hand-authored and must not drift."
+  ]
+}

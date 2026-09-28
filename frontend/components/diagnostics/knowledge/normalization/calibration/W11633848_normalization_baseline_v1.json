@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg6_dishwasher_first_manual_baseline",
+  "manualId": "W11633848",
+  "platformId": "whirlpool_dishwasher_acu",
+  "platformFamilyId": "whirlpool_dishwasher_acu",
+  "ontologyId": "dishwasher",
+  "ontologyFrozen": true,
+  "ontologyFrozenRevision": "rev1",
+  "generatedAt": "2026-09-14T20:22:00+00:00",
+  "phase": "CG-6.5",
+  "headline": "Fresh CG-3 complete — 13 procedures, 21 mapping candidates, 23 overlay bindings, 0 conflicts, 0 canonical ontology candidates",
+  "pipelineCounts": {
+    "procedures": 13,
+    "mappingCandidates": 21,
+    "overlayCandidates": 23,
+    "conflicts": 0,
+    "extractionFiltered": 0
+  },
+  "mappingStatusBreakdown": {
+    "candidate": 8,
+    "COMPOUND_TERM_CANDIDATE": 5,
+    "UNRESOLVED_TERM": 8
+  },
+  "resolvedCanonicalTargets": {
+    "circulation_pump": 3,
+    "inlet_valve": 2,
+    "drain_pump": 2,
+    "control_board": 1,
+    "heat_source": 1,
+    "drying_system": 1,
+    "detergent_dispenser": 1,
+    "door_switch": 1,
+    "water_level_sensor": 1
+  },
+  "gapAnalysis": {
+    "artifact": "canonical_gap_report_W11633848_dishwasher.json",
+    "canonicalOntologyCandidates": 0,
+    "canonicalAliasOpportunities": 0,
+    "platformSpecificConcepts": 0,
+    "unresolved": 6,
+    "humanReview": 1
+  },
+  "abstractBoundaryReview": {
+    "circulation_pump": {
+      "verdict": "canonical_sufficient_at_platform_layer",
+      "evidence": [
+        "wash motor (SSM) → circulation_pump",
+        "diverter motor → circulation_pump (platform: diverter is implementation detail)",
+        "diverter position sensor → UNRESOLVED (platform overlay candidate, not canonical)"
+      ],
+      "deferredPlatformConcepts": ["diverter_valve", "diverter_position_sensor", "vsm_motor", "ssm_motor"]
+    },
+    "drying_system": {
+      "verdict": "canonical_sufficient_at_platform_layer",
+      "evidence": [
+        "DC fan motor → drying_system",
+        "Water Heating / Heat Dry title → UNRESOLVED compound (gate: heat_source vs drying_system split)"
+      ],
+      "deferredPlatformConcepts": ["dc_fan_motor", "heat_dry_fan_path"]
+    },
+    "water_level_sensor": {
+      "verdict": "canonical_sufficient_implementation_in_overlay",
+      "evidence": [
+        "overfill float switch → water_level_sensor",
+        "OWI / Thermistor → UNRESOLVED compound (gate: water_level_sensor vs temperature_sensor split — platform teaches dual-role OWI)"
+      ],
+      "deferredPlatformConcepts": ["owi_sensor", "overfill_float", "pressure_switch"]
+    }
+  },
+  "deferredConceptWatchlist": {
+    "diverter_valve": "UNRESOLVED diverter position sensor — platform only",
+    "turbidity_sensor": "not observed in W11633848 base cohort",
+    "check_valve": "not observed in W11633848 base cohort",
+    "rif_filter": "not in W11633848 base — W11366142 delta",
+    "vsm_motor": "not in W11633848 base — W11480208 delta (SSM wash motor on base manual)"
+  },
+  "unresolvedForHumanGate": [
+    "supply → power_supply (AMBIGUOUS_COMPONENT)",
+    "§3-6: ACU Power & DC Supplies",
+    "§3-14: Diverter Position Sensor",
+    "door_gasket",
+    "§3-10: Water Heating / Heat Dry",
+    "§3-11: OWI / Thermistor",
+    "§3-3: F500 Triac Load Fuse → thermal_protection (expected gate approval)"
+  ],
+  "architectureExperiment": {
+    "question": "Is functional dishwasher behavior → dishwasher ontology → Whirlpool manufacturer → ACU platform sufficient?",
+    "interimAnswer": "Yes — no canonical expansion required from first manual; unresolved terms are gate/overlay work",
+    "doNotFreezeOntologyYet": true,
+    "nextSteps": [
+      "W11480208 delta/compounding experiment (VSM/diverter/DC-fan)"
+    ]
+  },
+  "promotionDryRun": {
+    "artifact": "promotion_dry_run_W11633848.json",
+    "equivalent": true,
+    "promotionId": "promo-W11633848-20260915040713",
+    "ledgerApproved": {
+      "mappings": 15,
+      "procedureBindings": 13,
+      "measurementBindings": 7
+    },
+    "architectureChecksPassed": 10,
+    "dishwasherOntologyFrozen": true,
+    "dishwasherFrozenRevision": "rev1",
+    "publish": false
+  },
+  "humanGate": {
+    "artifact": "W11633848_overlay_mapping_table_v1.json",
+    "status": "gated",
+    "approved": 15,
+    "rejected": 3,
+    "deferredPlatform": 3,
+    "newHumanSemanticDecisions": 11,
+    "newCanonicalConcepts": 0
+  },
+  "artifacts": {
+    "candidates": "normalization/candidates/W11633848/",
+    "gapReport": "calibration/canonical_gap_report_W11633848_dishwasher.json",
+    "extraction": "pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md"
+  }
+}

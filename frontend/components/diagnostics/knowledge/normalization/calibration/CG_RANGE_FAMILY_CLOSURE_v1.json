@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_family_closure_workstream",
+  "workstream": "CG-RANGE-FAMILY-CLOSURE",
+  "status": "closed",
+  "verdict": "GREEN / RANGE_FAMILY_CLOSURE_COMPLETE",
+  "openedAt": "2026-09-17T07:00:00+00:00",
+  "closedAt": "2026-09-17T07:00:00+00:00",
+  "priorWorkstreamClosed": "CG_RANGE_COMPOUNDING_v1.json",
+  "priorWorkstreamVerdict": "GREEN / RANGE_COMPOUNDING_COMPLETE",
+  "coreConstraint": "Closure/inventory/organizational gate only — no ontology redesign, no additional compounding sequences, no reopening CG-10–13 fit evidence.",
+  "closureDeliverables": {
+    "familyLock": "CG_RANGE_FAMILY_LOCK_v1.json",
+    "regressionProof": "CG_RANGE_FAMILY_REGRESSION_PROOF_v1.json",
+    "closureAudit": "CG_RANGE_FAMILY_CLOSURE_AUDIT_v1.json"
+  },
+  "closureQuestions": [
+    "Is range_oven the finalized canonical family identity?",
+    "Are all four fuel/technology variants routed correctly?",
+    "Are legacy aliases and historical artifacts accounted for?",
+    "Are all implementation overlays discoverable through the resolver?",
+    "Is the provenance chain complete from discovery → fit → normalization → compounding?",
+    "Are deferred range accessories/functions that affect canonical scope resolved or explicitly platform-only?",
+    "Are regression/immutability locks sufficient to declare the family closed?"
+  ],
+  "explicitNonGoals": [
+    "Ontology redesign or canonical components[] expansion",
+    "Additional compounding sequences",
+    "Reopen CG-10–13 fit conclusions or rewrite W11174814 as retroactive fit evidence",
+    "Cross-manufacturer fit matrix completion (deferred organizational — not architecture blocker)",
+    "Remaining-appliance-family inventory beyond range"
+  ],
+  "exitCriteria": {
+    "familyLockPublished": true,
+    "closureAuditGreen": true,
+    "regressionProofLocked": true,
+    "canonicalHashesPinned": true,
+    "overlayHashesPinned": true,
+    "historicalArtifactHashesPinned": true,
+    "resolverOverlayCount": 4,
+    "provenanceChainComplete": true
+  },
+  "nextDisciplinedStep": "STOP — range family architecture closed; additional range manuals are coverage work only"
+}

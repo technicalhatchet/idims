@@ -1,0 +1,1239 @@
+{
+  "manualId": "LG-FL-WASHER",
+  "candidates": [
+    {
+      "id": "map-LG-FL-WASHER-recirc_pump-recirc_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "recirc_pump",
+      "extractedTerm": null,
+      "canonicalId": "recirc_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-circulation-pump",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-circulation-pump",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-compound-\u00a78:-circulation-pump",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a78: Circulation pump",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "8 circulation",
+        "actuator": "pump"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-circulation-pump",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-circulation-pump",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "8 circulation",
+              "actuator": "pump"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-hmi_control-hmi_control",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "hmi_control",
+      "extractedTerm": null,
+      "canonicalId": "hmi_control",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-display-comm",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-display-comm",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-control_board-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "control_board",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-display-comm",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-display-comm",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-compound-\u00a78:-display-pwb-\u2194-main-pwb",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a78: DISPLAY PWB \u2194 MAIN PWB",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-display-comm",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-display-comm",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-door_lock-door_lock",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_lock",
+      "extractedTerm": null,
+      "canonicalId": "door_lock",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-door-lock",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-door-lock",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-compound-\u00a78:-door-lock",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a78: Door lock",
+      "canonicalId": "door_lock",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "8 door",
+        "actuator": "lock"
+      },
+      "matchedPhrase": "door lock",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-door-lock",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-door-lock",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "door lock",
+            "decomposition": {
+              "domain": null,
+              "component": "8 door",
+              "actuator": "lock"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-drain_pump-drain_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drain_pump",
+      "extractedTerm": null,
+      "canonicalId": "drain_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-drain-pump",
+        "pages": [
+          33,
+          48,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-drain-pump",
+            "pages": [
+              33,
+              48,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-compound-\u00a78:-drain-pump",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a78: Drain pump",
+      "canonicalId": "drain_pump",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "8 drain",
+        "actuator": "pump"
+      },
+      "matchedPhrase": "drain pump",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-drain-pump",
+        "pages": [
+          33,
+          48,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-drain-pump",
+            "pages": [
+              33,
+              48,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "drain pump",
+            "decomposition": {
+              "domain": null,
+              "component": "8 drain",
+              "actuator": "pump"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-inlet_valve-inlet_valve",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inlet_valve",
+      "extractedTerm": null,
+      "canonicalId": "inlet_valve",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-inlet-valves",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-inlet-valves",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-dosing_pump-dosing_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "dosing_pump",
+      "extractedTerm": null,
+      "canonicalId": "dosing_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-inlet-valves",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-inlet-valves",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-compound-\u00a78:-inlet-and-dispenser-valves",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a78: Inlet and dispenser valves",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-inlet-valves",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-inlet-valves",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-drive_motor-drive_motor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drive_motor",
+      "extractedTerm": null,
+      "canonicalId": "drive_motor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-motor-circuit",
+        "pages": [
+          4,
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-motor-circuit",
+            "pages": [
+              4,
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-compound-\u00a78:-direct-drive-motor",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a78: Direct-drive motor",
+      "canonicalId": "drive_motor",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "8 direct drive",
+        "actuator": "motor"
+      },
+      "matchedPhrase": "drive motor",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-motor-circuit",
+        "pages": [
+          4,
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-motor-circuit",
+            "pages": [
+              4,
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "drive motor",
+            "decomposition": {
+              "domain": null,
+              "component": "8 direct drive",
+              "actuator": "motor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-supply-supply",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": "supply",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-power",
+        "pages": [
+          8,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-power",
+            "pages": [
+              8,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-compound-\u00a74:-power-/-main-pwb-supply",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74: Power / MAIN PWB supply",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-power",
+        "pages": [
+          8,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-power",
+            "pages": [
+              8,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-water_level_sensor-water_level_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "water_level_sensor",
+      "extractedTerm": null,
+      "canonicalId": "water_level_sensor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-pressure-sensor",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-pressure-sensor",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-pressure_hose-pressure_hose",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "pressure_hose",
+      "extractedTerm": null,
+      "canonicalId": "pressure_hose",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-pressure-sensor",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-pressure-sensor",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-compound-\u00a78:-pressure-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a78: Pressure sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "8 pressure",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-pressure-sensor",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-pressure-sensor",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "8 pressure",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-compound-\u00a72:-smart-diagnosis-/-thinq",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a72: Smart Diagnosis / ThinQ",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-smart-diagnosis",
+        "pages": [
+          4,
+          6,
+          15
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-smart-diagnosis",
+            "pages": [
+              4,
+              6,
+              15
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-suspension-suspension",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "suspension",
+      "extractedTerm": null,
+      "canonicalId": "suspension",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-vibration-sensor",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-vibration-sensor",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-compound-\u00a78:-vibration-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a78: Vibration sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "8 vibration",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-vibration-sensor",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-vibration-sensor",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "8 vibration",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-wash_heater-wash_heater",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_heater",
+      "extractedTerm": null,
+      "canonicalId": "wash_heater",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-wash-heater",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-wash-heater",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-compound-\u00a78:-washer-heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a78: Washer heater",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "8 washer",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-wash-heater",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-wash-heater",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "8 washer",
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-wash_ntc-wash_ntc",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_ntc",
+      "extractedTerm": null,
+      "canonicalId": "wash_ntc",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-wash-thermistor",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-wash-thermistor",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-FL-WASHER-compound-\u00a78:-wash-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a78: Wash thermistor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "8 wash",
+        "actuator": "thermistor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-wash-thermistor",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-wash-thermistor",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "8 wash",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,475 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg10_electric_range_r3_platform_probe_observation",
+  "experiment": "CG-10 R3 \u2014 Whirlpool W11174426 LCX/LCC platform architecture falsification within same manufacturer. Ask which concepts disappear when surface-control architecture changes \u2014 NOT whether LCX validates Copernicus.",
+  "workstream": "CG-10",
+  "stage": "R3_platform_architecture_falsification_probe",
+  "manualId": "W11174426",
+  "platformId": "whirlpool_freestanding_range",
+  "fuelFilter": "electric_range",
+  "ontologyId": "electric_range_oven_candidate",
+  "ontologyFrozen": false,
+  "freezeEligible": false,
+  "generatedAt": "2026-09-16T14:15:24.998288+00:00",
+  "publishBlocked": true,
+  "gateBlocked": true,
+  "canonicalPromotionBlocked": true,
+  "candidateSkeletonMutable": false,
+  "r3DecisionGate": {
+    "question": "Which apparent Whirlpool concepts disappear when surface-control architecture changes (LCX infinite-switch vs Copernicus ACU relay)?",
+    "notAsked": "Does LCX validate Copernicus?",
+    "corpusLimitation": "R3 is NOT a third independent manufacturer \u2014 document alongside R1/R2. Samsung electric range manual absent from corpus."
+  },
+  "platformContrast": {
+    "r1Platform": "Copernicus_ACU_relay_surface",
+    "r3Platform": "LCX_LCC_infinite_switch_surface",
+    "sameManufacturer": true,
+    "surfaceControlDelta": "ACU_relay_mediated vs infinite_switch"
+  },
+  "r1Reference": {
+    "observationArtifact": "W11746350_er_cg10x_observation_v1.json",
+    "manualId": "W11746350"
+  },
+  "r2Reference": {
+    "observationArtifact": "LG_LRE_RANGE_er_cg10x_observation_v1.json",
+    "manualId": "LG-LRE-RANGE"
+  },
+  "graphArtifacts": {
+    "cg10xCandidate": "frontend\\components\\diagnostics\\knowledge\\normalization\\calibration\\electric_range_oven_cg10x_candidate_v1.json",
+    "extractionDoc": "frontend\\components\\diagnostics\\knowledge\\pattern-catalog\\WHIRLPOOL_W11174426_FREESTANDING_RANGE_EXTRACTION.md",
+    "extractedText": "backend\\docs\\manuals\\technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt"
+  },
+  "pipelineCounts": {
+    "procedures": 9,
+    "mappingCandidates": 16,
+    "overlayCandidates": 0,
+    "conflicts": 0,
+    "extractionFiltered": 0
+  },
+  "mappingSummary": {
+    "total": 16
+  },
+  "r3ConceptEvaluations": {
+    "power_supply": {
+      "conceptId": "power_supply",
+      "verdict": "canonical_functional",
+      "rationale": "240 VAC prerequisite and terminal-block checks on LCX/LCC \u2014 same functional power role as R1/R2.",
+      "componentTests": [
+        "acu_power"
+      ],
+      "procedureIds": [
+        "w11174426-acu-power"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "240 vac",
+        "terminal block",
+        "f9e0"
+      ]
+    },
+    "control_board": {
+      "conceptId": "control_board",
+      "verdict": "canonical_functional",
+      "rationale": "LCX/LCC control board orchestrates oven relay tests and diagnostics entry (CANCEL\u00d72+START). Independent of surface switch implementation.",
+      "componentTests": [
+        "acu_power"
+      ],
+      "procedureIds": [
+        "w11174426-acu-power"
+      ],
+      "seedComponentIds": [
+        "control_board"
+      ],
+      "manualPhraseHits": []
+    },
+    "user_interface": {
+      "conceptId": "user_interface",
+      "verdict": "canonical_functional",
+      "rationale": "Keypad P11 harness; F2E1 shorted keypad \u2014 UI functional role unchanged across Whirlpool platforms.",
+      "componentTests": [
+        "hmi"
+      ],
+      "procedureIds": [
+        "w11174426-hmi"
+      ],
+      "seedComponentIds": [
+        "display_panel"
+      ],
+      "manualPhraseHits": []
+    },
+    "temperature_sensor": {
+      "conceptId": "temperature_sensor",
+      "verdict": "canonical_functional",
+      "rationale": "RTD 1000\u20131200 \u03a9 Con3/P3 with F3E0/F6E1 \u2014 third independent manual family confirms oven cavity temperature feedback as functional role.",
+      "componentTests": [
+        "oven_sensor"
+      ],
+      "procedureIds": [
+        "w11174426-oven-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "manualPhraseHits": []
+    },
+    "oven_heating_system": {
+      "conceptId": "oven_heating_system",
+      "verdict": "reject_monolithic_aggregate",
+      "rationale": "LCX chart lists separate bake and broil element \u03a9 rows \u2014 same decomposition posture as R1 Copernicus and R2 LG. Monolithic aggregate not supported.",
+      "componentTests": [
+        "bake",
+        "broil"
+      ],
+      "procedureIds": [
+        "w11174426-bake-element",
+        "w11174426-broil-element"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": []
+    },
+    "bake_heating_element": {
+      "conceptId": "bake_heating_element",
+      "verdict": "instance_functional_role",
+      "rationale": "Dedicated bake element procedure 10\u201340 \u03a9 \u2014 invariant across all three probes.",
+      "componentTests": [
+        "bake"
+      ],
+      "procedureIds": [
+        "w11174426-bake-element"
+      ],
+      "seedComponentIds": [
+        "heater"
+      ],
+      "manualPhraseHits": []
+    },
+    "broil_heating_element": {
+      "conceptId": "broil_heating_element",
+      "verdict": "instance_functional_role",
+      "rationale": "Dedicated broil element procedure separate from bake on LCX.",
+      "componentTests": [
+        "broil"
+      ],
+      "procedureIds": [
+        "w11174426-broil-element"
+      ],
+      "seedComponentIds": [
+        "heater"
+      ],
+      "manualPhraseHits": []
+    },
+    "convection_heating_element": {
+      "conceptId": "convection_heating_element",
+      "verdict": "deferred",
+      "rationale": "No convection element procedure on LCX electric chart \u2014 convection fan mentioned in operation notes only. Electric convection element evidenced on R2 LG only.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "convection fan",
+        "convection bake"
+      ]
+    },
+    "surface_heating_system": {
+      "conceptId": "surface_heating_system",
+      "verdict": "canonical_functional",
+      "rationale": "Cooktop heat generation is a testable functional domain via infinite-switch procedure \u2014 but switching mechanism is implementation detail (see surface_control).",
+      "componentTests": [
+        "infinite_switch"
+      ],
+      "procedureIds": [
+        "w11174426-infinite-switch"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "infinite switch",
+        "cooktop on"
+      ]
+    },
+    "surface_heating_element": {
+      "conceptId": "surface_heating_element",
+      "verdict": "platform_implementation",
+      "rationale": "LCX tests infinite switches in aggregate \u2014 not per-zone element procedures like LG. Physical elements are platform instances; zone granularity is model/overlay scope.",
+      "componentTests": [
+        "infinite_switch"
+      ],
+      "procedureIds": [
+        "w11174426-infinite-switch"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": []
+    },
+    "surface_control": {
+      "conceptId": "surface_control",
+      "verdict": "platform_implementation",
+      "rationale": "Infinite switch is LCX surface control implementation \u2014 NOT a candidate for canonical promotion. Functional invariant is control_board \u2192 surface_heating_system (heat generation command path), analogous to compressor_controller on refrigerators.",
+      "componentTests": [
+        "infinite_switch"
+      ],
+      "procedureIds": [
+        "w11174426-infinite-switch"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "infinite switch",
+        "replace the infinite switch"
+      ]
+    },
+    "oven_cavity": {
+      "conceptId": "oven_cavity",
+      "verdict": "deferred",
+      "rationale": "Cavity referenced in convection fan door-interlock notes \u2014 no standalone cavity test.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "oven door is opened",
+        "oven cavity"
+      ]
+    },
+    "convection_fan": {
+      "conceptId": "convection_fan",
+      "verdict": "needs_procedure_evidence",
+      "rationale": "Manual documents convection fan door-interlock behavior but no dedicated fan procedure on LCX seeds (unlike R1 vent-fan and R2 convection-motor procs).",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "convection fan will shut off",
+        "convection fan turns on"
+      ]
+    },
+    "oven_door_switch": {
+      "conceptId": "oven_door_switch",
+      "verdict": "platform_implementation",
+      "rationale": "Door switch logic embedded in latch procedure on LCX (F5E1) \u2014 not standalone door-switch proc like R2 LG. Functional door authorization evidenced; test style varies.",
+      "componentTests": [
+        "door_latch"
+      ],
+      "procedureIds": [
+        "w11174426-door-latch"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": []
+    },
+    "door_latch_motor": {
+      "conceptId": "door_latch_motor",
+      "verdict": "platform_implementation",
+      "rationale": "Latch motor 500\u20133000 \u03a9 \u2014 self-clean actuator implementation on LCX.",
+      "componentTests": [
+        "door_latch"
+      ],
+      "procedureIds": [
+        "w11174426-door-latch"
+      ],
+      "seedComponentIds": [
+        "door_latch"
+      ],
+      "manualPhraseHits": []
+    },
+    "thermal_protection": {
+      "conceptId": "thermal_protection",
+      "verdict": "implementation_specific",
+      "rationale": "F6E1 over-temp routes to oven sensor procedure \u2014 no dedicated thermal-fuse proc on LCX (R1 Copernicus has thermal-fuse seed). Protection may be fuse hardware on some platforms, sensor-limited path on others \u2014 platform/conditional not canonical.",
+      "componentTests": [],
+      "procedureIds": [
+        "w11174426-oven-sensor"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "f6e1",
+        "over temp"
+      ]
+    },
+    "cooling_fan": {
+      "conceptId": "cooling_fan",
+      "verdict": "deferred",
+      "rationale": "No electronics cooling fan procedure on LCX. R1 combined vent/convection fan; no functional distinction preserved in LCX procedure seeds.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhraseHits": []
+    },
+    "oven_lamp": {
+      "conceptId": "oven_lamp",
+      "verdict": "deferred",
+      "rationale": "No oven lamp procedure on W11174426 electric seeds.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhraseHits": []
+    },
+    "warming_drawer": {
+      "conceptId": "warming_drawer",
+      "verdict": "deferred",
+      "rationale": "Warming drawer not in W11174426 procedure catalog.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhraseHits": []
+    }
+  },
+  "r3VerdictHistogram": {
+    "canonical_functional": 5,
+    "reject_monolithic_aggregate": 1,
+    "instance_functional_role": 2,
+    "deferred": 5,
+    "platform_implementation": 4,
+    "needs_procedure_evidence": 1,
+    "implementation_specific": 1
+  },
+  "platformProbeAnswers": [
+    {
+      "probeId": "surface_control",
+      "question": "Does surface_control remain functional when implementation changes to infinite switches?",
+      "finding": "No \u2014 infinite_switch is platform implementation on LCX; Copernicus uses ACU relay mediation (R1 bridge-element). Invariant functional relationship: control_board \u2192 surface_heating_system (surface heat generation command). Switching mechanism stays platform knowledge \u2014 do NOT promote infinite_switch to canonical.",
+      "infiniteSwitchCanonicalGuard": true,
+      "canonicalPromotion": "rejected",
+      "functionalInvariant": "control_board commands surface_heating_system",
+      "r1Posture": "deferred",
+      "r2Posture": "deferred",
+      "r3Posture": "platform_implementation"
+    },
+    {
+      "probeId": "surface_heating_zones",
+      "question": "Are individual surface zones still independently testable functions?",
+      "finding": "Conditionally \u2014 LG R2 decomposes LF/LR/RR/RF/CR zones with separate procedures. LCX R3 tests infinite switches in aggregate (one procedure). Copernicus R1 tests bridge/single elements via ACU relay. Zone independence is instance/overlay scope when OEM provides per-zone tests \u2014 not a required canonical split.",
+      "zoneGranularity": "instance_overlay_when_evidenced",
+      "r1Posture": "needs_second_manual",
+      "r2Posture": "needs_r3_architecture_probe",
+      "r3Posture": "canonical_functional"
+    },
+    {
+      "probeId": "thermal_protection",
+      "question": "Does dedicated thermal-fuse procedure presence make thermal_protection implementation-specific?",
+      "finding": "Yes \u2014 R1 Copernicus has w11746350-thermal-fuse procedure; R2 LG and R3 LCX route over-temp via oven sensor (F6E1/F-6) without dedicated fuse proc. thermal_protection is better modeled as conditional/platform vocabulary (fuse vs sensor-limited path) than canonical component \u2014 analogous to refrigerator conditional concepts.",
+      "canonicalPromotion": "conditional_or_platform_only",
+      "r1Posture": "needs_second_manual",
+      "r2Posture": "needs_r3_architecture_probe",
+      "r3Posture": "implementation_specific"
+    },
+    {
+      "probeId": "cooling_vs_convection",
+      "question": "Does evidence preserve electronics cooling vs oven convection as distinct functions?",
+      "finding": "No clear canonical split \u2014 R1 combines vent/convection in one procedure; R2 separates convection motor from element; R3 documents convection fan behavior without fan procedure. convection_fan may earn canonical/conditional role when procedure evidence exists; cooling_fan remains deferred (no tri-manual procedure support).",
+      "convectionFanDisposition": "conditional_when_procedure_evidence",
+      "coolingFanDisposition": "deferred",
+      "r1Posture": "needs_second_manual",
+      "r2Posture": "canonical_functional",
+      "r3Posture": "needs_procedure_evidence"
+    }
+  ],
+  "copernicusToLcxDeltas": [
+    {
+      "conceptId": "temperature_sensor",
+      "copernicusR1": "needs_second_manual",
+      "lcxR3": "canonical_functional",
+      "disappearsOnLcx": false,
+      "emergesOnLcx": false
+    },
+    {
+      "conceptId": "oven_heating_system",
+      "copernicusR1": "needs_second_manual",
+      "lcxR3": "reject_monolithic_aggregate",
+      "disappearsOnLcx": false,
+      "emergesOnLcx": false
+    },
+    {
+      "conceptId": "bake_heating_element",
+      "copernicusR1": "platform_implementation",
+      "lcxR3": "instance_functional_role",
+      "disappearsOnLcx": false,
+      "emergesOnLcx": false
+    },
+    {
+      "conceptId": "broil_heating_element",
+      "copernicusR1": "platform_implementation",
+      "lcxR3": "instance_functional_role",
+      "disappearsOnLcx": false,
+      "emergesOnLcx": false
+    },
+    {
+      "conceptId": "surface_heating_system",
+      "copernicusR1": "needs_second_manual",
+      "lcxR3": "canonical_functional",
+      "disappearsOnLcx": false,
+      "emergesOnLcx": false
+    },
+    {
+      "conceptId": "surface_control",
+      "copernicusR1": "deferred",
+      "lcxR3": "platform_implementation",
+      "disappearsOnLcx": false,
+      "emergesOnLcx": true
+    },
+    {
+      "conceptId": "convection_fan",
+      "copernicusR1": "needs_second_manual",
+      "lcxR3": "needs_procedure_evidence",
+      "disappearsOnLcx": false,
+      "emergesOnLcx": false
+    },
+    {
+      "conceptId": "oven_door_switch",
+      "copernicusR1": "needs_second_manual",
+      "lcxR3": "platform_implementation",
+      "disappearsOnLcx": false,
+      "emergesOnLcx": false
+    },
+    {
+      "conceptId": "thermal_protection",
+      "copernicusR1": "needs_second_manual",
+      "lcxR3": "implementation_specific",
+      "disappearsOnLcx": false,
+      "emergesOnLcx": false
+    },
+    {
+      "conceptId": "cooling_fan",
+      "copernicusR1": "needs_second_manual",
+      "lcxR3": "deferred",
+      "disappearsOnLcx": true,
+      "emergesOnLcx": false
+    }
+  ],
+  "triangulationSynthesis": {
+    "stableCanonicalCandidates": [
+      "power_supply",
+      "control_board",
+      "user_interface",
+      "temperature_sensor"
+    ],
+    "instanceScopedHeatGeneration": [
+      "bake_heating_element",
+      "broil_heating_element"
+    ],
+    "rejectedMonolithicAggregates": [
+      "oven_heating_system"
+    ],
+    "platformImplementationOnly": [
+      "surface_control"
+    ],
+    "allThreeDeferred": [
+      "oven_cavity"
+    ],
+    "heatGenerationArchitecture": "Functional domain: oven heat generation with bake/broil/convection as instance-scoped diagnostic functions \u2014 NOT three canonical component types.",
+    "surfaceArchitecture": "Functional domain: surface_heating_system with control\u2192heat invariant; infinite_switch / relay / per-zone elements remain platform."
+  },
+  "freezeOutcomeRecommendation": {
+    "outcome": "A",
+    "label": "candidate_survives_with_refinement",
+    "rationale": "Functional model holds across Whirlpool Copernicus, LG LRE, and Whirlpool LCX. Refine: reject oven_heating_system aggregate; use instance scopes for bake/broil/convection; keep surface_control and infinite_switch as platform; thermal_protection conditional/platform. Human freeze gate must earn every node.",
+    "allowedOutcomes": {
+      "A": "candidate_survives_with_refinement",
+      "B": "candidate_needs_structural_revision",
+      "C": "electric_range_not_one_canonical_functional_model"
+    },
+    "automaticFreeze": false,
+    "humanFreezeGateRequired": true
+  },
+  "recommendation": {
+    "freezeCandidateNow": false,
+    "rationale": "Functional model holds across Whirlpool Copernicus, LG LRE, and Whirlpool LCX. Refine: reject oven_heating_system aggregate; use instance scopes for bake/broil/convection; keep surface_control and infinite_switch as platform; thermal_protection conditional/platform. Human freeze gate must earn every node.",
+    "provisionalOutcome": "A",
+    "nextStage": "human_freeze_gate",
+    "nextArtifact": "CG10_ELECTRIC_RANGE_FREEZE_RECOMMENDATION_v1.json"
+  }
+}

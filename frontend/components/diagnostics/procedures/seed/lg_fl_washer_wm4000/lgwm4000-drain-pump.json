@@ -1,0 +1,66 @@
+{
+  "id": "lgwm4000-drain-pump",
+  "version": "1.0.0",
+  "title": "\u00a78: Drain pump",
+  "platformId": "lg_fl_washer_wm4000",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "drain_failure"
+  ],
+  "source": {
+    "manualId": "LG-FL-WASHER",
+    "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+    "sourcePdf": "backend/docs/manuals/lg wm4000h fl washer service manual.pdf",
+    "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "8",
+    "oemTestTitle": "Drain pump component test",
+    "pages": [
+      33,
+      48,
+      53
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "pump_access"
+    },
+    {
+      "id": "pump_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Drain pump connector",
+      "body": "Verify DRAIN PUMP harness and impeller.",
+      "sourceExcerpt": "Verify DRAIN PUMP harness and impeller.",
+      "requiresInput": false,
+      "defaultNextStepId": "pump_ok"
+    },
+    {
+      "id": "replace_pump",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace drain pump",
+      "oemOutcome": "Replace drain pump when harness verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "pump_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Drain pump OK",
+      "oemOutcome": "Drain pump verified.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "manualId": "SAMSUNG-TL-DV50-DRYER",
+  "candidates": [
+    {
+      "id": "overlay-SAMSUNG-TL-DV50-DRYER-samsungtldv50-belt-cutoff-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungtldv50-belt-cutoff",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-4: Belt cut-off switch",
+      "componentIds": [
+        "belt_switch"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-belt-cutoff",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-belt-cutoff",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-DV50-DRYER-samsungtldv50-motor-circuit-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungtldv50-motor-circuit",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-4: Motor windings and centrifugal switch",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-DV50-DRYER-samsungtldv50-motor-circuit-meas-samsungTlDv50DryerMotorWinding34Ohms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungtldv50-motor-circuit",
+      "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding34Ohms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding34Ohms",
+            "stepTitle": "Motor winding pin 3\u20134"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-DV50-DRYER-samsungtldv50-motor-circuit-meas-samsungTlDv50DryerMotorWinding45Ohms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungtldv50-motor-circuit",
+      "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding45Ohms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding45Ohms",
+            "stepTitle": "Motor winding pin 4\u20135"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,316 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg11_gas_range_r1_fit_observation",
+  "experiment": "CG-11 R1 — Samsung NX60 gas range fit observation against frozen electric_range rev1. Evidence classification only — no gas-side ontology, no canonical mutation.",
+  "workstream": "CG-11",
+  "stage": "R1_gas_fit_observation",
+  "manualId": "SAMSUNG-NX60-RANGE",
+  "platformId": "samsung_range_nx60",
+  "smokeModel": "NX60T8311SS",
+  "fuelFilter": "gas_range",
+  "templateFilter": "gas_range",
+  "ontologyUnderTest": {
+    "id": "electric_range",
+    "revision": "rev1",
+    "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "immutable": true
+  },
+  "contract": "CG11_GAS_RANGE_FIT_TEST_CONTRACT_v1.json",
+  "fitEligible": false,
+  "canonicalPromotionBlocked": true,
+  "canonicalMutationBlocked": true,
+  "generatedAt": "2026-09-16T15:41:00+00:00",
+  "r1DecisionGate": {
+    "question": "Which frozen electric_range layers does Samsung gas architecture independently evidence — as functional equivalents, conditionals, or platform vocabulary?",
+    "notAsked": "Does Samsung gas match Whirlpool electric?",
+    "evaluatedAgainst": "frozen_electric_range_rev1_layers",
+    "notCreating": "gas_range.json or parallel gas ontology"
+  },
+  "classificationVocabulary": [
+    "INHERITS",
+    "CONDITIONAL",
+    "DIVERGES",
+    "PLATFORM_ONLY",
+    "NO_EVIDENCE",
+    "DEFERRED"
+  ],
+  "graphArtifacts": {
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md",
+    "sourcePdf": "backend/docs/manuals/samsung range nx60t8311s.pdf",
+    "extractedText": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "procedureSeedDir": "frontend/components/diagnostics/procedures/seed/samsung_range_nx60",
+    "excludedProcedureIds": [
+      "samsungnx60-bake-element",
+      "samsungnx60-broil-element"
+    ],
+    "excludeReason": "NE63 electric variant — out of gas R1 fuel filter"
+  },
+  "pipelineCounts": {
+    "gasProceduresEvaluated": 15,
+    "boundaryProbes": 11,
+    "platformHardwareClassified": 8
+  },
+  "classificationHistogram": {
+    "INHERITS": 9,
+    "CONDITIONAL": 3,
+    "DIVERGES": 0,
+    "PLATFORM_ONLY": 8,
+    "NO_EVIDENCE": 1,
+    "DEFERRED": 0
+  },
+  "frozenLayerEvaluations": {
+    "power_supply": {
+      "frozenLayer": "components[]",
+      "frozenNodeId": "power_supply",
+      "probeId": "power_supply_gas",
+      "classification": "INHERITS",
+      "rationale": "§4-2 no-power path independently tests 120 VAC supply prerequisite — same functional role as electric CG-10 manuals.",
+      "procedureIds": ["samsungnx60-power"],
+      "manualPhraseHits": ["120 VAC", "plug", "CNP100"],
+      "platformVocabulary": [],
+      "canonicalMutation": false
+    },
+    "control_board": {
+      "frozenLayer": "components[]",
+      "frozenNodeId": "control_board",
+      "probeId": "control_board_gas",
+      "classification": "INHERITS",
+      "rationale": "Main PCB orchestrates DLB/bake/broil/convection relay paths (C-21, heater-relays). Functional control role holds — relay/sub-PCB naming is implementation.",
+      "procedureIds": ["samsungnx60-power", "samsungnx60-heater-relays", "samsungnx60-touch-comm"],
+      "platformVocabulary": ["main_control", "sub_pcb", "dlb_relay", "bake_relay", "broil_relay"],
+      "canonicalMutation": false
+    },
+    "user_interface": {
+      "frozenLayer": "components[]",
+      "frozenNodeId": "user_interface",
+      "probeId": "user_interface_gas",
+      "classification": "INHERITS",
+      "rationale": "Touch keypad/HMI diagnostic domain distinct from heater relay path — C-F2 sub↔touch communication and §4-2 touch keypad proc.",
+      "procedureIds": ["samsungnx60-hmi-touch", "samsungnx60-touch-comm"],
+      "platformVocabulary": ["display_pcb", "touch_pcb"],
+      "canonicalMutation": false
+    },
+    "temperature_sensor": {
+      "frozenLayer": "components[]",
+      "frozenNodeId": "temperature_sensor",
+      "probeId": "temperature_sensor_gas",
+      "classification": "INHERITS",
+      "rationale": "Dedicated oven RTD procedure (1080 Ω @ room temp) with independent C-20/C-21 failure routing — same cavity feedback functional role.",
+      "procedureIds": ["samsungnx60-oven-sensor"],
+      "platformVocabulary": ["thermistor", "oven_sensor"],
+      "canonicalMutation": false
+    },
+    "surface_heating_system": {
+      "frozenLayer": "components[]",
+      "frozenNodeId": "surface_heating_system",
+      "probeId": "surface_heating_system_gas",
+      "classification": "INHERITS",
+      "rationale": "Cooktop surface heat generation remains an independently meaningful diagnostic function — §4-3 'no cooktop burners will light' tests surface ignition path. Implementation is spark module + burners, not radiant elements — functional domain survives fuel change.",
+      "procedureIds": ["samsungnx60-spark-module"],
+      "platformVocabulary": ["spark_module", "surface_ignition", "surface_burner", "gas_burner"],
+      "implementationNote": "Not comparing burner+valve+igniter vs radiant+switch — comparing whether surface heat generation is independently diagnosable. It is.",
+      "canonicalMutation": false
+    },
+    "bake_heating_element": {
+      "frozenLayer": "instanceScopes[]",
+      "frozenNodeId": "bake_heating_element",
+      "probeId": "bake_instance_scope_gas",
+      "classification": "INHERITS",
+      "instanceScopeFunctionalEquivalence": true,
+      "rationale": "Independent bake oven heat-generation diagnostic function survives gas implementation. Not 'element ≠ burner' — 'can bake heat path be commanded/tested independently?' Yes: dedicated §4-4 bake HSI proc, separate bake relay TB204–TB205, bake ignition voltage T504–T505.",
+      "procedureIds": [
+        "samsungnx60-bake-ignitor",
+        "samsungnx60-heater-relays"
+      ],
+      "platformVocabulary": ["bake_hsi", "igniter", "bake_burner", "bake_nozzle"],
+      "sharedPathNote": "safety-valve amp check references bake OR broil for setup — does not collapse bake/broil into one functional diagnostic node.",
+      "canonicalMutation": false,
+      "notPromotedTo": ["igniter", "gas_valve", "safety_valve"]
+    },
+    "broil_heating_element": {
+      "frozenLayer": "instanceScopes[]",
+      "frozenNodeId": "broil_heating_element",
+      "probeId": "broil_instance_scope_gas",
+      "classification": "INHERITS",
+      "instanceScopeFunctionalEquivalence": true,
+      "rationale": "Independent broil oven heat-generation diagnostic function — dedicated §4-4 broil HSI proc, separate broil relay TB202–TB203, broil ignition T504–T503. Bake and broil are not inseparable at functional diagnostic level on NX60.",
+      "procedureIds": [
+        "samsungnx60-broil-ignitor",
+        "samsungnx60-heater-relays"
+      ],
+      "platformVocabulary": ["broil_hsi", "igniter", "broil_burner"],
+      "canonicalMutation": false,
+      "notPromotedTo": ["igniter", "gas_valve", "safety_valve"]
+    },
+    "convection_heating_element": {
+      "frozenLayer": "conditionalInstanceScopes[]",
+      "frozenNodeId": "convection_heating_element",
+      "probeId": "convection_heating_element_gas",
+      "classification": "NO_EVIDENCE",
+      "rationale": "No dedicated electric-style convection heating element procedure on NX60 gas. Convection path is fan-mediated only — aligns with CG-10 conditionalInstanceScopes rule for absent_gas_only_platforms; does not diverge frozen contract.",
+      "procedureIds": [],
+      "relatedProcedureIds": ["samsungnx60-convection-fan"],
+      "canonicalMutation": false
+    },
+    "convection_fan": {
+      "frozenLayer": "conditionalConcepts[]",
+      "frozenNodeId": "convection_fan",
+      "probeId": "convection_fan_gas",
+      "classification": "INHERITS",
+      "rationale": "Dedicated §4-3 convection fan motor procedure (25–30 Ω) — frozen conditional concept's functional role independently evidenced on gas.",
+      "procedureIds": ["samsungnx60-convection-fan"],
+      "platformVocabulary": ["convection_fan_motor"],
+      "canonicalMutation": false
+    },
+    "thermal_protection": {
+      "frozenLayer": "conditionalConcepts[]",
+      "frozenNodeId": "thermal_protection",
+      "probeId": "thermal_protection_gas",
+      "classification": "CONDITIONAL",
+      "rationale": "Protection behavior evidenced via platform-specific paths: C-A2 display cooling fan and C-24 oven vent blocked. Implementation diverges from electric fuse/hi-limit — frozen CONDITIONAL posture holds; gas-specific binding required in overlay.",
+      "procedureIds": ["samsungnx60-cooling-fan", "samsungnx60-oven-vent"],
+      "platformVocabulary": ["display_cooling_fan", "oven_vent", "thermal_fuse"],
+      "gasSpecificBinding": true,
+      "seedTaggingNote": "cooling-fan seed mis-tags componentId convection_fan — observation classifies as thermal_protection platform path, not convection_fan actuator.",
+      "canonicalMutation": false
+    },
+    "oven_door_switch": {
+      "frozenLayer": "conditionalConcepts[]",
+      "frozenNodeId": "oven_door_switch",
+      "probeId": "oven_door_switch_gas",
+      "classification": "CONDITIONAL",
+      "rationale": "Door authorization function evidenced via C-d1 door lock motor procedure — latch-actuator packaging, not standalone plunger switch. Same conditional posture as electric LCX embedded logic.",
+      "procedureIds": ["samsungnx60-door-lock"],
+      "platformVocabulary": ["door_lock", "door_latch_motor"],
+      "relatedFrozenPlatformOnly": ["door_latch_motor"],
+      "gasSpecificBinding": true,
+      "canonicalMutation": false
+    }
+  },
+  "removedFrozenConceptCheck": {
+    "oven_heating_system": {
+      "frozenDisposition": "REMOVE",
+      "classification": "INHERITS",
+      "rationale": "C-21 references aggregate oven heating language but manual consistently decomposes into sensor, relays, bake/broil HSIs, and convection fan — monolithic node remains rejected on gas."
+    }
+  },
+  "platformHardwareClassifications": {
+    "doNotAutoPromote": true,
+    "observed": [
+      {
+        "oemConcept": "igniter",
+        "seedComponentIds": ["igniter"],
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "instanceScopes.bake_heating_element | instanceScopes.broil_heating_element",
+        "note": "HSI is bake/broil instance-scope implementation — not canonical"
+      },
+      {
+        "oemConcept": "gas_valve",
+        "seedComponentIds": ["gas_valve"],
+        "classification": "PLATFORM_ONLY",
+        "procedureIds": ["samsungnx60-safety-valve"],
+        "note": "Safety valve current check — shared oven gas path hardware"
+      },
+      {
+        "oemConcept": "safety_valve",
+        "classification": "PLATFORM_ONLY",
+        "procedureIds": ["samsungnx60-safety-valve"],
+        "note": "3.3–3.6 A valve test — not a frozen canonical node"
+      },
+      {
+        "oemConcept": "spark_module",
+        "seedComponentIds": ["surface_ignition"],
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "surface_heating_system",
+        "procedureIds": ["samsungnx60-spark-module"]
+      },
+      {
+        "oemConcept": "dlb_relay",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "control_board",
+        "procedureIds": ["samsungnx60-heater-relays"]
+      },
+      {
+        "oemConcept": "bake_relay",
+        "classification": "PLATFORM_ONLY",
+        "procedureIds": ["samsungnx60-heater-relays"]
+      },
+      {
+        "oemConcept": "broil_relay",
+        "classification": "PLATFORM_ONLY",
+        "procedureIds": ["samsungnx60-heater-relays"]
+      },
+      {
+        "oemConcept": "door_lock_motor",
+        "seedComponentIds": ["door_lock"],
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "conditionalConcepts.oven_door_switch",
+        "procedureIds": ["samsungnx60-door-lock"]
+      }
+    ]
+  },
+  "bakeBroilScrutiny": {
+    "centerpieceOfR1": true,
+    "wrongComparison": "electric heating element ≠ gas burner",
+    "rightComparison": "Does the diagnostic function 'independently command/test an oven heat source for bake/broil' survive the implementation change?",
+    "bakeFinding": {
+      "separateProcedure": true,
+      "separateRelayPath": "TB204–TB205",
+      "separateIgnitionTestPoints": "T504–T505",
+      "functionalDiagnosticIndependence": true,
+      "classification": "INHERITS",
+      "conclusion": "bake_heating_element instance scope carries as functional equivalence — HSI/valve/burner stay platform vocabulary"
+    },
+    "broilFinding": {
+      "separateProcedure": true,
+      "separateRelayPath": "TB202–TB203",
+      "separateIgnitionTestPoints": "T504–T503",
+      "functionalDiagnosticIndependence": true,
+      "classification": "INHERITS",
+      "conclusion": "broil_heating_element instance scope carries — not collapsed into bake on NX60"
+    },
+    "wouldHaveDivergedIf": "Samsung gas architecture required single inseparable oven-heat diagnostic with no independent bake vs broil test paths"
+  },
+  "surfaceHeatScrutiny": {
+    "wrongComparison": "burner + valve + igniter vs radiant element + infinite switch",
+    "rightComparison": "Is surface heat generation independently diagnosable as a functional domain?",
+    "finding": {
+      "independentSurfaceDiagnostic": true,
+      "procedureIds": ["samsungnx60-spark-module"],
+      "classification": "INHERITS",
+      "conclusion": "surface_heating_system frozen component survives gas — spark/burner hardware is platform-only"
+    }
+  },
+  "centerpieceQuestionAnswer": {
+    "questionId": "electric_vs_range_oven_contract",
+    "provisionalAnswer": "electric_range rev1 behaves as a range/oven functional contract on Samsung gas R1 evidence — not merely an electric-only ontology",
+    "confidence": "high_single_manual",
+    "caveat": "Provisional until fit analysis artifact — R2 may be unnecessary if analysis confirms clear INHERITS posture across all five components and both instance scopes",
+    "doesNotAuthorize": [
+      "mutating electric_range.json",
+      "creating gas_range.json",
+      "promoting gas hardware to canonical",
+      "automatic organizational rename"
+    ]
+  },
+  "fitTestSummary": {
+    "divergenceCount": 0,
+    "inheritsCount": 9,
+    "conditionalCount": 3,
+    "allFiveCanonicalComponentsInherit": true,
+    "bothInstanceScopesInherit": true,
+    "monolithicOvenHeatStillRejected": true,
+    "gasHardwarePromotedToCanonical": false,
+    "frozenContractHashMutated": false
+  },
+  "recommendation": {
+    "fitAnalysisNext": true,
+    "r2Required": false,
+    "r2Rationale": "R1 produces clear INHERITS across all five frozen components and both bake/broil instance scopes with zero DIVERGES. Second gas manual recommended only if fit analysis identifies weak probes.",
+    "provisionalFitOutcome": "A",
+    "provisionalFitOutcomeLabel": "gas_fits_electric_contract",
+    "humanBoundaryGateRequired": true,
+    "canonicalMutation": false
+  }
+}

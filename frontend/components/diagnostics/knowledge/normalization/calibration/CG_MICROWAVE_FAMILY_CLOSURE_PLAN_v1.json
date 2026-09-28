@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_family_closure_plan",
+  "workstream": "CG-MICROWAVE-FAMILY-CLOSURE-PLANNING",
+  "status": "closed",
+  "openedAt": "2026-09-17T13:05:00+00:00",
+  "planningCompletedAt": "2026-09-17T13:20:00+00:00",
+  "verdict": "COMPLETE / CLOSURE_PLANNING_PROOF_AUTHORED",
+  "authorizedBy": "CG_MICROWAVE_SAMSUNG_ME11_COMPOUNDING_AUDIT_v1.json",
+  "familyClosureExecuted": true,
+  "familyLockArtifact": "CG_MICROWAVE_FAMILY_LOCK_v1.json",
+  "familyClosureArtifact": "CG_MICROWAVE_FAMILY_CLOSURE_v1.json",
+  "purpose": "Prove the combined frozen microwave rev1 canonical + LG overlay + Samsung overlay package is coherent and terminal under the same governance model used for range family closure — without executing terminal family closure yet.",
+  "priorPhasesClosed": [
+    "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+    "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json",
+    "CG_MICROWAVE_FREEZE_CLOSURE_v1.json",
+    "CG_MICROWAVE_NORMALIZATION_AUDIT_v1.json",
+    "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+    "CG_MICROWAVE_COMPOUNDING_v1.json"
+  ],
+  "frozenContract": {
+    "ontologyId": "microwave",
+    "revision": "rev1",
+    "hash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "freezeLock": "CG_MICROWAVE_FREEZE_LOCK_v1.json"
+  },
+  "packageUnderReview": {
+    "canonical": "frontend/components/diagnostics/knowledge/canonical/microwave.json",
+    "referenceOverlay": "frontend/components/diagnostics/knowledge/canonical/platform_overlays/microwave.reference.json",
+    "manufacturerOverlays": [
+      "frontend/components/diagnostics/knowledge/canonical/manufacturer_overlays/lg_microwave_otr.json",
+      "frontend/components/diagnostics/knowledge/canonical/manufacturer_overlays/samsung_microwave_otr.json"
+    ],
+    "witnessNormalizations": [
+      "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+      "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json"
+    ],
+    "platformExtensions": [
+      "CG_MICROWAVE_LG_LMVM_PLATFORM_EXTENSION_v1.json",
+      "CG_MICROWAVE_SAMSUNG_ME21_PLATFORM_EXTENSION_v1.json"
+    ],
+    "compoundingAudits": [
+      "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_AUDIT_v1.json",
+      "CG_MICROWAVE_SAMSUNG_ME11_COMPOUNDING_AUDIT_v1.json"
+    ],
+    "crossManufacturerRegression": "CG_MICROWAVE_CROSS_MANUFACTURER_REGRESSION_PROOF_v1.json",
+    "closureProof": "CG_MICROWAVE_FAMILY_CLOSURE_PROOF_v1.json",
+    "closureAudit": "CG_MICROWAVE_FAMILY_CLOSURE_AUDIT_v1.json"
+  },
+  "planningQuestions": [
+    {
+      "id": "frozen_canonical_terminal",
+      "question": "Is microwave rev1 functionally complete for OTR witness coverage with zero canonical expansion?",
+      "expected": true,
+      "evidenceStatus": "proven",
+      "evidence": ["7 core + 2 conditional discovery closure", "canonicalExpansion: 0 across S1+S2"]
+    },
+    {
+      "id": "overlay_independence",
+      "question": "Are LG and Samsung overlays independently evidenced with no cross-manufacturer borrowing?",
+      "expected": true,
+      "evidenceStatus": "proven",
+      "evidence": ["Samsung rejectedLgOnlyRealizations", "LG ventilation_otr_not_manufactured"]
+    },
+    {
+      "id": "precedence_governance_terminal",
+      "question": "Is magnetron → rf_cavity precedence governed without microwave.json mutation?",
+      "expected": true,
+      "evidenceStatus": "proven",
+      "evidence": ["CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json Branch A"]
+    },
+    {
+      "id": "platform_extension_coherence",
+      "question": "Do ME21/LMVM extensions inherit witness mappings without reopening compounding?",
+      "expected": true,
+      "evidenceStatus": "proven",
+      "evidence": ["platform extension artifacts deltaFunctionalMappings: 0"]
+    },
+    {
+      "id": "runtime_resolver_coherent",
+      "question": "Does resolveDiagnosticGraph produce coherent microwave graphs for both manufacturers?",
+      "expected": true,
+      "evidenceStatus": "proven",
+      "evidence": ["cg-microwave-lg-lmhm2237-compounding.test.ts", "cg-microwave-samsung-me11-compounding.test.ts"]
+    },
+    {
+      "id": "family_lock_readiness",
+      "question": "Is the package ready for terminal family lock artifact authoring?",
+      "expected": false,
+      "evidenceStatus": "proven_pending_human",
+      "note": "Automated planning proof green — family lock not yet authored; terminal closure blocked pending human audit"
+    }
+  ],
+  "explicitNonGoals": [
+    "Mutate microwave.json rev1",
+    "Execute CG_MICROWAVE_FAMILY_LOCK_v1.json",
+    "Execute CG_MICROWAVE_FAMILY_CLOSURE_v1.json",
+    "Reopen fit/discovery/normalization/compounding gates",
+    "Promote OEM components to canonical nodes"
+  ],
+  "plannedClosureArtifacts": {
+    "familyReview": "CG_MICROWAVE_FAMILY_REVIEW_v1.json",
+    "familyLock": "CG_MICROWAVE_FAMILY_LOCK_v1.json",
+    "familyClosure": "CG_MICROWAVE_FAMILY_CLOSURE_v1.json",
+    "familyClosureAudit": "CG_MICROWAVE_FAMILY_CLOSURE_AUDIT_v1.json"
+  },
+  "gateStatus": {
+    "compoundingComplete": true,
+    "compoundingAuditsGreen": true,
+    "crossManufacturerRegressionProven": true,
+    "familyClosurePlanningComplete": true,
+    "familyClosureAuditPendingHumanReview": true,
+    "familyClosureBlocked": false,
+    "familyClosureComplete": true
+  },
+  "nextDisciplinedStep": "STOP — microwave family terminally closed"
+}

@@ -1,0 +1,356 @@
+{
+  "schemaVersion": "1.0.0",
+  "ontology": {
+    "id": "aio_laundry_combo",
+    "name": "All-In-One Laundry Combo",
+    "templateId": "aio_laundry",
+    "variant": "integrated_wash_dry",
+    "description": "Canonical functional diagnostic ontology for integrated wash–dry laundry combos (single drum, shared controller). Composes frozen front_load_washer and heat_pump_dryer by reference — does not duplicate their canonical functions. Two AIO-owned functions: integrated_laundry_orchestration and condenser_resistive_dry_heat.",
+    "frozen": true,
+    "frozenAt": "2026-09-17T17:00:00+00:00",
+    "frozenRevision": "rev1",
+    "frozenNote": "CG-AIO-LAUNDRY-COMBO-FREEZE rev1 — Samsung WD53 + Whirlpool WFW9620 witnesses. Composition-by-reference. Locked by CG_AIO_LAUNDRY_COMBO_FREEZE_LOCK_v1.json."
+  },
+  "designPrinciples": [
+    "AIO is composition, not blind union of front_load_washer and heat_pump_dryer graphs.",
+    "Wash domains reuse front_load_washer by reference — not duplicated in components[].",
+    "sealed_moisture_rejection_path and heat_pump_thermal_system reuse heat_pump_dryer by reference — not duplicated, not renamed, not HP-exclusive for moisture path.",
+    "condenser_resistive_dry_heat is AIO-owned thermal sibling for resistive condenser ventless dry — NOT heat_pump_thermal_system, NOT vented_dryer heat_source.",
+    "integrated_laundry_orchestration is AIO-only integration — not a container for ordinary washer or dryer functions.",
+    "sealed_ventless_drying and sealed_heat_pump_drying are rejected — not canonical nodes.",
+    "Compressor, evaporator, dry heater element, blowers, fans, condensate pump, and ducts are implementation vocabulary.",
+    "Platform scope: Samsung WD53 uses HP thermal reference; Whirlpool WFW9620 uses condenser_resistive_dry_heat — neither platform requires both thermal modalities.",
+    "Unknown information must remain unknown — never infer good or bad without evidence."
+  ],
+  "ontologyContract": {
+    "canonicalComponentRule": "components[] lists exactly 2 AIO-owned core functions. All other functional domains are composition references to frozen families.",
+    "compositionByReference": {
+      "front_load_washer": {
+        "sourceFile": "frontend/components/diagnostics/knowledge/canonical/front_load_washer.json",
+        "frozenHash": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05",
+        "reuseMode": "composition_by_reference",
+        "scope": "wash_mode_domains",
+        "witnesses": ["W1 Samsung WD53", "W2 Whirlpool WFW9620"],
+        "note": "Wash functional domains referenced — not copied into AIO components[]"
+      },
+      "heat_pump_dryer": {
+        "sourceFile": "frontend/components/diagnostics/knowledge/canonical/heat_pump_dryer.json",
+        "frozenHash": "d7a98c826d011a9fdef4b8c91ebd4d66ff88629f7d7b91357d43fee42c32d3bb",
+        "reuseMode": "composition_by_reference",
+        "functionsReferenced": [
+          {
+            "qualifiedId": "heat_pump_dryer.sealed_moisture_rejection_path",
+            "componentId": "sealed_moisture_rejection_path",
+            "platformScope": "all_aio_ventless_witnesses",
+            "witnesses": ["W1", "W2"],
+            "notHpExclusive": true
+          },
+          {
+            "qualifiedId": "heat_pump_dryer.heat_pump_thermal_system",
+            "componentId": "heat_pump_thermal_system",
+            "platformScope": "heat_pump_aio_platforms_only",
+            "witnesses": ["W1 Samsung WD53"],
+            "explicitlyNotFor": ["W2 Whirlpool WFW9620 condenser-resistive"]
+          }
+        ],
+        "note": "HP functions referenced — not duplicated under AIO graph"
+      }
+    },
+    "explicitlyRejected": [
+      "sealed_ventless_drying",
+      "sealed_heat_pump_drying"
+    ],
+    "returnInput": "CG_AIO_LAUNDRY_COMBO_RETURN_CLOSURE_v1.json",
+    "candidateInput": "aio_laundry_combo_functional_contract_candidate_v1.json"
+  },
+  "compositionReferences": [
+    {
+      "qualifiedId": "front_load_washer",
+      "sourceOntologyId": "front_load_washer",
+      "reuseMode": "composition_by_reference",
+      "duplicatedInComponents": false
+    },
+    {
+      "qualifiedId": "heat_pump_dryer.sealed_moisture_rejection_path",
+      "sourceOntologyId": "heat_pump_dryer",
+      "sourceComponentId": "sealed_moisture_rejection_path",
+      "reuseMode": "composition_by_reference",
+      "duplicatedInComponents": false,
+      "platformScope": "all_aio_ventless"
+    },
+    {
+      "qualifiedId": "heat_pump_dryer.heat_pump_thermal_system",
+      "sourceOntologyId": "heat_pump_dryer",
+      "sourceComponentId": "heat_pump_thermal_system",
+      "reuseMode": "composition_by_reference",
+      "duplicatedInComponents": false,
+      "platformScope": "heat_pump_aio_only"
+    }
+  ],
+  "overlayOnlyConcepts": [
+    { "id": "compressor", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "heat_pump_dryer.heat_pump_thermal_system" },
+    { "id": "evaporator", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "heat_pump_dryer.sealed_moisture_rejection_path" },
+    { "id": "condenser", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "condenser_resistive_dry_heat" },
+    { "id": "dry_heater_element", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "condenser_resistive_dry_heat" },
+    { "id": "dry_blower", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "heat_pump_dryer.sealed_moisture_rejection_path" },
+    { "id": "vent_fan", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "heat_pump_dryer.sealed_moisture_rejection_path" },
+    { "id": "condensate_pump", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "heat_pump_dryer.sealed_moisture_rejection_path" },
+    { "id": "vent_baffle_solenoid", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "heat_pump_dryer.sealed_moisture_rejection_path" },
+    { "id": "condenser_duct_assembly", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "condenser_resistive_dry_heat" }
+  ],
+  "platformRealizationScopes": [
+    {
+      "platformId": "samsung_laundry_combo",
+      "witness": "W1 Samsung WD53DBA900HZA1",
+      "washReference": "front_load_washer",
+      "dryThermal": "heat_pump_dryer.heat_pump_thermal_system",
+      "dryMoisture": "heat_pump_dryer.sealed_moisture_rejection_path",
+      "orchestration": "integrated_laundry_orchestration",
+      "doesNotRequire": ["condenser_resistive_dry_heat"]
+    },
+    {
+      "platformId": "whirlpool_fl_dd_aio",
+      "witness": "W2 Whirlpool WFW9620HC0 / W11169652",
+      "washReference": "front_load_washer",
+      "dryThermal": "condenser_resistive_dry_heat",
+      "dryMoisture": "heat_pump_dryer.sealed_moisture_rejection_path",
+      "orchestration": "integrated_laundry_orchestration",
+      "doesNotRequire": ["heat_pump_dryer.heat_pump_thermal_system"]
+    }
+  ],
+  "relationshipTypes": [
+    "enables",
+    "commands",
+    "inhibits",
+    "depends_on"
+  ],
+  "componentStateModel": {
+    "description": "Component verification states for AIO-owned functions. Composed family states resolve through referenced ontologies.",
+    "states": [
+      "unknown",
+      "unverified",
+      "suspected",
+      "supported",
+      "conditionally_supported",
+      "contradicted",
+      "verified_good",
+      "verified_failed",
+      "not_applicable",
+      "inaccessible"
+    ],
+    "terminalStates": ["verified_good", "verified_failed", "not_applicable"]
+  },
+  "systems": [
+    { "id": "integration", "name": "Wash–Dry Integration", "categoryId": "control", "purpose": "Unified lifecycle orchestration across wash and dry modes." },
+    { "id": "dry_thermal", "name": "Dry Thermal (Resistive Condenser)", "categoryId": "heat_circuit", "purpose": "Resistive dry heat for sealed condenser-based AIO drying — AIO-owned modality." }
+  ],
+  "components": [
+    {
+      "id": "integrated_laundry_orchestration",
+      "name": "Integrated wash–dry orchestration",
+      "aliases": ["aio orchestration", "wash-dry integration", "unified cycle control"],
+      "systemId": "integration",
+      "categoryId": "control",
+      "type": "functional_domain",
+      "pendingEvidenceGraph": true,
+      "note": "AIO-only — unified wash/dry lifecycle, mode transition, shared drum/motor coordination, cross-mode interlocks. Not a dump for washer or dryer functions."
+    },
+    {
+      "id": "condenser_resistive_dry_heat",
+      "name": "Condenser-resistive dry heat",
+      "aliases": ["resistive condenser dry heat", "condenser duct dry heat"],
+      "systemId": "dry_thermal",
+      "categoryId": "heat_circuit",
+      "type": "functional_domain",
+      "pendingEvidenceGraph": true,
+      "note": "Functional thermal modality — resistive dry heat on sealed recirculating condenser path. NOT heater element, blower, fan, duct, or Whirlpool-specific component as canonical node."
+    }
+  ],
+  "relationships": [
+    {
+      "from": "integrated_laundry_orchestration",
+      "type": "enables",
+      "to": "condenser_resistive_dry_heat",
+      "source": "canonical",
+      "confidence": "high",
+      "platformScope": "condenser_resistive_aio",
+      "note": "Whirlpool-class AIO — orchestration enables resistive condenser dry thermal path. Not a physical topology claim."
+    }
+  ],
+  "functionalDependencies": [
+    {
+      "id": "aio_cycle_authorization",
+      "description": "Integrated wash–dry cycle requires orchestration readiness and composed wash authorization.",
+      "requires": ["integrated_laundry_orchestration"],
+      "enables": ["wash_operation", "dry_operation_hp_aio", "dry_operation_condenser_resistive_aio"],
+      "composedRequires": ["front_load_washer"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "wash_operation",
+      "description": "Wash mode uses front_load_washer domains by composition reference.",
+      "requires": ["integrated_laundry_orchestration"],
+      "composedRequires": ["front_load_washer"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "dry_operation_hp_aio",
+      "description": "Heat-pump AIO dry requires orchestration plus composed HP thermal and moisture references.",
+      "requires": ["integrated_laundry_orchestration"],
+      "composedRequires": [
+        "heat_pump_dryer.heat_pump_thermal_system",
+        "heat_pump_dryer.sealed_moisture_rejection_path"
+      ],
+      "platformScope": "samsung_laundry_combo",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "dry_operation_condenser_resistive_aio",
+      "description": "Condenser-resistive AIO dry requires orchestration, condenser_resistive_dry_heat, and composed moisture reference.",
+      "requires": ["integrated_laundry_orchestration", "condenser_resistive_dry_heat"],
+      "composedRequires": ["heat_pump_dryer.sealed_moisture_rejection_path"],
+      "platformScope": "whirlpool_fl_dd_aio",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "cross_mode_coupling",
+      "description": "Orchestration may inhibit dry moisture path when wash-residue conditions assert — cross-mode integration coupling.",
+      "requires": ["integrated_laundry_orchestration"],
+      "composedTargets": ["heat_pump_dryer.sealed_moisture_rejection_path"],
+      "platformScope": "w1_ulc_foam_path",
+      "source": "canonical",
+      "confidence": "medium"
+    }
+  ],
+  "establishedFactSources": [
+    {
+      "factId": "orchestration_ready",
+      "label": "Integrated orchestration authorized for mode transition",
+      "fromComponents": ["integrated_laundry_orchestration"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "factId": "condenser_resistive_heat_commanded",
+      "label": "Condenser-resistive dry heat commanded",
+      "fromComponents": ["condenser_resistive_dry_heat"],
+      "source": "canonical",
+      "confidence": "high"
+    }
+  ],
+  "testTargets": [
+    {
+      "id": "orchestration_authorization_test",
+      "label": "Integrated wash–dry orchestration",
+      "role": "prerequisite",
+      "testAliasId": "orchestration_authorization_test",
+      "establishesFacts": ["orchestration_ready"],
+      "forGoals": ["aio_cycle_authorization", "wash_operation", "dry_operation_hp_aio", "dry_operation_condenser_resistive_aio"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "condenser_resistive_heat_test",
+      "label": "Condenser-resistive dry heat path",
+      "role": "discriminator",
+      "testAliasId": "condenser_resistive_heat_test",
+      "establishesFacts": ["condenser_resistive_heat_commanded"],
+      "requires": { "facts": ["orchestration_ready"], "dependencies": ["dry_operation_condenser_resistive_aio"] },
+      "forGoals": ["dry_operation_condenser_resistive_aio"],
+      "source": "canonical",
+      "confidence": "high"
+    }
+  ],
+  "failureDomains": [
+    { "id": "orchestration_failure", "label": "Integrated orchestration", "components": ["integrated_laundry_orchestration"] },
+    { "id": "condenser_resistive_heat_failure", "label": "Condenser-resistive dry heat", "components": ["condenser_resistive_dry_heat"] },
+    {
+      "id": "composed_wash_failure",
+      "label": "Wash subsystem (composed FL washer)",
+      "composedReference": "front_load_washer",
+      "crossCutting": true
+    },
+    {
+      "id": "composed_hp_thermal_failure",
+      "label": "HP dry thermal (composed reference)",
+      "composedReference": "heat_pump_dryer.heat_pump_thermal_system",
+      "platformScope": "heat_pump_aio_only",
+      "crossCutting": true
+    },
+    {
+      "id": "composed_moisture_rejection_failure",
+      "label": "Sealed moisture rejection (composed reference)",
+      "composedReference": "heat_pump_dryer.sealed_moisture_rejection_path",
+      "crossCutting": true
+    },
+    { "id": "wiring_connection", "label": "Wiring / connection", "crossCutting": true }
+  ],
+  "diagnosticPrinciples": {
+    "general": [
+      { "id": "composition_not_duplication", "rule": "Diagnose composed family functions through their source ontology — do not treat composition references as AIO-local duplicates." },
+      { "id": "thermal_modality_scope", "rule": "Do not require heat_pump_thermal_system on condenser-resistive AIO platforms or condenser_resistive_dry_heat on HP AIO platforms." },
+      { "id": "moisture_not_hp_exclusive", "rule": "sealed_moisture_rejection_path is shared across AIO ventless witnesses — reference does not imply heat pump." },
+      { "id": "orchestration_not_dump", "rule": "integrated_laundry_orchestration coordinates modes — it does not subsume wash, dry thermal, or moisture rejection domains." },
+      { "id": "implementation_not_ontology", "rule": "Heater elements, blowers, fans, refrigeration hardware, and ducts are platform vocabulary." }
+    ]
+  },
+  "diagnosticEntryPoints": [
+    {
+      "id": "wont_complete_wash_dry_cycle",
+      "symptoms": ["won't complete cycle", "stuck between wash and dry", "won't transition to dry"],
+      "initialDomains": ["orchestration_failure", "composed_wash_failure"],
+      "activeGoals": ["aio_cycle_authorization", "wash_operation"]
+    },
+    {
+      "id": "no_dry_heat_hp_aio",
+      "symptoms": ["no dry heat", "heat pump not running", "3CA", "compressor fault"],
+      "initialDomains": ["composed_hp_thermal_failure", "composed_moisture_rejection_failure", "orchestration_failure"],
+      "activeGoals": ["dry_operation_hp_aio"],
+      "platformScope": "samsung_laundry_combo",
+      "note": "Route to heat_pump_dryer.heat_pump_thermal_system composed reference — not condenser_resistive_dry_heat"
+    },
+    {
+      "id": "no_dry_heat_condenser_aio",
+      "symptoms": ["no dry heat", "dry element", "dry heater fault", "F4E1 dry"],
+      "initialDomains": ["condenser_resistive_heat_failure", "composed_moisture_rejection_failure", "orchestration_failure"],
+      "activeGoals": ["dry_operation_condenser_resistive_aio"],
+      "platformScope": "whirlpool_fl_dd_aio",
+      "note": "Route to condenser_resistive_dry_heat — not heat_pump_thermal_system"
+    },
+    {
+      "id": "condensate_or_drain_issue",
+      "symptoms": ["water in drum", "condensate", "5C", "drain error", "F4E4"],
+      "initialDomains": ["composed_moisture_rejection_failure", "orchestration_failure"],
+      "activeGoals": ["dry_operation_hp_aio", "dry_operation_condenser_resistive_aio"]
+    }
+  ],
+  "freezeProvenance": {
+    "workstream": "CG-AIO-LAUNDRY-COMBO-FREEZE",
+    "returnClosure": "CG_AIO_LAUNDRY_COMBO_RETURN_CLOSURE_v1.json",
+    "freezeLock": "CG_AIO_LAUNDRY_COMBO_FREEZE_LOCK_v1.json",
+    "witnesses": [
+      { "manufacturer": "Samsung", "model": "WD53DBA900HZA1" },
+      { "manufacturer": "Whirlpool", "model": "WFW9620HC0", "manualId": "W11169652" }
+    ],
+    "aioOwnedComponents": ["integrated_laundry_orchestration", "condenser_resistive_dry_heat"],
+    "compositionReferences": [
+      "front_load_washer",
+      "heat_pump_dryer.heat_pump_thermal_system",
+      "heat_pump_dryer.sealed_moisture_rejection_path"
+    ],
+    "rejectedParents": ["sealed_ventless_drying"],
+    "supersededFunctions": ["sealed_heat_pump_drying"],
+    "canonicalExpansion": 1,
+    "canonicalExpansionNote": "One new AIO-owned function (condenser_resistive_dry_heat). integrated_laundry_orchestration retained from discovery — not counted as expansion. Composition references are not duplication.",
+    "componentPromotionCount": 0,
+    "humanFreezeReview": {
+      "status": "approved",
+      "approvedAt": "2026-09-17T17:00:00+00:00",
+      "verdict": "GREEN — FREEZE APPROVED"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_heat_pump_dryer_freeze_closure",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T16:00:00+00:00",
+  "phase": "CG-HEAT-PUMP-DRYER-FREEZE",
+  "verdict": "GREEN / HEAT_PUMP_DRYER_FAMILY_FROZEN",
+  "closureStatement": "Heat-pump dryer canonical family frozen at rev1, registered in resolver, and locked. Fit → discovery → freeze workstream complete. Minimum 2-function HP divergence from vented_dryer with 7 reuse references. routed_through thermal→moisture edge intentionally omitted. AIO workstream remains PAUSED.",
+  "freezeLock": "CG_HEAT_PUMP_DRYER_FREEZE_LOCK_v1.json",
+  "canonicalOntology": {
+    "id": "heat_pump_dryer",
+    "frozenRevision": "rev1",
+    "frozenHash": "d7a98c826d011a9fdef4b8c91ebd4d66ff88629f7d7b91357d43fee42c32d3bb",
+    "registryRegistered": true
+  },
+  "finalArchitecture": {
+    "ventedDryerReuse": [
+      "door_switch",
+      "drive_motor",
+      "moisture_sensor",
+      "lint_filter",
+      "control_board",
+      "hmi_control",
+      "power_supply"
+    ],
+    "hpSpecificDivergence": [
+      "heat_pump_thermal_system",
+      "sealed_moisture_rejection_path"
+    ],
+    "notImportedFromVentedDryer": [
+      "heat_source",
+      "exhaust_path",
+      "heated_airflow_path",
+      "thermal_fuse"
+    ],
+    "deferredEdge": {
+      "omitted": "heat_pump_thermal_system → routed_through → sealed_moisture_rejection_path",
+      "functionalAlternative": "functionalDependencies.thermal_moisture_functional_coupling"
+    }
+  },
+  "governanceConclusion": {
+    "heatPumpDryerFamilyLocked": true,
+    "canonicalExpansion": 0,
+    "componentPromotionCount": 0,
+    "ventedDryerHashMutated": false,
+    "aioArtifactsMutated": false,
+    "aioWorkstream": "PAUSED",
+    "normalizationAuthorized": false,
+    "compoundingAuthorized": false
+  },
+  "workstreamChain": [
+    "CG-HEAT-PUMP-DRYER-FIT — architectural_divergence (3 witnesses)",
+    "CG-HEAT-PUMP-DRYER-DISCOVERY — 2 core + 7 reuse approved",
+    "CG-HEAT-PUMP-DRYER-FREEZE — rev1 frozen and locked"
+  ],
+  "nextDisciplinedStep": "TERMINAL HUMAN GATE — heat_pump_dryer architecture immutable. AIO return requires separate authorization. Normalization/compounding only when explicitly opened."
+}

@@ -1,0 +1,526 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "LG-LRMVS-FRIDGE",
+  "platformId": "lg_lrmvs",
+  "gateKind": "lg_lrmvs_third_manual_compounding",
+  "gateArtifact": "LG_LRMVS_FD_overlay_mapping_table_v1.json",
+  "generatedAt": "2026-09-16T06:46:19.246792+00:00",
+  "reviewer": "human_gate_cg8_wp3",
+  "compoundingPhase": "CG-8",
+  "priorPublishedManualIds": [
+    "W10322959",
+    "SAMSUNG-RF23BB-FRIDGE"
+  ],
+  "entries": [
+    {
+      "artifactId": "lg-control-board-test-mode",
+      "gateQuestion": "Does LRMVS independently teach frozen control_board?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": "control_board",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lglrmvs-test-mode-entry",
+        "lglrmvs-display-communication",
+        "lglrmvs-display-mode"
+      ],
+      "seedComponentIds": [
+        "main_control"
+      ],
+      "rationale": "Main PCB test modes (\u00d71/\u00d72/\u00d73) and E CO flowchart \u2014 LG-native control orchestration from procedure seeds only.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "lg-user-interface-display",
+      "gateQuestion": "Does LRMVS independently teach frozen user_interface?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": "user_interface",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lglrmvs-display-communication",
+        "lglrmvs-display-mode"
+      ],
+      "seedComponentIds": [
+        "display_panel"
+      ],
+      "rationale": "E CO main\u2194display comm and demo/OFF display mode \u2014 independent HMI diagnostics.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "lg-door-switch-abstention",
+      "gateQuestion": "Does LRMVS independently teach frozen door_switch?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "Manual assembly \u00a710-3 documents R/F/HomeBar door switches but no LRMVS door-switch service procedure seed. Abstain \u2014 do not inherit Jazz procedure evidence or CG-7 triangulation phrases.",
+      "independentEvidence": false
+    },
+    {
+      "artifactId": "lg-evaporator-fan-multi",
+      "gateQuestion": "Does LRMVS teach frozen evaporator_fan?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": "evaporator_fan",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lglrmvs-ff-fan",
+        "lglrmvs-fz-fan",
+        "lglrmvs-icing-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "rationale": "E rF / E FF / E IF evaporator-path fan diagnostics \u2014 canonical with multi-instance overlay; condenser fan (E CF) stays conditional.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "lg-air-damper-test-mode",
+      "gateQuestion": "Does LRMVS independently teach frozen air_damper?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": "air_damper",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lglrmvs-damper-test",
+        "lglrmvs-test-mode-entry"
+      ],
+      "seedComponentIds": [],
+      "rationale": "Test Mode \u00d72 (display 22 22) closes damper \u2014 functional airflow control on LG.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "lg-defrost-heater-ff-fz",
+      "gateQuestion": "Does LRMVS teach frozen defrost_heater?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": "defrost_heater",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lglrmvs-fz-defrost-heater",
+        "lglrmvs-ff-defrost-heater"
+      ],
+      "seedComponentIds": [
+        "heater"
+      ],
+      "rationale": "F dH / r dH separate heater procedures \u2014 FF/FZ instance scopes on canonical.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "lg-compressor-linear-conditional",
+      "gateQuestion": "What does LRMVS teach about conditional compressor?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "compressor",
+      "instanceScope": "linear_compressor_r600a",
+      "platformTarget": null,
+      "procedureIds": [
+        "lglrmvs-sealed-system"
+      ],
+      "seedComponentIds": [
+        "compressor",
+        "sealed_system"
+      ],
+      "rationale": "E CH/E CL sealed-system path references linear compressor \u2014 conditionalConcept only; linear drive stays platform layer.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-condenser-fan-conditional",
+      "gateQuestion": "Does LRMVS teach conditional condenser_fan?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "condenser_fan",
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lglrmvs-condenser-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "rationale": "Standalone E CF procedure on CON3 \u2014 conditional binding (2/3 with Jazz; Samsung abstains).",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-temp-ff-conditional",
+      "gateQuestion": "LRMVS fresh-food cabinet NTC scope?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "fresh_food",
+      "platformTarget": null,
+      "procedureIds": [
+        "lglrmvs-ff-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-temp-fz-conditional",
+      "gateQuestion": "LRMVS freezer cabinet NTC scope?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "freezer",
+      "platformTarget": null,
+      "procedureIds": [
+        "lglrmvs-fz-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-temp-convert-conditional",
+      "gateQuestion": "LRMVS convert-drawer NTC scope?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "convert_drawer",
+      "platformTarget": null,
+      "procedureIds": [
+        "lglrmvs-convert-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-temp-icing-conditional",
+      "gateQuestion": "LRMVS icing-room NTC scope?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "icing_room",
+      "platformTarget": null,
+      "procedureIds": [
+        "lglrmvs-icing-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-ice-maker-conditional",
+      "gateQuestion": "LRMVS optional ice_maker conditional binding?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "ice_maker",
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lglrmvs-ice-maker-electrical"
+      ],
+      "seedComponentIds": [
+        "ice_maker_module"
+      ],
+      "rationale": "E ID/E IU ice maker kit electrical \u2014 conditionalConcept only.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-water-dispenser-abstention",
+      "gateQuestion": "LRMVS water_dispenser conditional binding?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "No LRMVS water-dispenser service procedure seed in manual pipeline.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-linear-compressor-platform",
+      "gateQuestion": "Linear compressor implementation vocabulary?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "compressor_controller",
+      "procedureIds": [
+        "lglrmvs-sealed-system"
+      ],
+      "seedComponentIds": [
+        "compressor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-defrost-sensor-platform",
+      "gateQuestion": "F dS/r dS defrost NTC vocabulary?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "defrost_sensor",
+      "procedureIds": [
+        "lglrmvs-fz-defrost-sensor",
+        "lglrmvs-ff-defrost-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-icing-fan-platform",
+      "gateQuestion": "Icing compartment fan architecture?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": "icing_room",
+      "platformTarget": null,
+      "procedureIds": [
+        "lglrmvs-icing-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "rationale": "E IF icing fan \u2014 platform detail under evaporator_fan family.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-wifi-modem-platform",
+      "gateQuestion": "Wi-Fi modem (E Od) implementation?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "lglrmvs-wifi-modem"
+      ],
+      "seedComponentIds": [
+        "main_control"
+      ],
+      "rationale": "ThinQ modem comm \u2014 platform connectivity, not canonical user_interface expansion.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-sealed-system-routing",
+      "gateQuestion": "Sealed-system complaint routing on LRMVS?",
+      "gateAction": "reject_canonical_promotion",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "sealed_system",
+      "procedureIds": [
+        "lglrmvs-sealed-system"
+      ],
+      "seedComponentIds": [],
+      "rationale": "E CH/E CL routing is PLATFORM_ONLY per CG-7 freeze \u2014 not canonical expansion.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-aggregate-resurrection-blocked",
+      "gateQuestion": "Do LG terms resurrect removed aggregates?",
+      "gateAction": "reject_canonical_promotion",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "Test modes and \u00a78 flowcharts decompose into members \u2014 defrost_system, cooling_system, airflow_path remain dead per CG-7 freeze.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-humidity-abstention",
+      "gateQuestion": "humidity_control on LRMVS?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "Humidity crisper mentioned in manual but CG-7 deferred humidity_control.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-power-supply-abstention",
+      "gateQuestion": "power_supply on LRMVS?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "CG-7 deferred power_supply \u2014 no standalone LRMVS supply diagnostic procedure seed.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "lg-discovery-corpus-isolation",
+      "gateQuestion": "Does compounding import CG-7 discovery corpus?",
+      "gateAction": "reject_canonical_promotion",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "discoveryCorpusInheritance": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "CG-7 R3 observation artifacts are reference-only \u2014 LG bindings must come from LRMVS procedure seeds, not triangulation verdict inheritance.",
+      "independentEvidence": null
+    }
+  ],
+  "summary": {
+    "canonicalInheritances": 5,
+    "conditionalBindings": 7,
+    "overlayLearningEvents": 7,
+    "intentionalAbstentions": 4,
+    "newOverlaySemanticDecisions": 7,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0
+  },
+  "accounting": {
+    "canonicalInheritances": 5,
+    "conditionalBindings": 7,
+    "overlayLearningEvents": 7,
+    "intentionalAbstentions": 4,
+    "newOverlaySemanticDecisions": 7,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0,
+    "semanticLearningFromRouting": 0
+  }
+}

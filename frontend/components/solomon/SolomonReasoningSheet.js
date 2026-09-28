@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { buildReasoningPresentation } from './reasoning/reasoningPresentation';
+import { diagnosticStatusEyebrow } from '../diagnostics/intelligence/diagnosticJourneyPresentation';
 import SolomonCategoryIcon from './categoryIcons';
 import SolomonDiagnosticPath from './SolomonDiagnosticPath';
 import EliminationBanner from '../diagnostics/EliminationBanner';
@@ -100,6 +101,11 @@ export default function SolomonReasoningSheet({
   variant = 'mobile',
   interfaceStyle = SOLOMON_INTERFACE.SIGNATURE,
   eliminationResult = null,
+  oemDiagnosticPathExhausted = false,
+  oemManufacturerPathActive = false,
+  oemConfirmedRepairProcedureId = null,
+  oemCurrentTestFocus = null,
+  procedureRuns = {},
 }) {
   const panelRef = useRef(null);
   const closeButtonRef = useRef(null);
@@ -115,6 +121,11 @@ export default function SolomonReasoningSheet({
     visitedStepKeys,
     currentStepKey,
     reviewStepId,
+    oemDiagnosticPathExhausted,
+    oemManufacturerPathActive,
+    oemConfirmedRepairProcedureId,
+    oemCurrentTestFocus,
+    procedureRuns,
   });
 
   useEffect(() => {
@@ -180,7 +191,7 @@ export default function SolomonReasoningSheet({
         }`}
         style={{ marginTop: 'auto', marginBottom: 0 }}
       >
-        <div className={`flex items-center justify-between gap-3 px-4 py-3 border-b shrink-0 ${
+        <div className={`sticky top-0 z-10 flex items-center justify-between gap-3 px-4 py-3 border-b shrink-0 ${
           isProfessional ? 'border-[color:var(--solomon-border-muted)]' : 'border-white/10'
         }`}
         >
@@ -212,28 +223,38 @@ export default function SolomonReasoningSheet({
             }`}
             >
               <p className={`text-[10px] uppercase tracking-wide ${isProfessional ? 'text-[var(--solomon-text-muted)]' : 'text-gray-500'}`}>
-                Current leading hypothesis
+                {diagnosticStatusEyebrow(lead.foregroundMode)}
               </p>
               <div className="flex items-start gap-3 mt-2">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
-                  <SolomonCategoryIcon
-                    categoryId={lead.categoryId}
-                    categoryLabel={lead.categoryLabel}
-                    size={22}
-                  />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-lg font-semibold text-white">{lead.categoryLabel}</p>
-                  <div className="flex items-baseline gap-2 mt-1">
-                    <span className="text-3xl font-bold tabular-nums text-emerald-400">{lead.percent}%</span>
-                    <span className="text-xs font-semibold uppercase tracking-wide text-emerald-300/90">
-                      {lead.strengthWord}
-                    </span>
+                {(lead.foregroundMode === 'active_hypothesis' || lead.foregroundMode === 'confirmed_fault') ? (
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
+                    <SolomonCategoryIcon
+                      categoryId={lead.categoryId}
+                      categoryLabel={lead.categoryLabel}
+                      size={22}
+                    />
                   </div>
+                ) : null}
+                <div className="min-w-0 flex-1">
+                  <p className="text-lg font-semibold text-white">{lead.headline}</p>
+                  {lead.showPercent && lead.percent != null ? (
+                    <div className="flex items-baseline gap-2 mt-1">
+                      <span className="text-3xl font-bold tabular-nums text-emerald-400">{lead.percent}%</span>
+                      {lead.strengthWord ? (
+                        <span className="text-xs font-semibold uppercase tracking-wide text-emerald-300/90">
+                          {lead.strengthWord}
+                        </span>
+                      ) : null}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-400 mt-1 leading-snug">{lead.subtitle}</p>
+                  )}
                 </div>
               </div>
-              <ConfidenceBar percent={lead.percent} variant={variant} />
-              {strength ? (
+              {lead.showPercent && lead.percent != null ? (
+                <ConfidenceBar percent={lead.percent} variant={variant} />
+              ) : null}
+              {strength && lead.showPercent ? (
                 <p className="text-[11px] text-gray-500 mt-2 tabular-nums">
                   Evidence score {strength.evidenceScore}
                   {strength.marginOverNext > 0
@@ -250,7 +271,7 @@ export default function SolomonReasoningSheet({
               isProfessional ? 'text-[var(--solomon-text-muted)]' : 'text-cyan-400/80'
             }`}
             >
-              Why we believe this
+              Why Solomon thinks this
             </p>
             <p className={`text-sm leading-relaxed ${isProfessional ? 'text-[var(--solomon-text-secondary)]' : 'text-gray-300'}`}>
               {presentation.whyTop.lines[0]?.text || presentation.whyTop.emptyHint}
@@ -273,6 +294,28 @@ export default function SolomonReasoningSheet({
               />
             ))}
           </div>
+
+          {oemDiagnosticPathExhausted && lead ? (
+            <div className={`rounded-xl border px-3 py-3 ${
+              isProfessional
+                ? 'border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]'
+                : 'border-cyan-500/20 bg-cyan-500/[0.05]'
+            }`}
+            >
+              <p className={`text-[10px] uppercase tracking-wide ${
+                isProfessional ? 'text-[var(--solomon-text-muted)]' : 'text-cyan-400/80'
+              }`}
+              >
+                Diagnostic conclusion
+              </p>
+              <p className="text-sm text-gray-300 mt-1 leading-snug">{lead.subtitle}</p>
+              {lead.remainingPathLabel ? (
+                <p className="text-sm text-white mt-2">
+                  Remaining path: <span className="font-medium">{lead.remainingPathLabel}</span>
+                </p>
+              ) : null}
+            </div>
+          ) : null}
 
           {preview ? (
             <div className={`rounded-xl border px-3 py-3 ${

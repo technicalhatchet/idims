@@ -1,0 +1,85 @@
+{
+  "manualId": "SAMSUNG-TL-CG71-WASHER",
+  "platformId": "samsung_tl_washer_cg71",
+  "templateId": "washer",
+  "label": "Samsung TL washer CG71 (WA55CG7100, WA54CG)",
+  "status": "candidate",
+  "ontologyId": "front_load_washer",
+  "generatedAt": "2026-09-13T00:50:22.337859+00:00",
+  "topologySignature": "motor_present_unknown_path",
+  "counts": {
+    "procedures": 16,
+    "mappingCandidates": 28,
+    "overlayCandidates": 12,
+    "conflicts": 0,
+    "extractionFiltered": 10
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 10,
+    "invalidExtraction": 0,
+    "totalFiltered": 10,
+    "samples": [
+      {
+        "rawTerm": "PC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtlcg71-clutch",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "DC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtlcg71-door-lock",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "DC2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtlcg71-door-lock",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "BC2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtlcg71-hmi-check",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "LC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtlcg71-leak-check",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtlcg71-power-supply",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtlcg71-power-supply",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "HC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtlcg71-wash-heater",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtlcg71-wash-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TC4",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtlcg71-wash-thermistor",
+        "source": "title_token"
+      }
+    ]
+  }
+}

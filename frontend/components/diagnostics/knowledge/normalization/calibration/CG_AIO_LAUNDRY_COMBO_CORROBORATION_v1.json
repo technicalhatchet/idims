@@ -1,0 +1,161 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_corroboration",
+  "workstream": "CG-AIO-LAUNDRY-COMBO-CORROBORATION",
+  "status": "complete",
+  "generatedAt": "2026-09-17T14:35:00+00:00",
+  "method": "blind_architectural_comparison_after_independent_observations",
+  "candidateArtifact": "aio_laundry_combo_functional_contract_candidate_v1.json",
+  "candidateModified": false,
+  "witnesses": [
+    {
+      "witnessId": "W1",
+      "manufacturer": "Samsung",
+      "model": "WD53DBA900HZA1",
+      "dryingArchitecture": "heat_pump_ventless_condenser",
+      "observation": "CG_AIO_WD53DBA900_FIT_OBSERVATION_v1.json"
+    },
+    {
+      "witnessId": "W2",
+      "manufacturer": "Whirlpool",
+      "model": "WFW9620HC0 (C = All-In-One)",
+      "dryingArchitecture": "ventless_condenser_resistive_heat",
+      "observation": "CG_AIO_WFW9620_CORROBORATION_OBSERVATION_v1.json"
+    }
+  ],
+  "corpusSearchSummary": {
+    "lgAioManualAssumed": false,
+    "lgManualSearched": false,
+    "secondWitnessUsed": "Whirlpool W11169652 All-In-One line",
+    "standaloneHeatPumpDryerBorrowed": false,
+    "corroborationStatus": "partial_cross_manufacturer_corroboration"
+  },
+  "functionalConvergenceAnalysis": {
+    "centerpieceQuestion": "Do two independent manufacturers require the same minimum functional abstractions for AIO laundry-combo diagnostics?",
+    "answer": "partial_yes_with_dry_implementation_divergence",
+    "summary": "Both manufacturers independently require integrated wash–dry orchestration on shared drum/controller and a non-vented sealed drying architecture distinct from vented_dryer. They diverge on dry heat/moisture-rejection implementation: Samsung uses heat-pump refrigerant cycle; Whirlpool uses resistive dry element + condenser duct + dual-fan ventless path. Functional convergence on integration; implementation divergence on dry thermal architecture."
+  },
+  "comparisonAgainstCandidate": {
+    "integrated_laundry_orchestration": {
+      "classification": "independently_corroborated",
+      "samsungEvidence": {
+        "provenance": "§4-3 Smart Install steps 1–10; ULC cross-mode foam; shared motor 3C",
+        "observation": "CG_AIO_WD53DBA900_FIT_OBSERVATION_v1.json"
+      },
+      "whirlpoolEvidence": {
+        "provenance": "QSC steps 1–14 with step 10 dry blower after spin; F5E4 between cycles; Component Activation Dry Heater & Combo Fan; single ACU",
+        "observation": "CG_AIO_WFW9620_CORROBORATION_OBSERVATION_v1.json",
+        "pages": [29, 30, 33]
+      },
+      "convergenceRationale": "Both manufacturers independently document unified controller, shared drum/motor, sequential wash→dry service verification without load transfer, and cross-mode door/cycle dependencies. This is functional convergence — not component similarity.",
+      "physicalComponentDifferenceIrrelevant": true
+    },
+    "sealed_heat_pump_drying": {
+      "classification": "partially_corroborated",
+      "samsungEvidence": {
+        "dryArchitecture": "BLDC compressor 3CA, EVA thermistors, dehumidifying kit NC, supplemental dry heater",
+        "provenance": "§4-2/§4-5 samsung aio manual"
+      },
+      "whirlpoolEvidence": {
+        "dryArchitecture": "Resistive dry heater TEST #15, dry blower #17, vent fan #13, vent baffle #14, condenser duct — no compressor/refrigerant",
+        "provenance": "TEST #13–#17; §4-13 condenser duct; F4E4",
+        "pages": [61, 62, 63, 64, 65, 66]
+      },
+      "sharedFunctionalLayer": {
+        "description": "Both require sealed/ventless moisture rejection without vented_dryer exhaust_path terminal; both use condensation pathway; both have sealed airflow through drum with dry thermal control and dry NTC",
+        "convergence": true
+      },
+      "implementationDivergence": {
+        "description": "Samsung primary heat transfer via refrigerant loop; Whirlpool primary heat via resistive element on air stream through condenser duct",
+        "convergence": false
+      },
+      "candidateNameConcern": {
+        "statement": "sealed_heat_pump_drying may be too implementation-specific for manufacturer-independent canonical contract",
+        "freezeGateRecommendation": "Consider broadening to sealed_ventless_drying (or equivalent) with heat_pump and condenser_resistive as platform implementation scopes — do NOT auto-modify candidate in corroboration phase",
+        "doesNotDisproveNeedForNewFamily": true,
+        "reason": "Whirlpool also fails vented_dryer fit — both need non-vented dry functional contract; divergence is within sealed-dry family boundary question"
+      }
+    },
+    "reused_front_load_washer_domains": {
+      "classification": "independently_corroborated",
+      "whirlpoolEvidence": "TEST #3–#10 wash path maps to FL washer domains without mutation",
+      "samsungEvidence": "9 procedures classified front_load_washer in fit observation",
+      "convergenceRationale": "Both AIO platforms retain standard FL wash diagnostic domains composable from frozen front_load_washer"
+    }
+  },
+  "whirlpoolDomainsAbsentFromSamsungCandidate": [
+    {
+      "domain": "vent_baffle_airflow_routing",
+      "disposition": "implementation_specific",
+      "reason": "Whirlpool TEST #14 baffle solenoid — platform airflow routing; not elevated to canonical function",
+      "provenance": "W11169652 §3-23 TEST #14 p.61–62"
+    },
+    {
+      "domain": "dual_fan_dry_airflow",
+      "disposition": "implementation_specific",
+      "reason": "Separate vent fan and dry blower on Whirlpool vs Samsung heat-pump fan/heater combo — different implementation of sealed_dry_airflow sub-responsibility",
+      "provenance": "TEST #13 + #17 vs Samsung §4-5 dry heater + fan step 9"
+    }
+  ],
+  "samsungDomainsAbsentFromWhirlpoolEvidence": [
+    {
+      "domain": "refrigerant_cycle_heat_transfer",
+      "disposition": "implementation_specific_to_heat_pump_platforms",
+      "reason": "Samsung 3CA compressor + EVA thermistors — not present on Whirlpool condenser-resistive AIO",
+      "doesNotBlockOrchestrationCorroboration": true
+    },
+    {
+      "domain": "cross_mode_foam_in_dehumidification",
+      "disposition": "unresolved",
+      "reason": "ULC code Samsung-only in corpus — may be heat-pump-path specific or undocumented on Whirlpool",
+      "corroborationImpact": "low_for_orchestration_function"
+    },
+    {
+      "domain": "auto_open_door_dry_exit",
+      "disposition": "implementation_specific",
+      "reason": "Samsung DC5 — no Whirlpool equivalent in W11169652",
+      "provenance": "Samsung §4-2 DC5 only"
+    }
+  ],
+  "architecturalDivergenceVsComponentDivergence": {
+    "ruleApplied": "Physical component differences are not automatically architectural divergence",
+    "findings": [
+      {
+        "difference": "Compressor vs resistive dry heater",
+        "classification": "implementation_divergence_within_sealed_dry_domain",
+        "notAutomaticDisproofOfCandidate": true
+      },
+      {
+        "difference": "Dual fan vs heat-pump fan path",
+        "classification": "implementation_specific_airflow_realization"
+      },
+      {
+        "convergence": "integrated_orchestration + non_vented_dry vs vented_dryer",
+        "classification": "functional_convergence_across_manufacturers"
+      }
+    ]
+  },
+  "corroborationVerdict": {
+    "integrated_laundry_orchestration": "independently_corroborated",
+    "sealed_heat_pump_drying": "partially_corroborated",
+    "front_load_washer_wash_reuse": "independently_corroborated",
+    "overallCorroborationStatus": "partial_cross_manufacturer_corroboration",
+    "candidateSufficientForFreezeGate": "conditional_yes_with_naming_scope_review",
+    "freezeGateConditions": [
+      "Orchestration function has independent two-manufacturer corroboration — sufficient for freeze consideration",
+      "Dry function requires freeze-gate decision: broaden sealed_heat_pump_drying to manufacturer-neutral sealed_ventless_drying abstraction OR accept heat-pump name as primary with condenser-resistive as overlay scope",
+      "Do not freeze as Samsung heat-pump-only ontology without addressing Whirlpool condenser architecture"
+    ],
+    "candidateNotAutoModified": true
+  },
+  "governance": {
+    "canonicalExpansion": 0,
+    "aioLaundryComboJsonCreated": false,
+    "overlayCreated": false,
+    "freezeExecuted": false,
+    "closureExecuted": false,
+    "samsungEvidenceMutated": false,
+    "frozenHashesUnchanged": true
+  },
+  "stopCondition": "STOP — await human architectural review for freeze gate with corroboration findings"
+}

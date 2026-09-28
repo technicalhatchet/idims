@@ -1,0 +1,2329 @@
+{
+  "manualId": "W8178629",
+  "platformId": "whirlpool_centennial_dryer",
+  "templateId": "electric_dryer",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:17.150380+00:00",
+  "records": [
+    {
+      "candidateId": "map-W8178629-compound-door_switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "door_switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "door",
+          "component": null,
+          "actuator": "switch"
+        },
+        "summary": "alias: door_switch \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-door-switch",
+        "pages": [
+          61,
+          71
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-door-switch",
+        "pages": [
+          61,
+          71
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-door-switch",
+            "pages": [
+              61,
+              71
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-door-switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Door Switch Test",
+      "extractedTerm": "Door Switch",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "door",
+          "component": null,
+          "actuator": "switch"
+        },
+        "summary": "alias: Door Switch Test \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-door-switch",
+        "pages": [
+          61,
+          71
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Door Switch Test": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-door-switch",
+        "pages": [
+          61,
+          71
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-door-switch",
+            "pages": [
+              61,
+              71
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w8178629-unresolved-w8178629-drive-motor-motor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "motor",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: motor \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-drive-motor",
+        "pages": [
+          66
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "motor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-drive-motor",
+        "pages": [
+          66
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-drive-motor",
+            "pages": [
+              66
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-drive-motor-drive_motor",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.85,
+      "what": "Drive Motor Test",
+      "extractedTerm": "Drive Motor",
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "global_hint",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: Drive Motor Test \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-drive-motor",
+        "pages": [
+          66
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Drive Motor Test": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-drive-motor",
+        "pages": [
+          66
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-drive-motor",
+            "pages": [
+              66
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "global_hint"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "Drive Motor Test",
+            "extractedTerm": "Drive Motor",
+            "notes": [
+              "stripped_procedural_suffix"
+            ]
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-heating_element",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "heating_element",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "wash_heater",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "heating element",
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: heating_element \u2192 wash_heater"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-electric-heater",
+        "pages": [
+          64
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heating_element": "wash_heater"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-electric-heater",
+        "pages": [
+          64
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-electric-heater",
+            "pages": [
+              64
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "heating element",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-electric-heater-(dual-element)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Electric Heater (Dual Element)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "electric",
+          "component": null,
+          "actuator": "heater"
+        },
+        "summary": "alias: Electric Heater (Dual Element) \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-electric-heater",
+        "pages": [
+          64
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Electric Heater (Dual Element)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-electric-heater",
+        "pages": [
+          64
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-electric-heater",
+            "pages": [
+              64
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "electric",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-thermal_cutoff",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "thermal_cutoff",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: thermal_cutoff \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-electric-tco-inlet",
+        "pages": [
+          65
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermal_cutoff": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-electric-tco-inlet",
+        "pages": [
+          65
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-electric-tco-inlet",
+            "pages": [
+              65
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-inlet_thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "inlet_thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "inlet",
+          "component": null,
+          "actuator": "thermistor"
+        },
+        "summary": "alias: inlet_thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-electric-tco-inlet",
+        "pages": [
+          65
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-electric-tco-inlet",
+        "pages": [
+          65
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-electric-tco-inlet",
+            "pages": [
+              65
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "inlet",
+              "component": null,
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-tco,-high-limit-&-inlet-thermistor-(electric)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TCO, High-Limit & Inlet Thermistor (electric)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "tco high limit inlet",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: TCO, High-Limit & Inlet Thermistor (electric) \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-electric-tco-inlet",
+        "pages": [
+          65
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TCO, High-Limit & Inlet Thermistor (electric)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-electric-tco-inlet",
+        "pages": [
+          65
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-electric-tco-inlet",
+            "pages": [
+              65
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "tco high limit inlet",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-flame_sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "flame_sensor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "flame",
+          "actuator": "sensor"
+        },
+        "summary": "alias: flame_sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-flame-sensor",
+        "pages": [
+          63
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "flame_sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-flame-sensor",
+        "pages": [
+          63
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-flame-sensor",
+            "pages": [
+              63
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "flame",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-flame-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Flame Sensor Test",
+      "extractedTerm": "Flame Sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "flame",
+          "actuator": "sensor"
+        },
+        "summary": "alias: Flame Sensor Test \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-flame-sensor",
+        "pages": [
+          63
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Flame Sensor Test": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-flame-sensor",
+        "pages": [
+          63
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-flame-sensor",
+            "pages": [
+              63
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "flame",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-gas_valve",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "gas_valve",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "gas",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: gas_valve \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-gas-coils",
+        "pages": [
+          74
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "gas_valve": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-gas-coils",
+        "pages": [
+          74
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-gas-coils",
+            "pages": [
+              74
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-gas-burner-coils",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Gas Burner Coils Test",
+      "extractedTerm": "Gas Burner Coils",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "gas",
+          "component": "burner coils",
+          "actuator": null
+        },
+        "summary": "alias: Gas Burner Coils Test \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-gas-coils",
+        "pages": [
+          74
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Gas Burner Coils Test": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-gas-coils",
+        "pages": [
+          74
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-gas-coils",
+            "pages": [
+              74
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": "burner coils",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-high-limit-&-thermal-cutoff-(gas)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "High-Limit & Thermal Cutoff (gas)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: High-Limit & Thermal Cutoff (gas) \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-gas-hilimit-cutoff",
+        "pages": [
+          62
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "High-Limit & Thermal Cutoff (gas)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-gas-hilimit-cutoff",
+        "pages": [
+          62
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-gas-hilimit-cutoff",
+            "pages": [
+              62
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w8178629-unresolved-w8178629-gas-ignitor-igniter",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "igniter",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: igniter \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-gas-ignitor",
+        "pages": [
+          64
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "igniter": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-gas-ignitor",
+        "pages": [
+          64
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-gas-ignitor",
+            "pages": [
+              64
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-burner-ignitor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Burner Ignitor Test",
+      "extractedTerm": "Burner Ignitor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Burner Ignitor Test \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-gas-ignitor",
+        "pages": [
+          64
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Burner Ignitor Test": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-gas-ignitor",
+        "pages": [
+          64
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-gas-ignitor",
+            "pages": [
+              64
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w8178629-unresolved-w8178629-supply-connections-supply",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-supply-connections",
+        "pages": [
+          67,
+          70
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-supply-connections",
+        "pages": [
+          67,
+          70
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-supply-connections",
+            "pages": [
+              67,
+              70
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-supply-connections",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Supply Connections Test",
+      "extractedTerm": "Supply Connections",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Supply Connections Test \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-supply-connections",
+        "pages": [
+          67,
+          70
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Supply Connections Test": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-supply-connections",
+        "pages": [
+          67,
+          70
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-supply-connections",
+            "pages": [
+              67,
+              70
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-thermal_fuse",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "thermal_fuse",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "thermal",
+          "actuator": "fuse"
+        },
+        "summary": "alias: thermal_fuse \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-thermal-fuse-exhaust",
+        "pages": [
+          62,
+          72
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermal_fuse": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-thermal-fuse-exhaust",
+        "pages": [
+          62,
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-thermal-fuse-exhaust",
+            "pages": [
+              62,
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "thermal",
+              "actuator": "fuse"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-exhaust_thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "exhaust_thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "exhaust",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: exhaust_thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-thermal-fuse-exhaust",
+        "pages": [
+          62,
+          72
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "exhaust_thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-thermal-fuse-exhaust",
+        "pages": [
+          62,
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-thermal-fuse-exhaust",
+            "pages": [
+              62,
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "exhaust",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-thermal-fuse-&-exhaust-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Thermal Fuse & Exhaust Thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "thermal fuse exhaust",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Thermal Fuse & Exhaust Thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-thermal-fuse-exhaust",
+        "pages": [
+          62,
+          72
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Thermal Fuse & Exhaust Thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-thermal-fuse-exhaust",
+        "pages": [
+          62,
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-thermal-fuse-exhaust",
+            "pages": [
+              62,
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "thermal fuse exhaust",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-user_interface",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "user_interface",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: user_interface \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-timer-motor",
+        "pages": [
+          68,
+          70
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "user_interface": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-timer-motor",
+        "pages": [
+          68,
+          70
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-timer-motor",
+            "pages": [
+              68,
+              70
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w8178629-unresolved-w8178629-timer-motor-motor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "motor",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: motor \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-timer-motor",
+        "pages": [
+          68,
+          70
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "motor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-timer-motor",
+        "pages": [
+          68,
+          70
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-timer-motor",
+            "pages": [
+              68,
+              70
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W8178629-compound-timer-&-motor-relay",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Timer & Motor Relay Test",
+      "extractedTerm": "Timer & Motor Relay",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "timer motor",
+          "actuator": "relay"
+        },
+        "summary": "alias: Timer & Motor Relay Test \u2192 None"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-timer-motor",
+        "pages": [
+          68,
+          70
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Timer & Motor Relay Test": null
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-timer-motor",
+        "pages": [
+          68,
+          70
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-timer-motor",
+            "pages": [
+              68,
+              70
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "timer motor",
+              "actuator": "relay"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W8178629-w8178629-drive-motor-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w8178629-drive-motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w8178629-drive-motor \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-drive-motor",
+        "pages": [
+          66
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178629-drive-motor",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "Drive Motor Test",
+          "componentIds": [
+            "motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-drive-motor",
+        "pages": [
+          66
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-drive-motor",
+            "pages": [
+              66
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W8178629-w8178629-drive-motor-meas-whirlpoolCentennialDryerMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w8178629-drive-motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolCentennialDryerMotorOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-drive-motor",
+        "pages": [
+          66
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178629-drive-motor",
+          "measurementKnowledgeId": "whirlpoolCentennialDryerMotorOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-drive-motor",
+        "pages": [
+          66
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-drive-motor",
+            "pages": [
+              66
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolCentennialDryerMotorOhms",
+            "stepTitle": "Main winding pin 4\u20135"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W8178629-w8178629-drive-motor-meas-whirlpoolCentennialDryerMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w8178629-drive-motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolCentennialDryerMotorOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-drive-motor",
+        "pages": [
+          66
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178629-drive-motor",
+          "measurementKnowledgeId": "whirlpoolCentennialDryerMotorOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-drive-motor",
+        "pages": [
+          66
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-drive-motor",
+            "pages": [
+              66
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolCentennialDryerMotorOhms",
+            "stepTitle": "Start winding pin 4\u20133"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W8178629-w8178629-timer-motor-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w8178629-timer-motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w8178629-timer-motor \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-timer-motor",
+        "pages": [
+          68,
+          70
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178629-timer-motor",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "Timer & Motor Relay Test",
+          "componentIds": [
+            "user_interface",
+            "motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-timer-motor",
+        "pages": [
+          68,
+          70
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-timer-motor",
+            "pages": [
+              68,
+              70
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W8178629-w8178629-timer-motor-meas-whirlpoolCentennialDryerTimerMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w8178629-timer-motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolCentennialDryerTimerMotorOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-timer-motor",
+        "pages": [
+          68,
+          70
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178629-timer-motor",
+          "measurementKnowledgeId": "whirlpoolCentennialDryerTimerMotorOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-timer-motor",
+        "pages": [
+          68,
+          70
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-timer-motor",
+            "pages": [
+              68,
+              70
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolCentennialDryerTimerMotorOhms",
+            "stepTitle": "Timer motor BU to PT-1"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W8178629-w8178629-timer-motor-meas-whirlpoolCentennialDryerMotorCircuitOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w8178629-timer-motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolCentennialDryerMotorCircuitOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-timer-motor",
+        "pages": [
+          68,
+          70
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w8178629-timer-motor",
+          "measurementKnowledgeId": "whirlpoolCentennialDryerMotorCircuitOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-timer-motor",
+        "pages": [
+          68,
+          70
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-timer-motor",
+            "pages": [
+              68,
+              70
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolCentennialDryerMotorCircuitOhms",
+            "stepTitle": "Motor relay COM to P2-6"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 30,
+    "byStatus": {
+      "needs_review": 22,
+      "candidate": 7,
+      "COMPOUND_TERM_CANDIDATE": 1
+    },
+    "byApprovalLevel": {
+      "blocked": 22,
+      "normal": 7,
+      "careful": 1
+    },
+    "byType": {
+      "canonicalMapping": 24,
+      "procedureTestBinding": 2,
+      "measurementBinding": 4
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 0,
+      "medium_0.80_0.94": 7,
+      "low_lt_0.80": 1,
+      "unresolved": 22
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 3,
+      "UNRESOLVED_COMPONENT": 1
+    }
+  }
+}

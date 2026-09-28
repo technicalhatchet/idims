@@ -1,0 +1,75 @@
+{
+  "manualId": "W11480208",
+  "priorManualId": "W11633848",
+  "promotionId": "promo-W11480208-20260915054723",
+  "publishedAt": "2026-09-15T05:47:33.040669+00:00",
+  "equivalent": true,
+  "equivalenceChecks": {
+    "canonicalAliases": true,
+    "procedureBindings": true,
+    "measurementBindings": true,
+    "topologyOverrides": true
+  },
+  "compoundingEquivalence": {
+    "w11633848SemanticsPreserved": true,
+    "topologyAdditiveOnly": true,
+    "note": "Compounding publish allows additive platform relationships; W11633848 alias/binding semantics must be preserved."
+  },
+  "publicationChecks": {
+    "dishwasherFrozenRev1": true,
+    "dishwasherSemanticallyUnchanged": true,
+    "w11633848SemanticsPreserved": true,
+    "topologyAdditiveOnly": true,
+    "vsmWashMotorPresent": true,
+    "vsmDrainMotorPresent": true,
+    "noInteriorLedBinding": true,
+    "noDoorGasketAlias": true,
+    "noDiverterValveCanonical": true,
+    "dcFanBindingCorrect": true,
+    "w11633848DcFanPreserved": true
+  },
+  "testResults": {
+    "components/diagnostics/session/__tests__/scenarios/cg6-dishwasher-ontology.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/cg6-dishwasher-architecture-boundary.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/canonical-graph-wont-spin.test.ts": 0
+  },
+  "tscExitCode": 2,
+  "compoundingMetrics": {
+    "cohortRole": "second_manual_compounding",
+    "priorManualId": "W11633848",
+    "newHumanSemanticDecisions": 5,
+    "inheritedReuseAtGate": 6,
+    "inheritedWhirlpoolDishwasherAliases": 6,
+    "newPlatformKnowledge": 4,
+    "newModelSpecificKnowledge": 2,
+    "inheritedMatcherCorrections": 2,
+    "canonicalAutoReuse": 4,
+    "newCanonicalConcepts": 0,
+    "deferredModelConcepts": 2,
+    "rejectedProceduralTitles": 1,
+    "rejectedOverlayBindings": 1,
+    "teachingCostReduction": "5 vs 11 baseline (\u221245%) \u2014 decisions shift to implementation detail"
+  },
+  "teachingCostCurve": {
+    "W11633848": {
+      "role": "first_manual_baseline",
+      "newHumanSemanticDecisions": 11,
+      "questionMix": "what functional thing is this?"
+    },
+    "W11480208": {
+      "role": "second_manual_compounding",
+      "projectedNewHumanSemanticDecisions": 5,
+      "questionMix": "what Whirlpool-specific implementation detail is this?",
+      "reductionVsBaseline": 0.545
+    }
+  },
+  "overlayFile": "whirlpool_dishwasher.json",
+  "publishBlockedConcepts": [
+    "door_gasket",
+    "interior_led",
+    "diverter_valve",
+    "turbidity_sensor",
+    "check_valve",
+    "\u00a73-11 procedural title alias"
+  ]
+}

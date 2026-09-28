@@ -1,0 +1,371 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg7_fd_refrigerator_freeze_recommendation",
+  "workstream": "CG-7",
+  "stage": "human_freeze_approved",
+  "status": "rev1_derived",
+  "ontologyId": "french_door_refrigerator",
+  "generatedAt": "2026-09-16T04:21:45.535268+00:00",
+  "canonicalExpansion": 0,
+  "humanApprovalRequired": false,
+  "humanFreezeApprovedAt": "2026-09-16T04:30:00+00:00",
+  "canonicalOntologyFile": "frontend/components/diagnostics/knowledge/canonical/french_door_refrigerator.json",
+  "candidateSkeletonUnmodified": true,
+  "canonicalDirectoryMutable": false,
+  "observationArtifacts": {
+    "r1": "W10322959_fd_cg7x_observation_v1.json",
+    "r2": "SAMSUNG_RF23BB_fd_cg7x_observation_v1.json",
+    "r3": "LG_LRMVS_fd_cg7x_observation_v1.json"
+  },
+  "manufacturers": [
+    {
+      "round": "R1",
+      "manualId": "W10322959",
+      "platformId": "whirlpool_jazz_french_door"
+    },
+    {
+      "round": "R2",
+      "manualId": "SAMSUNG-RF23BB-FRIDGE",
+      "platformId": "samsung_fridge_bespoke"
+    },
+    {
+      "round": "R3",
+      "manualId": "LG-LRMVS-FRIDGE",
+      "platformId": "lg_lrmvs"
+    }
+  ],
+  "freezeRecommendationHistogram": {
+    "KEEP": 6,
+    "CONDITIONAL": 5,
+    "PLATFORM_ONLY": 4,
+    "REMOVE": 3,
+    "DEFER": 6
+  },
+  "dispositionBuckets": {
+    "CONDITIONAL": [
+      "temperature_sensor",
+      "compressor",
+      "condenser_fan",
+      "water_dispenser",
+      "ice_maker"
+    ],
+    "DEFER": [
+      "power_supply",
+      "condenser",
+      "evaporator",
+      "door_heater",
+      "water_level_sensor",
+      "humidity_control"
+    ],
+    "KEEP": [
+      "control_board",
+      "user_interface",
+      "evaporator_fan",
+      "air_damper",
+      "defrost_heater",
+      "door_switch"
+    ],
+    "PLATFORM_ONLY": [
+      "compressor_controller",
+      "defrost_sensor",
+      "water_inlet_valve",
+      "sealed_system"
+    ],
+    "REMOVE": [
+      "airflow_path",
+      "defrost_system",
+      "cooling_system"
+    ]
+  },
+  "conceptRecommendations": [
+    {
+      "conceptId": "power_supply",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "deferred",
+      "triangulationResult": "implied_only_all_manuals",
+      "freezeRecommendation": "DEFER",
+      "freezeRationale": "No manufacturer exposes appliance-level power_supply as an independent diagnostic target."
+    },
+    {
+      "conceptId": "control_board",
+      "r1Status": "canonical_functional",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "canonical_functional",
+      "triangulationResult": "functional_role_triangulated",
+      "freezeRecommendation": "KEEP",
+      "freezeRationale": "Independent control domain on all three manufacturers; R1 premature promotion reversed by R2, confirmed by LG."
+    },
+    {
+      "conceptId": "user_interface",
+      "r1Status": "canonical_functional",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "canonical_functional",
+      "triangulationResult": "functional_role_triangulated",
+      "freezeRecommendation": "KEEP",
+      "freezeRationale": "HMI/display communication recurs across W Jazz, Samsung RF23BB, and LG LRMVS."
+    },
+    {
+      "conceptId": "temperature_sensor",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "platform_implementation",
+      "triangulationResult": "compartment_split_triangulated",
+      "freezeRecommendation": "CONDITIONAL",
+      "freezeRationale": "Generic temperature_sensor does not survive triangulation. Freeze as compartment-scoped overlay bindings (FF/FZ/convert/icing/defrost) rather than a single canonical node."
+    },
+    {
+      "conceptId": "compressor",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "triangulationResult": "implementation_diverges_functional_role_holds",
+      "freezeRecommendation": "CONDITIONAL",
+      "freezeRationale": "Compressor functional node justified with platform overlays for relay (Jazz), inverter (Samsung), and linear (LG) drive paths. Do not collapse controller/inverter into canonical compressor."
+    },
+    {
+      "conceptId": "compressor_controller",
+      "r1Status": "platform_implementation",
+      "r2Status": "platform_implementation",
+      "candidateDisposition": "platform_implementation",
+      "triangulationResult": "platform_specific_all_manuals",
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "freezeRationale": "Relay vs inverter vs linear PCB domains \u2014 overlay only, never canonical expansion."
+    },
+    {
+      "conceptId": "condenser",
+      "r1Status": "deferred",
+      "r2Status": "deferred",
+      "candidateDisposition": "deferred",
+      "triangulationResult": "physical_component_no_diagnostic",
+      "freezeRecommendation": "DEFER",
+      "freezeRationale": null
+    },
+    {
+      "conceptId": "evaporator",
+      "r1Status": "deferred",
+      "r2Status": "deferred",
+      "candidateDisposition": "deferred",
+      "triangulationResult": "physical_component_no_diagnostic",
+      "freezeRecommendation": "DEFER",
+      "freezeRationale": null
+    },
+    {
+      "conceptId": "condenser_fan",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "triangulationResult": "partial_triangulation_2_of_3",
+      "freezeRecommendation": "CONDITIONAL",
+      "freezeRationale": "Condenser fan functional role on W+LG but absent as standalone diagnostic on Samsung. Canonical only with multi-instance/compartment overlay; not universal without Samsung gap noted."
+    },
+    {
+      "conceptId": "evaporator_fan",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "canonical_functional",
+      "triangulationResult": "functional_role_triangulated_multi_instance",
+      "freezeRecommendation": "KEEP",
+      "freezeRationale": "Evaporator fan functional role triangulated; canonical node accepts multi-instance overlay per compartment."
+    },
+    {
+      "conceptId": "air_damper",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "canonical_functional",
+      "triangulationResult": "functional_role_triangulated_implementation_varies",
+      "freezeRecommendation": "KEEP",
+      "freezeRationale": "Air damper functional role on all three: Jazz service test 6, Samsung damper heater path, LG damper close test. Implementation surfaces differ; functional node holds."
+    },
+    {
+      "conceptId": "airflow_path",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "deferred",
+      "triangulationResult": "aggregate_rejected_all_manuals",
+      "freezeRecommendation": "REMOVE",
+      "freezeRationale": "No independent diagnostic meaning on any manufacturer; redundant with fan+damper members."
+    },
+    {
+      "conceptId": "defrost_system",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "deferred",
+      "triangulationResult": "aggregate_rejected_decomposes_to_components",
+      "freezeRecommendation": "REMOVE",
+      "freezeRationale": "Defrost orchestration decomposes to heater/sensor/fan members on all three manuals."
+    },
+    {
+      "conceptId": "defrost_heater",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "canonical_functional",
+      "triangulationResult": "functional_role_triangulated",
+      "freezeRecommendation": "KEEP",
+      "freezeRationale": "Defrost heater functional role confirmed W+S+LG; may require FF/FZ overlay instances."
+    },
+    {
+      "conceptId": "defrost_sensor",
+      "r1Status": "platform_implementation",
+      "r2Status": "platform_implementation",
+      "candidateDisposition": "platform_implementation",
+      "triangulationResult": "platform_specific_all_manuals",
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "freezeRationale": "Compartment-specific defrost termination vocabulary \u2014 platform overlay, not canonical node."
+    },
+    {
+      "conceptId": "cooling_system",
+      "r1Status": "needs_second_manual",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "deferred",
+      "triangulationResult": "aggregate_rejected_all_manuals",
+      "freezeRecommendation": "REMOVE",
+      "freezeRationale": "cooling_system adds no diagnostic structure beyond compressor/fan/defrost members."
+    },
+    {
+      "conceptId": "door_switch",
+      "r1Status": "canonical_functional",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "canonical_functional",
+      "triangulationResult": "functional_role_triangulated",
+      "freezeRecommendation": "KEEP",
+      "freezeRationale": "Door switch functional role confirmed on all three: Jazz door light, Samsung multi-door, LG R/F/H-Bar switches."
+    },
+    {
+      "conceptId": "door_heater",
+      "r1Status": "deferred",
+      "r2Status": "deferred",
+      "candidateDisposition": "deferred",
+      "triangulationResult": "no_diagnostic_exposure",
+      "freezeRecommendation": "DEFER",
+      "freezeRationale": null
+    },
+    {
+      "conceptId": "water_inlet_valve",
+      "r1Status": "platform_implementation",
+      "r2Status": "platform_implementation",
+      "candidateDisposition": "platform_implementation",
+      "triangulationResult": "platform_specific_all_manuals",
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "freezeRationale": null
+    },
+    {
+      "conceptId": "water_dispenser",
+      "r1Status": "deferred",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "triangulationResult": "optional_feature_2_of_3",
+      "freezeRecommendation": "CONDITIONAL",
+      "freezeRationale": "Optional feature-domain node \u2014 include in rev1 only as conditional/optional appliance feature, not core refrigeration canonical set."
+    },
+    {
+      "conceptId": "water_level_sensor",
+      "r1Status": "deferred",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "deferred",
+      "triangulationResult": "samsung_only_diagnostic",
+      "freezeRecommendation": "DEFER",
+      "freezeRationale": "Insufficient cross-manufacturer diagnostic evidence for water_level_sensor."
+    },
+    {
+      "conceptId": "ice_maker",
+      "r1Status": "deferred",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "triangulationResult": "optional_feature_2_of_3",
+      "freezeRecommendation": "CONDITIONAL",
+      "freezeRationale": "Optional feature domain with 2/3 manufacturer evidence (Samsung+LG). Conditional canonical only if human freeze accepts optional-feature nodes."
+    },
+    {
+      "conceptId": "humidity_control",
+      "r1Status": "deferred",
+      "r2Status": "needs_second_manual",
+      "candidateDisposition": "deferred",
+      "triangulationResult": "samsung_only_diagnostic",
+      "freezeRecommendation": "DEFER",
+      "freezeRationale": "Diagnostic exposure remains Samsung-only; LG has mechanical crisper only."
+    },
+    {
+      "conceptId": "sealed_system",
+      "r1Status": "deferred",
+      "r2Status": "deferred",
+      "candidateDisposition": "platform_implementation",
+      "triangulationResult": "lg_only_aggregate_diagnostic",
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "freezeRationale": "sealed_system aggregate is LG-platform diagnostic vocabulary, not triangulated canonical."
+    }
+  ],
+  "summary": {
+    "keep": [
+      "control_board",
+      "user_interface",
+      "evaporator_fan",
+      "air_damper",
+      "defrost_heater",
+      "door_switch"
+    ],
+    "remove": [
+      "airflow_path",
+      "defrost_system",
+      "cooling_system"
+    ],
+    "conditional": [
+      "temperature_sensor",
+      "compressor",
+      "condenser_fan",
+      "water_dispenser",
+      "ice_maker"
+    ],
+    "platformOnly": [
+      "compressor_controller",
+      "defrost_sensor",
+      "water_inlet_valve",
+      "sealed_system"
+    ],
+    "defer": [
+      "power_supply",
+      "condenser",
+      "evaporator",
+      "door_heater",
+      "water_level_sensor",
+      "humidity_control"
+    ]
+  },
+  "ontologyContract": {
+    "conditionalNotInComponents": true,
+    "rule": "CONDITIONAL concepts encoded in conditionalConcepts[] with instance/overlay semantics — not promoted to components[] during rev1 authoring.",
+    "instanceSemanticsAppliesTo": ["evaporator_fan", "defrost_heater", "temperature_sensor"]
+  },
+  "controlsTrioDispositionHistory": {
+    "control_board": [
+      { "stage": "R1", "disposition": "canonical_functional" },
+      { "stage": "R2", "disposition": "needs_second_manual", "note": "R2 withheld premature R1 promotion" },
+      { "stage": "R3", "disposition": "canonical_functional", "freeze": "KEEP" }
+    ],
+    "user_interface": [
+      { "stage": "R1", "disposition": "canonical_functional" },
+      { "stage": "R2", "disposition": "needs_second_manual" },
+      { "stage": "R3", "disposition": "canonical_functional", "freeze": "KEEP" }
+    ],
+    "door_switch": [
+      { "stage": "R1", "disposition": "canonical_functional" },
+      { "stage": "R2", "disposition": "needs_second_manual" },
+      { "stage": "R3", "disposition": "canonical_functional", "freeze": "KEEP" }
+    ]
+  },
+  "humanFreezeReviewNotes": {
+    "control_board": "Strong 3-manufacturer recurrence",
+    "user_interface": "Strong 3-manufacturer diagnostic domain",
+    "door_switch": "Strong recurrence; keep distinct from lock/door mechanisms",
+    "evaporator_fan": "Strong functional recurrence; allow multiple instances",
+    "air_damper": "Strong triangulation; implementation can remain overlay-specific",
+    "defrost_heater": "Strongest defrost component to canonicalize",
+    "temperature_sensor": "Good restraint — scoped/instance semantics, not one undifferentiated sensor",
+    "compressor": "Good restraint — functional role recurs despite relay/inverter/linear implementations",
+    "condenser_fan": "2/3 evidence does not justify unconditional canonicalization",
+    "ice_maker": "Optional-feature node — do not require every French-door refrigerator to instantiate",
+    "water_dispenser": "Same optional-feature reasoning",
+    "sealed_system": "Particularly important not to turn LG aggregate into canonical abstraction"
+  },
+  "gateNote": "Human freeze approved 2026-09-16. rev1 derived to french_door_refrigerator.json. Candidate skeleton french_door_refrigerator_cg7x_candidate_v1.json intentionally unmodified."
+}

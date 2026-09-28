@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "compounding_baseline",
+  "version": "v1_tl2",
+  "frozen": true,
+  "frozenAt": "2026-09-13T13:35:00+00:00",
+  "description": "FROZEN — W11697231 TL #2 post-publish baseline. TL #1 baseline (W10864849) remains immutable in compounding_baseline_v1_whirlpool_tl.json.",
+  "platformFamilyPriorManualIds": ["W10864849"],
+  "promotionGatePreview": {
+    "note": "Metrics captured before W11697231 term-resolution apply (compounding proof point — inherited platform vocabulary)",
+    "manualId": "W11697231",
+    "reviewRecords": 53,
+    "inheritedPlatformFamilyKnowledge": 51,
+    "inheritedCorpusKnowledge": 0,
+    "newPlatformKnowledge": 0,
+    "newCanonicalKnowledge": 0,
+    "newHumanDecisionCount": 0,
+    "newHumanDecisionRate": 0.0,
+    "killerMetricReport": "compounding_tl_platform_v1.json"
+  },
+  "postPublish": {
+    "manualId": "W11697231",
+    "platformId": "whirlpool_tl_dd",
+    "platformFamilyId": "whirlpool_tl_dd_direct_drive",
+    "ontologyId": "top_load_washer",
+    "published": true,
+    "promotionId": "promo-W11697231-20260913133238",
+    "reviewRecords": 53,
+    "approved": 53,
+    "termResolutions": {
+      "applied": 16,
+      "classifications": {
+        "inherited_platform_family": 16
+      }
+    },
+    "procedureBindingsApproved": 24,
+    "tlTestTargetRemapped": 4,
+    "equivalence": "PASS",
+    "canonicalGraphValidation": "PASS",
+    "humanClassification": "w11697231_human_classification.json",
+    "newCanonicalKnowledge": 0,
+    "architectureNote": "Second-order TL compounding — zero new platform gate decisions; all OEM TEST compounds inherited from W10864849 overlay vocabulary."
+  },
+  "nextExperiment": {
+    "manualId": "W11416787",
+    "alternateManualId": "W11800233",
+    "hypothesis": "TL #3 should continue near-zero new platform decisions if platform vocabulary compounds across models."
+  }
+}
