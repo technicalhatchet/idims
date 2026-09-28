@@ -176,6 +176,7 @@ function ActiveProcedureRunner({
     continueStep,
     submitCheckpoint,
     submitMeasurement,
+    submitOpenCircuitMeasurement,
     start,
   } = useProcedureRun(procedureId, {
     initialRunState: savedRunState,
@@ -271,6 +272,7 @@ function ActiveProcedureRunner({
           onMeasurementDraftChange={setMeasurementDraft}
           onCheckpoint={submitCheckpoint}
           onSubmitMeasurement={submitMeasurement}
+          onSubmitOpenCircuitMeasurement={submitOpenCircuitMeasurement}
           onContinue={continueStep}
           lastEvaluation={
             lastResult?.stepId === currentStep.id ? lastResult?.evaluation : null

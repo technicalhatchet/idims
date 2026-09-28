@@ -57,6 +57,7 @@ function ProcedureRunCard({
     continueStep,
     submitCheckpoint,
     submitMeasurement,
+    submitOpenCircuitMeasurement,
   } = useProcedureRun(procedure.id, {
     initialRunState: savedRunState,
     onRunStateChange: handleRunStateChange,
@@ -160,6 +161,7 @@ function ProcedureRunCard({
               onMeasurementDraftChange={setMeasurementDraft}
               onCheckpoint={submitCheckpoint}
               onSubmitMeasurement={submitMeasurement}
+              onSubmitOpenCircuitMeasurement={submitOpenCircuitMeasurement}
               onContinue={continueStep}
               lastEvaluation={
                 lastResult?.stepId === currentStep?.id ? lastResult?.evaluation : null

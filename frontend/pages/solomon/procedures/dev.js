@@ -158,6 +158,7 @@ export default function SolomonProcedureDevPage() {
     continueStep,
     submitCheckpoint,
     submitMeasurement,
+    submitOpenCircuitMeasurement,
   } = useProcedureRun(selectedId);
 
   useEffect(() => {
@@ -475,6 +476,7 @@ export default function SolomonProcedureDevPage() {
                 onContinue={continueStep}
                 onCheckpoint={submitCheckpoint}
                 onSubmitMeasurement={submitMeasurement}
+                onSubmitOpenCircuitMeasurement={submitOpenCircuitMeasurement}
                 lastEvaluation={lastResult?.evaluation}
                 matchedBranch={lastResult?.matchedBranch}
               />

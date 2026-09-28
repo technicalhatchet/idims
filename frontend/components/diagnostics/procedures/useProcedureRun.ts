@@ -123,6 +123,10 @@ export function useProcedureRun(
     return submit({ kind: 'measurement', value: normalizeMeasurementReading(trimmed) });
   }, [measurementDraft, submit]);
 
+  const submitOpenCircuitMeasurement = useCallback(() => {
+    return submit({ kind: 'measurement', value: normalizeMeasurementReading('OL') });
+  }, [submit]);
+
   const stepIndex = resolveProcedurePathStepIndex(runState);
   const stepTotal = procedure ? resolveProcedureInteractiveStepTotal(procedure) : 0;
 
@@ -143,5 +147,6 @@ export function useProcedureRun(
     continueStep,
     submitCheckpoint,
     submitMeasurement,
+    submitOpenCircuitMeasurement,
   };
 }

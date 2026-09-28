@@ -17,6 +17,10 @@ import type { DecisionBranch, ProcedureStep, ProcedureStepInput } from '../types
 import ProcedureStepImages from './ProcedureStepImages';
 import ProcedureStepSourceReference from './ProcedureStepSourceReference';
 import ProcedureStepTechnicalDetails from './ProcedureStepTechnicalDetails';
+import {
+  resolveMeasurementCtaMode,
+  supportsOpenCircuitMeasurementSubmit,
+} from '../procedureMeasurementInput';
 
 const STEP_TYPE_LABELS: Record<string, string> = {
   safety: 'Safety',
@@ -43,6 +47,7 @@ interface ProcedureStepViewProps {
   onContinue: () => void;
   onCheckpoint: (value: 'yes' | 'no') => void;
   onSubmitMeasurement: () => void;
+  onSubmitOpenCircuitMeasurement?: () => void;
   lastEvaluation?: MeasurementEvaluation | null;
   matchedBranch?: DecisionBranch | null;
   disabled?: boolean;
@@ -63,6 +68,9 @@ function SectionLabel({ children }: { children: string }) {
 const PRIMARY_ACTION_NUDGE_CLASS =
   'ring-2 ring-amber-400 ring-offset-2 ring-offset-transparent animate-pulse shadow-lg shadow-amber-500/25';
 
+const MEASUREMENT_SUBMIT_READY_CLASS =
+  'ring-1 ring-cyan-400/55 shadow-[0_0_10px_rgba(34,211,238,0.22)]';
+
 export default function ProcedureStepView({
   procedureId = null,
   step,
@@ -73,6 +81,7 @@ export default function ProcedureStepView({
   onContinue,
   onCheckpoint,
   onSubmitMeasurement,
+  onSubmitOpenCircuitMeasurement,
   lastEvaluation,
   matchedBranch,
   disabled = false,
@@ -92,6 +101,10 @@ export default function ProcedureStepView({
     : null;
 
   const isMeasurement = step.type === 'measurement';
+  const measurementCtaMode = isMeasurement
+    ? resolveMeasurementCtaMode(measurementDraft, knowledge)
+    : 'submit';
+  const openCircuitCta = isMeasurement && supportsOpenCircuitMeasurementSubmit(knowledge);
   const isCheckpoint = step.type === 'visual_check';
   const isPassive = step.type === 'safety' || step.type === 'instruction' || step.type === 'outcome';
   const isSafety = step.type === 'safety';
@@ -286,6 +299,11 @@ export default function ProcedureStepView({
       {isMeasurement ? (
         <section className="space-y-2">
           <SectionLabel>Your reading</SectionLabel>
+          {openCircuitCta && measurementCtaMode === 'ol' ? (
+            <p className="text-xs text-[var(--solomon-text-secondary)]">
+              OL = open / over limit · Tap if your meter reads OL
+            </p>
+          ) : null}
           <div className="flex gap-2">
           <input
             type="text"
@@ -298,12 +316,23 @@ export default function ProcedureStepView({
           />
           <button
             type="button"
-            onClick={onSubmitMeasurement}
-            disabled={disabled || !measurementDraft.trim()}
-            className={`rounded-lg border border-[color:var(--solomon-primary-border)] bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50 ${primaryActionClass}`}
+            onClick={
+              measurementCtaMode === 'ol'
+                ? onSubmitOpenCircuitMeasurement
+                : onSubmitMeasurement
+            }
+            disabled={
+              disabled
+              || (measurementCtaMode === 'submit' && !measurementDraft.trim())
+              || (measurementCtaMode === 'ol' && !onSubmitOpenCircuitMeasurement)
+            }
+            className={`min-w-[5.25rem] rounded-lg border border-[color:var(--solomon-primary-border)] bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50 ${
+              measurementCtaMode === 'submit' ? MEASUREMENT_SUBMIT_READY_CLASS : ''
+            } ${primaryActionClass}`}
             data-oem-procedure-primary-action
+            data-measurement-cta={measurementCtaMode}
           >
-            Submit
+            {measurementCtaMode === 'ol' ? 'OL' : 'Submit'}
           </button>
         </div>
         </section>

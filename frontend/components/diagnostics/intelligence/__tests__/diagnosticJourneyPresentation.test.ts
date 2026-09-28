@@ -3,6 +3,8 @@ import { test } from 'node:test';
 
 import {
   diagnosticStatusEyebrow,
+  formatLeadConfidencePrimaryLine,
+  isDisplayableLeadPercent,
   resolveWizardProgressTitle,
   shouldSuppressGenericNextTestPreview,
 } from '../diagnosticJourneyPresentation';
@@ -64,4 +66,29 @@ test('status eyebrows stay concise for mobile', () => {
   const label = diagnosticStatusEyebrow('oem_path_complete');
   assert.ok(label.length <= 32);
   assert.match(label, /manufacturer path complete/i);
+});
+
+test('null confidence percent is not displayable', () => {
+  assert.equal(isDisplayableLeadPercent(true, null), false);
+  assert.equal(isDisplayableLeadPercent(true, undefined), false);
+  assert.equal(isDisplayableLeadPercent(true, Number.NaN), false);
+  assert.equal(isDisplayableLeadPercent(false, 72), false);
+});
+
+test('valid confidence percent renders in primary line', () => {
+  assert.equal(
+    formatLeadConfidencePrimaryLine({ showPercent: true, percent: 72, strengthWord: 'LIKELY' }),
+    '72% LIKELY',
+  );
+});
+
+test('confirmed status renders without fabricated percent', () => {
+  assert.equal(
+    formatLeadConfidencePrimaryLine({ showPercent: false, percent: null, strengthWord: 'CONFIRMED' }),
+    'CONFIRMED',
+  );
+  assert.equal(
+    formatLeadConfidencePrimaryLine({ showPercent: true, percent: null, strengthWord: 'CONFIRMED' }),
+    'CONFIRMED',
+  );
 });

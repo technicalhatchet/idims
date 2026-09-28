@@ -21,6 +21,33 @@ export function shouldShowLeadPercent(foreground: DiagnosticForegroundState | nu
   return foreground.showPercent && foreground.mode === 'active_hypothesis';
 }
 
+/** Session/list cards — only finite numeric percentages (never null/undefined/NaN). */
+export function isDisplayableLeadPercent(
+  showPercent: boolean | undefined,
+  percent: number | null | undefined,
+): boolean {
+  return Boolean(showPercent) && typeof percent === 'number' && Number.isFinite(percent);
+}
+
+export type LeadConfidencePresentationInput = {
+  showPercent?: boolean;
+  percent?: number | null;
+  strengthWord?: string | null;
+};
+
+/** Primary status line for list/session cards (e.g. `72% LIKELY` or `CONFIRMED` without a fake %). */
+export function formatLeadConfidencePrimaryLine(
+  lead: LeadConfidencePresentationInput | null | undefined,
+): string | null {
+  if (!lead) return null;
+  const word = lead.strengthWord?.trim() || '';
+  if (isDisplayableLeadPercent(lead.showPercent, lead.percent)) {
+    const pct = lead.percent as number;
+    return word ? `${pct}% ${word}` : `${pct}%`;
+  }
+  return word || null;
+}
+
 export function shouldSuppressGenericNextTestPreview(input: {
   oemDiagnosticPathExhausted?: boolean;
   foregroundMode?: DiagnosticForegroundMode | null;
