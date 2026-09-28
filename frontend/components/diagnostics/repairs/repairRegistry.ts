@@ -1,8 +1,10 @@
 import type { RepairProcedure } from './types';
 import w8178558RepairDrainPump from './seed/w8178558-repair-drain-pump.json';
+import w8178558RepairWashHeater from './seed/w8178558-repair-wash-heater.json';
 
 const REPAIR_PROCEDURES: RepairProcedure[] = [
   w8178558RepairDrainPump as RepairProcedure,
+  w8178558RepairWashHeater as RepairProcedure,
 ];
 
 const BY_ID = new Map(REPAIR_PROCEDURES.map((item) => [item.id, item]));
