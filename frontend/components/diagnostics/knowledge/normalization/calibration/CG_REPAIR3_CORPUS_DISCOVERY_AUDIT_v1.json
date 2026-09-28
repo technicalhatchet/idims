@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.0.0",
+  "gate": "REPAIR-3",
+  "readOnly": true,
+  "artifact": "CG_REPAIR3_CORPUS_DISCOVERY_v1.json",
+  "executiveSummary": {
+    "verdict": "GREEN",
+    "manualsScanned": 99,
+    "totalCandidates": 190,
+    "classificationCounts": {
+      "REPAIR_READY": 75,
+      "PARTIAL_REPAIR": 86,
+      "DIAGNOSTIC_ONLY": 2,
+      "REFERENCE_ONLY": 7,
+      "UNSUPPORTED": 20
+    },
+    "duplicateCandidatesRemoved": 233
+  },
+  "governance": {
+    "statusFlow": [
+      "DISCOVERED",
+      "REVIEW",
+      "APPROVED",
+      "IMPLEMENTED"
+    ],
+    "discoveryDoesNotApprove": true,
+    "implementationGates": [
+      "REPAIR-1",
+      "REPAIR-2"
+    ]
+  },
+  "representativeExamples": {
+    "partialRepair": [
+      "rcand-removing-the-console-and-d2062caa8179",
+      "rcand-removing-the-central-control-unit-c7fa15ac36f5",
+      "rcand-removing-the-water-inlet-valve-6c2bf8fe6b58",
+      "rcand-removing-the-pressure-switch-7cf26354a666",
+      "rcand-removing-the-line-filter-power-supply-co-658d4b77d2b5"
+    ],
+    "diagnosticOnly": [
+      "rcand-installation-information-2-1-64ba022796c7",
+      "rcand-installation-information-486ea7b7ef75"
+    ]
+  }
+}
