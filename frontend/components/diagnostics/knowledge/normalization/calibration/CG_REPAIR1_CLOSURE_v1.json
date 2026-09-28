@@ -1,0 +1,30 @@
+{
+  "workstream": "REPAIR-1",
+  "verdict": "GREEN",
+  "verdictLabel": "REPAIR-1 PHYSICAL REPAIR PROCEDURE PILOT COMPLETE",
+  "pilot": {
+    "repairProcedureId": "w8178558-repair-drain-pump",
+    "diagnosticProcedureId": "w8178558-drain-pump",
+    "smokeModel": "WFW8300",
+    "manualId": "W8178558",
+    "sourceSection": "REMOVING THE DRAIN PUMP",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt",
+    "extractedPdfPages": [55, 56],
+    "repairStepCount": 6,
+    "beforeRepairCheckCount": 3,
+    "finalCheckCount": 2,
+    "toolCount": 2,
+    "partCount": 0
+  },
+  "architecturalBoundaries": [
+    "RepairProcedure separate from ServiceProcedure",
+    "Diagnostic conclusions unchanged",
+    "Repair outcome remains WO notes lifecycle"
+  ],
+  "sourceGaps": [
+    "Lower front access panel removal details are referenced only as step 10 on manual page 4-11 — not inlined in this pilot.",
+    "No part numbers in the removal section — parts list intentionally empty.",
+    "No torque or fastener counts in source — none added."
+  ],
+  "regressionTest": "frontend/components/diagnostics/repairs/__tests__/repair1-w8178558-drain-pump.test.ts"
+}
