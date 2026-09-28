@@ -63,6 +63,13 @@
       "body": "Ohms between P6-7 and P6-9. Expected 890\u20131600 \u03a9.",
       "sourceExcerpt": "Ohms between P6-7 and P6-9. Expected 890\u20131600 \u03a9.",
       "measurementKnowledgeId": "whirlpoolDishwasherAcuFillValveOhms",
+      "measurementContext": {
+        "scope": "at_control_connector",
+        "loadInCircuit": true,
+        "disconnectHints": [
+          "P6 at control"
+        ]
+      },
       "testPoint": {
         "connector": "P6",
         "pins": "7 & 9",
@@ -81,6 +88,7 @@
             {
               "type": "eliminate",
               "componentId": "inlet_valve",
+              "evidenceSubjectKey": "fill_valve_coil",
               "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
             }
           ]
@@ -96,6 +104,8 @@
             {
               "type": "confirm",
               "componentId": "inlet_valve",
+              "evidenceSubjectKey": "fill_valve_coil",
+              "repairTargetHint": "replace_fill_valve",
               "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
             }
           ]
@@ -111,6 +121,8 @@
             {
               "type": "confirm",
               "componentId": "inlet_valve",
+              "evidenceSubjectKey": "fill_valve_coil",
+              "repairTargetHint": "replace_fill_valve",
               "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
             }
           ]
@@ -126,6 +138,8 @@
             {
               "type": "confirm",
               "componentId": "inlet_valve",
+              "evidenceSubjectKey": "fill_valve_coil",
+              "repairTargetHint": "replace_fill_valve",
               "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
             }
           ]
@@ -152,6 +166,14 @@
       "body": "Float in normal (down) position: ohms P6-4 to P6-6. Expect 3 \u03a9 or less.",
       "sourceExcerpt": "Float in normal (down) position: ohms P6-4 to P6-6. Expect 3 \u03a9 or less.",
       "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+      "measurementContext": {
+        "scope": "at_control_connector",
+        "loadInCircuit": true,
+        "physicalTestSetup": "positional_switch",
+        "disconnectHints": [
+          "P6 at control"
+        ]
+      },
       "testPoint": {
         "connector": "P6",
         "pins": "4 & 6 (float down)",
@@ -170,7 +192,8 @@
             {
               "type": "eliminate",
               "componentId": "inlet_valve",
-              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+              "evidenceSubjectKey": "overfill_float",
+              "evidenceId": "eliminate_overfill_float_w11633848_down_ok"
             }
           ]
         },
@@ -185,7 +208,9 @@
             {
               "type": "confirm",
               "componentId": "inlet_valve",
-              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+              "evidenceSubjectKey": "overfill_float",
+              "repairTargetHint": "repair_float_harness",
+              "evidenceId": "confirm_overfill_float_w11633848_down_failed"
             }
           ]
         },
@@ -200,7 +225,9 @@
             {
               "type": "confirm",
               "componentId": "inlet_valve",
-              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+              "evidenceSubjectKey": "overfill_float",
+              "repairTargetHint": "repair_float_harness",
+              "evidenceId": "confirm_overfill_float_w11633848_down_failed"
             }
           ]
         },
@@ -215,7 +242,9 @@
             {
               "type": "confirm",
               "componentId": "inlet_valve",
-              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+              "evidenceSubjectKey": "overfill_float",
+              "repairTargetHint": "repair_float_harness",
+              "evidenceId": "confirm_overfill_float_w11633848_down_failed"
             }
           ]
         }
@@ -241,6 +270,14 @@
       "body": "Raise float (up position): expect open circuit between P6-4 and P6-6.",
       "sourceExcerpt": "Raise float (up position): expect open circuit between P6-4 and P6-6.",
       "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+      "measurementContext": {
+        "scope": "at_control_connector",
+        "loadInCircuit": true,
+        "physicalTestSetup": "positional_switch",
+        "disconnectHints": [
+          "P6 at control"
+        ]
+      },
       "testPoint": {
         "connector": "P6",
         "pins": "4 & 6 (float up)",
@@ -257,9 +294,10 @@
           "nextStepId": "reconnect_p6_overfill",
           "diagnosticEffects": [
             {
-              "type": "confirm",
+              "type": "eliminate",
               "componentId": "inlet_valve",
-              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+              "evidenceSubjectKey": "overfill_float",
+              "evidenceId": "eliminate_overfill_float_w11633848_position_sequence_ok"
             }
           ]
         },
@@ -272,9 +310,11 @@
           "nextStepId": "replace_float_switch",
           "diagnosticEffects": [
             {
-              "type": "eliminate",
+              "type": "confirm",
               "componentId": "inlet_valve",
-              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+              "evidenceSubjectKey": "overfill_float",
+              "repairTargetHint": "replace_float_switch",
+              "evidenceId": "confirm_overfill_float_w11633848_up_stuck_closed_failed"
             }
           ]
         }
@@ -332,6 +372,7 @@
             {
               "type": "eliminate",
               "componentId": "inlet_valve",
+              "evidenceSubjectKey": "fill_valve_coil",
               "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
             }
           ]
@@ -347,6 +388,8 @@
             {
               "type": "confirm",
               "componentId": "inlet_valve",
+              "evidenceSubjectKey": "fill_valve_coil",
+              "repairTargetHint": "replace_acu",
               "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
             }
           ]

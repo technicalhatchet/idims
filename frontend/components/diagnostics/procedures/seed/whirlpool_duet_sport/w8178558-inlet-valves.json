@@ -89,6 +89,13 @@
         "pins": "Cold & hot coils",
         "label": "Inlet valve coil resistance at component"
       },
+      "measurementContext": {
+        "scope": "at_load",
+        "loadInCircuit": false,
+        "disconnectHints": [
+          "Solenoid connectors at cold and hot valve terminals"
+        ]
+      },
       "requiresInput": true,
       "branches": [
         {
@@ -147,7 +154,10 @@
             {
               "type": "eliminate",
               "componentId": "inlet_valve",
-              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+              "assertion": "component_verified",
+              "measurementScope": "at_load",
+              "loadInstanceKey": "cold_coil",
+              "evidenceId": "component_verified_inlet_valve_cold_coil_at_load"
             }
           ]
         }
@@ -198,6 +208,13 @@
           }
         ]
       },
+      "measurementContext": {
+        "scope": "through_path",
+        "loadInCircuit": true,
+        "disconnectHints": [
+          "VCH7 at CCU"
+        ]
+      },
       "requiresInput": true,
       "branches": [
         {
@@ -211,7 +228,11 @@
             {
               "type": "confirm",
               "componentId": "inlet_valve",
-              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+              "assertion": "path_open",
+              "measurementScope": "through_path",
+              "loadInstanceKey": "cold_coil",
+              "testPointKey": "valve_cold_ccu:VCH7:1 & 3 (cold)",
+              "evidenceId": "path_open_inlet_valve_cold_coil_through_vch7"
             }
           ]
         },

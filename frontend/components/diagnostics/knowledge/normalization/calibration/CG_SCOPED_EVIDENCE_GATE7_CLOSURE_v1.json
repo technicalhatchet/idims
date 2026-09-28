@@ -1,0 +1,206 @@
+{
+  "schemaVersion": "1.0.0",
+  "gate": 7,
+  "method": "gate7_scoped_evidence_pilot_closure_v1",
+  "verdict": "GREEN",
+  "verdictLabel": "GATE 7 SCOPED EVIDENCE SEMANTICS COMPLETE",
+  "closedAt": "2026-09-28T18:07:00-04:00",
+  "scope": "single_seed_pilot_only",
+  "noFurtherSeedMigrationInGate7": true,
+  "gate4WitnessesFrozenUnchanged": [
+    "w8178558-drain-pump",
+    "w8178558-wash-heater",
+    "w8178558-wash-ntc"
+  ],
+  "gate7Pilots": {
+    "7A": {
+      "gateId": "7A",
+      "procedureId": "w8178558-inlet-valves",
+      "pilotFocus": "cold_coil load instance only",
+      "loadInstanceKey": "cold_coil",
+      "capabilitiesProven": [
+        "loadInstanceKey on scoped component_verified and path_open effects",
+        "Separate load instances under one implementation anchor (inlet_valve)",
+        "Cold-coil path_open + at_load component_verified derives external_path_fault",
+        "Hot-coil branches remain legacy unscoped; cold evidence does not contaminate hot-coil reasoning"
+      ],
+      "regressionTest": "frontend/components/diagnostics/procedures/__tests__/w8178558-inlet-valves-cold-coil-scopedSemantics.test.ts"
+    },
+    "7B": {
+      "gateId": "7B",
+      "procedureId": "w10864849-test-07-drain-recirc-pump",
+      "pilotFocus": "drain J4-1/3 instance only",
+      "loadInstanceKey": "j4_pins_1_3",
+      "capabilitiesProven": [
+        "evidence-set derivation pairs component_verified @ at_load with path_open @ through_path",
+        "Evidence pairing is independent of forward execution order (ACU-first J4 before pump terminals)",
+        "Same (componentId, loadInstanceKey) correlation for drain winding",
+        "Isolated harness checkpoint does not become path_open",
+        "Recirc instance intentionally not scoped in this pilot"
+      ],
+      "regressionTest": "frontend/components/diagnostics/procedures/__tests__/w10864849-test-07-drain-recirc-pump-scopedSemantics.test.ts"
+    },
+    "7C": {
+      "gateId": "7C",
+      "procedureId": "w11633848-overfill-switch",
+      "pilotFocus": "fill valve vs overfill float subject separation",
+      "evidenceSubjectKeys": [
+        "fill_valve_coil",
+        "overfill_float"
+      ],
+      "capabilitiesProven": [
+        "evidenceSubjectKey separates diagnostic subjects sharing componentId inlet_valve",
+        "Positional float P6 4/6 tests use physicalTestSetup positional_switch; not path_open",
+        "Float failure does not hard-confirm inlet_valve implementation anchor",
+        "repairTargetHint source-grounded (replace_fill_valve, replace_float_switch, repair_float_harness, replace_acu)"
+      ],
+      "regressionTest": "frontend/components/diagnostics/procedures/__tests__/w11633848-overfill-switch-evidenceSubject.test.ts"
+    },
+    "7D": {
+      "gateId": "7D",
+      "procedureId": "w8178558-door-lock",
+      "pilotFocus": "DL3 lock/unlock, DS2 switch, isolated harness subjects",
+      "evidenceSubjectKeys": [
+        "dl3_lock_solenoid",
+        "dl3_unlock_solenoid",
+        "ds2_door_switch",
+        "dl3_ds2_harness"
+      ],
+      "capabilitiesProven": [
+        "Multi-subcircuit subject separation under door_lock routing anchor",
+        "CCU-side solenoid ohms use at_control_connector metadata; not path_open",
+        "Isolated harness pin-pin does not become path_open or external_path_fault",
+        "No external_path_fault without frozen Gate 6 through-load prerequisites",
+        "Subject-scoped failure does not hard-confirm whole door_lock when only one subcircuit fails"
+      ],
+      "regressionTest": "frontend/components/diagnostics/procedures/__tests__/w8178558-door-lock-evidenceSubject.test.ts"
+    },
+    "7E": {
+      "gateId": "7E",
+      "procedureId": "w11169652-test-01-acu-power",
+      "pilotFocus": "AC supply voltage segmentation",
+      "evidenceSubjectKeys": [
+        "if_acu_connections",
+        "rfi_line_input",
+        "rfi_line_output",
+        "acu_j2_line_neutral",
+        "acu_status_led",
+        "hmi_j19_5v",
+        "hmi_j19_12v"
+      ],
+      "capabilitiesProven": [
+        "physicalTestSetup supply_voltage_segment on AC/DC checkpoint measurements",
+        "RFI input/output, J2, HMI rails as separate subjects; no collapse to single supply_fault",
+        "Voltage present/absent is not resistance path_open",
+        "No external_path_fault from voltage segmentation",
+        "LED/HMI failures route to replace_acu repairTargetHint without falsely confirming supply"
+      ],
+      "regressionTest": "frontend/components/diagnostics/procedures/__tests__/w11169652-test-01-acu-power-evidenceSubject.test.ts"
+    }
+  },
+  "closureInvariants": [
+    {
+      "id": "G7-INV-01",
+      "statement": "componentId remains an implementation/routing anchor and is not assumed to equal the diagnostic evidence subject."
+    },
+    {
+      "id": "G7-INV-02",
+      "statement": "evidenceSubjectKey is procedure-local unless independently promoted through existing architecture governance."
+    },
+    {
+      "id": "G7-INV-03",
+      "statement": "loadInstanceKey is used only when the source establishes distinct physical load instances."
+    },
+    {
+      "id": "G7-INV-04",
+      "statement": "path_open remains restricted to evidence satisfying the frozen Gate 6 through-load rules."
+    },
+    {
+      "id": "G7-INV-05",
+      "statement": "external_path_fault requires the existing Gate 6 evidence pairing and does not derive from positional switch tests, isolated harness continuity, voltage segmentation, or voltage-present/absent checkpoints."
+    },
+    {
+      "id": "G7-INV-06",
+      "statement": "physicalTestSetup describes the physical testing configuration; it does not itself create a diagnostic assertion."
+    },
+    {
+      "id": "G7-INV-07",
+      "statement": "repairTargetHint must remain source-grounded and procedure-local."
+    },
+    {
+      "id": "G7-INV-08",
+      "statement": "Subject-scoped conclusions must not automatically hard-score the routing componentId (except explicitly whitelisted fill_valve_coil routing per Gate 7A policy)."
+    },
+    {
+      "id": "G7-INV-09",
+      "statement": "No canonical ontology node is created merely because a procedure contains an implementation-specific sub-function."
+    },
+    {
+      "id": "G7-INV-10",
+      "statement": "Existing legacy confirm/eliminate behavior remains valid where stronger scoped semantics are not established."
+    }
+  ],
+  "intentionallyUnscopedOutsideGate7": [
+    {
+      "item": "w8178558-inlet-valves hot coil",
+      "reason": "Gate 7A pilot limited to cold_coil; hot branches remain legacy."
+    },
+    {
+      "item": "w10864849-test-07-drain-recirc-pump recirculation instance (j4_pins_1_5)",
+      "reason": "No separate at-load component_verified branch in source; not safe to scope in 7B."
+    },
+    {
+      "item": "w11416787-test-07-drain-recirc-pump",
+      "reason": "Separate platform witness; excluded from Gate 7B single-seed rule."
+    },
+    {
+      "item": "Other Gate 5 design-case seeds without Gate 7 pilot",
+      "reason": "Corpus-wide migration explicitly out of Gate 7 scope per Gate 6 boundary."
+    },
+    {
+      "item": "Microwave door interlock procedures (e.g. lgotrmw-door-interlock)",
+      "reason": "TRUE_COMPONENT_FAILURE / negative control; not path-fault migration candidates."
+    }
+  ],
+  "regressionEvidence": {
+    "gate4": {
+      "status": "green",
+      "tests": [
+        "frontend/components/diagnostics/procedures/__tests__/w8178558-drain-pump-scopedSemantics.test.ts",
+        "frontend/components/diagnostics/procedures/__tests__/w8178558-wash-heater-ntc-scopedSemantics.test.ts"
+      ]
+    },
+    "gate7A": { "status": "green", "test": "w8178558-inlet-valves-cold-coil-scopedSemantics.test.ts" },
+    "gate7B": { "status": "green", "test": "w10864849-test-07-drain-recirc-pump-scopedSemantics.test.ts" },
+    "gate7C": { "status": "green", "test": "w11633848-overfill-switch-evidenceSubject.test.ts" },
+    "gate7D": { "status": "green", "test": "w8178558-door-lock-evidenceSubject.test.ts" },
+    "gate7E": { "status": "green", "test": "w11169652-test-01-acu-power-evidenceSubject.test.ts" },
+    "gate3Gate5Gate6Discovery": {
+      "status": "green",
+      "pytestModule": "backend/scripts/tests/test_scoped_evidence_corpus_discovery.py, test_gate5_scoped_evidence_discovery.py, test_gate6_scoped_evidence_design.py",
+      "expectedPassed": 8
+    },
+    "procedureSeedValidator": {
+      "status": "green",
+      "script": "backend/scripts/validate_procedure_seed.py",
+      "expectedProcedureSeeds": 825,
+      "expectedServiceModeBundles": 115
+    }
+  },
+  "explicitNonChanges": [
+    "canonical ontology",
+    "matcher",
+    "ranking",
+    "continuation",
+    "measurement knowledge",
+    "repair corpus",
+    "Gate 6 path-fault derivation policy",
+    "new EffectAssertion enum values"
+  ],
+  "relatedArtifacts": [
+    "CG_SCOPED_EVIDENCE_GATE6_DESIGN_v1.json",
+    "CG_SCOPED_EVIDENCE_GATE5_DISCOVERY_v1.json",
+    "CG_SCOPED_EVIDENCE_CORPUS_DISCOVERY_v1.json"
+  ],
+  "readOnlyAuditRecord": true
+}

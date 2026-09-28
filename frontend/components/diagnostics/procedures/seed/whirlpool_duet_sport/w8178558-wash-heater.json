@@ -95,6 +95,13 @@
         "pins": "1 & 2",
         "label": "Wash heater resistance at component"
       },
+      "measurementContext": {
+        "scope": "at_load",
+        "loadInCircuit": false,
+        "disconnectHints": [
+          "Heater wire connector at heater"
+        ]
+      },
       "requiresInput": true,
       "branches": [
         {
@@ -153,7 +160,9 @@
             {
               "type": "eliminate",
               "componentId": "wash_heater",
-              "evidenceId": "eliminate_wash_heater_ol_wash_heater_ok"
+              "assertion": "component_verified",
+              "measurementScope": "at_load",
+              "evidenceId": "component_verified_wash_heater_at_load"
             }
           ]
         }
@@ -204,6 +213,13 @@
           }
         ]
       },
+      "measurementContext": {
+        "scope": "through_path",
+        "loadInCircuit": true,
+        "disconnectHints": [
+          "HE2 at CCU"
+        ]
+      },
       "requiresInput": true,
       "branches": [
         {
@@ -217,7 +233,10 @@
             {
               "type": "confirm",
               "componentId": "wash_heater",
-              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed"
+              "assertion": "path_open",
+              "measurementScope": "through_path",
+              "testPointKey": "heater_at_ccu:HE2:1 & 2",
+              "evidenceId": "path_open_wash_heater_through_he2"
             }
           ]
         },

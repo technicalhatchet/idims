@@ -4,6 +4,7 @@ import type { MeasurementEvaluation } from '../knowledge/types';
 import type {
   ProcedureStepEvaluationExpectedRange,
   ProcedureStepEvaluationSnapshot,
+  ProcedureStepMeasurementSnapshotContext,
 } from './types';
 
 function snapshotExpectedRange(
@@ -29,7 +30,7 @@ function snapshotExpectedRange(
 export function buildProcedureStepEvaluationSnapshot(
   knowledgeId: string,
   evaluation: MeasurementEvaluation,
-  context?: Record<string, unknown>,
+  context?: ProcedureStepMeasurementSnapshotContext,
 ): ProcedureStepEvaluationSnapshot {
   const expected = snapshotExpectedRange(knowledgeId, evaluation);
   const snapshot: ProcedureStepEvaluationSnapshot = {

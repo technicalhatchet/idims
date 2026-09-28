@@ -1,4 +1,5 @@
 import type { ComponentEvidenceState } from './evidenceTypes';
+import { isLegacyExplicitProcedureFailureConfirm } from '../procedures/procedureEvidenceSubject';
 import type { DiagnosticEffect, ProcedureRunState, ServiceProcedure } from '../procedures/types';
 import { getProcedureStep } from '../procedures/procedureRunner';
 
@@ -44,7 +45,21 @@ export function isExplicitProcedureFailureConfirm(
   effect: DiagnosticEffect,
   context?: ProcedureConfirmContext,
 ): boolean {
+  if (effect.assertion === 'component_verified') return false;
+  if (
+    effect.assertion === 'path_open'
+    || effect.assertion === 'path_failed'
+    || effect.assertion === 'path_verified'
+  ) {
+    return false;
+  }
+  if (effect.assertion === 'component_failed') return true;
+
   if (effect.type !== 'confirm') return false;
+
+  if (!isLegacyExplicitProcedureFailureConfirm(effect)) {
+    return false;
+  }
 
   if (isExplicitFailureEvidenceId(effect.evidenceId)) {
     return true;
@@ -97,6 +112,7 @@ export function collectExplicitFailureConfirms(
   for (const entry of runState.appliedDiagnosticEffects || []) {
     for (const effect of entry.effects) {
       if (effect.type !== 'confirm') continue;
+      if (effect.evidenceSubjectKey) continue;
       if (isExplicitProcedureFailureConfirm(effect, {
         runState,
         stepId: entry.stepId,

@@ -17,6 +17,7 @@ import {
   procedureComponentDisplayLabel,
   resolveDiagnosticEffectForEvidence,
 } from './procedureComponentAliases';
+import { appliesProcedureEffectToComponentScore } from './procedureEvidenceSubject';
 import type {
   AppliedDiagnosticEffectEntry,
   DiagnosticEffect,
@@ -174,6 +175,107 @@ function applyEvidenceRuleToScores(
   });
 }
 
+function applyScopedProcedureEffect(
+  effect: DiagnosticEffect,
+  config: EvidenceConfig,
+  categoryScores: Map<string, number>,
+  componentScores: Map<string, { evidence: number; state: ComponentEvidenceState }>,
+  ledger: EvidenceLedgerEntry[],
+  meta: {
+    procedureId: string;
+    procedureTitle: string;
+    stepId: string;
+    branchId?: string;
+    seedComponentId: string;
+  },
+): boolean {
+  if (!effect.assertion) return false;
+
+  const component = config.components?.find((item) => item.id === effect.componentId);
+  const seedLabel = procedureComponentDisplayLabel(meta.seedComponentId);
+  const componentLabel =
+    meta.seedComponentId !== effect.componentId
+      ? seedLabel
+      : component?.label || seedLabel;
+
+  const ledgerBase = {
+    source: 'procedure' as const,
+    trigger: {
+      type: 'field' as const,
+      label: meta.procedureTitle,
+      value: meta.branchId ? `${meta.stepId} (${meta.branchId})` : meta.stepId,
+    },
+  };
+
+  const current = componentScores.get(effect.componentId) ?? {
+    evidence: 0,
+    state: 'unknown' as ComponentEvidenceState,
+  };
+
+  switch (effect.assertion) {
+    case 'component_verified': {
+      const wasConfirmed = current.state === 'confirmed';
+      const delta = wasConfirmed ? -100 : -current.evidence;
+      componentScores.set(effect.componentId, { evidence: 0, state: 'eliminated' });
+      ledger.push({
+        ruleId: effect.evidenceId
+          || `procedure:${meta.procedureId}:${meta.stepId}:component_verified:${effect.componentId}`,
+        target: effect.componentId,
+        targetLayer: 'component',
+        delta,
+        explanation: `OEM procedure (${meta.procedureTitle}): ${componentLabel} verified at load.`,
+        effect: 'eliminate',
+        ...ledgerBase,
+      });
+      return true;
+    }
+    case 'component_failed': {
+      const delta = 100 - current.evidence;
+      componentScores.set(effect.componentId, { evidence: 100, state: 'confirmed' });
+      ledger.push({
+        ruleId: effect.evidenceId
+          || `procedure:${meta.procedureId}:${meta.stepId}:component_failed:${effect.componentId}`,
+        target: effect.componentId,
+        targetLayer: 'component',
+        delta,
+        explanation: `OEM procedure (${meta.procedureTitle}): ${componentLabel} failed at load.`,
+        effect: 'confirm',
+        ...ledgerBase,
+      });
+      if (effect.evidenceId?.startsWith('confirm_')) {
+        const categoryRuleId = `cat_up_${effect.evidenceId.slice('confirm_'.length)}`;
+        const categoryRule = config.rules.find((rule) => rule.id === categoryRuleId);
+        if (categoryRule) {
+          applyEvidenceRuleToScores(categoryRule, categoryScores, componentScores, ledger, {
+            ruleId: categoryRule.id,
+            explanation: `OEM procedure (${meta.procedureTitle}): ${categoryRule.explanation}`,
+            procedureId: meta.procedureId,
+            stepId: meta.stepId,
+          });
+        }
+      }
+      return true;
+    }
+    case 'path_open':
+    case 'path_failed':
+    case 'path_verified': {
+      ledger.push({
+        ruleId: effect.evidenceId
+          || `procedure:${meta.procedureId}:${meta.stepId}:${effect.assertion}:${effect.componentId}`,
+        target: effect.componentId,
+        targetLayer: 'component',
+        delta: 0,
+        explanation: `OEM procedure (${meta.procedureTitle}): ${effect.assertion} for ${componentLabel} circuit.`,
+        effect: 'increase',
+        ...ledgerBase,
+      });
+      return true;
+    }
+    default:
+      return false;
+  }
+}
+
 function applyDirectProcedureEffect(
   effect: DiagnosticEffect,
   config: EvidenceConfig,
@@ -191,6 +293,30 @@ function applyDirectProcedureEffect(
     procedure: ReturnType<typeof getServiceProcedure>;
   },
 ): void {
+  if (applyScopedProcedureEffect(effect, config, categoryScores, componentScores, ledger, meta)) {
+    return;
+  }
+
+  if (!appliesProcedureEffectToComponentScore(effect)) {
+    const subject = effect.evidenceSubjectKey || 'procedure_subject';
+    ledger.push({
+      ruleId: effect.evidenceId
+        || `procedure:${meta.procedureId}:${meta.stepId}:${effect.type}:${subject}`,
+      target: effect.componentId,
+      targetLayer: 'component',
+      delta: 0,
+      explanation: `OEM procedure (${meta.procedureTitle}): ${effect.type} attributed to ${subject} (not ${effect.componentId} score).`,
+      effect: effect.type === 'eliminate' ? 'eliminate' : 'increase',
+      source: 'procedure',
+      trigger: {
+        type: 'field',
+        label: meta.procedureTitle,
+        value: meta.branchId ? `${meta.stepId} (${meta.branchId})` : meta.stepId,
+      },
+    });
+    return;
+  }
+
   const component = config.components?.find((item) => item.id === effect.componentId);
   const seedLabel = procedureComponentDisplayLabel(meta.seedComponentId);
   const componentLabel =

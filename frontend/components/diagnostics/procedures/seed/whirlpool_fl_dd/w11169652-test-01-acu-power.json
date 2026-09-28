@@ -77,7 +77,9 @@
             {
               "type": "confirm",
               "componentId": "supply",
-              "evidenceId": "confirm_supply_critical_supply_fault"
+              "evidenceSubjectKey": "if_acu_connections",
+              "repairTargetHint": "repair_connections",
+              "evidenceId": "confirm_if_acu_connections_failed"
             }
           ]
         }
@@ -101,6 +103,11 @@
       "body": "With AC voltmeter, measure line voltage at the interference filter input (power cord side).",
       "sourceExcerpt": "With AC voltmeter, measure line voltage at the interference filter input (power cord side).",
       "measurementKnowledgeId": "supplyVoltage120",
+      "measurementContext": {
+        "scope": "at_control_connector",
+        "physicalTestSetup": "supply_voltage_segment",
+        "loadInCircuit": false
+      },
       "testPoint": {
         "connector": "RFI",
         "pins": "Line in",
@@ -133,7 +140,8 @@
             {
               "type": "eliminate",
               "componentId": "supply",
-              "evidenceId": "eliminate_supply_critical_supply_ok"
+              "evidenceSubjectKey": "rfi_line_input",
+              "evidenceId": "eliminate_rfi_line_input_ok"
             }
           ]
         },
@@ -150,7 +158,9 @@
             {
               "type": "confirm",
               "componentId": "supply",
-              "evidenceId": "confirm_supply_critical_supply_fault"
+              "evidenceSubjectKey": "rfi_line_input",
+              "repairTargetHint": "replace_power_cord",
+              "evidenceId": "confirm_rfi_line_input_failed"
             }
           ]
         },
@@ -167,7 +177,9 @@
             {
               "type": "confirm",
               "componentId": "supply",
-              "evidenceId": "confirm_supply_critical_supply_fault"
+              "evidenceSubjectKey": "rfi_line_input",
+              "repairTargetHint": "replace_power_cord",
+              "evidenceId": "confirm_rfi_line_input_failed"
             }
           ]
         }
@@ -188,6 +200,11 @@
       "body": "Measure AC line voltage at the interference filter output toward the ACU.",
       "sourceExcerpt": "Measure AC line voltage at the interference filter output toward the ACU.",
       "measurementKnowledgeId": "supplyVoltage120",
+      "measurementContext": {
+        "scope": "at_control_connector",
+        "physicalTestSetup": "supply_voltage_segment",
+        "loadInCircuit": false
+      },
       "testPoint": {
         "connector": "RFI",
         "pins": "Line out",
@@ -220,7 +237,8 @@
             {
               "type": "eliminate",
               "componentId": "supply",
-              "evidenceId": "eliminate_supply_critical_supply_ok"
+              "evidenceSubjectKey": "rfi_line_output",
+              "evidenceId": "eliminate_rfi_line_output_ok"
             }
           ]
         },
@@ -237,7 +255,9 @@
             {
               "type": "confirm",
               "componentId": "supply",
-              "evidenceId": "confirm_supply_critical_supply_fault"
+              "evidenceSubjectKey": "rfi_line_output",
+              "repairTargetHint": "replace_rfi_filter",
+              "evidenceId": "confirm_rfi_line_output_failed"
             }
           ]
         },
@@ -254,7 +274,9 @@
             {
               "type": "confirm",
               "componentId": "supply",
-              "evidenceId": "confirm_supply_critical_supply_fault"
+              "evidenceSubjectKey": "rfi_line_output",
+              "repairTargetHint": "replace_rfi_filter",
+              "evidenceId": "confirm_rfi_line_output_failed"
             }
           ]
         }
@@ -275,6 +297,11 @@
       "body": "Measure AC line voltage across J2 pins 1 (LINE) and 2 (Neutral) at the ACU with IF connected.",
       "sourceExcerpt": "Measure AC line voltage across J2 pins 1 (LINE) and 2 (Neutral) at the ACU with IF connected.",
       "measurementKnowledgeId": "supplyVoltage120",
+      "measurementContext": {
+        "scope": "at_control_connector",
+        "physicalTestSetup": "supply_voltage_segment",
+        "loadInCircuit": false
+      },
       "testPoint": {
         "connector": "J2",
         "pins": "1 & 2",
@@ -307,7 +334,8 @@
             {
               "type": "eliminate",
               "componentId": "supply",
-              "evidenceId": "eliminate_supply_critical_supply_ok"
+              "evidenceSubjectKey": "acu_j2_line_neutral",
+              "evidenceId": "eliminate_acu_j2_line_neutral_ok"
             }
           ]
         },
@@ -324,7 +352,9 @@
             {
               "type": "confirm",
               "componentId": "supply",
-              "evidenceId": "confirm_supply_critical_supply_fault"
+              "evidenceSubjectKey": "acu_j2_line_neutral",
+              "repairTargetHint": "repair_j2_harness",
+              "evidenceId": "confirm_acu_j2_line_neutral_failed"
             }
           ]
         }
@@ -367,7 +397,9 @@
             {
               "type": "confirm",
               "componentId": "supply",
-              "evidenceId": "confirm_supply_critical_supply_fault"
+              "evidenceSubjectKey": "acu_status_led",
+              "repairTargetHint": "replace_acu",
+              "evidenceId": "confirm_acu_status_led_failed"
             }
           ]
         }
@@ -381,6 +413,11 @@
       "body": "Verify 5 VDC between J19 pin 2 (+5V_UI) and pin 4 (DGND).",
       "sourceExcerpt": "Verify 5 VDC between J19 pin 2 (+5V_UI) and pin 4 (DGND).",
       "measurementKnowledgeId": "whirlpoolFlWasherHmi5Vdc",
+      "measurementContext": {
+        "scope": "at_control_connector",
+        "physicalTestSetup": "supply_voltage_segment",
+        "loadInCircuit": false
+      },
       "testPoint": {
         "connector": "J19",
         "pins": "2 & 4",
@@ -413,7 +450,8 @@
             {
               "type": "eliminate",
               "componentId": "hmi_control",
-              "evidenceId": "eliminate_hmi_control_5v_hmi_control_ok"
+              "evidenceSubjectKey": "hmi_j19_5v",
+              "evidenceId": "eliminate_hmi_j19_5v_ok"
             }
           ]
         },
@@ -430,7 +468,9 @@
             {
               "type": "confirm",
               "componentId": "hmi_control",
-              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+              "evidenceSubjectKey": "hmi_j19_5v",
+              "repairTargetHint": "replace_acu",
+              "evidenceId": "confirm_hmi_j19_5v_failed"
             }
           ]
         }
@@ -451,6 +491,11 @@
       "body": "Verify 12 VDC between J19 pin 1 (12.7_Lim_UI) and pin 4 (DGND).",
       "sourceExcerpt": "Verify 12 VDC between J19 pin 1 (12.7_Lim_UI) and pin 4 (DGND).",
       "measurementKnowledgeId": "whirlpoolFlWasherHmi12Vdc",
+      "measurementContext": {
+        "scope": "at_control_connector",
+        "physicalTestSetup": "supply_voltage_segment",
+        "loadInCircuit": false
+      },
       "testPoint": {
         "connector": "J19",
         "pins": "1 & 4",
@@ -483,7 +528,8 @@
             {
               "type": "eliminate",
               "componentId": "hmi_control",
-              "evidenceId": "eliminate_hmi_control_12v_hmi_control_ok"
+              "evidenceSubjectKey": "hmi_j19_12v",
+              "evidenceId": "eliminate_hmi_j19_12v_ok"
             }
           ]
         },
@@ -500,7 +546,9 @@
             {
               "type": "confirm",
               "componentId": "hmi_control",
-              "evidenceId": "confirm_hmi_control_12v_hmi_control_failed"
+              "evidenceSubjectKey": "hmi_j19_12v",
+              "repairTargetHint": "replace_acu",
+              "evidenceId": "confirm_hmi_j19_12v_failed"
             }
           ]
         }

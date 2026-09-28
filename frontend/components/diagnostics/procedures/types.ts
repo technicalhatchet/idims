@@ -27,10 +27,55 @@ export interface ProcedureImage {
   assetPath?: string;
 }
 
+export type EffectAssertion =
+  | 'component_verified'
+  | 'component_failed'
+  | 'path_open'
+  | 'path_failed'
+  | 'path_verified';
+
+export type MeasurementScope =
+  | 'at_load'
+  | 'through_path'
+  | 'at_control_connector';
+
+export type ProcedurePhysicalTestSetup =
+  | 'isolated_harness_pin_pin'
+  | 'positional_switch'
+  | 'direct_at_terminals'
+  | 'supply_voltage_segment';
+
+export interface ProcedureMeasurementContext {
+  scope: MeasurementScope;
+  /** Required true for path_open compound conclusions at connector/path scope. */
+  loadInCircuit?: boolean;
+  disconnectHints?: string[];
+  /** Positional/isolated setups block path_open eligibility (Gate 6). */
+  physicalTestSetup?: ProcedurePhysicalTestSetup;
+}
+
+export interface PathFaultRef {
+  anchorComponentId: string;
+  loadInstanceKey?: string;
+  testPointKey?: string;
+  connector?: string;
+  pins?: string;
+  procedureId: string;
+  stepId: string;
+}
+
 export interface DiagnosticEffect {
   type: 'confirm' | 'eliminate' | 'suspect';
   componentId: string;
   evidenceId?: string;
+  assertion?: EffectAssertion;
+  measurementScope?: MeasurementScope;
+  testPointKey?: string;
+  /** Procedure-local load instance (not a canonical ontology id). */
+  loadInstanceKey?: string;
+  evidenceSubjectKey?: string;
+  /** Procedure-local repair routing (not a canonical component id). */
+  repairTargetHint?: string;
 }
 
 export type BranchConditionKind =
@@ -103,6 +148,7 @@ export interface ProcedureStep {
   sourceExcerpt?: string;
   measurementKnowledgeId?: string;
   testPoint?: TestPoint;
+  measurementContext?: ProcedureMeasurementContext;
   requiresInput?: boolean;
   branches?: DecisionBranch[];
   defaultNextStepId?: string;
@@ -196,6 +242,12 @@ export interface ProcedureStepEvaluationExpectedRange {
   label?: string;
 }
 
+export interface ProcedureStepMeasurementSnapshotContext {
+  testPoint?: TestPoint;
+  measurementContext?: ProcedureMeasurementContext;
+  testPointKey?: string;
+}
+
 export interface ProcedureStepEvaluationSnapshot {
   knowledgeId: string;
   rawInput: string;
@@ -209,7 +261,7 @@ export interface ProcedureStepEvaluationSnapshot {
     expectedRangeLabel?: string;
     expected?: ProcedureStepEvaluationExpectedRange;
   };
-  context?: Record<string, unknown>;
+  context?: ProcedureStepMeasurementSnapshotContext;
   evaluatedAt: string;
 }
 

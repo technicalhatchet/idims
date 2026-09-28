@@ -89,6 +89,13 @@
         "pins": "1 & 2",
         "label": "Drain pump resistance at component"
       },
+      "measurementContext": {
+        "scope": "at_load",
+        "loadInCircuit": false,
+        "disconnectHints": [
+          "Drain pump wire connector at pump"
+        ]
+      },
       "requiresInput": true,
       "branches": [
         {
@@ -147,7 +154,9 @@
             {
               "type": "eliminate",
               "componentId": "drain_pump",
-              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+              "assertion": "component_verified",
+              "measurementScope": "at_load",
+              "evidenceId": "component_verified_drain_pump_at_load"
             }
           ]
         }
@@ -198,6 +207,13 @@
           }
         ]
       },
+      "measurementContext": {
+        "scope": "through_path",
+        "loadInCircuit": true,
+        "disconnectHints": [
+          "DP2 at CCU"
+        ]
+      },
       "requiresInput": true,
       "branches": [
         {
@@ -211,7 +227,10 @@
             {
               "type": "confirm",
               "componentId": "drain_pump",
-              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+              "assertion": "path_open",
+              "measurementScope": "through_path",
+              "testPointKey": "pump_at_ccu:DP2:1 & 2",
+              "evidenceId": "path_open_drain_pump_through_dp2"
             }
           ]
         },
