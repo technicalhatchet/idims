@@ -3,6 +3,10 @@
 import Link from 'next/link';
 import { resolveSolomonDiagnosticStatus } from './solomonDiagnosticStatus';
 import { useSolomonDiagnosticLead } from './useSolomonDiagnosticLead';
+import {
+  diagnosticStatusEyebrow,
+  formatSessionLeadSecondaryLine,
+} from '../diagnostics/intelligence/diagnosticJourneyPresentation';
 import SolomonCategoryIcon from './categoryIcons';
 import { getDiagnosticStepProgress } from './solomonDiagnosticStepProgress';
 import SolomonApplianceLabel from './solomonApplianceLabel';
@@ -101,30 +105,48 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
             />
             {lead ? (
               <div className="flex min-w-0 flex-1 flex-col items-end">
-                <div className="flex max-w-full items-start justify-end gap-[0.2em]">
-                  <span className="mt-[0.05em] flex h-[1.15em] w-[1.15em] shrink-0 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-400">
-                    <SolomonCategoryIcon
-                      categoryId={lead.categoryId}
-                      categoryLabel={lead.categoryLabel}
-                      size={12}
-                    />
-                  </span>
-                  <span className="min-w-0 truncate text-right text-[0.96em] font-medium leading-[1.2em] text-white/90">
-                    {lead.categoryLabel}
-                  </span>
-                </div>
-                <p className="mt-[0.08em] w-full truncate text-right text-[0.88em] font-bold leading-[1.05em] text-emerald-400 tabular-nums">
-                  {lead.percent}% {lead.strengthWord}
+                <p className="w-full truncate text-right text-[0.72em] uppercase tracking-wide text-gray-500">
+                  {diagnosticStatusEyebrow(lead.foregroundMode)}
                 </p>
-                <div className="mt-[0.1em] flex w-full justify-end gap-[0.2em]">
-                  <span className="w-[1.15em] shrink-0" aria-hidden />
-                  <div className="h-[0.45em] min-w-0 flex-1 overflow-hidden rounded-full bg-white/55 ring-1 ring-inset ring-white/15">
-                    <div
-                      className="h-full bg-emerald-400 shadow-[0_0_3px_rgba(52,211,153,0.5)]"
-                      style={{ width: `${Math.min(100, lead.percent)}%` }}
-                    />
-                  </div>
+                <div className="flex max-w-full items-start justify-end gap-[0.2em]">
+                  {(lead.foregroundMode === 'active_hypothesis' || lead.foregroundMode === 'confirmed_fault') ? (
+                    <span className="mt-[0.05em] flex h-[1.15em] w-[1.15em] shrink-0 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-400">
+                      <SolomonCategoryIcon
+                        categoryId={lead.categoryId}
+                        categoryLabel={lead.categoryLabel}
+                        size={12}
+                      />
+                    </span>
+                  ) : null}
+                  <span className="min-w-0 truncate text-right text-[0.96em] font-medium leading-[1.2em] text-white/90">
+                    {lead.headline}
+                  </span>
                 </div>
+                {lead.showPercent && lead.percent != null ? (
+                  <>
+                    <p className="mt-[0.08em] w-full truncate text-right text-[0.88em] font-bold leading-[1.05em] text-emerald-400 tabular-nums">
+                      {lead.percent}% {lead.strengthWord || ''}
+                    </p>
+                    <div className="mt-[0.1em] flex w-full justify-end gap-[0.2em]">
+                      <span className="w-[1.15em] shrink-0" aria-hidden />
+                      <div className="h-[0.45em] min-w-0 flex-1 overflow-hidden rounded-full bg-white/55 ring-1 ring-inset ring-white/15">
+                        <div
+                          className="h-full bg-emerald-400 shadow-[0_0_3px_rgba(52,211,153,0.5)]"
+                          style={{ width: `${Math.min(100, lead.percent)}%` }}
+                        />
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <p className="mt-[0.08em] w-full truncate text-right text-[0.82em] leading-[1.1em] text-gray-400">
+                    {formatSessionLeadSecondaryLine({
+                      mode: lead.foregroundMode,
+                      headline: lead.headline,
+                      tierLabel: lead.tierLabel,
+                      remainingPathLabel: lead.remainingPathLabel,
+                    }) || lead.tierLabel}
+                  </p>
+                )}
               </div>
             ) : null}
           </div>
@@ -175,35 +197,53 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
         </div>
         {lead ? (
           <div className="text-right shrink-0 min-w-0 max-w-[58%]">
-            <div className="flex items-center justify-end gap-1">
-              <span className={`flex items-center justify-center rounded-md ${
-                isProSession
-                  ? 'h-6 w-6 bg-[var(--solomon-status-complete)]/10 text-[var(--solomon-status-complete)]'
-                  : `bg-emerald-500/10 text-emerald-400 ${isCompact ? 'h-5 w-5' : 'h-6 w-6'}`
-              }`}>
-                <SolomonCategoryIcon
-                  categoryId={lead.categoryId}
-                  categoryLabel={lead.categoryLabel}
-                  size={12}
-                />
-              </span>
-              <span className="text-[11px] font-medium text-white/90 leading-tight truncate">
-                {lead.categoryLabel}
-              </span>
-            </div>
-            <p className={`font-bold tabular-nums ${
-              isProSession
-                ? 'text-[var(--solomon-status-diagnostic)] text-xs mt-0.5'
-                : `text-emerald-400 ${isCompact ? 'text-[10px] mt-0' : 'text-[11px] mt-0.5'}`
-            }`}>
-              {lead.percent}% {lead.strengthWord}
+            <p className="text-[9px] uppercase tracking-wide text-gray-500 truncate">
+              {diagnosticStatusEyebrow(lead.foregroundMode)}
             </p>
-            <div className={`h-1 rounded-full bg-white/55 ring-1 ring-inset ring-white/15 overflow-hidden w-full max-w-[120px] ml-auto ${isCompact ? 'mt-0.5' : 'mt-1'}`}>
-              <div
-                className={`h-full ${isProSession ? 'bg-[var(--solomon-status-diagnostic)]' : 'bg-emerald-400 shadow-[0_0_3px_rgba(52,211,153,0.5)]'}`}
-                style={{ width: `${Math.min(100, lead.percent)}%` }}
-              />
+            <div className="flex items-center justify-end gap-1 mt-0.5">
+              {(lead.foregroundMode === 'active_hypothesis' || lead.foregroundMode === 'confirmed_fault') ? (
+                <span className={`flex items-center justify-center rounded-md ${
+                  isProSession
+                    ? 'h-6 w-6 bg-[var(--solomon-status-complete)]/10 text-[var(--solomon-status-complete)]'
+                    : `bg-emerald-500/10 text-emerald-400 ${isCompact ? 'h-5 w-5' : 'h-6 w-6'}`
+                }`}>
+                  <SolomonCategoryIcon
+                    categoryId={lead.categoryId}
+                    categoryLabel={lead.categoryLabel}
+                    size={12}
+                  />
+                </span>
+              ) : null}
+              <span className="text-[11px] font-medium text-white/90 leading-tight truncate">
+                {lead.headline}
+              </span>
             </div>
+            {lead.showPercent && lead.percent != null ? (
+              <>
+                <p className={`font-bold tabular-nums ${
+                  isProSession
+                    ? 'text-[var(--solomon-status-diagnostic)] text-xs mt-0.5'
+                    : `text-emerald-400 ${isCompact ? 'text-[10px] mt-0' : 'text-[11px] mt-0.5'}`
+                }`}>
+                  {lead.percent}% {lead.strengthWord || ''}
+                </p>
+                <div className={`h-1 rounded-full bg-white/55 ring-1 ring-inset ring-white/15 overflow-hidden w-full max-w-[120px] ml-auto ${isCompact ? 'mt-0.5' : 'mt-1'}`}>
+                  <div
+                    className={`h-full ${isProSession ? 'bg-[var(--solomon-status-diagnostic)]' : 'bg-emerald-400 shadow-[0_0_3px_rgba(52,211,153,0.5)]'}`}
+                    style={{ width: `${Math.min(100, lead.percent)}%` }}
+                  />
+                </div>
+              </>
+            ) : (
+              <p className={`text-gray-400 leading-tight truncate ${isCompact ? 'text-[10px] mt-0' : 'text-[11px] mt-0.5'}`}>
+                {formatSessionLeadSecondaryLine({
+                  mode: lead.foregroundMode,
+                  headline: lead.headline,
+                  tierLabel: lead.tierLabel,
+                  remainingPathLabel: lead.remainingPathLabel,
+                }) || lead.tierLabel}
+              </p>
+            )}
           </div>
         ) : null}
       </div>

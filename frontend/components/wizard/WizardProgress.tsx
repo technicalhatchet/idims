@@ -3,6 +3,10 @@
 import { useWizard } from './WizardProvider';
 import type { WizardProgressProps } from './types';
 import { resolveStepKeyLabel } from '../diagnostics/intelligence/stepKeyLabels';
+import {
+  resolveBeforeRepairChecksPhaseActive,
+  resolveWizardProgressTitle,
+} from '../diagnostics/intelligence/diagnosticJourneyPresentation';
 
 export default function WizardProgress({ className = '' }: WizardProgressProps) {
   const {
@@ -22,6 +26,33 @@ export default function WizardProgress({ className = '' }: WizardProgressProps) 
 
   if (!visibleSteps.length) return null;
 
+  const journeyCtx = context as {
+    oemDiagnosticTreeExhausted?: boolean;
+    oemRepairDecisionPending?: boolean;
+    oemConfirmedRepairPathActive?: boolean;
+    fields?: Record<string, unknown>;
+  };
+  const stepKey = (currentStep?.meta as { stepKey?: string } | undefined)?.stepKey;
+  const beforeRepairChecksPhaseActive = resolveBeforeRepairChecksPhaseActive({
+    oemRepairDecisionPending: journeyCtx?.oemRepairDecisionPending,
+    oemConfirmedRepairPathActive: journeyCtx?.oemConfirmedRepairPathActive,
+    rootCauseSelected: Boolean(journeyCtx?.fields?.['diagnosis.root_cause']),
+    recommendedRepairSelected: Boolean(journeyCtx?.fields?.['diagnosis.recommended_repair']),
+  });
+  const progressTitle = resolveWizardProgressTitle({
+    stepKey,
+    stepTitle: currentStep?.title,
+    oemDiagnosticTreeExhausted: journeyCtx?.oemDiagnosticTreeExhausted,
+    repairVerificationPhaseActive: beforeRepairChecksPhaseActive,
+    oemBeforeRepairChecksPhase: beforeRepairChecksPhaseActive,
+    oemFaultIdentifiedPhase: Boolean(
+      journeyCtx?.oemRepairDecisionPending
+      || journeyCtx?.oemConfirmedRepairPathActive,
+    ) && stepKey === 'oem_test',
+    oemRepairVerificationPhase: Boolean(journeyCtx?.oemConfirmedRepairPathActive)
+      && stepKey === 'commonly_missed',
+  });
+
   return (
     <div
       className={`space-y-3 ${className} ${
@@ -39,7 +70,7 @@ export default function WizardProgress({ className = '' }: WizardProgressProps) 
             isMobile ? 'text-cyan-300' : 'text-gray-900 dark:text-white'
           }`}
         >
-          {currentStep?.title}
+          {progressTitle}
         </span>
       </div>
       <div

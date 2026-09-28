@@ -17,5 +17,9 @@ export function extractDiagnosticSessionFields(source = {}) {
     oemRepairDecisionPending: data.oemRepairDecisionPending || null,
     oemRepairDecision: data.oemRepairDecision || null,
     _diagnosticSessionId: data._diagnosticSessionId || null,
+    oemWizardLeadDecisions:
+      data.oemWizardLeadDecisions && typeof data.oemWizardLeadDecisions === 'object' && !Array.isArray(data.oemWizardLeadDecisions)
+        ? data.oemWizardLeadDecisions
+        : undefined,
   };
 }

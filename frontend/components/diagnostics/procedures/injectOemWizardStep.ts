@@ -1,6 +1,7 @@
 import OemProcedureStep from '../steps/OemProcedureStep';
 import type { ResolvedDiagnosticWizardStep } from '../types';
 import type { ProcedureRecommendation } from './recommendServiceProcedures';
+import type { OemWizardLeadDecisions } from './oemWizardDecisions';
 import {
   OEM_WIZARD_STEP_ID,
   OEM_WIZARD_STEP_KEY,
@@ -13,17 +14,22 @@ export function injectOemWizardStep(
   options: {
     complaintChipIds: string[];
     skippedOemWizardStep?: boolean;
+    oemWizardLeadDecisions?: OemWizardLeadDecisions;
     errorCodes?: string[];
+    /** Keep OEM step mounted during confirmed-fault handoff (pending repair decision). */
+    forceInsert?: boolean;
   },
 ): ResolvedDiagnosticWizardStep[] {
-  if (!shouldInsertOemWizardStep(
+  const shouldInsert = options.forceInsert || shouldInsertOemWizardStep(
     options.complaintChipIds,
     recommendation,
     {
       skippedOemWizardStep: options.skippedOemWizardStep,
+      oemWizardLeadDecisions: options.oemWizardLeadDecisions,
       errorCodes: options.errorCodes,
     },
-  )) {
+  );
+  if (!shouldInsert) {
     return baseSteps;
   }
 

@@ -34,6 +34,7 @@ export function serializeDiagnosticSession(
     skippedOemWizardStep: Boolean(payload.skippedOemWizardStep),
     oemRepairDecisionPending: payload.oemRepairDecisionPending ?? null,
     oemRepairDecision: payload.oemRepairDecision ?? null,
+    oemWizardLeadDecisions: payload.oemWizardLeadDecisions,
     _diagnosticSessionId: session.sessionId,
   };
 }

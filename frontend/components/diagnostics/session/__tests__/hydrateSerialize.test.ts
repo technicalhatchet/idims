@@ -45,6 +45,13 @@ const FIXTURE_PAYLOAD: LooseDiagnosticPayload = {
   skippedOemWizardStep: false,
   oemRepairDecisionPending: null,
   oemRepairDecision: null,
+  oemWizardLeadDecisions: {
+    'w8178558-door-lock': {
+      procedureId: 'w8178558-door-lock',
+      kind: 'skipped',
+      at: '2026-03-12T10:00:00.000Z',
+    },
+  },
 };
 
 function testHydrationPreservesNavigationAndPayload() {
@@ -85,6 +92,20 @@ function testSerializeRoundTrip() {
   assert.equal(serialized.procedureRuns?.['w8178558-door-lock']?.status, 'in_progress');
   assert.equal(serialized._diagnosticSessionId, 'test-session-2');
   assert.equal(serialized.templateId, 'washer');
+  assert.deepEqual(serialized.oemWizardLeadDecisions, FIXTURE_PAYLOAD.oemWizardLeadDecisions);
+}
+
+function testOemWizardLeadDecisionsRoundTrip() {
+  const session = hydrateDiagnosticSession({
+    payload: FIXTURE_PAYLOAD,
+    sessionId: 'test-session-oem-decisions',
+  });
+  assert.deepEqual(
+    session.payload.oemWizardLeadDecisions,
+    FIXTURE_PAYLOAD.oemWizardLeadDecisions,
+  );
+  const serialized = serializeDiagnosticSession(session, FIXTURE_PAYLOAD);
+  assert.deepEqual(serialized.oemWizardLeadDecisions, FIXTURE_PAYLOAD.oemWizardLeadDecisions);
 }
 
 function testNoteParseSerializeContract() {
@@ -106,6 +127,7 @@ function testNoteParseSerializeContract() {
 function run() {
   testHydrationPreservesNavigationAndPayload();
   testSerializeRoundTrip();
+  testOemWizardLeadDecisionsRoundTrip();
   testNoteParseSerializeContract();
   console.log('hydrateSerialize.test.ts: all tests passed');
 }

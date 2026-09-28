@@ -1,5 +1,9 @@
 import type { ComponentEvidenceScore, DiagnosticIntelligenceResult } from './evidenceTypes';
 import type { ProcedureRunState } from '../procedures/types';
+import {
+  resolveDiagnosticForegroundState,
+  shouldShowDiagnosticForegroundCard,
+} from './diagnosticForegroundState';
 
 const COMPLAINT_ONLY_FIELD_PREFIXES = [
   'customer_complaint.',
@@ -102,17 +106,23 @@ export function computeDiagnosisConfidence(
     ? components.find((component) => component.categoryId === topCategoryId)
     : undefined;
   if (top && leadCategoryComponent?.state === 'eliminated') {
-    const alternate = intelligence.topCategories?.find(
-      (category) => category.id !== top.id && category.evidence > 0,
-    );
-    const percent = clampPercent(Math.max(22, Math.min(48, (alternate?.evidence || 0) * 0.55 + 18)));
-    const label = alternate?.label || 'harness / control board';
-    return {
-      tier: 'low',
-      percent,
-      explanation: `${top.label} assembly tested good — follow ${label} path (harness, switch, CCU inputs).`,
-      stars: 2,
-    };
+    const foreground = resolveDiagnosticForegroundState(intelligence);
+    if (foreground?.mode === 'remaining_upstream_path') {
+      return {
+        tier: 'low',
+        percent: clampPercent(0),
+        explanation: foreground.detail,
+        stars: 2,
+      };
+    }
+    if (foreground?.mode === 'no_supported_fault') {
+      return {
+        tier: 'low',
+        percent: clampPercent(0),
+        explanation: foreground.detail,
+        stars: 1,
+      };
+    }
   }
 
   if (top && top.evidence > 0) {
@@ -168,58 +178,65 @@ const TIER_LABELS: Record<DiagnosisConfidenceTier | 'confirmed', string> = {
 /**
  * Technician-facing lead-cause readout — uses existing scores/tiers, not calibrated probability.
  */
+export interface DiagnosticLeadPresentationOptions {
+  procedureRuns?: Record<string, ProcedureRunState>;
+  oemDiagnosticPathExhausted?: boolean;
+  oemManufacturerPathActive?: boolean;
+  oemConfirmedRepairProcedureId?: string | null;
+  oemCurrentTestFocus?: string | null;
+}
+
 export function formatLeadCauseStrength(
   intelligence: DiagnosticIntelligenceResult | null | undefined,
+  options: DiagnosticLeadPresentationOptions = {},
 ): LeadCauseStrengthPresentation | null {
-  if (!intelligence?.topCategories?.length) return null;
+  const foreground = resolveDiagnosticForegroundState(intelligence, options);
+  if (!foreground) return null;
+  if (foreground.mode === 'insufficient_evidence') return null;
 
-  const components = flattenComponents(intelligence.componentsByCategory);
-  const hasConfirmed = components.some((component) => component.state === 'confirmed');
-  const leadCategoryComponent = components.find(
-    (component) => component.categoryId === intelligence.topCategories[0]?.id,
-  );
-  const leadCategoryCleared = leadCategoryComponent?.state === 'eliminated';
-  const rankedCategories = leadCategoryCleared
-    ? intelligence.topCategories.filter((category) => {
-        const component = components.find((item) => item.categoryId === category.id);
-        return component?.state !== 'eliminated';
-      })
-    : intelligence.topCategories;
-  const top = rankedCategories[0] || intelligence.topCategories[0];
-  const second = rankedCategories[1] || intelligence.topCategories[1];
-  const confidence = computeDiagnosisConfidence(intelligence);
+  const components = flattenComponents(intelligence?.componentsByCategory);
+  const top = intelligence?.topCategories?.find((item) => item.id === foreground.categoryId)
+    || intelligence?.topCategories?.[0];
+  const second = intelligence?.topCategories?.find((item) => item.id !== foreground.categoryId);
 
-  const tier: DiagnosisConfidenceTier | 'confirmed' = hasConfirmed
+  const tier: DiagnosisConfidenceTier | 'confirmed' = foreground.mode === 'confirmed_fault'
     ? 'confirmed'
-    : confidence?.tier || 'low';
+    : foreground.mode === 'active_hypothesis'
+      ? 'medium'
+      : 'low';
 
-  const alternateLabels = rankedCategories
-    .slice(1)
-    .filter((category) => category.evidence > 0)
-    .map((category) => category.label);
+  const categoryLabel = foreground.categoryLabel || foreground.headline;
 
   return {
-    categoryLabel: top.label,
+    categoryLabel,
     tier,
-    tierLabel: TIER_LABELS[tier],
-    summary: confidence?.explanation || `Working hypothesis: ${top.label}.`,
-    evidenceScore: top.evidence,
-    marginOverNext: top.evidence - (second?.evidence || 0),
-    alternateLabels,
+    tierLabel: foreground.tierLabel,
+    summary: foreground.detail,
+    evidenceScore: top?.evidence || 0,
+    marginOverNext: (top?.evidence || 0) - (second?.evidence || 0),
+    alternateLabels: components
+      .filter((item) => item.state === 'eliminated')
+      .map((item) => item.label),
   };
 }
 
 export interface DiyLeadCardPresentation {
   categoryId: string;
   categoryLabel: string;
-  percent: number;
-  strengthWord: string;
+  percent: number | null;
+  strengthWord: string | null;
   tierLabel: string;
   subtitle: string;
   evidenceScore: number;
   marginOverNext: number;
   stars: number;
   tier: DiagnosisConfidenceTier | 'confirmed';
+  foregroundMode: import('./diagnosticForegroundState').DiagnosticForegroundMode;
+  headline: string;
+  showPercent: boolean;
+  ruledOutLabels: string[];
+  remainingPathLabel: string | null;
+  remainingPathDetail: string | null;
 }
 
 const DIY_STRENGTH_WORD: Record<DiagnosisConfidenceTier | 'confirmed', string> = {
@@ -258,45 +275,62 @@ export function shouldShowLeadingHypothesis(
     currentStepKey?: string | null;
   } = {},
 ): boolean {
+  if (shouldShowDiagnosticForegroundCard(intelligence, options)) {
+    return true;
+  }
   if (!intelligence?.topCategories?.some((category) => category.evidence > 0)) {
     return false;
   }
-
-  const currentStepKey = options.currentStepKey;
-  if (!currentStepKey || currentStepKey === 'complaint') {
-    return false;
-  }
-
   const visited = options.visitedStepKeys || [];
   const beyondComplaint = visited.some((key) => key !== 'complaint');
   const procedureRuns = options.procedureRuns || {};
   const hasProcedureActivity = Object.values(procedureRuns).some((run) => Boolean(run));
-
   return beyondComplaint || hasProcedureActivity || hasUserGatheredEvidence(options.fields);
 }
 
 export function formatDiyLeadCard(
   intelligence: DiagnosticIntelligenceResult | null | undefined,
+  options: DiagnosticLeadPresentationOptions = {},
 ): DiyLeadCardPresentation | null {
-  const strength = formatLeadCauseStrength(intelligence);
-  const confidence = computeDiagnosisConfidence(intelligence);
-  if (!strength || !confidence || !intelligence?.topCategories?.length) return null;
+  const leadOptions = {
+    procedureRuns: options.procedureRuns,
+    oemDiagnosticPathExhausted: options.oemDiagnosticPathExhausted,
+    oemManufacturerPathActive: options.oemManufacturerPathActive,
+    oemConfirmedRepairProcedureId: options.oemConfirmedRepairProcedureId,
+    oemCurrentTestFocus: options.oemCurrentTestFocus,
+  };
+  const foreground = resolveDiagnosticForegroundState(intelligence, leadOptions);
+  if (!foreground || foreground.mode === 'insufficient_evidence') return null;
 
-  const leadCategoryId =
-    intelligence.topCategories.find((category) => category.label === strength.categoryLabel)?.id
-    ?? intelligence.topCategories[0].id;
+  const strength = formatLeadCauseStrength(intelligence, leadOptions);
+  const confidence = computeDiagnosisConfidence(intelligence);
+  const tier = strength?.tier || 'low';
+
+  const categoryId = foreground.categoryId
+    || intelligence?.topCategories?.[0]?.id
+    || 'unknown';
+
+  const showPercent = foreground.mode === 'active_hypothesis'
+    && foreground.showPercent
+    && (confidence?.percent ?? 0) > 0;
 
   return {
-    categoryId: leadCategoryId,
-    categoryLabel: strength.categoryLabel,
-    percent: confidence.percent,
-    strengthWord: DIY_STRENGTH_WORD[strength.tier],
-    tierLabel: strength.tierLabel,
-    subtitle: confidence.explanation,
-    evidenceScore: strength.evidenceScore,
-    marginOverNext: strength.marginOverNext,
-    stars: confidence.stars,
-    tier: strength.tier,
+    categoryId,
+    categoryLabel: foreground.headline,
+    percent: showPercent ? confidence?.percent ?? null : null,
+    strengthWord: foreground.strengthWord || (tier === 'confirmed' ? DIY_STRENGTH_WORD.confirmed : null),
+    tierLabel: foreground.tierLabel,
+    subtitle: foreground.detail,
+    evidenceScore: strength?.evidenceScore || 0,
+    marginOverNext: strength?.marginOverNext || 0,
+    stars: confidence?.stars || (tier === 'confirmed' ? 5 : 2),
+    tier,
+    foregroundMode: foreground.mode,
+    headline: foreground.headline,
+    showPercent,
+    ruledOutLabels: foreground.ruledOutLabels,
+    remainingPathLabel: foreground.remainingPathLabel ?? null,
+    remainingPathDetail: foreground.remainingPathDetail ?? null,
   };
 }
 

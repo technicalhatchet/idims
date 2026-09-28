@@ -43,6 +43,7 @@ import {
 import { SOLOMON_DIY_APPLIANCES, templateIdToDiySubtype } from '../../../constants/solomonDiyAppliances';
 import { solomonCopy } from '../../../utils/solomonDiyCopy';
 import { confirmSolomonTemplateChange } from '../../../utils/solomonTemplateChange';
+import { isDiagnosticEquipmentCommitted } from '../../../utils/solomonEquipmentInput';
 import {
   resolveSolomonDiagnosticStatus,
   solomonDiagnosticDetailPanelClass,
@@ -74,18 +75,26 @@ export default function SolomonDiagnosticDetailPage() {
     equipment_make: '',
     equipment_model: '',
     equipment_serial: '',
+    equipment_version: '',
     equipment_subtype: '',
   });
+  const [committedEditEquipment, setCommittedEditEquipment] = useState(null);
   const continueOpenedRef = useRef(false);
+  const isEditingRef = useRef(false);
 
   useEffect(() => {
     if (!row) return;
-    setEditEquipment({
+    const nextEquipment = {
       equipment_make: row.equipment_make || '',
       equipment_model: row.equipment_model || '',
       equipment_serial: row.equipment_serial || '',
+      equipment_version: row.equipment_version || '',
       equipment_subtype: row.equipment_subtype || '',
-    });
+    };
+    setEditEquipment(nextEquipment);
+    if (isDiagnosticEquipmentCommitted(nextEquipment, row.payload?.templateId || row.template_id)) {
+      setCommittedEditEquipment(nextEquipment);
+    }
   }, [row]);
 
   const templateOptions = useMemo(() => {
@@ -131,21 +140,6 @@ export default function SolomonDiagnosticDetailPage() {
     [editPayload, isDiyer, persistProgress],
   );
 
-  useEffect(() => {
-    if (!isEditing || !editPayload) return undefined;
-    const timer = setTimeout(() => {
-      persistProgress(editPayload, { immediate: true });
-    }, 1200);
-    return () => clearTimeout(timer);
-  }, [
-    editEquipment.equipment_make,
-    editEquipment.equipment_model,
-    editEquipment.equipment_serial,
-    editEquipment.equipment_subtype,
-    isEditing,
-    editPayload,
-    persistProgress,
-  ]);
   const [importOpen, setImportOpen] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [importError, setImportError] = useState(null);
@@ -154,7 +148,14 @@ export default function SolomonDiagnosticDetailPage() {
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    const onSync = () => setReloadKey((k) => k + 1);
+    isEditingRef.current = isEditing;
+  }, [isEditing]);
+
+  useEffect(() => {
+    const onSync = () => {
+      if (isEditingRef.current) return;
+      setReloadKey((k) => k + 1);
+    };
     const onDiagnosticSynced = (e) => {
       if (e.detail?.tempId === id && e.detail?.id) {
         router.replace(`/solomon/diagnostics/${e.detail.id}`);
@@ -379,6 +380,8 @@ export default function SolomonDiagnosticDetailPage() {
           <SolomonEquipmentBar
             equipment={editEquipment}
             onEquipmentChange={setEditEquipment}
+            onEquipmentCommit={setCommittedEditEquipment}
+            committedEquipment={committedEditEquipment}
             templateId={editPayload.templateId}
             templateOptions={templateOptions}
             onTemplateChange={handleEditTemplateChange}
@@ -389,9 +392,17 @@ export default function SolomonDiagnosticDetailPage() {
             lifecycleDiagnostic={row}
           />
 
+          {committedEditEquipment
+            && isDiagnosticEquipmentCommitted(committedEditEquipment, editPayload.templateId) ? (
           <DiagnosticResultsForm
             payload={editPayload}
             onChange={setEditPayload}
+            workOrder={{
+              equipment_make: committedEditEquipment.equipment_make,
+              equipment_model: committedEditEquipment.equipment_model,
+              equipment_serial: committedEditEquipment.equipment_serial,
+              equipment_version: committedEditEquipment.equipment_version,
+            }}
             workOrderId={draftScope}
             draftNoteId={id}
             variant="mobile"
@@ -407,6 +418,11 @@ export default function SolomonDiagnosticDetailPage() {
             solomonSession={row}
             onInsightPeeksChange={setInsightPeeks}
           />
+          ) : (
+            <p className="text-sm text-gray-400 px-1 py-4">
+              Enter make and a full model number, then tap Continue to diagnostic.
+            </p>
+          )}
         </SolomonMobileShell>
       </>
     );

@@ -19,6 +19,29 @@ export function buildStepKeyToIdMap(
   return map;
 }
 
+export function missingPrerequisiteStepKeys(
+  requiredKeys: string[],
+  definition: WizardDefinition,
+  reviewStepId: string,
+  visitedStepIds: Set<string>,
+  options: {
+    visitedStepKeys?: string[];
+    complaintChipIds?: string[];
+  } = {},
+): string[] {
+  const stepKeyToId = buildStepKeyToIdMap(definition, reviewStepId);
+  const visitedKeys = new Set(options.visitedStepKeys || []);
+
+  return requiredKeys.filter((reqKey) => {
+    if (visitedKeys.has(reqKey)) return false;
+    if (reqKey === 'complaint' && (options.complaintChipIds?.length ?? 0) > 0) {
+      return false;
+    }
+    const stepId = stepKeyToId[reqKey];
+    return Boolean(stepId && !visitedStepIds.has(stepId));
+  });
+}
+
 function titleForStepKey(definition: WizardDefinition, stepKey: string): string {
   const reviewKey = definition.routing?.reviewStepKey || 'review';
   if (stepKey === reviewKey) {

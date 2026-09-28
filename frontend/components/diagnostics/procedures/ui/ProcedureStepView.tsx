@@ -7,10 +7,12 @@ import {
   formatMeasurementResultPresentation,
   formatStepHeadline,
   hasTechnicalDetailsContent,
-  resolveWhyWeAreChecking,
+  resolveWhyWeAreCheckingForStep,
   splitInstructionPresentation,
   type ProcedureStepPresentationContext,
 } from '../procedureStepPresentation';
+import { formatOemProcedureStepProgressLabel } from '../procedureRunDisplay';
+import { getServiceProcedure } from '../procedureRegistry';
 import type { DecisionBranch, ProcedureStep, ProcedureStepInput } from '../types';
 import ProcedureStepImages from './ProcedureStepImages';
 import ProcedureStepSourceReference from './ProcedureStepSourceReference';
@@ -32,6 +34,7 @@ const EVALUATION_HEADLINE_CLASS: Record<string, string> = {
 };
 
 interface ProcedureStepViewProps {
+  procedureId?: string | null;
   step: ProcedureStep;
   stepIndex: number;
   stepTotal?: number;
@@ -46,6 +49,7 @@ interface ProcedureStepViewProps {
   highlightPrimaryAction?: boolean;
   variant?: 'mobile' | 'desktop';
   presentationContext?: ProcedureStepPresentationContext;
+  presentationAudience?: 'diy' | 'tech';
 }
 
 function SectionLabel({ children }: { children: string }) {
@@ -60,8 +64,10 @@ const PRIMARY_ACTION_NUDGE_CLASS =
   'ring-2 ring-amber-400 ring-offset-2 ring-offset-transparent animate-pulse shadow-lg shadow-amber-500/25';
 
 export default function ProcedureStepView({
+  procedureId = null,
   step,
   stepIndex,
+  stepTotal,
   measurementDraft,
   onMeasurementDraftChange,
   onContinue,
@@ -73,6 +79,7 @@ export default function ProcedureStepView({
   highlightPrimaryAction = false,
   variant = 'mobile',
   presentationContext,
+  presentationAudience = 'tech',
 }: ProcedureStepViewProps) {
   const primaryActionClass = highlightPrimaryAction ? PRIMARY_ACTION_NUDGE_CLASS : '';
   const knowledge = useMemo(
@@ -90,8 +97,8 @@ export default function ProcedureStepView({
   const isSafety = step.type === 'safety';
 
   const whyText = useMemo(
-    () => resolveWhyWeAreChecking(presentationContext, knowledge?.purpose),
-    [presentationContext, knowledge?.purpose],
+    () => resolveWhyWeAreCheckingForStep(step, knowledge?.purpose),
+    [step, knowledge?.purpose],
   );
 
   const instruction = useMemo(() => {
@@ -118,7 +125,18 @@ export default function ProcedureStepView({
     ? formatBranchResultPresentation(matchedBranch)
     : null;
 
-  const technicalDefaultExpanded = variant === 'desktop';
+  const procedure = useMemo(
+    () => (procedureId ? getServiceProcedure(procedureId) : null),
+    [procedureId],
+  );
+  const stepProgressLabel = formatOemProcedureStepProgressLabel(
+    stepIndex,
+    stepTotal,
+    procedure,
+    step,
+  );
+
+  const technicalDefaultExpanded = variant === 'desktop' && presentationAudience !== 'diy';
   const sourceInTechnicalAccordion = hasTechnicalDetailsContent({
     step,
     testingTipsCount: knowledge?.testingTips?.length || 0,
@@ -131,24 +149,27 @@ export default function ProcedureStepView({
     return (
       <div className="space-y-4" data-procedure-step-type="safety">
         <div className="flex items-center justify-between gap-3">
-          <span className="text-[10px] uppercase tracking-[0.14em] text-amber-300/90">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-200">
             {STEP_TYPE_LABELS.safety}
           </span>
-          <span className="text-xs text-[var(--solomon-text-secondary)]">
-            Step {stepIndex} of {stepTotal}
-          </span>
+          {stepProgressLabel ? (
+            <span className="text-xs text-[var(--solomon-text-secondary)]">
+              {stepProgressLabel}
+            </span>
+          ) : null}
         </div>
 
         <div
-          className="rounded-lg border-2 border-amber-500/50 bg-amber-500/10 px-3 py-3"
-          role="note"
+          className="rounded-xl border-2 border-amber-400/70 bg-amber-500/15 px-3 py-4 shadow-[0_0_0_1px_rgba(251,191,36,0.15)]"
+          role="alert"
           aria-label="Safety warning"
+          data-procedure-safety-warning
         >
-          <div className="flex items-start gap-2">
-            <span className="text-lg leading-none" aria-hidden>⚠</span>
+          <div className="flex items-start gap-3">
+            <span className="text-xl leading-none text-amber-300" aria-hidden>⚠</span>
             <div className="min-w-0 flex-1 space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-wide text-amber-100">
-                Safety
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-amber-100">
+                Safety — read before continuing
               </p>
               <h2 className="text-lg font-semibold text-[var(--solomon-text-primary)]">
                 {headline}
@@ -184,34 +205,61 @@ export default function ProcedureStepView({
         <span className="text-[10px] uppercase tracking-[0.14em] text-[color:var(--solomon-status-reference)]/90">
           {STEP_TYPE_LABELS[step.type] || step.type}
         </span>
-        {stepIndex > 0 ? (
+        {stepProgressLabel ? (
           <span className="text-xs text-[var(--solomon-text-secondary)]">
-            Step {stepIndex}
+            {stepProgressLabel}
           </span>
         ) : null}
       </div>
 
-      <div>
+      <section className="space-y-1">
+        <SectionLabel>What we are checking</SectionLabel>
         <h2 className="text-lg font-semibold leading-snug text-[var(--solomon-text-primary)]">
           {headline}
         </h2>
-      </div>
+      </section>
 
       {whyText ? (
         <section className="space-y-1">
-          <SectionLabel>Why we&apos;re checking this</SectionLabel>
+          <SectionLabel>Why we are checking it</SectionLabel>
           <p className="text-sm leading-relaxed text-[var(--solomon-text-secondary)]">
             {whyText}
           </p>
         </section>
       ) : null}
 
-      {instruction.whatToDo ? (
-        <section className="space-y-1">
+      {(instruction.whatToDo
+        || instruction.whatToDoItems?.length
+        || instruction.testSequenceItems?.length) ? (
+        <section className="space-y-2">
           <SectionLabel>What to do</SectionLabel>
-          <p className="text-sm leading-relaxed text-[var(--solomon-text-primary)]">
-            {instruction.whatToDo}
-          </p>
+          {instruction.whatToDo ? (
+            <p className="text-sm leading-relaxed text-[var(--solomon-text-primary)] whitespace-pre-line">
+              {instruction.whatToDo}
+            </p>
+          ) : null}
+          {instruction.whatToDoItems?.length ? (
+            <ol className="list-decimal space-y-1 pl-5 text-sm leading-relaxed text-[var(--solomon-text-primary)]">
+              {instruction.whatToDoItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ol>
+          ) : null}
+          {instruction.testSequenceItems?.length ? (
+            <div className="space-y-1">
+              <SectionLabel>Test sequence</SectionLabel>
+              <ol className="list-decimal space-y-1 pl-5 text-sm leading-relaxed text-[var(--solomon-text-primary)]">
+                {instruction.testSequenceItems.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ol>
+            </div>
+          ) : null}
+          {instruction.trailingInstruction ? (
+            <p className="text-sm leading-relaxed text-[var(--solomon-text-primary)]">
+              {instruction.trailingInstruction}
+            </p>
+          ) : null}
           {instruction.meterRangeRef ? (
             <p className="text-xs text-[var(--solomon-text-secondary)]">
               Technical reference: {instruction.meterRangeRef}
@@ -236,7 +284,9 @@ export default function ProcedureStepView({
       ) : null}
 
       {isMeasurement ? (
-        <div className="flex gap-2">
+        <section className="space-y-2">
+          <SectionLabel>Your reading</SectionLabel>
+          <div className="flex gap-2">
           <input
             type="text"
             inputMode="decimal"
@@ -256,10 +306,13 @@ export default function ProcedureStepView({
             Submit
           </button>
         </div>
+        </section>
       ) : null}
 
       {isCheckpoint ? (
-        <div className="flex gap-2">
+        <section className="space-y-2">
+          <SectionLabel>Your answer</SectionLabel>
+          <div className="flex gap-2">
           <button
             type="button"
             onClick={() => onCheckpoint('yes')}
@@ -279,6 +332,7 @@ export default function ProcedureStepView({
             No
           </button>
         </div>
+        </section>
       ) : null}
 
       {isPassive && step.type !== 'outcome' ? (
@@ -301,7 +355,7 @@ export default function ProcedureStepView({
 
       {evaluationPresentation ? (
         <section className="rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/50 px-3 py-2.5">
-          <SectionLabel>What your result means</SectionLabel>
+          <SectionLabel>What result means</SectionLabel>
           <p
             className={`mt-1 text-sm font-semibold ${
               EVALUATION_HEADLINE_CLASS[evaluationPresentation.headline]

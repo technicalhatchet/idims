@@ -61,6 +61,22 @@ import SolomonProfessionalSessionChrome from '../solomon/SolomonProfessionalSess
 import SolomonFaultRanking from '../solomon/SolomonFaultRanking';
 import OemProcedureWizardSlot from '../diagnostics/procedures/ui/OemProcedureWizardSlot';
 import { buildOemProcedureNavigationGate } from '../diagnostics/procedures/oemProcedureNavGate';
+import {
+  expandVisitedKeysForConfirmedFaultJourney,
+  isOemConfirmedFaultJourneyActive,
+  resolveOemConfirmedFaultJourneyPhase,
+  resolveOemJourneyNextAction,
+  resolveOemJourneyPrimaryButtonLabel,
+  shouldSuppressGenericWizardRecommendation,
+} from '../diagnostics/procedures/oemConfirmedFaultJourney';
+import {
+  resolveBeforeRepairChecksStepKey,
+  resolveDiagnosisSummaryStepKey,
+  resolveDiagnosticSaveStepKey,
+} from '../diagnostics/procedures/resolveOemJourneyStepKeys';
+import { buildOemProcedureStartPayload } from '../diagnostics/procedures/startOemProcedureFromWizard';
+import { buildProcedureRecommendationForOffer } from '../diagnostics/procedures/resolveOemNextTestOffer';
+import { buildDiagnosticPayloadPersistSignature } from '../../utils/diagnosticPayloadPersistSignature';
 import SolomonProcedurePanel, { SolomonOemCatalogAccordion } from '../solomon/SolomonProcedurePanel';
 import {
   listServiceProcedureCatalog,
@@ -72,16 +88,24 @@ import {
   isOemPlatformReady,
 } from '../diagnostics/procedures/oemDiagnosticGating';
 import { injectOemWizardStep } from '../diagnostics/procedures/injectOemWizardStep';
+import { mergeProcedureCatalogWithRouteProcedures } from '../diagnostics/procedures/mergeProcedureCatalog';
+import {
+  clearOemWizardSkipsOnReentry,
+  recordOemWizardLeadDecision,
+  resolveOemWizardDisplayedProcedureId,
+} from '../diagnostics/procedures/oemWizardDecisions';
+import { executeOemWizardContinuationHandoff } from '../diagnostics/procedures/oemWizardContinuationHandoff';
+import { buildUserVerifiedProcedureRunState } from '../diagnostics/procedures/oemUserVerifiedProcedureRun';
 import {
   buildUnifiedWizardRecommendedStepKeys,
   shouldInsertOemWizardStep,
+  resolveOfferableOemLeadRecommendation,
 } from '../diagnostics/procedures/procedureWizardLead';
 import {
   extractUnifiedTopProcedureId,
   extractUnifiedWizardStepKeys,
   getNextDiagnosticActions,
   hydrateDiagnosticSession,
-  resolveUnifiedOemLeadRecommendation,
   resolveUnifiedTopWizardStepKey,
 } from '../diagnostics/session';
 import { getServiceProcedure } from '../diagnostics/procedures/procedureRegistry';
@@ -91,7 +115,12 @@ import { syncProcedureMeasurementsToWizardFields } from '../diagnostics/procedur
 import {
   executeProcedureContinuationPlan,
   planContinuationAfterProcedureComplete,
+  resolveContinuationDiagnosticSnapshot,
 } from '../diagnostics/procedures/planContinuationAfterProcedureComplete';
+import {
+  isOemStrongLeadPoolExhausted,
+  shouldDeferGenericWizardAfterOemComplete,
+} from '../diagnostics/procedures/oemDiagnosticLifecycle';
 import {
   buildDiagnosisPrefillFromProcedureComplete,
   procedureRunRequiresRepairAction,
@@ -156,6 +185,15 @@ export default function DiagnosticResultsForm({
   const [visitedStepKeys, setVisitedStepKeys] = useState([]);
   const [autoStartProcedureId, setAutoStartProcedureId] = useState(null);
   const [oemContinuationBridge, setOemContinuationBridge] = useState(null);
+  const [oemDiagnosticTreeExhausted, setOemDiagnosticTreeExhausted] = useState(
+    () => Boolean(payload?.oemDiagnosticTreeExhausted),
+  );
+
+  useEffect(() => {
+    if (typeof payload?.oemDiagnosticTreeExhausted === 'boolean') {
+      setOemDiagnosticTreeExhausted(payload.oemDiagnosticTreeExhausted);
+    }
+  }, [payload?.oemDiagnosticTreeExhausted]);
   const prevStepIdRef = useRef(null);
   const prevStepKeyForTimelineRef = useRef(null);
   const payloadRef = useRef(payload);
@@ -165,7 +203,11 @@ export default function DiagnosticResultsForm({
   const progressSaveTimerRef = useRef(null);
   const [reasoningSheetOpen, setReasoningSheetOpen] = useState(false);
   const [inlineRouteBanner, setInlineRouteBanner] = useState(false);
-  const [wizardJumpNonce, setWizardJumpNonce] = useState(0);
+  const [orchestratedNavigateStepId, setOrchestratedNavigateStepId] = useState(null);
+  const [authoritativeWizardStepKey, setAuthoritativeWizardStepKey] = useState(
+    () => payload?.currentStepKey || 'complaint',
+  );
+  const authoritativeWizardStepKeyRef = useRef(authoritativeWizardStepKey);
   const handleJumpToStepKeyRef = useRef(null);
   const handleStartOemProcedureRef = useRef(null);
   const procedureContinuationEpochRef = useRef(0);
@@ -177,12 +219,45 @@ export default function DiagnosticResultsForm({
   const errorCodesRef = useRef([]);
   const oemRunnerEnabledRef = useRef(false);
   const procedureRecommendationsRef = useRef([]);
+  const autoStartProcedureIdRef = useRef(null);
+  const lastProgressPersistSignatureRef = useRef('');
 
   payloadRef.current = payload;
+
+  const oemBeforeRepairChecksStepKey = useMemo(
+    () => resolveBeforeRepairChecksStepKey(wizardDefinition),
+    [wizardDefinition],
+  );
+  const oemDiagnosisSummaryStepKey = useMemo(
+    () => resolveDiagnosisSummaryStepKey(wizardDefinition),
+    [wizardDefinition],
+  );
+  const oemDiagnosticSaveStepKey = useMemo(
+    () => resolveDiagnosticSaveStepKey(wizardDefinition),
+    [wizardDefinition],
+  );
+
+  const oemJourneyStepKeys = useMemo(
+    () => ({
+      oemTest: 'oem_test',
+      beforeRepairChecks: oemBeforeRepairChecksStepKey,
+      diagnosisSummary: oemDiagnosisSummaryStepKey,
+      diagnosticSave: oemDiagnosticSaveStepKey,
+    }),
+    [oemBeforeRepairChecksStepKey, oemDiagnosisSummaryStepKey, oemDiagnosticSaveStepKey],
+  );
+
+  useEffect(() => {
+    authoritativeWizardStepKeyRef.current = authoritativeWizardStepKey;
+  }, [authoritativeWizardStepKey]);
 
   const scheduleProgressSave = useCallback(
     ({ immediate = false } = {}) => {
       if (!onProgressSave || readOnly) return;
+      const signature = buildDiagnosticPayloadPersistSignature(payloadRef.current);
+      if (signature && signature === lastProgressPersistSignatureRef.current) {
+        return;
+      }
       if (progressSaveTimerRef.current) {
         clearTimeout(progressSaveTimerRef.current);
         progressSaveTimerRef.current = null;
@@ -190,6 +265,11 @@ export default function DiagnosticResultsForm({
       const delay = immediate ? 350 : progressSaveDebounceMs;
       progressSaveTimerRef.current = setTimeout(() => {
         progressSaveTimerRef.current = null;
+        const nextSignature = buildDiagnosticPayloadPersistSignature(payloadRef.current);
+        if (nextSignature === lastProgressPersistSignatureRef.current) {
+          return;
+        }
+        lastProgressPersistSignatureRef.current = nextSignature;
         void onProgressSave(payloadRef.current);
       }, delay);
     },
@@ -459,14 +539,6 @@ export default function DiagnosticResultsForm({
 
   procedureRecommendationsRef.current = procedureRecommendations;
 
-  const procedureCatalog = useMemo(
-    () => listServiceProcedureCatalog({
-      templateId: payload?.templateId,
-      measurementContext,
-    }),
-    [payload?.templateId, measurementContext],
-  );
-
   const resolvedPlatformId = useMemo(
     () => resolvePlatformIdFromModel(measurementContext),
     [measurementContext],
@@ -508,7 +580,7 @@ export default function DiagnosticResultsForm({
     if (!resolvedPlatformId || !oemPlatformReady) return null;
     const equipmentMake = measurementContext.equipmentMake || workOrder?.equipment_make || null;
     const equipmentModel = measurementContext.equipmentModel || workOrder?.equipment_model || null;
-    if (!equipmentMake && !equipmentModel && !procedureCatalog.length) return null;
+    if (!equipmentMake && !equipmentModel) return null;
     const canonicalDomainLabels = (canonicalRouting?.activeDomains || [])
       .map((domainId) => canonicalRouting?.domainLabels?.[domainId] || domainId);
     return {
@@ -521,7 +593,6 @@ export default function DiagnosticResultsForm({
   }, [
     resolvedPlatformId,
     oemPlatformReady,
-    procedureCatalog.length,
     measurementContext.equipmentMake,
     measurementContext.equipmentModel,
     workOrder?.equipment_make,
@@ -600,6 +671,28 @@ export default function DiagnosticResultsForm({
     [draftKey, onChange, readOnly, scheduleProgressSave],
   );
 
+  useEffect(() => {
+    autoStartProcedureIdRef.current = autoStartProcedureId;
+  }, [autoStartProcedureId]);
+
+  useEffect(() => {
+    const activeId = payload?.activeProcedureId;
+    if (!activeId || readOnly) return undefined;
+    const run = payload?.procedureRuns?.[activeId];
+    if (run?.status === 'in_progress') return undefined;
+    if (autoStartProcedureIdRef.current === activeId) return undefined;
+    if (!run) return undefined;
+    if (run.status !== 'completed') return undefined;
+    if (!payloadRef.current?.activeProcedureId) return undefined;
+    const nextPayload = {
+      ...payloadRef.current,
+      activeProcedureId: null,
+    };
+    payloadRef.current = nextPayload;
+    emitChange(nextPayload);
+    return undefined;
+  }, [payload?.activeProcedureId, payload?.procedureRuns, readOnly, emitChange]);
+
   const handleProcedureRunChange = useCallback(
     (procedureId, nextRunState) => {
       const currentRuns = payloadRef.current?.procedureRuns || {};
@@ -652,6 +745,7 @@ export default function DiagnosticResultsForm({
             ...nextPayload,
             oemRepairDecisionPending: procedureId,
             oemRepairDecision: null,
+            oemConfirmedRepairPathActive: procedureId,
           };
           if (handleJumpToStepKeyRef.current) {
             queueMicrotask(() => handleJumpToStepKeyRef.current?.('oem_test'));
@@ -661,7 +755,7 @@ export default function DiagnosticResultsForm({
           const visitedKeys = Array.isArray(nextPayload.visitedStepKeys)
             ? nextPayload.visitedStepKeys
             : visitedStepKeys;
-          const plan = planContinuationAfterProcedureComplete({
+          const continuationInput = {
             completedProcedureId: procedureId,
             completedRunState: nextRunState,
             payload: nextPayload,
@@ -676,24 +770,70 @@ export default function DiagnosticResultsForm({
             options: {
               readOnly,
               skippedOemWizardStep: Boolean(nextPayload.skippedOemWizardStep),
+              oemWizardLeadDecisions: nextPayload.oemWizardLeadDecisions,
               oemRunnerEnabled: oemRunnerEnabledRef.current,
             },
-          });
+          };
+          const plan = planContinuationAfterProcedureComplete(continuationInput);
           if (plan.type !== 'repair_action') {
+            const snapshot = resolveContinuationDiagnosticSnapshot(continuationInput);
+            const oemPoolExhausted = isOemStrongLeadPoolExhausted({
+              candidates: snapshot.actions.candidates,
+              procedureRecommendations: snapshot.procedureRecommendations,
+              procedureRuns: nextRuns,
+              oemWizardLeadDecisions: nextPayload.oemWizardLeadDecisions,
+              oemRunnerEnabled: oemRunnerEnabledRef.current,
+              readOnly,
+            });
+            const deferGenericWizard = shouldDeferGenericWizardAfterOemComplete(
+              plan.type,
+              oemPoolExhausted,
+            );
+
             if (plan.type === 'next_oem') {
+              setOemDiagnosticTreeExhausted(false);
+              if (nextPayload.oemDiagnosticTreeExhausted) {
+                nextPayload = { ...nextPayload, oemDiagnosticTreeExhausted: false };
+              }
               const presentation = resolveProcedureRunPresentation(procedureId, nextRunState);
-              const nextRec = procedureRecommendationsRef.current?.find(
-                (item) => item.procedureId === plan.procedureId,
-              );
+              const nextProcedure = getServiceProcedure(plan.procedureId);
+              const completedProcedure = getServiceProcedure(procedureId);
+              nextPayload = {
+                ...nextPayload,
+                oemContinuationOfferProcedureId: plan.procedureId,
+              };
               setOemContinuationBridge({
                 targetProcedureId: plan.procedureId,
-                recommendationReason: nextRec?.reason ?? null,
                 previousProcedureVerified: presentation.disposition === 'success',
+                previousProcedureTitle: completedProcedure?.title ?? null,
+                nextProcedureTitle: nextProcedure?.title ?? null,
               });
+            } else if (deferGenericWizard) {
+              setOemDiagnosticTreeExhausted(true);
+              nextPayload = {
+                ...nextPayload,
+                oemDiagnosticTreeExhausted: true,
+                oemContinuationOfferProcedureId: null,
+              };
+              setOemContinuationBridge(null);
+            } else {
+              setOemDiagnosticTreeExhausted(false);
+              if (nextPayload.oemDiagnosticTreeExhausted) {
+                nextPayload = { ...nextPayload, oemDiagnosticTreeExhausted: false };
+              }
+              nextPayload = {
+                ...nextPayload,
+                oemContinuationOfferProcedureId: null,
+              };
             }
+
             queueMicrotask(() => {
               if (procedureContinuationEpochRef.current !== continuationEpoch) return;
-              executeProcedureContinuationPlan(plan, {
+              if (deferGenericWizard) {
+                handleJumpToStepKeyRef.current?.('oem_test');
+                return;
+              }
+              executeOemWizardContinuationHandoff(plan, {
                 jumpToStepKey: (stepKey) => handleJumpToStepKeyRef.current?.(stepKey),
                 startOemProcedure: (nextProcedureId) => {
                   handleStartOemProcedureRef.current?.(nextProcedureId);
@@ -726,7 +866,7 @@ export default function DiagnosticResultsForm({
   /** Tech: OEM runner is wizard-inline after complaint context; never a big list above the wizard. */
   const showProcedureRunner = showOemSpecsSurface
     && isTechnician
-    && procedureCatalog.length > 0
+    && Boolean(resolvedPlatformId)
     && complaintContextReady;
 
   routingResultRef.current = routingResult;
@@ -742,7 +882,7 @@ export default function DiagnosticResultsForm({
       payload: {
         ...payload,
         visitedStepKeys,
-        currentStepKey: payload?.currentStepKey || visitedStepKeys.at(-1) || null,
+        currentStepKey: payload?.currentStepKey || null,
       },
       workOrder,
       derived: {
@@ -792,6 +932,25 @@ export default function DiagnosticResultsForm({
     ],
   );
 
+  const routeProcedureIds = useMemo(
+    () => unifiedDiagnosticActions.candidates
+      .filter((candidate) => candidate.type === 'service_procedure' && candidate.procedureId)
+      .map((candidate) => candidate.procedureId),
+    [unifiedDiagnosticActions.candidates],
+  );
+
+  const procedureCatalog = useMemo(
+    () => mergeProcedureCatalogWithRouteProcedures(
+      listServiceProcedureCatalog({
+        templateId: payload?.templateId,
+        measurementContext,
+      }),
+      routeProcedureIds,
+      procedureRecommendations,
+    ),
+    [payload?.templateId, measurementContext, routeProcedureIds, procedureRecommendations],
+  );
+
   const unifiedTopProcedureId = useMemo(
     () => extractUnifiedTopProcedureId(unifiedDiagnosticActions.candidates),
     [unifiedDiagnosticActions.candidates],
@@ -802,31 +961,76 @@ export default function DiagnosticResultsForm({
     [unifiedDiagnosticActions],
   );
 
+  const oemRepairDecisionPending = Boolean(
+    payload?.oemRepairDecisionPending
+    && payload?.procedureRuns?.[payload.oemRepairDecisionPending]?.status === 'completed',
+  );
+
   const topProcedureRecommendation = useMemo(
     () => {
       if (!showProcedureRunner || !procedureRecommendations.length) return null;
-      return resolveUnifiedOemLeadRecommendation(
+      const pendingRepairId = payload?.oemRepairDecisionPending;
+      if (pendingRepairId) {
+        const pending = procedureRecommendations.find(
+          (item) => item.procedureId === pendingRepairId,
+        );
+        if (pending) return pending;
+      }
+      return resolveOfferableOemLeadRecommendation(
         procedureRecommendations,
         unifiedTopProcedureId,
+        payload?.oemWizardLeadDecisions,
       );
     },
-    [showProcedureRunner, procedureRecommendations, unifiedTopProcedureId],
+    [
+      showProcedureRunner,
+      procedureRecommendations,
+      unifiedTopProcedureId,
+      payload?.oemRepairDecisionPending,
+      payload?.oemWizardLeadDecisions,
+    ],
   );
 
   const insertOemWizardStepFlag = useMemo(
-    () => shouldInsertOemWizardStep(
-      complaintChipIds,
-      topProcedureRecommendation,
-      {
-        skippedOemWizardStep: payload?.skippedOemWizardStep,
-        errorCodes,
-      },
-    ),
+    () => {
+      if (oemRepairDecisionPending || payload?.oemConfirmedRepairPathActive) return false;
+      return shouldInsertOemWizardStep(
+        complaintChipIds,
+        topProcedureRecommendation,
+        {
+          skippedOemWizardStep: payload?.skippedOemWizardStep,
+          oemWizardLeadDecisions: payload?.oemWizardLeadDecisions,
+          errorCodes,
+        },
+      );
+    },
     [
+      oemRepairDecisionPending,
+      payload?.oemConfirmedRepairPathActive,
       complaintChipIds,
       topProcedureRecommendation,
       payload?.skippedOemWizardStep,
+      payload?.oemWizardLeadDecisions,
       errorCodes,
+    ],
+  );
+
+  const forceOemWizardStep = useMemo(
+    () => Boolean(
+      oemRepairDecisionPending
+      || payload?.oemRepairDecisionPending
+      || payload?.activeProcedureId
+      || (
+        payload?.currentStepKey === 'oem_test'
+        && (payload?.oemRepairDecisionPending || payload?.oemConfirmedRepairPathActive)
+      ),
+    ),
+    [
+      oemRepairDecisionPending,
+      payload?.oemRepairDecisionPending,
+      payload?.activeProcedureId,
+      payload?.currentStepKey,
+      payload?.oemConfirmedRepairPathActive,
     ],
   );
 
@@ -834,15 +1038,31 @@ export default function DiagnosticResultsForm({
     () => injectOemWizardStep(baseSteps, topProcedureRecommendation, {
       complaintChipIds,
       skippedOemWizardStep: payload?.skippedOemWizardStep,
+      oemWizardLeadDecisions: payload?.oemWizardLeadDecisions,
       errorCodes,
+      forceInsert: forceOemWizardStep,
     }),
     [
       baseSteps,
       topProcedureRecommendation,
       complaintChipIds,
       payload?.skippedOemWizardStep,
+      payload?.oemWizardLeadDecisions,
       errorCodes,
+      forceOemWizardStep,
     ],
+  );
+
+  const resolveStepIdForStepKey = useCallback(
+    (stepKey) => {
+      if (!stepKey) return null;
+      let step = steps.find((s) => s.meta?.stepKey === stepKey);
+      if (!step && stepKey === oemDiagnosticSaveStepKey) {
+        step = steps.find((s) => s.id === DIAGNOSTIC_REVIEW_STEP_ID);
+      }
+      return step?.id ?? null;
+    },
+    [steps, oemDiagnosticSaveStepKey],
   );
 
   const wizardInitialStepId = useMemo(() => {
@@ -864,14 +1084,15 @@ export default function DiagnosticResultsForm({
     return Array.from(ids);
   }, [steps, payload?.visitedStepKeys, visitedStepKeys]);
 
-  const oemRepairDecisionPending = Boolean(
-    payload?.oemRepairDecisionPending
-    && payload?.procedureRuns?.[payload.oemRepairDecisionPending]?.status === 'completed',
-  );
-
   const wizardRecommendedStepKeys = useMemo(
     () => {
-      if (oemRepairDecisionPending) {
+      if (
+        oemRepairDecisionPending
+        || shouldSuppressGenericWizardRecommendation(
+          payload,
+          payload?.currentStepKey,
+        )
+      ) {
         return [];
       }
       const unifiedWizardKeys = extractUnifiedWizardStepKeys(unifiedDiagnosticActions.candidates);
@@ -897,16 +1118,45 @@ export default function DiagnosticResultsForm({
       visitedStepKeys,
       insertOemWizardStepFlag,
       payload?.procedureRuns,
+      payload?.oemConfirmedRepairPathActive,
+      payload?.oemDiagnosticTreeExhausted,
+      payload?.currentStepKey,
     ],
   );
 
   const wizardCurrentStepKey = useMemo(() => {
+    if (authoritativeWizardStepKey) return authoritativeWizardStepKey;
     if (payload?.currentStepKey) return payload.currentStepKey;
     // Wizard has not reported a step yet — user is still on complaint.
     // Do not infer from steps[]: routed steps use hidden() functions and injected OEM steps
     // would be mistaken for the active step.
     return 'complaint';
-  }, [payload?.currentStepKey]);
+  }, [authoritativeWizardStepKey, payload?.currentStepKey]);
+
+  const oemJourneyPhase = useMemo(
+    () => resolveOemConfirmedFaultJourneyPhase(
+      payload,
+      oemJourneyStepKeys,
+      wizardCurrentStepKey,
+    ),
+    [payload, oemJourneyStepKeys, wizardCurrentStepKey],
+  );
+
+  const wizardNextLabel = useMemo(() => {
+    const journeyLabel = resolveOemJourneyPrimaryButtonLabel(oemJourneyPhase);
+    if (journeyLabel) return journeyLabel;
+    const rootCause = payload?.fields?.['diagnosis.root_cause'];
+    const recommendedRepair = payload?.fields?.['diagnosis.recommended_repair'];
+    if (wizardCurrentStepKey === oemDiagnosisSummaryStepKey && rootCause && recommendedRepair) {
+      return 'Review & save';
+    }
+    return 'Next';
+  }, [
+    oemJourneyPhase,
+    wizardCurrentStepKey,
+    payload?.fields,
+    oemDiagnosisSummaryStepKey,
+  ]);
 
   const procedurePanelProps = useMemo(
     () => ({
@@ -914,9 +1164,11 @@ export default function DiagnosticResultsForm({
       catalog: showProcedureRunner ? procedureCatalog : [],
       procedureRuns: payload?.procedureRuns || {},
       activeProcedureId: payload?.activeProcedureId || null,
+      oemWizardLeadDecisions: payload?.oemWizardLeadDecisions,
       onProcedureRunChange: handleProcedureRunChange,
       onActiveProcedureChange: handleActiveProcedureChange,
       variant,
+      presentationAudience: isDiyAudience ? 'diy' : 'tech',
       platformId: resolvedPlatformId,
       platformBanner: procedurePlatformBanner,
       bannerOnly: true,
@@ -928,21 +1180,34 @@ export default function DiagnosticResultsForm({
       showProcedureRunner,
       procedureCatalog,
       payload?.procedureRuns,
+      payload?.oemWizardLeadDecisions,
       payload?.activeProcedureId,
       handleProcedureRunChange,
       handleActiveProcedureChange,
       variant,
       resolvedPlatformId,
       procedurePlatformBanner,
+      isDiyAudience,
     ],
   );
 
   const handleStartOemProcedure = useCallback(
     (procedureId) => {
+      const startPayload = buildOemProcedureStartPayload(payloadRef.current, procedureId);
+      if (!startPayload) return;
+      setOemContinuationBridge(null);
+      setOemDiagnosticTreeExhausted(false);
       setAutoStartProcedureId(procedureId);
-      handleActiveProcedureChange(procedureId);
+      autoStartProcedureIdRef.current = procedureId;
+      const nextPayload = {
+        ...payloadRef.current,
+        ...startPayload,
+        oemContinuationOfferProcedureId: null,
+      };
+      payloadRef.current = nextPayload;
+      emitChange(nextPayload);
     },
-    [handleActiveProcedureChange],
+    [emitChange],
   );
   handleStartOemProcedureRef.current = handleStartOemProcedure;
 
@@ -1149,6 +1414,13 @@ export default function DiagnosticResultsForm({
     (navigation) => {
       const step = steps.find((s) => s.id === navigation.currentStepId);
       const stepKey = step?.meta?.stepKey;
+      if (stepKey) {
+        setAuthoritativeWizardStepKey(stepKey);
+        authoritativeWizardStepKeyRef.current = stepKey;
+      }
+      if (navigation.currentStepId === orchestratedNavigateStepId) {
+        setOrchestratedNavigateStepId(null);
+      }
       let nextVisited = visitedStepKeys;
       if (stepKey && !visitedStepKeys.includes(stepKey)) {
         nextVisited = [...visitedStepKeys, stepKey];
@@ -1179,6 +1451,10 @@ export default function DiagnosticResultsForm({
           timeline,
           visitedStepKeys: nextVisited,
           currentStepKey: stepKey,
+          oemWizardLeadDecisions: clearOemWizardSkipsOnReentry(
+            payloadRef.current?.oemWizardLeadDecisions,
+            stepKey,
+          ),
           evidenceSnapshot: buildEvidenceSnapshot(intelligenceResultRef.current),
         };
         payloadRef.current = nextPayload;
@@ -1186,49 +1462,125 @@ export default function DiagnosticResultsForm({
         scheduleProgressSave({ immediate: true });
       }
     },
-    [steps, readOnly, emitChange, visitedStepKeys, scheduleProgressSave],
+    [
+      steps,
+      readOnly,
+      emitChange,
+      visitedStepKeys,
+      scheduleProgressSave,
+      orchestratedNavigateStepId,
+    ],
   );
 
-  const handleJumpToStepKey = useCallback(
-    (stepKey) => {
-      if (!stepKey || readOnly) return;
-      const step = steps.find((s) => s.meta?.stepKey === stepKey);
-      if (!step) return;
+  const commitWizardStepKeyJump = useCallback(
+    (stepKey, { journeyPhase } = {}) => {
+      if (!stepKey || readOnly) return null;
+      const stepId = resolveStepIdForStepKey(stepKey);
+      if (!stepId) return null;
 
-      prevStepIdRef.current = step.id;
+      prevStepIdRef.current = stepId;
       prevStepKeyForTimelineRef.current = stepKey;
+      setAuthoritativeWizardStepKey(stepKey);
+      authoritativeWizardStepKeyRef.current = stepKey;
+
+      const priorVisited = Array.isArray(payloadRef.current?.visitedStepKeys)
+        ? payloadRef.current.visitedStepKeys
+        : visitedStepKeys;
+      const nextVisited = isOemConfirmedFaultJourneyActive(payloadRef.current)
+        ? expandVisitedKeysForConfirmedFaultJourney(priorVisited, stepKey, oemJourneyStepKeys)
+        : (priorVisited.includes(stepKey) ? priorVisited : [...priorVisited, stepKey]);
 
       const nextPayload = {
         ...payloadRef.current,
         currentStepKey: stepKey,
+        visitedStepKeys: nextVisited,
+        ...(journeyPhase ? { oemConfirmedFaultJourneyPhase: journeyPhase } : {}),
       };
       payloadRef.current = nextPayload;
+      if (nextVisited !== visitedStepKeys) {
+        setVisitedStepKeys(nextVisited);
+      }
       emitChange(nextPayload);
-      setWizardJumpNonce((value) => value + 1);
       scheduleProgressSave({ immediate: true });
+      return stepId;
     },
-    [steps, readOnly, emitChange, scheduleProgressSave],
+    [
+      readOnly,
+      resolveStepIdForStepKey,
+      visitedStepKeys,
+      emitChange,
+      scheduleProgressSave,
+      oemJourneyStepKeys,
+    ],
+  );
+
+  const handleJumpToStepKey = useCallback(
+    (stepKey) => {
+      const stepId = commitWizardStepKeyJump(stepKey);
+      if (stepId) {
+        setOrchestratedNavigateStepId(stepId);
+      }
+    },
+    [commitWizardStepKeyJump],
   );
 
   handleJumpToStepKeyRef.current = handleJumpToStepKey;
 
   const handleContinueAfterOemRepair = useCallback(() => {
-    const oemIndex = steps.findIndex((step) => step.meta?.stepKey === 'oem_test');
-    const nextStep = oemIndex >= 0 ? steps[oemIndex + 1] : null;
+    const confirmedProcedureId = payloadRef.current?.oemConfirmedRepairPathActive
+      || payloadRef.current?.oemRepairDecisionPending;
+    setAutoStartProcedureId(null);
+    autoStartProcedureIdRef.current = null;
+    setOemContinuationBridge(null);
     const nextPayload = {
       ...payloadRef.current,
       oemRepairDecisionPending: null,
       oemRepairDecision: 'continue',
+      oemConfirmedRepairPathActive: confirmedProcedureId || null,
+      activeProcedureId: null,
+      oemContinuationOfferProcedureId: null,
     };
     payloadRef.current = nextPayload;
     emitChange(nextPayload);
-    if (nextStep?.meta?.stepKey) {
-      handleJumpToStepKey(nextStep.meta.stepKey);
-    }
-  }, [steps, emitChange, handleJumpToStepKey]);
+  }, [emitChange]);
 
-  const handleSaveAndViewResultsAfterOemRepair = useCallback(async () => {
-    const procedureId = payloadRef.current?.oemRepairDecisionPending;
+  const tryWizardJourneyNext = useCallback(() => {
+    const currentPayload = payloadRef.current;
+    const stepKey = authoritativeWizardStepKeyRef.current || currentPayload?.currentStepKey;
+    const action = resolveOemJourneyNextAction(currentPayload, oemJourneyStepKeys, stepKey);
+    if (!action) return false;
+    if (action.type === 'before_repair_checks') {
+      handleContinueAfterOemRepair();
+      return commitWizardStepKeyJump(oemBeforeRepairChecksStepKey, {
+        journeyPhase: 'before_repair_checks',
+      });
+    }
+    if (action.type === 'diagnosis_summary') {
+      return commitWizardStepKeyJump(oemDiagnosisSummaryStepKey, {
+        journeyPhase: 'diagnosis_summary',
+      });
+    }
+    if (action.type === 'diagnostic_save') {
+      return commitWizardStepKeyJump(oemDiagnosticSaveStepKey, {
+        journeyPhase: 'review',
+      });
+    }
+    if (action.type === 'hold_oem_conclusion') {
+      return true;
+    }
+    return false;
+  }, [
+    handleContinueAfterOemRepair,
+    commitWizardStepKeyJump,
+    oemJourneyStepKeys,
+    oemBeforeRepairChecksStepKey,
+    oemDiagnosisSummaryStepKey,
+    oemDiagnosticSaveStepKey,
+  ]);
+
+  const handleSaveAndViewResultsAfterOemRepair = useCallback(() => {
+    const procedureId = payloadRef.current?.oemRepairDecisionPending
+      || payloadRef.current?.oemConfirmedRepairPathActive;
     const runState = procedureId
       ? payloadRef.current?.procedureRuns?.[procedureId]
       : null;
@@ -1246,33 +1598,81 @@ export default function DiagnosticResultsForm({
       ...payloadRef.current,
       fields,
       oemRepairDecisionPending: null,
-      oemRepairDecision: 'save',
-      currentStepKey: 'review',
+      oemRepairDecision: 'continue',
+      oemConfirmedRepairPathActive: procedureId,
     };
     payloadRef.current = nextPayload;
     emitChange(nextPayload);
-    handleJumpToStepKey('review');
+    handleJumpToStepKey(oemDiagnosisSummaryStepKey);
     scheduleProgressSave({ immediate: true });
-    if (onSave) {
-      await onSave(nextPayload);
-    }
-  }, [emitChange, handleJumpToStepKey, onSave, scheduleProgressSave]);
+  }, [emitChange, handleJumpToStepKey, scheduleProgressSave, oemDiagnosisSummaryStepKey]);
+
+  const advanceAfterOemWizardDecision = useCallback(
+    (nextPayload) => {
+      const oemIndex = steps.findIndex((step) => step.meta?.stepKey === 'oem_test');
+      const nextStep = oemIndex >= 0 ? steps[oemIndex + 1] : null;
+      payloadRef.current = nextPayload;
+      emitChange(nextPayload);
+      if (nextStep?.meta?.stepKey) {
+        handleJumpToStepKey(nextStep.meta.stepKey);
+      }
+    },
+    [steps, emitChange, handleJumpToStepKey],
+  );
 
   const handleSkipOemWizardStep = useCallback(() => {
     setAutoStartProcedureId(null);
-    const oemIndex = steps.findIndex((step) => step.meta?.stepKey === 'oem_test');
-    const nextStep = oemIndex >= 0 ? steps[oemIndex + 1] : null;
+    setOemContinuationBridge(null);
+    const procedureId = resolveOemWizardDisplayedProcedureId({
+      activeProcedureId: payloadRef.current?.activeProcedureId,
+      offeredProcedureId: topProcedureRecommendation?.procedureId,
+    });
+    const visited = Array.isArray(payloadRef.current?.visitedStepKeys)
+      ? payloadRef.current.visitedStepKeys
+      : visitedStepKeys;
+    const nextVisited = visited.includes('oem_test') ? visited : [...visited, 'oem_test'];
     const nextPayload = {
       ...payloadRef.current,
-      skippedOemWizardStep: true,
       activeProcedureId: null,
+      visitedStepKeys: nextVisited,
+      oemWizardLeadDecisions: procedureId
+        ? recordOemWizardLeadDecision(
+          payloadRef.current?.oemWizardLeadDecisions,
+          procedureId,
+          'skipped',
+        )
+        : payloadRef.current?.oemWizardLeadDecisions,
+    };
+    advanceAfterOemWizardDecision(nextPayload);
+  }, [topProcedureRecommendation?.procedureId, visitedStepKeys, advanceAfterOemWizardDecision]);
+
+  const handleMarkOemWizardVerified = useCallback(() => {
+    const procedureId = resolveOemWizardDisplayedProcedureId({
+      activeProcedureId: payloadRef.current?.activeProcedureId,
+      offeredProcedureId: topProcedureRecommendation?.procedureId,
+    });
+    if (!procedureId) return;
+    const verifiedRun = buildUserVerifiedProcedureRunState(procedureId);
+    if (!verifiedRun) return;
+
+    setAutoStartProcedureId(null);
+    const visited = Array.isArray(payloadRef.current?.visitedStepKeys)
+      ? payloadRef.current.visitedStepKeys
+      : visitedStepKeys;
+    const nextVisited = visited.includes('oem_test') ? visited : [...visited, 'oem_test'];
+    const nextPayload = {
+      ...payloadRef.current,
+      activeProcedureId: null,
+      visitedStepKeys: nextVisited,
+      oemWizardLeadDecisions: recordOemWizardLeadDecision(
+        payloadRef.current?.oemWizardLeadDecisions,
+        procedureId,
+        'user_verified',
+      ),
     };
     payloadRef.current = nextPayload;
-    emitChange(nextPayload);
-    if (nextStep?.meta?.stepKey) {
-      handleJumpToStepKey(nextStep.meta.stepKey);
-    }
-  }, [steps, emitChange, handleJumpToStepKey]);
+    handleProcedureRunChange(procedureId, verifiedRun);
+  }, [topProcedureRecommendation?.procedureId, visitedStepKeys, handleProcedureRunChange]);
 
   const [oemProcedureActionPulse, setOemProcedureActionPulse] = useState(false);
 
@@ -1301,6 +1701,68 @@ export default function DiagnosticResultsForm({
   useEffect(() => {
     if (!navigationGate) setOemProcedureActionPulse(false);
   }, [navigationGate]);
+
+  const oemContinuationOfferProcedureId = useMemo(
+    () => {
+      if (payload?.activeProcedureId) return null;
+      if (oemRepairDecisionPending || payload?.oemConfirmedRepairPathActive) return null;
+      const offerId = payload?.oemContinuationOfferProcedureId
+        || oemContinuationBridge?.targetProcedureId
+        || null;
+      if (!offerId) return null;
+      const targetRun = payload?.procedureRuns?.[offerId];
+      if (targetRun?.status === 'in_progress' || targetRun?.status === 'completed') {
+        return null;
+      }
+      return offerId;
+    },
+    [
+      oemContinuationBridge?.targetProcedureId,
+      payload?.activeProcedureId,
+      payload?.oemConfirmedRepairPathActive,
+      payload?.oemContinuationOfferProcedureId,
+      payload?.procedureRuns,
+      oemRepairDecisionPending,
+    ],
+  );
+
+  const oemNextHandoffForWizard = useMemo(() => {
+    if (!oemContinuationOfferProcedureId) return null;
+    const nextProcedure = getServiceProcedure(oemContinuationOfferProcedureId);
+    return {
+      targetProcedureId: oemContinuationOfferProcedureId,
+      previousProcedureTitle: oemContinuationBridge?.previousProcedureTitle ?? null,
+      nextProcedureTitle: oemContinuationBridge?.nextProcedureTitle
+        ?? nextProcedure?.title
+        ?? null,
+    };
+  }, [
+    oemContinuationBridge,
+    oemContinuationOfferProcedureId,
+  ]);
+
+  const oemWizardContextRecommendation = useMemo(
+    () => {
+      if (oemContinuationOfferProcedureId) {
+        return buildProcedureRecommendationForOffer(
+          oemContinuationOfferProcedureId,
+          procedureRecommendations,
+        );
+      }
+      return topProcedureRecommendation;
+    },
+    [oemContinuationOfferProcedureId, procedureRecommendations, topProcedureRecommendation],
+  );
+
+  const showOemWizardProcedureContext = Boolean(
+    oemWizardContextRecommendation
+    && (
+      insertOemWizardStepFlag
+      || oemRepairDecisionPending
+      || payload?.oemConfirmedRepairPathActive
+      || oemContinuationOfferProcedureId
+    ),
+  );
 
   const wizardContext = useMemo(
     () => ({
@@ -1339,22 +1801,35 @@ export default function DiagnosticResultsForm({
       onRefreshAutoNote: readOnly ? null : handleRefreshAutoNote,
       onGenerateServiceNotes: readOnly ? null : handleGenerateServiceNotes,
       oemRepairDecisionPending,
+      oemDiagnosticTreeExhausted,
+      fields: payload?.fields || {},
+      activeOemProcedureId: payload?.activeProcedureId || null,
       unifiedTopWizardStepKey,
       unifiedCandidates: process.env.NODE_ENV === 'development'
         ? unifiedDiagnosticActions.candidates
         : undefined,
-      oemProcedure: insertOemWizardStepFlag && topProcedureRecommendation ? {
-        recommendation: topProcedureRecommendation,
+      oemProcedure: showOemWizardProcedureContext ? {
+        recommendation: oemWizardContextRecommendation,
         onStartProcedure: handleStartOemProcedure,
         onSkipOemWizardStep: handleSkipOemWizardStep,
+        onMarkOemWizardVerified: handleMarkOemWizardVerified,
         onContinueAfterOemRepair: handleContinueAfterOemRepair,
         onSaveAndViewResultsAfterOemRepair: handleSaveAndViewResultsAfterOemRepair,
         repairDecisionPending: oemRepairDecisionPending,
         activeProcedureId: payload?.activeProcedureId || null,
         procedureRuns: payload?.procedureRuns || {},
         wizardStepLabels: stepKeyLabels,
+        lastOemWizardLeadDecision: oemWizardContextRecommendation?.procedureId
+          ? payload?.oemWizardLeadDecisions?.[oemWizardContextRecommendation.procedureId]?.kind || null
+          : null,
+        nextOemHandoff: oemNextHandoffForWizard,
+        continuationOfferProcedureId: oemContinuationOfferProcedureId,
+        oemWizardLeadDecisions: payload?.oemWizardLeadDecisions,
+        oemDiagnosticTreeExhausted,
       } : null,
       navigationGate,
+      tryWizardJourneyNext,
+      oemConfirmedRepairPathActive: Boolean(payload?.oemConfirmedRepairPathActive),
     }),
     [
       handleFieldChange,
@@ -1375,6 +1850,7 @@ export default function DiagnosticResultsForm({
       payload?.currentStepKey,
       payload?.activeProcedureId,
       payload?.procedureRuns,
+      payload?.oemWizardLeadDecisions,
       wizardDefinition?.routing?.fieldHelp,
       workOrder,
       readOnly,
@@ -1384,15 +1860,22 @@ export default function DiagnosticResultsForm({
       handleRefreshAutoNote,
       handleGenerateServiceNotes,
       insertOemWizardStepFlag,
+      showOemWizardProcedureContext,
+      oemWizardContextRecommendation,
+      oemContinuationOfferProcedureId,
       topProcedureRecommendation,
       handleStartOemProcedure,
       handleSkipOemWizardStep,
+      handleMarkOemWizardVerified,
       handleContinueAfterOemRepair,
       handleSaveAndViewResultsAfterOemRepair,
       oemRepairDecisionPending,
+      oemNextHandoffForWizard,
+      oemDiagnosticTreeExhausted,
       unifiedTopWizardStepKey,
       unifiedDiagnosticActions.candidates,
       navigationGate,
+      tryWizardJourneyNext,
     ],
   );
 
@@ -1558,6 +2041,7 @@ export default function DiagnosticResultsForm({
       highlightPrimaryAction={oemProcedureActionPulse}
       continuationBridge={oemContinuationBridgeForSlot}
       procedurePresentationContext={activeOemPresentationContext}
+      presentationAudience={isDiyAudience ? 'diy' : 'tech'}
     />
   ) : null;
 
@@ -1566,6 +2050,10 @@ export default function DiagnosticResultsForm({
       {insightPeekPlacement !== 'external' ? mobileInsightPeeks : null}
       {draftHint}
     </>
+  );
+
+  const oemManufacturerPathActive = Boolean(
+    insertOemWizardStepFlag && showProcedureRunner && !payload?.skippedOemWizardStep,
   );
 
   const hypothesisCardProps = {
@@ -1578,6 +2066,16 @@ export default function DiagnosticResultsForm({
     procedureRuns: payload?.procedureRuns || {},
     fields: payload?.fields || {},
     currentStepKey: wizardCurrentStepKey,
+    oemDiagnosticPathExhausted: oemDiagnosticTreeExhausted,
+    oemManufacturerPathActive,
+    oemConfirmedRepairProcedureId: payload?.oemConfirmedRepairPathActive
+      || (oemRepairDecisionPending ? payload?.oemRepairDecisionPending : null),
+    oemCurrentTestFocus: oemManufacturerPathActive
+      && !oemDiagnosticTreeExhausted
+      && !oemRepairDecisionPending
+      && !payload?.oemConfirmedRepairPathActive
+      ? topProcedureRecommendation?.procedure?.title || null
+      : null,
   };
 
   if (!template) {
@@ -1712,7 +2210,8 @@ export default function DiagnosticResultsForm({
                   context={wizardContext}
                   readOnly={readOnly}
                   variant={variant}
-                  resetKey={`${payload?.templateId || 'wizard'}:${wizardJumpNonce}`}
+                  resetKey={payload?.templateId || 'wizard'}
+                  orchestratedNavigateStepId={orchestratedNavigateStepId}
                   initialStepId={wizardInitialStepId}
                   initialVisitedStepIds={wizardInitialVisitedStepIds}
                   onAutoSave={handleWizardAutoSave}
@@ -1720,6 +2219,7 @@ export default function DiagnosticResultsForm({
                   onComplete={onSave ? () => void handleWizardComplete() : undefined}
                   completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
                   isCompleting={isSaving}
+                  nextLabel={wizardNextLabel}
                   leadExtra={wizardLeadExtra}
                   footerExtra={wizardFooterExtra}
                 />
@@ -1753,7 +2253,8 @@ export default function DiagnosticResultsForm({
                 context={wizardContext}
                 readOnly={readOnly}
                 variant={variant}
-                resetKey={`${payload?.templateId || 'wizard'}:${wizardJumpNonce}`}
+                resetKey={payload?.templateId || 'wizard'}
+                orchestratedNavigateStepId={orchestratedNavigateStepId}
                 initialStepId={wizardInitialStepId}
                 initialVisitedStepIds={wizardInitialVisitedStepIds}
                 onAutoSave={handleWizardAutoSave}
@@ -1761,6 +2262,7 @@ export default function DiagnosticResultsForm({
                 onComplete={onSave ? () => void handleWizardComplete() : undefined}
                 completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
                 isCompleting={isSaving}
+                nextLabel={wizardNextLabel}
                 leadExtra={wizardLeadExtra}
                 footerExtra={wizardFooterExtra}
                 headerTitle={
@@ -1855,11 +2357,16 @@ export default function DiagnosticResultsForm({
                   ? payload.visitedStepKeys
                   : visitedStepKeys
               }
-              currentStepKey={payload?.currentStepKey || null}
+              currentStepKey={wizardCurrentStepKey}
               reviewStepId={DIAGNOSTIC_REVIEW_STEP_ID}
               variant={variant}
               interfaceStyle={interfaceStyle}
               eliminationResult={isProfessionalSession ? eliminationResult : null}
+              oemDiagnosticPathExhausted={oemDiagnosticTreeExhausted}
+              oemManufacturerPathActive={oemManufacturerPathActive}
+              oemConfirmedRepairProcedureId={hypothesisCardProps.oemConfirmedRepairProcedureId}
+              oemCurrentTestFocus={hypothesisCardProps.oemCurrentTestFocus}
+              procedureRuns={payload?.procedureRuns || {}}
             />
           ) : null}
 
@@ -1922,7 +2429,8 @@ export default function DiagnosticResultsForm({
             context={wizardContext}
             readOnly={readOnly}
             variant={variant}
-            resetKey={`${payload?.templateId || 'wizard'}:${wizardJumpNonce}`}
+            resetKey={payload?.templateId || 'wizard'}
+            orchestratedNavigateStepId={orchestratedNavigateStepId}
             initialStepId={wizardInitialStepId}
             initialVisitedStepIds={wizardInitialVisitedStepIds}
             onAutoSave={handleWizardAutoSave}
@@ -1930,6 +2438,7 @@ export default function DiagnosticResultsForm({
             onComplete={onSave ? () => void handleWizardComplete() : undefined}
             completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
             isCompleting={isSaving}
+            nextLabel={wizardNextLabel}
             leadExtra={wizardLeadExtra}
             footerExtra={wizardFooterExtra}
             headerTitle={

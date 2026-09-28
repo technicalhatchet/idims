@@ -4,6 +4,8 @@ import {
   filterWizardStepsAfterDoorLockVerified,
   isDoorLockPathVerified,
 } from './procedureWizardRouting';
+import type { OemWizardLeadDecisions } from './oemWizardDecisions';
+import { isOemWizardLeadSuppressedForProcedure } from './oemWizardDecisions';
 import type { ProcedureRunState } from './types';
 import type { ServiceProcedure } from './types';
 
@@ -142,8 +144,35 @@ export function isStrongProcedureLead(recommendation: ProcedureRecommendation): 
   );
 }
 
+/** Next strong OEM lead that is not skipped / already-verified for wizard display. */
+export function resolveOfferableOemLeadRecommendation(
+  procedureRecommendations: ProcedureRecommendation[],
+  unifiedTopProcedureId: string | null | undefined,
+  decisions?: OemWizardLeadDecisions,
+): ProcedureRecommendation | null {
+  if (!procedureRecommendations.length) return null;
+
+  const pick = (procedureId: string | null | undefined) => {
+    if (!procedureId) return null;
+    const rec = procedureRecommendations.find((item) => item.procedureId === procedureId);
+    if (!rec || !isStrongProcedureLead(rec)) return null;
+    if (isOemWizardLeadSuppressedForProcedure(procedureId, decisions)) return null;
+    return rec;
+  };
+
+  const unified = pick(unifiedTopProcedureId);
+  if (unified) return unified;
+
+  return procedureRecommendations.find(
+    (rec) => isStrongProcedureLead(rec)
+      && !isOemWizardLeadSuppressedForProcedure(rec.procedureId, decisions),
+  ) ?? null;
+}
+
 export interface OemWizardStepInsertOptions {
+  /** @deprecated use oemWizardLeadDecisions */
   skippedOemWizardStep?: boolean;
+  oemWizardLeadDecisions?: OemWizardLeadDecisions;
   errorCodes?: string[];
 }
 
@@ -152,7 +181,18 @@ export function shouldInsertOemWizardStep(
   recommendation: ProcedureRecommendation | null | undefined,
   options: OemWizardStepInsertOptions = {},
 ): boolean {
-  if (options.skippedOemWizardStep || !recommendation || !isStrongProcedureLead(recommendation)) {
+  if (!recommendation || !isStrongProcedureLead(recommendation)) {
+    return false;
+  }
+  if (options.skippedOemWizardStep) {
+    return false;
+  }
+  if (
+    isOemWizardLeadSuppressedForProcedure(
+      recommendation.procedureId,
+      options.oemWizardLeadDecisions,
+    )
+  ) {
     return false;
   }
 

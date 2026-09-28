@@ -5,13 +5,23 @@ import { getMeasurementKnowledge } from '../../knowledge/knowledgeRegistry';
 import { formatRangeLabel } from '../../knowledge/measurementRulesEngine';
 import type { ProcedureStep } from '../types';
 import {
+  buildProcedureStepPresentationContext,
+  containsInternalDiagnosticJargon,
   formatInstructionLead,
   formatMeasurementResultPresentation,
   formatOemContinuationBridgeMessage,
+  formatOemWizardSkipAcknowledgement,
   formatStepHeadline,
+  isProcedureLevelRecommendationReason,
+  parseStructuredInstructionLists,
   resolveWhyWeAreChecking,
+  resolveWhyWeAreCheckingForStep,
+  sanitizeUserFacingExplanation,
   splitInstructionPresentation,
 } from '../procedureStepPresentation';
+import { formatOemProcedureStepProgressLabel } from '../procedureRunDisplay';
+import { getServiceProcedure } from '../procedureRegistry';
+import { detectProcedureAutoManualForkById } from '../procedureAutoManualFork';
 
 const DRAIN_PUMP_STEP: ProcedureStep = {
   id: 'pump_at_component',
@@ -63,6 +73,28 @@ test('resolveWhyWeAreChecking prefers recommendation reason', () => {
   assert.equal(why, 'Fault code F21 maps to Drain pump on this platform.');
 });
 
+test('buildProcedureStepPresentationContext returns undefined without resolvable why', () => {
+  assert.equal(
+    buildProcedureStepPresentationContext({
+      reason: '',
+      procedure: { title: '', componentIds: [] },
+    }),
+    undefined,
+  );
+});
+
+test('buildProcedureStepPresentationContext mirrors recommendation reason for panel wiring', () => {
+  const ctx = buildProcedureStepPresentationContext({
+    reason: 'Fault code F21 maps to Drain pump on this platform.',
+    procedure: { title: 'Drain pump', componentIds: ['drain_pump'] },
+  });
+  assert.equal(ctx?.recommendationReason, 'Fault code F21 maps to Drain pump on this platform.');
+  assert.equal(
+    resolveWhyWeAreChecking(ctx),
+    'Fault code F21 maps to Drain pump on this platform.',
+  );
+});
+
 test('formatMeasurementResultPresentation uses existing evaluation semantics', () => {
   const normal = formatMeasurementResultPresentation({
     knowledgeId: 'whirlpoolDuetSportWasherDrainPumpOhms',
@@ -89,28 +121,135 @@ test('formatMeasurementResultPresentation uses existing evaluation semantics', (
   assert.match(open.headline, /OPEN/i);
 });
 
-test('continuation bridge uses recommendation reason when present', () => {
+test('continuation bridge uses next procedure title only', () => {
   const message = formatOemContinuationBridgeMessage({
-    recommendationReason: 'Complaint pattern matches Drain pump on this platform.',
-    previousProcedureVerified: true,
+    nextProcedureTitle: 'Motor circuit',
+    recommendationReason: 'This test checks the drain circuit before going deeper into the complaint.',
   });
-  assert.equal(message, 'Complaint pattern matches Drain pump on this platform.');
+  assert.equal(message, "Next, we'll test Motor circuit.");
+  assert.doesNotMatch(message, /drain/i);
 });
 
-test('continuation bridge falls back safely without explanation', () => {
-  const verified = formatOemContinuationBridgeMessage({
-    previousProcedureVerified: true,
+test('continuation bridge uses wizard step label when no OEM procedure', () => {
+  const message = formatOemContinuationBridgeMessage({
+    nextWizardStepLabel: 'Visual Inspection',
   });
-  assert.match(verified, /normal range/i);
+  assert.equal(message, "Next, we'll continue with Visual Inspection.");
+});
 
-  const neutral = formatOemContinuationBridgeMessage({});
-  assert.match(neutral, /continuing with the next diagnostic check/i);
+test('continuation bridge omits copy without a continuation target', () => {
+  assert.equal(
+    formatOemContinuationBridgeMessage({
+      recommendationReason: 'This test checks the drain circuit before going deeper into the complaint.',
+      previousProcedureVerified: true,
+      previousProcedureTitle: 'Door lock',
+    }),
+    null,
+  );
+  assert.equal(formatOemContinuationBridgeMessage({}), null);
+});
+
+test('per-step why uses measurement purpose only, not procedure recommendation', () => {
+  const motorReason =
+    'This test checks the drive / motor circuit before going deeper into the complaint.';
+  assert.equal(isProcedureLevelRecommendationReason(motorReason), true);
+  const checkpointStep: ProcedureStep = {
+    id: 'manual_test',
+    order: 10,
+    type: 'visual_check',
+    title: 'Manual motor test',
+    body: 'Run manual test.',
+    requiresInput: true,
+  };
+  assert.equal(
+    resolveWhyWeAreCheckingForStep(checkpointStep, null),
+    null,
+  );
+  assert.equal(
+    resolveWhyWeAreCheckingForStep(DRAIN_PUMP_STEP, 'Verify drain pump winding resistance.'),
+    'Verify drain pump winding resistance.',
+  );
+  assert.equal(
+    resolveWhyWeAreChecking(
+      { recommendationReason: motorReason },
+      null,
+    ),
+    motorReason,
+  );
+});
+
+test('OEM procedure step label is distinct from Solomon stage wording', () => {
+  const drain = getServiceProcedure('w8178558-drain-pump');
+  const measurementStep = drain?.steps.find((step) => step.type === 'measurement');
+  assert.ok(drain && measurementStep);
+  assert.match(
+    formatOemProcedureStepProgressLabel(4, 12, drain, measurementStep)!,
+    /Component test step 4 of 12/i,
+  );
+  assert.equal(formatOemProcedureStepProgressLabel(12, 0), 'Procedure step 12');
+});
+
+test('W8178558 motor circuit has no structured auto/manual fork in seed data', () => {
+  assert.equal(detectProcedureAutoManualForkById('w8178558-motor-circuit'), null);
 });
 
 test('formatInstructionLead detects R×1 shorthand', () => {
   const lead = formatInstructionLead('Set ohmmeter to R×1.');
   assert.equal(lead.changed, true);
   assert.match(lead.primary, /resistance/i);
+});
+
+test('sanitizeUserFacingExplanation drops canonical routing jargon', () => {
+  const raw =
+    'Canonical routing — Door / interlock, Control domain maps to 5-5: Door Lock / Switch Circuit.';
+  assert.ok(containsInternalDiagnosticJargon(raw));
+  const safe = sanitizeUserFacingExplanation(raw);
+  assert.ok(safe);
+  assert.ok(!containsInternalDiagnosticJargon(safe!));
+  assert.match(safe!, /manufacturer test/i);
+});
+
+test('resolveWhyWeAreChecking omits unsafe recommendation reason', () => {
+  const why = resolveWhyWeAreChecking({
+    recommendationReason:
+      'Canonical routing — Door / interlock, Control domain maps to door lock.',
+    procedureTitle: 'Door lock',
+    componentLabels: ['Door lock'],
+  });
+  assert.ok(why);
+  assert.ok(!containsInternalDiagnosticJargon(why!));
+});
+
+test('parseStructuredInstructionLists formats manual test sequence without altering source', () => {
+  const body = `Select any one key (except PAUSE/CANCEL). Press and hold 4 seconds → release 4 seconds.
+
+Step sequence (first output is door lock):
+1. Door locks (door lock system)
+2. Main wash fill — both valves
+3. Bleach fill — hot valve only
+
+For this door-lock test, advance to step 1 and confirm the lock energizes.`;
+  const parsed = parseStructuredInstructionLists(body);
+  assert.ok(parsed?.testSequenceItems);
+  assert.equal(parsed?.testSequenceItems?.length, 3);
+  assert.match(parsed?.trailingText || '', /confirm the lock energizes/i);
+  const split = splitInstructionPresentation(body);
+  assert.equal(split.includeBodyInTechnical, true);
+  assert.equal(split.testSequenceItems?.length, 3);
+  assert.equal(body, body);
+});
+
+test('parseStructuredInstructionLists ignores arbitrary prose', () => {
+  assert.equal(
+    parseStructuredInstructionLists('Unplug the washer and wait thirty seconds before continuing.'),
+    null,
+  );
+});
+
+test('formatOemWizardSkipAcknowledgement does not imply verified-good', () => {
+  const message = formatOemWizardSkipAcknowledgement();
+  assert.match(message, /Skipped/i);
+  assert.doesNotMatch(message, /verified|passed|good/i);
 });
 
 test('safety steps use distinct headline treatment without altering body text', () => {

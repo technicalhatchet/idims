@@ -92,7 +92,7 @@ export default function ServiceModeQuickReferenceAccordion({
             Service &amp; test mode reference
           </p>
           <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
-            Diagnostic entry, test mode, and activation steps
+            Reference only — these sequences also run inside the active OEM procedure
           </p>
         </div>
         <span className="shrink-0 text-xs text-[var(--solomon-text-muted)]">

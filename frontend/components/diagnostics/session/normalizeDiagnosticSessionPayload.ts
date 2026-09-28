@@ -39,6 +39,7 @@ export function normalizeDiagnosticSessionPayload(
     timeline: asTimeline(data.timeline),
     evidenceSnapshot: data.evidenceSnapshot ?? null,
     skippedOemWizardStep: sessionFields.skippedOemWizardStep,
+    oemWizardLeadDecisions: sessionFields.oemWizardLeadDecisions,
     oemRepairDecisionPending: sessionFields.oemRepairDecisionPending,
     oemRepairDecision: sessionFields.oemRepairDecision,
     autoNoteBullets: Array.isArray(data.autoNoteBullets) ? data.autoNoteBullets.map(String) : [],

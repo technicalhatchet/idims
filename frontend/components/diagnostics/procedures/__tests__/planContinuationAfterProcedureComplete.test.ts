@@ -12,6 +12,7 @@ import {
   planContinuationAfterProcedureComplete,
   type PlanContinuationAfterProcedureCompleteInput,
 } from '../planContinuationAfterProcedureComplete';
+import { executeOemWizardContinuationHandoff } from '../oemWizardContinuationHandoff';
 
 const MEASUREMENT_CONTEXT = buildMeasurementContext({
   templateId: 'washer',
@@ -127,12 +128,21 @@ test('read-only does not allow OEM foreground chaining', () => {
   assert.notEqual(plan.type, 'next_oem');
 });
 
-test('skipped OEM wizard step does not auto-chain OEM', () => {
+test('inline OEM skip does not block continuation to a different procedure', () => {
   const runs = { 'w8178558-door-lock': doorLockVerifiedCompletedRun() };
-  const plan = planContinuationAfterProcedureComplete(
-    buildWontSpinContinuationInput(runs, { skippedOemWizardStep: true }),
-  );
-  assert.notEqual(plan.type, 'next_oem');
+  const input = buildWontSpinContinuationInput(runs);
+  input.payload = {
+    ...input.payload,
+    oemWizardLeadDecisions: {
+      'w8178558-door-lock': {
+        procedureId: 'w8178558-door-lock',
+        kind: 'skipped',
+        at: '2026-03-12T10:00:00.000Z',
+      },
+    },
+  };
+  const plan = planContinuationAfterProcedureComplete(input);
+  assert.equal(plan.type, 'next_oem');
 });
 
 test('door-lock verified with another OEM remains → next_oem', () => {
@@ -183,7 +193,7 @@ test('action_required → repair_action', () => {
   assert.equal(plan.type, 'repair_action');
 });
 
-test('work-order orchestration jumps oem_test and starts ranked procedure', () => {
+test('low-level execute still auto-starts next_oem when handler requests it', () => {
   const runs = { 'w8178558-door-lock': doorLockVerifiedCompletedRun() };
   const { plan, jumps, starts } = simulateWorkOrderProcedureCompleteContinuation(
     buildWontSpinContinuationInput(runs),
@@ -192,6 +202,20 @@ test('work-order orchestration jumps oem_test and starts ranked procedure', () =
   assert.deepEqual(jumps, ['oem_test']);
   assert.equal(starts.length, 1);
   assert.notEqual(starts[0], 'w8178558-door-lock');
+});
+
+test('work-order handoff jumps oem_test without auto-starting next runner', () => {
+  const runs = { 'w8178558-door-lock': doorLockVerifiedCompletedRun() };
+  const plan = planContinuationAfterProcedureComplete(buildWontSpinContinuationInput(runs));
+  const jumps: string[] = [];
+  const starts: string[] = [];
+  executeOemWizardContinuationHandoff(plan, {
+    jumpToStepKey: (stepKey) => jumps.push(stepKey),
+    startOemProcedure: (procedureId) => starts.push(procedureId),
+  });
+  assert.equal(plan.type, 'next_oem');
+  assert.deepEqual(jumps, ['oem_test']);
+  assert.equal(starts.length, 0);
 });
 
 test('executeProcedureContinuationPlan mechanical fallback', () => {

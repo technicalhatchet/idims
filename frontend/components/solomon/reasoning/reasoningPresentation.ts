@@ -18,6 +18,8 @@ import {
   getEvidenceConfigForTemplate,
   getNextTestPreview,
 } from './reasoningPresentationHelpers';
+import { shouldSuppressGenericNextTestPreview } from '../../diagnostics/intelligence/diagnosticJourneyPresentation';
+import { resolveDiagnosticForegroundState } from '../../diagnostics/intelligence/diagnosticForegroundState';
 import type { DiagnosticPathStepPresentation } from './reasoningPresentationHelpers';
 
 export interface ReasoningLine {
@@ -62,6 +64,11 @@ export interface ReasoningPresentationOptions {
   visitedStepKeys?: string[];
   currentStepKey?: string | null;
   reviewStepId?: string;
+  oemDiagnosticPathExhausted?: boolean;
+  oemManufacturerPathActive?: boolean;
+  oemConfirmedRepairProcedureId?: string | null;
+  oemCurrentTestFocus?: string | null;
+  procedureRuns?: Record<string, import('../../diagnostics/procedures/types').ProcedureRunState>;
 }
 
 function ledgerLinesWithTriggers(entries: EvidenceLedgerEntry[], limit = 12): ReasoningLine[] {
@@ -98,8 +105,16 @@ export function buildReasoningPresentation(
   const categoryLedger = getEvidenceLedgerForCategory(intelligence, topCategory.id);
   const positiveEntries = positiveLedger(categoryLedger);
   const negativeEntries = negativeLedger(categoryLedger);
-  const strength = formatLeadCauseStrength(intelligence);
-  const leadCard = formatDiyLeadCard(intelligence);
+  const leadOptions = {
+    procedureRuns: options.procedureRuns,
+    oemDiagnosticPathExhausted: options.oemDiagnosticPathExhausted,
+    oemManufacturerPathActive: options.oemManufacturerPathActive,
+    oemConfirmedRepairProcedureId: options.oemConfirmedRepairProcedureId,
+    oemCurrentTestFocus: options.oemCurrentTestFocus,
+  };
+  const strength = formatLeadCauseStrength(intelligence, leadOptions);
+  const leadCard = formatDiyLeadCard(intelligence, leadOptions);
+  const foreground = resolveDiagnosticForegroundState(intelligence, leadOptions);
   const config = templateId ? getEvidenceConfigForTemplate(templateId) : null;
 
   const leadLines: ReasoningLine[] = [];
@@ -128,7 +143,7 @@ export function buildReasoningPresentation(
 
   const whyTop: ReasoningSection = {
     id: 'b3',
-    title: isSheet ? 'Why we believe this' : 'Why?',
+    title: isSheet ? 'Why Solomon thinks this' : 'Why?',
     lines: [{ text: synthesisText }],
     emptyHint: `No supporting rules fired yet for ${topCategory.label}.`,
     defaultOpen: isSheet ? false : true,
@@ -219,7 +234,7 @@ export function buildReasoningPresentation(
 
   const proveWrong: ReasoningSection = {
     id: 'c3',
-    title: isSheet ? 'What would change my mind?' : 'What would prove this wrong?',
+    title: isSheet ? 'What would change this?' : 'What would prove this wrong?',
     lines: proveWrongLines.map((line) => ({
       label: line.label,
       text: line.text,
@@ -232,17 +247,26 @@ export function buildReasoningPresentation(
 
   const evidenceSummary: ReasoningSection = {
     id: 'b1',
-    title: 'Lead cause',
+    title: isSheet ? 'Evidence' : 'Lead cause',
     lines: leadLines,
     emptyHint: 'Answer a few more checks to see competing causes.',
     defaultOpen: !isSheet,
   };
 
-  const nextTestPreview = getNextTestPreview(
+  const rawNextTestPreview = getNextTestPreview(
     options.wizardDefinition,
     topStepKey,
     labels,
   );
+  const suppressNextPreview = shouldSuppressGenericNextTestPreview({
+    oemDiagnosticPathExhausted: options.oemDiagnosticPathExhausted,
+    foregroundMode: foreground?.mode,
+    nextStepKey: topStepKey,
+    currentStepKey: options.currentStepKey,
+  });
+  const nextTestPreview = suppressNextPreview
+    ? null
+    : rawNextTestPreview;
 
   const diagnosticPath = isSheet && options.wizardSteps?.length
     ? buildDiagnosticPathPresentation({

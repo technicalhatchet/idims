@@ -5,7 +5,11 @@ import {
   getCurrentStep,
   submitProcedureStep,
 } from './procedureRunner';
-import { resolveProcedurePathStepIndex } from './procedureRunDisplay';
+import {
+  resolveProcedureInteractiveStepTotal,
+  resolveProcedurePathStepIndex,
+} from './procedureRunDisplay';
+import { normalizeMeasurementReading } from '../knowledge/parseMeasurementValue';
 import type {
   ProcedureRunState,
   ProcedureStepInput,
@@ -116,10 +120,11 @@ export function useProcedureRun(
   const submitMeasurement = useCallback(() => {
     const trimmed = measurementDraft.trim();
     if (!trimmed) return null;
-    return submit({ kind: 'measurement', value: trimmed });
+    return submit({ kind: 'measurement', value: normalizeMeasurementReading(trimmed) });
   }, [measurementDraft, submit]);
 
   const stepIndex = resolveProcedurePathStepIndex(runState);
+  const stepTotal = procedure ? resolveProcedureInteractiveStepTotal(procedure) : 0;
 
   return {
     procedure,
@@ -130,7 +135,7 @@ export function useProcedureRun(
     measurementDraft,
     setMeasurementDraft,
     stepIndex,
-    stepTotal: 0,
+    stepTotal,
     isRunning: Boolean(runState && runState.status === 'in_progress'),
     isComplete: runState?.status === 'completed',
     start,

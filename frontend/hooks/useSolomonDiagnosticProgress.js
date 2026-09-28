@@ -9,6 +9,7 @@ import {
   hasSolomonDiagnosticProgress,
   standaloneUpdateBodyFromCreateBody,
 } from '../utils/solomonDiagnosticProgress';
+import { buildDiagnosticPayloadPersistSignature } from '../utils/diagnosticPayloadPersistSignature';
 
 /**
  * Create in_progress standalone diagnostic on first progress, then update on each save.
@@ -24,6 +25,7 @@ export function useSolomonDiagnosticProgress({
   const inFlightRef = useRef(false);
   const queuedPayloadRef = useRef(null);
   const debounceTimerRef = useRef(null);
+  const lastPersistedSignatureRef = useRef('');
   const [syncHint, setSyncHint] = useState(null);
 
   useEffect(() => {
@@ -36,6 +38,11 @@ export function useSolomonDiagnosticProgress({
   const runPersist = useCallback(
     async (payload, statusOverride) => {
       if (!hasSolomonDiagnosticProgress(payload)) return null;
+
+      const signature = buildDiagnosticPayloadPersistSignature(payload);
+      if (signature && signature === lastPersistedSignatureRef.current && !statusOverride) {
+        return null;
+      }
 
       const effectiveStatus = statusOverride ?? status;
       const body = buildStandaloneDiagnosticBody(payload, {
@@ -60,6 +67,9 @@ export function useSolomonDiagnosticProgress({
         body: standaloneUpdateBodyFromCreateBody(body, effectiveStatus),
       });
       setSyncHint(updated?.queued ? 'queued' : 'saved');
+      if (signature) {
+        lastPersistedSignatureRef.current = signature;
+      }
       return updated;
     },
     [equipment, outcomeId, status],
@@ -78,6 +88,14 @@ export function useSolomonDiagnosticProgress({
         while (queuedPayloadRef.current) {
           const next = queuedPayloadRef.current;
           queuedPayloadRef.current = null;
+          const queuedSignature = buildDiagnosticPayloadPersistSignature(next.payload);
+          if (
+            queuedSignature
+            && queuedSignature === lastPersistedSignatureRef.current
+            && !next.statusOverride
+          ) {
+            continue;
+          }
           result = await runPersist(next.payload, next.statusOverride);
         }
       } catch (err) {

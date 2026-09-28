@@ -18,6 +18,7 @@ import type {
 } from './types';
 import { resolveRecommendedWizardStepIndex } from './resolveRecommendedWizardStepIndex';
 import { readWizardNavigationGate } from './navigationGate';
+import { resolveStepIndexForActiveId } from './wizardStepSync';
 
 function isStepHidden<TContext>(
   step: WizardStepDefinition<TContext>,
@@ -125,6 +126,7 @@ export function WizardProvider<TContext>({
   initialStepId,
   initialVisitedStepIds,
   resetKey,
+  orchestratedNavigateStepId,
   keyboardNavigation = true,
   onStepChange,
   onAutoSave,
@@ -181,25 +183,16 @@ export function WizardProvider<TContext>({
   }, [currentStepIndex, visibleSteps]);
 
   useEffect(() => {
-    const activeId = activeStepIdRef.current;
-    if (!activeId || !visibleSteps.length) return;
-    const nextIndex = visibleSteps.findIndex((s) => s.id === activeId);
-    if (nextIndex === -1) {
-      const fallbackKey = (context as { currentStepKey?: string })?.currentStepKey;
-      if (fallbackKey) {
-        const keyIndex = visibleSteps.findIndex(
-          (s) => (s.meta as { stepKey?: string } | undefined)?.stepKey === fallbackKey,
-        );
-        if (keyIndex >= 0) {
-          setCurrentStepIndex(keyIndex);
-          return;
-        }
-      }
-      setCurrentStepIndex((prev) => Math.min(prev, visibleSteps.length - 1));
-      return;
-    }
-    setCurrentStepIndex((prev) => (prev === nextIndex ? prev : nextIndex));
-  }, [visibleSteps, context]);
+    if (!visibleSteps.length) return;
+    setCurrentStepIndex((prev) => {
+      const nextIndex = resolveStepIndexForActiveId(
+        visibleSteps,
+        activeStepIdRef.current,
+        prev,
+      );
+      return nextIndex === prev ? prev : nextIndex;
+    });
+  }, [visibleSteps]);
 
   useEffect(() => {
     if (currentStepIndex >= visibleSteps.length) {
@@ -294,6 +287,39 @@ export function WizardProvider<TContext>({
     [completedStepIds, currentStepIndex, isStepLockedAtIndex, visitedStepIds, visibleSteps],
   );
 
+  const forceGoToStepById = useCallback(
+    (stepId: string, options?: { pushBack?: boolean }) => {
+      const index = visibleSteps.findIndex((s) => s.id === stepId);
+      if (index < 0) return false;
+      const step = visibleSteps[index];
+      if (!step) return false;
+      setNavigationBlockHint(null);
+
+      if (options?.pushBack !== false && index !== currentStepIndex) {
+        const current = visibleSteps[currentStepIndex];
+        if (current?.id && index > currentStepIndex) {
+          backStackRef.current.push(current.id);
+        }
+      }
+
+      activeStepIdRef.current = step.id;
+      setCurrentStepIndex(index);
+      const nextVisited = new Set(visitedStepIds);
+      nextVisited.add(step.id);
+      setVisitedStepIds(nextVisited);
+      emitStepChange(
+        buildNavigationState(visibleSteps, index, completedStepIds, nextVisited),
+      );
+      return true;
+    },
+    [completedStepIds, currentStepIndex, emitStepChange, visitedStepIds, visibleSteps],
+  );
+
+  useEffect(() => {
+    if (!orchestratedNavigateStepId) return;
+    forceGoToStepById(orchestratedNavigateStepId);
+  }, [orchestratedNavigateStepId, forceGoToStepById]);
+
   const goToStep = useCallback(
     (index: number, options?: { fromBack?: boolean }) => {
       if (index !== currentStepIndex && notifyNavigationBlocked()) return;
@@ -355,6 +381,17 @@ export function WizardProvider<TContext>({
 
   const goNext = useCallback(async () => {
     if (notifyNavigationBlocked()) return false;
+    const journeyNext = (context as {
+      tryWizardJourneyNext?: () => string | boolean | null | undefined;
+    })?.tryWizardJourneyNext;
+    const journeyResult = journeyNext?.();
+    if (typeof journeyResult === 'string' && journeyResult) {
+      forceGoToStepById(journeyResult);
+      return true;
+    }
+    if (journeyResult === true) {
+      return true;
+    }
     const step = visibleSteps[currentStepIndex];
     if (!step) return false;
     setNavigationBlockHint(null);
@@ -404,7 +441,24 @@ export function WizardProvider<TContext>({
       return currentStepIndex;
     })();
 
-    if (nextIndex === currentStepIndex) return false;
+    if (nextIndex === currentStepIndex) {
+      for (let i = currentStepIndex + 1; i < visibleSteps.length; i += 1) {
+        if (isStepLocked(visibleSteps[i], context, visitedStepIds, completedStepIds)) {
+          const message = getStepLockMessage(
+            visibleSteps[i],
+            context,
+            visitedStepIds,
+            completedStepIds,
+          );
+          if (message) {
+            setNavigationBlockHint(message);
+            return false;
+          }
+        }
+      }
+      setNavigationBlockHint('No unlocked steps ahead. Use the step dots above or complete earlier sections.');
+      return false;
+    }
 
     if (step.id) {
       backStackRef.current.push(step.id);
@@ -432,6 +486,7 @@ export function WizardProvider<TContext>({
     context,
     currentStepIndex,
     emitStepChange,
+    forceGoToStepById,
     isLastStep,
     markStepCompleted,
     visitedStepIds,

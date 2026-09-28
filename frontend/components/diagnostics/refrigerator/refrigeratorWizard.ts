@@ -1,5 +1,9 @@
 import type { WizardDefinition } from '../types';
 import { DIAGNOSTIC_REVIEW_STEP_ID } from '../shared/createWizardDefinitionFromTemplate';
+import {
+  REPAIR_VERIFICATION_DESCRIPTION,
+  REPAIR_VERIFICATION_TITLE,
+} from '../shared/repairVerificationStepCopy';
 import { REFRIGERATOR_COMPLAINT_CHIPS } from './refrigeratorComplaints';
 import { refrigeratorRoutingConfig } from './refrigeratorRouting';
 
@@ -35,8 +39,8 @@ export const refrigeratorWizard: WizardDefinition = {
     {
       sectionId: 'commonly_missed',
       stepKey: 'commonly_missed',
-      title: 'Pre-Checks',
-      description: 'Quick checks often overlooked on service calls.',
+      title: REPAIR_VERIFICATION_TITLE,
+      description: REPAIR_VERIFICATION_DESCRIPTION,
       icon: 'checklist',
       estimatedMinutes: 2,
       required: false,

@@ -37,6 +37,10 @@ export interface DiagnosticSessionPayload {
   timeline: DiagnosticTimelineEvent[];
   evidenceSnapshot: unknown | null;
   skippedOemWizardStep?: boolean;
+  oemWizardLeadDecisions?: Record<
+    string,
+    { procedureId: string; kind: 'skipped' | 'user_verified'; at: string }
+  >;
   oemRepairDecisionPending?: string | null;
   oemRepairDecision?: string | null;
   autoNoteBullets?: string[];

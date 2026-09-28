@@ -12,7 +12,7 @@ export function isOemProcedureNavigationBlocked(
 ): boolean {
   if (!activeProcedureId) return false;
   const run = procedureRuns[activeProcedureId];
-  if (!run) return true;
+  if (!run) return false;
   return run.status === 'in_progress';
 }
 

@@ -63,7 +63,7 @@ const STANDALONE_FREEZER_NOISE_LOCATION_OPTIONS = [
 ];
 
 function missed(fields) {
-  return { id: 'commonly_missed', title: 'Pre-Checks', fields };
+  return { id: 'commonly_missed', title: 'Repair Verification', fields };
 }
 
 function complaint(extra = []) {
@@ -1285,6 +1285,7 @@ export function parseDiagnosticNotePayload(content) {
         skippedOemWizardStep: sessionFields.skippedOemWizardStep,
         oemRepairDecisionPending: sessionFields.oemRepairDecisionPending,
         oemRepairDecision: sessionFields.oemRepairDecision,
+        oemWizardLeadDecisions: sessionFields.oemWizardLeadDecisions,
         _diagnosticSessionId: sessionFields._diagnosticSessionId,
       };
     }
@@ -1313,6 +1314,7 @@ export function serializeDiagnosticNotePayload(payload) {
     skippedOemWizardStep: sessionFields.skippedOemWizardStep,
     oemRepairDecisionPending: sessionFields.oemRepairDecisionPending,
     oemRepairDecision: sessionFields.oemRepairDecision,
+    oemWizardLeadDecisions: sessionFields.oemWizardLeadDecisions,
     _diagnosticSessionId: sessionFields._diagnosticSessionId,
   });
 }

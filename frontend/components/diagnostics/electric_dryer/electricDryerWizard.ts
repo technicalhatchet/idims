@@ -1,5 +1,9 @@
 import type { WizardDefinition } from '../types';
 import { DIAGNOSTIC_REVIEW_STEP_ID } from '../shared/createWizardDefinitionFromTemplate';
+import {
+  REPAIR_VERIFICATION_DESCRIPTION,
+  REPAIR_VERIFICATION_TITLE,
+} from '../shared/repairVerificationStepCopy';
 import { ELECTRIC_DRYER_COMPLAINT_CHIPS } from './electricDryerComplaints';
 import { electricDryerRoutingConfig } from './electricDryerRouting';
 
@@ -28,7 +32,8 @@ export const electricDryerWizard: WizardDefinition = {
     {
       sectionId: 'commonly_missed',
       stepKey: 'commonly_missed',
-      title: 'Pre-Checks',
+      title: REPAIR_VERIFICATION_TITLE,
+      description: REPAIR_VERIFICATION_DESCRIPTION,
       estimatedMinutes: 2,
       weight: 6,
       optional: true,

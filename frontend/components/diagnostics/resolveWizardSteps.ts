@@ -3,11 +3,14 @@ import TemplateSectionStep from './steps/TemplateSectionStep';
 import ComplaintStep from './steps/ComplaintStep';
 import DiagnosticReviewStep from './steps/DiagnosticReviewStep';
 import { DIAGNOSTIC_REVIEW_STEP_ID } from './shared/createWizardDefinitionFromTemplate';
+import { BEFORE_REPAIR_CHECKS_TITLE } from './shared/repairVerificationStepCopy';
 import { isStepKeyEnabled } from './routing/routingEngine';
 import {
   buildStepKeyToIdMap,
   formatPrerequisiteLockMessage,
+  missingPrerequisiteStepKeys,
 } from './routing/prerequisiteEngine';
+import { getComplaintChipIds } from './routing/routingEngine';
 import type {
   DiagnosticWizardContext,
   DiagnosticWizardStepConfig,
@@ -83,11 +86,17 @@ function prerequisiteLocked(
     const activeRequired = required.filter((reqKey) => isStepKeyEnabled(context.routing, reqKey));
     if (!activeRequired.length) return false;
 
-    const stepKeyToId = buildStepKeyToIdMap(definition, reviewStepId);
-    const missing = activeRequired.filter((reqKey) => {
-      const stepId = stepKeyToId[reqKey];
-      return stepId && !visitedStepIds.has(stepId);
-    });
+    const visitedStepKeys = (context as DiagnosticWizardContext & { visitedStepKeys?: string[] }).visitedStepKeys;
+    const missing = missingPrerequisiteStepKeys(
+      activeRequired,
+      definition,
+      reviewStepId,
+      visitedStepIds,
+      {
+        visitedStepKeys,
+        complaintChipIds: getComplaintChipIds(context.payload?.fields || {}),
+      },
+    );
     return missing.length > 0;
   };
 }
@@ -102,13 +111,18 @@ function prerequisiteLockMessage(
     const activeRequired = required.filter((reqKey) => isStepKeyEnabled(context.routing, reqKey));
     if (!activeRequired.length) return null;
 
-    const stepKeyToId = buildStepKeyToIdMap(definition, reviewStepId);
-    const missingTitles = activeRequired
-      .filter((reqKey) => {
-        const stepId = stepKeyToId[reqKey];
-        return stepId && !visitedStepIds.has(stepId);
-      })
-      .map((reqKey) => titleForStepKey(definition, reqKey));
+    const visitedStepKeys = (context as DiagnosticWizardContext & { visitedStepKeys?: string[] }).visitedStepKeys;
+    const missingKeys = missingPrerequisiteStepKeys(
+      activeRequired,
+      definition,
+      reviewStepId,
+      visitedStepIds,
+      {
+        visitedStepKeys,
+        complaintChipIds: getComplaintChipIds(context.payload?.fields || {}),
+      },
+    );
+    const missingTitles = missingKeys.map((reqKey) => titleForStepKey(definition, reqKey));
     if (!missingTitles.length) return null;
     return formatPrerequisiteLockMessage(missingTitles);
   };
@@ -124,10 +138,16 @@ function toEngineStep(
   const hasRouting = Boolean(definition?.routing);
   const hasPrerequisites = Boolean(definition?.routing?.prerequisites?.[stepKey]?.length);
   const resolvedReviewId = reviewStepId || definition?.reviewStep?.id || DIAGNOSTIC_REVIEW_STEP_ID;
+  const sectionTitle = section.id === 'commonly_missed'
+    ? BEFORE_REPAIR_CHECKS_TITLE
+    : section.title;
+  const sectionForMeta = section.id === 'commonly_missed'
+    ? { ...section, title: BEFORE_REPAIR_CHECKS_TITLE }
+    : section;
 
   return {
     id: stepConfig.id || stepConfig.sectionId,
-    title: stepConfig.title || section.title,
+    title: stepConfig.title || sectionTitle,
     description: stepConfig.description,
     component: resolveStepComponent(section.id),
     optional: stepConfig.optional ?? true,
@@ -139,7 +159,7 @@ function toEngineStep(
     getLockMessage: hasPrerequisites && definition
       ? prerequisiteLockMessage(stepKey, definition, resolvedReviewId)
       : undefined,
-    meta: { section, sectionId: section.id, stepKey },
+    meta: { section: sectionForMeta, sectionId: section.id, stepKey },
   };
 }
 

@@ -11,10 +11,13 @@ import {
   procedureRunRequiresRepairAction,
   resolveWizardStepAfterProcedureComplete,
 } from './procedureWizardRouting';
-import { shouldInsertOemWizardStep } from './procedureWizardLead';
+import { isStrongProcedureLead } from './procedureWizardLead';
+import { isOemWizardLeadSuppressedForProcedure } from './oemWizardDecisions';
 import type { MeasurementContext } from '../knowledge/measurementContext';
 import type { WizardDefinition } from '../types';
 import type { ProcedureRunState } from './types';
+import type { GetNextDiagnosticActionsResult } from '../session/getNextDiagnosticActions';
+import type { ProcedureRecommendation } from './recommendServiceProcedures';
 
 export type ProcedureContinuationPlan =
   | { type: 'repair_action' }
@@ -80,12 +83,13 @@ function resolveMechanicalPlan(
   return { type: 'mechanical' };
 }
 
-export function planContinuationAfterProcedureComplete(
+export function resolveContinuationDiagnosticSnapshot(
   input: PlanContinuationAfterProcedureCompleteInput,
-): ProcedureContinuationPlan {
+): {
+  actions: GetNextDiagnosticActionsResult;
+  procedureRecommendations: ProcedureRecommendation[];
+} {
   const {
-    completedProcedureId,
-    completedRunState,
     payload,
     workOrder,
     routingResult,
@@ -95,16 +99,7 @@ export function planContinuationAfterProcedureComplete(
     complaintChipIds,
     errorCodes,
     visitedStepKeys,
-    options = {},
   } = input;
-
-  if (procedureRunRequiresRepairAction(completedProcedureId, completedRunState)) {
-    return { type: 'repair_action' };
-  }
-
-  const readOnly = Boolean(options.readOnly);
-  const skippedOemWizardStep = Boolean(options.skippedOemWizardStep);
-  const oemRunnerEnabled = Boolean(options.oemRunnerEnabled);
 
   const procedureRuns = payload.procedureRuns || {};
   const intelligence = evaluateDiagnosticIntelligence(
@@ -151,21 +146,42 @@ export function planContinuationAfterProcedureComplete(
   });
 
   const procedureRecommendations = recommendServiceProcedures(procedureContext);
+  return { actions, procedureRecommendations };
+}
+
+export function planContinuationAfterProcedureComplete(
+  input: PlanContinuationAfterProcedureCompleteInput,
+): ProcedureContinuationPlan {
+  const {
+    completedProcedureId,
+    completedRunState,
+    payload,
+    options = {},
+  } = input;
+
+  if (procedureRunRequiresRepairAction(completedProcedureId, completedRunState)) {
+    return { type: 'repair_action' };
+  }
+
+  const readOnly = Boolean(options.readOnly);
+  const oemRunnerEnabled = Boolean(options.oemRunnerEnabled);
+
+  const { actions, procedureRecommendations } = resolveContinuationDiagnosticSnapshot(input);
   const topRecommendation = resolveUnifiedOemLeadRecommendation(
     procedureRecommendations,
     actions.candidates.find((c) => c.type === 'service_procedure' && c.procedureId)?.procedureId
       ?? null,
   );
-  const insertOemWizardStep = shouldInsertOemWizardStep(
-    complaintChipIds,
-    topRecommendation,
-    { skippedOemWizardStep, errorCodes },
-  );
-  const oemForegroundAllowed =
-    !readOnly
-    && !skippedOemWizardStep
-    && oemRunnerEnabled
-    && insertOemWizardStep;
+  const oemForegroundAllowed = (procedureId: string) => {
+    if (readOnly || !oemRunnerEnabled) return false;
+    if (
+      isOemWizardLeadSuppressedForProcedure(procedureId, payload.oemWizardLeadDecisions)
+    ) {
+      return false;
+    }
+    const rec = procedureRecommendations.find((item) => item.procedureId === procedureId);
+    return Boolean(rec && isStrongProcedureLead(rec));
+  };
 
   const top = actions.candidates[0];
   if (!top) {
@@ -176,7 +192,7 @@ export function planContinuationAfterProcedureComplete(
     top.type === 'service_procedure'
     && top.procedureId
     && top.procedureId !== completedProcedureId
-    && oemForegroundAllowed
+    && oemForegroundAllowed(top.procedureId)
   ) {
     return { type: 'next_oem', procedureId: top.procedureId };
   }
@@ -198,7 +214,7 @@ export function planContinuationAfterProcedureComplete(
       && candidate.procedureId
       && candidate.procedureId !== completedProcedureId,
   );
-  if (nextOtherOem?.procedureId && oemForegroundAllowed) {
+  if (nextOtherOem?.procedureId && oemForegroundAllowed(nextOtherOem.procedureId)) {
     return { type: 'next_oem', procedureId: nextOtherOem.procedureId };
   }
 

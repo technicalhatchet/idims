@@ -143,8 +143,12 @@ function buildReason(
   if (canonicalDomainMatches.length) {
     const domainText = canonicalDomainMatches
       .map((id) => domainLabels[id] || id)
+      .filter((label) => label && !label.includes('_'))
       .join(', ');
-    return `Canonical routing — ${domainText} domain maps to ${procedure.title}.`;
+    if (domainText) {
+      return `This test checks the ${domainText.toLowerCase()} circuit before going deeper into the complaint.`;
+    }
+    return `Manufacturer troubleshooting recommends ${procedure.title} for this complaint pattern.`;
   }
 
   const chipLabels = complaintChipIds.filter((chip) => COMPLAINT_CHIP_PROCEDURE_TAGS[chip]);

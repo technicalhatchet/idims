@@ -35,7 +35,11 @@ export default function SolomonDiagnosticProgress({
   if (!progress?.totalSteps) return null;
 
   const phaseLabel = showPhaseLabel
-    ? resolveDiagnosticPhaseLabel(progress.stepNumber, progress.totalSteps)
+    ? resolveDiagnosticPhaseLabel(
+      progress.stepNumber,
+      progress.totalSteps,
+      progress.phaseTitle,
+    )
     : null;
 
   return (

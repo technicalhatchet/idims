@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getServiceProcedure } from '../procedureRegistry';
+import { formatOemProcedureStepProgressLabel } from '../procedureRunDisplay';
 import { useProcedureRun } from '../useProcedureRun';
 import { buildProcedureRunReviewById } from '../buildProcedureRunReview';
 import type { ProcedureStepTone } from '../procedureRunPresentation';
@@ -122,7 +123,7 @@ function OemContinuationBridgeBanner({
       data-oem-continuation-bridge
     >
       <p className="text-[10px] uppercase tracking-[0.14em] text-[color:var(--solomon-status-reference)]/90">
-        Next check
+        What happens next
       </p>
       <p className="mt-1 text-sm leading-relaxed text-[var(--solomon-text-secondary)]">
         {message}
@@ -140,6 +141,7 @@ function ActiveProcedureRunner({
   highlightPrimaryAction = false,
   continuationBridge,
   presentationContext,
+  presentationAudience = 'tech',
 }: {
   procedureId: string;
   savedRunState: ProcedureRunState | null;
@@ -149,6 +151,7 @@ function ActiveProcedureRunner({
   highlightPrimaryAction?: boolean;
   continuationBridge?: OemContinuationBridgeContext | null;
   presentationContext?: ProcedureStepPresentationContext | null;
+  presentationAudience?: 'diy' | 'tech';
 }) {
   const procedure = getServiceProcedure(procedureId);
   const isMobile = variant === 'mobile';
@@ -168,6 +171,7 @@ function ActiveProcedureRunner({
     measurementDraft,
     setMeasurementDraft,
     stepIndex,
+    stepTotal,
     isRunning,
     continueStep,
     submitCheckpoint,
@@ -249,28 +253,35 @@ function ActiveProcedureRunner({
         </p>
         {stepIndex > 0 ? (
           <p className="mt-1 text-[11px] text-[var(--solomon-text-secondary)]">
-            Step {stepIndex}
+            {formatOemProcedureStepProgressLabel(stepIndex, stepTotal, procedure, currentStep)}
           </p>
         ) : null}
       </div>
 
       <div className="px-3 py-3 space-y-3">
-        {continuationMessage ? (
+        {continuationMessage && stepIndex === 1 ? (
           <OemContinuationBridgeBanner message={continuationMessage} variant={variant} />
         ) : null}
         <ProcedureStepView
+          procedureId={procedureId}
           step={currentStep}
           stepIndex={stepIndex}
+          stepTotal={stepTotal}
           measurementDraft={measurementDraft}
           onMeasurementDraftChange={setMeasurementDraft}
           onCheckpoint={submitCheckpoint}
           onSubmitMeasurement={submitMeasurement}
           onContinue={continueStep}
-          lastEvaluation={lastResult?.evaluation}
-          matchedBranch={lastResult?.matchedBranch}
+          lastEvaluation={
+            lastResult?.stepId === currentStep.id ? lastResult?.evaluation : null
+          }
+          matchedBranch={
+            lastResult?.stepId === currentStep.id ? lastResult?.matchedBranch : null
+          }
           highlightPrimaryAction={highlightPrimaryAction}
           variant={variant}
           presentationContext={presentationContext ?? undefined}
+          presentationAudience={presentationAudience}
         />
       </div>
     </div>
@@ -291,6 +302,7 @@ interface OemProcedureWizardSlotProps {
   highlightPrimaryAction?: boolean;
   continuationBridge?: OemWizardContinuationBridge | null;
   procedurePresentationContext?: ProcedureStepPresentationContext | null;
+  presentationAudience?: 'diy' | 'tech';
 }
 
 /** Floating OEM runner above the wizard — launched from the OEM wizard step. */
@@ -303,6 +315,7 @@ export default function OemProcedureWizardSlot({
   highlightPrimaryAction = false,
   continuationBridge = null,
   procedurePresentationContext = null,
+  presentationAudience = 'tech',
 }: OemProcedureWizardSlotProps) {
   const completedIds = useMemo(
     () => Object.entries(procedureRuns)
@@ -326,16 +339,23 @@ export default function OemProcedureWizardSlot({
 
   if (!showActiveRunner && !completedIds.length) return null;
 
+  const completedSummaryOnly = showActiveRunner && completedIds.length > 0;
+
   return (
     <div className="space-y-2">
-      {completedIds.map((procedureId) => (
+      {completedSummaryOnly ? (
+        <p className="text-[11px] text-[var(--solomon-text-secondary)] px-1">
+          {completedIds.length} completed OEM procedure{completedIds.length === 1 ? '' : 's'} — continue the active test below.
+        </p>
+      ) : null}
+      {!completedSummaryOnly ? completedIds.map((procedureId) => (
         <CompletedProcedureAccordion
           key={procedureId}
           procedureId={procedureId}
           runState={procedureRuns[procedureId]}
           variant={variant}
         />
-      ))}
+      )) : null}
 
       {showActiveRunner && activeProcedureId ? (
         <ActiveProcedureRunner
@@ -347,6 +367,7 @@ export default function OemProcedureWizardSlot({
           highlightPrimaryAction={highlightPrimaryAction}
           continuationBridge={activeContinuationBridge}
           presentationContext={procedurePresentationContext}
+          presentationAudience={presentationAudience}
         />
       ) : null}
     </div>
