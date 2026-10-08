@@ -1,0 +1,37 @@
+{
+  "workstream": "REPAIR-2",
+  "verdict": "GREEN",
+  "verdictLabel": "REPAIR-2 SECOND-WITNESS REPAIR PROCEDURE COMPLETE",
+  "repair1Status": "GREEN_UNCHANGED",
+  "pilot": {
+    "repairProcedureId": "w8178558-repair-wash-heater",
+    "diagnosticProcedureId": "w8178558-wash-heater",
+    "smokeModel": "WFW8300",
+    "manualId": "W8178558",
+    "sourceSection": "REMOVING THE TEMPERATURE SENSOR & HEATER",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt",
+    "extractedPdfPages": [60, 61],
+    "repairStepCount": 2,
+    "beforeRepairCheckCount": 4,
+    "finalCheckCount": 0,
+    "toolCount": 0,
+    "partCount": 0
+  },
+  "resolverRules": {
+    "w8178558-wash-heater": {
+      "mapsToRepair": ["component_failed@wash_heater", "explicit_failure_confirm@wash_heater"],
+      "doesNotMap": ["external_path_fault@wash_heater"]
+    }
+  },
+  "sourceGaps": [
+    "Rear panel removal details referenced only as page 4-20 — not inlined.",
+    "No reassembly notes in the heater removal section — finalChecks empty.",
+    "No standalone tools list in source — tools array empty (10 mm nut is part of heater/sensor wording only).",
+    "No part numbers in removal section."
+  ],
+  "regressionTests": [
+    "frontend/components/diagnostics/repairs/__tests__/repair1-w8178558-drain-pump.test.ts",
+    "frontend/components/diagnostics/repairs/__tests__/repair2-w8178558-wash-heater.test.ts",
+    "backend/scripts/tests/test_repair2_closure.py"
+  ]
+}

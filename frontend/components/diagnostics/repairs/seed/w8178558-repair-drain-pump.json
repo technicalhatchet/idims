@@ -1,0 +1,218 @@
+{
+  "id": "w8178558-repair-drain-pump",
+  "version": "1.0.0",
+  "title": "Remove drain pump (W8178558 §4-17)",
+  "applicability": {
+    "platformId": "whirlpool_duet_sport",
+    "manualId": "W8178558",
+    "modelPatterns": ["WFW83*", "WFW85*", "MHW*"],
+    "smokeModel": "WFW8300"
+  },
+  "repairTarget": {
+    "componentId": "drain_pump",
+    "label": "Drain pump / drain pump circuit access",
+    "diagnosticProcedureIds": ["w8178558-drain-pump"]
+  },
+  "source": {
+    "manualId": "W8178558",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Washer (Job Aid L-78)",
+    "sectionTitle": "REMOVING THE DRAIN PUMP",
+    "sourceExcerpt": "REMOVING THE DRAIN PUMP — service manual §4-17 through §4-18 (drain pump removal and wire disconnect).",
+    "pages": [55, 56],
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+  },
+  "safety": [
+    {
+      "id": "shock_hazard_disconnect",
+      "order": 1,
+      "instruction": "Disconnect power before servicing.",
+      "safetyWarning": "Electrical Shock Hazard — Failure to do so can result in death or electrical shock.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "Electrical Shock Hazard — Disconnect power before servicing.",
+        "pages": [55],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "shock_hazard_reassemble",
+      "order": 2,
+      "instruction": "Replace all parts and panels before operating.",
+      "safetyWarning": "Electrical Shock Hazard — Failure to do so can result in death or electrical shock.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "Replace all parts and panels before operating.",
+        "pages": [55],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    }
+  ],
+  "tools": [
+    {
+      "id": "shallow_pan",
+      "label": "Shallow pan (to catch water)",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "Using a shallow pan to catch the water, unscrew the filter from the drain pump, and drain the water from the pump.",
+        "pages": [55],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "flat_blade_screwdriver",
+      "label": "Flat-blade screwdriver",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "Using a flat-blade screwdriver, lift the rubber pad, and slide the pump to the left and unhook the bottom tab, then lift the pump out of the chassis floor slots.",
+        "pages": [55],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    }
+  ],
+  "parts": [],
+  "beforeRepairChecks": [
+    {
+      "id": "disconnect_power",
+      "order": 1,
+      "instruction": "Unplug washer or disconnect power.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "1. Unplug washer or disconnect power.",
+        "pages": [55],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "water_off",
+      "order": 2,
+      "instruction": "Turn off the water supply to the washer.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "2. Turn off the water supply to the washer.",
+        "pages": [55],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "remove_access_panel",
+      "order": 3,
+      "instruction": "Remove the lower front access panel (see step 10 on page 4-11 for the procedure).",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "3. Remove the lower front access panel (see step 10 on page 4-11 for the procedure).",
+        "pages": [55],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    }
+  ],
+  "steps": [
+    {
+      "id": "drain_pump_filter",
+      "order": 4,
+      "instruction": "Using a shallow pan to catch the water, unscrew the filter from the drain pump, and drain the water from the pump.",
+      "toolRefs": ["shallow_pan"],
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "4. Using a shallow pan to catch the water, unscrew the filter from the drain pump, and drain the water from the pump.",
+        "pages": [55],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "remove_pump_to_tub_hose",
+      "order": 5,
+      "instruction": "Loosen the clamp and remove the pump-to-tub hose from the drain pump.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "5. Loosen the clamp and remove the pump-to-tub hose from the drain pump.",
+        "pages": [55],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "remove_pump_to_drain_hose",
+      "order": 6,
+      "instruction": "Loosen the clamp and remove the pump-to-drain hose from the drain pump.",
+      "expectedResult": "REASSEMBLY NOTE: When you reconnect the hoses, align their tab(s) with the marks on the drain pump.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "6. Loosen the clamp and remove the pump-to-drain hose from the drain pump. REASSEMBLY NOTE: When you reconnect the hoses, align their tab(s) with the marks on the drain pump.",
+        "pages": [55],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "unhook_pump_from_chassis",
+      "order": 7,
+      "instruction": "Using a flat-blade screwdriver, lift the rubber pad, and slide the pump to the left and unhook the bottom tab, then lift the pump out of the chassis floor slots.",
+      "toolRefs": ["flat_blade_screwdriver"],
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "7. Using a flat-blade screwdriver, lift the rubber pad, and slide the pump to the left and unhook the bottom tab, then lift the pump out of the chassis floor slots.",
+        "pages": [55],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "disconnect_wire_connector",
+      "order": 8,
+      "instruction": "Lift the wire cover on the drain pump, and disconnect the wire connector from the terminals.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "8. Lift the wire cover on the drain pump, and disconnect the wire connector from the terminals.",
+        "pages": [56],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "remove_pump_from_washer",
+      "order": 9,
+      "instruction": "Remove the wires from the clip, and remove the drain pump from the washer.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "9. Remove the wires from the clip, and remove the drain pump from the washer.",
+        "pages": [56],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    }
+  ],
+  "finalChecks": [
+    {
+      "id": "hose_tab_alignment",
+      "order": 1,
+      "instruction": "When reconnecting the pump-to-tub and pump-to-drain hoses, align hose tab(s) with the marks on the drain pump.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "REASSEMBLY NOTE: When you reconnect the hoses, align their tab(s) with the marks on the drain pump.",
+        "pages": [55],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "rubber_pad_reseat",
+      "order": 2,
+      "instruction": "When reinstalling the drain pump, make sure that you completely reseat the rubber pad in its chassis floor slot.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE DRAIN PUMP",
+        "sourceExcerpt": "REASSEMBLY NOTE: When you reinstall the drain pump, make sure that you completely reseat the rubber pad in its chassis floor slot.",
+        "pages": [56],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    }
+  ]
+}

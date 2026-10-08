@@ -1,0 +1,131 @@
+{
+  "id": "w8178558-repair-wash-heater",
+  "version": "1.0.0",
+  "title": "Remove temperature sensor and wash heater (W8178558 §4-22)",
+  "applicability": {
+    "platformId": "whirlpool_duet_sport",
+    "manualId": "W8178558",
+    "modelPatterns": ["WFW83*", "WFW85*", "MHW*"],
+    "smokeModel": "WFW8300"
+  },
+  "repairTarget": {
+    "componentId": "wash_heater",
+    "label": "Wash heater assembly",
+    "diagnosticProcedureIds": ["w8178558-wash-heater"]
+  },
+  "source": {
+    "manualId": "W8178558",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Washer (Job Aid L-78)",
+    "sectionTitle": "REMOVING THE TEMPERATURE SENSOR & HEATER",
+    "sourceExcerpt": "REMOVING THE TEMPERATURE SENSOR & HEATER — service manual §4-22 (temperature sensor and heater removal).",
+    "pages": [60, 61],
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+  },
+  "safety": [
+    {
+      "id": "shock_hazard_disconnect",
+      "order": 1,
+      "instruction": "Disconnect power before servicing.",
+      "safetyWarning": "Electrical Shock Hazard — Failure to do so can result in death or electrical shock.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE TEMPERATURE SENSOR & HEATER",
+        "sourceExcerpt": "Electrical Shock Hazard — Disconnect power before servicing.",
+        "pages": [60],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "shock_hazard_reassemble",
+      "order": 2,
+      "instruction": "Replace all parts and panels before operating.",
+      "safetyWarning": "Electrical Shock Hazard — Failure to do so can result in death or electrical shock.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE TEMPERATURE SENSOR & HEATER",
+        "sourceExcerpt": "Replace all parts and panels before operating.",
+        "pages": [60],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    }
+  ],
+  "tools": [],
+  "parts": [],
+  "beforeRepairChecks": [
+    {
+      "id": "disconnect_power",
+      "order": 1,
+      "instruction": "Unplug washer or disconnect power.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE TEMPERATURE SENSOR & HEATER",
+        "sourceExcerpt": "1. Unplug washer or disconnect power.",
+        "pages": [60],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "water_off",
+      "order": 2,
+      "instruction": "Turn off the water supply to the washer.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE TEMPERATURE SENSOR & HEATER",
+        "sourceExcerpt": "2. Turn off the water supply to the washer.",
+        "pages": [60],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "pull_away_from_wall",
+      "order": 3,
+      "instruction": "Pull the washer away from the wall.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE TEMPERATURE SENSOR & HEATER",
+        "sourceExcerpt": "3. Pull the washer away from the wall.",
+        "pages": [60],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "remove_rear_panel",
+      "order": 4,
+      "instruction": "Remove the rear panel from the washer (see page 4-20 for the procedure).",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE TEMPERATURE SENSOR & HEATER",
+        "sourceExcerpt": "4. Remove the rear panel from the washer (see page 4-20 for the procedure).",
+        "pages": [60],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    }
+  ],
+  "steps": [
+    {
+      "id": "remove_temperature_sensor",
+      "order": 5,
+      "instruction": "To remove the temperature sensor: a) Disconnect the wire connector from the temperature sensor. b) Loosen the 10 mm nut and pull the temperature sensor out of the heater.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE TEMPERATURE SENSOR & HEATER",
+        "sourceExcerpt": "5. To remove the temperature sensor: a) Disconnect the wire connector from the temperature sensor. b) Loosen the 10 mm nut and pull the temperature sensor out of the heater.",
+        "pages": [60],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    },
+    {
+      "id": "remove_heater",
+      "order": 6,
+      "instruction": "To remove the heater: a) Remove the temperature sensor from the heater (see step 5). b) Loosen (do not remove) the 10 mm nut on the heater. c) Disconnect the two wires and the ground connector wire from the heater. d) Pull the heater out of the tub opening.",
+      "source": {
+        "manualId": "W8178558",
+        "sectionTitle": "REMOVING THE TEMPERATURE SENSOR & HEATER",
+        "sourceExcerpt": "6. To remove the heater: a) Remove the temperature sensor from the heater (see step 5). b) Loosen (do not remove) the 10 mm nut on the heater. c) Disconnect the two wires and the ground connector wire from the heater. d) Pull the heater out of the tub opening.",
+        "pages": [60],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt"
+      }
+    }
+  ],
+  "finalChecks": []
+}
