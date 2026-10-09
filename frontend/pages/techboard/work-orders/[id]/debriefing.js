@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { getSession } from '@auth0/nextjs-auth0';
-import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
-import DebriefingFullPage from '../../../components/work_orders/DebriefingFullPage';
-import LoadingSpinner from '../../../components/ui/LoadingSpinner';
+import TechDashboardLayout from '../../../../components/layouts/TechDashboardLayout';
+import DebriefingFullPage from '../../../../components/work_orders/DebriefingFullPage';
+import LoadingSpinner from '../../../../components/ui/LoadingSpinner';
 
 function WorkOrderDebriefingPage() {
   const router = useRouter();

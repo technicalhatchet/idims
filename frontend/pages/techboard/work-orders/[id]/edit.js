@@ -91,7 +91,7 @@ export async function getServerSideProps(context) {
     };
   }
 
-  const { getUserRoleFromSession } = require('../../../utils/auth0-helpers');
+  const { getUserRoleFromSession } = require('../../../../utils/auth0-helpers');
   const userRole = getUserRoleFromSession(session.user);
   const isAdmin = userRole === 'admin' || userRole === 'manager';
 
