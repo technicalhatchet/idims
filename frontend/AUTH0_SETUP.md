@@ -6,10 +6,13 @@ This document outlines the Auth0 configuration needed for the IDIMS application.
 
 Create a `.env.local` file in the frontend directory with the following Auth0 configuration:
 
+IDIMS dev runs on **port 3001** by default (`npm run dev`) so it does not collide with idfms on **3000**. `AUTH0_BASE_URL` must match the origin you use in the browser (for phone/Tailscale, run `.\scripts\tailscale-setup.ps1` from the repo root and restart Next).
+
 ```
 # Auth0 Configuration
 AUTH0_SECRET='a-long-random-string-at-least-32-characters'
-AUTH0_BASE_URL='http://localhost:3000'
+AUTH0_BASE_URL='http://localhost:3001'
+NEXT_PUBLIC_BASE_URL='http://localhost:3001'
 AUTH0_ISSUER_BASE_URL='https://your-tenant.auth0.com'
 AUTH0_CLIENT_ID='your-auth0-client-id'
 AUTH0_CLIENT_SECRET='your-auth0-client-secret'

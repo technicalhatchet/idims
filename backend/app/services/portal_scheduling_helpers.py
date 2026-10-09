@@ -164,7 +164,7 @@ def apply_tier_pricing(estimate: dict, tier: str, settings: dict) -> dict:
         out["trip_charge"] = {**trip, "amount": new_trip, "base_amount": trip_val}
     out["estimated_total"] = estimated_total
     out["note"] = (
-        f"{tier_label} rates apply. Diagnostic fee is applied toward repair if you proceed."
+        f"{tier_label} rates apply. 50% of your diagnostic fee is applied toward the repair if you proceed."
     )
     return out
 

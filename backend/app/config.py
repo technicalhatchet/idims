@@ -45,6 +45,18 @@ def _default_frontend_url() -> str:
     )
 
 
+def resolve_email_logo_url() -> str:
+    """
+    Logo URL for transactional email (must be publicly reachable — not localhost).
+    Set EMAIL_LOGO_URL or LOGO_URL, or we use PUBLIC_SITE_URL/arpano.png.
+    """
+    explicit = _url_from_env("EMAIL_LOGO_URL", "LOGO_URL")
+    if explicit and "localhost" not in explicit and "127.0.0.1" not in explicit:
+        return explicit
+    site = _url_from_env("PUBLIC_SITE_URL") or "https://atomicrepair419.com"
+    return f"{site.rstrip('/')}/arpano.png"
+
+
 def _default_backend_url() -> str:
     return (
         _url_from_env(

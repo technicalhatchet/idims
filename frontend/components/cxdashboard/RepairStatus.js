@@ -11,7 +11,7 @@ export default function RepairStatus({ repair }) {
     date = 'May 18, 2025',
     orderNumber = 'QR-7824',
     technician = 'Mike Thompson',
-    phone = '(419) 555-1234',
+    phone = '(419) 740-0146',
     icon = 'washer',
     currentStep = 1,
     partsNote = null,

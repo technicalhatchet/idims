@@ -44,10 +44,10 @@ export default function ServiceAreaIndex() {
   return (
     <>
       <Head>
-        <title>Service Areas | Quantum Repair - Appliance Repair in Toledo & NW Ohio</title>
+        <title>Service Areas | Atomic Repair - Appliance Repair in Toledo & NW Ohio</title>
         <meta 
           name="description" 
-          content="Quantum Repair serves Toledo, OH and surrounding areas including Sylvania, Maumee, Perrysburg, and more. Same-day appliance repair available." 
+          content="Atomic Repair serves Toledo, OH and surrounding areas including Sylvania, Maumee, Perrysburg, and more. Same-day diagnostics when available." 
         />
       </Head>
 
@@ -118,7 +118,7 @@ export default function ServiceAreaIndex() {
                 className="mt-6 text-lg transition-colors duration-500"
                 style={{ color: theme === 'atomic' ? '#9FB3C8' : '#9ca3af' }}
               >
-                We proudly serve Toledo and the surrounding communities with fast, reliable appliance repair. Same-day service available.
+                We proudly serve Toledo and the surrounding communities with fast, reliable appliance repair. Same-day diagnostics when available.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-4">
@@ -349,7 +349,7 @@ export default function ServiceAreaIndex() {
               </p>
 
               <ul className="space-y-3 mb-6">
-                {['Same-day service available', 'No extra travel fees within coverage area', 'Extended service available up to 50 minutes away', 'Flexible scheduling options'].map((item, i) => (
+                {['Same-day diagnostics when slots are open', 'No extra travel fees within coverage area', 'Extended service available up to 50 minutes away', 'Repairs that need parts may require a return visit'].map((item, i) => (
                   <li 
                     key={i} 
                     className="flex items-center gap-3 transition-colors duration-500"
@@ -451,7 +451,7 @@ export default function ServiceAreaIndex() {
                 className="max-w-xl mx-auto mb-8 transition-colors duration-500"
                 style={{ color: theme === 'atomic' ? '#9FB3C8' : '#9ca3af' }}
               >
-                We serve Toledo and surrounding areas with same-day service. Book online or give us a call!
+                We serve Toledo and surrounding areas with same-day diagnostics when available. Book online or give us a call!
               </p>
 
               <div className="flex flex-wrap justify-center gap-4">
@@ -500,5 +500,5 @@ export default function ServiceAreaIndex() {
 }
 
 ServiceAreaIndex.getLayout = function getLayout(page) {
-  return <HomeLayout title="Service Areas | Quantum Repair">{page}</HomeLayout>;
+  return <HomeLayout title="Service Areas | Atomic Repair">{page}</HomeLayout>;
 };

@@ -761,7 +761,13 @@ export default function TechDashboardTest() {
   const { isAdmin } = useUserRole();
   const gridTapLayerRef = useHudGridDoubleTapRail();
   const [schedule, setSchedule] = useState([]);
-  const [workOrderStats, setWorkOrderStats] = useState({ total: 0, today: 0, completed_today: 0, partsWaiting: 0 });
+  const [workOrderStats, setWorkOrderStats] = useState({
+    total: 0,
+    today: 0,
+    completed_today: 0,
+    partsWaiting: 0,
+    pendingScheduling: 0,
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [routeDrive, setRouteDrive] = useState({
     totalSeconds: 0,
@@ -881,12 +887,22 @@ export default function TechDashboardTest() {
       if (!Number.isFinite(ms)) return false;
       return new Date(ms) <= yesterday;
     }).length;
+    const pendingScheduling = allItems.filter((w) => {
+      const st = normalizeWorkOrderStatus(w.status);
+      if (st !== 'pending') return false;
+      if (w.scheduled_start) return false;
+      if (Array.isArray(w.appointments) && w.appointments.some((a) => a.scheduled_start)) {
+        return false;
+      }
+      return true;
+    }).length;
     setWorkOrderStats({
       total: workOrdersData?.total || 0,
       today: todayItems.length,
       completed_today: todayItems.filter(w => w.status === 'completed').length,
       partsWaiting,
       criticalMass,
+      pendingScheduling,
     });
     if (!scheduleLoading && !woLoading) setIsLoading(false);
   }, [workOrdersData, scheduleLoading, woLoading]);
@@ -1393,8 +1409,34 @@ export default function TechDashboardTest() {
             </div>
           )}
 
+          {workOrderStats.pendingScheduling > 0 && (
+            <Link
+              href="/work_orders?status=pending"
+              className="mb-3 flex items-center justify-between rounded-lg px-4 py-3 border border-orange-500/40 bg-orange-500/10 active:scale-[0.99] transition-transform"
+            >
+              <span className="text-sm font-semibold text-orange-200">
+                {workOrderStats.pendingScheduling} need scheduling
+              </span>
+              <span className="text-xs text-orange-300/80">View pending WOs →</span>
+            </Link>
+          )}
+
           {/* ── STAT CARDS ── */}
           <div className="grid grid-cols-2 gap-3 mb-4">
+            <StatCard
+              label="Needs scheduling"
+              value={workOrderStats.pendingScheduling}
+              sub={workOrderStats.pendingScheduling > 0 ? 'tap to open list' : 'all caught up'}
+              subColor={workOrderStats.pendingScheduling > 0 ? '#FF7A00' : '#22D3EE'}
+              borderColor={workOrderStats.pendingScheduling > 0 ? 'rgba(255,122,0,0.4)' : 'rgba(34,211,238,0.25)'}
+              sweepColor={workOrderStats.pendingScheduling > 0 ? 'orange' : 'cyan'}
+              href="/work_orders?status=pending"
+              icon={
+                <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: workOrderStats.pendingScheduling > 0 ? '#FF7A00' : '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                  <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+                </svg>
+              }
+            />
             <StatCard
               label="Jobs Completed"
               value={workOrderStats.completed_today}

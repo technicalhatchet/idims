@@ -12,53 +12,54 @@ import HomeLayout from '../components/layouts/HomeLayout';
 const PRICING_TIERS = [
   {
     id: 'diagnostic',
-    title: 'DIAGNOSTIC',
-    price: '$89–$129',
-    description: 'The first step to getting your appliance back to perfect working order.',
+    title: 'DIAGNOSTIC VISIT',
+    price: '$89',
+    priceNote: '$129 opening special',
+    description: 'Every job starts here. We diagnose on-site and quote repair before any work beyond the diagnostic.',
     features: [
-      'Full appliance diagnosis',
+      'Same-day diagnostic visits when slots are open',
       'Trip charge included',
-      'Honest assessment',
-      'Diagnostic fee applied toward repair'
+      'Clear repair quote — you approve before we repair',
+      '50% of diagnostic fee applied toward the repair if you proceed',
     ],
-    cta: 'Book Diagnostic',
+    cta: 'Book online',
     href: '/book',
-    highlighted: false,
-    icon: FaCog
+    highlighted: true,
+    badge: 'START HERE',
+    icon: FaCog,
   },
   {
     id: 'standard',
-    title: 'STANDARD REPAIR',
+    title: 'TYPICAL REPAIR',
     price: '$150–$350+',
-    description: 'Our most common service for the majority of appliance repairs.',
+    description: 'Ballpark for the repair itself after diagnosis — your exact quote depends on parts and labor.',
     features: [
-      'Labor included',
-      'Most repairs completed same-day',
-      'Quality parts & materials',
-      '90-day parts & labor warranty'
+      'Labor included in your approved quote',
+      'Many jobs finished on the first visit',
+      'Special-order parts scheduled on a return trip',
+      '90-day parts & labor warranty',
     ],
-    cta: 'Book Repair',
-    href: '/book',
-    highlighted: true,
-    badge: 'MOST POPULAR',
-    icon: FaTools
+    cta: null,
+    footerNote: 'Quoted on-site after diagnosis — no separate booking step.',
+    highlighted: false,
+    icon: FaTools,
   },
   {
     id: 'priority',
-    title: 'PRIORITY SERVICE',
-    price: '$250–$500+',
-    description: "Need it fixed fast? We'll get there when you need us most.",
+    title: 'PRIORITY',
+    price: 'Elevated rates',
+    priceSubtitle: 'Diagnostic & trip fees',
+    description: 'Optional when you need the first available appointment — choose Today on the booking form.',
     features: [
-      'Same-day service guaranteed',
-      'Priority scheduling',
-      'After-hours availability',
-      '90-day parts & labor warranty'
+      'Request priority when offered on the book flow',
+      'Higher diagnostic and trip charges apply',
+      'Subject to availability — we call to confirm',
     ],
-    cta: 'Book Priority Service',
-    href: '/book',
+    cta: 'Book for Today',
+    href: '/book?time=today',
     highlighted: false,
-    icon: FaStar
-  }
+    icon: FaStar,
+  },
 ];
 
 const PRICE_FACTORS = [
@@ -80,7 +81,7 @@ const PRICE_FACTORS = [
   {
     icon: FaClock,
     title: 'URGENCY',
-    description: 'Same-day or after-hours service may impact overall pricing.'
+    description: 'Same-day diagnostic or after-hours visits may impact overall pricing.'
   }
 ];
 
@@ -120,7 +121,7 @@ export default function Pricing() {
   return (
     <>
       <Head>
-        <title>Pricing | Quantum Repair - Transparent Appliance Repair Pricing</title>
+        <title>Pricing | Atomic Repair - Transparent Appliance Repair Pricing</title>
         <meta name="description" content="Transparent appliance repair pricing in Toledo. No hidden fees, upfront quotes, and warranty included. See our diagnostic, repair, and priority service rates." />
       </Head>
 
@@ -248,6 +249,9 @@ export default function Pricing() {
                 OPTIONS
               </span>
             </h2>
+            <p className="mt-3 text-gray-400 text-sm max-w-xl mx-auto leading-relaxed">
+              Book a diagnostic visit online. Repair pricing is always explained and approved on-site — not on this page.
+            </p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6 items-stretch">
@@ -285,13 +289,32 @@ export default function Pricing() {
 
                     {/* Title & Price */}
                     <h3 className="text-sm font-bold text-gray-400 tracking-wider mb-2">{tier.title}</h3>
-                    <p className={`text-3xl font-bold mb-3 ${
-                      tier.highlighted 
-                        ? 'text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-300' 
-                        : 'text-white'
-                    }`}>
-                      {tier.price}
-                    </p>
+                    {tier.id === 'diagnostic' && tier.priceNote ? (
+                      <div className="mb-3">
+                        <span className="text-lg text-gray-500 line-through decoration-orange-500/70 mr-2">
+                          $129
+                        </span>
+                        <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500 inline">
+                          {tier.price}
+                        </p>
+                        <p className="text-xs text-orange-300/90 font-semibold uppercase tracking-wide mt-1">
+                          Opening Special
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="mb-3">
+                        <p className={`text-3xl font-bold ${
+                          tier.highlighted
+                            ? 'text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-300'
+                            : 'text-white'
+                        }`}>
+                          {tier.price}
+                        </p>
+                        {tier.priceSubtitle && (
+                          <p className="text-xs text-gray-500 mt-1">{tier.priceSubtitle}</p>
+                        )}
+                      </div>
+                    )}
                     <p className="text-gray-400 text-sm mb-6">{tier.description}</p>
 
                     {/* Features */}
@@ -307,19 +330,25 @@ export default function Pricing() {
                     </ul>
 
                     {/* CTA */}
-                    <Link href={tier.href}>
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className={`w-full py-3 rounded-xl font-semibold transition-all ${
-                          tier.highlighted
-                            ? 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-white shadow-[0_0_25px_rgba(34,211,238,0.4)]'
-                            : 'bg-white/5 border border-white/10 text-white hover:bg-white/10'
-                        }`}
-                      >
-                        {tier.cta}
-                      </motion.button>
-                    </Link>
+                    {tier.cta && tier.href ? (
+                      <Link href={tier.href}>
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className={`w-full py-3 rounded-xl font-semibold transition-all ${
+                            tier.highlighted
+                              ? 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-white shadow-[0_0_25px_rgba(34,211,238,0.4)]'
+                              : 'bg-white/5 border border-white/10 text-white hover:bg-white/10'
+                          }`}
+                        >
+                          {tier.cta}
+                        </motion.button>
+                      </Link>
+                    ) : (
+                      <p className="text-xs text-gray-500 leading-relaxed text-center py-3 border border-white/5 rounded-xl bg-white/[0.02]">
+                        {tier.footerNote}
+                      </p>
+                    )}
                   </div>
                 </motion.div>
               );
@@ -558,5 +587,5 @@ export default function Pricing() {
 }
 
 Pricing.getLayout = function getLayout(page) {
-  return <HomeLayout title="Pricing | Quantum Repair">{page}</HomeLayout>;
+  return <HomeLayout title="Pricing | Atomic Repair">{page}</HomeLayout>;
 };

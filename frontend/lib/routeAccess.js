@@ -29,7 +29,6 @@ export const PUBLIC_ROUTE_PREFIXES = [
   '/cxdashboard/login',
   '/cxdashboard/register',
   '/book',
-  '/book-test',
   '/api/public',
   '/api/auth',
   '/api/portal',

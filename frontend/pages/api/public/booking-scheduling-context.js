@@ -1,18 +1,14 @@
 import { publicBookingApiUrl } from '../../../utils/publicBookingApi';
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
+  if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
   try {
     const response = await fetch(
-      publicBookingApiUrl('public/booking/estimate'),
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(req.body),
-      }
+      publicBookingApiUrl('public/booking/scheduling-context'),
+      { method: 'GET', headers: { 'Content-Type': 'application/json' } }
     );
 
     const text = await response.text();

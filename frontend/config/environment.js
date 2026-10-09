@@ -5,7 +5,7 @@ export const config = {
     clientId: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID,
     audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
     scope: process.env.NEXT_PUBLIC_AUTH0_SCOPE || 'openid profile email',
-    baseURL: process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000',
+    baseURL: process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001',
     issuerBaseURL: `https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}`,
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
     secret: process.env.AUTH0_SECRET,

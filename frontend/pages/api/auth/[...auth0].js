@@ -1,4 +1,9 @@
-import { handleAuth, handleLogin, handleCallback, handleLogout } from '@auth0/nextjs-auth0';
+import {
+  handleAuth,
+  handleLogin,
+  handleCallback,
+  handleLogout,
+} from '@auth0/nextjs-auth0';
 
 const DOMAIN = process.env.AUTH0_ISSUER_BASE_URL;
 const MGMT_CLIENT_ID = process.env.AUTH0_MGMT_CLIENT_ID;
@@ -13,10 +18,9 @@ function backendRoot() {
   return raw.replace(/\/api$/i, '');
 }
 
-/** Auth router paths live under /api/auth/auth/... on the backend. */
 function backendAuthUrl(routePath) {
-  const path = String(routePath).replace(/^\//, '');
-  const suffix = path.startsWith('auth/') ? path : `auth/${path}`;
+  const pathPart = String(routePath).replace(/^\//, '');
+  const suffix = pathPart.startsWith('auth/') ? pathPart : `auth/${pathPart}`;
   return `${backendRoot()}/api/auth/${suffix}`;
 }
 
@@ -26,9 +30,6 @@ const ROLE_IDS = {
   diyer: 'rol_efrbzOWFRtk0sJYy',
 };
 
-/**
- * Get a Management API access token
- */
 async function getMgmtToken() {
   const res = await fetch(`${DOMAIN}/oauth/token`, {
     method: 'POST',
@@ -44,62 +45,38 @@ async function getMgmtToken() {
   return data.access_token;
 }
 
-/**
- * Assign a role to a user via Management API
- */
 async function assignRole(userId, roleId, mgmtToken) {
   await fetch(`${DOMAIN}/api/v2/users/${userId}/roles`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${mgmtToken}`,
+      Authorization: `Bearer ${mgmtToken}`,
     },
     body: JSON.stringify({ roles: [roleId] }),
   });
 }
 
-/**
- * Auto-assign roles based on email matching backend records
- * Called on every login — only assigns if user has no roles yet
- */
 async function autoAssignRole(user, accessToken) {
   const existingRoles = user['https://idimsapi/app_metadata']?.roles || [];
-  
-  // Already has a role — skip
-  if (existingRoles.length > 0) {
-    console.log(`[Auth] User ${user.email} already has roles: ${existingRoles.join(', ')}`);
-    return;
-  }
-
-  console.log(`[Auth] New user ${user.email} — checking for matching records...`);
+  if (existingRoles.length > 0) return;
 
   try {
-    // Check backend for matching client or technician
     const res = await fetch(backendAuthUrl('auth/identify-user'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({ email: user.email, auth0_user_id: user.sub }),
     });
-
-    if (!res.ok) {
-      console.log(`[Auth] identify-user returned ${res.status} — no role assigned`);
-      return;
-    }
-
+    if (!res.ok) return;
     const data = await res.json();
-    console.log(`[Auth] identify-user result:`, data);
-
     if (data.role && ROLE_IDS[data.role]) {
       const mgmtToken = await getMgmtToken();
       await assignRole(user.sub, ROLE_IDS[data.role], mgmtToken);
-      console.log(`[Auth] Assigned role '${data.role}' to ${user.email}`);
     }
   } catch (err) {
     console.error('[Auth] autoAssignRole error:', err.message);
-    // Non-fatal — user can still log in, just won't have a role
   }
 }
 
@@ -116,7 +93,6 @@ async function completeDiySignupOnCallback(accessToken) {
     console.error(`[Auth] complete-diy-signup failed: ${res.status} ${body}`);
     return false;
   }
-  console.log('[Auth] DIY homeowner enrollment complete');
   return true;
 }
 
@@ -151,15 +127,19 @@ export default handleAuth({
         code: error.code,
         status: error.status,
       });
+      const safeMessage = String(error.message || 'Unknown error').replace(/</g, '&lt;');
       res.status(error.status || 500).send(`
         <html>
           <head><title>Auth0 Error</title>
-          <style>body{font-family:sans-serif;padding:2rem;}.error{color:red;}.button{padding:0.5rem 1rem;background:#0070f3;color:white;text-decoration:none;border-radius:4px;}</style>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <style>body{font-family:sans-serif;padding:1.25rem;max-width:40rem;margin:0 auto;}
+          .error{color:#b91c1c;} .button{display:inline-block;margin-top:1rem;padding:0.5rem 1rem;background:#0070f3;color:white;text-decoration:none;border-radius:4px;}</style>
           </head>
           <body>
-            <h1 class="error">Login Error</h1>
-            <p>${error.message}</p>
-            <a href="/api/auth/login" class="button">Try Again</a>
+            <h1 class="error">Login error</h1>
+            <p>${safeMessage}</p>
+            <p><small>Code: ${error.code || 'n/a'}</small></p>
+            <a href="/api/auth/login?returnTo=/solomon" class="button">Try again</a>
           </body>
         </html>
       `);

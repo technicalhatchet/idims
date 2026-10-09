@@ -1,3 +1,5 @@
+import { publicBookingApiUrl } from '../../../utils/publicBookingApi';
+
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
       return res.status(405).json({ message: 'Method not allowed' });
@@ -5,7 +7,7 @@ export default async function handler(req, res) {
   
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/public/booking`,
+        publicBookingApiUrl('public/booking'),
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

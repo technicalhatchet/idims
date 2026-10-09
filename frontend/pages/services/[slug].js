@@ -19,7 +19,7 @@ const WHY_CHOOSE_US = [
   {
     icon: FaBolt,
     title: 'Fast Service',
-    description: 'We offer same-day service in most cases because we know you can\'t wait.'
+    description: 'We offer same-day diagnostic visits in most cases when slots are open — because you shouldn\'t wait to find out what\'s wrong.'
   },
   {
     icon: FaUserTie,
@@ -88,10 +88,10 @@ export default function ServiceDetailPage({ service }) {
   return (
     <>
       <Head>
-        <title>{service.title} in Toledo | Quantum Repair</title>
+        <title>{service.title} in Toledo | Atomic Repair</title>
         <meta 
           name="description" 
-          content={`Fast ${service.title.toLowerCase()} in Toledo. Same-day service available. ${service.description}`} 
+          content={`${service.title} in Toledo. Same-day diagnostics when available. ${service.description}`} 
         />
         <meta name="keywords" content={`${service.title.toLowerCase()}, ${service.applianceType} repair, Toledo, appliance repair`} />
       </Head>

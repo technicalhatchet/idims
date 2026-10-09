@@ -15,7 +15,7 @@ const ATOMIC_THEME = {
   tealHighlight: '#00C2B8',
 };
 
-export default function HomeLayout({ children, title = 'Quantum Repair | Appliance Repair Toledo' }) {
+export default function HomeLayout({ children, title = 'Atomic Repair | Appliance Repair Toledo' }) {
   return (
     <div 
       className="min-h-screen flex flex-col relative"

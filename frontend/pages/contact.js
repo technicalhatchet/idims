@@ -44,7 +44,7 @@ export default function Contact() {
               <FaPhone className="text-2xl flex-shrink-0" style={{ color: '#00E5FF' }} />
               <div>
                 <h3 className="font-semibold mb-1" style={{ color: '#EAF6FF' }}>Phone</h3>
-                <p style={{ color: '#9FB3C8' }}>(419) 555-0123</p>
+                <p style={{ color: '#9FB3C8' }}>(419) 740-0146</p>
                 <p className="text-sm mt-1" style={{ color: '#627D98' }}>Available 7 days a week</p>
               </div>
             </div>

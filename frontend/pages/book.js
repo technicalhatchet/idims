@@ -1,43 +1,86 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  FaUser, FaPhone, FaMapMarkerAlt, FaCheckCircle, FaArrowRight, FaArrowLeft,
-  FaBolt, FaShieldAlt, FaClock, FaMedal, FaSnowflake, FaTint, FaVolumeUp, FaPowerOff,
-  FaCalendarDay, FaCalendarAlt, FaCalendarWeek, FaHourglass
+import {
+  FaUser, FaPhone, FaMapMarkerAlt, FaCheckCircle, FaArrowRight, FaArrowLeft, FaEnvelope,
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
+import NeonIcon from '../components/ui/NeonIcon';
+import SecretServiceMode from '../components/ui/SecretServiceMode';
+import { getBookingSymptomsForAppliance } from '../constants/applianceSymptoms';
+import {
+  BOOKING_FUEL_OPTIONS,
+  bookingNeedsFuel,
+  resolveBookingEquipmentSubtype,
+  formatBookingApplianceLabel,
+} from '../constants/bookingAppliances';
+import {
+  BOOKING_PAYMENT_NOTE,
+  BOOKING_REPAIR_NOTE,
+  BOOKING_TIMING_NOTE,
+  DIAGNOSTIC_CREDIT_MARKETING,
+} from '../constants/bookingMarketing';
+import { portalSignUpUrl } from '../utils/portalAuthUrls';
 
-const APPLIANCES = [
-  { id: 'refrigerator', name: 'Refrigerator', icon: '/applianceicons/neon/neonfridge.png' },
-  { id: 'washer', name: 'Washer', icon: '/applianceicons/neon/neonwasher.png' },
-  { id: 'dryer', name: 'Dryer', icon: '/applianceicons/neon/neondryer.png' },
-  { id: 'aiolaundry', name: 'AIO Laundry', icon: '/aiolaundry.svg' },
-  { id: 'oven', name: 'Oven', icon: '/applianceicons/neon/neonrange.png' },
-  { id: 'dishwasher', name: 'Dishwasher', icon: '/applianceicons/neon/neondishwasher.png' },
-  { id: 'microwave', name: 'Microwave', icon: '/applianceicons/neon/neonmicrowave.png' },
-  { id: 'freezer', name: 'Freezer', icon: '/applianceicons/neon/neonchestfreezer.png' },
-  { id: 'tv', name: 'TV', icon: '/applianceicons/neon/neonorangecurvedtv.png' },
-  { id: 'other', name: 'Other', icon: '/applianceicons/wrenches.png', allowCustom: true },
+const CONTACT_CHANNELS = [
+  { id: 'phone', label: 'Phone call' },
+  { id: 'sms', label: 'Text message (SMS)' },
+  { id: 'email', label: 'Email' },
 ];
 
-const ISSUES = [
-  { id: 'not-working', name: 'Not working at all', icon: FaPowerOff },
-  { id: 'not-cooling-heating', name: 'Not cooling/heating', icon: FaSnowflake },
-  { id: 'leaking', name: 'Leaking water', icon: FaTint },
-  { id: 'making-noise', name: 'Making strange noise', icon: FaVolumeUp },
-  { id: 'error-code', name: 'Showing error code', icon: FaBolt },
-  { id: 'other', name: 'Other issue', icon: FaBolt, allowCustom: true },
+function isErrorCodeSymptom(issue) {
+  return typeof issue === 'string' && issue !== 'other' && /error code/i.test(issue);
+}
+
+function buildBookingIssueText({
+  issue,
+  customIssue,
+  errorCode,
+  issueDescription,
+  additionalIssues = [],
+}) {
+  const base = issue === 'other' ? customIssue.trim() : issue;
+  if (!base) return '';
+
+  const extras = [];
+  const also = (additionalIssues || []).filter((s) => s && s !== base);
+  if (also.length) {
+    extras.push(`Also: ${also.join(', ')}`);
+  }
+  if (isErrorCodeSymptom(issue) && errorCode?.trim()) {
+    extras.push(`Code: ${errorCode.trim().toUpperCase()}`);
+  }
+  if (issueDescription?.trim()) {
+    extras.push(issueDescription.trim());
+  }
+  return extras.length ? `${base} — ${extras.join(' — ')}` : base;
+}
+
+const issueFieldClass =
+  'w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-3 text-white text-sm placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all';
+
+/** Cyan vs orange — same mapping as neon PNGs / ApplianceIcon */
+const APPLIANCES = [
+  { id: 'refrigerator', name: 'Refrigerator', icon: 'refrigerator', color: 'cyan' },
+  { id: 'washer', name: 'Washer', icon: 'washer', color: 'cyan' },
+  { id: 'dryer', name: 'Dryer', icon: 'dryer', color: 'orange' },
+  { id: 'aiolaundry', name: 'AIO Laundry', icon: 'aiolaundry', color: 'cyan' },
+  { id: 'oven', name: 'Oven', icon: 'oven', color: 'orange' },
+  { id: 'dishwasher', name: 'Dishwasher', icon: 'dishwasher', color: 'cyan' },
+  { id: 'microwave', name: 'Microwave', icon: 'microwave', color: 'orange' },
+  { id: 'freezer', name: 'Freezer', icon: 'freezer', color: 'cyan' },
+  { id: 'tv', name: 'TV', icon: 'tv', color: 'orange' },
+  { id: 'other', name: 'Other', icon: 'wrench', color: 'cyan', allowCustom: true },
 ];
 
 const TIME_OPTIONS = [
-  { id: 'today', name: 'Today', icon: FaCalendarDay, desc: 'ASAP' },
-  { id: 'tomorrow', name: 'Tomorrow', icon: FaCalendarAlt, desc: 'Next day' },
-  { id: 'this-week', name: 'This Week', icon: FaCalendarWeek, desc: 'Flexible' },
-  { id: 'flexible', name: 'Flexible', icon: FaHourglass, desc: 'Any time' },
+  { id: 'today', name: 'Today', icon: 'calendarDot', desc: 'Same-day diagnostic' },
+  { id: 'tomorrow', name: 'Tomorrow', icon: 'calendar', desc: 'Next day' },
+  { id: 'this-week', name: 'This Week', icon: 'calendarWeek', desc: 'Flexible' },
+  { id: 'flexible', name: 'Flexible', icon: 'hourglass', desc: 'Any time' },
 ];
 
 const STEPS = [
@@ -45,7 +88,7 @@ const STEPS = [
   { number: 2, title: "What's the issue?" },
   { number: 3, title: 'Choose a time' },
   { number: 4, title: 'Your Information' },
-  { number: 5, title: 'Confirm Booking' },
+  { number: 5, title: 'Confirm Request' },
 ];
 
 export default function BookService() {
@@ -54,31 +97,262 @@ export default function BookService() {
   const [direction, setDirection] = useState(1);
   const [formData, setFormData] = useState({
     appliance: '',
+    applianceFuel: '',
     customAppliance: '',
     issue: '',
     customIssue: '',
+    additionalIssues: [],
+    errorCode: '',
+    issueDescription: '',
     time: '',
     name: '',
     phone: '',
+    email: '',
     address: '',
+    contactPrimary: 'phone',
+    contactBackup: '',
+    communicationsConsent: false,
   });
+  const [priorityRequested, setPriorityRequested] = useState(false);
+  const [schedulingContext, setSchedulingContext] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
+  const [pricingEstimate, setPricingEstimate] = useState(null);
+  const [pricingLoading, setPricingLoading] = useState(false);
+  const [pricingError, setPricingError] = useState(null);
+  const [submittedOrderNumber, setSubmittedOrderNumber] = useState('');
+
+  const resolvedEquipmentSubtype = resolveBookingEquipmentSubtype(
+    formData.appliance,
+    formData.applianceFuel,
+  );
+
+  const fetchPricingEstimate = useCallback(async (signal) => {
+    const response = await fetch('/api/public/booking-estimate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal,
+      body: JSON.stringify({
+        appliance: formData.appliance,
+        address: formData.address.trim(),
+        custom_appliance: formData.appliance === 'other' ? formData.customAppliance : undefined,
+        equipment_subtype: resolvedEquipmentSubtype || undefined,
+        time_preference: formData.time || undefined,
+        priority_requested: Boolean(priorityRequested && formData.time === 'today'),
+      }),
+    });
+
+    if (!response.ok) {
+      const errBody = await response.json().catch(() => ({}));
+      const detail = errBody.detail;
+      const message = Array.isArray(detail)
+        ? detail.map((d) => d.msg || d).join(', ')
+        : detail || errBody.message || 'Could not load pricing';
+      throw new Error(message);
+    }
+
+    return response.json();
+  }, [
+    formData.appliance,
+    formData.applianceFuel,
+    formData.address,
+    formData.customAppliance,
+    formData.time,
+    resolvedEquipmentSubtype,
+    priorityRequested,
+  ]);
+
+  const isOutOfServiceArea = pricingEstimate?.serviceable === false;
+  const canConfirmBooking = Boolean(
+    pricingEstimate?.serviceable === true && !pricingLoading && !pricingError
+  );
 
   useEffect(() => {
     if (router.isReady) {
-      const { appliance } = router.query;
+      const { appliance, time } = router.query;
+      const updates = {};
       if (appliance) {
         const validAppliance = APPLIANCES.find(a => a.id === appliance);
         if (validAppliance) {
-          setFormData(prev => ({ ...prev, appliance }));
+          updates.appliance = appliance;
         }
+      }
+      if (time === 'today') {
+        updates.time = 'today';
+      }
+      if (Object.keys(updates).length) {
+        setFormData(prev => ({ ...prev, ...updates }));
       }
     }
   }, [router.isReady, router.query]);
 
+  // Upfront pricing on confirmation step
+  useEffect(() => {
+    if (currentStep !== 5 || isComplete || !formData.address?.trim() || !formData.appliance) {
+      return undefined;
+    }
+
+    const controller = new AbortController();
+
+    const loadEstimate = async () => {
+      setPricingLoading(true);
+      setPricingError(null);
+      try {
+        const data = await fetchPricingEstimate(controller.signal);
+        if (controller.signal.aborted) return;
+        setPricingEstimate(data);
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+        console.error('Pricing estimate error:', err);
+        setPricingError(err.message || 'Could not load pricing');
+        setPricingEstimate(null);
+      } finally {
+        setPricingLoading(false);
+      }
+    };
+
+    loadEstimate();
+    return () => controller.abort();
+  }, [
+    currentStep,
+    isComplete,
+    formData.appliance,
+    formData.applianceFuel,
+    formData.address,
+    formData.customAppliance,
+    formData.time,
+    priorityRequested,
+    fetchPricingEstimate,
+  ]);
+
+  // Early service-area check while entering address (step 4)
+  useEffect(() => {
+    if (currentStep !== 4 || !formData.address?.trim() || !formData.appliance) {
+      return undefined;
+    }
+
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      setPricingLoading(true);
+      setPricingError(null);
+      try {
+        const data = await fetchPricingEstimate(controller.signal);
+        if (controller.signal.aborted) return;
+        setPricingEstimate(data);
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+        setPricingError(err.message || 'Could not verify service area');
+        setPricingEstimate(null);
+      } finally {
+        setPricingLoading(false);
+      }
+    }, 800);
+
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [
+    currentStep,
+    formData.address,
+    formData.appliance,
+    formData.applianceFuel,
+    formData.customAppliance,
+    formData.time,
+    priorityRequested,
+    fetchPricingEstimate,
+  ]);
+
+  useEffect(() => {
+    if (currentStep !== 3) return undefined;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/public/booking-scheduling-context');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!cancelled) setSchedulingContext(data);
+      } catch (err) {
+        console.warn('Scheduling context unavailable', err);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [currentStep]);
+
+  const hasPhone = Boolean(formData.phone?.trim());
+  const hasEmail = Boolean(formData.email?.trim());
+  const hasContactMethod = hasPhone || hasEmail;
+
+  const channelAvailable = (channel) => {
+    if (channel === 'email') return hasEmail;
+    return hasPhone;
+  };
+
+  const priorityOffered = Boolean(
+    schedulingContext?.priority_service_enabled
+    && schedulingContext?.scheduling_context?.priority_service_open
+    && formData.time === 'today',
+  );
+
   const updateFormData = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => {
+      const next = { ...prev, [field]: value };
+      if (field === 'appliance') {
+        next.applianceFuel = '';
+        next.issue = '';
+        next.customIssue = '';
+        next.additionalIssues = [];
+        next.errorCode = '';
+        next.issueDescription = '';
+      }
+      if (field === 'issue') {
+        if (!isErrorCodeSymptom(value)) {
+          next.errorCode = '';
+        }
+        next.additionalIssues = (prev.additionalIssues || []).filter((s) => s !== value);
+      }
+      if (field === 'address') {
+        setPricingEstimate(null);
+        setPricingError(null);
+      }
+      if (field === 'time' && value !== 'today') {
+        setPriorityRequested(false);
+      }
+      if (field === 'phone' || field === 'email') {
+        const primary = next.contactPrimary;
+        const backup = next.contactBackup;
+        if (primary && !channelAvailableForValues(primary, next.phone, next.email)) {
+          next.contactPrimary = next.phone?.trim() ? 'phone' : next.email?.trim() ? 'email' : '';
+        }
+        if (backup && !channelAvailableForValues(backup, next.phone, next.email)) {
+          next.contactBackup = '';
+        }
+      }
+      return next;
+    });
+  };
+
+  function channelAvailableForValues(channel, phone, email) {
+    if (channel === 'email') return Boolean(email?.trim());
+    return Boolean(phone?.trim());
+  }
+
+  const symptomOptions = getBookingSymptomsForAppliance(
+    formData.appliance,
+    resolvedEquipmentSubtype,
+  );
+
+  const toggleAdditionalIssue = (symptom) => {
+    if (!symptom || symptom === formData.issue) return;
+    setFormData((prev) => {
+      const current = prev.additionalIssues || [];
+      const next = current.includes(symptom)
+        ? current.filter((s) => s !== symptom)
+        : [...current, symptom];
+      return { ...prev, additionalIssues: next };
+    });
   };
 
   const canProceed = () => {
@@ -87,6 +361,9 @@ export default function BookService() {
         if (formData.appliance === 'other') {
           return formData.customAppliance.trim() !== '';
         }
+        if (bookingNeedsFuel(formData.appliance)) {
+          return formData.applianceFuel !== '';
+        }
         return formData.appliance !== '';
       case 2: 
         if (formData.issue === 'other') {
@@ -94,17 +371,43 @@ export default function BookService() {
         }
         return formData.issue !== '';
       case 3: return formData.time !== '';
-      case 4: return formData.name !== '' && formData.phone !== '' && formData.address !== '';
+      case 4: {
+        if (!formData.name || !formData.address || !hasContactMethod) return false;
+        if (!formData.communicationsConsent) return false;
+        if (!formData.contactPrimary || !channelAvailable(formData.contactPrimary)) return false;
+        if (formData.contactBackup) {
+          if (formData.contactBackup === formData.contactPrimary) return false;
+          if (!channelAvailable(formData.contactBackup)) return false;
+        }
+        if (pricingLoading) return false;
+        if (isOutOfServiceArea) return false;
+        return true;
+      }
       case 5: return true;
       default: return false;
     }
   };
 
-  const nextStep = () => {
-    if (currentStep < 5 && canProceed()) {
-      setDirection(1);
-      setCurrentStep(prev => prev + 1);
+  const nextStep = async () => {
+    if (currentStep >= 5 || !canProceed()) return;
+
+    if (currentStep === 4) {
+      setPricingLoading(true);
+      setPricingError(null);
+      try {
+        const data = await fetchPricingEstimate();
+        setPricingEstimate(data);
+        if (!data.serviceable) return;
+      } catch (err) {
+        setPricingError(err.message || 'Could not verify service area');
+        return;
+      } finally {
+        setPricingLoading(false);
+      }
     }
+
+    setDirection(1);
+    setCurrentStep((prev) => prev + 1);
   };
 
   const prevStep = () => {
@@ -115,46 +418,103 @@ export default function BookService() {
   };
 
   const handleSubmit = async () => {
+    if (!canConfirmBooking) return;
+
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsComplete(true);
+    try {
+      const response = await fetch('/api/public/booking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone.trim() || undefined,
+          email: formData.email.trim() || undefined,
+          address: formData.address,
+          appliance: formData.appliance === 'other' ? 'other' : formData.appliance,
+          custom_appliance: formData.appliance === 'other' ? formData.customAppliance : undefined,
+          equipment_subtype: resolvedEquipmentSubtype || undefined,
+          issue: buildBookingIssueText(formData),
+          time_preference: formData.time,
+          priority_requested: Boolean(priorityRequested && formData.time === 'today'),
+          contact_preference_primary: formData.contactPrimary,
+          contact_preference_backup: formData.contactBackup || undefined,
+          communications_consent: formData.communicationsConsent,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json().catch(() => ({}));
+        setSubmittedOrderNumber(data.order_number || '');
+        setIsComplete(true);
+      } else {
+        const errBody = await response.json().catch(() => ({}));
+        const detail = errBody.detail;
+        const message = Array.isArray(detail)
+          ? detail.map((d) => d.msg || d).join(', ')
+          : detail || errBody.message || 'Booking failed';
+        throw new Error(message);
+      }
+    } catch (error) {
+      console.error('Booking error:', error);
+      alert(error.message || 'Booking failed');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const slideVariants = {
-    enter: (direction) => ({
-      x: direction > 0 ? 100 : -100,
+    enter: {
       opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
+      y: 10,
     },
-    exit: (direction) => ({
-      x: direction < 0 ? 100 : -100,
+    center: {
+      opacity: 1,
+      y: 0,
+    },
+    exit: {
       opacity: 0,
-    }),
+      y: -10,
+    },
   };
 
   const getSelectedAppliance = () => {
-    if (formData.appliance === 'other' && formData.customAppliance) {
-      return { name: formData.customAppliance };
+    if (!formData.appliance) return null;
+    const name = formatBookingApplianceLabel(formData.appliance, {
+      fuel: formData.applianceFuel,
+      customAppliance: formData.customAppliance,
+    });
+    if (formData.appliance === 'other' && !formData.customAppliance) {
+      return { name: 'Other' };
     }
-    return APPLIANCES.find(a => a.id === formData.appliance);
+    return { name };
   };
   const getSelectedIssue = () => {
-    if (formData.issue === 'other' && formData.customIssue) {
-      return { name: formData.customIssue };
-    }
-    return ISSUES.find(i => i.id === formData.issue);
+    const summary = buildBookingIssueText(formData);
+    return summary ? { name: summary } : null;
   };
   const getSelectedTime = () => TIME_OPTIONS.find(t => t.id === formData.time);
+
+  const formatCurrency = (amount) => {
+    if (amount == null || Number.isNaN(Number(amount))) return null;
+    return `$${Number(amount).toFixed(2)}`;
+  };
+
+  const formatTripCharge = (tripCharge) => {
+    if (!tripCharge) return '—';
+    if (tripCharge.is_custom && tripCharge.amount == null) {
+      return 'Outside service area';
+    }
+    const formatted = formatCurrency(tripCharge.amount);
+    return formatted != null ? formatted : '—';
+  };
 
   return (
     <>
       <Head>
         <title>Book Service | Atomic Repair</title>
-        <meta name="description" content="Book your appliance repair service in under 60 seconds." />
+        <meta name="description" content="Book appliance service in Toledo in under 60 seconds. Same-day diagnostics when available — we call to confirm your visit." />
         <link rel="manifest" href="/manifest-book.json" />
       </Head>
 
@@ -174,28 +534,32 @@ export default function BookService() {
         <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 0%, #000208 70%)' }} />
       </div>
 
-      <div className="min-h-screen pt-28 pb-32 px-4 sm:px-6">
+      <div className="min-h-screen pt-28 pb-32 px-4 sm:px-6 relative z-10">
         <div className="max-w-3xl mx-auto">
           {/* Logo & Title */}
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex items-center justify-start gap-4 mb-6"
           >
-            <div className="flex justify-center mb-4">
+            {/* Tap logo 5 times to reveal Service Mode */}
+            <SecretServiceMode>
               <Image
                 src="/wrenches.png"
-                alt="Quantum Repair"
-                width={100}
-                height={100}
-                className="drop-shadow-[0_0_25px_rgba(249,115,22,0.6)]"
+                alt="Atomic Repair"
+                width={70}
+                height={70}
+                className="drop-shadow-[0_0_25px_rgba(249,115,22,0.6)] flex-shrink-0"
               />
+            </SecretServiceMode>
+            <div className="text-left">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">
+                BOOK <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-300">YOUR SERVICE</span>
+              </h1>
+              <p className="text-gray-400 text-sm mt-1">Takes less than 60 seconds</p>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-white">
-              BOOK <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-300">YOUR SERVICE</span>
-            </h1>
-            <p className="text-gray-400 mt-2">Takes less than 60 seconds</p>
           </motion.div>
+        
 
           {/* Progress Bar */}
           <div className="mb-8">
@@ -236,7 +600,7 @@ export default function BookService() {
 
           {/* Main Card */}
           <motion.div
-            className="relative rounded-2xl overflow-hidden"
+            className="relative rounded-2xl overflow-visible"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
@@ -244,8 +608,8 @@ export default function BookService() {
             <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500/30 via-transparent to-orange-500/30 rounded-2xl blur-sm" />
             
             {/* Card Content */}
-            <div className="relative bg-[#0d1117]/90 backdrop-blur-xl border border-white/10 rounded-2xl p-6 sm:p-8 min-h-[400px]">
-              <AnimatePresence mode="wait" custom={direction}>
+            <div className="relative bg-[#0d1117]/90 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden flex flex-col">
+			  <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={currentStep}
                   custom={direction}
@@ -254,23 +618,65 @@ export default function BookService() {
                   animate="center"
                   exit="exit"
                   transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="p-6 sm:p-8"
                 >
                   {/* Step Header */}
                   <div className="mb-6">
-                    <p className="text-cyan-400 text-sm font-medium mb-1">STEP {currentStep} OF 5</p>
-                    <h2 className="text-2xl font-bold text-white">{STEPS[currentStep - 1].title}</h2>
-                    <p className="text-gray-400 text-sm mt-1">
-                      {currentStep === 1 && 'What appliance do you need help with?'}
-                      {currentStep === 2 && 'Select the issue you\'re experiencing.'}
-                      {currentStep === 3 && 'When would you like us to come by?'}
-                      {currentStep === 4 && 'Please enter your details so we can confirm your appointment.'}
-                      {currentStep === 5 && (isComplete ? 'We\'ve received your booking and will contact you shortly to confirm.' : 'Review your booking details.')}
-                    </p>
+                    <h2 className="text-xl sm:text-2xl font-bold text-white">
+                      {currentStep === 1 && 'What appliance can we help you with?'}
+                      {currentStep === 2 && (getSelectedAppliance()?.name
+                        ? `What's going on with your ${getSelectedAppliance().name}?`
+                        : 'What issue are you experiencing?')}
+                      {currentStep === 3 && 'When would you prefer us to come by?'}
+                      {currentStep === 4 && 'Your Information'}
+                      {currentStep === 5 && (isComplete ? 'You\'re all set!' : 'Review your booking')}
+                    </h2>
                   </div>
 
                   {/* Step 1: Appliance Selection */}
                   {currentStep === 1 && (
                     <div className="space-y-4">
+                      <AnimatePresence>
+                        {bookingNeedsFuel(formData.appliance) && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="rounded-xl border border-orange-500/35 bg-orange-500/10 p-4">
+                              <label className="block text-sm font-medium text-orange-100 mb-2">
+                                Is it gas or electric?
+                              </label>
+                              <p className="text-xs text-orange-200/70 mb-3">
+                                Required so we quote the right diagnostic fee.
+                              </p>
+                              <div className="flex flex-wrap gap-2">
+                                {BOOKING_FUEL_OPTIONS[formData.appliance].map((option) => {
+                                  const selected = formData.applianceFuel === option.value;
+                                  return (
+                                    <motion.button
+                                      key={option.value}
+                                      type="button"
+                                      onClick={() => updateFormData('applianceFuel', option.value)}
+                                      className={`px-4 py-2.5 rounded-full text-sm font-medium border transition-all duration-200 ${
+                                        selected
+                                          ? 'bg-orange-500/20 text-orange-100 border-orange-500/50 shadow-[0_0_16px_rgba(251,146,60,0.15)]'
+                                          : 'bg-white/5 text-gray-200 border-white/10 hover:bg-white/10 hover:border-white/20'
+                                      }`}
+                                      whileHover={{ scale: 1.02 }}
+                                      whileTap={{ scale: 0.98 }}
+                                    >
+                                      {option.label}
+                                    </motion.button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         {APPLIANCES.map((appliance) => (
                           <motion.button
@@ -284,14 +690,11 @@ export default function BookService() {
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
-                            <div className="w-10 h-10 sm:w-12 sm:h-12 relative">
-                              <Image
-                                src={appliance.icon}
-                                alt={appliance.name}
-                                fill
-                                className="object-contain"
-                              />
-                            </div>
+                            <NeonIcon
+                              name={appliance.icon}
+                              className="w-10 h-10 sm:w-12 sm:h-12"
+                              variant={appliance.color || 'cyan'}
+                            />
                             <span className="text-white font-medium text-xs sm:text-sm">{appliance.name}</span>
                             {formData.appliance === appliance.id && (
                               <motion.div
@@ -329,39 +732,91 @@ export default function BookService() {
                           </motion.div>
                         )}
                       </AnimatePresence>
+
                     </div>
                   )}
 
                   {/* Step 2: Issue Selection */}
                   {currentStep === 2 && (
-                    <div className="space-y-3">
-                      {ISSUES.map((issue) => {
-                        const Icon = issue.icon;
-                        return (
-                          <motion.button
-                            key={issue.id}
-                            onClick={() => updateFormData('issue', issue.id)}
-                            className={`w-full p-4 rounded-xl border transition-all duration-200 flex items-center gap-4 ${
-                              formData.issue === issue.id
-                                ? 'bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_20px_rgba(34,211,238,0.2)]'
-                                : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
-                            }`}
-                            whileHover={{ scale: 1.01 }}
-                            whileTap={{ scale: 0.99 }}
+                    <div className="space-y-4">
+                      <p className="text-sm text-gray-500 -mt-2 mb-1">
+                        Tap your <span className="text-gray-400">main</span> symptom first. Add others if needed, then use the description for anything we missed.
+                      </p>
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-2">Main symptom</p>
+                        <div className="flex flex-wrap gap-2">
+                        {symptomOptions.map((symptom) => {
+                          const selected = formData.issue === symptom;
+                          return (
+                            <motion.button
+                              key={symptom}
+                              type="button"
+                              onClick={() => updateFormData('issue', symptom)}
+                              className={`px-3.5 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
+                                selected
+                                  ? 'bg-cyan-500/20 text-cyan-100 border-cyan-500/50 shadow-[0_0_16px_rgba(34,211,238,0.15)]'
+                                  : 'bg-white/5 text-gray-200 border-white/10 hover:bg-white/10 hover:border-white/20'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              {symptom}
+                            </motion.button>
+                          );
+                        })}
+                        <motion.button
+                          type="button"
+                          onClick={() => updateFormData('issue', 'other')}
+                          className={`px-3.5 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
+                            formData.issue === 'other'
+                              ? 'bg-cyan-500/20 text-cyan-100 border-cyan-500/50 shadow-[0_0_16px_rgba(34,211,238,0.15)]'
+                              : 'bg-white/5 text-gray-200 border-white/10 hover:bg-white/10 hover:border-white/20'
+                          }`}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          Other issue
+                        </motion.button>
+                        </div>
+                      </div>
+
+                      <AnimatePresence>
+                        {formData.issue && formData.issue !== 'other' && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="overflow-hidden"
                           >
-                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                              formData.issue === issue.id ? 'bg-cyan-500/20' : 'bg-white/5'
-                            }`}>
-                              <Icon className={`w-5 h-5 ${formData.issue === issue.id ? 'text-cyan-400' : 'text-gray-400'}`} />
+                            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-2">
+                              Also noticing? <span className="normal-case font-normal text-gray-600">(optional)</span>
+                            </p>
+                            <div className="flex flex-wrap gap-2">
+                              {symptomOptions
+                                .filter((symptom) => symptom !== formData.issue)
+                                .map((symptom) => {
+                                  const selected = (formData.additionalIssues || []).includes(symptom);
+                                  return (
+                                    <motion.button
+                                      key={`also-${symptom}`}
+                                      type="button"
+                                      onClick={() => toggleAdditionalIssue(symptom)}
+                                      className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 ${
+                                        selected
+                                          ? 'bg-orange-500/15 text-orange-100 border-orange-400/45'
+                                          : 'bg-white/[0.03] text-gray-400 border-white/10 hover:bg-white/10 hover:border-white/20'
+                                      }`}
+                                      whileTap={{ scale: 0.98 }}
+                                    >
+                                      {selected ? '✓ ' : ''}{symptom}
+                                    </motion.button>
+                                  );
+                                })}
                             </div>
-                            <span className="text-white font-medium">{issue.name}</span>
-                            {formData.issue === issue.id && (
-                              <FaCheckCircle className="w-5 h-5 text-cyan-400 ml-auto" />
-                            )}
-                          </motion.button>
-                        );
-                      })}
-                      
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
                       {/* Custom issue input when "Other" is selected */}
                       <AnimatePresence>
                         {formData.issue === 'other' && (
@@ -385,39 +840,131 @@ export default function BookService() {
                           </motion.div>
                         )}
                       </AnimatePresence>
+
+                      <AnimatePresence>
+                        {formData.issue && formData.issue !== 'other' && isErrorCodeSymptom(formData.issue) && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pt-1">
+                              <label className="block text-xs text-gray-400 mb-1.5">
+                                Error code <span className="text-gray-600">(optional)</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={formData.errorCode}
+                                onChange={(e) => updateFormData('errorCode', e.target.value)}
+                                placeholder="e.g. F9E1, E24"
+                                maxLength={32}
+                                className={`${issueFieldClass} max-w-[200px] uppercase tracking-wide`}
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      <AnimatePresence>
+                        {formData.issue && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pt-1">
+                              <label className="block text-xs text-gray-400 mb-1.5">
+                                {formData.issue === 'other' ? 'Additional details' : 'More in your own words'}
+                                {' '}
+                                <span className="text-gray-600">(optional)</span>
+                              </label>
+                              <textarea
+                                value={formData.issueDescription}
+                                onChange={(e) => updateFormData('issueDescription', e.target.value)}
+                                placeholder="Timing, sounds, what you’ve already tried, or anything the chips don’t cover…"
+                                rows={2}
+                                maxLength={500}
+                                className={`${issueFieldClass} resize-none`}
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   )}
 
                   {/* Step 3: Time Selection */}
                   {currentStep === 3 && (
-                    <div className="grid grid-cols-2 gap-4">
-                      {TIME_OPTIONS.map((option) => {
-                        const Icon = option.icon;
-                        return (
-                          <motion.button
-                            key={option.id}
-                            onClick={() => updateFormData('time', option.id)}
-                            className={`p-5 rounded-xl border transition-all duration-200 flex flex-col items-center gap-2 ${
-                              formData.time === option.id
-                                ? 'bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_20px_rgba(34,211,238,0.2)]'
-                                : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
-                            }`}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                          >
-                            <Icon className={`w-8 h-8 ${formData.time === option.id ? 'text-cyan-400' : 'text-gray-400'}`} />
-                            <span className="text-white font-medium">{option.name}</span>
-                            {formData.time === option.id && (
-                              <motion.div
-                                initial={{ scale: 0 }}
-                                animate={{ scale: 1 }}
-                              >
-                                <FaCheckCircle className="w-5 h-5 text-cyan-400" />
-                              </motion.div>
-                            )}
-                          </motion.button>
-                        );
-                      })}
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        {TIME_OPTIONS.map((option) => (
+                            <motion.button
+                              key={option.id}
+                              onClick={() => updateFormData('time', option.id)}
+                              className={`p-5 rounded-xl border transition-all duration-200 flex flex-col items-center gap-2 ${
+                                formData.time === option.id
+                                  ? 'bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_20px_rgba(34,211,238,0.2)]'
+                                  : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              <NeonIcon
+                                name={option.icon}
+                                className="w-8 h-8"
+                                variant="cyan"
+                              />
+                              <span className="text-white font-medium">{option.name}</span>
+                              {formData.time === option.id && (
+                                <motion.div
+                                  initial={{ scale: 0 }}
+                                  animate={{ scale: 1 }}
+                                >
+                                  <FaCheckCircle className="w-5 h-5 text-cyan-400" />
+                                </motion.div>
+                              )}
+                            </motion.button>
+                        ))}
+                      </div>
+                      <p className="text-xs text-gray-500 leading-relaxed">
+                        {BOOKING_TIMING_NOTE}
+                      </p>
+                      {schedulingContext?.scheduling_context?.message && formData.time === 'today' && (
+                        <p className="text-xs text-amber-200/80 leading-relaxed rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2">
+                          {schedulingContext.scheduling_context.message}
+                        </p>
+                      )}
+                      {formData.time === 'today' && !priorityOffered && (
+                        <p className="text-xs text-gray-500 leading-relaxed">
+                          Choosing <span className="text-gray-400">Today</span> does not change the estimated price by itself.
+                          Priority / same-day diagnostic rates apply only if you check{' '}
+                          <span className="text-gray-400">Request priority service</span> when that option is offered
+                          (usually after standard same-day hours).
+                        </p>
+                      )}
+                      {priorityOffered && (
+                        <label className="flex items-start gap-3 rounded-xl border border-orange-500/30 bg-orange-500/10 p-4 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={priorityRequested}
+                            onChange={(e) => {
+                              setPriorityRequested(e.target.checked);
+                              setPricingEstimate(null);
+                            }}
+                            className="mt-1 w-4 h-4 rounded border-gray-600 bg-gray-800 text-orange-500 focus:ring-orange-500"
+                          />
+                          <span>
+                            <span className="block text-sm font-semibold text-orange-200">Request priority service</span>
+                            <span className="block text-xs text-orange-200/70 mt-1 leading-relaxed">
+                              Same-day priority uses higher diagnostic/trip rates when available. We&apos;ll call to confirm
+                              before anything is scheduled — no online charge. Repairs that need ordered parts may still
+                              require a return visit.
+                            </span>
+                          </span>
+                        </label>
+                      )}
                     </div>
                   )}
 
@@ -437,15 +984,36 @@ export default function BookService() {
                           />
                         </div>
                       </div>
+                      <p className="text-xs text-gray-500">
+                        Provide <span className="text-gray-400">phone or email</span> (or both) so we can reach you.
+                      </p>
                       <div>
-                        <label className="block text-sm text-gray-400 mb-2">Phone Number</label>
+                        <label className="block text-sm text-gray-400 mb-2">
+                          Phone Number {!hasEmail && <span className="text-cyan-400/80">*</span>}
+                        </label>
                         <div className="relative">
                           <FaPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
                           <input
                             type="tel"
                             value={formData.phone}
                             onChange={(e) => updateFormData('phone', e.target.value)}
-                            placeholder="(419) 555-1234"
+                            placeholder="(419) 740-0146"
+                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm text-gray-400 mb-2">
+                          Email {!hasPhone && <span className="text-cyan-400/80">*</span>}
+                        </label>
+                        <div className="relative">
+                          <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
+                          <input
+                            type="email"
+                            value={formData.email}
+                            onChange={(e) => updateFormData('email', e.target.value)}
+                            placeholder="you@example.com"
+                            autoComplete="email"
                             className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
                           />
                         </div>
@@ -462,6 +1030,98 @@ export default function BookService() {
                             className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
                           />
                         </div>
+                        {pricingLoading && formData.address.trim() && (
+                          <p className="mt-2 text-xs text-gray-500">Checking service area…</p>
+                        )}
+                        {isOutOfServiceArea && (
+                          <div className="mt-3 rounded-xl border border-orange-500/40 bg-orange-500/10 p-3 text-sm text-orange-200/90">
+                            <p className="font-medium text-orange-300 mb-1">Outside our service area</p>
+                            <p className="text-xs leading-relaxed text-orange-200/80">
+                              {pricingEstimate?.service_area_message || (
+                                'Online booking is only available in our northwest Ohio service area. '
+                                + 'Call (419) 740-0146 if you need help.'
+                              )}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                      <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 space-y-3">
+                        <p className="text-sm font-medium text-white">How should we reach you about this appointment?</p>
+                        <div>
+                          <label className="block text-xs text-gray-500 mb-1.5">Primary</label>
+                          <div className="flex flex-wrap gap-2">
+                            {CONTACT_CHANNELS.map((c) => {
+                              const disabled = !channelAvailable(c.id);
+                              const selected = formData.contactPrimary === c.id;
+                              return (
+                                <button
+                                  key={c.id}
+                                  type="button"
+                                  disabled={disabled}
+                                  onClick={() => updateFormData('contactPrimary', c.id)}
+                                  className={`px-3 py-2 rounded-full text-xs font-medium border transition-all ${
+                                    selected
+                                      ? 'bg-cyan-500/20 text-cyan-100 border-cyan-500/50'
+                                      : disabled
+                                        ? 'bg-white/5 text-gray-600 border-white/5 cursor-not-allowed'
+                                        : 'bg-white/5 text-gray-200 border-white/10 hover:border-white/20'
+                                  }`}
+                                >
+                                  {c.label}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-500 mb-1.5">Backup (optional)</label>
+                          <div className="flex flex-wrap gap-2">
+                            <button
+                              type="button"
+                              onClick={() => updateFormData('contactBackup', '')}
+                              className={`px-3 py-2 rounded-full text-xs font-medium border ${
+                                !formData.contactBackup
+                                  ? 'bg-white/10 text-white border-white/20'
+                                  : 'bg-white/5 text-gray-400 border-white/10'
+                              }`}
+                            >
+                              None
+                            </button>
+                            {CONTACT_CHANNELS.filter((c) => c.id !== formData.contactPrimary).map((c) => {
+                              const disabled = !channelAvailable(c.id);
+                              const selected = formData.contactBackup === c.id;
+                              return (
+                                <button
+                                  key={c.id}
+                                  type="button"
+                                  disabled={disabled}
+                                  onClick={() => updateFormData('contactBackup', c.id)}
+                                  className={`px-3 py-2 rounded-full text-xs font-medium border transition-all ${
+                                    selected
+                                      ? 'bg-cyan-500/20 text-cyan-100 border-cyan-500/50'
+                                      : disabled
+                                        ? 'bg-white/5 text-gray-600 border-white/5 cursor-not-allowed'
+                                        : 'bg-white/5 text-gray-200 border-white/10 hover:border-white/20'
+                                  }`}
+                                >
+                                  {c.label}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                        <label className="flex items-start gap-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={formData.communicationsConsent}
+                            onChange={(e) => updateFormData('communicationsConsent', e.target.checked)}
+                            className="mt-0.5 w-4 h-4 rounded border-gray-600 bg-gray-800 text-cyan-500 focus:ring-cyan-500"
+                          />
+                          <span className="text-xs text-gray-400 leading-relaxed">
+                            I agree to receive appointment updates from Atomic Repair by my selected contact methods.
+                            SMS will be used when you choose text message and we have your mobile number on file.
+                          </span>
+                        </label>
                       </div>
                     </div>
                   )}
@@ -485,11 +1145,63 @@ export default function BookService() {
                             >
                               <FaCheckCircle className="w-10 h-10 text-white" />
                             </motion.div>
-                            <h3 className="text-xl font-bold text-white mb-2">You're all set!</h3>
-                            <p className="text-gray-400 text-sm">
-                              We've received your booking and will contact you shortly to confirm.
+                            <h3 className="text-xl font-bold text-white mb-2">You&apos;re all set!</h3>
+                            {submittedOrderNumber && (
+                              <p className="text-cyan-400 text-sm font-semibold mb-2">
+                                Request #{submittedOrderNumber}
+                              </p>
+                            )}
+                            <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
+                              We&apos;ve received your service request and will reach out using your preferred contact method to
+                              schedule your visit. {BOOKING_PAYMENT_NOTE}
                             </p>
+                            {hasEmail && (
+                              <p className="text-gray-500 text-xs mt-3 max-w-sm">
+                                A confirmation email is on its way to {formData.email.trim()}.
+                              </p>
+                            )}
+                            <div className="mt-6 w-full max-w-sm rounded-xl border border-cyan-500/25 bg-cyan-500/10 p-4 text-left">
+                              <p className="text-sm font-semibold text-white mb-2">Get more from your repair</p>
+                              <ul className="text-xs text-gray-400 space-y-1.5 mb-4">
+                                <li>• Book and manage appointment windows</li>
+                                <li>• Track appliances and service history</li>
+                                <li>• View invoices and pay online when ready</li>
+                              </ul>
+                              <Link
+                                href={portalSignUpUrl({
+                                  returnTo: '/cxdashboard',
+                                  email: formData.email?.trim() || undefined,
+                                })}
+                                className="block text-center py-2.5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-cyan-500 to-cyan-600"
+                              >
+                                Create your free account
+                              </Link>
+                              <p className="text-[11px] text-gray-500 mt-2 leading-relaxed">
+                                {formData.email?.trim()
+                                  ? 'Use the same email you entered above so we can link this booking to your portal.'
+                                  : 'Add an email on your booking (or use the email on your service record) when you sign up so we can link your history.'}
+                              </p>
+                            </div>
                           </motion.div>
+                        ) : isOutOfServiceArea ? (
+                          <div className="space-y-4">
+                            <div className="rounded-xl border border-orange-500/40 bg-orange-500/10 p-4">
+                              <p className="font-semibold text-orange-300 mb-2">We can&apos;t book this address online</p>
+                              <p className="text-sm text-orange-200/80 leading-relaxed">
+                                {pricingEstimate?.service_area_message || (
+                                  'This location is outside our standard service area. '
+                                  + 'Please double-check your address or call (419) 740-0146.'
+                                )}
+                              </p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={prevStep}
+                              className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+                            >
+                              ← Go back and update your address
+                            </button>
+                          </div>
                         ) : (
                           <div className="space-y-4">
                             <div className="flex items-center gap-3 text-cyan-400">
@@ -497,7 +1209,7 @@ export default function BookService() {
                               <span className="font-medium">Ready to confirm</span>
                             </div>
                             <p className="text-gray-400 text-sm">
-                              Please review your booking details and confirm your appointment.
+                              Please review your details and submit your service request. We&apos;ll contact you to schedule.
                             </p>
                           </div>
                         )}
@@ -517,17 +1229,107 @@ export default function BookService() {
                           </div>
                           <div className="flex justify-between text-sm gap-2">
                             <span className="text-gray-500 flex-shrink-0">Time</span>
-                            <span className="text-white font-medium">{getSelectedTime()?.name || '-'}</span>
+                            <span className="text-white font-medium text-right">
+                              {getSelectedTime()?.name || '-'}
+                              {priorityRequested && formData.time === 'today' && (
+                                <span className="block text-xs text-orange-300 font-normal">Priority requested</span>
+                              )}
+                            </span>
                           </div>
                           <div className="border-t border-white/10 my-3" />
                           <div className="flex justify-between text-sm gap-2">
-                            <span className="text-gray-500 flex-shrink-0">Contact</span>
+                            <span className="text-gray-500 flex-shrink-0">Name</span>
+                            <span className="text-white font-medium text-right">{formData.name || '-'}</span>
+                          </div>
+                          <div className="flex justify-between text-sm gap-2">
+                            <span className="text-gray-500 flex-shrink-0">Phone</span>
                             <span className="text-white font-medium">{formData.phone || '-'}</span>
                           </div>
+                          {formData.email?.trim() && (
+                            <div className="flex justify-between text-sm gap-2">
+                              <span className="text-gray-500 flex-shrink-0">Email</span>
+                              <span className="text-white font-medium text-right break-all">{formData.email.trim()}</span>
+                            </div>
+                          )}
                           <div className="flex justify-between text-sm gap-2">
                             <span className="text-gray-500 flex-shrink-0">Address</span>
                             <span className="text-white font-medium text-right line-clamp-2">{formData.address || '-'}</span>
                           </div>
+
+                          <div className="border-t border-white/10 my-3" />
+                          <p className="text-xs font-semibold uppercase tracking-wide text-cyan-400/80">
+                            Estimated pricing
+                          </p>
+                          <p className="text-xs text-gray-500 leading-relaxed pb-1">
+                            {DIAGNOSTIC_CREDIT_MARKETING}
+                          </p>
+                          <p className="text-xs text-gray-500 leading-relaxed pb-1">
+                            {BOOKING_REPAIR_NOTE}
+                          </p>
+
+                          {pricingLoading && (
+                            <div className="flex items-center gap-2 text-sm text-gray-400 py-1">
+                              <div className="w-4 h-4 border-2 border-cyan-500/30 border-t-cyan-400 rounded-full animate-spin" />
+                              Calculating estimate…
+                            </div>
+                          )}
+
+                          {pricingError && !pricingLoading && (
+                            <p className="text-sm text-amber-400/90">
+                              {pricingError}
+                            </p>
+                          )}
+
+                          {isOutOfServiceArea && !pricingLoading && (
+                            <p className="text-sm text-orange-300/90">
+                              Online booking is not available for this address.
+                            </p>
+                          )}
+
+                          {pricingEstimate && !pricingLoading && !isOutOfServiceArea && (
+                            <>
+                              <div className="flex justify-between text-sm gap-2">
+                                <span className="text-gray-500 flex-shrink-0">Diagnostic</span>
+                                <span className="text-white font-medium text-right">
+                                  {pricingEstimate.diagnostic
+                                    ? `${formatCurrency(pricingEstimate.diagnostic.price)} · ${pricingEstimate.diagnostic.name}`
+                                    : 'Contact for quote'}
+                                </span>
+                              </div>
+                              <div className="flex justify-between text-sm gap-2">
+                                <span className="text-gray-500 flex-shrink-0">Trip charge</span>
+                                <span className="text-white font-medium text-right">
+                                  {formatTripCharge(pricingEstimate.trip_charge)}
+                                  {pricingEstimate.trip_charge?.zone_name && (
+                                    <span className="block text-xs text-gray-500 font-normal">
+                                      {pricingEstimate.trip_charge.zone_name} area
+                                    </span>
+                                  )}
+                                </span>
+                              </div>
+                              {pricingEstimate.tier_label && (
+                                <p className="text-xs text-orange-300/90 font-medium">
+                                  {pricingEstimate.tier_label}
+                                </p>
+                              )}
+                              {pricingEstimate.estimated_total != null && (
+                                <div className="flex justify-between text-sm gap-2 pt-1">
+                                  <span className="text-gray-400 font-medium">Estimated total</span>
+                                  <span className="text-cyan-300 font-semibold">
+                                    {formatCurrency(pricingEstimate.estimated_total)}
+                                  </span>
+                                </div>
+                              )}
+                              <p className="text-xs text-gray-500 leading-relaxed pt-2 border-t border-white/5">
+                                {BOOKING_PAYMENT_NOTE}
+                              </p>
+                              {pricingEstimate.note && (
+                                <p className="text-xs text-gray-500 leading-relaxed pt-1">
+                                  {pricingEstimate.note}
+                                </p>
+                              )}
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -535,8 +1337,8 @@ export default function BookService() {
                 </motion.div>
               </AnimatePresence>
 
-              {/* Navigation Buttons */}
-              <div className="flex items-center gap-4 mt-8 pt-6 border-t border-white/5">
+              {/* Navigation Buttons - hidden on mobile, using sticky footer instead */}
+              <div className="hidden sm:flex items-center gap-4 mt-8 pt-6 border-t border-white/5">
                 {currentStep > 1 && !isComplete && (
                   <motion.button
                     onClick={prevStep}
@@ -567,20 +1369,28 @@ export default function BookService() {
                 ) : !isComplete ? (
                   <motion.button
                     onClick={handleSubmit}
-                    disabled={isSubmitting}
-                    className="flex-1 py-3 px-6 rounded-xl font-semibold text-white shadow-[0_0_25px_rgba(251,146,60,0.4)] hover:shadow-[0_0_35px_rgba(251,146,60,0.6)] flex items-center justify-center gap-2 transition-all"
-                    style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    disabled={isSubmitting || !canConfirmBooking}
+                    className={`flex-1 py-3 px-6 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all ${
+                      canConfirmBooking && !isSubmitting
+                        ? 'text-white shadow-[0_0_25px_rgba(251,146,60,0.4)] hover:shadow-[0_0_35px_rgba(251,146,60,0.6)]'
+                        : 'bg-white/10 text-gray-500 cursor-not-allowed'
+                    }`}
+                    style={canConfirmBooking && !isSubmitting ? { background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' } : undefined}
+                    whileHover={canConfirmBooking && !isSubmitting ? { scale: 1.02 } : {}}
+                    whileTap={canConfirmBooking && !isSubmitting ? { scale: 0.98 } : {}}
                   >
                     {isSubmitting ? (
                       <>
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         Confirming...
                       </>
+                    ) : pricingLoading ? (
+                      'Checking service area…'
+                    ) : isOutOfServiceArea ? (
+                      'Outside service area'
                     ) : (
                       <>
-                        Confirm Appointment
+                        Submit booking request
                         <FaCheckCircle className="w-4 h-4" />
                       </>
                     )}
@@ -609,28 +1419,31 @@ export default function BookService() {
             className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4"
           >
             {[
-              { icon: FaBolt, title: 'FAST & EASY', desc: 'Book in under 60 seconds' },
-              { icon: FaShieldAlt, title: 'TRUSTED EXPERTS', desc: 'Certified technicians you can trust' },
-              { icon: FaClock, title: 'ON TIME SERVICE', desc: 'We respect your time' },
-              { icon: FaMedal, title: 'SATISFACTION GUARANTEED', desc: 'We stand behind our work' },
-            ].map((item, i) => {
-              const Icon = item.icon;
-              return (
+              { icon: 'zap', title: 'FAST & EASY', desc: 'Book in under 60 seconds' },
+              { icon: 'shield', title: 'TRUSTED EXPERTS', desc: 'Certified technicians you can trust' },
+              { icon: 'clock', title: 'ON TIME SERVICE', desc: 'We respect your time' },
+              { icon: 'medal', title: 'SATISFACTION GUARANTEED', desc: 'We stand behind our work' },
+            ].map((item, i) => (
                 <div key={i} className="flex flex-col items-center text-center p-4">
                   <div className="w-10 h-10 rounded-full bg-cyan-500/10 flex items-center justify-center mb-2">
-                    <Icon className="w-5 h-5 text-cyan-400" />
+                    <NeonIcon name={item.icon} className="w-5 h-5" variant="cyan" />
                   </div>
                   <p className="text-white text-xs font-semibold">{item.title}</p>
                   <p className="text-gray-500 text-xs mt-1">{item.desc}</p>
                 </div>
-              );
-            })}
+            ))}
           </motion.div>
         </div>
       </div>
 
       {/* Mobile Sticky CTA */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 backdrop-blur-md border-t border-white/5 sm:hidden z-40" style={{ backgroundColor: 'rgba(0, 2, 8, 0.95)' }}>
+      <div 
+        className="fixed bottom-0 left-0 right-0 px-4 pt-4 backdrop-blur-md border-t border-white/5 sm:hidden z-40" 
+        style={{ 
+          backgroundColor: 'rgba(0, 2, 8, 0.95)',
+          paddingBottom: 'calc(1rem + env(safe-area-inset-bottom, 0px))'
+        }}
+      >
         <div className="flex gap-3">
           {currentStep > 1 && !isComplete && (
             <button
@@ -655,11 +1468,21 @@ export default function BookService() {
           ) : !isComplete ? (
             <button
               onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="flex-1 py-3 rounded-xl font-semibold text-white flex items-center justify-center gap-2"
-              style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
+              disabled={isSubmitting || !canConfirmBooking}
+              className={`flex-1 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 ${
+                canConfirmBooking && !isSubmitting
+                  ? 'text-white'
+                  : 'bg-white/10 text-gray-500 cursor-not-allowed'
+              }`}
+              style={canConfirmBooking && !isSubmitting ? { background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' } : undefined}
             >
-              {isSubmitting ? 'Confirming...' : 'Confirm'}
+              {isSubmitting
+                ? 'Confirming...'
+                : pricingLoading
+                  ? 'Checking…'
+                  : isOutOfServiceArea
+                    ? 'Outside area'
+                    : 'Submit request'}
             </button>
           ) : (
             <Link href="/" className="flex-1">
@@ -675,5 +1498,5 @@ export default function BookService() {
 }
 
 BookService.getLayout = function getLayout(page) {
-  return <HomeLayout title="Book Service | Quantum Repair">{page}</HomeLayout>;
+  return <HomeLayout title="Book Service | Atomic Repair">{page}</HomeLayout>;
 };

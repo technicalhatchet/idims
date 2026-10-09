@@ -36,7 +36,7 @@ LOGO_PATH = os.path.join(
 LOGO_PATH = os.path.normpath(LOGO_PATH)
 
 COMPANY_NAME = 'Atomic Repair'
-COMPANY_PHONE = '(419) 555-0100'
+COMPANY_PHONE = '(419) 740-0146'
 COMPANY_EMAIL = 'service@atomicrepair.com'
 COMPANY_ADDRESS = '641 Barclay Drive, Toledo, OH 43609'
 

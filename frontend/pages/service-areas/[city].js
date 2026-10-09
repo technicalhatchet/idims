@@ -84,7 +84,7 @@ export default function ServiceAreaPage({ area }) {
         <title>Appliance Repair in {area.name}, {area.state} | Atomic Repair</title>
         <meta 
           name="description" 
-          content={`Fast, reliable appliance repair in ${area.name}, ${area.state}. Same-day service available. Licensed & insured local technicians. Call ${area.phone}`} 
+          content={`Fast, reliable appliance repair in ${area.name}, ${area.state}. Same-day diagnostics when available. Local expert technicians. Call ${area.phone}`} 
         />
         <meta name="keywords" content={`appliance repair ${area.name}, ${area.name} appliance repair, refrigerator repair ${area.name}, washer repair ${area.name}`} />
       </Head>
@@ -125,7 +125,7 @@ export default function ServiceAreaPage({ area }) {
 
               {/* Trust Points */}
               <div className="mt-6 space-y-2">
-                {['Licensed & Insured', '5-Star Local Technicians', 'Transparent Pricing'].map((point, i) => (
+                {['5-Star Local Technicians', 'Transparent Pricing', 'Same-Day Diagnostics When Available'].map((point, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, x: -20 }}
@@ -270,7 +270,7 @@ export default function ServiceAreaPage({ area }) {
               { icon: FaStar, value: area.stats.rating, label: 'Google Rating' },
               { icon: FaTools, value: `${area.stats.repairsCompleted.toLocaleString()}+`, label: 'Repairs Completed' },
               { icon: FaMapMarkerAlt, value: 'Locally', label: 'Owned & Operated' },
-              { icon: FaClock, value: 'Same-Day', label: 'Availability' }
+              { icon: FaClock, value: 'Same-Day', label: 'Diagnostics' }
             ].map((stat, i) => {
               const Icon = stat.icon;
               return (
@@ -614,7 +614,7 @@ export default function ServiceAreaPage({ area }) {
                   <h3 className="text-xl lg:text-2xl font-bold text-white">
                     Need Appliance Repair in {area.name}?
                   </h3>
-                  <p className="text-gray-400 text-sm">We'll get it fixed fast.</p>
+                  <p className="text-gray-400 text-sm">We diagnose first, then quote repair options.</p>
                 </div>
               </div>
 

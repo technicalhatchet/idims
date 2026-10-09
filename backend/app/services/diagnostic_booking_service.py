@@ -274,11 +274,11 @@ def build_booking_estimate(
     if serviceable and diagnostic_price is not None:
         if trip.get("amount") is not None:
             estimated_total = round(diagnostic_price + float(trip["amount"]), 2)
-            note = "Diagnostic fee is applied toward repair if you proceed."
+            note = "50% of your diagnostic fee is applied toward the repair if you proceed."
         elif zone_exempt:
             estimated_total = diagnostic_price
             note = (
-                "Diagnostic fee is applied toward repair if you proceed. "
+                "50% of your diagnostic fee is applied toward the repair if you proceed. "
                 "Trip charge will be confirmed based on your service location."
             )
 

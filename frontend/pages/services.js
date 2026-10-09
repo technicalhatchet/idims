@@ -294,5 +294,5 @@ export default function Services() {
 }
 
 Services.getLayout = function getLayout(page) {
-  return <HomeLayout title="Our Services | Quantum Repair">{page}</HomeLayout>;
+  return <HomeLayout title="Our Services | Atomic Repair">{page}</HomeLayout>;
 };

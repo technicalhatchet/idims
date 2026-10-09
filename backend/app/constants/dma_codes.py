@@ -1,5 +1,7 @@
 """Problem and resolution codes for DMA (Diagnostic Memory Amplifier) repair outcomes."""
 
+from __future__ import annotations
+
 DMA_PROBLEM_CODES = {
     "not_cooling": "Not cooling / no cool",
     "not_heating": "Not heating",

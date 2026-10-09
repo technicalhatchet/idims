@@ -1321,6 +1321,18 @@ class WorkOrderService:
                             f"Successfully committed and re-fetched appointment {refetched_appointment.id}. "
                             f"Final schedule: {refetched_appointment.scheduled_start} to {refetched_appointment.scheduled_end}"
                         )
+                        try:
+                            from app.services.public_booking_emails import (
+                                notify_customer_appointment_scheduled,
+                            )
+
+                            notify_customer_appointment_scheduled(
+                                self.db, work_order, refetched_appointment
+                            )
+                        except Exception as email_exc:
+                            logger.warning(
+                                "Appointment scheduled customer email failed: %s", email_exc
+                            )
                         return refetched_appointment
                     logger.error(f"CRITICAL: Appointment {committed_appointment_id} not found after commit.")
                     raise ValidationException(

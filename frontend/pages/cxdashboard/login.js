@@ -6,7 +6,9 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Link from 'next/link';
 import ClientPwaHead from '../../components/cxdashboard/ClientPwaHead';
+import { portalSignInUrl, portalSignUpUrl } from '../../utils/portalAuthUrls';
 
 const PORTAL_SHELL = '#0B0F1A';
 
@@ -29,10 +31,14 @@ export default function PortalLogin() {
     };
   }, []);
 
-  const handleLogin = () => {
-    const params = new URLSearchParams();
-    if (returnTo) params.set('returnTo', returnTo);
-    window.location.href = `/api/auth/login?returnTo=/cxdashboard`;
+  const returnPath = typeof returnTo === 'string' && returnTo.startsWith('/') ? returnTo : '/cxdashboard';
+
+  const handleSignIn = () => {
+    window.location.href = portalSignInUrl(returnPath);
+  };
+
+  const handleSignUp = () => {
+    window.location.href = portalSignUpUrl({ returnTo: returnPath });
   };
 
   return (
@@ -65,12 +71,13 @@ export default function PortalLogin() {
           <h1 style={{ color: '#fff', fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.5rem' }}>
             Client Portal
           </h1>
-          <p style={{ color: '#9ca3af', marginBottom: '2rem' }}>
-            Sign in to view your appointments, repairs, and invoices.
+          <p style={{ color: '#9ca3af', marginBottom: '1.5rem', lineHeight: 1.5 }}>
+            Sign in to view appointments, service history, and invoices.
           </p>
 
           <button
-            onClick={handleLogin}
+            type="button"
+            onClick={handleSignIn}
             style={{
               width: '100%',
               padding: '0.875rem',
@@ -81,17 +88,43 @@ export default function PortalLogin() {
               fontWeight: '700',
               fontSize: '1rem',
               cursor: 'pointer',
-              marginBottom: '1rem',
+              marginBottom: '0.75rem',
             }}
           >
-            Sign In
+            Sign in
           </button>
 
-          <p style={{ color: '#6b7280', fontSize: '0.75rem' }}>
-            Don&apos;t have an account?{' '}
-            <span style={{ color: '#00D4FF' }}>
-              Check your email for an invite from Atomic Repair.
-            </span>
+          <button
+            type="button"
+            onClick={handleSignUp}
+            style={{
+              width: '100%',
+              padding: '0.875rem',
+              background: 'transparent',
+              color: '#e5e7eb',
+              border: '1px solid rgba(255,255,255,0.15)',
+              borderRadius: '8px',
+              fontWeight: '600',
+              fontSize: '0.95rem',
+              cursor: 'pointer',
+              marginBottom: '1.25rem',
+            }}
+          >
+            Create account
+          </button>
+
+          <p style={{ color: '#6b7280', fontSize: '0.75rem', lineHeight: 1.55, textAlign: 'left' }}>
+            <strong style={{ color: '#9ca3af' }}>Already booked with us?</strong>
+            {' '}
+            Create an account with the <strong style={{ color: '#9ca3af' }}>same email</strong> you used
+            when you scheduled — we link your jobs automatically. No invite required.
+          </p>
+          <p style={{ color: '#6b7280', fontSize: '0.75rem', lineHeight: 1.55, textAlign: 'left', marginTop: '0.75rem' }}>
+            We can also email you an invite link from the office. Not a customer yet?{' '}
+            <Link href="/book" style={{ color: '#00D4FF', textDecoration: 'none' }}>
+              Book service online
+            </Link>
+            .
           </p>
         </div>
       </div>

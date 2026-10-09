@@ -7,6 +7,14 @@ import ApplianceIcon from '../components/ui/ApplianceIcon';
 import { motion } from 'framer-motion';
 import { FaStar, FaShieldAlt, FaClock, FaCheckCircle, FaPhone, FaArrowRight } from 'react-icons/fa';
 import { HiLightningBolt } from 'react-icons/hi';
+import {
+  DIAGNOSTIC_CREDIT_MARKETING,
+  OPENING_SPECIAL_LIST_PRICE,
+  OPENING_SPECIAL_PRICE,
+} from '../constants/bookingMarketing';
+
+const HOMEPAGE_PRICING_VARIANT =
+  process.env.NEXT_PUBLIC_HOMEPAGE_PRICING_VARIANT || 'promo';
 
 export default function Home() {
   const { user } = useUser();
@@ -50,7 +58,7 @@ export default function Home() {
     <>
       <Head>
         <title>Atomic Repair | Fast, Reliable Appliance Repair in Toledo</title>
-        <meta name="description" content="Same-day appliance repair service in Toledo. Honest diagnostics, no surprises. Licensed & insured technicians." />
+        <meta name="description" content="Same-day appliance diagnostics when available in Toledo. Honest assessments, upfront pricing, and expert technicians." />
         <link rel="manifest" href="/manifest.json" />
       </Head>
 
@@ -84,7 +92,7 @@ export default function Home() {
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 mb-6">
                 <HiLightningBolt className="w-4 h-4 text-cyan-400" />
-                <span className="text-cyan-400 text-sm font-medium" style={{ textShadow: '0 0 4px rgba(249,115,22,1), 0 0 10px rgba(249,115,22,0.9), 0 0 20px rgba(249,115,22,0.5)' }}>Same-Day Service Available</span>
+                <span className="text-cyan-400 text-sm font-medium" style={{ textShadow: '0 0 4px rgba(249,115,22,1), 0 0 10px rgba(249,115,22,0.9), 0 0 20px rgba(249,115,22,0.5)' }}>Same-Day Diagnostics Available</span>
               </div>
 
               {/* Heading */}
@@ -100,7 +108,7 @@ export default function Home() {
 
               {/* Subtext */}
               <p className="mt-6 text-lg text-gray-400 max-w-md">
-                Same-day service. Honest diagnostics. No surprises.
+                Same-day diagnostics when available. Honest assessments. No surprises.
               </p>
 
               {/* CTA Buttons */}
@@ -144,6 +152,7 @@ export default function Home() {
                   </div>
                 </div>
 
+                {/* Licensed & insured — restore when credentials are finalized
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center w-10 h-10 rounded-full bg-cyan-500/20">
                     <FaShieldAlt className="w-5 h-5 text-cyan-400" />
@@ -153,14 +162,15 @@ export default function Home() {
                     <p className="text-gray-500 text-sm">Your home is protected</p>
                   </div>
                 </div>
+                */}
 
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-500/20">
                     <FaClock className="w-5 h-5 text-orange-400" />
                   </div>
                   <div>
-                    <p className="text-white font-semibold">Same-Day Service</p>
-                    <p className="text-gray-500 text-sm">When available</p>
+                    <p className="text-white font-semibold">Same-Day Diagnostics</p>
+                    <p className="text-gray-500 text-sm">When slots are available</p>
                   </div>
                 </div>
               </div>
@@ -210,7 +220,7 @@ export default function Home() {
                     </div>
                     <div>
                       <p className="text-white font-semibold text-sm">Expert Technicians</p>
-                      <p className="text-gray-400 text-xs">We fix it right the first time.</p>
+                      <p className="text-gray-400 text-xs">Thorough diagnosis before any repair.</p>
                     </div>
                   </div>
                 </motion.div>
@@ -308,16 +318,40 @@ export default function Home() {
             <div className="mt-10 inline-block">
               <div className="relative p-8 lg:p-12 rounded-3xl bg-gradient-to-br from-[#000811] to-[#000208] border border-white/10">
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/5 to-orange-500/5" />
-                
-                <p className="relative text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500 drop-shadow-[0_0_30px_rgba(249,115,22,0.4)]">
-                  $89
-                </p>
-                <p className="relative mt-2 text-xl text-white font-semibold">
-                  Diagnostic Fee
-                </p>
-                <p className="relative mt-2 text-gray-400">
-                  Waived if you proceed with the repair
-                </p>
+
+                {HOMEPAGE_PRICING_VARIANT === 'promo' ? (
+                  <>
+                    <span className="relative inline-block mb-3 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-orange-100 bg-orange-500/20 border border-orange-500/40">
+                      Opening Special
+                    </span>
+                    <div className="relative flex items-end justify-center gap-3">
+                      <span className="text-2xl lg:text-3xl text-gray-500 line-through decoration-orange-500/80 decoration-2">
+                        ${OPENING_SPECIAL_LIST_PRICE}
+                      </span>
+                      <p className="text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500 drop-shadow-[0_0_30px_rgba(249,115,22,0.4)]">
+                        ${OPENING_SPECIAL_PRICE}
+                      </p>
+                    </div>
+                    <p className="relative mt-2 text-xl text-white font-semibold">
+                      Diagnostic Fee
+                    </p>
+                    <p className="relative mt-2 text-gray-400 text-sm max-w-sm mx-auto">
+                      {DIAGNOSTIC_CREDIT_MARKETING}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="relative text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500 drop-shadow-[0_0_30px_rgba(249,115,22,0.4)]">
+                      ${OPENING_SPECIAL_PRICE}
+                    </p>
+                    <p className="relative mt-2 text-xl text-white font-semibold">
+                      Diagnostic Fee
+                    </p>
+                    <p className="relative mt-2 text-gray-400">
+                      {DIAGNOSTIC_CREDIT_MARKETING}
+                    </p>
+                  </>
+                )}
 
                 <div className="relative mt-8 space-y-3 text-left max-w-xs mx-auto">
                   <div className="flex items-center gap-3 text-gray-300">
@@ -359,10 +393,10 @@ export default function Home() {
             transition={{ duration: 0.5 }}
           >
             <h2 className="text-3xl lg:text-4xl font-bold text-white">
-              Get Your Appliance Fixed Today
+              Book Same-Day Diagnostics
             </h2>
             <p className="mt-4 text-gray-400 max-w-lg mx-auto">
-              Don't let a broken appliance disrupt your day. Our expert technicians are ready to help.
+              Don't let a broken appliance disrupt your day. Request a diagnostic visit — often same-day when we're available.
             </p>
 
             <div className="mt-8 flex flex-wrap justify-center gap-4">

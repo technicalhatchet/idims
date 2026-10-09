@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { getSession } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -12,10 +13,19 @@ import ErrorAlert from '../../components/ui/ErrorAlert';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
 
 function WorkOrders() {
+  const router = useRouter();
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState({});
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const limit = 10;
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    const status = router.query.status;
+    if (typeof status === 'string' && status) {
+      setFilters((prev) => ({ ...prev, status }));
+    }
+  }, [router.isReady, router.query.status]);
 
   // Fetch work orders with pagination and filters
   const { 
