@@ -13,6 +13,7 @@ import {
   DebriefingList,
   fetchDebriefingEntries,
 } from './debriefingShared';
+import { techWorkOrderDetailPath } from '../../lib/techRoutes';
 
 export default function DebriefingFullPage({ workOrderId }) {
   const router = useRouter();
@@ -23,7 +24,7 @@ export default function DebriefingFullPage({ workOrderId }) {
   const [error, setError] = useState(null);
 
   const backHref = fromMobile
-    ? `/work_orders/${workOrderId}/mobile?tab=details`
+    ? techWorkOrderDetailPath(workOrderId, { tab: 'details' })
     : `/work_orders/${workOrderId}?tab=details`;
 
   const loadEntries = useCallback(async () => {

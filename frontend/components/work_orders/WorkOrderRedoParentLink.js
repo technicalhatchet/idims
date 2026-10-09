@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { techWorkOrderDetailPath } from '../../lib/techRoutes';
 import { FaRedo } from 'react-icons/fa';
 
 export default function WorkOrderRedoParentLink({ workOrder, variant = 'desktop' }) {
@@ -7,7 +8,9 @@ export default function WorkOrderRedoParentLink({ workOrder, variant = 'desktop'
   }
 
   const isMobile = variant === 'mobile';
-  const href = `/work_orders/${workOrder.parent_work_order_id}${isMobile ? '/mobile' : ''}`;
+  const href = isMobile
+    ? techWorkOrderDetailPath(workOrder.parent_work_order_id)
+    : `/work_orders/${workOrder.parent_work_order_id}`;
 
   return (
     <Link

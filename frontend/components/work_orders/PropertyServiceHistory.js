@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getPropertyServiceHistory } from '../../services/api/jobEconomicsApi';
 import { formatMoney } from './WorkOrderExpensesPanel';
+import { techWorkOrderDetailPath } from '../../lib/techRoutes';
 
 function formatEquipment(item) {
   const parts = [item.equipment_make, item.equipment_model, item.equipment_subtype].filter(Boolean);
@@ -36,7 +37,7 @@ export default function PropertyServiceHistory({ propertyId, variant = 'mobile' 
         {data.items.map((item) => (
           <li key={item.work_order_id} className={`text-sm border-b pb-3 last:border-0 ${isMobile ? 'border-white/5' : 'border-gray-100 dark:border-gray-700'}`}>
             <div className="flex justify-between gap-2">
-              <Link href={`/work_orders/${item.work_order_id}/mobile`} className="text-cyan-400 hover:underline font-medium">
+              <Link href={techWorkOrderDetailPath(item.work_order_id)} className="text-cyan-400 hover:underline font-medium">
                 {item.order_number || 'Work order'}
               </Link>
               {item.amount_collected != null && (

@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import TechDashboardLayout from '../../../../components/layouts/TechDashboardLayout';
+import TechboardHudDoubleTapShell from '../../../../components/layouts/TechboardHudDoubleTapShell';
 import LoadingSpinner from '../../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../../components/ui/ErrorAlert';
 import { searchDmaErrorCodes } from '../../../../services/api/dmaApi';
@@ -74,9 +75,9 @@ function DmaErrorCodesPage() {
         <title>Error Code Lookup | Repair Memory</title>
       </Head>
 
-      <div className="px-4 py-6 max-w-3xl mx-auto pb-24">
+      <TechboardHudDoubleTapShell contentClassName="px-4 py-6 max-w-3xl mx-auto pb-24">
         <div className="mb-6">
-          <Link href="/techdashboard/dma" className="text-sm text-gray-500 hover:text-cyan-400">
+          <Link href="/techboard/dma" className="text-sm text-gray-500 hover:text-cyan-400">
             ← Repair Memory
           </Link>
           <p className="text-[10px] uppercase tracking-[0.2em] text-orange-400/90 mt-3 mb-1">
@@ -177,7 +178,7 @@ function DmaErrorCodesPage() {
                 {results.items.map((item) => (
                   <li key={item.id}>
                     <Link
-                      href={`/techdashboard/dma/codes/${item.id}`}
+                      href={`/techboard/dma/codes/${item.id}`}
                       className="block rounded-xl border border-white/10 bg-[#0D1525] p-4 hover:border-orange-500/30 transition-colors"
                     >
                       <div className="flex items-start justify-between gap-3">
@@ -197,7 +198,7 @@ function DmaErrorCodesPage() {
             )}
           </div>
         )}
-      </div>
+      </TechboardHudDoubleTapShell>
     </>
   );
 }

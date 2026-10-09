@@ -1,32 +1,33 @@
+/** Ops Board (schedule timeline) — canonical route: /techboard/ops */
 import { useState, useEffect, useMemo, useCallback, useLayoutEffect, useRef } from 'react';
 import { getSession } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
 import { parseISO, format, startOfWeek, endOfWeek } from 'date-fns';
 import { motion } from 'framer-motion';
-import TechDashboardLayout from '../components/layouts/TechDashboardLayout';
-import TechMobileBackDock, { TECH_MOBILE_BACK_DOCK_SCROLL_PAD } from '../components/layouts/TechMobileBackDock';
-import { useHudGridDoubleTapRail } from '../hooks/useHudGridDoubleTapRail';
-import LoadingSpinner from '../components/ui/LoadingSpinner';
-import PullToRefresh from '../components/ui/PullToRefresh';
-import ErrorAlert from '../components/ui/ErrorAlert';
-import MobileEventDetailModal from '../components/schedule/MobileEventDetailModal';
-import CalendarBlockModal from '../components/schedule/CalendarBlockModal';
-import RouteOptimizeModal from '../components/schedule/RouteOptimizeModal';
+import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
+import TechMobileBackDock, { TECH_MOBILE_BACK_DOCK_SCROLL_PAD } from '../../components/layouts/TechMobileBackDock';
+import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
+import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import PullToRefresh from '../../components/ui/PullToRefresh';
+import ErrorAlert from '../../components/ui/ErrorAlert';
+import MobileEventDetailModal from '../../components/schedule/MobileEventDetailModal';
+import CalendarBlockModal from '../../components/schedule/CalendarBlockModal';
+import RouteOptimizeModal from '../../components/schedule/RouteOptimizeModal';
 import ScheduleTestTimeline, {
   AppointmentCardBadgeStack,
   NEON_RAILS,
   formatEquipmentSubtypeLabel,
-} from '../components/schedule/ScheduleTestTimeline';
-import { useSchedule } from '../hooks/useSchedule';
-import { useTechnicians } from '../hooks/useTechnicians';
-import { useShopHours } from '../hooks/useShopHours';
-import { useAuthRedirect } from '../hooks/useAuthRedirect';
-import { useUserRole } from '../utils/auth0-helpers';
+} from '../../components/schedule/ScheduleTestTimeline';
+import { useSchedule } from '../../hooks/useSchedule';
+import { useTechnicians } from '../../hooks/useTechnicians';
+import { useShopHours } from '../../hooks/useShopHours';
+import { useAuthRedirect } from '../../hooks/useAuthRedirect';
+import { useUserRole } from '../../utils/auth0-helpers';
 import {
   CALENDAR_BLOCK_ACCENT,
   calendarBlockTypeLabel,
   isCalendarBlockEvent,
-} from '../utils/calendarBlockTypes';
+} from '../../utils/calendarBlockTypes';
 
 /** Fractal noise + field grid constants (aligned with partswait / opsboard tactical column). */
 const SCHED_TACTICAL_PAGE_BG = '#0A0F1E';

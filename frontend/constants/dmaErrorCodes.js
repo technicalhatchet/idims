@@ -1,3 +1,5 @@
+import { techDmaPath } from '../lib/techRoutes';
+
 export const DMA_EQUIPMENT_SUBTYPE_LABELS = {
   washing_machine: 'Washing Machine',
   electric_dryer: 'Electric Dryer',
@@ -48,19 +50,17 @@ export function resolveCanonicalManufacturer(make) {
 }
 
 export function buildDmaRepairSearchHref({ make, subtype, errorCode } = {}) {
-  const query = new URLSearchParams();
-  if (make) query.set('make', make);
-  if (subtype) query.set('subtype', subtype);
-  if (errorCode) query.set('error', errorCode);
-  const qs = query.toString();
-  return `/techdashboard/dma${qs ? `?${qs}` : ''}`;
+  const q = {};
+  if (make) q.make = make;
+  if (subtype) q.subtype = subtype;
+  if (errorCode) q.error = errorCode;
+  return techDmaPath('', q);
 }
 
 export function buildDmaErrorCodeSearchHref({ make, subtype, code } = {}) {
-  const query = new URLSearchParams();
-  if (make) query.set('make', make);
-  if (subtype) query.set('subtype', subtype);
-  if (code) query.set('code', code);
-  const qs = query.toString();
-  return `/techdashboard/dma/codes${qs ? `?${qs}` : ''}`;
+  const q = {};
+  if (make) q.make = make;
+  if (subtype) q.subtype = subtype;
+  if (code) q.code = code;
+  return techDmaPath('codes', q);
 }

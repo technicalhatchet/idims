@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
+import TechboardHudDoubleTapShell from '../../components/layouts/TechboardHudDoubleTapShell';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
 import { getDmaCodes, getDmaTags, listDmaRepairRecords, searchDmaRepairs } from '../../services/api/dmaApi';
@@ -11,12 +12,13 @@ import { codeLabel, codeOptions, DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES } from 
 import { DmaTagPills } from '../../components/dma/DmaTagPicker';
 import { groupTagsByCategory } from '../../constants/dmaTagCategories';
 import { useUserRole } from '../../context/UserRoleContext';
+import { techWorkOrderDetailPath } from '../../lib/techRoutes';
 
 function resultHref(item) {
   if (item.source_type === 'field_record') {
-    return `/techdashboard/dma/records/${item.id}`;
+    return `/techboard/dma/records/${item.id}`;
   }
-  return `/work_orders/${item.work_order_id}/mobile?tab=notes`;
+  return techWorkOrderDetailPath(item.work_order_id, { tab: 'notes' });
 }
 
 function SourceBadge({ item }) {
@@ -156,7 +158,7 @@ function DmaSearchPage() {
         <title>DMA Repair Memory | Field Tech Dashboard</title>
       </Head>
 
-      <div className="px-4 py-6 max-w-3xl mx-auto pb-24">
+      <TechboardHudDoubleTapShell contentClassName="px-4 py-6 max-w-3xl mx-auto pb-24">
         <div className="mb-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
             <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/90 mb-1">
@@ -170,7 +172,7 @@ function DmaSearchPage() {
           <div className="flex flex-col sm:flex-row gap-2 shrink-0">
             {isManager ? (
               <Link
-                href="/techdashboard/dma/review"
+                href="/techboard/dma/review"
                 className="inline-flex items-center justify-center h-10 px-4 rounded-xl border border-violet-500/30 bg-violet-500/10 text-sm font-semibold text-violet-200"
               >
                 Review queue
@@ -182,19 +184,19 @@ function DmaSearchPage() {
               </Link>
             ) : null}
             <Link
-              href="/techdashboard/dma/patterns"
+              href="/techboard/dma/patterns"
               className="inline-flex items-center justify-center h-10 px-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-sm font-semibold text-emerald-200"
             >
               Patterns
             </Link>
             <Link
-              href="/techdashboard/dma/codes"
+              href="/techboard/dma/codes"
               className="inline-flex items-center justify-center h-10 px-4 rounded-xl border border-orange-500/30 bg-orange-500/10 text-sm font-semibold text-orange-200"
             >
               Error codes
             </Link>
             <Link
-              href="/techdashboard/dma/new"
+              href="/techboard/dma/new"
               className="inline-flex items-center justify-center h-10 px-4 rounded-xl bg-gradient-to-br from-amber-600 to-amber-700 text-sm font-semibold text-white"
             >
               + Add field record
@@ -354,7 +356,7 @@ function DmaSearchPage() {
               <div className="rounded-xl border border-white/10 bg-[#0D1525] p-6 text-center text-gray-400 text-sm space-y-2">
                 <p>No repair memory found yet.</p>
                 <p>
-                  <Link href="/techdashboard/dma/new" className="text-amber-400 hover:text-amber-300">Add a field record</Link>
+                  <Link href="/techboard/dma/new" className="text-amber-400 hover:text-amber-300">Add a field record</Link>
                   {' '}or add a <strong className="text-cyan-400">Repair Outcome</strong> note on a work order.
                 </p>
               </div>
@@ -398,7 +400,7 @@ function DmaSearchPage() {
             )}
           </div>
         )}
-      </div>
+      </TechboardHudDoubleTapShell>
     </>
   );
 }

@@ -1,19 +1,19 @@
+/** Master OPS list — canonical route: /techboard/work-orders */
 import { useState, useEffect, useCallback, useLayoutEffect, useRef, useMemo } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { format, startOfDay, endOfDay, addDays, startOfWeek, endOfWeek } from 'date-fns';
-import StatusBadge from '../../components/ui/StatusBadge';
-import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
-import TechMobileBackDock, { TECH_MOBILE_BACK_DOCK_SCROLL_PAD } from '../../components/layouts/TechMobileBackDock';
-import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
-import ApplianceIcon from '../../components/ui/ApplianceIcon';
-import { useWorkOrders } from '../../hooks/useWorkOrders';
-import { useTechnicians } from '../../hooks/useTechnicians';
-import {
-  isWorkOrderNeedsScheduling,
-  normalizeWorkOrderStatus,
-} from '../../lib/workOrderFilters';
+import StatusBadge from '../../../components/ui/StatusBadge';
+import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
+import TechMobileBackDock, { TECH_MOBILE_BACK_DOCK_SCROLL_PAD } from '../../../components/layouts/TechMobileBackDock';
+import { useHudGridDoubleTapRail } from '../../../hooks/useHudGridDoubleTapRail';
+import ApplianceIcon from '../../../components/ui/ApplianceIcon';
+import { useWorkOrders } from '../../../hooks/useWorkOrders';
+import { useTechnicians } from '../../../hooks/useTechnicians';
+import { filterWorkOrdersByListParams } from '../../../lib/workOrderFilters';
+import { TECH_HOME, techWorkOrderDetailPath, techWorkOrderNewPath } from '../../../lib/techRoutes';
+import { useSweepNavigate } from '../../../hooks/useSweepNavigate';
 
 const NAV_SWEEP_MS = 600;
 
@@ -105,19 +105,18 @@ function hudGridShiftForTitleplate(dx, dy, step) {
 }
 
 function Card({ wo }) {
-  const router = useRouter();
   const [sweeping, setSweeping] = useState(false);
+  const { push: sweepPush } = useSweepNavigate(NAV_SWEEP_MS);
   const clientName = wo.client?.company_name || wo.client_name || `${wo.client?.first_name || ''} ${wo.client?.last_name || ''}`.trim() || 'No client';
   const schedDate = wo.scheduled_start ? format(new Date(wo.scheduled_start.endsWith('Z') ? wo.scheduled_start : wo.scheduled_start + 'Z'), 'MMM d, yyyy h:mm a') : 'Not scheduled';
   const equipLabel = [wo.equipment_make, wo.equipment_model].filter(Boolean).join(' ') || (wo.equipment_type || '').replace(/_/g, ' ') || 'Unknown appliance';
 
   const handleOpen = (e) => {
     e.preventDefault();
-    setSweeping(true);
-    router.prefetch(`/work_orders/${wo.id}/mobile`);
-    setTimeout(() => {
-      router.push(`/work_orders/${wo.id}/mobile`);
-    }, NAV_SWEEP_MS);
+    sweepPush(techWorkOrderDetailPath(wo.id), {
+      onSweepStart: () => setSweeping(true),
+      prefetch: true,
+    });
   };
 
   return (
@@ -212,17 +211,33 @@ export default function WorkOrdersTest() {
     [scheduleFilter],
   );
 
-  const listParams = useMemo(() => ({
-    page: 1,
-    limit: needsSchedulingPreset ? 200 : 100,
-    ...(needsSchedulingPreset ? { preset: 'needs_scheduling' } : {}),
-    ...(statusFilter !== 'all' ? { status_filter: statusFilter } : {}),
-    ...(technicianFilter !== 'all' && technicianFilter !== 'unassigned'
-      ? { technician_id: technicianFilter }
-      : {}),
-    ...(scheduleFilter === 'unscheduled' ? { schedule: 'unscheduled' } : {}),
-    ...scheduleRange,
-  }), [statusFilter, technicianFilter, scheduleRange, scheduleFilter, needsSchedulingPreset]);
+  const listParams = useMemo(() => {
+    const params = {
+      page: 1,
+      limit: needsSchedulingPreset ? 200 : 100,
+      ...scheduleRange,
+    };
+    if (needsSchedulingPreset) {
+      params.preset = 'needs_scheduling';
+    } else if (statusFilter !== 'all') {
+      params.status_filter = statusFilter;
+    }
+    if (scheduleFilter === 'unscheduled') {
+      params.schedule = 'unscheduled';
+    }
+    if (technicianFilter !== 'all' && technicianFilter !== 'unassigned') {
+      params.technician_id = technicianFilter;
+    }
+    return params;
+  }, [statusFilter, technicianFilter, scheduleRange, scheduleFilter, needsSchedulingPreset]);
+
+  const clearNeedsSchedulingPreset = useCallback(() => {
+    if (!needsSchedulingPreset) return;
+    setNeedsSchedulingPreset(false);
+    if (!router.isReady || router.query.preset !== 'needs_scheduling') return;
+    const { preset: _drop, ...rest } = router.query;
+    router.replace({ pathname: router.pathname, query: rest }, undefined, { shallow: true });
+  }, [needsSchedulingPreset, router]);
 
   const { data, isLoading, error } = useWorkOrders(listParams);
   const { data: techniciansData } = useTechnicians({ limit: 100, is_active: true });
@@ -268,19 +283,7 @@ export default function WorkOrdersTest() {
   }, [syncHudGridAlignment]);
 
   const filtered = useMemo(() => {
-    let items = [...(data?.items || [])];
-    if (needsSchedulingPreset) {
-      items = items.filter(isWorkOrderNeedsScheduling);
-    } else {
-      if (statusFilter !== 'all') {
-        items = items.filter(
-          (wo) => normalizeWorkOrderStatus(wo.status) === normalizeWorkOrderStatus(statusFilter),
-        );
-      }
-      if (scheduleFilter === 'unscheduled') {
-        items = items.filter((wo) => !wo.scheduled_start);
-      }
-    }
+    let items = filterWorkOrdersByListParams(data?.items || [], listParams);
     if (technicianFilter === 'unassigned') {
       items = items.filter((wo) => !wo.assigned_technician_id);
     }
@@ -289,7 +292,7 @@ export default function WorkOrdersTest() {
       items = items.filter((wo) => workOrderSearchHaystack(wo).includes(q));
     }
     return items;
-  }, [data?.items, scheduleFilter, technicianFilter, searchQuery, statusFilter, needsSchedulingPreset]);
+  }, [data?.items, listParams, technicianFilter, searchQuery]);
 
   const sorted = useMemo(() => [...filtered].sort((a, b) => {
     if (sortBy === 'newest') return new Date(b.created_at || 0) - new Date(a.created_at || 0);
@@ -314,6 +317,10 @@ export default function WorkOrdersTest() {
     setTechnicianFilter('all');
     setSearchQuery('');
     setPage(1);
+    if (router.isReady && router.query.preset) {
+      const { preset: _drop, ...rest } = router.query;
+      router.replace({ pathname: router.pathname, query: rest }, undefined, { shallow: true });
+    }
   };
 
   return (
@@ -506,7 +513,7 @@ export default function WorkOrdersTest() {
         </Link>
 
         {/* New Work Order button */}
-        <Link href="/work_orders/womobile_new" className="relative block w-full py-3 mb-3 rounded-lg font-medium text-white text-center bg-[#0D1525] border border-cyan-400/60 shadow-[0_0_8px_rgba(0,212,255,0.3)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(0,212,255,0.45)] overflow-hidden">
+        <Link href={techWorkOrderNewPath()} className="relative block w-full py-3 mb-3 rounded-lg font-medium text-white text-center bg-[#0D1525] border border-cyan-400/60 shadow-[0_0_8px_rgba(0,212,255,0.3)] transition-all duration-300 active:scale-[0.97] hover:shadow-[0_0_12px_rgba(0,212,255,0.45)] overflow-hidden">
           <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(0,212,255,0.18) 0%, transparent 50%), radial-gradient(ellipse at 50% 0%, rgba(0,212,255,0.08) 0%, transparent 55%), radial-gradient(ellipse at 50% 100%, rgba(0,212,255,0.08) 0%, transparent 55%)' }} />
           <span className="relative z-10 flex items-center justify-center gap-2" style={{ textShadow: '0 0 8px rgba(0,212,255,0.6), 0 0 20px rgba(0,212,255,0.3)' }}>
             <svg viewBox="0 0 24 24" className="w-5 h-5" style={{ stroke: '#00D4FF', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 6px rgba(0,212,255,0.9)) drop-shadow(0 0 12px rgba(0,212,255,0.5))' }}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -563,7 +570,11 @@ export default function WorkOrdersTest() {
               <span className="text-xs text-gray-500 uppercase tracking-wide">Status</span>
               <select
                 value={statusFilter}
-                onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
+                onChange={(e) => {
+                  clearNeedsSchedulingPreset();
+                  setStatusFilter(e.target.value);
+                  setPage(1);
+                }}
                 className="mt-1 w-full rounded-lg bg-black/30 border border-white/10 px-3 py-2 text-sm text-white"
               >
                 {STATUS_FILTER_OPTIONS.map((opt) => (
@@ -575,7 +586,11 @@ export default function WorkOrdersTest() {
               <span className="text-xs text-gray-500 uppercase tracking-wide">Schedule</span>
               <select
                 value={scheduleFilter}
-                onChange={(e) => { setScheduleFilter(e.target.value); setPage(1); }}
+                onChange={(e) => {
+                  clearNeedsSchedulingPreset();
+                  setScheduleFilter(e.target.value);
+                  setPage(1);
+                }}
                 className="mt-1 w-full rounded-lg bg-black/30 border border-white/10 px-3 py-2 text-sm text-white"
               >
                 {SCHEDULE_FILTER_OPTIONS.map((opt) => (
@@ -689,7 +704,7 @@ export default function WorkOrdersTest() {
 
       </div>
       </div>
-      <TechMobileBackDock fallbackHref="/techboard" />
+      <TechMobileBackDock fallbackHref={TECH_HOME} />
     </>
   );
 }

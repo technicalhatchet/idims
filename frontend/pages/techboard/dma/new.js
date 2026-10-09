@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
+import TechboardHudDoubleTapShell from '../../../components/layouts/TechboardHudDoubleTapShell';
 import DmaFieldRecordForm from '../../../components/dma/DmaFieldRecordForm';
 import { formValuesToPayload } from '../../../constants/dmaEquipmentOptions';
 import { createDmaRepairRecord } from '../../../services/api/dmaApi';
@@ -17,7 +18,7 @@ function DmaNewRecordPage() {
     setError(null);
     try {
       const record = await createDmaRepairRecord(formValuesToPayload(values));
-      router.push(`/techdashboard/dma/records/${record.id}`);
+      router.push(`/techboard/dma/records/${record.id}`);
     } catch (err) {
       setError(err.message || 'Failed to save record');
       setIsSaving(false);
@@ -30,9 +31,12 @@ function DmaNewRecordPage() {
         <title>Add Field Record | Repair Memory</title>
       </Head>
 
-      <div className="px-4 py-6 max-w-2xl mx-auto pb-24">
+      <TechboardHudDoubleTapShell
+        contentClassName="px-4 py-6 max-w-2xl mx-auto pb-24"
+        columnClassName="max-w-2xl mx-auto"
+      >
         <div className="mb-6">
-          <Link href="/techdashboard/dma" className="text-xs text-cyan-400 hover:text-cyan-300">
+          <Link href="/techboard/dma" className="text-xs text-cyan-400 hover:text-cyan-300">
             ← Repair Memory
           </Link>
           <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/90 mt-3 mb-1">
@@ -45,7 +49,7 @@ function DmaNewRecordPage() {
         </div>
 
         <DmaFieldRecordForm onSubmit={handleSubmit} isSaving={isSaving} error={error} submitLabel="Save to repair memory" />
-      </div>
+      </TechboardHudDoubleTapShell>
     </>
   );
 }

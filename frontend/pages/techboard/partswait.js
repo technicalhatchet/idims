@@ -1,3 +1,4 @@
+/** Parts waiting queue — canonical route: /techboard/partswait */
 import { useState, useEffect, useMemo, useCallback, useLayoutEffect, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -8,6 +9,7 @@ import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import ApplianceIcon from '../../components/ui/ApplianceIcon';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
+import { techWorkOrderDetailPath } from '../../lib/techRoutes';
 import { apiClient } from '../../utils/api-client';
 import { getUserRole } from '../../utils/auth0-helpers';
 
@@ -89,7 +91,8 @@ function Card({ wo }) {
 
   return (
     <Link
-      href={`/work_orders/${wo.id}/mobile`}
+      href={techWorkOrderDetailPath(wo.id)}
+      data-hud-card
       className="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#0D1525] border border-white/10 hover:border-orange-500/35 transition-all"
     >
       <div

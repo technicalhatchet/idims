@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { format } from 'date-fns';
 import TechDashboardLayout from '../../../../components/layouts/TechDashboardLayout';
+import TechboardHudDoubleTapShell from '../../../../components/layouts/TechboardHudDoubleTapShell';
 import LoadingSpinner from '../../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../../components/ui/ErrorAlert';
 import DmaFieldRecordForm from '../../../../components/dma/DmaFieldRecordForm';
@@ -84,7 +85,7 @@ function DmaRecordDetailPage() {
     setIsDeleting(true);
     try {
       await deleteDmaRepairRecord(id);
-      router.push('/techdashboard/dma');
+      router.push('/techboard/dma');
     } catch (err) {
       alert(err.message || 'Failed to delete');
       setIsDeleting(false);
@@ -97,9 +98,12 @@ function DmaRecordDetailPage() {
         <title>Field Record | Repair Memory</title>
       </Head>
 
-      <div className="px-4 py-6 max-w-2xl mx-auto pb-24">
+      <TechboardHudDoubleTapShell
+        contentClassName="px-4 py-6 max-w-2xl mx-auto pb-24"
+        columnClassName="max-w-2xl mx-auto"
+      >
         <div className="mb-6">
-          <Link href="/techdashboard/dma" className="text-xs text-cyan-400 hover:text-cyan-300">
+          <Link href="/techboard/dma" className="text-xs text-cyan-400 hover:text-cyan-300">
             ← Repair Memory
           </Link>
           <div className="flex items-start justify-between gap-3 mt-3">
@@ -224,7 +228,7 @@ function DmaRecordDetailPage() {
           </div>
           </>
         )}
-      </div>
+      </TechboardHudDoubleTapShell>
     </>
   );
 }

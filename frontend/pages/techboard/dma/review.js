@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
+import TechboardHudDoubleTapShell from '../../../components/layouts/TechboardHudDoubleTapShell';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import { DmaModerationBadge } from '../../../components/dma/DmaModerationPanel';
@@ -48,9 +49,9 @@ function DmaReviewQueuePage() {
         <title>Review queue | Repair Memory</title>
       </Head>
 
-      <div className="px-4 py-6 max-w-3xl mx-auto pb-24">
+      <TechboardHudDoubleTapShell contentClassName="px-4 py-6 max-w-3xl mx-auto pb-24">
         <div className="mb-6">
-          <Link href="/techdashboard/dma" className="text-xs text-cyan-400 hover:text-cyan-300">
+          <Link href="/techboard/dma" className="text-xs text-cyan-400 hover:text-cyan-300">
             ← Repair Memory
           </Link>
           <p className="text-[10px] uppercase tracking-[0.2em] text-violet-400/90 mt-3 mb-1">
@@ -72,7 +73,7 @@ function DmaReviewQueuePage() {
           <div className="rounded-xl border border-white/10 bg-[#0D1525] p-8 text-center">
             <p className="text-gray-400 text-sm">No DIY submissions awaiting review.</p>
             <Link
-              href="/techdashboard/dma"
+              href="/techboard/dma"
               className="inline-block mt-4 text-sm text-cyan-400 hover:text-cyan-300"
             >
               Back to Repair Memory
@@ -86,7 +87,7 @@ function DmaReviewQueuePage() {
             {items.map((item) => (
               <Link
                 key={item.id}
-                href={`/techdashboard/dma/records/${item.id}`}
+                href={`/techboard/dma/records/${item.id}`}
                 className="block rounded-xl border border-white/10 bg-[#0D1525] p-4 hover:border-violet-500/30 transition-colors"
               >
                 <div className="flex items-start justify-between gap-3">
@@ -108,7 +109,7 @@ function DmaReviewQueuePage() {
             ))}
           </div>
         )}
-      </div>
+      </TechboardHudDoubleTapShell>
     </>
   );
 }

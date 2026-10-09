@@ -1,11 +1,17 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
+import { useSweepNavigate } from '../../hooks/useSweepNavigate';
 import Link from 'next/link';
 import {
   TECH_ICON_ASPECT,
   TECH_ICON_PARTS,
   TECH_ICON_VIEWBOX,
 } from '../../constants/techIconRail';
+import {
+  TECH_DMA_PATH,
+  TECH_PERFORMANCE_PATH,
+  TECH_ROUTE_PATH,
+} from '../../lib/techRoutes';
 
 const RAIL_WIDTH = 72;
 const RAIL_WIDEN = 22; // Widening at dashboard area
@@ -68,8 +74,8 @@ const NAV_ITEMS = [
   },
   {
     id: 'schedule',
-    name: 'Schedule',
-    href: '/schedule-test',
+    name: 'Ops Board',
+    href: '/techboard/ops',
     color: 'cyan',
     icon: (
       <>
@@ -98,7 +104,7 @@ const NAV_ITEMS = [
   {
     id: 'route',
     name: "Today's Route",
-    href: '/techdashboard/route',
+    href: TECH_ROUTE_PATH,
     color: 'cyan',
     icon: <polygon points="3 11 22 2 13 21 11 13 3 11" />,
   },
@@ -120,7 +126,7 @@ const NAV_ITEMS = [
   {
     id: 'performance',
     name: 'Performance',
-    href: '/techdashboard/performance',
+    href: TECH_PERFORMANCE_PATH,
     color: 'orange',
     icon: (
       <>
@@ -133,7 +139,7 @@ const NAV_ITEMS = [
   {
     id: 'dma',
     name: 'Repair Memory',
-    href: '/techdashboard/dma',
+    href: TECH_DMA_PATH,
     color: 'orange',
     icon: (
       <>
@@ -241,6 +247,7 @@ export default function TechIconRail({ isOpen, onClose }) {
   const [railHeight, setRailHeight] = useState(0);
   const [safeAreaTop, setSafeAreaTop] = useState(0);
   const [sweepingItem, setSweepingItem] = useState(null);
+  const { push: sweepPush } = useSweepNavigate(400);
 
   useEffect(() => {
     const updateLayout = () => {
@@ -274,12 +281,14 @@ export default function TechIconRail({ isOpen, onClose }) {
   // Handle nav item click - sweep effect then navigate
   const handleNavClick = (e, item) => {
     e.preventDefault();
-    setSweepingItem(item.id);
-    setTimeout(() => {
-      setSweepingItem(null);
-      onClose?.();
-      router.push(item.href);
-    }, 400);
+    sweepPush(item.href, {
+      onSweepStart: () => setSweepingItem(item.id),
+      onBeforeNavigate: () => {
+        setSweepingItem(null);
+        onClose?.();
+      },
+      prefetch: true,
+    });
   };
 
   const railSlideTransform = isOpen 

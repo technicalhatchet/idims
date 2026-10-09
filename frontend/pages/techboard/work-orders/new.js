@@ -1,12 +1,12 @@
 import { getSession } from '@auth0/nextjs-auth0';
 import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
-import WorkOrderForm from '../../components/work_orders/WorkOrderForm';
-import { TECH_WORK_ORDERS_LIST_PATH } from '../../lib/techRoutes';
-import WorkOrderMobileShell from '../../components/work_orders/WorkOrderMobileShell';
-import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
-import { useAuthRedirect } from '../../hooks/useAuthRedirect';
-import { useTheme } from '../../context/ThemeContext';
+import WorkOrderForm from '../../../components/work_orders/WorkOrderForm';
+import { TECH_WORK_ORDERS_LIST_PATH } from '../../../lib/techRoutes';
+import WorkOrderMobileShell from '../../../components/work_orders/WorkOrderMobileShell';
+import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
+import { useAuthRedirect } from '../../../hooks/useAuthRedirect';
+import { useTheme } from '../../../context/ThemeContext';
 
 function NewWorkOrderMobile() {
   useAuthRedirect({ allowedRoles: ['admin', 'manager'] });

@@ -233,7 +233,67 @@ const nextConfig = {
       {
         source: '/work_orders/test',
         destination: '/techboard/work-orders',
-        permanent: false,
+        permanent: true,
+      },
+      {
+        source: '/work_orders/womobile_new',
+        destination: '/techboard/work-orders/new',
+        permanent: true,
+      },
+      {
+        source: '/work_orders/:id/mobile',
+        destination: '/techboard/work-orders/:id',
+        permanent: true,
+      },
+      {
+        source: '/work_orders/:id/womobile_edit',
+        destination: '/techboard/work-orders/:id/edit',
+        permanent: true,
+      },
+      {
+        source: '/schedule-test',
+        destination: '/techboard/ops',
+        permanent: true,
+      },
+      {
+        source: '/techdashboard/opsboard',
+        destination: '/techboard/mission-queue',
+        permanent: true,
+      },
+      {
+        source: '/work_orders/mass',
+        destination: '/techboard/mass',
+        permanent: true,
+      },
+      {
+        source: '/work_orders/partswait',
+        destination: '/techboard/partswait',
+        permanent: true,
+      },
+      {
+        source: '/techdashboard/route',
+        destination: '/techboard/route',
+        permanent: true,
+      },
+      {
+        source: '/techdashboard/performance',
+        destination: '/techboard/performance',
+        permanent: true,
+      },
+      {
+        source: '/techdashboard/dma',
+        destination: '/techboard/dma',
+        permanent: true,
+      },
+      {
+        source: '/techdashboard/dma/:path*',
+        destination: '/techboard/dma/:path*',
+        permanent: true,
+      },
+      {
+        source: '/work_orders/:id/debriefing',
+        destination: '/techboard/work-orders/:id/debriefing',
+        permanent: true,
       },
     ];
   },

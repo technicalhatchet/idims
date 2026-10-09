@@ -20,7 +20,11 @@ import { useTheme } from '../../../context/ThemeContext';
 import AppointmentScheduler from '../../../components/work_orders/AppointmentScheduler';
 import WorkOrderTabPanel from '../../../components/work_orders/WorkOrderTabPanel';
 import { resolveWorkOrderServiceAddress } from '../../../utils/appointment-scheduling';
-import { TECH_WORK_ORDERS_LIST_PATH } from '../../../lib/techRoutes';
+import {
+  TECH_WORK_ORDERS_LIST_PATH,
+  techWorkOrderDetailPath,
+  techWorkOrderEditPath,
+} from '../../../lib/techRoutes';
 import WorkOrderDetailsAppointmentsList from '../../../components/work_orders/WorkOrderDetailsAppointmentsList';
 import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
 import WorkOrderNoteTypePicker from '../../../components/work_orders/WorkOrderNoteTypePicker';
@@ -484,11 +488,11 @@ function WorkOrderDetail() {
         } catch {
           alert('Payment successful! Your work order has been updated.');
         }
-        router.replace(`/work_orders/${id}/mobile`, undefined, { shallow: true });
+        router.replace(techWorkOrderDetailPath(id), undefined, { shallow: true });
       })();
     } else if (payment === 'canceled' || payment === 'cancelled') {
       alert('Payment was canceled. You can try again anytime.');
-      router.replace(`/work_orders/${id}/mobile`, undefined, { shallow: true });
+      router.replace(techWorkOrderDetailPath(id), undefined, { shallow: true });
     }
   }, [router.query, router, id, refetch]);
   // Sync tab from URL query param (router.query is empty on first render)
@@ -786,7 +790,7 @@ function WorkOrderDetail() {
                   {/* Desktop actions */}
                   <div className="hidden md:flex flex-wrap gap-2">
                     {!woReadOnly && (
-                    <Link href={`/work_orders/${id}/womobile_edit`} className="btn-primary flex items-center h-10" title="Edit work order">
+                    <Link href={techWorkOrderEditPath(id)} className="btn-primary flex items-center h-10" title="Edit work order">
                       <FaEdit className="mr-2" />
                       Edit
                     </Link>
@@ -1193,7 +1197,7 @@ function WorkOrderDetail() {
                 workOrderProperty={workOrder.property}
                 propertyId={workOrder.property_id}
                 clientProperties={workOrder.client_properties}
-                editWorkOrderHref={`/work_orders/${id}/womobile_edit`}
+                editWorkOrderHref={techWorkOrderEditPath(id)}
                 key={`appointments-${id}`}
                 variant="mobile"
                 onAppointmentChange={() => {
@@ -1460,7 +1464,7 @@ function WorkOrderDetail() {
                         {clientWorkOrders.map((wo) => (
                           <Link
                             key={wo.id}
-                            href={`/work_orders/${wo.id}/mobile`}
+                            href={techWorkOrderDetailPath(wo.id)}
                             className="block rounded-2xl border border-white/[0.08] bg-[#0D1525]/80 p-3 backdrop-blur-sm active:bg-white/[0.04]"
                           >
                             <div className="flex justify-between gap-2">
@@ -2526,7 +2530,7 @@ function WorkOrderDetail() {
           <div className="space-y-2">
             {!woReadOnly && (
               <MobileActionSheetButton
-                href={`/work_orders/${id}/womobile_edit`}
+                href={techWorkOrderEditPath(id)}
                 onClick={() => setMobileMoreOpen(false)}
               >
                 <FaEdit className="opacity-70 shrink-0" /> Edit work order

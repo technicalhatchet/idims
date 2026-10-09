@@ -1,3 +1,4 @@
+/** Today's route — canonical route: /techboard/route */
 import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react';
 import Head from 'next/head';
 import { format, isToday } from 'date-fns';
@@ -297,11 +298,13 @@ export default function RouteTest() {
 
   // Load today's appointments
   useEffect(() => {
+    let cancelled = false;
     async function load() {
       try {
         const schedData = await apiClient(
           `scheduling/schedule/combined?start_date=${todayStr}&end_date=${todayStr}&view_type=day`
         );
+        if (cancelled) return;
         const appts = schedData?.appointments || schedData?.schedule || schedData?.data || [];
         const todayAppts = (Array.isArray(appts) ? appts : [])
           .filter(a => {
@@ -326,12 +329,15 @@ export default function RouteTest() {
           }));
         setStops(todayAppts);
       } catch (e) {
-        console.error('Route load error:', e);
+        if (!cancelled) console.error('Route load error:', e);
       } finally {
-        setIsLoading(false);
+        if (!cancelled) setIsLoading(false);
       }
     }
     load();
+    return () => {
+      cancelled = true;
+    };
   }, [todayStr]);
 
   // Geocode addresses after stops load

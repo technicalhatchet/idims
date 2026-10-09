@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { addDays, format, parseISO } from 'date-fns';
 import { formatScheduleForApi, formatScheduleTime } from '../../utils/schedule-time';
 import { useRouter } from 'next/router';
+import { techWorkOrderDetailPath } from '../../lib/techRoutes';
 import Modal from '../ui/Modal';
 import FloatingBanner from '../ui/FloatingBanner';
 import Button from '../ui/Button';
@@ -198,8 +199,11 @@ export default function WorkOrderRedoModal({
       onSuccess?.(result);
       onClose();
       if (result?.child_work_order_id) {
-        const base = `/work_orders/${result.child_work_order_id}`;
-        router.push(isMobile ? `${base}/mobile` : base);
+        router.push(
+          isMobile
+            ? techWorkOrderDetailPath(result.child_work_order_id)
+            : `/work_orders/${result.child_work_order_id}`,
+        );
       }
     } catch (err) {
       setError(err.message || 'Failed to create redo work order');

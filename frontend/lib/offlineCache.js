@@ -13,11 +13,7 @@ export async function isMetaFresh(key, maxAgeMs) {
 
 export function isTechDeckPrefetchRoute(pathname) {
   if (!pathname) return false;
-  if (pathname.startsWith('/techboard')) return true;
-  if (pathname.startsWith('/work_orders/test')) return true;
-  if (pathname.startsWith('/techboard/work-orders')) return true;
-  if (pathname.startsWith('/work_orders/schedule-test')) return true;
-  return /^\/work_orders\/[^/]+\/mobile$/.test(pathname);
+  return pathname.startsWith('/techboard');
 }
 
 export function isSolomonPrefetchRoute(pathname) {

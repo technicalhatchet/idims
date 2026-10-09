@@ -1,14 +1,15 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { getSession } from '@auth0/nextjs-auth0';
-import WorkOrderForm from '../../../components/work_orders/WorkOrderForm';
-import WorkOrderMobileShell from '../../../components/work_orders/WorkOrderMobileShell';
-import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
-import LoadingSpinner from '../../../components/ui/LoadingSpinner';
-import ErrorAlert from '../../../components/ui/ErrorAlert';
-import { useWorkOrder } from '../../../hooks/useWorkOrders';
-import { useAuthRedirect } from '../../../hooks/useAuthRedirect';
-import { useTheme } from '../../../context/ThemeContext';
+import WorkOrderForm from '../../../../components/work_orders/WorkOrderForm';
+import WorkOrderMobileShell from '../../../../components/work_orders/WorkOrderMobileShell';
+import TechDashboardLayout from '../../../../components/layouts/TechDashboardLayout';
+import LoadingSpinner from '../../../../components/ui/LoadingSpinner';
+import ErrorAlert from '../../../../components/ui/ErrorAlert';
+import { useWorkOrder } from '../../../../hooks/useWorkOrders';
+import { useAuthRedirect } from '../../../../hooks/useAuthRedirect';
+import { useTheme } from '../../../../context/ThemeContext';
+import { techWorkOrderDetailPath } from '../../../../lib/techRoutes';
 
 function EditWorkOrderMobile({ id }) {
   const router = useRouter();
@@ -30,7 +31,7 @@ function EditWorkOrderMobile({ id }) {
       <WorkOrderMobileShell
         title="Edit Work Order"
         pageTitle="Edit Work Order | Atomic Repair"
-        backHref={`/work_orders/${id}/mobile`}
+        backHref={techWorkOrderDetailPath(id)}
         scanKey="wo-edit-mobile"
       >
         <div className="py-10 flex justify-center">
@@ -45,7 +46,7 @@ function EditWorkOrderMobile({ id }) {
       <WorkOrderMobileShell
         title="Edit Work Order"
         pageTitle="Edit Work Order | Atomic Repair"
-        backHref={`/work_orders/${id}/mobile`}
+        backHref={techWorkOrderDetailPath(id)}
         scanKey="wo-edit-mobile"
       >
         <ErrorAlert message="Failed to load work order" onRetry={() => router.reload()} />
@@ -57,7 +58,7 @@ function EditWorkOrderMobile({ id }) {
     <WorkOrderMobileShell
       title="Edit Work Order"
       pageTitle={`Edit ${workOrder?.order_number || 'Work Order'} | Atomic Repair`}
-      backHref={`/work_orders/${id}/mobile`}
+      backHref={techWorkOrderDetailPath(id)}
       subtitle={workOrder?.order_number ? `#${workOrder.order_number}` : undefined}
       scanKey="wo-edit-mobile"
       syncKey={workOrder?.id}
@@ -66,7 +67,7 @@ function EditWorkOrderMobile({ id }) {
         variant="mobile"
         initialData={workOrder}
         isEdit
-        cancelHref={`/work_orders/${id}/mobile`}
+        cancelHref={techWorkOrderDetailPath(id)}
         onUpdateSuccess={() => refetch()}
       />
     </WorkOrderMobileShell>

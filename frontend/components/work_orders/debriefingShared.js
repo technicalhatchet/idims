@@ -1,4 +1,5 @@
 import { apiClient } from '../../utils/api-client';
+import { techWorkOrderDebriefingPath } from '../../lib/techRoutes';
 
 export function BriefcaseIcon({ className }) {
   return (
@@ -42,7 +43,7 @@ export async function fetchDebriefingEntries(workOrderId) {
 
 export function getDebriefingPageHref(workOrderId, variant = 'mobile') {
   const from = variant === 'mobile' ? 'mobile' : 'desktop';
-  return `/work_orders/${workOrderId}/debriefing?from=${from}`;
+  return techWorkOrderDebriefingPath(workOrderId, { from });
 }
 
 export function DebriefingList({ entries, loading, error, isMobile, className = '' }) {

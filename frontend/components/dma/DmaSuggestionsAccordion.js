@@ -2,15 +2,15 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { formatDmaSubtype } from '../../constants/dmaErrorCodes';
+import { techDmaPath } from '../../lib/techRoutes';
 import { useDmaSuggestions } from '../../hooks/useDmaSuggestions';
 
 function buildRepairMemoryHref(searchParams) {
-  const query = new URLSearchParams();
-  if (searchParams?.equipment_make) query.set('make', searchParams.equipment_make);
-  if (searchParams?.equipment_subtype) query.set('subtype', searchParams.equipment_subtype);
-  if (searchParams?.error_code) query.set('error', searchParams.error_code);
-  const qs = query.toString();
-  return `/techdashboard/dma${qs ? `?${qs}` : ''}`;
+  const q = {};
+  if (searchParams?.equipment_make) q.make = searchParams.equipment_make;
+  if (searchParams?.equipment_subtype) q.subtype = searchParams.equipment_subtype;
+  if (searchParams?.error_code) q.error = searchParams.error_code;
+  return techDmaPath('', q);
 }
 
 function DmaSuggestionsLoading() {
@@ -103,7 +103,7 @@ export default function DmaSuggestionsAccordion({
                 {suggestions.error_code_references.map((ref) => (
                   <li key={ref.id}>
                     <Link
-                      href={`/techdashboard/dma/codes/${ref.id}`}
+                      href={techDmaPath(`codes/${ref.id}`)}
                       className="block rounded-lg border border-orange-500/20 bg-orange-500/[0.05] px-3 py-2 hover:border-orange-500/35"
                     >
                       <p className="text-sm font-medium text-orange-200">

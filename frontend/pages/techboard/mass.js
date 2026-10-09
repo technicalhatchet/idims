@@ -1,3 +1,4 @@
+/** Critical Mass queue — canonical route: /techboard/mass */
 import { useState, useEffect, useMemo, useCallback, useLayoutEffect, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -16,7 +17,7 @@ import ApplianceIcon from '../../components/ui/ApplianceIcon';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
 import { apiClient } from '../../utils/api-client';
 import { getUserRole } from '../../utils/auth0-helpers';
-import { TECH_WORK_ORDERS_LIST_PATH } from '../../lib/techRoutes';
+import { TECH_WORK_ORDERS_LIST_PATH, techWorkOrderDetailPath } from '../../lib/techRoutes';
 
 /** Fractal noise overlay (matches techboard tactical shell) */
 const TACTICAL_NOISE_BG =
@@ -101,7 +102,8 @@ function Card({ wo }) {
 
   return (
     <Link
-      href={`/work_orders/${wo.id}/mobile`}
+      href={techWorkOrderDetailPath(wo.id)}
+      data-hud-card
       className="flex items-center gap-3 px-4 py-3 rounded-lg bg-[#0D1525] border border-white/10 hover:border-orange-500/35 transition-all"
     >
       <div
@@ -422,7 +424,7 @@ export default function CriticalMassPage() {
         `}</style>
       </Head>
       <div className="min-h-screen" style={{ background: PAGE_BG }}>
-        <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 py-6 max-w-lg mx-auto">
+        <div ref={tacticalColumnRef} className="hud-tactical-column relative px-4 py-6 max-w-lg mx-auto min-h-screen">
           <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
             <div className="absolute inset-0" style={{ background: PAGE_BG }} />
             <div
@@ -459,7 +461,7 @@ export default function CriticalMassPage() {
 
           <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
 
-          <div className="hud-grid-content relative z-10">
+          <div className="hud-grid-content relative z-10 p-4 sm:p-6">
             <div className="relative mb-4">
               <div
                 ref={titleplateRef}

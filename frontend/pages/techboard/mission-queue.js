@@ -1,3 +1,4 @@
+/** Mission Queue — canonical route: /techboard/mission-queue */
 import { useState, useEffect, useMemo, useCallback, useLayoutEffect, useRef } from 'react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
@@ -13,6 +14,7 @@ import { apiClient } from '../../utils/api-client';
 import { getUserRole } from '../../utils/auth0-helpers';
 import { FaPhone, FaMapMarkerAlt, FaCalendarAlt, FaChevronDown, FaChevronUp, FaClock, FaUser } from 'react-icons/fa';
 import { NEON_RAILS } from '../../components/schedule/ScheduleTestTimeline';
+import { techWorkOrderDetailPath } from '../../lib/techRoutes';
 
 /** Fractal noise texture for tactical HUD shell (matches tech dashboard board) */
 const OPSBOARD_TACTICAL_NOISE_BG =
@@ -248,7 +250,7 @@ function AppointmentCard({ appointment, onStatusChange, railColor }) {
                   )}
                   {workOrderId && (
                     <Link
-                      href={`/work_orders/${workOrderId}/mobile`}
+                      href={techWorkOrderDetailPath(workOrderId)}
                       onClick={(e) => e.stopPropagation()}
                       className="text-sm font-semibold text-cyan-400 hover:text-cyan-300 underline underline-offset-2"
                     >

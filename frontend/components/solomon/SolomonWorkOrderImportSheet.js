@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import { getWorkOrders } from '../../services/api/workOrdersApi';
+import { techWorkOrderDetailPath } from '../../lib/techRoutes';
 
 /**
  * Staff-only sheet to pick a work order for Solomon import.
@@ -132,7 +133,7 @@ export function SolomonImportedWorkOrderLink({ workOrderId, orderNumber }) {
   if (!workOrderId) return null;
   return (
     <Link
-      href={`/work_orders/${workOrderId}/mobile?tab=notes`}
+      href={techWorkOrderDetailPath(workOrderId, { tab: 'notes' })}
       className="text-xs text-emerald-300 hover:text-emerald-200"
     >
       Imported to WO #{orderNumber || 'notes'} →

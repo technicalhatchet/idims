@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import { techWorkOrderDetailPath } from '../../lib/techRoutes';
 import { FaRedo } from 'react-icons/fa';
 import { format, parseISO } from 'date-fns';
 import Button from '../ui/Button';
@@ -120,7 +121,7 @@ export default function WorkOrderRedoBar({
             {existingChildren.map((child) => (
               <Link
                 key={child.id}
-                href={`/work_orders/${child.id}${isMobile ? '/mobile' : ''}`}
+                href={isMobile ? techWorkOrderDetailPath(child.id) : `/work_orders/${child.id}`}
                 className={`inline-flex items-center gap-1.5 text-sm font-medium ${
                   isMobile ? 'text-indigo-300 hover:text-indigo-200' : 'text-indigo-700 dark:text-indigo-300 hover:underline'
                 }`}

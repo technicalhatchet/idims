@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import TechDashboardLayout from '../../../../components/layouts/TechDashboardLayout';
+import TechboardHudDoubleTapShell from '../../../../components/layouts/TechboardHudDoubleTapShell';
 import LoadingSpinner from '../../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../../components/ui/ErrorAlert';
 import { getDmaErrorCode, searchDmaRepairs } from '../../../../services/api/dmaApi';
@@ -11,6 +12,7 @@ import {
   formatDmaSubtype,
 } from '../../../../constants/dmaErrorCodes';
 import { formatDmaEquipment } from '../../../../constants/dmaEquipmentOptions';
+import { techWorkOrderDetailPath } from '../../../../lib/techRoutes';
 
 function DetailRow({ label, children }) {
   if (children == null || children === '') return null;
@@ -65,7 +67,7 @@ function DmaErrorCodeDetailPage() {
         subtype: reference.equipment_subtype,
         errorCode: reference.code_normalized,
       })
-    : '/techdashboard/dma';
+    : '/techboard/dma';
 
   return (
     <>
@@ -73,8 +75,8 @@ function DmaErrorCodeDetailPage() {
         <title>{reference ? `${reference.code} | Error Code` : 'Error Code'} | Repair Memory</title>
       </Head>
 
-      <div className="px-4 py-6 max-w-3xl mx-auto pb-24">
-        <Link href="/techdashboard/dma/codes" className="text-sm text-gray-500 hover:text-orange-400">
+      <TechboardHudDoubleTapShell contentClassName="px-4 py-6 max-w-3xl mx-auto pb-24">
+        <Link href="/techboard/dma/codes" className="text-sm text-gray-500 hover:text-orange-400">
           ← Error Code Lookup
         </Link>
 
@@ -110,7 +112,7 @@ function DmaErrorCodeDetailPage() {
                   {reference.related_codes.map((item) => (
                     <Link
                       key={item.id}
-                      href={`/techdashboard/dma/codes/${item.id}`}
+                      href={`/techboard/dma/codes/${item.id}`}
                       className={`text-sm px-2.5 py-1 rounded-lg border ${
                         item.id === reference.id
                           ? 'border-orange-500/40 bg-orange-500/10 text-orange-200'
@@ -142,8 +144,8 @@ function DmaErrorCodeDetailPage() {
                       <Link
                         href={
                           item.source_type === 'field_record'
-                            ? `/techdashboard/dma/records/${item.id}`
-                            : `/work_orders/${item.work_order_id}/mobile?tab=notes`
+                            ? `/techboard/dma/records/${item.id}`
+                            : techWorkOrderDetailPath(item.work_order_id, { tab: 'notes' })
                         }
                         className="block rounded-xl border border-white/10 bg-[#0D1525] p-4 hover:border-cyan-500/30 transition-colors"
                       >
@@ -157,7 +159,7 @@ function DmaErrorCodeDetailPage() {
             </div>
           </>
         )}
-      </div>
+      </TechboardHudDoubleTapShell>
     </>
   );
 }

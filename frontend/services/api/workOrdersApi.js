@@ -14,7 +14,11 @@ export async function getWorkOrders(params = {}) {
   queryParams.append('limit', limit);
   
   const statusParam = status_filter || status;
-  if (statusParam) queryParams.append('status_filter', statusParam);
+  // main.py proxy binds `status_filter` with alias `status` — send both for compatibility
+  if (statusParam) {
+    queryParams.append('status', statusParam);
+    queryParams.append('status_filter', statusParam);
+  }
   if (client_id) queryParams.append('client_id', client_id);
   if (technician_id) queryParams.append('technician_id', technician_id);
   if (start_date) queryParams.append('start_date', start_date);

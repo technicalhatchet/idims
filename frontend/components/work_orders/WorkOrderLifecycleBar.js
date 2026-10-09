@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { FaRedo } from 'react-icons/fa';
 import Button from '../ui/Button';
+import { techWorkOrderDetailPath } from '../../lib/techRoutes';
 import WorkOrderCloseModal from './WorkOrderCloseModal';
 import { reopenWorkOrder } from '../../services/api/workOrdersApi';
 import { getUserRole } from '../../utils/auth0-helpers';
@@ -56,7 +57,9 @@ export default function WorkOrderLifecycleBar({
   }
 
   const parentWorkOrderHref = workOrder?.parent_work_order_id
-    ? `/work_orders/${workOrder.parent_work_order_id}${isMobile ? '/mobile' : ''}`
+    ? (isMobile
+      ? techWorkOrderDetailPath(workOrder.parent_work_order_id)
+      : `/work_orders/${workOrder.parent_work_order_id}`)
     : null;
 
   const shellClass = isMobile

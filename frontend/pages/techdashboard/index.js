@@ -12,7 +12,14 @@ import { apiClient } from '../../utils/api-client';
 import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
 import { resolveAppointmentLocation } from '../../utils/appointment-scheduling';
 import { parseScheduleUtcMs, formatScheduleTime, appointmentStartMs } from '../../utils/schedule-time';
-import { TECH_WORK_ORDERS_LIST_PATH } from '../../lib/techRoutes';
+import {
+  TECH_WORK_ORDERS_LIST_PATH,
+  TECH_OPS_PATH,
+  TECH_MISSION_QUEUE_PATH,
+  TECH_PARTS_WAIT_PATH,
+  TECH_ROUTE_PATH,
+  techWorkOrderNewPath,
+} from '../../lib/techRoutes';
 
 // ── Appliance Icons (same as work orders test) ────────────────────────────
 const APPLIANCE_ICONS = {
@@ -155,7 +162,7 @@ function RouteButton() {
     e.preventDefault();
     setSweeping(true);
     setTimeout(() => {
-      router.push('/techdashboard/route');
+      router.push(TECH_ROUTE_PATH);
     }, 600);
   };
 
@@ -737,7 +744,7 @@ export default function TechDashboardTest() {
               value={workOrderStats.completed_today}
               sub={`${todayAppts.length} scheduled today`}
               borderColor="rgba(34,211,238,0.25)"
-              href="/techdashboard/opsboard"
+              href={TECH_MISSION_QUEUE_PATH}
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
                   <polyline points="20 6 9 17 4 12"/>
@@ -764,7 +771,7 @@ export default function TechDashboardTest() {
               subColor={workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE'}
               borderColor={workOrderStats.partsWaiting > 0 ? 'rgba(255,122,0,0.4)' : 'rgba(34,211,238,0.2)'}
               sweepColor={workOrderStats.partsWaiting > 0 ? 'orange' : 'cyan'}
-              href="/work_orders/partswait"
+              href={TECH_PARTS_WAIT_PATH}
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: workOrderStats.partsWaiting > 0 ? 'drop-shadow(0 0 4px rgba(255,122,0,0.7))' : 'drop-shadow(0 0 4px rgba(0,212,255,0.5))' }}>
                   <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
@@ -777,7 +784,7 @@ export default function TechDashboardTest() {
               value={todayAppts.length}
               sub={nextJob?.scheduled_start ? `next at ${formatScheduleTime(nextJob.scheduled_start)}` : 'none remaining'}
               borderColor="rgba(34,211,238,0.25)"
-              href="/schedule-test"
+              href={TECH_OPS_PATH}
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
                   <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
@@ -793,7 +800,7 @@ export default function TechDashboardTest() {
           <div className="rounded-lg p-4 mb-4" style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)' }}>
             <div className="flex justify-between items-center mb-2">
               <h2 className="text-base font-bold text-white">Today's Jobs</h2>
-              <Link href="/schedule-test" className="text-xs text-cyan-400 flex items-center gap-1">
+              <Link href={TECH_OPS_PATH} className="text-xs text-cyan-400 flex items-center gap-1">
                 View all
                 <svg viewBox="0 0 24 24" className="w-3 h-3" style={{ stroke: 'currentColor', strokeWidth: 2.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}><polyline points="9 18 15 12 9 6"/></svg>
               </Link>
@@ -814,7 +821,7 @@ export default function TechDashboardTest() {
           <div className="rounded-lg p-4 mb-4" style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)' }}>
             <div className="flex justify-between items-center mb-2">
               <h2 className="text-base font-bold text-white">Upcoming Appointments</h2>
-              <Link href="/schedule-test" className="text-xs text-cyan-400 flex items-center gap-1">
+              <Link href={TECH_OPS_PATH} className="text-xs text-cyan-400 flex items-center gap-1">
                 View all
                 <svg viewBox="0 0 24 24" className="w-3 h-3" style={{ stroke: 'currentColor', strokeWidth: 2.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}><polyline points="9 18 15 12 9 6"/></svg>
               </Link>
@@ -837,7 +844,7 @@ export default function TechDashboardTest() {
         <div className="fixed bottom-0 left-0 right-0 px-4 pb-4 pt-3 max-w-lg mx-auto" style={{ background: '#0A0F1E', borderTop: '1px solid rgba(255,255,255,0.07)', zIndex: 40 }}>
           <div className="grid grid-cols-3 gap-2">
             {/* New Work Order */}
-            <Link href="/work_orders/womobile_new" className="relative flex flex-col items-center justify-center gap-1 py-3 rounded-lg text-xs font-medium text-white overflow-hidden active:scale-95 transition-transform" style={{ background: '#0D1525', border: '1px solid rgba(34,211,238,0.5)', boxShadow: '0 0 10px rgba(0,212,255,0.15)' }}>
+            <Link href={techWorkOrderNewPath()} className="relative flex flex-col items-center justify-center gap-1 py-3 rounded-lg text-xs font-medium text-white overflow-hidden active:scale-95 transition-transform" style={{ background: '#0D1525', border: '1px solid rgba(34,211,238,0.5)', boxShadow: '0 0 10px rgba(0,212,255,0.15)' }}>
               <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(0,212,255,0.12) 0%, transparent 55%)' }} />
               <svg viewBox="0 0 24 24" className="relative z-10 w-5 h-5" style={{ stroke: '#00D4FF', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 5px rgba(0,212,255,0.9))' }}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               <span className="relative z-10" style={{ textShadow: '0 0 8px rgba(0,212,255,0.6)' }}>New WO</span>

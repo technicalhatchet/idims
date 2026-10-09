@@ -1,3 +1,4 @@
+/** Field performance — canonical route: /techboard/performance */
 import { useState } from 'react';
 import Head from 'next/head';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';

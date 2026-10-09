@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { format, parseISO } from 'date-fns';
 import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaUser, FaTasks, FaTimes, FaWrench } from 'react-icons/fa';
 import Link from 'next/link';
+import { techWorkOrderDetailPath } from '../../lib/techRoutes';
 import StatusBadge from '../ui/StatusBadge';
 import MapsNavigateButton from '../ui/MapsNavigateButton';
 import { resolveAppointmentLocation } from '../../utils/appointment-scheduling';
@@ -151,7 +152,7 @@ export default function MobileEventDetailModal({ event, onClose }) {
           </button>
           {workOrderId && (
             <Link
-              href={`/work_orders/${workOrderId}/mobile`}
+              href={techWorkOrderDetailPath(workOrderId)}
               className="flex-1 h-9 rounded-lg bg-gradient-to-br from-cyan-600 to-cyan-700 flex items-center justify-center text-[10px] font-semibold uppercase tracking-wide text-white shadow-[0_0_16px_rgba(34,211,238,0.2)] active:scale-[0.98]"
               onClick={onClose}
             >

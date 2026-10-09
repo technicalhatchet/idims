@@ -8,6 +8,7 @@ import { useUIPreferences } from '../../context/UIPreferencesContext';
 import { resolveUserFirstName } from '../../utils/userDisplayName';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
+import { useSweepNavigate } from '../../hooks/useSweepNavigate';
 import StatusBadge from '../../components/ui/StatusBadge';
 import MapsNavigateButton from '../../components/ui/MapsNavigateButton';
 import { apiClient } from '../../utils/api-client';
@@ -17,7 +18,17 @@ import { useOfflineSchedule, useOfflineWorkOrders } from '../../hooks/useOffline
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { resolveAppointmentLocation } from '../../utils/appointment-scheduling';
 import { parseScheduleUtcMs, formatScheduleTime, appointmentStartMs } from '../../utils/schedule-time';
-import { techWorkOrdersNeedsSchedulingUrl, TECH_WORK_ORDERS_LIST_PATH } from '../../lib/techRoutes';
+import {
+  techWorkOrdersNeedsSchedulingUrl,
+  TECH_WORK_ORDERS_LIST_PATH,
+  TECH_OPS_PATH,
+  TECH_MISSION_QUEUE_PATH,
+  TECH_MASS_PATH,
+  TECH_PARTS_WAIT_PATH,
+  TECH_ROUTE_PATH,
+  techWorkOrderDetailPath,
+  techWorkOrderNewPath,
+} from '../../lib/techRoutes';
 import {
   sumDriveTimeBetweenStops,
   estimateRouteDriveTime,
@@ -126,7 +137,7 @@ function DurationStatValue({ text }) {
 // ── Stat Card with Glass Effect + Sweep Animation ─────────────────────────
 function StatCard({ icon, label, value, valueNode, sub, subColor = '#22D3EE', borderColor = 'rgba(34,211,238,0.3)', sweepColor = 'cyan', href }) {
   const [sweeping, setSweeping] = useState(false);
-  const router = useRouter();
+  const { push: sweepPush } = useSweepNavigate(600);
 
   // Color configs for sweep effect
   const colorConfigs = {
@@ -138,11 +149,7 @@ function StatCard({ icon, label, value, valueNode, sub, subColor = '#22D3EE', bo
   const handleClick = (e) => {
     if (!href) return;
     e.preventDefault();
-    setSweeping(true);
-    // Delay navigation to show the sweep animation
-    setTimeout(() => {
-      router.push(href);
-    }, 600);
+    sweepPush(href, { onSweepStart: () => setSweeping(true) });
   };
 
   return (
@@ -236,15 +243,12 @@ function pickNextJobToday(sortedTodayAppts) {
 // ── Critical Mass Card with Glass Effect + Sweep Animation ───────────────
 function CriticalMassCard({ count }) {
   const [sweeping, setSweeping] = useState(false);
-  const router = useRouter();
+  const { push: sweepPush } = useSweepNavigate(600);
   const isActive = count > 0;
 
   const handleClick = (e) => {
     e.preventDefault();
-    setSweeping(true);
-    setTimeout(() => {
-      router.push('/work_orders/mass');
-    }, 600);
+    sweepPush(TECH_MASS_PATH, { onSweepStart: () => setSweeping(true) });
   };
 
   return (
@@ -310,15 +314,14 @@ function CriticalMassCard({ count }) {
 // ── Master Ops List (admin) — sweep + navigate to full ops list ─────────────
 function MasterOpsListCard({ total, today }) {
   const [sweeping, setSweeping] = useState(false);
-  const router = useRouter();
+  const { push: sweepPush } = useSweepNavigate(600);
 
   const handleClick = (e) => {
     e.preventDefault();
-    setSweeping(true);
-    router.prefetch(TECH_WORK_ORDERS_LIST_PATH);
-    setTimeout(() => {
-      router.push(TECH_WORK_ORDERS_LIST_PATH);
-    }, 600);
+    sweepPush(TECH_WORK_ORDERS_LIST_PATH, {
+      onSweepStart: () => setSweeping(true),
+      prefetch: true,
+    });
   };
 
   return (
@@ -373,16 +376,15 @@ function NextJobCard({ job, onAppointmentStatusChange, techFirstName, driveSecon
   const jobStatus = normalizeWorkOrderStatus(job.status);
   const [sweeping, setSweeping] = useState(false);
   const [showCallOptions, setShowCallOptions] = useState(false);
-  const router = useRouter();
+  const { push: sweepPush } = useSweepNavigate(600);
   const textPhone = pickEnRouteSmsPhone(job);
   const showEnRouteText = jobStatus === 'scheduled' && Boolean(textPhone);
 
   const handleCardClick = (e) => {
     e.preventDefault();
-    setSweeping(true);
-    setTimeout(() => {
-      router.push(`/work_orders/${job.work_order_id}/mobile`);
-    }, 600);
+    sweepPush(techWorkOrderDetailPath(job.work_order_id), {
+      onSweepStart: () => setSweeping(true),
+    });
   };
 
   const handleCallClick = (e) => {
@@ -600,7 +602,7 @@ function TodayJobRow({ appt }) {
   const address = appt.service_address || appt.client_address || '';
 
   return (
-    <Link href={`/work_orders/${appt.work_order_id}/mobile`} className="flex items-start gap-3 py-3 border-b border-white/5 last:border-0">
+    <Link href={techWorkOrderDetailPath(appt.work_order_id)} className="flex items-start gap-3 py-3 border-b border-white/5 last:border-0">
       {/* Time block */}
       <div className="flex-shrink-0 w-12 text-right">
         <p className="text-sm font-bold text-cyan-400">{timeStr}</p>
@@ -1429,7 +1431,7 @@ export default function TechDashboardTest() {
               value={workOrderStats.completed_today}
               sub={`${todayAppts.length} scheduled today`}
               borderColor="rgba(34,211,238,0.25)"
-              href="/techdashboard/opsboard"
+              href={TECH_MISSION_QUEUE_PATH}
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
                   <polyline points="20 6 9 17 4 12"/>
@@ -1441,7 +1443,7 @@ export default function TechDashboardTest() {
               value={todayAppts.length}
               sub={nextJob?.scheduled_start ? `next at ${formatScheduleTime(nextJob.scheduled_start)}` : 'none remaining'}
               borderColor="rgba(34,211,238,0.25)"
-              href="/schedule-test"
+              href={TECH_OPS_PATH}
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(0,212,255,0.7))' }}>
                   <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
@@ -1455,7 +1457,7 @@ export default function TechDashboardTest() {
               subColor={workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE'}
               borderColor={workOrderStats.partsWaiting > 0 ? 'rgba(255,122,0,0.4)' : 'rgba(34,211,238,0.2)'}
               sweepColor={workOrderStats.partsWaiting > 0 ? 'orange' : 'cyan'}
-              href="/work_orders/partswait"
+              href={TECH_PARTS_WAIT_PATH}
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: workOrderStats.partsWaiting > 0 ? 'drop-shadow(0 0 4px rgba(255,122,0,0.7))' : 'drop-shadow(0 0 4px rgba(0,212,255,0.5))' }}>
                   <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
@@ -1469,7 +1471,7 @@ export default function TechDashboardTest() {
               sub="drive time"
               borderColor="rgba(255,122,0,0.25)"
               sweepColor="orange"
-              href="/techdashboard/route"
+              href={TECH_ROUTE_PATH}
               icon={
                 <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#FF7A00', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 4px rgba(255,122,0,0.7))' }}>
                   <polygon points="3 11 22 2 13 21 11 13 3 11"/>
@@ -1485,7 +1487,7 @@ export default function TechDashboardTest() {
           <div className="rounded-lg p-4 mb-4" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }} data-techboard-card>
             <div className="flex justify-between items-center mb-2">
               <h2 className="text-base font-bold text-white">Mission Queue</h2>
-              <Link href="/techdashboard/opsboard" className="text-xs text-cyan-400 flex items-center gap-1">
+              <Link href={TECH_MISSION_QUEUE_PATH} className="text-xs text-cyan-400 flex items-center gap-1">
                 View all
                 <svg viewBox="0 0 24 24" className="w-3 h-3" style={{ stroke: 'currentColor', strokeWidth: 2.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}><polyline points="9 18 15 12 9 6"/></svg>
               </Link>
@@ -1513,7 +1515,7 @@ export default function TechDashboardTest() {
         <div className="fixed bottom-0 left-0 right-0 px-4 pb-4 pt-3 max-w-lg mx-auto" style={{ background: '#0A0F1E', borderTop: '1px solid rgba(255,255,255,0.07)', zIndex: 40 }}>
           <div className="grid grid-cols-3 gap-2">
             {/* New Work Order */}
-            <Link href="/work_orders/womobile_new" className="relative flex flex-col items-center justify-center gap-1 py-3 rounded-lg text-xs font-medium text-white overflow-hidden active:scale-95 transition-transform" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(34,211,238,0.5)', boxShadow: '0 0 10px rgba(0,212,255,0.15)' }}>
+            <Link href={techWorkOrderNewPath()} className="relative flex flex-col items-center justify-center gap-1 py-3 rounded-lg text-xs font-medium text-white overflow-hidden active:scale-95 transition-transform" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(34,211,238,0.5)', boxShadow: '0 0 10px rgba(0,212,255,0.15)' }}>
               <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(0,212,255,0.12) 0%, transparent 55%)' }} />
               <svg viewBox="0 0 24 24" className="relative z-10 w-5 h-5" style={{ stroke: '#00D4FF', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 5px rgba(0,212,255,0.9))' }}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               <span className="relative z-10" style={{ textShadow: '0 0 8px rgba(0,212,255,0.6)' }}>New WO</span>

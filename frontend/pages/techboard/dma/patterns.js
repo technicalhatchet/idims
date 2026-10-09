@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
+import TechboardHudDoubleTapShell from '../../../components/layouts/TechboardHudDoubleTapShell';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import DmaPatternReport from '../../../components/dma/DmaPatternReport';
@@ -84,9 +85,9 @@ function DmaPatternsPage() {
         <title>Pattern Discovery | Repair Memory</title>
       </Head>
 
-      <div className="px-4 py-6 max-w-3xl mx-auto pb-24">
+      <TechboardHudDoubleTapShell contentClassName="px-4 py-6 max-w-3xl mx-auto pb-24">
         <div className="mb-6">
-          <Link href="/techdashboard/dma" className="text-sm text-gray-500 hover:text-cyan-400">
+          <Link href="/techboard/dma" className="text-sm text-gray-500 hover:text-cyan-400">
             ← Repair Memory
           </Link>
           <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-400/90 mt-3 mb-1">
@@ -207,7 +208,7 @@ function DmaPatternsPage() {
         )}
 
         {!isLoading && report && <DmaPatternReport report={report} />}
-      </div>
+      </TechboardHudDoubleTapShell>
     </>
   );
 }

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useDmaSuggestions } from '../../hooks/useDmaSuggestions';
+import { techDmaPath } from '../../lib/techRoutes';
 
 /**
  * Compact Repair Memory strip for the TechDeck next-job card.
@@ -38,12 +39,11 @@ export default function TechboardDmaBrief({ workOrderId, equipmentMake, equipmen
   }
 
   const dmaHref = (() => {
-    const query = new URLSearchParams();
-    if (suggestions.search_params?.equipment_make) query.set('make', suggestions.search_params.equipment_make);
-    if (suggestions.search_params?.equipment_subtype) query.set('subtype', suggestions.search_params.equipment_subtype);
-    if (suggestions.search_params?.error_code) query.set('error', suggestions.search_params.error_code);
-    const qs = query.toString();
-    return `/techdashboard/dma${qs ? `?${qs}` : ''}`;
+    const q = {};
+    if (suggestions.search_params?.equipment_make) q.make = suggestions.search_params.equipment_make;
+    if (suggestions.search_params?.equipment_subtype) q.subtype = suggestions.search_params.equipment_subtype;
+    if (suggestions.search_params?.error_code) q.error = suggestions.search_params.error_code;
+    return techDmaPath('', q);
   })();
 
   return (
