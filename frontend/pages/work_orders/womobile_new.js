@@ -2,6 +2,7 @@ import { getSession } from '@auth0/nextjs-auth0';
 import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import WorkOrderForm from '../../components/work_orders/WorkOrderForm';
+import { TECH_WORK_ORDERS_LIST_PATH } from '../../lib/techRoutes';
 import WorkOrderMobileShell from '../../components/work_orders/WorkOrderMobileShell';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { useAuthRedirect } from '../../hooks/useAuthRedirect';
@@ -36,10 +37,10 @@ function NewWorkOrderMobile() {
     <WorkOrderMobileShell
       title="Create Work Order"
       pageTitle="New Work Order | Atomic Repair"
-      backHref="/work_orders/test"
+      backHref={TECH_WORK_ORDERS_LIST_PATH}
       scanKey="wo-new-mobile"
     >
-      <WorkOrderForm variant="mobile" cancelHref="/work_orders/test" initialData={initialData} />
+      <WorkOrderForm variant="mobile" cancelHref={TECH_WORK_ORDERS_LIST_PATH} initialData={initialData} />
     </WorkOrderMobileShell>
   );
 }

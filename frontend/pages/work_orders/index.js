@@ -11,6 +11,7 @@ import FilterDrawer from '../../components/work_orders/FilterDrawer';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
+import { techWorkOrdersNeedsSchedulingUrl } from '../../lib/techRoutes';
 
 function WorkOrders() {
   const router = useRouter();
@@ -21,11 +22,16 @@ function WorkOrders() {
 
   useEffect(() => {
     if (!router.isReady) return;
-    const status = router.query.status;
+    const { preset, status } = router.query;
+    if (preset === 'needs_scheduling') {
+      router.replace(techWorkOrdersNeedsSchedulingUrl());
+      return;
+    }
     if (typeof status === 'string' && status) {
       setFilters((prev) => ({ ...prev, status }));
+      setIsFilterOpen(true);
     }
-  }, [router.isReady, router.query.status]);
+  }, [router.isReady, router.query.preset, router.query.status, router]);
 
   // Fetch work orders with pagination and filters
   const { 

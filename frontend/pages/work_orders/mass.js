@@ -16,6 +16,7 @@ import ApplianceIcon from '../../components/ui/ApplianceIcon';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
 import { apiClient } from '../../utils/api-client';
 import { getUserRole } from '../../utils/auth0-helpers';
+import { TECH_WORK_ORDERS_LIST_PATH } from '../../lib/techRoutes';
 
 /** Fractal noise overlay (matches techboard tactical shell) */
 const TACTICAL_NOISE_BG =
@@ -496,7 +497,7 @@ export default function CriticalMassPage() {
 
 {/*
             <Link
-              href="/work_orders/test"
+              href={TECH_WORK_ORDERS_LIST_PATH}
               className="inline-flex items-center gap-1 mb-4 text-xs text-gray-500 hover:text-gray-300"
             >
               ← Master OPS list

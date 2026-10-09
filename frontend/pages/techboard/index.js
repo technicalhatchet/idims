@@ -17,6 +17,7 @@ import { useOfflineSchedule, useOfflineWorkOrders } from '../../hooks/useOffline
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { resolveAppointmentLocation } from '../../utils/appointment-scheduling';
 import { parseScheduleUtcMs, formatScheduleTime, appointmentStartMs } from '../../utils/schedule-time';
+import { techWorkOrdersNeedsSchedulingUrl, TECH_WORK_ORDERS_LIST_PATH } from '../../lib/techRoutes';
 import {
   sumDriveTimeBetweenStops,
   estimateRouteDriveTime,
@@ -314,9 +315,9 @@ function MasterOpsListCard({ total, today }) {
   const handleClick = (e) => {
     e.preventDefault();
     setSweeping(true);
-    router.prefetch('/work_orders/test');
+    router.prefetch(TECH_WORK_ORDERS_LIST_PATH);
     setTimeout(() => {
-      router.push('/work_orders/test');
+      router.push(TECH_WORK_ORDERS_LIST_PATH);
     }, 600);
   };
 
@@ -1411,7 +1412,7 @@ export default function TechDashboardTest() {
 
           {workOrderStats.pendingScheduling > 0 && (
             <Link
-              href="/work_orders?status=pending"
+              href={techWorkOrdersNeedsSchedulingUrl()}
               className="mb-3 flex items-center justify-between rounded-lg px-4 py-3 border border-orange-500/40 bg-orange-500/10 active:scale-[0.99] transition-transform"
             >
               <span className="text-sm font-semibold text-orange-200">
@@ -1423,20 +1424,6 @@ export default function TechDashboardTest() {
 
           {/* ── STAT CARDS ── */}
           <div className="grid grid-cols-2 gap-3 mb-4">
-            <StatCard
-              label="Needs scheduling"
-              value={workOrderStats.pendingScheduling}
-              sub={workOrderStats.pendingScheduling > 0 ? 'tap to open list' : 'all caught up'}
-              subColor={workOrderStats.pendingScheduling > 0 ? '#FF7A00' : '#22D3EE'}
-              borderColor={workOrderStats.pendingScheduling > 0 ? 'rgba(255,122,0,0.4)' : 'rgba(34,211,238,0.25)'}
-              sweepColor={workOrderStats.pendingScheduling > 0 ? 'orange' : 'cyan'}
-              href="/work_orders?status=pending"
-              icon={
-                <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: workOrderStats.pendingScheduling > 0 ? '#FF7A00' : '#22D3EE', strokeWidth: 1.5, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                  <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
-                </svg>
-              }
-            />
             <StatCard
               label="Jobs Completed"
               value={workOrderStats.completed_today}

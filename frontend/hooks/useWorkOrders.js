@@ -17,6 +17,7 @@ import {
 } from '../lib/offlineReads';
 import { WorkOrderStore } from '../lib/db';
 import { isOffline, isQueueableNetworkError } from '../lib/offlineMutations';
+import { filterWorkOrdersByListParams } from '../lib/workOrderFilters';
 
 /**
  * Hook for work orders list with pagination and filtering
@@ -27,9 +28,11 @@ export function useWorkOrders(params = {}, options = {}) {
     queryFn: async () => {
       if (isOffline()) {
         const cached = await WorkOrderStore.getAll();
+        const transformed = cached.map(transformWorkOrderRecord);
+        const filtered = filterWorkOrdersByListParams(transformed, params);
         return {
-          items: cached.map(transformWorkOrderRecord),
-          total: cached.length,
+          items: filtered,
+          total: filtered.length,
           page: 1,
           pages: 1,
           fromCache: true,
@@ -42,9 +45,11 @@ export function useWorkOrders(params = {}, options = {}) {
       } catch (err) {
         const cached = await WorkOrderStore.getAll();
         if (cached.length && isQueueableNetworkError(err)) {
+          const transformed = cached.map(transformWorkOrderRecord);
+          const filtered = filterWorkOrdersByListParams(transformed, params);
           return {
-            items: cached.map(transformWorkOrderRecord),
-            total: cached.length,
+            items: filtered,
+            total: filtered.length,
             page: 1,
             pages: 1,
             fromCache: true,

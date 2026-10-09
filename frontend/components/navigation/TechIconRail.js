@@ -105,7 +105,7 @@ const NAV_ITEMS = [
   {
     id: 'workorders',
     name: 'Work Orders',
-    href: '/work_orders/test',
+    href: '/techboard/work-orders',
     color: 'cyan',
     icon: (
       <>

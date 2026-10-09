@@ -227,6 +227,16 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+
+  async redirects() {
+    return [
+      {
+        source: '/work_orders/test',
+        destination: '/techboard/work-orders',
+        permanent: false,
+      },
+    ];
+  },
 };
 
 module.exports = withPWA(nextConfig);

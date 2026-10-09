@@ -14,6 +14,7 @@ import { formatPropertyAddress, formatClientAddress } from '../../utils/appointm
 import {
   getSymptomsForEquipmentSubtype,
 } from '../../constants/applianceSymptoms';
+import { TECH_WORK_ORDERS_LIST_PATH } from '../../lib/techRoutes';
 
 
 // Constants for equipment types — SYMPTOMS_BY_TYPE imported from applianceSymptoms.js
@@ -160,7 +161,7 @@ export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuc
     isMobile ? `/work_orders/${orderId}/mobile` : `/work_orders/${orderId}`;
   const workOrderAppointmentsPath = (orderId) =>
     isMobile ? `/work_orders/${orderId}/mobile?tab=appointments` : `/work_orders/${orderId}?tab=appointments`;
-  const workOrdersListPath = isMobile ? '/work_orders/test' : '/work_orders';
+  const workOrdersListPath = isMobile ? TECH_WORK_ORDERS_LIST_PATH : '/work_orders';
 
   const mobileSelectStyles = {
     control: (base, state) => ({

@@ -20,6 +20,7 @@ import { useTheme } from '../../../context/ThemeContext';
 import AppointmentScheduler from '../../../components/work_orders/AppointmentScheduler';
 import WorkOrderTabPanel from '../../../components/work_orders/WorkOrderTabPanel';
 import { resolveWorkOrderServiceAddress } from '../../../utils/appointment-scheduling';
+import { TECH_WORK_ORDERS_LIST_PATH } from '../../../lib/techRoutes';
 import WorkOrderDetailsAppointmentsList from '../../../components/work_orders/WorkOrderDetailsAppointmentsList';
 import WorkOrderNotes from '../../../components/work_orders/WorkOrderNotes';
 import WorkOrderNoteTypePicker from '../../../components/work_orders/WorkOrderNoteTypePicker';
@@ -291,7 +292,7 @@ function WorkOrderDetail() {
       router.back();
       return;
     }
-    router.push('/work_orders/test');
+    router.push(TECH_WORK_ORDERS_LIST_PATH);
   }, [router, dockReturnTab]);
 
   const mobileMoreRef = useRef(null);
@@ -530,7 +531,7 @@ function WorkOrderDetail() {
       }
       await deleteWorkOrder(workOrderId);
       setShowDeleteModal(false);
-      router.push('/work_orders/test');
+      router.push(TECH_WORK_ORDERS_LIST_PATH);
     } catch (error) {
       console.error('Error deleting work order:', error);
       const detail = error?.responseData?.detail ?? error?.message;

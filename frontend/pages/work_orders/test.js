@@ -1,4 +1,4 @@
-import { useState, useCallback, useLayoutEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useCallback, useLayoutEffect, useRef, useMemo } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -10,6 +10,10 @@ import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import ApplianceIcon from '../../components/ui/ApplianceIcon';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
 import { useTechnicians } from '../../hooks/useTechnicians';
+import {
+  isWorkOrderNeedsScheduling,
+  normalizeWorkOrderStatus,
+} from '../../lib/workOrderFilters';
 
 const NAV_SWEEP_MS = 600;
 
@@ -170,6 +174,7 @@ function Card({ wo }) {
 }
 
 export default function WorkOrdersTest() {
+  const router = useRouter();
   const [sortBy, setSortBy] = useState('newest');
   const [page, setPage] = useState(1);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -177,7 +182,30 @@ export default function WorkOrdersTest() {
   const [scheduleFilter, setScheduleFilter] = useState('all');
   const [technicianFilter, setTechnicianFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [needsSchedulingPreset, setNeedsSchedulingPreset] = useState(false);
   const PER_PAGE = 5;
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    const { preset, status, schedule } = router.query;
+    if (preset === 'needs_scheduling') {
+      setNeedsSchedulingPreset(true);
+      setStatusFilter('pending');
+      setScheduleFilter('unscheduled');
+      setFiltersOpen(true);
+      setPage(1);
+      return;
+    }
+    setNeedsSchedulingPreset(false);
+    if (typeof status === 'string' && STATUS_FILTER_OPTIONS.some((o) => o.value === status)) {
+      setStatusFilter(status);
+      setPage(1);
+    }
+    if (typeof schedule === 'string' && SCHEDULE_FILTER_OPTIONS.some((o) => o.value === schedule)) {
+      setScheduleFilter(schedule);
+      setPage(1);
+    }
+  }, [router.isReady, router.query.preset, router.query.status, router.query.schedule]);
 
   const scheduleRange = useMemo(
     () => (scheduleFilter === 'unscheduled' ? {} : scheduleApiRange(scheduleFilter)),
@@ -186,13 +214,15 @@ export default function WorkOrdersTest() {
 
   const listParams = useMemo(() => ({
     page: 1,
-    limit: 100,
+    limit: needsSchedulingPreset ? 200 : 100,
+    ...(needsSchedulingPreset ? { preset: 'needs_scheduling' } : {}),
     ...(statusFilter !== 'all' ? { status_filter: statusFilter } : {}),
     ...(technicianFilter !== 'all' && technicianFilter !== 'unassigned'
       ? { technician_id: technicianFilter }
       : {}),
+    ...(scheduleFilter === 'unscheduled' ? { schedule: 'unscheduled' } : {}),
     ...scheduleRange,
-  }), [statusFilter, technicianFilter, scheduleRange]);
+  }), [statusFilter, technicianFilter, scheduleRange, scheduleFilter, needsSchedulingPreset]);
 
   const { data, isLoading, error } = useWorkOrders(listParams);
   const { data: techniciansData } = useTechnicians({ limit: 100, is_active: true });
@@ -200,6 +230,7 @@ export default function WorkOrdersTest() {
   const technicians = techniciansData?.items || techniciansData || [];
 
   const activeFilterCount = [
+    needsSchedulingPreset,
     statusFilter !== 'all',
     scheduleFilter !== 'all',
     technicianFilter !== 'all',
@@ -238,8 +269,17 @@ export default function WorkOrdersTest() {
 
   const filtered = useMemo(() => {
     let items = [...(data?.items || [])];
-    if (scheduleFilter === 'unscheduled') {
-      items = items.filter((wo) => !wo.scheduled_start);
+    if (needsSchedulingPreset) {
+      items = items.filter(isWorkOrderNeedsScheduling);
+    } else {
+      if (statusFilter !== 'all') {
+        items = items.filter(
+          (wo) => normalizeWorkOrderStatus(wo.status) === normalizeWorkOrderStatus(statusFilter),
+        );
+      }
+      if (scheduleFilter === 'unscheduled') {
+        items = items.filter((wo) => !wo.scheduled_start);
+      }
     }
     if (technicianFilter === 'unassigned') {
       items = items.filter((wo) => !wo.assigned_technician_id);
@@ -249,7 +289,7 @@ export default function WorkOrdersTest() {
       items = items.filter((wo) => workOrderSearchHaystack(wo).includes(q));
     }
     return items;
-  }, [data?.items, scheduleFilter, technicianFilter, searchQuery]);
+  }, [data?.items, scheduleFilter, technicianFilter, searchQuery, statusFilter, needsSchedulingPreset]);
 
   const sorted = useMemo(() => [...filtered].sort((a, b) => {
     if (sortBy === 'newest') return new Date(b.created_at || 0) - new Date(a.created_at || 0);
@@ -268,6 +308,7 @@ export default function WorkOrdersTest() {
   };
 
   const resetFilters = () => {
+    setNeedsSchedulingPreset(false);
     setStatusFilter('all');
     setScheduleFilter('all');
     setTechnicianFilter('all');

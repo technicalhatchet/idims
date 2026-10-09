@@ -10,6 +10,7 @@ import { startDeployReminderHeartbeat, stopDeployReminderHeartbeat } from '../..
 import { useUIPreferences } from '../../context/UIPreferencesContext';
 import { resolveUserDisplayName, resolveUserInitial } from '../../utils/userDisplayName';
 import TechIconRail from '../navigation/TechIconRail';
+import { TECH_WORK_ORDERS_LIST_PATH } from '../../lib/techRoutes';
 
 import {
   TECH_ICON_ASPECT,
@@ -34,7 +35,7 @@ const NAV_ITEMS = [
   },
   {
     name: 'Work Orders',
-    href: '/work_orders/test',
+    href: TECH_WORK_ORDERS_LIST_PATH,
     color: 'cyan',
     icon: (<><rect x="5" y="4" width="14" height="17" rx="2"/><rect x="8" y="2.5" width="8" height="4" rx="1.5"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="16" x2="13" y2="16"/></>),
   },
