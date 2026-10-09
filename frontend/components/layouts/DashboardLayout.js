@@ -7,6 +7,7 @@ import {
   FaUsers, FaWrench, FaCog, FaBars, FaTimes, FaSignOutAlt, FaMoon, FaSun
 } from 'react-icons/fa';
 import Head from 'next/head';
+import AtomicLogo from '../ui/AtomicLogo';
 
 import NotificationsDropdown from '../notifications/NotificationsDropdown';
 import UserDropdown from '../user/UserDropdown';
@@ -285,11 +286,7 @@ export default function DashboardLayout({ children }) {
             <div className="flex items-center space-x-4">
               {/* AR Logo - only on tech dashboard */}
               {router.pathname.startsWith('/techdashboard') && (
-                <img 
-                  src="/arpano.png" 
-                  alt="Atomic Repair" 
-                  className="h-8 w-auto"
-                />
+                <AtomicLogo height={32} className="h-8 w-auto object-contain" />
               )}
 
               {displayThemeToggle && (

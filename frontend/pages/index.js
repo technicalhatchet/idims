@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useUser } from '@auth0/nextjs-auth0/client';
 import HomeLayout from '../components/layouts/HomeLayout';
 import ApplianceIcon from '../components/ui/ApplianceIcon';
 import { motion } from 'framer-motion';
@@ -17,8 +16,6 @@ const HOMEPAGE_PRICING_VARIANT =
   process.env.NEXT_PUBLIC_HOMEPAGE_PRICING_VARIANT || 'promo';
 
 export default function Home() {
-  const { user } = useUser();
-
   const services = [
     {
       title: "Refrigerator Repair",
@@ -62,33 +59,13 @@ export default function Home() {
         <link rel="manifest" href="/manifest.json" />
       </Head>
 
-      {/* Background Glow Blobs - Atomic Theme */}
-      <div 
-        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
-        style={{ backgroundColor: '#000208' }}
-      >
-        <div 
-          className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px]"
-          style={{ backgroundColor: 'rgba(0, 229, 255, 0.15)' }}
-        />
-        <div 
-          className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px]"
-          style={{ backgroundColor: 'rgba(255, 122, 26, 0.18)' }}
-        />
-      </div>
-
       {/* HERO SECTION */}
       <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             
             {/* Left Content */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="relative z-10"
-            >
+            <div className="relative z-10">
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 mb-6">
                 <HiLightningBolt className="w-4 h-4 text-cyan-400" />
@@ -174,15 +151,10 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Right Visual */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
-            >
+            <div className="relative">
               {/* Neon Ring Effect */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-[400px] h-[400px] lg:w-[500px] lg:h-[500px] rounded-full border-2 border-cyan-500/30 shadow-[0_0_60px_rgba(34,211,238,0.3),inset_0_0_60px_rgba(34,211,238,0.1)]" />
@@ -200,14 +172,12 @@ export default function Home() {
                     fill
                     className="object-cover object-center"
                     priority
+                    sizes="(max-width: 1024px) 300px, 380px"
                   />
                 </div>
 
                 {/* Expert Technicians Badge - diagonal offset below-right of image */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
+                <div
                   className="absolute bottom-[-20px] right-[-10px] lg:bottom-[-30px] lg:right-[-40px]"
                 >
                   {/* Connecting dot on image corner */}
@@ -223,9 +193,9 @@ export default function Home() {
                       <p className="text-gray-400 text-xs">Thorough diagnosis before any repair.</p>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import AtomicLogo from '../ui/AtomicLogo';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -11,12 +12,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <img
-                src="/arpano.png"
-                alt="Atomic Repair"
-                className="w-auto object-contain"
-                style={{ height: '48px' }}
-              />
+              <AtomicLogo height={48} />
             </Link>
             <p className="text-gray-500 text-sm leading-relaxed">
               Fast, reliable appliance repair in Toledo. Same-day service, honest diagnostics, no surprises.

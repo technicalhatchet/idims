@@ -7,6 +7,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import AtomicLogo from '../../components/ui/AtomicLogo';
 
 export default function PortalRegister() {
   const router = useRouter();
@@ -87,7 +88,7 @@ export default function PortalRegister() {
         }}>
           {/* Logo */}
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <img src="/arpano.png" alt="Atomic Repair" style={{ height: '40px', objectFit: 'contain' }} />
+            <AtomicLogo height={40} className="w-auto object-contain" />
           </div>
 
           {state === 'validating' && (

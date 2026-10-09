@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import SecretServiceMode from '../ui/SecretServiceMode';
+import AtomicLogo from '../ui/AtomicLogo';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -47,12 +48,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center group">
             <SecretServiceMode>
-              <img
-                src="/arpano.png"
-                alt="Atomic Repair"
-                className="w-auto object-contain"
-                style={{ height: '72px' }}
-              />
+              <AtomicLogo priority />
             </SecretServiceMode>
           </Link>
 

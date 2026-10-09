@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import ClientPwaHead from '../../components/cxdashboard/ClientPwaHead';
+import AtomicLogo from '../../components/ui/AtomicLogo';
 import { portalSignInUrl, portalSignUpUrl } from '../../utils/portalAuthUrls';
 
 const PORTAL_SHELL = '#0B0F1A';
@@ -66,7 +67,7 @@ export default function PortalLogin() {
           maxWidth: '400px',
           textAlign: 'center',
         }}>
-          <img src="/arpano.png" alt="Atomic Repair" style={{ height: '40px', objectFit: 'contain', marginBottom: '2rem' }} />
+          <AtomicLogo height={40} className="w-auto object-contain mb-8" />
 
           <h1 style={{ color: '#fff', fontSize: '1.5rem', fontWeight: '700', marginBottom: '0.5rem' }}>
             Client Portal
