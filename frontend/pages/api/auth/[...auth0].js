@@ -1,5 +1,5 @@
-import { _initAuth } from '@auth0/nextjs-auth0';
 import { resolveAuth0BaseUrl } from '../../../lib/resolveAuth0BaseUrl';
+import { auth0ForRequest } from '../../../lib/requestAuth0';
 
 const DOMAIN = process.env.AUTH0_ISSUER_BASE_URL;
 const MGMT_CLIENT_ID = process.env.AUTH0_MGMT_CLIENT_ID;
@@ -105,25 +105,6 @@ function normalizeReturnTo(returnTo) {
     /* ignore */
   }
   return '/auth-router';
-}
-
-function auth0ForRequest(req) {
-  const baseURL = resolveAuth0BaseUrl(req);
-  const useSecureCookies = baseURL.startsWith('https://');
-
-  return _initAuth({
-    baseURL,
-    session: {
-      cookie: {
-        secure: useSecureCookies,
-        sameSite: 'lax',
-      },
-    },
-    authorizationParams: {
-      audience: process.env.AUTH0_AUDIENCE || process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
-      scope: process.env.AUTH0_SCOPE || 'openid profile email offline_access',
-    },
-  });
 }
 
 function authHandlersFor(auth0) {

@@ -86,6 +86,10 @@ const withPWA = require('next-pwa')({
       urlPattern: /\/_next\/data\/.*/i,
       handler: 'NetworkOnly',
     },
+    {
+      urlPattern: /\/api\/auth\/.*/i,
+      handler: 'NetworkOnly',
+    },
     // Next.js static assets — cache first, they have content hashes so safe to cache forever
     {
       urlPattern: /\/_next\/static\/.*/i,

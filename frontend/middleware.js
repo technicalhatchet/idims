@@ -6,6 +6,7 @@ import {
   isSolomonStandaloneAllowedPath,
   isSolomonStandaloneMode,
 } from './lib/routeAccess';
+import { hasAppSessionCookie } from './lib/hasAppSessionCookie';
 
 function solomonStandaloneResponse(req, pathname) {
   if (pathname === '/') {
@@ -30,7 +31,7 @@ export function middleware(req) {
     return NextResponse.next();
   }
 
-  const hasSession = req.cookies.get('appSession.0') || req.cookies.get('appSession');
+  const hasSession = hasAppSessionCookie(req);
 
   if (isTechPath(pathname)) {
     if (!hasSession) {

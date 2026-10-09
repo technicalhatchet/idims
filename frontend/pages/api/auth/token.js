@@ -1,16 +1,22 @@
-import { getAccessToken, withApiAuthRequired } from '@auth0/nextjs-auth0';
+import { getAccessTokenForRequest, getSessionForRequest } from '../../../lib/requestAuth0';
 
-export default withApiAuthRequired(async function handler(req, res) {
+export default async function handler(req, res) {
   try {
-    // Check if this is a request to refresh the token
+    const session = await getSessionForRequest(req, res);
+    if (!session?.user) {
+      return res.status(401).json({
+        error: 'not_authenticated',
+        description: 'The user does not have an active session or is not authenticated',
+      });
+    }
+
     const shouldRefresh = req.query.refresh === 'true' || req.method === 'POST';
-    
-    // Get the token, potentially refreshing it
-    const { accessToken } = await getAccessToken(req, res, {
-      refresh: shouldRefresh, // Only force refresh when explicitly requested
-      scopes: ['openid', 'profile', 'email']
+
+    const { accessToken } = await getAccessTokenForRequest(req, res, {
+      refresh: shouldRefresh,
+      scopes: ['openid', 'profile', 'email'],
     });
-    
+
     res.status(200).json({ accessToken });
   } catch (error) {
     console.error('Error getting access token:', error);
@@ -18,4 +24,4 @@ export default withApiAuthRequired(async function handler(req, res) {
       error: error.message,
     });
   }
-}); 
+}

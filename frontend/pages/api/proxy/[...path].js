@@ -3,7 +3,7 @@
  * Used when the frontend is hosted on a different origin (e.g. dma-eight.vercel.app)
  * so browser CORS / service-worker quirks do not block auth or DMA calls.
  */
-import { getAccessToken } from '@auth0/nextjs-auth0';
+import { getAccessTokenForRequest } from '../../../lib/requestAuth0';
 
 function backendBaseUrl() {
   const raw = (
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
     headers.Authorization = clientAuth;
   } else {
     try {
-      const { accessToken } = await getAccessToken(req, res, { refresh: false });
+      const { accessToken } = await getAccessTokenForRequest(req, res, { refresh: false });
       if (accessToken) {
         headers.Authorization = `Bearer ${accessToken}`;
       }

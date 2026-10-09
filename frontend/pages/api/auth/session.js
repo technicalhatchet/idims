@@ -1,8 +1,8 @@
-import { getSession } from '@auth0/nextjs-auth0';
+import { getSessionForRequest } from '../../../lib/requestAuth0';
 
 export default async function handler(req, res) {
   try {
-    const session = await getSession(req, res);
+    const session = await getSessionForRequest(req, res);
     
     if (!session) {
       console.log('No session found');

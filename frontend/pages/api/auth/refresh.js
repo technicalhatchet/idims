@@ -1,4 +1,4 @@
-import { getAccessToken, withApiAuthRequired } from '@auth0/nextjs-auth0';
+import { getAccessTokenForRequest } from '../../../lib/requestAuth0';
 
 export default async function handler(req, res) {
   try {
@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     if (req.method === 'POST' && req.query.refresh === 'true') {
       // We can't actually force a refresh with the SDK, but we can
       // get a fresh token which might be renewed if needed
-      const { accessToken } = await getAccessToken(req, res, {
+      const { accessToken } = await getAccessTokenForRequest(req, res, {
         refresh: true,
         scopes: ['openid', 'profile', 'email']
       });
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     }
     
     // For GET requests, just return the current token
-    const { accessToken } = await getAccessToken(req, res, {
+    const { accessToken } = await getAccessTokenForRequest(req, res, {
       scopes: ['openid', 'profile', 'email']
     });
     
