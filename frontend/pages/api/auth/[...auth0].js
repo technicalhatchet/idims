@@ -1,9 +1,5 @@
-import {
-  handleAuth,
-  handleLogin,
-  handleCallback,
-  handleLogout,
-} from '@auth0/nextjs-auth0';
+import { initAuth0 } from '@auth0/nextjs-auth0';
+import { resolveAuth0BaseUrl } from '../../../lib/resolveAuth0BaseUrl';
 
 const DOMAIN = process.env.AUTH0_ISSUER_BASE_URL;
 const MGMT_CLIENT_ID = process.env.AUTH0_MGMT_CLIENT_ID;
@@ -96,39 +92,77 @@ async function completeDiySignupOnCallback(accessToken) {
   return true;
 }
 
-export default handleAuth({
-  login: handleLogin((req) => {
-    const authorizationParams = {
-      scope: 'openid profile email offline_access',
-    };
-    if (req.query.login_hint) {
-      authorizationParams.login_hint = String(req.query.login_hint);
+function normalizeReturnTo(returnTo) {
+  const raw = String(returnTo || '').trim();
+  if (!raw) return '/auth-router';
+  if (raw.startsWith('/')) return raw;
+  try {
+    const url = new URL(raw);
+    if (url.pathname) {
+      return `${url.pathname}${url.search}${url.hash}` || '/auth-router';
     }
-    if (req.query.screen_hint) {
-      authorizationParams.screen_hint = String(req.query.screen_hint);
-    }
-    return {
-      authorizationParams,
-      returnTo: req.query.returnTo || '/auth-router',
-    };
-  }),
+  } catch {
+    /* ignore */
+  }
+  return '/auth-router';
+}
 
-  callback: handleCallback({
-    async afterCallback(req, res, session, state) {
-      const returnTo = String(state?.returnTo || '');
-      if (returnTo.includes('diy_enroll=1') && session?.accessToken) {
-        await completeDiySignupOnCallback(session.accessToken);
-      }
-      return session;
+function auth0ForRequest(req) {
+  const baseURL = resolveAuth0BaseUrl(req);
+  const useSecureCookies = baseURL.startsWith('https://');
+
+  return initAuth0({
+    baseURL,
+    session: {
+      cookie: {
+        secure: useSecureCookies,
+        sameSite: 'lax',
+      },
     },
-    async onError(req, res, error) {
-      console.error('Auth0 Callback Error:', {
-        message: error.message,
-        code: error.code,
-        status: error.status,
-      });
-      const safeMessage = String(error.message || 'Unknown error').replace(/</g, '&lt;');
-      res.status(error.status || 500).send(`
+    authorizationParams: {
+      audience: process.env.AUTH0_AUDIENCE || process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
+      scope: process.env.AUTH0_SCOPE || 'openid profile email offline_access',
+    },
+  });
+}
+
+function authHandlersFor(auth0) {
+  return {
+    login: auth0.handleLogin((req) => {
+      const authorizationParams = {
+        scope: 'openid profile email offline_access',
+      };
+      if (req.query.login_hint) {
+        authorizationParams.login_hint = String(req.query.login_hint);
+      }
+      if (req.query.screen_hint) {
+        authorizationParams.screen_hint = String(req.query.screen_hint);
+      }
+      return {
+        authorizationParams,
+        returnTo: normalizeReturnTo(req.query.returnTo || '/auth-router'),
+      };
+    }),
+
+    callback: auth0.handleCallback({
+      async afterCallback(req, res, session, state) {
+        const returnTo = String(state?.returnTo || '');
+        if (returnTo.includes('diy_enroll=1') && session?.accessToken) {
+          await completeDiySignupOnCallback(session.accessToken);
+        }
+        return session;
+      },
+      async onError(req, res, error) {
+        const baseURL = resolveAuth0BaseUrl(req);
+        console.error('Auth0 Callback Error:', {
+          message: error.message,
+          code: error.code,
+          status: error.status,
+          baseURL,
+          host: req.headers['x-forwarded-host'] || req.headers.host,
+        });
+        const safeMessage = String(error.message || 'Unknown error').replace(/</g, '&lt;');
+        res.status(error.status || 500).send(`
         <html>
           <head><title>Auth0 Error</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -139,12 +173,18 @@ export default handleAuth({
             <h1 class="error">Login error</h1>
             <p>${safeMessage}</p>
             <p><small>Code: ${error.code || 'n/a'}</small></p>
-            <a href="/api/auth/login?returnTo=/solomon" class="button">Try again</a>
+            <a href="/api/auth/login?returnTo=/cxdashboard" class="button">Try again</a>
           </body>
         </html>
       `);
-    },
-  }),
+      },
+    }),
 
-  logout: handleLogout(),
-});
+    logout: auth0.handleLogout(),
+  };
+}
+
+export default async function handler(req, res) {
+  const auth0 = auth0ForRequest(req);
+  return auth0.handleAuth(authHandlersFor(auth0))(req, res);
+}

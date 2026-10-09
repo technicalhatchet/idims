@@ -6,7 +6,15 @@ This document outlines the Auth0 configuration needed for the IDIMS application.
 
 Create a `.env.local` file in the frontend directory with the following Auth0 configuration:
 
-IDIMS dev runs on **port 3001** by default (`npm run dev`) so it does not collide with idfms on **3000**. `AUTH0_BASE_URL` must match the origin you use in the browser (for phone/Tailscale, run `.\scripts\tailscale-setup.ps1` from the repo root and restart Next).
+IDIMS dev runs on **port 3001** by default (`npm run dev`) so it does not collide with idfms on **3000**. `AUTH0_BASE_URL` is a **fallback** when the request host is unknown; in production the Auth0 route derives `baseURL` from the incoming host (`atomicrepair419.com`, `v0-idims.vercel.app`, etc.) so login and callback stay on the same origin.
+
+In the Auth0 application, register **every** production callback URL you use, for example:
+
+- `https://atomicrepair419.com/api/auth/callback`
+- `https://v0-idims.vercel.app/api/auth/callback`
+- `https://solodiag.com/api/auth/callback` (if applicable)
+
+Same pattern for **Allowed Logout URLs** on each hostname.
 
 ```
 # Auth0 Configuration
