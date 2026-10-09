@@ -21,6 +21,11 @@ from pydantic import BaseModel, ValidationError
 
 # Local imports
 from app.config import settings
+from app.cors_policy import (
+    CORS_ALLOWED_ORIGINS,
+    CORS_ORIGIN_REGEX,
+    cors_headers_for_request,
+)
 from app.db.database import engine, get_db
 from app.core.auth import get_auth_handler
 from app.core.logger import setup_logging
@@ -108,50 +113,6 @@ if not settings.AUTH0_API_AUDIENCE:
 # Initialize auth handler to validate configuration
 auth_handler = get_auth_handler()
 logger.info(f"Auth0 configuration loaded - Domain: {settings.AUTH0_DOMAIN}, Audience: {settings.AUTH0_API_AUDIENCE}")
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost:5173",  # Vite default port
-    "http://127.0.0.1:5173",
-    f"https://{settings.AUTH0_DOMAIN}",
-    "https://v0-idims.vercel.app",
-    "https://dma-eight.vercel.app",
-]
-
-_frontend_origin = (settings.FRONTEND_URL or "").strip().rstrip("/")
-if _frontend_origin and _frontend_origin not in CORS_ALLOWED_ORIGINS:
-    CORS_ALLOWED_ORIGINS.append(_frontend_origin)
-
-_extra_origins = os.getenv("CORS_EXTRA_ORIGINS", "")
-for _part in _extra_origins.split(","):
-    _origin = _part.strip().rstrip("/")
-    if _origin and _origin not in CORS_ALLOWED_ORIGINS:
-        CORS_ALLOWED_ORIGINS.append(_origin)
-
-# Solomon / preview Vercel deployments (e.g. dma-eight.vercel.app)
-CORS_ORIGIN_REGEX = r"https://.*\.vercel\.app"
-_VERCEL_ORIGIN_RE = re.compile(r"^https://([a-z0-9-]+\.)*vercel\.app$", re.I)
-
-
-def _origin_is_allowed(origin: Optional[str]) -> bool:
-    if not origin:
-        return False
-    normalized = origin.strip().rstrip("/")
-    if normalized in CORS_ALLOWED_ORIGINS:
-        return True
-    return _VERCEL_ORIGIN_RE.match(normalized) is not None
-
-
-def cors_headers_for_request(request: Request) -> Dict[str, str]:
-    origin = request.headers.get("Origin")
-    if _origin_is_allowed(origin):
-        return {
-            "Access-Control-Allow-Origin": origin,
-            "Access-Control-Allow-Credentials": "true",
-        }
-    return {}
-
 
 # Add middlewares in correct order
 app.add_middleware(
