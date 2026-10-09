@@ -1,4 +1,4 @@
-import { initAuth0 } from '@auth0/nextjs-auth0';
+import { _initAuth } from '@auth0/nextjs-auth0';
 import { resolveAuth0BaseUrl } from '../../../lib/resolveAuth0BaseUrl';
 
 const DOMAIN = process.env.AUTH0_ISSUER_BASE_URL;
@@ -111,7 +111,7 @@ function auth0ForRequest(req) {
   const baseURL = resolveAuth0BaseUrl(req);
   const useSecureCookies = baseURL.startsWith('https://');
 
-  return initAuth0({
+  return _initAuth({
     baseURL,
     session: {
       cookie: {
