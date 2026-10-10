@@ -16,7 +16,6 @@ import { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import SyncBanner from '../components/ui/SyncBanner';
-import { prefetchAll, prefetchScheduleOnly } from '../lib/prefetch';
 import { isTechDeckPrefetchRoute, isSolomonPrefetchRoute } from '../lib/offlineCache';
 import { prefetchSolomonShell } from '../lib/solomonPrefetch';
 import SolomonDiyEnrollment from '../components/solomon/SolomonDiyEnrollment';
@@ -121,26 +120,39 @@ function ClientOnlyPrefetch() {
     if (!mounted) return;
     if (!isTechDeckPrefetchRoute(router.pathname)) return;
 
+    let disposed = false;
+    const loadPrefetch = () => import('../lib/prefetch');
+
     const startPrefetch = () => {
-      if (navigator.onLine) {
+      if (!navigator.onLine) return;
+      loadPrefetch().then(({ prefetchAll }) => {
+        if (disposed) return;
         prefetchAll({ onProgress: (msg) => console.log('[Prefetch]', msg) });
-      }
+      });
     };
 
     // Defer prefetch so page queries finish first; avoid flooding Railway on load
     const timeoutId = setTimeout(startPrefetch, 10000);
 
     const interval = setInterval(() => {
-      if (navigator.onLine) prefetchScheduleOnly();
+      if (!navigator.onLine) return;
+      loadPrefetch().then(({ prefetchScheduleOnly }) => {
+        if (disposed) return;
+        prefetchScheduleOnly();
+      });
     }, 5 * 60 * 1000);
 
     function handleOnline() {
       console.log('[Prefetch] Back online — refreshing data...');
-      prefetchAll({ force: true, onProgress: (msg) => console.log('[Prefetch]', msg) });
+      loadPrefetch().then(({ prefetchAll }) => {
+        if (disposed) return;
+        prefetchAll({ force: true, onProgress: (msg) => console.log('[Prefetch]', msg) });
+      });
     }
     window.addEventListener('online', handleOnline);
 
     return () => {
+      disposed = true;
       clearTimeout(timeoutId);
       clearInterval(interval);
       window.removeEventListener('online', handleOnline);
