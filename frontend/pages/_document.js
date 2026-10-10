@@ -8,16 +8,14 @@ export default function Document() {
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         {/* theme-color, favicon, apple-touch-icon, and description are set per route (PWA + marketing pages). */}
         
-        {/* Add any preconnect links if needed */}
+        {/* Orbitron: used by tech HUD / legacy mobile client shells (font-family: 'Orbitron'). Inter is loaded via next/font in _app. */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
-        {/* Google Fonts */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;600;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&display=swap"
           rel="stylesheet"
         />
-        
+
         {/* CSRF Token for API requests security */}
         <meta name="csrf-token" content="{{csrfToken}}" />
 
@@ -29,7 +27,7 @@ export default function Document() {
           />
         ) : null}
       </Head>
-      <body className="antialiased font-sans bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-150">
+      <body className="antialiased bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-150">
         <Main />
         <NextScript />
       </body>
