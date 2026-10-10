@@ -79,6 +79,7 @@ export default function Header() {
             </Link>
             <Link
               href="/book"
+              prefetch={false}
               className="book-btn-header relative group px-5 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all duration-300"
               style={{
                 background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)',
@@ -137,6 +138,7 @@ export default function Header() {
               </Link>
               <Link
                 href="/book"
+                prefetch={false}
                 className="book-btn-header flex items-center justify-center gap-2 text-white text-center py-3 rounded-lg font-semibold text-sm"
                 style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
               >

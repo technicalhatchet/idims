@@ -90,7 +90,7 @@ export default function Home() {
 
               {/* CTA Buttons */}
               <div className="mt-8 flex flex-wrap gap-4">
-                <Link href="/book">
+                <Link href="/book" prefetch={false}>
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -255,6 +255,7 @@ export default function Home() {
                     </p>
                     <Link
                       href="/book"
+                      prefetch={false}
                       className="inline-flex items-center gap-1 text-orange-400 text-sm font-medium hover:text-orange-300 transition-colors group/link"
                     >
                       Book Now
@@ -337,7 +338,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <Link href="/book" className="relative block mt-8">
+                <Link href="/book" prefetch={false} className="relative block mt-8">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -369,7 +370,7 @@ export default function Home() {
             </p>
 
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Link href="/book">
+              <Link href="/book" prefetch={false}>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
