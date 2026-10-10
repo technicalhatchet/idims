@@ -5,6 +5,13 @@ const withPWA = require('next-pwa')({
   register: true,
   skipWaiting: true,
   customWorkerDir: 'worker',
+  // Globby patterns relative to public/; leading ! = omit from install precache (next-pwa 5.6.0).
+  // Diagrams still load via runtime static-images (StaleWhileRevalidate) when opened in the UI.
+  publicExcludes: [
+    '!noprecache/**/*',
+    '!images/procedures/**',
+    '!images/solomonwiz/**',
+  ],
   // Offline data lives in IndexedDB (prefetch.js + useOfflineData), NOT in the SW.
   // The SW only caches the app shell + static assets so techboard loads with no network.
   // Do NOT add Railway / Auth0 / any API URL to runtimeCaching — Workbox intercept breaks CORS.
