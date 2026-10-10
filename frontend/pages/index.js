@@ -172,7 +172,6 @@ export default function Home() {
                     fill
                     className="object-cover object-center"
                     priority
-                    sizes="(max-width: 1024px) 300px, 380px"
                   />
                 </div>
 
