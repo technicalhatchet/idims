@@ -1,5 +1,4 @@
 import '../styles/globals.css';
-import '../styles/fullcalendar.css';
 import { inter } from '../lib/siteFonts';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { UserRoleProvider } from '../context/UserRoleContext';

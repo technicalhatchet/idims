@@ -392,3 +392,62 @@
   white-space: pre-wrap;
   margin-top: 0.25rem;
 }
+
+/* fullcalendar.css — scoped here so global _app import is not required (TimelineView routes only) */
+.timelineContainer :global(.fc-timeline-slot-cushion) {
+  font-weight: 500;
+}
+
+.timelineContainer :global(.fc-timeline-slot) {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+:global(.dark) .timelineContainer :global(.fc-timeline-slot) {
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timelineContainer :global(.fc-resource-timeline-divider) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+:global(.dark) .timelineContainer :global(.fc-resource-timeline-divider) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.timelineContainer :global(.fc-timeline-event) {
+  border-radius: 0.25rem;
+}
+
+.timelineContainer :global(.fc .fc-resource-timeline-divider) {
+  cursor: col-resize;
+  width: 3px;
+}
+
+.timelineContainer :global(.fc .fc-timeline-event-harness) {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+:global(.dark) .timelineContainer :global(.fc-theme-standard .fc-scrollgrid),
+:global(.dark) .timelineContainer :global(.fc-theme-standard td),
+:global(.dark) .timelineContainer :global(.fc-theme-standard th) {
+  border-color: #374151;
+}
+
+:global(.dark) .timelineContainer :global(.fc-col-header-cell-cushion),
+:global(.dark) .timelineContainer :global(.fc-timeline-slot-cushion),
+:global(.dark) .timelineContainer :global(.fc-daygrid-day-number),
+:global(.dark) .timelineContainer :global(.fc-list-day-text),
+:global(.dark) .timelineContainer :global(.fc-list-day-side-text) {
+  color: #f9fafb;
+}
+
+:global(.dark) .timelineContainer :global(.fc-button-primary) {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+:global(.dark) .timelineContainer :global(.fc-button-primary:hover) {
+  background-color: #374151;
+}
