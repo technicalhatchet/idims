@@ -1,15 +1,25 @@
+const fs = require('fs');
+const path = require('path');
+
+/** Scan app components but omit diagnostics/ (see styles/diagnostics-utilities.css). */
+function componentContentGlobs() {
+  const componentsDir = path.join(__dirname, 'components');
+  if (!fs.existsSync(componentsDir)) {
+    return [];
+  }
+  return fs
+    .readdirSync(componentsDir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && entry.name !== 'diagnostics')
+    .map((entry) => `./components/${entry.name}/**/*.{js,ts,jsx,tsx}`);
+}
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./frontend/pages/**/*.{js,ts,jsx,tsx}",
-    "./frontend/components/**/*.{js,ts,jsx,tsx}",
-    "./frontend/context/**/*.{js,ts,jsx,tsx}",
-    "./frontend/hooks/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./layouts/**/*.{js,ts,jsx,tsx}",
-    "./context/**/*.{js,ts,jsx,tsx}",
-    "./hooks/**/*.{js,ts,jsx,tsx}"
+    './pages/**/*.{js,ts,jsx,tsx}',
+    ...componentContentGlobs(),
+    './context/**/*.{js,ts,jsx,tsx}',
+    './hooks/**/*.{js,ts,jsx,tsx}',
   ],
   safelist: [
     // Add frequently used classes that might be missed by the purge

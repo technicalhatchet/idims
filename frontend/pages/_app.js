@@ -19,6 +19,7 @@ import { isTechDeckPrefetchRoute, isSolomonPrefetchRoute } from '../lib/offlineC
 import { prefetchSolomonShell } from '../lib/solomonPrefetch';
 import SolomonDiyEnrollment from '../components/solomon/SolomonDiyEnrollment';
 import SolomonThemeScope from '../components/solomon/SolomonThemeScope';
+import AppRouteStyles from '../components/AppRouteStyles';
 
 const SyncBanner = dynamic(() => import('../components/ui/SyncBanner'), {
   ssr: false,
@@ -210,6 +211,7 @@ function MyApp({ Component, pageProps }) {
       <ThemeProvider>
       <UIPreferencesProvider>
         <QueryClientProvider client={queryClient}>
+          <AppRouteStyles />
           <DevServiceWorkerCleanup />
           <ServiceWorkerMigration />
           <TechDeckSyncBanner />
