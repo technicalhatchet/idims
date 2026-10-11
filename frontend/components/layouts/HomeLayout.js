@@ -36,7 +36,6 @@ export default function HomeLayout({ children, title = 'Atomic Repair | Applianc
         <title>{title}</title>
         <meta name="description" content="Fast, reliable appliance repair in Toledo. Same-day service, honest diagnostics, no surprises." />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="preload" href="/arpano-800.webp" as="image" type="image/webp" />
         <script
           dangerouslySetInnerHTML={{
             __html: `document.documentElement.classList.add('atomic-marketing');`,
