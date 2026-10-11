@@ -15,11 +15,25 @@ const ReactQueryDevtools = dynamic(
 import { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import SyncBanner from '../components/ui/SyncBanner';
+import { isTechPath } from '../lib/routeAccess';
 import { isTechDeckPrefetchRoute, isSolomonPrefetchRoute } from '../lib/offlineCache';
 import { prefetchSolomonShell } from '../lib/solomonPrefetch';
 import SolomonDiyEnrollment from '../components/solomon/SolomonDiyEnrollment';
 import SolomonThemeScope from '../components/solomon/SolomonThemeScope';
+
+const SyncBanner = dynamic(() => import('../components/ui/SyncBanner'), {
+  ssr: false,
+});
+
+function TechDeckSyncBanner() {
+  const router = useRouter();
+
+  if (!isTechPath(router.pathname)) {
+    return null;
+  }
+
+  return <SyncBanner />;
+}
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -199,7 +213,7 @@ function MyApp({ Component, pageProps }) {
         <QueryClientProvider client={queryClient}>
           <DevServiceWorkerCleanup />
           <ServiceWorkerMigration />
-          <SyncBanner />
+          <TechDeckSyncBanner />
           <ClientOnlyPrefetch />
           <ClientOnlySolomonPrefetch />
           <SolomonDiyEnrollment />
