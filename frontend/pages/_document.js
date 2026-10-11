@@ -7,14 +7,7 @@ export default function Document() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         {/* theme-color, favicon, apple-touch-icon, and description are set per route (PWA + marketing pages). */}
-        
-        {/* Orbitron: used by tech HUD / legacy mobile client shells (font-family: 'Orbitron'). Inter is loaded via next/font in _app. */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
+        {/* Orbitron: loaded per-route on TechDeck HUD / mobile shells (not global — avoids marketing cold-load cost). */}
 
         {/* CSRF Token for API requests security */}
         <meta name="csrf-token" content="{{csrfToken}}" />
