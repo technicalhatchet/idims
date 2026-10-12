@@ -53,7 +53,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden xl:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -70,7 +70,7 @@ export default function Header() {
           </nav>
 
           {/* Right Side Actions */}
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden xl:flex items-center gap-6">
             <Link
               href="/cxdashboard"
               className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm font-medium"
@@ -103,7 +103,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden p-2 text-gray-400 hover:text-white transition-colors"
+            className="xl:hidden p-2 text-gray-400 hover:text-white transition-colors"
             aria-label="Toggle menu"
           >
             {menuOpen ? <FaTimes className="w-6 h-6" /> : <FaBars className="w-6 h-6" />}
@@ -113,7 +113,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden overflow-hidden transition-all duration-300 ${
+        className={`xl:hidden overflow-hidden transition-all duration-300 ${
           menuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >

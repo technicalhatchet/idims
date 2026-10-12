@@ -62,12 +62,17 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/services#oven" className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">
-                  Oven & Range
+                  Range Repair
                 </Link>
               </li>
               <li>
                 <Link href="/services#dishwasher" className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">
-                  Dishwasher
+                  Dishwasher Repair
+                </Link>
+              </li>
+              <li>
+                <Link href="/services#tv" className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">
+                  TV Repair
                 </Link>
               </li>
             </ul>
@@ -78,15 +83,18 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-4">Contact Us</h4>
             <ul className="space-y-3">
               <li>
-                <a href="tel:4190000000" className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors text-sm">
+                <a href="tel:4197400146" className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors text-sm">
                   <FaPhone className="w-4 h-4 text-cyan-400" />
                   (419) 740-0146
                 </a>
               </li>
               <li>
-                <a href="mailto:info@atomicrepair.com" className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors text-sm">
+                <a
+                  href="mailto:service@atomicrepair419.com"
+                  className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors text-sm"
+                >
                   <FaEnvelope className="w-4 h-4 text-cyan-400" />
-                  info@atomicrepair.com
+                  service@atomicrepair419.com
                 </a>
               </li>
               <li>
