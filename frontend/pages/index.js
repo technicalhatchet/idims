@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import HomeLayout from '../components/layouts/HomeLayout';
+import HomeHeroDiagnosticVisual from '../components/marketing/HomeHeroDiagnosticVisual';
 import ApplianceIcon from '../components/ui/ApplianceIcon';
 import { motion } from 'framer-motion';
 import { FaStar, FaShieldAlt, FaClock, FaCheckCircle, FaPhone, FaArrowRight } from 'react-icons/fa';
@@ -166,55 +166,14 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Right Visual */}
+            {/* Right visual — desktop only; mobile hero is copy + CTAs (no stacked photo) */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
+              className="relative hidden lg:block"
             >
-              {/* Neon Ring Effect */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-[400px] h-[400px] lg:w-[500px] lg:h-[500px] rounded-full border-2 border-cyan-500/30 shadow-[0_0_60px_rgba(34,211,238,0.3),inset_0_0_60px_rgba(34,211,238,0.1)]" />
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-[350px] h-[350px] lg:w-[450px] lg:h-[450px] rounded-full border border-orange-500/20 shadow-[0_0_40px_rgba(249,115,22,0.2)]" />
-              </div>
-
-              {/* Main Image Container */}
-              <div className="relative z-10 flex items-center justify-center min-h-[400px] lg:min-h-[500px]">
-              <div className="relative w-[300px] h-[350px] lg:w-[380px] lg:h-[450px] rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
-                  <Image
-                    src="/images/aitechimg.png"
-                    alt="Expert Technician"
-                    fill
-                    className="object-cover object-center"
-                    priority
-                  />
-                </div>
-
-                {/* Expert Technicians Badge - diagonal offset below-right of image */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                  className="absolute bottom-[-20px] right-[-10px] lg:bottom-[-30px] lg:right-[-40px]"
-                >
-                  {/* Connecting dot on image corner */}
-                  <div className="absolute top-[-18px] left-[10px] w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
-                  {/* Diagonal line */}
-                  <div className="absolute top-[-16px] left-[14px] w-[28px] h-[1px] bg-gradient-to-r from-cyan-400/80 to-cyan-400/20 rotate-[35deg] origin-left" />
-                  <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-[#000208]/90 backdrop-blur-md border border-cyan-500/30 shadow-[0_0_30px_rgba(34,211,238,0.2)]">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-cyan-500/20">
-                      <FaCheckCircle className="w-4 h-4 text-cyan-400" />
-                    </div>
-                    <div>
-                      <p className="text-white font-semibold text-sm">Expert Technicians</p>
-                      <p className="text-gray-400 text-xs">We fix it right the first time.</p>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
+              <HomeHeroDiagnosticVisual />
             </motion.div>
           </div>
         </div>
