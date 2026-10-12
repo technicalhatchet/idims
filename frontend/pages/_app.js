@@ -44,6 +44,10 @@ const queryClient = new QueryClient({
   },
 });
 
+/** Preview experiment: skip heavy providers on `/` only (see MyApp). Build-time flag. */
+const HOMEPAGE_LITE_SHELL_ENABLED =
+  process.env.NEXT_PUBLIC_HOMEPAGE_LITE_SHELL === '1';
+
 // One-time migration: drop SW configs that cached/intercepted Railway API.
 // After reload, next-pwa registers the fixed SW (static assets + app shell only).
 const SW_MIGRATION_KEY = 'idims_pwa_v3_migrated';
@@ -212,39 +216,61 @@ function ClientOnlySolomonPrefetch() {
   return null;
 }
 
+function AppChrome({ Component, pageProps }) {
+  const page = Component.getLayout
+    ? Component.getLayout(<Component {...pageProps} />)
+    : <Component {...pageProps} />;
+
+  return (
+    <>
+      <AppRouteStyles />
+      <DevServiceWorkerCleanup />
+      <MaybeServiceWorkerMigration />
+      <TechDeckSyncBanner />
+      <ClientOnlyPrefetch />
+      <ClientOnlySolomonPrefetch />
+      <SolomonDiyEnrollment />
+      <SolomonThemeScope>{page}</SolomonThemeScope>
+      <Toaster position="top-right" />
+    </>
+  );
+}
+
 function MyApp({ Component, pageProps }) {
-  const { user } = pageProps;
+  const router = useRouter();
+  const useLiteHomepageShell =
+    HOMEPAGE_LITE_SHELL_ENABLED && router.pathname === '/';
+
+  /*
+   * Lite shell (homepage only): omits UserProvider, UserRoleProvider, ThemeProvider,
+   * UIPreferencesProvider, QueryClientProvider — none are used by `/` markup
+   * (index + HomeLayout + Header/Footer + hero). Client nav to other routes remounts
+   * the full provider tree. Does not reduce _app.js bundle size (imports unchanged).
+   */
+  if (useLiteHomepageShell) {
+    return (
+      <div className={`${inter.variable} font-sans`}>
+        <AppChrome Component={Component} pageProps={pageProps} />
+      </div>
+    );
+  }
 
   return (
     <div className={`${inter.variable} font-sans`}>
-    <UserProvider>
-      <UserRoleProvider>
-      <ThemeProvider>
-      <UIPreferencesProvider>
-        <QueryClientProvider client={queryClient}>
-          <AppRouteStyles />
-          <DevServiceWorkerCleanup />
-          <MaybeServiceWorkerMigration />
-          <TechDeckSyncBanner />
-          <ClientOnlyPrefetch />
-          <ClientOnlySolomonPrefetch />
-          <SolomonDiyEnrollment />
-          <SolomonThemeScope>
-            {Component.getLayout ? (
-              Component.getLayout(<Component {...pageProps} />)
-            ) : (
-              <Component {...pageProps} />
-            )}
-          </SolomonThemeScope>
-          <Toaster position="top-right" />
-          {process.env.NODE_ENV === 'development' && (
-            <ReactQueryDevtools initialIsOpen={false} />
-          )}
-        </QueryClientProvider>
-      </UIPreferencesProvider>
-      </ThemeProvider>
-      </UserRoleProvider>
-    </UserProvider>
+      <UserProvider>
+        <UserRoleProvider>
+          <ThemeProvider>
+            <UIPreferencesProvider>
+              <QueryClientProvider client={queryClient}>
+                <AppChrome Component={Component} pageProps={pageProps} />
+                {process.env.NODE_ENV === 'development' && (
+                  <ReactQueryDevtools initialIsOpen={false} />
+                )}
+              </QueryClientProvider>
+            </UIPreferencesProvider>
+          </ThemeProvider>
+        </UserRoleProvider>
+      </UserProvider>
     </div>
   );
 }
