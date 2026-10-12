@@ -1,6 +1,19 @@
+import { useEffect, useMemo, useState } from 'react';
+
 /**
- * Decorative hero visual for marketing homepage (desktop lg+). Animated atom SVG.
+ * Decorative hero atom SVG for marketing homepage (responsive: compact on mobile).
  */
+
+function scaleDur(seconds, factor) {
+  const n = parseFloat(seconds);
+  return `${(n * factor).toFixed(1).replace(/\.0$/, '')}s`;
+}
+
+function scaleBegin(begin, factor) {
+  if (!begin) return begin;
+  const n = parseFloat(begin);
+  return `${(n * factor).toFixed(1).replace(/\.0$/, '')}s`;
+}
 
 function FarHalfMask({ id }) {
   return (
@@ -88,14 +101,14 @@ function TiltedOrbitSatellite({ iconId, dur, begin, upright }) {
   );
 }
 
-function FlatOrbitIcons({ back }) {
+function FlatOrbitIcons({ back, dur = '14s', tvBegin = '-7s' }) {
   const maskId = back ? 'ah-flat-far' : 'ah-flat-near';
   return (
     <g>
       {back ? <FarHalfMask id={maskId} /> : <NearHalfMask id={maskId} />}
       <g mask={`url(#${maskId})`}>
-        <FlatOrbitSatellite iconId="ah-fridge" dur="14s" />
-        <FlatOrbitSatellite iconId="ah-tv" dur="14s" begin="-7s" />
+        <FlatOrbitSatellite iconId="ah-fridge" dur={dur} />
+        <FlatOrbitSatellite iconId="ah-tv" dur={dur} begin={tvBegin} />
       </g>
     </g>
   );
@@ -114,15 +127,36 @@ function TiltedOrbitIcons({ planeRotate, upright, iconId, dur, begin, back, mask
 }
 
 export default function HomeHeroDiagnosticVisual() {
+  const [slowOrbits, setSlowOrbits] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1023px)');
+    const update = () => setSlowOrbits(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  const orbit = useMemo(() => {
+    const f = slowOrbits ? 1.2 : 1;
+    return {
+      flat: scaleDur(14, f),
+      flatTvBegin: scaleBegin('-7s', f),
+      range: scaleDur(11, f),
+      rangeBegin: scaleBegin('-3s', f),
+      washer: scaleDur(17, f),
+      washerBegin: scaleBegin('-10s', f),
+    };
+  }, [slowOrbits]);
+
   return (
     <div
-      className="atom-hero relative flex items-center justify-center min-h-[420px] w-full mx-auto"
+      className="atom-hero relative flex w-full max-w-[280px] mx-auto items-center justify-center aspect-square lg:max-w-[500px] lg:min-h-[420px] lg:aspect-auto"
       role="img"
       aria-label="Atomic Repair: fridge, range, washer and TV orbiting crossed wrenches"
     >
       <style jsx>{`
         .atom-hero {
-          max-width: 500px;
           aspect-ratio: 1;
         }
         .atom-hero :global(svg) {
@@ -181,6 +215,23 @@ export default function HomeHeroDiagnosticVisual() {
           }
           50% {
             opacity: 1;
+          }
+        }
+        @media (max-width: 1023px) {
+          .atom-hero :global(.spin-slow) {
+            animation-duration: 48s;
+          }
+          .atom-hero :global(.spin-rev) {
+            animation-duration: 72s;
+          }
+          .atom-hero :global(.pulse) {
+            animation-duration: 3.6s;
+          }
+          .atom-hero :global(.float) {
+            animation-duration: 6s;
+          }
+          .atom-hero :global(.twinkle) {
+            animation-duration: 2.88s;
           }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -308,13 +359,13 @@ export default function HomeHeroDiagnosticVisual() {
           <use href="#ah-orbit" stroke="#22d3ee" strokeOpacity="0.75" transform="rotate(120 200 200)" />
         </g>
 
-        <FlatOrbitIcons back />
+        <FlatOrbitIcons back dur={orbit.flat} tvBegin={orbit.flatTvBegin} />
         <TiltedOrbitIcons
           planeRotate={60}
           upright={-60}
           iconId="ah-range"
-          dur="11s"
-          begin="-3s"
+          dur={orbit.range}
+          begin={orbit.rangeBegin}
           back
           maskKey="ah-orbit-60"
         />
@@ -322,8 +373,8 @@ export default function HomeHeroDiagnosticVisual() {
           planeRotate={120}
           upright={-120}
           iconId="ah-washer"
-          dur="17s"
-          begin="-10s"
+          dur={orbit.washer}
+          begin={orbit.washerBegin}
           back
           maskKey="ah-orbit-120"
         />
@@ -343,21 +394,21 @@ export default function HomeHeroDiagnosticVisual() {
           />
         </g>
 
-        <FlatOrbitIcons />
+        <FlatOrbitIcons dur={orbit.flat} tvBegin={orbit.flatTvBegin} />
         <TiltedOrbitIcons
           planeRotate={60}
           upright={-60}
           iconId="ah-range"
-          dur="11s"
-          begin="-3s"
+          dur={orbit.range}
+          begin={orbit.rangeBegin}
           maskKey="ah-orbit-60-front"
         />
         <TiltedOrbitIcons
           planeRotate={120}
           upright={-120}
           iconId="ah-washer"
-          dur="17s"
-          begin="-10s"
+          dur={orbit.washer}
+          begin={orbit.washerBegin}
           maskKey="ah-orbit-120-front"
         />
       </svg>
