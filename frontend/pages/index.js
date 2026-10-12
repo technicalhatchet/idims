@@ -12,9 +12,19 @@ import {
   OPENING_SPECIAL_LIST_PRICE,
   OPENING_SPECIAL_PRICE,
 } from '../constants/bookingMarketing';
-
 const HOMEPAGE_PRICING_VARIANT =
   process.env.NEXT_PUBLIC_HOMEPAGE_PRICING_VARIANT || 'promo';
+
+const HOMEPAGE_PAINT_DIAG_ENABLED =
+  process.env.NEXT_PUBLIC_HOMEPAGE_PAINT_DIAG === '1';
+
+let HomepagePaintDiagnostic = null;
+let HOMEPAGE_PAINT_DIAG_INLINE_SCRIPT = '';
+if (HOMEPAGE_PAINT_DIAG_ENABLED) {
+  HomepagePaintDiagnostic = require('../components/marketing/HomepagePaintDiagnostic').default;
+  HOMEPAGE_PAINT_DIAG_INLINE_SCRIPT =
+    require('../lib/homepagePaintDiagInlineScript').HOMEPAGE_PAINT_DIAG_INLINE_SCRIPT;
+}
 
 export default function Home() {
   const services = [
@@ -51,10 +61,24 @@ export default function Home() {
         <title>Atomic Repair | Fast, Reliable Appliance Repair in Toledo</title>
         <meta name="description" content="Same-day appliance diagnostics when available in Toledo. Honest assessments, upfront pricing, and expert technicians." />
         <link rel="manifest" href="/manifest.json" />
+        {HOMEPAGE_PAINT_DIAG_ENABLED ? (
+          <script
+            dangerouslySetInnerHTML={{ __html: HOMEPAGE_PAINT_DIAG_INLINE_SCRIPT }}
+          />
+        ) : null}
       </Head>
 
+      {HOMEPAGE_PAINT_DIAG_ENABLED && HomepagePaintDiagnostic ? (
+        <HomepagePaintDiagnostic />
+      ) : null}
+
       {/* HERO SECTION */}
-      <section className="relative pt-32 pb-10 lg:pt-40 lg:pb-28 overflow-hidden">
+      <section
+        {...(HOMEPAGE_PAINT_DIAG_ENABLED
+          ? { id: 'homepage-paint-diag-main' }
+          : {})}
+        className="relative pt-32 pb-10 lg:pt-40 lg:pb-28 overflow-hidden"
+      >
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-y-6 gap-x-8 lg:gap-y-8 items-center">
             
@@ -67,7 +91,12 @@ export default function Home() {
               </div>
 
               {/* Heading */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+              <h1
+                {...(HOMEPAGE_PAINT_DIAG_ENABLED
+                  ? { id: 'homepage-paint-diag-hero-h1' }
+                  : {})}
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight"
+              >
                 Fast, Reliable
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-300 drop-shadow-[0_0_25px_rgba(34,211,238,0.5)]">
