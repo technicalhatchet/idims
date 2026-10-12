@@ -14,7 +14,7 @@ const ReactQueryDevtools = dynamic(
 import { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { isTechPath } from '../lib/routeAccess';
+import { isPublicPath, isTechPath } from '../lib/routeAccess';
 import { isTechDeckPrefetchRoute, isSolomonPrefetchRoute } from '../lib/offlineCache';
 import { prefetchSolomonShell } from '../lib/solomonPrefetch';
 import SolomonDiyEnrollment from '../components/solomon/SolomonDiyEnrollment';
@@ -121,6 +121,17 @@ function ServiceWorkerMigration() {
   return null;
 }
 
+/** Skip one-time PWA migration reload on public marketing/booking/auth entry routes. */
+function MaybeServiceWorkerMigration() {
+  const router = useRouter();
+
+  if (isPublicPath(router.pathname)) {
+    return null;
+  }
+
+  return <ServiceWorkerMigration />;
+}
+
 // Client-only — TechDeck offline prefetch (techboard + field WO routes)
 function ClientOnlyPrefetch() {
   const router = useRouter();
@@ -213,7 +224,7 @@ function MyApp({ Component, pageProps }) {
         <QueryClientProvider client={queryClient}>
           <AppRouteStyles />
           <DevServiceWorkerCleanup />
-          <ServiceWorkerMigration />
+          <MaybeServiceWorkerMigration />
           <TechDeckSyncBanner />
           <ClientOnlyPrefetch />
           <ClientOnlySolomonPrefetch />
