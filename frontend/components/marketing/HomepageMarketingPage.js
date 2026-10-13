@@ -29,7 +29,7 @@ let HOMEPAGE_PAINT_DIAG_INLINE_SCRIPT = '';
 if (HOMEPAGE_PAINT_DIAG_ENABLED) {
   HomepagePaintDiagnostic = require('./HomepagePaintDiagnostic').default;
   HOMEPAGE_PAINT_DIAG_INLINE_SCRIPT =
-    require('../lib/homepagePaintDiagInlineScript').HOMEPAGE_PAINT_DIAG_INLINE_SCRIPT;
+    require('../../lib/homepagePaintDiagInlineScript').HOMEPAGE_PAINT_DIAG_INLINE_SCRIPT;
 }
 
 function HomepageBelowFold() {
