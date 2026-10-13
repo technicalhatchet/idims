@@ -126,16 +126,17 @@ function TiltedOrbitIcons({ planeRotate, upright, iconId, dur, begin, back, mask
   );
 }
 
-export default function HomeHeroDiagnosticVisual() {
+export default function HomeHeroDiagnosticVisual({ disableAnimations = false }) {
   const [slowOrbits, setSlowOrbits] = useState(false);
 
   useEffect(() => {
+    if (disableAnimations) return undefined;
     const mq = window.matchMedia('(max-width: 1023px)');
     const update = () => setSlowOrbits(mq.matches);
     update();
     mq.addEventListener('change', update);
     return () => mq.removeEventListener('change', update);
-  }, []);
+  }, [disableAnimations]);
 
   const orbit = useMemo(() => {
     const f = slowOrbits ? 1.2 : 1;
@@ -149,9 +150,13 @@ export default function HomeHeroDiagnosticVisual() {
     };
   }, [slowOrbits]);
 
+  const rootClass = disableAnimations
+    ? 'atom-hero atom-hero-perf-static relative flex w-full max-w-[280px] mx-auto items-center justify-center aspect-square lg:max-w-[500px] lg:min-h-[420px] lg:aspect-auto'
+    : 'atom-hero relative flex w-full max-w-[280px] mx-auto items-center justify-center aspect-square lg:max-w-[500px] lg:min-h-[420px] lg:aspect-auto';
+
   return (
     <div
-      className="atom-hero relative flex w-full max-w-[280px] mx-auto items-center justify-center aspect-square lg:max-w-[500px] lg:min-h-[420px] lg:aspect-auto"
+      className={rootClass}
       role="img"
       aria-label="Atomic Repair: fridge, range, washer and TV orbiting crossed wrenches"
     >
@@ -238,6 +243,13 @@ export default function HomeHeroDiagnosticVisual() {
           .atom-hero :global(*) {
             animation: none !important;
           }
+        }
+        .atom-hero-perf-static :global(*) {
+          animation: none !important;
+        }
+        .atom-hero-perf-static :global(svg animate),
+        .atom-hero-perf-static :global(svg animateTransform) {
+          display: none;
         }
       `}</style>
 

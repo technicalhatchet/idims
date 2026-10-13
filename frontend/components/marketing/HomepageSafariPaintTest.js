@@ -3,7 +3,7 @@ import Head from 'next/head';
 /**
  * Preview-only minimal homepage (build-time gate).
  *
- * Enable on Preview build:
+ * Enable on Preview build (mutually exclusive with NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT):
  *   NEXT_PUBLIC_HOMEPAGE_SAFARI_PAINT_TEST=1
  *
  * Service worker isolation (same Preview):

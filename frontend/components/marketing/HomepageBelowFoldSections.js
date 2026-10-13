@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import ScrollReveal from './ScrollReveal';
+import HomepageScrollReveal from './HomepageScrollReveal';
 import ApplianceIcon from '../ui/ApplianceIcon';
 import { motion } from 'framer-motion';
 import { FaCheckCircle, FaPhone, FaArrowRight } from 'react-icons/fa';
@@ -43,6 +43,10 @@ const SERVICES = [
 /**
  * Below-the-fold homepage sections (services, pricing, final CTA).
  * Loaded via dynamic import when NEXT_PUBLIC_HOMEPAGE_SPLIT_BELOW_FOLD=1.
+ * Omitted from HomepageMarketingPage when NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT=hero_only.
+ *
+ * Perf note: motion.button whileHover here is interaction-only (no initial opacity:0 on mount).
+ * It is below the hero viewport and is not disabled for hero_static — see homepagePerfVariant.js.
  */
 export default function HomepageBelowFoldSections() {
   return (
@@ -50,7 +54,7 @@ export default function HomepageBelowFoldSections() {
       {/* SERVICES SECTION */}
       <section className="relative pt-14 pb-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-6">
-          <ScrollReveal className="text-center mb-14">
+          <HomepageScrollReveal className="text-center mb-14">
             <span className="text-cyan-400 text-sm font-semibold tracking-wider uppercase">
               Our Services
             </span>
@@ -60,11 +64,11 @@ export default function HomepageBelowFoldSections() {
             <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
               We diagnose and repair all major household appliances and TVs quickly and professionally — fridges, ovens, dishwashers, washers, dryers, and more.
             </p>
-          </ScrollReveal>
+          </HomepageScrollReveal>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {SERVICES.map((service, i) => (
-              <ScrollReveal
+              <HomepageScrollReveal
                 key={i}
                 delay={i * 0.03}
                 whileHover={{ y: -8, transition: { type: 'spring', stiffness: 120, damping: 20, mass: 1.2 } }}
@@ -101,7 +105,7 @@ export default function HomepageBelowFoldSections() {
                     </Link>
                   </div>
                 </div>
-              </ScrollReveal>
+              </HomepageScrollReveal>
             ))}
           </div>
         </div>
@@ -110,7 +114,7 @@ export default function HomepageBelowFoldSections() {
       {/* PRICING SECTION */}
       <section className="relative py-20 lg:py-28 border-t border-white/5">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <ScrollReveal>
+          <HomepageScrollReveal>
             <span className="text-cyan-400 text-sm font-semibold tracking-wider uppercase">
               Pricing
             </span>
@@ -182,14 +186,14 @@ export default function HomepageBelowFoldSections() {
                 </Link>
               </div>
             </div>
-          </ScrollReveal>
+          </HomepageScrollReveal>
         </div>
       </section>
 
       {/* FINAL CTA SECTION */}
       <section className="relative py-20 lg:py-28">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <ScrollReveal>
+          <HomepageScrollReveal>
             <h2 className="text-3xl lg:text-4xl font-bold text-white">
               Book Same-Day Diagnostics
             </h2>
@@ -238,7 +242,7 @@ export default function HomepageBelowFoldSections() {
                 Trusted service
               </span>
             </div>
-          </ScrollReveal>
+          </HomepageScrollReveal>
         </div>
       </section>
     </>
