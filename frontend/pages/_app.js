@@ -1,22 +1,11 @@
 import '../styles/globals.css';
 import { inter } from '../lib/siteFonts';
-import { UserProvider } from '@auth0/nextjs-auth0/client';
-import { UserRoleProvider } from '../context/UserRoleContext';
-import { ThemeProvider } from '../context/ThemeContext';
-import { UIPreferencesProvider } from '../context/UIPreferencesContext';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
-
-const ReactQueryDevtools = dynamic(
-  () => import('@tanstack/react-query-devtools').then((mod) => mod.ReactQueryDevtools),
-  { ssr: false }
-);
 import { Toaster } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { isPublicPath, isTechPath } from '../lib/routeAccess';
 import { isTechDeckPrefetchRoute, isSolomonPrefetchRoute } from '../lib/offlineCache';
-import { prefetchSolomonShell } from '../lib/solomonPrefetch';
 import SolomonDiyEnrollment from '../components/solomon/SolomonDiyEnrollment';
 import SolomonThemeScope from '../components/solomon/SolomonThemeScope';
 import AppRouteStyles from '../components/AppRouteStyles';
@@ -24,6 +13,44 @@ import AppRouteStyles from '../components/AppRouteStyles';
 const SyncBanner = dynamic(() => import('../components/ui/SyncBanner'), {
   ssr: false,
 });
+
+/**
+ * Preview: code-split Auth0 / React Query / global contexts off the homepage `_app` chunk.
+ * Build-time flag — set NEXT_PUBLIC_HOMEPAGE_SPLIT_PROVIDERS=1 on Preview only.
+ */
+const HOMEPAGE_SPLIT_PROVIDERS_ENABLED =
+  process.env.NEXT_PUBLIC_HOMEPAGE_SPLIT_PROVIDERS === '1';
+
+/**
+ * Preview: skip mounting providers on `/` only (imports still bundled when split flag is off).
+ * Orthogonal to SPLIT_PROVIDERS — lite mount-skip without bundle split.
+ */
+const HOMEPAGE_LITE_SHELL_ENABLED =
+  process.env.NEXT_PUBLIC_HOMEPAGE_LITE_SHELL === '1';
+
+const FullAppProvidersDynamic = HOMEPAGE_SPLIT_PROVIDERS_ENABLED
+  ? dynamic(() => import('../components/app/FullAppProviders'), {
+      ssr: true,
+      loading: () => <ProviderChunkLoading />,
+    })
+  : null;
+
+/** Eager provider module when split flag is off (preserves pre-experiment `_app` bundle shape). */
+const FullAppProvidersSync = HOMEPAGE_SPLIT_PROVIDERS_ENABLED
+  ? null
+  : require('../components/app/FullAppProviders').default;
+
+function ProviderChunkLoading() {
+  return (
+    <div
+      className={`${inter.variable} font-sans flex min-h-screen items-center justify-center bg-[#000208]`}
+      aria-busy="true"
+      aria-label="Loading application"
+    >
+      <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/20 border-t-white/80" />
+    </div>
+  );
+}
 
 function TechDeckSyncBanner() {
   const router = useRouter();
@@ -34,19 +61,6 @@ function TechDeckSyncBanner() {
 
   return <SyncBanner />;
 }
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: 1,
-    },
-  },
-});
-
-/** Preview experiment: skip heavy providers on `/` only (see MyApp). Build-time flag. */
-const HOMEPAGE_LITE_SHELL_ENABLED =
-  process.env.NEXT_PUBLIC_HOMEPAGE_LITE_SHELL === '1';
 
 // One-time migration: drop SW configs that cached/intercepted Railway API.
 // After reload, next-pwa registers the fixed SW (static assets + app shell only).
@@ -205,7 +219,10 @@ function ClientOnlySolomonPrefetch() {
     if (!isSolomonPrefetchRoute(router.pathname)) return;
 
     const run = () => {
-      if (navigator.onLine) prefetchSolomonShell();
+      if (!navigator.onLine) return;
+      import('../lib/solomonPrefetch').then(({ prefetchSolomonShell }) => {
+        prefetchSolomonShell();
+      });
     };
 
     run();
@@ -236,43 +253,61 @@ function AppChrome({ Component, pageProps }) {
   );
 }
 
+function AppFontShell({ children }) {
+  return <div className={`${inter.variable} font-sans`}>{children}</div>;
+}
+
+/**
+ * Whether the current route must render inside FullAppProviders before page content.
+ * Homepage omits providers when split or lite flags apply (marketing has no context hooks).
+ */
+function routeNeedsFullProviders(pathname) {
+  if (pathname !== '/') return true;
+  if (HOMEPAGE_SPLIT_PROVIDERS_ENABLED) return false;
+  if (HOMEPAGE_LITE_SHELL_ENABLED) return false;
+  return true;
+}
+
+function wrapWithProviders(children) {
+  if (HOMEPAGE_SPLIT_PROVIDERS_ENABLED) {
+    const Lazy = FullAppProvidersDynamic;
+    return <Lazy>{children}</Lazy>;
+  }
+  const Sync = FullAppProvidersSync;
+  return <Sync>{children}</Sync>;
+}
+
+/** Warm provider chunk when leaving `/` so client navigation feels snappier (not a substitute for loading gate). */
+function usePrefetchFullAppProvidersOnLeaveHome() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!HOMEPAGE_SPLIT_PROVIDERS_ENABLED) return;
+
+    function onRouteChangeStart(url) {
+      const path = typeof url === 'string' ? url.split('?')[0] : '/';
+      if (path === '/') return;
+      import('../components/app/FullAppProviders');
+    }
+
+    router.events.on('routeChangeStart', onRouteChangeStart);
+    return () => router.events.off('routeChangeStart', onRouteChangeStart);
+  }, [router]);
+}
+
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  const useLiteHomepageShell =
-    HOMEPAGE_LITE_SHELL_ENABLED && router.pathname === '/';
+  const needsProviders = routeNeedsFullProviders(router.pathname);
 
-  /*
-   * Lite shell (homepage only): omits UserProvider, UserRoleProvider, ThemeProvider,
-   * UIPreferencesProvider, QueryClientProvider — none are used by `/` markup
-   * (index + HomeLayout + Header/Footer + hero). Client nav to other routes remounts
-   * the full provider tree. Does not reduce _app.js bundle size (imports unchanged).
-   */
-  if (useLiteHomepageShell) {
-    return (
-      <div className={`${inter.variable} font-sans`}>
-        <AppChrome Component={Component} pageProps={pageProps} />
-      </div>
-    );
+  usePrefetchFullAppProvidersOnLeaveHome();
+
+  const chrome = <AppChrome Component={Component} pageProps={pageProps} />;
+
+  if (!needsProviders) {
+    return <AppFontShell>{chrome}</AppFontShell>;
   }
 
-  return (
-    <div className={`${inter.variable} font-sans`}>
-      <UserProvider>
-        <UserRoleProvider>
-          <ThemeProvider>
-            <UIPreferencesProvider>
-              <QueryClientProvider client={queryClient}>
-                <AppChrome Component={Component} pageProps={pageProps} />
-                {process.env.NODE_ENV === 'development' && (
-                  <ReactQueryDevtools initialIsOpen={false} />
-                )}
-              </QueryClientProvider>
-            </UIPreferencesProvider>
-          </ThemeProvider>
-        </UserRoleProvider>
-      </UserProvider>
-    </div>
-  );
+  return <AppFontShell>{wrapWithProviders(chrome)}</AppFontShell>;
 }
 
 export default MyApp;
