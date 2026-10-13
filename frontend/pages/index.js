@@ -14,29 +14,21 @@
  * Avoid during perf runs: NEXT_PUBLIC_HOMEPAGE_PAINT_DIAG=1, SPLIT_BELOW_FOLD, SPLIT_PROVIDERS, LITE_SHELL
  */
 
+import HomeLayout from '../components/layouts/HomeLayout';
+import HomepageMarketingPage from '../components/marketing/HomepageMarketingPage';
+import HomepageSafariPaintTest from '../components/marketing/HomepageSafariPaintTest';
+
 const HOMEPAGE_SAFARI_PAINT_TEST_ENABLED =
   process.env.NEXT_PUBLIC_HOMEPAGE_SAFARI_PAINT_TEST === '1';
 
-function resolveDefaultExport(moduleRef) {
-  if (!moduleRef) return null;
-  return moduleRef.default || moduleRef;
-}
-
-const HomePage = HOMEPAGE_SAFARI_PAINT_TEST_ENABLED
-  ? resolveDefaultExport(require('../components/marketing/HomepageSafariPaintTest'))
-  : resolveDefaultExport(require('../components/marketing/HomepageMarketingPage'));
-
 export default function Home(props) {
-  if (!HomePage) {
-    throw new Error(
-      'Home page component failed to load (check HomepageMarketingPage / HomepageSafariPaintTest export).'
-    );
+  if (HOMEPAGE_SAFARI_PAINT_TEST_ENABLED) {
+    return <HomepageSafariPaintTest {...props} />;
   }
-  return <HomePage {...props} />;
+  return <HomepageMarketingPage {...props} />;
 }
 
 if (!HOMEPAGE_SAFARI_PAINT_TEST_ENABLED) {
-  const HomeLayout = resolveDefaultExport(require('../components/layouts/HomeLayout'));
   Home.getLayout = function getLayout(page) {
     return <HomeLayout>{page}</HomeLayout>;
   };
