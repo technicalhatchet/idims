@@ -1,4 +1,21 @@
 /** @type {import('next').NextConfig} */
+const path = require('path');
+
+// Preview homepage perf variants — one entry module per build (see pages/index.js).
+function getHomepageEntryModulePath() {
+  if (process.env.NEXT_PUBLIC_HOMEPAGE_SAFARI_PAINT_TEST === '1') {
+    return path.join(__dirname, 'lib/homepage/entries/safariPaint.home.js');
+  }
+  const variant = process.env.NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT;
+  if (variant === 'app_shell_probe') {
+    return path.join(__dirname, 'lib/homepage/entries/appShellProbe.home.js');
+  }
+  if (variant === 'layout_shell_probe') {
+    return path.join(__dirname, 'lib/homepage/entries/layoutShellProbe.home.js');
+  }
+  return path.join(__dirname, 'lib/homepage/entries/marketing.home.js');
+}
+
 // Preview SW isolation: NEXT_PUBLIC_PWA_OFF=1 disables next-pwa webpack plugin + registration (build-time).
 const pwaDisabled =
   process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_PWA_OFF === '1';
@@ -224,6 +241,7 @@ const nextConfig = {
   },
 
   webpack(config) {
+    config.resolve.alias['@idims/homepage-entry'] = getHomepageEntryModulePath();
     return config;
   },
 

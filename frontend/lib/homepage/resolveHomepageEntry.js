@@ -1,43 +1,16 @@
 /**
- * Build-time homepage entry selector for `pages/index.js`.
+ * Homepage page component for `pages/index.js`.
  *
- * Exactly one `./entries/*` module is bundled per deploy: Next inlines `NEXT_PUBLIC_*`
- * at compile time and webpack dead-code-eliminates the other `require()` branches.
- *
- * Do not add static `import` of entry modules here — that would merge all variant graphs.
- * Entry modules themselves use static ESM only (SSR-safe default exports).
+ * `@idims/homepage-entry` is resolved at build time in next.config.js (one entries/*.home.js
+ * module per Preview deploy). Static ESM only — no runtime require() of entry modules.
  */
-
-function loadHomepageEntryModule() {
-  if (process.env.NEXT_PUBLIC_HOMEPAGE_SAFARI_PAINT_TEST === '1') {
-    return require('./entries/safariPaint.home');
-  }
-  if (process.env.NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT === 'app_shell_probe') {
-    return require('./entries/appShellProbe.home');
-  }
-  if (process.env.NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT === 'layout_shell_probe') {
-    return require('./entries/layoutShellProbe.home');
-  }
-  return require('./entries/marketing.home');
-}
-
-function resolveEntryDefaultComponent(entry) {
-  if (!entry) return null;
-  const candidate = entry.default ?? entry;
-  return typeof candidate === 'function' ? candidate : null;
-}
-
-const homepageEntry = loadHomepageEntryModule();
-const HomepageEntryPage = resolveEntryDefaultComponent(homepageEntry);
-
-if (!HomepageEntryPage) {
-  throw new Error(
-    '[homepage] Active entry module did not provide a default page component.'
-  );
-}
+import HomepageEntryPage from '@idims/homepage-entry';
+import * as homepageEntryModule from '@idims/homepage-entry';
 
 export default HomepageEntryPage;
 
 /** `null` when the active entry has no layout wrapper (paint test, app_shell_probe). */
 export const homeGetLayout =
-  typeof homepageEntry.getLayout === 'function' ? homepageEntry.getLayout : null;
+  typeof homepageEntryModule.getLayout === 'function'
+    ? homepageEntryModule.getLayout
+    : null;

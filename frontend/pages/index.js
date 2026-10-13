@@ -1,5 +1,5 @@
 /**
- * Thin `/` entry — delegates to lib/homepage/resolveHomepageEntry.js (one entry module per build).
+ * Thin `/` entry — lib/homepage/resolveHomepageEntry.js + @idims/homepage-entry (next.config alias).
  *
  * Variant 1 — minimal green baseline (Preview):
  *   NEXT_PUBLIC_HOMEPAGE_SAFARI_PAINT_TEST=1
