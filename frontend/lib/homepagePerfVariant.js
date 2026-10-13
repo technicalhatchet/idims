@@ -10,6 +10,7 @@
  *                      Below-fold motion.button hover effects remain — they are below the
  *                      initial viewport and do not gate hero first paint.
  *   hero_only        — real hero + HomeLayout; below-fold module not in page graph; animations on
+ *   app_shell_probe  — full `_app` providers/chrome; no HomeLayout, hero, or below-fold (cyan probe UI)
  *
  * Optional timing strip on marketing `/` (all variants including full):
  *   NEXT_PUBLIC_HOMEPAGE_PERF_TIMING=1
@@ -21,11 +22,13 @@
  * Keep SPLIT_BELOW_FOLD / SPLIT_PROVIDERS / LITE_SHELL off unless testing those separately.
  */
 
-const VALID_VARIANTS = new Set(['full', 'hero_static', 'hero_only']);
+const VALID_VARIANTS = new Set(['full', 'hero_static', 'hero_only', 'app_shell_probe']);
 
 const raw = process.env.NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT || 'full';
 
 export const HOMEPAGE_PERF_VARIANT = VALID_VARIANTS.has(raw) ? raw : 'full';
+
+export const HOMEPAGE_APP_SHELL_PROBE = HOMEPAGE_PERF_VARIANT === 'app_shell_probe';
 
 export const PERF_DISABLE_HERO_ANIMATIONS = HOMEPAGE_PERF_VARIANT === 'hero_static';
 
@@ -43,6 +46,9 @@ export function getHomepagePerfVariantBannerLabel() {
   }
   if (HOMEPAGE_PERF_VARIANT === 'hero_only') {
     return 'PERF VARIANT: hero_only (hero + layout, below-fold off, animations on)';
+  }
+  if (HOMEPAGE_PERF_VARIANT === 'app_shell_probe') {
+    return 'PERF VARIANT: app_shell_probe (full _app; no HomeLayout/hero/below-fold)';
   }
   if (HOMEPAGE_PERF_TIMING_ENABLED) {
     return 'PERF VARIANT: full (production homepage + timing strip)';
