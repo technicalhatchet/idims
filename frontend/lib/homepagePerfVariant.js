@@ -11,6 +11,7 @@
  *                      initial viewport and do not gate hero first paint.
  *   hero_only        — real hero + HomeLayout; below-fold module not in page graph; animations on
  *   app_shell_probe  — full `_app` providers/chrome; no HomeLayout, hero, or below-fold (cyan probe UI)
+ *   layout_shell_probe — full `_app` + real HomeLayout; fuchsia main stub (no hero/below-fold)
  *
  * Optional timing strip on marketing `/` (all variants including full):
  *   NEXT_PUBLIC_HOMEPAGE_PERF_TIMING=1
@@ -22,7 +23,13 @@
  * Keep SPLIT_BELOW_FOLD / SPLIT_PROVIDERS / LITE_SHELL off unless testing those separately.
  */
 
-const VALID_VARIANTS = new Set(['full', 'hero_static', 'hero_only', 'app_shell_probe']);
+const VALID_VARIANTS = new Set([
+  'full',
+  'hero_static',
+  'hero_only',
+  'app_shell_probe',
+  'layout_shell_probe',
+]);
 
 const raw = process.env.NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT || 'full';
 
@@ -49,6 +56,9 @@ export function getHomepagePerfVariantBannerLabel() {
   }
   if (HOMEPAGE_PERF_VARIANT === 'app_shell_probe') {
     return 'PERF VARIANT: app_shell_probe (full _app; no HomeLayout/hero/below-fold)';
+  }
+  if (HOMEPAGE_PERF_VARIANT === 'layout_shell_probe') {
+    return 'PERF VARIANT: layout_shell_probe (full _app + HomeLayout; no hero/below-fold)';
   }
   if (HOMEPAGE_PERF_TIMING_ENABLED) {
     return 'PERF VARIANT: full (production homepage + timing strip)';
