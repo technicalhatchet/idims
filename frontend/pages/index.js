@@ -5,9 +5,9 @@
  *   NEXT_PUBLIC_HOMEPAGE_SAFARI_PAINT_TEST=1
  *   (do not set NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT)
  *
- * Variants 2–8 — see lib/homepagePerfVariant.js:
+ * Variants 2–9 — see lib/homepagePerfVariant.js:
  *   NEXT_PUBLIC_HOMEPAGE_SAFARI_PAINT_TEST unset
- *   NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT=hero_static | hero_only | full | app_shell_probe | layout_shell_probe | layout_shell_no_glow | layout_shell_optimized_glow
+ *   NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT=hero_static | hero_only | full | app_shell_probe | layout_shell_probe | layout_shell_no_glow | layout_shell_optimized_glow | marketing_optimized_glow
  *   NEXT_PUBLIC_HOMEPAGE_PERF_TIMING=1 — timing strip (recommended for probes + full)
  *
  * SW isolation (Preview): NEXT_PUBLIC_PWA_OFF=1, NEXT_PUBLIC_HOMEPAGE_UNREGISTER_SW=1

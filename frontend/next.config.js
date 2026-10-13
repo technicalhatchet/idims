@@ -19,6 +19,9 @@ function getHomepageEntryModulePath() {
   if (variant === 'layout_shell_optimized_glow') {
     return path.join(__dirname, 'lib/homepage/entries/layoutShellOptimizedGlow.home.js');
   }
+  if (variant === 'marketing_optimized_glow') {
+    return path.join(__dirname, 'lib/homepage/entries/marketingOptimizedGlow.home.js');
+  }
   return path.join(__dirname, 'lib/homepage/entries/marketing.home.js');
 }
 

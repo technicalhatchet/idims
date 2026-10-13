@@ -7,7 +7,7 @@ import { ATOMIC_THEME } from './HomeLayout';
 
 /**
  * Preview-only: mirrors HomeLayout with AtomicGlowBackgroundOptimized instead of production glow.
- * Used by NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT=layout_shell_optimized_glow.
+ * Used by layout_shell_optimized_glow and marketing_optimized_glow perf variants.
  */
 export default function HomeLayoutDiagnosticOptimizedGlow({
   children,

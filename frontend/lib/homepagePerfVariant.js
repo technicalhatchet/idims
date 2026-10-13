@@ -14,6 +14,7 @@
  *   layout_shell_probe — full `_app` + real HomeLayout; fuchsia main stub (no hero/below-fold)
  *   layout_shell_no_glow — same probe UI; HomeLayoutDiagnosticNoGlow (no AtomicGlowBackground)
  *   layout_shell_optimized_glow — same probe UI; AtomicGlowBackgroundOptimized (gradient, no blur filters)
+ *   marketing_optimized_glow — full HomepageMarketingPage; HomeLayoutDiagnosticOptimizedGlow (optimized glow)
  *
  * Optional timing strip on marketing `/` (all variants including full):
  *   NEXT_PUBLIC_HOMEPAGE_PERF_TIMING=1
@@ -33,6 +34,7 @@ const VALID_VARIANTS = new Set([
   'layout_shell_probe',
   'layout_shell_no_glow',
   'layout_shell_optimized_glow',
+  'marketing_optimized_glow',
 ]);
 
 const raw = process.env.NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT || 'full';
@@ -69,6 +71,9 @@ export function getHomepagePerfVariantBannerLabel() {
   }
   if (HOMEPAGE_PERF_VARIANT === 'layout_shell_optimized_glow') {
     return 'PERF VARIANT: layout_shell_optimized_glow (gradient optimized glow, no blur filters)';
+  }
+  if (HOMEPAGE_PERF_VARIANT === 'marketing_optimized_glow') {
+    return 'PERF VARIANT: marketing_optimized_glow (full marketing homepage, optimized glow)';
   }
   if (HOMEPAGE_PERF_TIMING_ENABLED) {
     return 'PERF VARIANT: full (production homepage + timing strip)';
