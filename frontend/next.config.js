@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
+// Preview SW isolation: NEXT_PUBLIC_PWA_OFF=1 disables next-pwa webpack plugin + registration (build-time).
+const pwaDisabled =
+  process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_PWA_OFF === '1';
+
 const withPWA = require('next-pwa')({
   dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
+  disable: pwaDisabled,
   register: true,
   skipWaiting: true,
   customWorkerDir: 'worker',

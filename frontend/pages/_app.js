@@ -6,6 +6,10 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { isPublicPath, isTechPath } from '../lib/routeAccess';
 import { isTechDeckPrefetchRoute, isSolomonPrefetchRoute } from '../lib/offlineCache';
+import {
+  deleteWorkboxRelatedCaches,
+  unregisterAllServiceWorkers,
+} from '../lib/pwaWorkboxCaches';
 import SolomonDiyEnrollment from '../components/solomon/SolomonDiyEnrollment';
 import SolomonThemeScope from '../components/solomon/SolomonThemeScope';
 import AppRouteStyles from '../components/AppRouteStyles';
@@ -27,6 +31,15 @@ const HOMEPAGE_SPLIT_PROVIDERS_ENABLED =
  */
 const HOMEPAGE_LITE_SHELL_ENABLED =
   process.env.NEXT_PUBLIC_HOMEPAGE_LITE_SHELL === '1';
+
+/**
+ * Preview: strip existing SW control on `/` only (pairs with NEXT_PUBLIC_PWA_OFF on build).
+ * Build-time flag — set NEXT_PUBLIC_HOMEPAGE_UNREGISTER_SW=1 on Preview only.
+ */
+const HOMEPAGE_UNREGISTER_SW_ENABLED =
+  process.env.NEXT_PUBLIC_HOMEPAGE_UNREGISTER_SW === '1';
+
+const HOMEPAGE_SW_UNREGISTER_SESSION_KEY = 'idims_homepage_sw_unregister_done';
 
 const FullAppProvidersDynamic = HOMEPAGE_SPLIT_PROVIDERS_ENABLED
   ? dynamic(() => import('../components/app/FullAppProviders'), {
@@ -150,6 +163,43 @@ function MaybeServiceWorkerMigration() {
   return <ServiceWorkerMigration />;
 }
 
+/**
+ * Preview experiment: unregister SW + drop Workbox caches on homepage entry.
+ * No reload — first paint may still run under a prior SW until the next navigation.
+ */
+function MaybeHomepageServiceWorkerUnregister() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!HOMEPAGE_UNREGISTER_SW_ENABLED) return;
+    if (router.pathname !== '/') return;
+    if (typeof window === 'undefined') return;
+    if (sessionStorage.getItem(HOMEPAGE_SW_UNREGISTER_SESSION_KEY)) return;
+
+    let cancelled = false;
+
+    async function cleanup() {
+      try {
+        await deleteWorkboxRelatedCaches();
+        await unregisterAllServiceWorkers();
+        if (!cancelled) {
+          sessionStorage.setItem(HOMEPAGE_SW_UNREGISTER_SESSION_KEY, '1');
+        }
+      } catch (err) {
+        console.warn('[PWA] Homepage SW unregister experiment failed:', err);
+      }
+    }
+
+    cleanup();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [router.pathname]);
+
+  return null;
+}
+
 // Client-only — TechDeck offline prefetch (techboard + field WO routes)
 function ClientOnlyPrefetch() {
   const router = useRouter();
@@ -242,6 +292,7 @@ function AppChrome({ Component, pageProps }) {
     <>
       <AppRouteStyles />
       <DevServiceWorkerCleanup />
+      <MaybeHomepageServiceWorkerUnregister />
       <MaybeServiceWorkerMigration />
       <TechDeckSyncBanner />
       <ClientOnlyPrefetch />
