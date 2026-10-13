@@ -19,16 +19,16 @@ const HOMEPAGE_SAFARI_PAINT_TEST_ENABLED =
 
 let HomePage = null;
 
-if (HOMEPAGE_SAFARI_PAINT_TEST_ENABLED) {
-  HomePage = require('../components/marketing/HomepageSafariPaintTest').default;
-} else {
-  HomePage = require('../components/marketing/HomepageMarketingPage').default;
-}
-
 export default function Home(props) {
   return <HomePage {...props} />;
 }
 
-if (!HOMEPAGE_SAFARI_PAINT_TEST_ENABLED) {
-  Home.getLayout = HomePage.getLayout;
+if (HOMEPAGE_SAFARI_PAINT_TEST_ENABLED) {
+  HomePage = require('../components/marketing/HomepageSafariPaintTest').default;
+} else {
+  HomePage = require('../components/marketing/HomepageMarketingPage').default;
+  const HomeLayout = require('../components/layouts/HomeLayout').default;
+  Home.getLayout = function getLayout(page) {
+    return <HomeLayout>{page}</HomeLayout>;
+  };
 }
