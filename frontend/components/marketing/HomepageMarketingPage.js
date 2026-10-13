@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import HomeLayout from '../layouts/HomeLayout';
+import HomepageBelowFoldSections from './HomepageBelowFoldSections';
 import HomepageMarketingHero from './HomepageMarketingHero';
 import HomepagePerfVariantBanner from './HomepagePerfVariantBanner';
 import {
@@ -18,20 +19,15 @@ const HOMEPAGE_SPLIT_BELOW_FOLD_ENABLED =
   process.env.NEXT_PUBLIC_HOMEPAGE_SPLIT_BELOW_FOLD === '1';
 
 /**
- * Below-fold module is omitted from this file's graph when NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT=hero_only
- * (build-time require/dynamic only when PERF_INCLUDE_BELOW_FOLD).
+ * Below-fold is not rendered when NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT=hero_only.
+ * Static import keeps SSR/prerender reliable; hero_only still omits it at runtime only.
  */
-let HomepageBelowFoldSections = null;
 let HomepageBelowFoldDynamic = null;
 
-if (PERF_INCLUDE_BELOW_FOLD) {
-  if (HOMEPAGE_SPLIT_BELOW_FOLD_ENABLED) {
-    HomepageBelowFoldDynamic = dynamic(() => import('./HomepageBelowFoldSections'), {
-      ssr: true,
-    });
-  } else {
-    HomepageBelowFoldSections = require('./HomepageBelowFoldSections').default;
-  }
+if (PERF_INCLUDE_BELOW_FOLD && HOMEPAGE_SPLIT_BELOW_FOLD_ENABLED) {
+  HomepageBelowFoldDynamic = dynamic(() => import('./HomepageBelowFoldSections'), {
+    ssr: true,
+  });
 }
 
 const HOMEPAGE_PAINT_DIAG_ENABLED =
@@ -51,10 +47,10 @@ function HomepageBelowFold() {
   }
   if (HOMEPAGE_SPLIT_BELOW_FOLD_ENABLED) {
     const Lazy = HomepageBelowFoldDynamic;
+    if (!Lazy) return null;
     return <Lazy />;
   }
-  const Sections = HomepageBelowFoldSections;
-  return <Sections />;
+  return <HomepageBelowFoldSections />;
 }
 
 export default function MarketingHome() {

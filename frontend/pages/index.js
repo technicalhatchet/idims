@@ -17,17 +17,26 @@
 const HOMEPAGE_SAFARI_PAINT_TEST_ENABLED =
   process.env.NEXT_PUBLIC_HOMEPAGE_SAFARI_PAINT_TEST === '1';
 
-let HomePage = null;
+function resolveDefaultExport(moduleRef) {
+  if (!moduleRef) return null;
+  return moduleRef.default || moduleRef;
+}
+
+const HomePage = HOMEPAGE_SAFARI_PAINT_TEST_ENABLED
+  ? resolveDefaultExport(require('../components/marketing/HomepageSafariPaintTest'))
+  : resolveDefaultExport(require('../components/marketing/HomepageMarketingPage'));
 
 export default function Home(props) {
+  if (!HomePage) {
+    throw new Error(
+      'Home page component failed to load (check HomepageMarketingPage / HomepageSafariPaintTest export).'
+    );
+  }
   return <HomePage {...props} />;
 }
 
-if (HOMEPAGE_SAFARI_PAINT_TEST_ENABLED) {
-  HomePage = require('../components/marketing/HomepageSafariPaintTest').default;
-} else {
-  HomePage = require('../components/marketing/HomepageMarketingPage').default;
-  const HomeLayout = require('../components/layouts/HomeLayout').default;
+if (!HOMEPAGE_SAFARI_PAINT_TEST_ENABLED) {
+  const HomeLayout = resolveDefaultExport(require('../components/layouts/HomeLayout'));
   Home.getLayout = function getLayout(page) {
     return <HomeLayout>{page}</HomeLayout>;
   };
