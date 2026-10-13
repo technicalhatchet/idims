@@ -14,9 +14,12 @@
  * Avoid during perf runs: NEXT_PUBLIC_HOMEPAGE_PAINT_DIAG=1, SPLIT_BELOW_FOLD, SPLIT_PROVIDERS, LITE_SHELL
  */
 
-import Home, { homeGetLayout } from '../lib/homepage/resolveHomepageEntry';
+import HomepageEntryPage, { homeGetLayout } from '../lib/homepage/resolveHomepageEntry';
 
-export default Home;
+/** Pages Router requires a component defined on the page module (not a bare re-export). */
+export default function Home(props) {
+  return <HomepageEntryPage {...props} />;
+}
 
 if (homeGetLayout) {
   Home.getLayout = homeGetLayout;

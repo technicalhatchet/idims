@@ -21,9 +21,22 @@ function loadHomepageEntryModule() {
   return require('./entries/marketing.home');
 }
 
-const homepageEntry = loadHomepageEntryModule();
+function resolveEntryDefaultComponent(entry) {
+  if (!entry) return null;
+  const candidate = entry.default ?? entry;
+  return typeof candidate === 'function' ? candidate : null;
+}
 
-export default homepageEntry.default;
+const homepageEntry = loadHomepageEntryModule();
+const HomepageEntryPage = resolveEntryDefaultComponent(homepageEntry);
+
+if (!HomepageEntryPage) {
+  throw new Error(
+    '[homepage] Active entry module did not provide a default page component.'
+  );
+}
+
+export default HomepageEntryPage;
 
 /** `null` when the active entry has no layout wrapper (paint test, app_shell_probe). */
 export const homeGetLayout =
