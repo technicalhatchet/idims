@@ -40,6 +40,13 @@ const HOMEPAGE_LITE_SHELL_ENABLED =
 const HOMEPAGE_UNREGISTER_SW_ENABLED =
   process.env.NEXT_PUBLIC_HOMEPAGE_UNREGISTER_SW === '1';
 
+/**
+ * Preview: minimal `/` for iOS Safari paint isolation (pairs with HomepageSafariPaintTest).
+ * Build-time flag — set NEXT_PUBLIC_HOMEPAGE_SAFARI_PAINT_TEST=1 on Preview only.
+ */
+const HOMEPAGE_SAFARI_PAINT_TEST_ENABLED =
+  process.env.NEXT_PUBLIC_HOMEPAGE_SAFARI_PAINT_TEST === '1';
+
 const HOMEPAGE_SW_UNREGISTER_SESSION_KEY = 'idims_homepage_sw_unregister_done';
 
 const FullAppProvidersDynamic = HOMEPAGE_SPLIT_PROVIDERS_ENABLED
@@ -161,7 +168,9 @@ function MaybeServiceWorkerMigration() {
 
 /**
  * Preview experiment: unregister SW + drop Workbox caches on homepage entry.
- * No reload — first paint may still run under a prior SW until the next navigation.
+ * No reload — runs in useEffect after mount. First navigation may still be controlled
+ * by a previously installed worker; compare second navigation after unregister completes
+ * and navigator.serviceWorker.controller is null (see HomepageSafariPaintTest.js).
  */
 function MaybeHomepageServiceWorkerUnregister() {
   const router = useRouter();
@@ -279,7 +288,22 @@ function ClientOnlySolomonPrefetch() {
   return null;
 }
 
+function isSafariPaintTestHome(pathname) {
+  return HOMEPAGE_SAFARI_PAINT_TEST_ENABLED && pathname === '/';
+}
+
 function AppChrome({ Component, pageProps }) {
+  const router = useRouter();
+
+  if (isSafariPaintTestHome(router.pathname)) {
+    return (
+      <>
+        <MaybeHomepageServiceWorkerUnregister />
+        <Component {...pageProps} />
+      </>
+    );
+  }
+
   const page = Component.getLayout
     ? Component.getLayout(<Component {...pageProps} />)
     : <Component {...pageProps} />;
@@ -312,6 +336,7 @@ function routeNeedsFullProviders(pathname) {
   if (pathname !== '/') return true;
   if (HOMEPAGE_SPLIT_PROVIDERS_ENABLED) return false;
   if (HOMEPAGE_LITE_SHELL_ENABLED) return false;
+  if (HOMEPAGE_SAFARI_PAINT_TEST_ENABLED) return false;
   return true;
 }
 
@@ -344,10 +369,15 @@ function usePrefetchFullAppProvidersOnLeaveHome() {
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const needsProviders = routeNeedsFullProviders(router.pathname);
+  const minimalSafariPaintHome = isSafariPaintTestHome(router.pathname);
 
   usePrefetchFullAppProvidersOnLeaveHome();
 
   const chrome = <AppChrome Component={Component} pageProps={pageProps} />;
+
+  if (minimalSafariPaintHome) {
+    return chrome;
+  }
 
   if (!needsProviders) {
     return <AppFontShell>{chrome}</AppFontShell>;
