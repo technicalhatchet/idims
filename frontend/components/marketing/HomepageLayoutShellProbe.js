@@ -11,16 +11,26 @@ const SSR_MARKUP_AT = new Date().toISOString();
 
 /**
  * Preview-only: rendered inside HomeLayout or HomeLayoutDiagnosticNoGlow.
- * Enable via layout_shell_probe | layout_shell_no_glow.
+ * Enable via layout_shell_probe | layout_shell_no_glow | layout_shell_optimized_glow.
  */
+function getLayoutShellProbeSubtitle() {
+  if (HOMEPAGE_PERF_VARIANT === 'layout_shell_no_glow') {
+    return 'Marketing header/footer shell without AtomicGlowBackground. No marketing hero or below-fold.';
+  }
+  if (HOMEPAGE_PERF_VARIANT === 'layout_shell_optimized_glow') {
+    return 'Layout shell with AtomicGlowBackgroundOptimized (radial gradients, no blur filters). No marketing hero or below-fold.';
+  }
+  if (HOMEPAGE_PERF_VARIANT === 'layout_shell_probe') {
+    return 'Real HomeLayout (header, footer, original blur glow). No HomepageMarketingPage, hero, or below-fold.';
+  }
+  return 'Layout shell probe. No HomepageMarketingPage, hero, or below-fold.';
+}
+
 export default function HomepageLayoutShellProbe() {
   const perfBannerLabel = PERF_SHOW_MEASUREMENT_STRIP
     ? getHomepagePerfVariantBannerLabel()
     : '';
-  const probeSubtitle =
-    HOMEPAGE_PERF_VARIANT === 'layout_shell_no_glow'
-      ? 'Marketing header/footer shell without AtomicGlowBackground. No marketing hero or below-fold.'
-      : 'Real HomeLayout (header, footer, glow). No HomepageMarketingPage, hero, or below-fold.';
+  const probeSubtitle = getLayoutShellProbeSubtitle();
 
   return (
     <>
