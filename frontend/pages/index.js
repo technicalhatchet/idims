@@ -6,6 +6,7 @@ import HomeHeroDiagnosticVisual from '../components/marketing/HomeHeroDiagnostic
 import { motion } from 'framer-motion';
 import { FaStar, FaClock, FaPhone, FaArrowRight } from 'react-icons/fa';
 import { HiLightningBolt } from 'react-icons/hi';
+import HomepageBelowFoldSections from '../components/marketing/HomepageBelowFoldSections';
 
 /**
  * Preview: code-split below-the-fold homepage sections off the initial pages/index chunk.
@@ -19,10 +20,6 @@ const HomepageBelowFoldDynamic = HOMEPAGE_SPLIT_BELOW_FOLD_ENABLED
       ssr: true,
     })
   : null;
-
-const HomepageBelowFoldSync = HOMEPAGE_SPLIT_BELOW_FOLD_ENABLED
-  ? null
-  : require('../components/marketing/HomepageBelowFoldSections').default;
 
 const HOMEPAGE_PAINT_DIAG_ENABLED =
   process.env.NEXT_PUBLIC_HOMEPAGE_PAINT_DIAG === '1';
@@ -40,8 +37,7 @@ function HomepageBelowFold() {
     const Lazy = HomepageBelowFoldDynamic;
     return <Lazy />;
   }
-  const Sync = HomepageBelowFoldSync;
-  return <Sync />;
+  return <HomepageBelowFoldSections />;
 }
 
 export default function Home() {

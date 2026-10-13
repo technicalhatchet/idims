@@ -13,6 +13,7 @@ import {
 import SolomonDiyEnrollment from '../components/solomon/SolomonDiyEnrollment';
 import SolomonThemeScope from '../components/solomon/SolomonThemeScope';
 import AppRouteStyles from '../components/AppRouteStyles';
+import FullAppProviders from '../components/app/FullAppProviders';
 
 const SyncBanner = dynamic(() => import('../components/ui/SyncBanner'), {
   ssr: false,
@@ -47,11 +48,6 @@ const FullAppProvidersDynamic = HOMEPAGE_SPLIT_PROVIDERS_ENABLED
       loading: () => <ProviderChunkLoading />,
     })
   : null;
-
-/** Eager provider module when split flag is off (preserves pre-experiment `_app` bundle shape). */
-const FullAppProvidersSync = HOMEPAGE_SPLIT_PROVIDERS_ENABLED
-  ? null
-  : require('../components/app/FullAppProviders').default;
 
 function ProviderChunkLoading() {
   return (
@@ -324,8 +320,7 @@ function wrapWithProviders(children) {
     const Lazy = FullAppProvidersDynamic;
     return <Lazy>{children}</Lazy>;
   }
-  const Sync = FullAppProvidersSync;
-  return <Sync>{children}</Sync>;
+  return <FullAppProviders>{children}</FullAppProviders>;
 }
 
 /** Warm provider chunk when leaving `/` so client navigation feels snappier (not a substitute for loading gate). */
