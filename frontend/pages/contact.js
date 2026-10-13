@@ -4,7 +4,7 @@ import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 import {
   MARKETING_COVERAGE_BLURB,
   MARKETING_EMAIL,
-  MARKETING_HOURS_LINES,
+  MARKETING_SCHEDULING,
   MARKETING_PHONE_DISPLAY,
   MARKETING_PHONE_TEL,
 } from '../constants/marketingSiteContent';
@@ -85,9 +85,9 @@ export default function Contact() {
             >
               <FaClock className="text-2xl flex-shrink-0" style={{ color: '#FF7A1A' }} />
               <div>
-                <h3 className="font-semibold mb-1" style={{ color: '#EAF6FF' }}>Hours</h3>
-                {MARKETING_HOURS_LINES.map((line) => (
-                  <p key={line} style={{ color: '#9FB3C8' }}>{line}</p>
+                <h3 className="font-semibold mb-1" style={{ color: '#EAF6FF' }}>{MARKETING_SCHEDULING.title}</h3>
+                {MARKETING_SCHEDULING.lines.map((line) => (
+                  <p key={line} className="text-sm leading-relaxed" style={{ color: '#9FB3C8' }}>{line}</p>
                 ))}
               </div>
             </div>

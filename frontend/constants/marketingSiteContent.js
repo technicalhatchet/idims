@@ -8,10 +8,15 @@ export const MARKETING_PHONE_DISPLAY = '(419) 740-0146';
 export const MARKETING_PHONE_TEL = '4197400146';
 export const MARKETING_EMAIL = 'service@atomicrepair419.com';
 
-export const MARKETING_HOURS_LINES = [
-  'Mon–Sat: 8am – 7pm',
-  'Sunday: 9am – 5pm',
-];
+/** No fixed storefront hours — visits are scheduled case by case. */
+export const MARKETING_SCHEDULING = {
+  title: 'Scheduling',
+  lines: [
+    'By appointment — we are not a walk-in counter.',
+    'Evenings and weekends are often possible when the schedule allows.',
+    'Book online or call; we will confirm a time that works before we head out.',
+  ],
+};
 
 export const MARKETING_COVERAGE_BLURB =
   'Toledo and Northwest Ohio — including Maumee, Perrysburg, Sylvania, Oregon, and nearby communities.';
