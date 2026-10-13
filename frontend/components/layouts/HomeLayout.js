@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Header from '../navigation/Header';
 import Footer from '../navigation/Footer';
 import AtomicGlowBackground from './AtomicGlowBackground';
+import MarketingMobileActionBar from '../marketing/MarketingMobileActionBar';
 
 // Global Atomic theme colors
 const ATOMIC_THEME = {
@@ -34,7 +35,7 @@ export default function HomeLayout({ children, title = 'Atomic Repair | Applianc
 
       <Head>
         <title>{title}</title>
-        <meta name="description" content="Fast, reliable appliance repair in Toledo. Same-day service, honest diagnostics, no surprises." />
+        <meta name="description" content="Owner-operated appliance repair in Toledo. Same-day diagnostics when available." />
         <link rel="icon" href="/favicon.ico" />
         <script
           dangerouslySetInnerHTML={{
@@ -45,10 +46,11 @@ export default function HomeLayout({ children, title = 'Atomic Repair | Applianc
 
       <Header />
 
-      <main className="flex-grow relative z-10">
+      <main className="flex-grow relative z-10 pb-20 md:pb-0">
         {children}
       </main>
 
+      <MarketingMobileActionBar />
       <Footer />
     </div>
   );

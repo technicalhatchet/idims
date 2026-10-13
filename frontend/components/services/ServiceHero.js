@@ -4,10 +4,10 @@ import { FaShieldAlt, FaClock, FaCheckCircle, FaDollarSign, FaCalendarAlt, FaPho
 import ApplianceIcon from '../ui/ApplianceIcon';
 
 const FEATURES = [
-  { icon: FaShieldAlt, title: 'Certified Technicians' },
-  { icon: FaClock, title: 'Same-Day Service' },
-  { icon: FaCheckCircle, title: 'Satisfaction Guaranteed' },
-  { icon: FaDollarSign, title: 'Upfront Pricing' },
+  { icon: FaClock, title: 'Same-day when available' },
+  { icon: FaCheckCircle, title: '90-day warranty' },
+  { icon: FaDollarSign, title: 'Upfront pricing' },
+  { icon: FaShieldAlt, title: 'Diagnostic-first' },
 ];
 
 export default function ServiceHero({ service }) {

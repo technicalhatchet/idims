@@ -5,7 +5,9 @@ import HomeHeroDiagnosticVisual from '../components/marketing/HomeHeroDiagnostic
 import ScrollReveal from '../components/marketing/ScrollReveal';
 import ApplianceIcon from '../components/ui/ApplianceIcon';
 import { motion } from 'framer-motion';
-import { FaStar, FaShieldAlt, FaClock, FaCheckCircle, FaPhone, FaArrowRight } from 'react-icons/fa';
+import { FaClock, FaCheckCircle, FaPhone, FaArrowRight, FaDollarSign } from 'react-icons/fa';
+import { MARKETING_SERVICES, MARKETING_PHONE_TEL } from '../constants/marketingSiteContent';
+import OurPromiseSection from '../components/marketing/OurPromiseSection';
 import { HiLightningBolt } from 'react-icons/hi';
 import {
   DIAGNOSTIC_CREDIT_MARKETING,
@@ -17,39 +19,13 @@ const HOMEPAGE_PRICING_VARIANT =
   process.env.NEXT_PUBLIC_HOMEPAGE_PRICING_VARIANT || 'promo';
 
 export default function Home() {
-  const services = [
-    {
-      title: "Refrigerator Repair",
-      desc: "Not cooling? Leaking? Making noise? We handle compressors, fans, seals, and more.",
-      equipmentType: "refrigerator",
-    },
-    {
-      title: "Range Repair",
-      desc: "Not heating or cooking unevenly? We repair igniters, elements, and control boards.",
-      equipmentType: "oven",
-    },
-    {
-      title: "Dishwasher Repair",
-      desc: "Dishes still dirty? Water not draining? We'll get it running like new again in no time.",
-      equipmentType: "dishwasher",
-    },
-    {
-      title: "TV Repair",
-      desc: "No picture? Lines on screen? Won't turn on? We diagnose and repair all major TV brands.",
-      equipmentType: "tv",
-    },
-    {
-      title: "Washer & Dryer Repair",
-      desc: "Won't drain, spin, or heat? We fix all common and complex laundry issues.",
-      equipmentType: "washer",
-    },
-  ];
+  const services = MARKETING_SERVICES;
 
   return (
     <>
       <Head>
         <title>Atomic Repair | Fast, Reliable Appliance Repair in Toledo</title>
-        <meta name="description" content="Same-day appliance diagnostics when available in Toledo. Honest assessments, upfront pricing, and expert technicians." />
+        <meta name="description" content="Same-day appliance diagnostics when available in Toledo. Honest assessments and upfront pricing." />
         <link rel="manifest" href="/manifest.json" />
       </Head>
 
@@ -84,7 +60,7 @@ export default function Home() {
 
               {/* CTA Buttons — mobile: full-width stack, call first; sm+: book then call */}
               <div className="mt-8 flex w-full max-w-md flex-col gap-4 sm:max-w-none sm:flex-row sm:flex-wrap">
-                <a href="tel:4197400146" className="order-1 w-full sm:order-2 sm:w-auto">
+                <a href={`tel:${MARKETING_PHONE_TEL}`} className="order-1 w-full sm:order-2 sm:w-auto">
                   <motion.button
                     type="button"
                     whileHover={{ scale: 1.02 }}
@@ -116,26 +92,14 @@ export default function Home() {
               {/* Trust Indicators */}
               <div className="mt-8 flex flex-wrap gap-6 lg:mt-10 lg:gap-10">
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-10 h-10 rounded-full bg-yellow-500/20">
-                    <FaStar className="w-5 h-5 text-yellow-400" />
-                  </div>
-                  <div>
-                    <p className="text-white font-semibold">4.9 Rated</p>
-                    <p className="text-gray-500 text-sm">100+ Reviews</p>
-                  </div>
-                </div>
-
-                {/* Licensed & insured — restore when credentials are finalized
-                <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center w-10 h-10 rounded-full bg-cyan-500/20">
-                    <FaShieldAlt className="w-5 h-5 text-cyan-400" />
+                    <FaDollarSign className="w-5 h-5 text-cyan-400" />
                   </div>
                   <div>
-                    <p className="text-white font-semibold">Licensed & Insured</p>
-                    <p className="text-gray-500 text-sm">Your home is protected</p>
+                    <p className="text-white font-semibold">${OPENING_SPECIAL_PRICE} diagnostic</p>
+                    <p className="text-gray-500 text-sm">50% credit toward repair</p>
                   </div>
                 </div>
-                */}
 
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-500/20">
@@ -153,7 +117,7 @@ export default function Home() {
             <div className="row-start-2 col-start-1 flex flex-col items-center lg:row-start-1 lg:col-start-2 -mt-1 lg:mt-0">
               <HomeHeroDiagnosticVisual />
               <p className="mt-3 max-w-xs text-center text-sm text-gray-400 lg:hidden">
-                Expert technicians — thorough diagnosis before any repair.
+                Diagnostic-first — we quote before additional repair work.
               </p>
             </div>
           </div>
@@ -176,11 +140,30 @@ export default function Home() {
             </p>
           </ScrollReveal>
 
-          {/* Service Cards Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+          {/* Mobile: compact rows */}
+          <div className="md:hidden space-y-3">
+            {services.map((service) => (
+              <Link
+                key={service.slug}
+                href={`/services/${service.slug}`}
+                prefetch={false}
+                className="flex items-center gap-4 p-4 rounded-xl bg-[#0D1117] border border-white/5 active:bg-white/5"
+              >
+                <ApplianceIcon equipmentType={service.equipmentType} className="w-10 h-10 flex-shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-white font-medium text-sm">{service.title}</p>
+                  <p className="text-gray-500 text-xs line-clamp-2">{service.description}</p>
+                </div>
+                <FaArrowRight className="w-4 h-4 text-orange-400 flex-shrink-0" />
+              </Link>
+            ))}
+          </div>
+
+          {/* Desktop: service cards */}
+          <div className="hidden md:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {services.map((service, i) => (
               <ScrollReveal
-                key={i}
+                key={service.slug}
                 delay={i * 0.03}
                 whileHover={{ y: -8, transition: { type: 'spring', stiffness: 120, damping: 20, mass: 1.2 } }}
                 className="group relative min-w-0"
@@ -205,14 +188,14 @@ export default function Home() {
                     </h3>
 
                     <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                      {service.desc}
+                      {service.description}
                     </p>
                     <Link
-                      href="/book"
+                      href={`/services/${service.slug}`}
                       prefetch={false}
                       className="inline-flex items-center gap-1 text-orange-400 text-sm font-medium hover:text-orange-300 transition-colors group/link"
                     >
-                      Book Now
+                      Learn more
                       <FaArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
                     </Link>
                   </div>
@@ -302,6 +285,8 @@ export default function Home() {
         </div>
       </section>
 
+      <OurPromiseSection />
+
       {/* FINAL CTA SECTION */}
       <section className="relative py-20 lg:py-28">
         <div className="max-w-4xl mx-auto px-6 text-center">
@@ -328,7 +313,7 @@ export default function Home() {
                 </motion.button>
               </Link>
 
-              <a href="tel:4197400146">
+              <a href={`tel:${MARKETING_PHONE_TEL}`}>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}

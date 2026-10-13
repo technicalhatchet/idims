@@ -267,7 +267,7 @@ export default function ServiceAreaIndex() {
                       {area.name}, {area.state}
                     </h3>
                     <p style={{ color: theme === 'atomic' ? '#6B7C8F' : '#9ca3af' }} className="text-sm mt-1">
-                      {area.stats.repairsCompleted}+ repairs completed
+                      Diagnostic-first service when available
                     </p>
                   </div>
                 </Link>

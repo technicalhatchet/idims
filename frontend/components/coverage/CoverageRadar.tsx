@@ -461,7 +461,7 @@ export default function CoverageRadar({
               <path d="M4 18c4-6 8-8 12-8s8 2 12 8" strokeDasharray="3 3" />
               <circle cx="12" cy="8" r="2.5" fill="var(--orange)" stroke="none" />
             </svg>
-            <span>Live coverage from our Toledo dispatch hub</span>
+            <span>Service area map — Toledo &amp; Northwest Ohio</span>
           </div>
         </div>
       </div>

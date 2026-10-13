@@ -39,8 +39,8 @@ export default function About() {
             style={{ backgroundColor: '#000811', borderColor: '#1A2A3A' }}
           >
             <p style={{ color: '#9FB3C8' }} className="text-lg leading-relaxed">
-              Atomic Repair provides expert appliance repair services across Toledo and Northwest Ohio. 
-              Our certified technicians are equipped to handle all major brands and appliance types.
+              Atomic Repair is an owner-operated appliance repair service based in Toledo. We diagnose and repair
+              major household appliances and TVs across Northwest Ohio.
             </p>
           </div>
           
@@ -50,9 +50,8 @@ export default function About() {
           >
             <h2 className="text-2xl font-bold mb-4" style={{ color: '#00E5FF' }}>Our Mission</h2>
             <p style={{ color: '#9FB3C8' }} className="leading-relaxed">
-              To provide fast, honest, and reliable appliance repair services with transparent pricing 
-              and exceptional customer service. As a family-owned and operated business, we pride 
-              ourselves on our commitment to quality and customer satisfaction.
+              To provide honest, reliable appliance repair with clear pricing and respectful communication —
+              the way we would want service in our own homes.
             </p>
           </div>
           

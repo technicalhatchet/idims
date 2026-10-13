@@ -23,8 +23,8 @@ const WHY_CHOOSE_US = [
   },
   {
     icon: FaUserTie,
-    title: 'Expert Technicians',
-    description: 'Our certified professionals have years of experience fixing all major brands.'
+    title: 'Experienced repair',
+    description: 'Major appliance brands — diagnosis before parts and labor.'
   },
   {
     icon: FaDollarSign,
@@ -33,8 +33,8 @@ const WHY_CHOOSE_US = [
   },
   {
     icon: FaShieldAlt,
-    title: 'Satisfaction Guarantee',
-    description: 'We\'re not happy until you are. 100% satisfaction guaranteed on all repairs.'
+    title: '90-day warranty',
+    description: 'Parts and labor warranty on repairs we complete.'
   }
 ];
 
