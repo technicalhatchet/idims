@@ -2,11 +2,16 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { 
-  FaCheck, FaCheckCircle, FaStar, FaTools, FaMapMarkerAlt, FaClock,
-  FaPhone, FaCalendarAlt, FaShieldAlt, FaTruck, FaDollarSign, FaAward,
-  FaUsers, FaPlus, FaMinus, FaArrowRight, FaQuoteLeft
+import {
+  FaCheck, FaCheckCircle, FaMapMarkerAlt, FaClock,
+  FaPhone, FaCalendarAlt, FaDollarSign, FaAward,
+  FaUsers, FaTruck, FaPlus, FaMinus, FaArrowRight,
 } from 'react-icons/fa';
+import OurPromiseSection from '../../components/marketing/OurPromiseSection';
+import {
+  CITY_HERO_TRUST_POINTS,
+  MARKETING_TRUST_STRIP,
+} from '../../constants/marketingSiteContent';
 import { useState } from 'react';
 import HomeLayout from '../../components/layouts/HomeLayout';
 import { 
@@ -84,7 +89,7 @@ export default function ServiceAreaPage({ area }) {
         <title>Appliance Repair in {area.name}, {area.state} | Atomic Repair</title>
         <meta 
           name="description" 
-          content={`Fast, reliable appliance repair in ${area.name}, ${area.state}. Same-day diagnostics when available. Local expert technicians. Call ${area.phone}`} 
+          content={`Appliance repair in ${area.name}, ${area.state}. Same-day diagnostics when available. Call ${area.phone}`} 
         />
         <meta name="keywords" content={`appliance repair ${area.name}, ${area.name} appliance repair, refrigerator repair ${area.name}, washer repair ${area.name}`} />
       </Head>
@@ -125,7 +130,7 @@ export default function ServiceAreaPage({ area }) {
 
               {/* Trust Points */}
               <div className="mt-6 space-y-2">
-                {['5-Star Local Technicians', 'Transparent Pricing', 'Same-Day Diagnostics When Available'].map((point, i) => (
+                {CITY_HERO_TRUST_POINTS.map((point, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, x: -20 }}
@@ -266,13 +271,9 @@ export default function ServiceAreaPage({ area }) {
       <section className="relative py-8 border-y border-white/5 bg-white/[0.02]">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { icon: FaStar, value: area.stats.rating, label: 'Google Rating' },
-              { icon: FaTools, value: `${area.stats.repairsCompleted.toLocaleString()}+`, label: 'Repairs Completed' },
-              { icon: FaMapMarkerAlt, value: 'Locally', label: 'Owned & Operated' },
-              { icon: FaClock, value: 'Same-Day', label: 'Diagnostics' }
-            ].map((stat, i) => {
-              const Icon = stat.icon;
+            {MARKETING_TRUST_STRIP.map((stat, i) => {
+              const icons = [FaDollarSign, FaAward, FaMapMarkerAlt, FaClock];
+              const Icon = icons[i] || FaCheckCircle;
               return (
                 <motion.div
                   key={i}
@@ -366,7 +367,7 @@ export default function ServiceAreaPage({ area }) {
             </h2>
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {localServices.map((service, i) => (
               <motion.div
                 key={service.slug}
@@ -440,60 +441,7 @@ export default function ServiceAreaPage({ area }) {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      {area.testimonials && area.testimonials.length > 0 && (
-        <section className="relative py-16 lg:py-20 border-t border-white/5">
-          <div className="max-w-6xl mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
-              <p className="text-cyan-400 text-sm font-semibold tracking-wider uppercase mb-3">
-                What Your Neighbors Are Saying
-              </p>
-              <h2 className="text-2xl lg:text-3xl font-bold text-white">
-                Real Service. Real Customers.
-              </h2>
-            </motion.div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {area.testimonials.map((testimonial, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="p-6 rounded-2xl bg-white/5 border border-white/10"
-                >
-                  <div className="flex gap-1 mb-3">
-                    {[...Array(testimonial.rating)].map((_, j) => (
-                      <FaStar key={j} className="w-4 h-4 text-orange-400" />
-                    ))}
-                  </div>
-                  <FaQuoteLeft className="w-6 h-6 text-cyan-500/30 mb-2" />
-                  <p className="text-gray-300 text-sm leading-relaxed mb-4">
-                    "{testimonial.text}"
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500/20 to-orange-500/20 flex items-center justify-center">
-                      <span className="text-white font-bold text-sm">
-                        {testimonial.author.charAt(0)}
-                      </span>
-                    </div>
-                    <div>
-                      <p className="text-white font-medium text-sm">{testimonial.author}</p>
-                      <p className="text-gray-500 text-xs">{testimonial.location}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      <OurPromiseSection cityName={area.name} />
 
       {/* MAP SECTION */}
       <section className="relative py-16 lg:py-20 border-t border-white/5">

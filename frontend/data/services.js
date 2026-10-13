@@ -46,7 +46,7 @@ export const services = [
     faqs: [
       {
         q: "How much does refrigerator repair cost?",
-        a: "Our diagnostic fee is $89, which is waived if you proceed with the repair. Most refrigerator repairs range from $150-$400 depending on the issue and parts needed."
+        a: "Our diagnostic fee is $89. Fifty percent of that fee is applied toward the repair if you proceed. Most refrigerator repairs range from $150–$400 depending on the issue and parts needed."
       },
       {
         q: "How long does a typical repair take?",
@@ -121,7 +121,7 @@ export const services = [
       },
       {
         q: "How much does washer repair cost?",
-        a: "Most washer repairs range from $125-$350 plus our $89 diagnostic fee (waived with repair). The exact cost depends on the issue and parts required."
+        a: "Most washer repairs range from $125–$350 after diagnosis. The $89 diagnostic fee includes 50% credit toward the repair if you proceed."
       },
       {
         q: "Should I repair or replace my washer?",
@@ -196,7 +196,7 @@ export const services = [
       },
       {
         q: "Do you service gas and electric dryers?",
-        a: "Yes! Our technicians are trained and certified to work on both gas and electric dryers safely."
+        a: "Yes. We service both gas and electric dryers and follow manufacturer safety procedures for each."
       },
       {
         q: "How often should I clean my dryer vent?",

@@ -3,8 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
-  FaShieldAlt, FaBolt, FaCheckCircle, FaDollarSign,
-  FaCalendarAlt, FaSearch, FaTools, FaThumbsUp
+  FaBolt, FaCheckCircle, FaDollarSign,
+  FaCalendarAlt, FaSearch, FaTools, FaThumbsUp,
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
 import ApplianceIcon from '../components/ui/ApplianceIcon';
@@ -13,63 +13,20 @@ import FeatureBadge from '../components/services/FeatureBadge';
 import ProcessStep from '../components/services/ProcessStep';
 import CTASection from '../components/services/CTASection';
 import { useState } from 'react';
+import { MARKETING_SERVICES } from '../constants/marketingSiteContent';
 
-const SERVICES = [
-  {
-    id: 'refrigerator',
-    slug: 'refrigerator-repair',
-    title: 'REFRIGERATOR REPAIR',
-    description: 'Not cooling, leaking, ice maker issues, and more.',
-  },
-  {
-    id: 'washer',
-    slug: 'washer-repair',
-    title: 'WASHER REPAIR',
-    description: "Won't spin, not draining, noisy or not starting.",
-  },
-  {
-    id: 'dryer',
-    slug: 'dryer-repair',
-    title: 'DRYER REPAIR',
-    description: "Not heating, takes too long, won't start.",
-  },
-  {
-    id: 'oven',
-    slug: 'oven-repair',
-    title: 'OVEN & RANGE REPAIR',
-    description: 'Not heating, temperature issues, or not working.',
-  },
-  {
-    id: 'dishwasher',
-    slug: 'dishwasher-repair',
-    title: 'DISHWASHER REPAIR',
-    description: 'Not cleaning, leaking, not draining properly.',
-  },
-  {
-    id: 'microwave',
-    slug: 'microwave-repair',
-    title: 'MICROWAVE REPAIR',
-    description: 'Not heating, turntable issues, or not powering on.',
-  },
-  {
-    id: 'freezer',
-    slug: 'freezer-repair',
-    title: 'FREEZER REPAIR',
-    description: 'Not freezing, frost buildup, or unusual noises.',
-  },
-  {
-    id: 'tv',
-    slug: 'tv-repair',
-    title: 'TV REPAIR',
-    description: 'No picture, sound issues, or connectivity problems.',
-  },
-];
+const SERVICES = MARKETING_SERVICES.map((service) => ({
+  id: service.equipmentType,
+  slug: service.slug,
+  title: service.title.toUpperCase(),
+  description: service.description,
+}));
 
 const FEATURES = [
-  { icon: FaShieldAlt, title: 'Certified Technicians' },
-  { icon: FaBolt, title: 'Fast & Reliable' },
-  { icon: FaCheckCircle, title: 'Satisfaction Guaranteed' },
-  { icon: FaDollarSign, title: 'Upfront Pricing' },
+  { icon: FaSearch, title: 'Diagnostic-first' },
+  { icon: FaBolt, title: 'Same-day when available' },
+  { icon: FaCheckCircle, title: '90-day warranty' },
+  { icon: FaDollarSign, title: 'Upfront pricing' },
 ];
 
 const PROCESS_STEPS = [
