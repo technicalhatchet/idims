@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import HomepagePerfVariantBanner from './HomepagePerfVariantBanner';
 import {
+  HOMEPAGE_PERF_VARIANT,
   PERF_SHOW_MEASUREMENT_STRIP,
   getHomepagePerfVariantBannerLabel,
 } from '../../lib/homepagePerfVariant';
@@ -9,13 +10,17 @@ import {
 const SSR_MARKUP_AT = new Date().toISOString();
 
 /**
- * Preview-only: rendered inside real HomeLayout (header, footer, glow).
- * Enable via NEXT_PUBLIC_HOMEPAGE_PERF_VARIANT=layout_shell_probe.
+ * Preview-only: rendered inside HomeLayout or HomeLayoutDiagnosticNoGlow.
+ * Enable via layout_shell_probe | layout_shell_no_glow.
  */
 export default function HomepageLayoutShellProbe() {
   const perfBannerLabel = PERF_SHOW_MEASUREMENT_STRIP
     ? getHomepagePerfVariantBannerLabel()
     : '';
+  const probeSubtitle =
+    HOMEPAGE_PERF_VARIANT === 'layout_shell_no_glow'
+      ? 'Marketing header/footer shell without AtomicGlowBackground. No marketing hero or below-fold.'
+      : 'Real HomeLayout (header, footer, glow). No HomepageMarketingPage, hero, or below-fold.';
 
   return (
     <>
@@ -33,9 +38,7 @@ export default function HomepageLayoutShellProbe() {
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
           LAYOUT SHELL PROBE
         </h1>
-        <p className="mt-4 max-w-lg text-lg font-semibold text-gray-900">
-          Real HomeLayout (header, footer, glow). No HomepageMarketingPage, hero, or below-fold.
-        </p>
+        <p className="mt-4 max-w-lg text-lg font-semibold text-gray-900">{probeSubtitle}</p>
         <p className="mt-6 font-mono text-sm text-gray-800">SSR markup at: {SSR_MARKUP_AT}</p>
       </section>
     </>
