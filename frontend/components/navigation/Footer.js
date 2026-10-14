@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { MarketingPhoneIcon } from '../marketing/MarketingCta';
 import AtomicLogo from '../ui/AtomicLogo';
 import {
   MARKETING_EMAIL,
@@ -75,7 +76,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li>
                 <a href={`tel:${MARKETING_PHONE_TEL}`} className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors text-sm">
-                  <FaPhone className="w-4 h-4 text-cyan-400" />
+                  <MarketingPhoneIcon className="w-4 h-4 text-cyan-400" />
                   {MARKETING_PHONE_DISPLAY}
                 </a>
               </li>

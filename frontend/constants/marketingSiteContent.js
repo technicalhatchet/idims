@@ -53,20 +53,6 @@ export const OUR_PROMISE = {
 /** Canonical marketing service list — single source for homepage, footer, and city pages. */
 export const MARKETING_SERVICES = [
   {
-    title: 'Refrigerator Repair',
-    slug: 'refrigerator-repair',
-    equipmentType: 'refrigerator',
-    description: 'Not cooling? Leaking? Noisy? We diagnose compressors, fans, seals, and controls.',
-    icon: '/applianceicons/neon/neonfridge.png',
-  },
-  {
-    title: 'Freezer Repair',
-    slug: 'freezer-repair',
-    equipmentType: 'refrigerator',
-    description: 'Temperature swings, frost buildup, or failure to run — we troubleshoot stand-alone and built-in units.',
-    icon: '/applianceicons/neon/neonfridge.png',
-  },
-  {
     title: 'Washer Repair',
     slug: 'washer-repair',
     equipmentType: 'washer',
@@ -79,6 +65,13 @@ export const MARKETING_SERVICES = [
     equipmentType: 'dryer',
     description: 'No heat, long dry times, noise, and drum problems on electric and gas dryers.',
     icon: '/applianceicons/neon/neondryer.png',
+  },
+  {
+    title: 'Refrigerator Repair',
+    slug: 'refrigerator-repair',
+    equipmentType: 'refrigerator',
+    description: 'Not cooling? Leaking? Noisy? We diagnose compressors, fans, seals, and controls.',
+    icon: '/applianceicons/neon/neonfridge.png',
   },
   {
     title: 'Oven & Range Repair',
@@ -100,6 +93,13 @@ export const MARKETING_SERVICES = [
     equipmentType: 'microwave',
     description: 'No heat, turntable issues, and control failures on counter and OTR units.',
     icon: '/applianceicons/neon/neonmicrowave.png',
+  },
+  {
+    title: 'Freezer Repair',
+    slug: 'freezer-repair',
+    equipmentType: 'refrigerator',
+    description: 'Temperature swings, frost buildup, or failure to run — we troubleshoot stand-alone and built-in units.',
+    icon: '/applianceicons/neon/neonfridge.png',
   },
   {
     title: 'TV Repair',

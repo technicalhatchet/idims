@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import HomeLayout from '../components/layouts/HomeLayout';
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
+import { FaEnvelope, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
+import { MarketingPhoneIcon } from '../components/marketing/MarketingCta';
 import {
   MARKETING_COVERAGE_BLURB,
   MARKETING_EMAIL,
@@ -48,7 +49,7 @@ export default function Contact() {
               className="p-6 rounded-2xl border flex items-start gap-4"
               style={{ backgroundColor: '#000811', borderColor: '#1A2A3A' }}
             >
-              <FaPhone className="text-2xl flex-shrink-0" style={{ color: '#00E5FF' }} />
+              <MarketingPhoneIcon className="w-7 h-7 flex-shrink-0 text-[#00E5FF]" strokeWidth={2} />
               <div>
                 <h3 className="font-semibold mb-1" style={{ color: '#EAF6FF' }}>Phone</h3>
                 <a href={`tel:${MARKETING_PHONE_TEL}`} style={{ color: '#9FB3C8' }}>{MARKETING_PHONE_DISPLAY}</a>

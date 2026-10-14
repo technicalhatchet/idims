@@ -7,6 +7,8 @@ import {
   FaCalendarAlt, FaSearch, FaTools, FaThumbsUp,
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
+import { MarketingBookLink, MarketingCallLink } from '../components/marketing/MarketingCta';
+import { MARKETING_PHONE_TEL } from '../constants/marketingSiteContent';
 import ApplianceIcon from '../components/ui/ApplianceIcon';
 import ServiceCard from '../components/services/ServiceCard';
 import FeatureBadge from '../components/services/FeatureBadge';
@@ -117,17 +119,9 @@ export default function Services() {
               </div>
 
               {/* Mobile CTA */}
-              <div className="mt-8 lg:hidden">
-                <Link href="/book">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-cyan-500 to-cyan-600 shadow-[0_0_25px_rgba(34,211,238,0.4)] flex items-center justify-center gap-2"
-                  >
-                    <FaCalendarAlt className="w-4 h-4" />
-                    Book Your Service
-                  </motion.button>
-                </Link>
+              <div className="mt-8 flex flex-col gap-4 lg:hidden">
+                <MarketingBookLink label="Book Your Service" tone="cyan" size="lg" fullWidth />
+                <MarketingCallLink tel={MARKETING_PHONE_TEL} label="Call Now" tone="orange" size="lg" fullWidth />
               </div>
             </motion.div>
 

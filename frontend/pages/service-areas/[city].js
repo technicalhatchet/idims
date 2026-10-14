@@ -4,14 +4,20 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import {
   FaCheck, FaCheckCircle, FaMapMarkerAlt, FaClock,
-  FaPhone, FaCalendarAlt, FaDollarSign, FaAward,
+  FaDollarSign, FaAward,
   FaUsers, FaTruck, FaPlus, FaMinus, FaArrowRight,
 } from 'react-icons/fa';
 import OurPromiseSection from '../../components/marketing/OurPromiseSection';
 import {
   CITY_HERO_TRUST_POINTS,
+  MARKETING_PHONE_TEL,
   MARKETING_TRUST_STRIP,
 } from '../../constants/marketingSiteContent';
+import {
+  MarketingBookLink,
+  MarketingCallLink,
+  MarketingPhoneIcon,
+} from '../../components/marketing/MarketingCta';
 import { useState } from 'react';
 import HomeLayout from '../../components/layouts/HomeLayout';
 import { 
@@ -145,28 +151,18 @@ export default function ServiceAreaPage({ area }) {
               </div>
 
               {/* CTA Buttons */}
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Link href="/book">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-white shadow-[0_0_25px_rgba(251,146,60,0.4)] hover:shadow-[0_0_35px_rgba(251,146,60,0.6)] transition-all flex items-center gap-2"
-                    style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
-                  >
-                    <FaCalendarAlt className="w-4 h-4" />
-                    Book Service
-                  </motion.button>
-                </Link>
-                <a href={`tel:${area.phone.replace(/[^0-9]/g, '')}`}>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-white border border-white/20 hover:bg-white/5 transition-all flex items-center gap-2"
-                  >
-                    <FaPhone className="w-4 h-4" />
-                    Call Now
-                  </motion.button>
-                </a>
+              <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-4">
+                <div className="order-1 sm:order-2">
+                  <MarketingBookLink label="Book Service" tone="cyan" size="md" />
+                </div>
+                <div className="order-2 sm:order-1">
+                  <MarketingCallLink
+                    tel={area.phone.replace(/[^0-9]/g, '') || MARKETING_PHONE_TEL}
+                    label="Call Now"
+                    tone="orange"
+                    size="md"
+                  />
+                </div>
               </div>
 
               {/* Coverage Note */}
@@ -486,28 +482,18 @@ export default function ServiceAreaPage({ area }) {
                 Not sure if you're in our area? Call or text us – we're happy to help!
               </p>
 
-              <div className="flex flex-wrap gap-4">
-                <a href={`tel:${area.phone.replace(/[^0-9]/g, '')}`}>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-white shadow-[0_0_25px_rgba(251,146,60,0.4)] flex items-center gap-2"
-                    style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
-                  >
-                    <FaPhone className="w-4 h-4" />
-                    {area.phone}
-                  </motion.button>
-                </a>
-                <Link href="/book">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-white border border-white/20 hover:bg-white/5 transition-all flex items-center gap-2"
-                  >
-                    <FaCalendarAlt className="w-4 h-4" />
-                    Book Online
-                  </motion.button>
-                </Link>
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4">
+                <div className="order-1 sm:order-2">
+                  <MarketingBookLink label="Book Online" tone="cyan" size="md" />
+                </div>
+                <div className="order-2 sm:order-1">
+                  <MarketingCallLink
+                    tel={area.phone.replace(/[^0-9]/g, '') || MARKETING_PHONE_TEL}
+                    label={area.phone}
+                    tone="orange"
+                    size="md"
+                  />
+                </div>
               </div>
             </motion.div>
           </div>
@@ -556,7 +542,7 @@ export default function ServiceAreaPage({ area }) {
             <div className="relative flex flex-col lg:flex-row items-center justify-between gap-6 p-8 lg:p-10">
               <div className="flex items-center gap-4">
                 <div className="hidden lg:flex w-14 h-14 rounded-full bg-cyan-500/10 border border-cyan-500/30 items-center justify-center">
-                  <FaPhone className="w-6 h-6 text-cyan-400" />
+                  <MarketingPhoneIcon className="w-6 h-6 text-cyan-400" strokeWidth={2} />
                 </div>
                 <div>
                   <h3 className="text-xl lg:text-2xl font-bold text-white">
@@ -566,27 +552,18 @@ export default function ServiceAreaPage({ area }) {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-4">
-                <Link href="/book">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-cyan-500 to-cyan-600 shadow-[0_0_25px_rgba(34,211,238,0.4)] flex items-center gap-2"
-                  >
-                    <FaCalendarAlt className="w-4 h-4" />
-                    Book Service Now
-                  </motion.button>
-                </Link>
-                <a href={`tel:${area.phone.replace(/[^0-9]/g, '')}`}>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-orange-400 border border-orange-500/50 hover:bg-orange-500/10 transition-all flex items-center gap-2"
-                  >
-                    <FaPhone className="w-4 h-4" />
-                    Call {area.phone}
-                  </motion.button>
-                </a>
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4">
+                <div className="order-1 sm:order-2">
+                  <MarketingBookLink label="Book Service Now" tone="cyan" size="md" />
+                </div>
+                <div className="order-2 sm:order-1">
+                  <MarketingCallLink
+                    tel={area.phone.replace(/[^0-9]/g, '') || MARKETING_PHONE_TEL}
+                    label={`Call ${area.phone}`}
+                    tone="orange"
+                    size="md"
+                  />
+                </div>
               </div>
             </div>
           </motion.div>
