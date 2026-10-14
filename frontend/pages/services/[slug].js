@@ -8,7 +8,6 @@ import {
   FaCheckCircle,
 } from 'react-icons/fa';
 import HomeLayout from '../../components/layouts/HomeLayout';
-import MarketingAmbientBlurBackground from '../../components/marketing/MarketingAmbientBlurBackground';
 import ServiceHero from '../../components/services/ServiceHero';
 import IssueCard from '../../components/services/IssueCard';
 import FeatureCard from '../../components/services/FeatureCard';
@@ -104,8 +103,6 @@ export default function ServiceDetailPage({ service }) {
         />
         <meta name="keywords" content={`${service.title.toLowerCase()}, ${service.applianceType} repair, Toledo, appliance repair`} />
       </Head>
-
-      <MarketingAmbientBlurBackground />
 
       {/* HERO SECTION */}
       <ServiceHero service={service} />

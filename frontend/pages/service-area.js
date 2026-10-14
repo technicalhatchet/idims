@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FaMapMarkerAlt, FaArrowRight } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
-import MarketingAmbientBlurBackground from '../components/marketing/MarketingAmbientBlurBackground';
 import { MarketingBookLink, MarketingCallLink } from '../components/marketing/MarketingCta';
 import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../constants/marketingSiteContent';
 import CoverageRadar from '../components/coverage/CoverageRadar';
@@ -53,14 +52,6 @@ export default function ServiceAreaIndex() {
           content="Atomic Repair serves Toledo, OH and surrounding areas including Sylvania, Maumee, Perrysburg, and more. Same-day diagnostics when available." 
         />
       </Head>
-
-      <MarketingAmbientBlurBackground
-        backgroundColor={t.bg}
-        showBlobs={t.showGlows}
-        cyanBlob={theme === 'atomic' ? 'rgba(0, 229, 255, 0.15)' : 'rgba(6, 182, 212, 0.1)'}
-        orangeBlob={theme === 'atomic' ? 'rgba(255, 122, 26, 0.18)' : 'rgba(249, 115, 22, 0.1)'}
-        style={{ transition: 'background-color 500ms ease' }}
-      />
 
       {/* HERO */}
       <section className="relative pt-28 pb-16 lg:pt-32 lg:pb-20">

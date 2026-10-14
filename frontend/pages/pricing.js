@@ -8,7 +8,6 @@ import {
   FaAward, FaUserCheck, FaStar
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
-import MarketingAmbientBlurBackground from '../components/marketing/MarketingAmbientBlurBackground';
 import {
   MarketingBookLink,
   MarketingPhoneIcon,
@@ -134,8 +133,6 @@ export default function Pricing() {
         <meta name="description" content="Transparent appliance repair pricing in Toledo. No hidden fees, upfront quotes, and warranty included. See our diagnostic, repair, and priority service rates." />
       </Head>
 
-      <MarketingAmbientBlurBackground />
-
       {/* HERO SECTION */}
       <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
@@ -186,10 +183,6 @@ export default function Pricing() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              {/* Glow Effects */}
-              <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-cyan-500/20 blur-[80px]" aria-hidden />
-              <div className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/20 blur-[80px]" aria-hidden />
-
               <div className="relative flex items-center gap-8">
                 {/* Appliance Image Placeholder */}
                 <div className="flex-1 relative h-[300px] lg:h-[350px]">

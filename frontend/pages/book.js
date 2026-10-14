@@ -8,7 +8,7 @@ import {
   FaUser, FaMapMarkerAlt, FaCheckCircle, FaArrowRight, FaArrowLeft, FaEnvelope,
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
-import MarketingAmbientBlurBackground from '../components/marketing/MarketingAmbientBlurBackground';
+import MarketingBookVignette from '../components/marketing/MarketingBookVignette';
 import NeonIcon from '../components/ui/NeonIcon';
 import AtomicIcon from '../components/ui/AtomicIcon';
 import SecretServiceMode from '../components/ui/SecretServiceMode';
@@ -521,7 +521,7 @@ export default function BookService() {
         <link rel="manifest" href="/manifest-book.json" />
       </Head>
 
-      <MarketingAmbientBlurBackground showVignette />
+      <MarketingBookVignette />
 
       <div className="min-h-screen pt-28 pb-32 px-4 sm:px-6 relative z-10">
         <div className="max-w-3xl mx-auto">

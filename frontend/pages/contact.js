@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import HomeLayout from '../components/layouts/HomeLayout';
-import MarketingAmbientBlurBackground from '../components/marketing/MarketingAmbientBlurBackground';
 import { FaEnvelope, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 import { MarketingPhoneIcon } from '../components/marketing/MarketingCta';
 import {
@@ -18,8 +17,6 @@ export default function Contact() {
         <title>Contact Us | Atomic Repair</title>
       </Head>
 
-      <MarketingAmbientBlurBackground />
-      
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4" style={{ color: '#EAF6FF' }}>
