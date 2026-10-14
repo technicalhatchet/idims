@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { FaShieldAlt, FaClock, FaCheckCircle, FaDollarSign } from 'react-icons/fa';
 import AtomicIcon from '../ui/AtomicIcon';
 import { MarketingBookLink } from '../marketing/MarketingCta';
+import { MARKETING_ICON_HALO_STYLE } from '../marketing/marketingGlowLayers';
 import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../../constants/marketingSiteContent';
 
 const FEATURES = [
@@ -15,16 +16,6 @@ const FEATURES = [
 export default function ServiceHero({ service }) {
   return (
     <section className="relative pt-28 pb-16 lg:pt-32 lg:pb-20 overflow-hidden">
-      {/* Background Glows */}
-      <div
-        className="pointer-events-none absolute left-0 top-1/3 w-[500px] h-[500px] bg-cyan-500/20 blur-[150px] -z-10"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute right-0 bottom-0 w-[400px] h-[400px] bg-orange-500/15 blur-[120px] -z-10"
-        aria-hidden
-      />
-
       <div className="max-w-7xl mx-auto px-6">
         {/* Breadcrumb */}
         <motion.nav
@@ -117,7 +108,11 @@ export default function ServiceHero({ service }) {
             className="relative hidden lg:block"
           >
             <div className="relative flex flex-col items-center justify-center">
-              <div className="absolute inset-0 m-auto w-72 h-72 rounded-full bg-cyan-500/10 blur-[90px]" aria-hidden="true" />
+              <div
+                className="pointer-events-none absolute inset-0 m-auto w-80 h-80 rounded-full"
+                style={MARKETING_ICON_HALO_STYLE}
+                aria-hidden
+              />
               <AtomicIcon
                 equipmentType={service.applianceType}
                 motion="always"

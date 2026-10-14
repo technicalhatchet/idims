@@ -7,7 +7,6 @@ import {
   FaCalendarAlt, FaSearch, FaTools, FaThumbsUp,
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
-import MarketingAmbientBlurBackground from '../components/marketing/MarketingAmbientBlurBackground';
 import { MarketingBookLink, MarketingCallLink } from '../components/marketing/MarketingCta';
 import { MARKETING_PHONE_TEL } from '../constants/marketingSiteContent';
 import ApplianceIcon from '../components/ui/ApplianceIcon';
@@ -67,8 +66,6 @@ export default function Services() {
         <meta name="description" content="Expert appliance repair services in Toledo. Refrigerator, washer, dryer, oven, dishwasher, microwave, freezer, and TV repair." />
       </Head>
 
-      <MarketingAmbientBlurBackground />
-
       {/* HERO SECTION */}
       <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
@@ -120,10 +117,6 @@ export default function Services() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative lg:flex-1 w-full"
             >
-              {/* Glow Effects */}
-              <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/30 blur-[100px]" aria-hidden />
-              <div className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-orange-500/30 blur-[100px]" aria-hidden />
-
               {/* Image Container */}
               <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px]">
                 {!imgError && (

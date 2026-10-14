@@ -20,7 +20,6 @@ import {
 } from '../../components/marketing/MarketingCta';
 import { useState } from 'react';
 import HomeLayout from '../../components/layouts/HomeLayout';
-import MarketingAmbientBlurBackground from '../../components/marketing/MarketingAmbientBlurBackground';
 import AtomicIcon from '../../components/ui/AtomicIcon';
 import { 
   serviceAreas, 
@@ -101,12 +100,6 @@ export default function ServiceAreaPage({ area }) {
         />
         <meta name="keywords" content={`appliance repair ${area.name}, ${area.name} appliance repair, refrigerator repair ${area.name}, washer repair ${area.name}`} />
       </Head>
-
-      <MarketingAmbientBlurBackground
-        backgroundColor="#0B0F1A"
-        cyanBlob="rgba(6, 182, 212, 0.1)"
-        orangeBlob="rgba(249, 115, 22, 0.1)"
-      />
 
       {/* HERO SECTION */}
       <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-20 overflow-hidden">
@@ -235,9 +228,6 @@ export default function ServiceAreaPage({ area }) {
               {/* Other cities: Default icon grid */}
               {area.slug !== 'toledo' && area.slug !== 'maumee' && (
                 <>
-                  <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-cyan-500/20 blur-[80px]" aria-hidden />
-                  <div className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/20 blur-[80px]" aria-hidden />
-
                   <div className="relative grid grid-cols-3 gap-4 max-w-md mx-auto">
                     {[
                       '/icons/appliances/detail-static/french-door-fridge.svg',

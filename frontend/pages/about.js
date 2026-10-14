@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import HomeLayout from '../components/layouts/HomeLayout';
-import MarketingAmbientBlurBackground from '../components/marketing/MarketingAmbientBlurBackground';
 
 export default function About() {
   return (
@@ -9,8 +8,6 @@ export default function About() {
         <title>About Us | Atomic Repair</title>
       </Head>
 
-      <MarketingAmbientBlurBackground />
-      
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4" style={{ color: '#EAF6FF' }}>
