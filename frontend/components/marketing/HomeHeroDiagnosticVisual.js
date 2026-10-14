@@ -385,7 +385,7 @@ export default function HomeHeroDiagnosticVisual() {
         </g>
         <g className="float">
           <image
-            href="/icon-512.png"
+            href="/images/wrenches.webp"
             x="132"
             y="132"
             width="136"
