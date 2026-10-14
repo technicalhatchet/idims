@@ -1,7 +1,7 @@
 import { BRAND_WORDMARK_SRC } from '../../constants/brandAssets';
 
 /**
- * Atomic Repair wordmark — /arneonpano800.webp (800px WebP).
+ * Atomic Repair wordmark — /arneonpano800bluegold.webp (800px WebP).
  */
 export default function AtomicLogo({
   height,
