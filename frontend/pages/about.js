@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import HomeLayout from '../components/layouts/HomeLayout';
+import MarketingAmbientBlurBackground from '../components/marketing/MarketingAmbientBlurBackground';
 
 export default function About() {
   return (
@@ -8,20 +9,7 @@ export default function About() {
         <title>About Us | Atomic Repair</title>
       </Head>
 
-      {/* Background - Atomic Theme */}
-      <div 
-        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
-        style={{ backgroundColor: '#000208' }}
-      >
-        <div 
-          className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px]"
-          style={{ backgroundColor: 'rgba(0, 229, 255, 0.15)' }}
-        />
-        <div 
-          className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px]"
-          style={{ backgroundColor: 'rgba(255, 122, 26, 0.18)' }}
-        />
-      </div>
+      <MarketingAmbientBlurBackground />
       
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-12">

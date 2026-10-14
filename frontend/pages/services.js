@@ -7,6 +7,7 @@ import {
   FaCalendarAlt, FaSearch, FaTools, FaThumbsUp,
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
+import MarketingAmbientBlurBackground from '../components/marketing/MarketingAmbientBlurBackground';
 import { MarketingBookLink, MarketingCallLink } from '../components/marketing/MarketingCta';
 import { MARKETING_PHONE_TEL } from '../constants/marketingSiteContent';
 import ApplianceIcon from '../components/ui/ApplianceIcon';
@@ -66,20 +67,7 @@ export default function Services() {
         <meta name="description" content="Expert appliance repair services in Toledo. Refrigerator, washer, dryer, oven, dishwasher, microwave, freezer, and TV repair." />
       </Head>
 
-      {/* Background - Atomic Theme */}
-      <div 
-        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
-        style={{ backgroundColor: '#000208' }}
-      >
-        <div 
-          className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px]"
-          style={{ backgroundColor: 'rgba(0, 229, 255, 0.15)' }}
-        />
-        <div 
-          className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px]"
-          style={{ backgroundColor: 'rgba(255, 122, 26, 0.18)' }}
-        />
-      </div>
+      <MarketingAmbientBlurBackground />
 
       {/* HERO SECTION */}
       <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden">
@@ -133,8 +121,8 @@ export default function Services() {
               className="relative lg:flex-1 w-full"
             >
               {/* Glow Effects */}
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/30 blur-[100px]" />
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-orange-500/30 blur-[100px]" />
+              <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/30 blur-[100px]" aria-hidden />
+              <div className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-orange-500/30 blur-[100px]" aria-hidden />
 
               {/* Image Container */}
               <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px]">

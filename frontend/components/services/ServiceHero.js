@@ -16,8 +16,14 @@ export default function ServiceHero({ service }) {
   return (
     <section className="relative pt-28 pb-16 lg:pt-32 lg:pb-20 overflow-hidden">
       {/* Background Glows */}
-      <div className="absolute left-0 top-1/3 w-[500px] h-[500px] bg-cyan-500/20 blur-[150px] -z-10" />
-      <div className="absolute right-0 bottom-0 w-[400px] h-[400px] bg-orange-500/15 blur-[120px] -z-10" />
+      <div
+        className="pointer-events-none absolute left-0 top-1/3 w-[500px] h-[500px] bg-cyan-500/20 blur-[150px] -z-10"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute right-0 bottom-0 w-[400px] h-[400px] bg-orange-500/15 blur-[120px] -z-10"
+        aria-hidden
+      />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Breadcrumb */}

@@ -8,6 +8,7 @@ import {
   FaAward, FaUserCheck, FaStar
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
+import MarketingAmbientBlurBackground from '../components/marketing/MarketingAmbientBlurBackground';
 import {
   MarketingBookLink,
   MarketingPhoneIcon,
@@ -133,20 +134,7 @@ export default function Pricing() {
         <meta name="description" content="Transparent appliance repair pricing in Toledo. No hidden fees, upfront quotes, and warranty included. See our diagnostic, repair, and priority service rates." />
       </Head>
 
-      {/* Background - Atomic Theme */}
-      <div 
-        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
-        style={{ backgroundColor: '#000208' }}
-      >
-        <div 
-          className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px]"
-          style={{ backgroundColor: 'rgba(0, 229, 255, 0.15)' }}
-        />
-        <div 
-          className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px]"
-          style={{ backgroundColor: 'rgba(255, 122, 26, 0.18)' }}
-        />
-      </div>
+      <MarketingAmbientBlurBackground />
 
       {/* HERO SECTION */}
       <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-20 overflow-hidden">
@@ -199,8 +187,8 @@ export default function Pricing() {
               className="relative"
             >
               {/* Glow Effects */}
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-cyan-500/20 blur-[80px]" />
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/20 blur-[80px]" />
+              <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-cyan-500/20 blur-[80px]" aria-hidden />
+              <div className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/20 blur-[80px]" aria-hidden />
 
               <div className="relative flex items-center gap-8">
                 {/* Appliance Image Placeholder */}

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FaMapMarkerAlt, FaArrowRight } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
+import MarketingAmbientBlurBackground from '../components/marketing/MarketingAmbientBlurBackground';
 import { MarketingBookLink, MarketingCallLink } from '../components/marketing/MarketingCta';
 import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../constants/marketingSiteContent';
 import CoverageRadar from '../components/coverage/CoverageRadar';
@@ -53,35 +54,13 @@ export default function ServiceAreaIndex() {
         />
       </Head>
 
-      {/* Background - inline style to override HomeLayout's bg */}
-      <div 
-        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
-        style={{ 
-          backgroundColor: t.bg,
-          transition: 'background-color 500ms ease'
-        }}
-      >
-        {t.showGlows && (
-          <>
-            <div 
-              className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px] transition-all duration-500"
-              style={{ 
-                backgroundColor: theme === 'atomic' 
-                  ? 'rgba(0, 229, 255, 0.15)' 
-                  : 'rgba(6, 182, 212, 0.1)' 
-              }}
-            />
-            <div 
-              className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px] transition-all duration-500"
-              style={{ 
-                backgroundColor: theme === 'atomic' 
-                  ? 'rgba(255, 122, 26, 0.18)' 
-                  : 'rgba(249, 115, 22, 0.1)' 
-              }}
-            />
-          </>
-        )}
-      </div>
+      <MarketingAmbientBlurBackground
+        backgroundColor={t.bg}
+        showBlobs={t.showGlows}
+        cyanBlob={theme === 'atomic' ? 'rgba(0, 229, 255, 0.15)' : 'rgba(6, 182, 212, 0.1)'}
+        orangeBlob={theme === 'atomic' ? 'rgba(255, 122, 26, 0.18)' : 'rgba(249, 115, 22, 0.1)'}
+        style={{ transition: 'background-color 500ms ease' }}
+      />
 
       {/* HERO */}
       <section className="relative pt-28 pb-16 lg:pt-32 lg:pb-20">
