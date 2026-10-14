@@ -8,6 +8,7 @@ import {
   FaCheckCircle,
 } from 'react-icons/fa';
 import HomeLayout from '../../components/layouts/HomeLayout';
+import MarketingAmbientBlurBackground from '../../components/marketing/MarketingAmbientBlurBackground';
 import ServiceHero from '../../components/services/ServiceHero';
 import IssueCard from '../../components/services/IssueCard';
 import FeatureCard from '../../components/services/FeatureCard';
@@ -104,20 +105,7 @@ export default function ServiceDetailPage({ service }) {
         <meta name="keywords" content={`${service.title.toLowerCase()}, ${service.applianceType} repair, Toledo, appliance repair`} />
       </Head>
 
-      {/* Background - Atomic Theme */}
-      <div 
-        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
-        style={{ backgroundColor: '#000208' }}
-      >
-        <div 
-          className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px]"
-          style={{ backgroundColor: 'rgba(0, 229, 255, 0.15)' }}
-        />
-        <div 
-          className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px]"
-          style={{ backgroundColor: 'rgba(255, 122, 26, 0.18)' }}
-        />
-      </div>
+      <MarketingAmbientBlurBackground />
 
       {/* HERO SECTION */}
       <ServiceHero service={service} />

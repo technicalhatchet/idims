@@ -20,6 +20,7 @@ import {
 } from '../../components/marketing/MarketingCta';
 import { useState } from 'react';
 import HomeLayout from '../../components/layouts/HomeLayout';
+import MarketingAmbientBlurBackground from '../../components/marketing/MarketingAmbientBlurBackground';
 import { 
   serviceAreas, 
   getServiceArea, 
@@ -100,11 +101,11 @@ export default function ServiceAreaPage({ area }) {
         <meta name="keywords" content={`appliance repair ${area.name}, ${area.name} appliance repair, refrigerator repair ${area.name}, washer repair ${area.name}`} />
       </Head>
 
-      {/* Background */}
-      <div className="fixed inset-0 -z-50 bg-[#0B0F1A] overflow-hidden">
-        <div className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px] bg-cyan-500/10" />
-        <div className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px] bg-orange-500/10" />
-      </div>
+      <MarketingAmbientBlurBackground
+        backgroundColor="#0B0F1A"
+        cyanBlob="rgba(6, 182, 212, 0.1)"
+        orangeBlob="rgba(249, 115, 22, 0.1)"
+      />
 
       {/* HERO SECTION */}
       <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-20 overflow-hidden">
@@ -233,8 +234,8 @@ export default function ServiceAreaPage({ area }) {
               {/* Other cities: Default icon grid */}
               {area.slug !== 'toledo' && area.slug !== 'maumee' && (
                 <>
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-cyan-500/20 blur-[80px]" />
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/20 blur-[80px]" />
+                  <div className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-cyan-500/20 blur-[80px]" aria-hidden />
+                  <div className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/20 blur-[80px]" aria-hidden />
 
                   <div className="relative grid grid-cols-3 gap-4 max-w-md mx-auto">
                     {[

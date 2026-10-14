@@ -73,7 +73,9 @@ export default function HomeLayout({
         />
       </Head>
 
-      <Header />
+      <div className="relative z-[60]">
+        <Header />
+      </div>
 
       <main className="flex-grow relative z-10 pb-20 md:pb-0">
         {children}
