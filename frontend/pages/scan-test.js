@@ -94,7 +94,7 @@ export default function ScanTest() {
           <div style={scanStyle} />
           <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
             <img
-              src={logo === 'icon' ? '/icon-512.png' : '/arneonpano800bluegold.webp'}
+              src={logo === 'icon' ? '/icon-512.png' : '/arneonpano800.webp'}
               alt="Logo"
               style={{ height: logo === 'icon' ? 80 : 48, width: 'auto', objectFit: 'contain', filter: `drop-shadow(0 0 12px ${c.accent}66)` }}
             />

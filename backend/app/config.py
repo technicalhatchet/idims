@@ -48,13 +48,13 @@ def _default_frontend_url() -> str:
 def resolve_email_logo_url() -> str:
     """
     Logo URL for transactional email (must be publicly reachable — not localhost).
-    Set EMAIL_LOGO_URL or LOGO_URL, or we use PUBLIC_SITE_URL/arneonpano800bluegold.webp.
+    Set EMAIL_LOGO_URL or LOGO_URL, or we use PUBLIC_SITE_URL/arneonpano800.webp.
     """
     explicit = _url_from_env("EMAIL_LOGO_URL", "LOGO_URL")
     if explicit and "localhost" not in explicit and "127.0.0.1" not in explicit:
         return explicit
     site = _url_from_env("PUBLIC_SITE_URL") or "https://atomicrepair419.com"
-    return f"{site.rstrip('/')}/arneonpano800bluegold.webp"
+    return f"{site.rstrip('/')}/arneonpano800.webp"
 
 
 def _default_backend_url() -> str:
@@ -240,7 +240,7 @@ class Settings(BaseModel):
     CONTACT_EMAIL: str = Field(default_factory=lambda: os.getenv("CONTACT_EMAIL", ""))
     LOGO_URL: str = Field(
         default_factory=lambda: os.getenv("LOGO_URL")
-        or f"{_default_frontend_url()}/arneonpano800bluegold.webp"
+        or f"{_default_frontend_url()}/arneonpano800.webp"
     )
     DEFAULT_FROM_EMAIL: str = Field(default_factory=lambda: os.getenv("MAIL_FROM", ""))
     
