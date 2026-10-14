@@ -10,6 +10,7 @@ import {
 import HomeLayout from '../components/layouts/HomeLayout';
 import MarketingAmbientBlurBackground from '../components/marketing/MarketingAmbientBlurBackground';
 import NeonIcon from '../components/ui/NeonIcon';
+import AtomicIcon from '../components/ui/AtomicIcon';
 import SecretServiceMode from '../components/ui/SecretServiceMode';
 import { getBookingSymptomsForAppliance } from '../constants/applianceSymptoms';
 import { MarketingPhoneIcon } from '../components/marketing/MarketingCta';
@@ -678,10 +679,12 @@ export default function BookService() {
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
-                            <NeonIcon
-                              name={appliance.icon}
-                              className="w-10 h-10 sm:w-12 sm:h-12"
-                              variant={appliance.color || 'cyan'}
+                            <AtomicIcon
+                              equipmentType={appliance.id}
+                              motion="active"
+                              active={formData.appliance === appliance.id}
+                              decorative
+                              className="w-14 h-14 sm:w-16 sm:h-16 -my-1"
                             />
                             <span className="text-white font-medium text-xs sm:text-sm">{appliance.name}</span>
                             {formData.appliance === appliance.id && (

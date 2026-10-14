@@ -1,5 +1,6 @@
 import React from 'react';
 import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
+import AtomicIcon, { tierForClassName } from './AtomicIcon';
 
 const APPLIANCE_ICONS = {
   refrigerator:   { color: 'cyan',   svg: (<><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="6" y1="10" x2="18" y2="10"/><line x1="10" y1="5" x2="10" y2="8"/><line x1="10" y1="13" x2="10" y2="16"/></>) },
@@ -32,7 +33,20 @@ export default function ApplianceIcon({
   strokeWidth = 1.5,
   glow = 'default',
   variant = 'signature',
+  tier,
 }) {
+  // Signature look → Atomic neon SVG set (small set for rows/tables, detail set at 56px+).
+  // The muted "professional" variant (Solomon) keeps the original line icons below.
+  if (variant !== 'professional') {
+    return (
+      <AtomicIcon
+        equipmentType={equipmentType}
+        equipmentSubtype={equipmentSubtype}
+        tier={tier || tierForClassName(className)}
+        className={className}
+      />
+    );
+  }
   const key = getEquipmentIconKey(equipmentType, equipmentSubtype);
   const match = APPLIANCE_ICONS[key] || APPLIANCE_ICONS.default;
   const isCyan = match.color === 'cyan';

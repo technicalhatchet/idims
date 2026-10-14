@@ -4,7 +4,7 @@ export const services = [
     title: "Refrigerator Repair",
     applianceType: "refrigerator",
     description: "Fast, reliable refrigerator repair to keep your food fresh and your home running smoothly.",
-    icon: "/applianceicons/neon/neonfridge.png",
+    icon: "/icons/appliances/detail-static/french-door-fridge.svg",
     heroImage: "/images/fridge-hero.png",
     commonIssues: [
       {
@@ -75,7 +75,7 @@ export const services = [
     title: "Washer Repair",
     applianceType: "washer",
     description: "Expert washing machine repair to get your laundry back on track quickly and affordably.",
-    icon: "/applianceicons/neon/neonwasher.png",
+    icon: "/icons/appliances/detail-static/washer.svg",
     heroImage: "/images/washer-hero.png",
     commonIssues: [
       {
@@ -146,7 +146,7 @@ export const services = [
     title: "Dryer Repair",
     applianceType: "dryer",
     description: "Professional dryer repair services to restore heat and efficiency to your appliance.",
-    icon: "/applianceicons/neon/neondryer.png",
+    icon: "/icons/appliances/detail-static/dryer.svg",
     heroImage: "/images/dryer-hero.png",
     commonIssues: [
       {
@@ -217,7 +217,7 @@ export const services = [
     title: "Oven & Range Repair",
     applianceType: "oven",
     description: "Expert oven and range repair to get you back to cooking delicious meals.",
-    icon: "/applianceicons/neon/neonrange.png",
+    icon: "/icons/appliances/detail-static/range.svg",
     heroImage: "/images/oven-hero.png",
     commonIssues: [
       {
@@ -288,7 +288,7 @@ export const services = [
     title: "Dishwasher Repair",
     applianceType: "dishwasher",
     description: "Professional dishwasher repair to get your dishes sparkling clean again.",
-    icon: "/applianceicons/neon/neondishwasher.png",
+    icon: "/icons/appliances/detail-static/dishwasher.svg",
     heroImage: "/images/dishwasher-hero.png",
     commonIssues: [
       {
@@ -359,7 +359,7 @@ export const services = [
     title: "Microwave Repair",
     applianceType: "microwave",
     description: "Fast microwave repair to restore convenience to your kitchen.",
-    icon: "/applianceicons/neon/neonmicrowave.png",
+    icon: "/icons/appliances/detail-static/microwave.svg",
     heroImage: "/images/microwave-hero.png",
     commonIssues: [
       {
@@ -430,7 +430,7 @@ export const services = [
     title: "Freezer Repair",
     applianceType: "freezer",
     description: "Expert freezer repair to protect your frozen goods and save you money.",
-    icon: "/applianceicons/neon/neonchestfreezer.png",
+    icon: "/icons/appliances/detail-static/chest-freezer.svg",
     heroImage: "/images/freezer-hero.png",
     commonIssues: [
       {
@@ -501,7 +501,7 @@ export const services = [
     title: "TV Repair",
     applianceType: "tv",
     description: "Professional TV repair services for all major brands and screen types.",
-    icon: "/applianceicons/neon/neonorangecurvedtv.png",
+    icon: "/icons/appliances/detail-static/tv.svg",
     heroImage: "/images/tv-hero.png",
     commonIssues: [
       {

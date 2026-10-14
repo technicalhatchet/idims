@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 144 144" width="48" height="48" role="img" aria-label="Over-the-range microwave repair">
+  <title>Over-the-range microwave repair</title>
+  <defs>
+    <filter id="microwave-sm-halo" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4"/></filter>
+    <filter id="microwave-sm-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.6"/></filter>
+    <g id="microwave-sm-c" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="26" width="116" height="76" rx="9"/><rect x="18" y="40" width="66" height="48" rx="6"/><path d="M94 26 V102"/></g>
+    <g id="microwave-sm-o" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="101" y="42" width="14" height="9" rx="2"/><path d="M28 57 q5 -6 10 0 t10 0 t10 0 t10 0 M28 73 q5 -6 10 0 t10 0 t10 0 t10 0"/></g>
+  </defs>
+  <g>
+  <use href="#microwave-sm-c" stroke="#00E5FF" stroke-width="11" opacity=".4" filter="url(#microwave-sm-halo)"/>
+  <use href="#microwave-sm-o" stroke="#FF7A1A" stroke-width="11" opacity=".45" filter="url(#microwave-sm-halo)"/>
+  <use href="#microwave-sm-c" stroke="#00E5FF" stroke-width="8" opacity=".9" filter="url(#microwave-sm-glow)"/>
+  <use href="#microwave-sm-o" stroke="#FF7A1A" stroke-width="8" opacity=".9" filter="url(#microwave-sm-glow)"/>
+  <use href="#microwave-sm-c" stroke="#00E5FF" stroke-width="5.5"/>
+  <use href="#microwave-sm-o" stroke="#FF7A1A" stroke-width="5.5"/>
+  <use href="#microwave-sm-c" stroke="#D9FDFF" stroke-width="1.8"/>
+  <use href="#microwave-sm-o" stroke="#FFE6CC" stroke-width="1.8"/>
+  </g>
+</svg>

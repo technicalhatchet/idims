@@ -4,6 +4,7 @@ import HomeLayout from '../components/layouts/HomeLayout';
 import HomeHeroDiagnosticVisual from '../components/marketing/HomeHeroDiagnosticVisual';
 import ScrollReveal from '../components/marketing/ScrollReveal';
 import ApplianceIcon from '../components/ui/ApplianceIcon';
+import AtomicIcon from '../components/ui/AtomicIcon';
 import { motion } from 'framer-motion';
 import { FaClock, FaCheckCircle, FaArrowRight, FaDollarSign } from 'react-icons/fa';
 import { MARKETING_SERVICES } from '../constants/marketingSiteContent';
@@ -164,20 +165,20 @@ export default function Home() {
                   />
 
                   <div className="relative min-w-0">
-                    <div className="relative w-16 h-16 mb-4">
+                    <div className="relative w-20 h-20 mb-3 -ml-2">
                       <div
-                        className={`absolute inset-0 rounded-xl blur-xl transition-colors ${
+                        className={`absolute inset-2 rounded-full blur-xl transition-colors ${
                           accentCyan
                             ? 'bg-cyan-500/10 group-hover:bg-cyan-500/20'
                             : 'bg-orange-500/10 group-hover:bg-orange-500/20'
                         }`}
                       />
-                      <div className="relative w-full h-full rounded-xl bg-[#141922] border border-white/5 flex items-center justify-center">
-                        <ApplianceIcon
-                          equipmentType={service.equipmentType}
-                          className="w-11 h-11"
-                        />
-                      </div>
+                      <AtomicIcon
+                        equipmentType={service.equipmentType}
+                        motion="hover"
+                        decorative
+                        className="relative w-20 h-20"
+                      />
                     </div>
 
                     <h3 className="text-base xl:text-lg font-semibold text-white leading-snug mb-3 [text-wrap:balance]">
