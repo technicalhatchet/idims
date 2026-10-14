@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="18 22 92 92" width="96" height="96" role="img" aria-label="Loading">
+  <title>Loading</title>
+  <defs>
+    <filter id="ld-washer-halo" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="ld-washer-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.8"/></filter>
+    <g id="ld-washer-c" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="64" cy="68" r="32"/><circle cx="64" cy="68" r="22"/></g>
+    <g id="ld-washer-o" fill="none" stroke-linecap="round" stroke-linejoin="round"><g><animateTransform attributeName="transform" type="translate" values="-2.5 -0.8;2.5 0.8;-2.5 -0.8" calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" dur="1s" repeatCount="indefinite"/><path d="M50 72 q3.5 -4.5 7 0 t7 0 t7 0 t7 0"/></g><g opacity="0"><animateTransform attributeName="transform" type="translate" values="0 0;0 -12" dur="1.4s" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1.4s" begin="0s" repeatCount="indefinite"/><circle cx="58" cy="66" r="2.4"/></g><g opacity="0"><animateTransform attributeName="transform" type="translate" values="0 0;0 -12" dur="1.4s" begin="0.7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1.4s" begin="0.7s" repeatCount="indefinite"/><circle cx="70" cy="66" r="2"/></g></g>
+  </defs>
+  <g>
+  <use href="#ld-washer-c" stroke="#00E5FF" stroke-width="9" opacity=".4" filter="url(#ld-washer-halo)"/>
+  <use href="#ld-washer-o" stroke="#FF7A1A" stroke-width="9" opacity=".45" filter="url(#ld-washer-halo)"/>
+  <use href="#ld-washer-c" stroke="#00E5FF" stroke-width="6" opacity=".9" filter="url(#ld-washer-glow)"/>
+  <use href="#ld-washer-o" stroke="#FF7A1A" stroke-width="6" opacity=".9" filter="url(#ld-washer-glow)"/>
+  <use href="#ld-washer-c" stroke="#00E5FF" stroke-width="3.4"/>
+  <use href="#ld-washer-o" stroke="#FF7A1A" stroke-width="3.4"/>
+  <use href="#ld-washer-c" stroke="#D9FDFF" stroke-width="1.1"/>
+  <use href="#ld-washer-o" stroke="#FFE6CC" stroke-width="1.1"/>
+  </g>
+</svg>

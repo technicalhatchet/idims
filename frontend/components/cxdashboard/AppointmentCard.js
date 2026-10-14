@@ -12,7 +12,7 @@ export default function AppointmentCard({ appointment }) {
     service = 'Refrigerator Repair',
     address = '123 Main St.',
     city = 'Toledo, OH 43604',
-    icon = '/applianceicons/neon/neonfridge.png'
+    icon = 'refrigerator'
   } = appointment || {};
 
   const statusColors = {

@@ -20,6 +20,7 @@ import {
 } from '../../components/marketing/MarketingCta';
 import { useState } from 'react';
 import HomeLayout from '../../components/layouts/HomeLayout';
+import AtomicIcon from '../../components/ui/AtomicIcon';
 import { 
   serviceAreas, 
   getServiceArea, 
@@ -209,12 +210,12 @@ export default function ServiceAreaPage({ area }) {
                   {/* Icon grid on top */}
                   <div className="relative grid grid-cols-3 gap-4 max-w-md mx-auto p-6">
                     {[
-                      '/applianceicons/neon/neonfridge.png',
-                      '/applianceicons/neon/neonwasher.png',
-                      '/applianceicons/neon/neonrange.png',
-                      '/applianceicons/neon/neondishwasher.png',
-                      '/applianceicons/neon/neonmicrowave.png',
-                      '/applianceicons/neon/neonorangecurvedtv.png'
+                      '/icons/appliances/detail-static/french-door-fridge.svg',
+                      '/icons/appliances/detail-static/washer.svg',
+                      '/icons/appliances/detail-static/range.svg',
+                      '/icons/appliances/detail-static/dishwasher.svg',
+                      '/icons/appliances/detail-static/microwave.svg',
+                      '/icons/appliances/detail-static/tv.svg'
                     ].map((icon, i) => (
                       <motion.div
                         key={i}
@@ -238,12 +239,12 @@ export default function ServiceAreaPage({ area }) {
 
                   <div className="relative grid grid-cols-3 gap-4 max-w-md mx-auto">
                     {[
-                      '/applianceicons/neon/neonfridge.png',
-                      '/applianceicons/neon/neonwasher.png',
-                      '/applianceicons/neon/neonrange.png',
-                      '/applianceicons/neon/neondishwasher.png',
-                      '/applianceicons/neon/neonmicrowave.png',
-                      '/applianceicons/neon/neonorangecurvedtv.png'
+                      '/icons/appliances/detail-static/french-door-fridge.svg',
+                      '/icons/appliances/detail-static/washer.svg',
+                      '/icons/appliances/detail-static/range.svg',
+                      '/icons/appliances/detail-static/dishwasher.svg',
+                      '/icons/appliances/detail-static/microwave.svg',
+                      '/icons/appliances/detail-static/tv.svg'
                     ].map((icon, i) => (
                       <motion.div
                         key={i}
@@ -375,8 +376,13 @@ export default function ServiceAreaPage({ area }) {
               >
                 <Link href={`/services/${service.slug}`}>
                   <div className="p-5 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/30 transition-all h-full">
-                    <div className="w-14 h-14 relative mb-4">
-                      <Image src={service.icon} alt={service.title} fill className="object-contain" />
+                    <div className="w-16 h-16 relative mb-3 -ml-1">
+                      <AtomicIcon
+                        name={service.icon?.split('/').pop()?.replace('.svg', '')}
+                        motion="hover"
+                        decorative
+                        className="w-16 h-16"
+                      />
                     </div>
                     <h3 className="text-white font-semibold text-sm mb-2 group-hover:text-cyan-400 transition-colors">
                       {service.title}

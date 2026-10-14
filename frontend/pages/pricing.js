@@ -94,12 +94,12 @@ const PRICE_FACTORS = [
 ];
 
 const REPAIR_COSTS = [
-  { service: 'Refrigerator Repair', icon: '/applianceicons/neon/neonfridge.png', range: '$180 – $400' },
-  { service: 'Washer Repair', icon: '/applianceicons/neon/neonwasher.png', range: '$150 – $350' },
-  { service: 'Dryer Repair', icon: '/applianceicons/neon/neondryer.png', range: '$140 – $300' },
-  { service: 'Oven & Range Repair', icon: '/applianceicons/neon/neonrange.png', range: '$160 – $380' },
-  { service: 'Dishwasher Repair', icon: '/applianceicons/neon/neondishwasher.png', range: '$140 – $320' },
-  { service: 'Microwave Repair', icon: '/applianceicons/neon/neonmicrowave.png', range: '$120 – $250' },
+  { service: 'Refrigerator Repair', icon: '/icons/appliances/small/french-door-fridge.svg', range: '$180 – $400' },
+  { service: 'Washer Repair', icon: '/icons/appliances/small/washer.svg', range: '$150 – $350' },
+  { service: 'Dryer Repair', icon: '/icons/appliances/small/dryer.svg', range: '$140 – $300' },
+  { service: 'Oven & Range Repair', icon: '/icons/appliances/small/range.svg', range: '$160 – $380' },
+  { service: 'Dishwasher Repair', icon: '/icons/appliances/small/dishwasher.svg', range: '$140 – $320' },
+  { service: 'Microwave Repair', icon: '/icons/appliances/small/microwave.svg', range: '$120 – $250' },
 ];
 
 const TRUST_FEATURES = [
@@ -206,7 +206,7 @@ export default function Pricing() {
                 {/* Appliance Image Placeholder */}
                 <div className="flex-1 relative h-[300px] lg:h-[350px]">
                   <div className="grid grid-cols-2 gap-4 h-full">
-                    {['/applianceicons/neon/neonfridge.png', '/applianceicons/neon/neonwasher.png', '/applianceicons/neon/neonrange.png', '/applianceicons/neon/neondishwasher.png'].map((icon, i) => (
+                    {['/icons/appliances/detail-static/french-door-fridge.svg', '/icons/appliances/detail-static/washer.svg', '/icons/appliances/detail-static/range.svg', '/icons/appliances/detail-static/dishwasher.svg'].map((icon, i) => (
                       <div key={i} className="relative flex items-center justify-center">
                         <Image src={icon} alt="" width={60} height={60} className="object-contain opacity-60" />
                       </div>

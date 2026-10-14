@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 144 144" width="48" height="48" role="img" aria-label="Oven and range repair">
+  <title>Oven and range repair</title>
+  <defs>
+    <filter id="range-sm-halo" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4"/></filter>
+    <filter id="range-sm-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.6"/></filter>
+    <g id="range-sm-c" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="20" y="22" width="88" height="98" rx="8"/><path d="M20 46 H108"/><rect x="34" y="62" width="60" height="42" rx="6"/></g>
+    <g id="range-sm-o" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="36" cy="34" r="4.5"/><circle cx="54" cy="34" r="4.5"/><circle cx="74" cy="34" r="4.5"/><circle cx="92" cy="34" r="4.5"/><path d="M44 92 l5 -7 5 7 5 -7 5 7 5 -7 5 7 5 -7 5 7"/></g>
+  </defs>
+  <g>
+  <use href="#range-sm-c" stroke="#00E5FF" stroke-width="11" opacity=".4" filter="url(#range-sm-halo)"/>
+  <use href="#range-sm-o" stroke="#FF7A1A" stroke-width="11" opacity=".45" filter="url(#range-sm-halo)"/>
+  <use href="#range-sm-c" stroke="#00E5FF" stroke-width="8" opacity=".9" filter="url(#range-sm-glow)"/>
+  <use href="#range-sm-o" stroke="#FF7A1A" stroke-width="8" opacity=".9" filter="url(#range-sm-glow)"/>
+  <use href="#range-sm-c" stroke="#00E5FF" stroke-width="5.5"/>
+  <use href="#range-sm-o" stroke="#FF7A1A" stroke-width="5.5"/>
+  <use href="#range-sm-c" stroke="#D9FDFF" stroke-width="1.8"/>
+  <use href="#range-sm-o" stroke="#FFE6CC" stroke-width="1.8"/>
+  </g>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 156 156" width="256" height="256" role="img" aria-label="Other appliance repair">
+  <title>Other appliance repair</title>
+  <defs>
+    <filter id="other-halo" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5.5"/></filter>
+    <filter id="other-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.8"/></filter>
+    <g id="other-c" fill="none" stroke-linecap="round" stroke-linejoin="round"><g><animateTransform attributeName="transform" type="rotate" values="-10 64 64;10 64 64;-10 64 64" calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" dur="2.4s" repeatCount="indefinite"/><path d="M 76.62 37.98 a 4.6 4.6 0 0 0 0 6.44 l 7.36 7.36 a 4.6 4.6 0 0 0 6.44 0 l 17.34 -17.34 a 27.6 27.6 0 0 1 -36.52 36.52 l -31.79 31.79 a 9.75 9.75 0 0 1 -13.8 -13.8 l 31.79 -31.79 a 27.6 27.6 0 0 1 36.52 -36.52 l -17.3 17.3 z"/></g></g>
+    <g id="other-o" fill="none" stroke-linecap="round" stroke-linejoin="round"><g opacity="0.25"><animate attributeName="opacity" values="0.25;1;0.25" calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" dur="1.2s" begin="0s" repeatCount="indefinite"/><path d="M30 14 V38 M18 26 H42 M22.5 18.5 l15 15 M37.5 18.5 l-15 15"/></g></g>
+  </defs>
+  <g><animate attributeName="opacity" values="1;1;.45;1;.7;1;1" keyTimes="0;.86;.87;.885;.9;.92;1" dur="8.1s" repeatCount="indefinite"/>
+  <use href="#other-c" stroke="#00E5FF" stroke-width="8" opacity=".4" filter="url(#other-halo)"/>
+  <use href="#other-o" stroke="#FF7A1A" stroke-width="8" opacity=".45" filter="url(#other-halo)"/>
+  <use href="#other-c" stroke="#00E5FF" stroke-width="5" opacity=".9" filter="url(#other-glow)"/>
+  <use href="#other-o" stroke="#FF7A1A" stroke-width="5" opacity=".9" filter="url(#other-glow)"/>
+  <use href="#other-c" stroke="#00E5FF" stroke-width="2.7"/>
+  <use href="#other-o" stroke="#FF7A1A" stroke-width="2.7"/>
+  <use href="#other-c" stroke="#D9FDFF" stroke-width="0.9"/>
+  <use href="#other-o" stroke="#FFE6CC" stroke-width="0.9"/>
+  </g>
+</svg>

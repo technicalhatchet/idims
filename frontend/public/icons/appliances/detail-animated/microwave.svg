@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 156 156" width="256" height="256" role="img" aria-label="Over-the-range microwave repair">
+  <title>Over-the-range microwave repair</title>
+  <defs>
+    <filter id="microwave-halo" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5.5"/></filter>
+    <filter id="microwave-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.8"/></filter>
+    <g id="microwave-c" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="30" width="112" height="60" rx="6"/>
+    <path d="M8 40 H120"/>
+    <path d="M22 35 h6 M34 35 h6 M46 35 h6 M58 35 h6 M70 35 h6 M82 35 h6 M94 35 h6 M106 35 h6"/>
+    <rect x="16" y="48" width="64" height="34" rx="4"/>
+    <path d="M88 48 V82"/></g>
+    <g id="microwave-o" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="96" y="48" width="16" height="7" rx="1.5"/>
+    <path d="M100 63 h0.01 M108 63 h0.01 M100 70 h0.01 M108 70 h0.01 M100 77 h0.01 M108 77 h0.01"/>
+    <g><animateTransform attributeName="transform" type="translate" values="-3 0;3 0;-3 0" calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" dur="1.2s" repeatCount="indefinite"/><path d="M27 58 q4.5 -4.5 9 0 t9 0 t9 0 t9 0 t9 0 M27 66 q4.5 -4.5 9 0 t9 0 t9 0 t9 0 t9 0 M27 74 q4.5 -4.5 9 0 t9 0 t9 0 t9 0 t9 0"/></g>
+    <path d="M22 93 h12 M94 93 h12 M21 99 l-4 9 M28 100 v10 M35 99 l4 9 M93 99 l-4 9 M100 100 v10 M107 99 l4 9"/></g>
+  </defs>
+  <g><animate attributeName="opacity" values="1;1;.45;1;.7;1;1" keyTimes="0;.86;.87;.885;.9;.92;1" dur="8.0s" repeatCount="indefinite"/>
+  <use href="#microwave-c" stroke="#00E5FF" stroke-width="8" opacity=".4" filter="url(#microwave-halo)"/>
+  <use href="#microwave-o" stroke="#FF7A1A" stroke-width="8" opacity=".45" filter="url(#microwave-halo)"/>
+  <use href="#microwave-c" stroke="#00E5FF" stroke-width="5" opacity=".9" filter="url(#microwave-glow)"/>
+  <use href="#microwave-o" stroke="#FF7A1A" stroke-width="5" opacity=".9" filter="url(#microwave-glow)"/>
+  <use href="#microwave-c" stroke="#00E5FF" stroke-width="2.7"/>
+  <use href="#microwave-o" stroke="#FF7A1A" stroke-width="2.7"/>
+  <use href="#microwave-c" stroke="#D9FDFF" stroke-width="0.9"/>
+  <use href="#microwave-o" stroke="#FFE6CC" stroke-width="0.9"/>
+  </g>
+</svg>
