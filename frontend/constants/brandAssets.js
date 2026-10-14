@@ -1,5 +1,5 @@
 /** Public marketing / app brand paths (files live in frontend/public). */
-export const BRAND_WORDMARK_SRC = '/arneonpano800.webp';
+export const BRAND_WORDMARK_SRC = '/arneonpano800bluegold.webp';
 export const BRAND_ICON_SRC = '/icon-512.png';
 export const BRAND_SOCIAL_SHARE_SRC = '/social-share-1200x630.jpg';
 

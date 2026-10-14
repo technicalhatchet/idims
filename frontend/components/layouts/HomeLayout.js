@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Header from '../navigation/Header';
 import Footer from '../navigation/Footer';
 import AtomicGlowBackground from './AtomicGlowBackground';
+import MarketingMobileActionBar from '../marketing/MarketingMobileActionBar';
 import {
   BRAND_ICON_SRC,
   BRAND_SOCIAL_SHARE_SRC,
@@ -74,10 +75,11 @@ export default function HomeLayout({
 
       <Header />
 
-      <main className="flex-grow relative z-10">
+      <main className="flex-grow relative z-10 pb-20 md:pb-0">
         {children}
       </main>
 
+      <MarketingMobileActionBar />
       <Footer />
     </div>
   );

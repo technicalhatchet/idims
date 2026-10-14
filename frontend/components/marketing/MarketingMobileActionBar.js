@@ -25,7 +25,7 @@ export default function MarketingMobileActionBar() {
       <div className="grid grid-cols-2 gap-2 p-3 max-w-lg mx-auto">
         <a
           href={`tel:${MARKETING_PHONE_TEL}`}
-          className="flex items-center justify-center gap-2 py-3 rounded-lg font-semibold text-white border border-white/20"
+          className="flex items-center justify-center gap-2 py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-cyan-500 to-cyan-600 shadow-[0_0_20px_rgba(34,211,238,0.25)] active:from-cyan-400 active:to-cyan-500"
         >
           <FaPhone className="w-4 h-4" />
           Call
@@ -33,8 +33,7 @@ export default function MarketingMobileActionBar() {
         <Link
           href="/book"
           prefetch={false}
-          className="flex items-center justify-center py-3 rounded-lg font-semibold text-white"
-          style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
+          className="flex items-center justify-center py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-orange-500 to-orange-600 shadow-[0_0_20px_rgba(249,115,22,0.35)] active:from-orange-400 active:to-orange-500"
         >
           Book
         </Link>
