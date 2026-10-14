@@ -33,7 +33,7 @@ export default function ScanTest() {
   const [speed, setSpeed]     = useState('medium');
   const [width, setWidth]     = useState(80);
   const [opacity, setOpacity] = useState(100);
-  const [logo, setLogo]       = useState('atomwrenches');
+  const [logo, setLogo]       = useState('icon');
   const [gridOn, setGridOn]   = useState(true);
   const [paused, setPaused]   = useState(false);
 
@@ -94,9 +94,9 @@ export default function ScanTest() {
           <div style={scanStyle} />
           <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
             <img
-              src={logo === 'atomwrenches' ? '/atomwrenches.png' : '/arpano.png'}
+              src={logo === 'icon' ? '/icon-512.png' : '/arneonpano800.webp'}
               alt="Logo"
-              style={{ height: logo === 'atomwrenches' ? 80 : 48, width: 'auto', objectFit: 'contain', filter: `drop-shadow(0 0 12px ${c.accent}66)` }}
+              style={{ height: logo === 'icon' ? 80 : 48, width: 'auto', objectFit: 'contain', filter: `drop-shadow(0 0 12px ${c.accent}66)` }}
             />
             <p style={{ fontSize: 10, color: '#555', letterSpacing: 2, margin: 0 }}>ATOMIC REPAIR 419</p>
           </div>
@@ -132,7 +132,7 @@ export default function ScanTest() {
           <div>
             <p style={{ fontSize: 11, color: '#555', marginBottom: 8, letterSpacing: 1 }}>LOGO</p>
             <div style={{ display: 'flex', gap: 8 }}>
-              {['atomwrenches', 'arpano'].map(k => (
+              {['icon', 'wordmark'].map(k => (
                 <button key={k} className={`ctrl-btn ${logo === k ? 'active' : ''}`}
                   style={{ '--accent': c.accent, '--accent-glow': c.accent + '66' }}
                   onClick={() => setLogo(k)}>{k}</button>

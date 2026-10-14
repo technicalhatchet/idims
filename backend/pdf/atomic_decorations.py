@@ -45,12 +45,12 @@ def _resolve_asset(bundled_name: str, repo_relative: str) -> str:
 
 
 DEFAULT_HEADER_LOGO_PATH = _resolve_asset(
-    "arblockdetail.png",
-    os.path.join("frontend", "public", "arblockdetail.png"),
+    "arblockdetailupdate.png",
+    os.path.join("frontend", "public", "arblockdetailupdate.png"),
 )
 DEFAULT_WATERMARK_LOGO_PATH = _resolve_asset(
-    "atomwrenches.png",
-    os.path.join("frontend", "public", "atomwrenches.png"),
+    "icon-512.png",
+    os.path.join("frontend", "public", "icon-512.png"),
 )
 HEADER_LOGO_FILL_FRAC = 0.80
 HEADER_LOGO_SCALE = 1.70

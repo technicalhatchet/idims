@@ -151,7 +151,7 @@ export default function HomeHeroDiagnosticVisual() {
 
   return (
     <div
-      className="atom-hero relative flex w-full max-w-[220px] sm:max-w-[280px] mx-auto items-center justify-center aspect-square lg:max-w-[500px] lg:min-h-[420px] lg:aspect-auto"
+      className="atom-hero relative flex w-full max-w-[280px] mx-auto items-center justify-center aspect-square lg:max-w-[500px] lg:min-h-[420px] lg:aspect-auto"
       role="img"
       aria-label="Atomic Repair: fridge, range, washer and TV orbiting crossed wrenches"
     >
@@ -385,7 +385,7 @@ export default function HomeHeroDiagnosticVisual() {
         </g>
         <g className="float">
           <image
-            href="/images/wrenches.webp"
+            href="/icon-512.png"
             x="132"
             y="132"
             width="136"

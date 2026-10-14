@@ -75,7 +75,7 @@ def send_booking_notification(
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td>
-                    <img src="https://v0-idims.vercel.app/arpano.png" alt="Atomic Repair 419" width="48" height="48" style="display:block;border-radius:8px;">
+                    <img src="https://atomicrepair419.com/icon-512.png" alt="Atomic Repair 419" width="48" height="48" style="display:block;border-radius:8px;">
                   </td>
                   <td style="padding-left:16px;">
                     <div style="color:#ffffff;font-size:20px;font-weight:700;margin:0;">Atomic Repair 419</div>
