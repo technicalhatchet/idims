@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="18 22 92 92" width="96" height="96" role="img" aria-label="Loading">
+  <title>Loading</title>
+  <defs>
+    <filter id="ld-dryer-halo" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="ld-dryer-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.8"/></filter>
+    <g id="ld-dryer-c" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="64" cy="68" r="32"/><g><animateTransform attributeName="transform" type="rotate" from="0 64 68" to="360 64 68" dur="1.4s" repeatCount="indefinite"/><path d="M43.2 56 A24 24 0 0 1 59.8 44.4 M55.6 42 L59.8 44.4 L56.6 48.2"/><path d="M84.8 80 A24 24 0 0 1 68.2 91.6 M72.4 94 L68.2 91.6 L71.4 87.8"/></g></g>
+    <g id="ld-dryer-o" fill="none" stroke-linecap="round" stroke-linejoin="round"><g opacity="0.4"><animate attributeName="opacity" values="0.4;1;0.4" calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" dur="1.4s" begin="0s" repeatCount="indefinite"/><path d="M56 78 c-3.5 -3.5 3.5 -6 0 -9.5 s3.5 -6 0 -9.5 M64 80 c-3.5 -3.5 3.5 -6 0 -9.5 s3.5 -6 0 -9.5 M72 78 c-3.5 -3.5 3.5 -6 0 -9.5 s3.5 -6 0 -9.5"/></g></g>
+  </defs>
+  <g>
+  <use href="#ld-dryer-c" stroke="#00E5FF" stroke-width="9" opacity=".4" filter="url(#ld-dryer-halo)"/>
+  <use href="#ld-dryer-o" stroke="#FF7A1A" stroke-width="9" opacity=".45" filter="url(#ld-dryer-halo)"/>
+  <use href="#ld-dryer-c" stroke="#00E5FF" stroke-width="6" opacity=".9" filter="url(#ld-dryer-glow)"/>
+  <use href="#ld-dryer-o" stroke="#FF7A1A" stroke-width="6" opacity=".9" filter="url(#ld-dryer-glow)"/>
+  <use href="#ld-dryer-c" stroke="#00E5FF" stroke-width="3.4"/>
+  <use href="#ld-dryer-o" stroke="#FF7A1A" stroke-width="3.4"/>
+  <use href="#ld-dryer-c" stroke="#D9FDFF" stroke-width="1.1"/>
+  <use href="#ld-dryer-o" stroke="#FFE6CC" stroke-width="1.1"/>
+  </g>
+</svg>

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaShieldAlt, FaClock, FaCheckCircle, FaDollarSign } from 'react-icons/fa';
-import ApplianceIcon from '../ui/ApplianceIcon';
+import AtomicIcon from '../ui/AtomicIcon';
 import { MarketingBookLink } from '../marketing/MarketingCta';
 import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../../constants/marketingSiteContent';
 
@@ -40,13 +40,23 @@ export default function ServiceHero({ service }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-              {service.title.split(' ')[0].toUpperCase()}
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500">
-                {service.title.split(' ').slice(1).join(' ').toUpperCase() || 'REPAIR'}
-              </span>
-            </h1>
+            <div className="flex items-center justify-between gap-4">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                {service.title.split(' ')[0].toUpperCase()}
+                <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500">
+                  {service.title.split(' ').slice(1).join(' ').toUpperCase() || 'REPAIR'}
+                </span>
+              </h1>
+              {/* Mobile/tablet: icon sits beside the headline so it's above the fold */}
+              <AtomicIcon
+                equipmentType={service.applianceType}
+                motion="always"
+                decorative
+                priority
+                className="lg:hidden w-32 h-32 sm:w-40 sm:h-40 -mr-3 shrink-0"
+              />
+            </div>
 
             <p className="mt-6 text-gray-400 text-lg max-w-md leading-relaxed">
               {service.description}
@@ -93,29 +103,32 @@ export default function ServiceHero({ service }) {
             </div>
           </motion.div>
 
-          {/* Right - Appliance Image */}
+          {/* Right - big animated neon appliance (desktop) */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative"
+            className="relative hidden lg:block"
           >
-            <div className="relative flex items-center justify-center">
-              {/* Glow Effects */}
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-cyan-500/30 blur-[80px]" />
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/30 blur-[80px]" />
-              
-              {/* Icon */}
-              <div className="relative w-full max-w-md h-[300px] lg:h-[400px] flex items-center justify-center">
-                <div className="relative w-40 h-40 lg:w-48 lg:h-48">
-                  <div className="absolute inset-0 bg-cyan-500/15 rounded-3xl blur-2xl" />
-                  <div className="relative w-full h-full rounded-3xl bg-[#0d1117]/80 border border-white/10 flex items-center justify-center">
-                    <ApplianceIcon
-                      equipmentType={service.applianceType}
-                      className="w-24 h-24 lg:w-28 lg:h-28"
-                    />
-                  </div>
-                </div>
+            <div className="relative flex flex-col items-center justify-center">
+              <div className="absolute inset-0 m-auto w-72 h-72 rounded-full bg-cyan-500/10 blur-[90px]" aria-hidden="true" />
+              <AtomicIcon
+                equipmentType={service.applianceType}
+                motion="always"
+                decorative
+                priority
+                className="relative w-80 h-80 xl:w-96 xl:h-96"
+              />
+              {/* Soft reflection, like neon on a wet floor */}
+              <div
+                aria-hidden="true"
+                className="relative -mt-14 h-24 w-80 xl:w-96 overflow-hidden opacity-20 blur-[1.5px] [transform:scaleY(-1)] [mask-image:linear-gradient(to_top,#000,transparent_70%)]"
+              >
+                <AtomicIcon
+                  equipmentType={service.applianceType}
+                  decorative
+                  className="absolute bottom-0 left-0 w-80 h-80 xl:w-96 xl:h-96"
+                />
               </div>
             </div>
           </motion.div>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 156 156" width="256" height="256" role="img" aria-label="Oven and range repair">
+  <title>Oven and range repair</title>
+  <defs>
+    <filter id="range-halo" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5.5"/></filter>
+    <filter id="range-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.8"/></filter>
+    <g id="range-c" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 42 L34 22 H94 L106 42 Z"/>
+    <rect x="22" y="42" width="84" height="76" rx="4"/>
+    <path d="M22 58 H106"/>
+    <rect x="56" y="46" width="16" height="8" rx="2"/>
+    <rect x="34" y="70" width="60" height="30" rx="4"/>
+    <path d="M38 85 H90"/>
+    <path d="M22 108 H106"/></g>
+    <g id="range-o" fill="none" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="50" cy="28" rx="7" ry="2.4"/><ellipse cx="78" cy="28" rx="7" ry="2.4"/>
+    <ellipse cx="45" cy="36" rx="9" ry="3"/><ellipse cx="83" cy="36" rx="9" ry="3"/>
+    <circle cx="32" cy="50" r="3.2"/><circle cx="43" cy="50" r="3.2"/>
+    <circle cx="85" cy="50" r="3.2"/><circle cx="96" cy="50" r="3.2"/>
+    <path d="M34 64 H94"/>
+    <g opacity="0.3"><animate attributeName="opacity" values="0.3;1;0.3" calcMode="spline" keyTimes="0;.5;1" keySplines=".45 0 .55 1;.45 0 .55 1" dur="1.8s" begin="0s" repeatCount="indefinite"/><path d="M40 95 l4 -5 4 5 4 -5 4 5 4 -5 4 5 4 -5 4 5 4 -5 4 5 4 -5 4 5"/></g></g>
+  </defs>
+  <g><animate attributeName="opacity" values="1;1;.45;1;.7;1;1" keyTimes="0;.86;.87;.885;.9;.92;1" dur="7.9s" repeatCount="indefinite"/>
+  <use href="#range-c" stroke="#00E5FF" stroke-width="8" opacity=".4" filter="url(#range-halo)"/>
+  <use href="#range-o" stroke="#FF7A1A" stroke-width="8" opacity=".45" filter="url(#range-halo)"/>
+  <use href="#range-c" stroke="#00E5FF" stroke-width="5" opacity=".9" filter="url(#range-glow)"/>
+  <use href="#range-o" stroke="#FF7A1A" stroke-width="5" opacity=".9" filter="url(#range-glow)"/>
+  <use href="#range-c" stroke="#00E5FF" stroke-width="2.7"/>
+  <use href="#range-o" stroke="#FF7A1A" stroke-width="2.7"/>
+  <use href="#range-c" stroke="#D9FDFF" stroke-width="0.9"/>
+  <use href="#range-o" stroke="#FFE6CC" stroke-width="0.9"/>
+  </g>
+</svg>
