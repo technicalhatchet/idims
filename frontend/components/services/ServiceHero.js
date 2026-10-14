@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaShieldAlt, FaClock, FaCheckCircle, FaDollarSign, FaCalendarAlt, FaPhone } from 'react-icons/fa';
+import { FaShieldAlt, FaClock, FaCheckCircle, FaDollarSign } from 'react-icons/fa';
 import ApplianceIcon from '../ui/ApplianceIcon';
+import { MarketingBookLink } from '../marketing/MarketingCta';
+import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../../constants/marketingSiteContent';
 
 const FEATURES = [
   { icon: FaClock, title: 'Same-day when available' },
@@ -72,20 +74,21 @@ export default function ServiceHero({ service }) {
             </div>
 
             {/* CTA Buttons */}
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link href={`/book?appliance=${service.applianceType}`}>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-cyan-500 to-cyan-600 shadow-[0_0_25px_rgba(34,211,238,0.4)] hover:shadow-[0_0_35px_rgba(34,211,238,0.6)] transition-all flex items-center gap-2"
-                >
-                  <FaCalendarAlt className="w-4 h-4" />
-                  Book Your Service
-                </motion.button>
-              </Link>
-              <a href="tel:4197400146" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+            <div className="mt-8 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-4">
+              <div className="order-1 sm:order-2">
+                <MarketingBookLink
+                  href={`/book?appliance=${service.applianceType}`}
+                  label="Book Your Service"
+                  tone="cyan"
+                  size="md"
+                />
+              </div>
+              <a
+                href={`tel:${MARKETING_PHONE_TEL}`}
+                className="order-2 sm:order-1 flex items-center justify-center sm:justify-start gap-2 text-gray-400 hover:text-white transition-colors text-sm py-3"
+              >
                 <span>or call</span>
-                <span className="text-orange-400 font-semibold">(419) 740-0146</span>
+                <span className="text-orange-400 font-semibold">{MARKETING_PHONE_DISPLAY}</span>
               </a>
             </div>
           </motion.div>

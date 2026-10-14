@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { 
   FaBolt, FaUserTie, FaDollarSign, FaShieldAlt,
   FaCalendarAlt, FaSearch, FaTools, FaThumbsUp,
-  FaCheckCircle, FaPhone
+  FaCheckCircle,
 } from 'react-icons/fa';
 import HomeLayout from '../../components/layouts/HomeLayout';
 import ServiceHero from '../../components/services/ServiceHero';
@@ -14,6 +14,14 @@ import FeatureCard from '../../components/services/FeatureCard';
 import FAQItem from '../../components/services/FAQItem';
 import ProcessStep from '../../components/services/ProcessStep';
 import { services, getServiceBySlug, getAllServiceSlugs } from '../../data/services';
+import {
+  MarketingBookLink,
+  MarketingPhoneIcon,
+} from '../../components/marketing/MarketingCta';
+import {
+  MARKETING_PHONE_DISPLAY,
+  MARKETING_PHONE_TEL,
+} from '../../constants/marketingSiteContent';
 
 const WHY_CHOOSE_US = [
   {
@@ -296,7 +304,7 @@ export default function ServiceDetailPage({ service }) {
             <div className="relative flex flex-col lg:flex-row items-center justify-between gap-8 p-8 lg:p-12">
               {/* Phone Icon */}
               <div className="hidden lg:flex items-center justify-center w-20 h-20 rounded-full bg-cyan-500/10 border border-cyan-500/30">
-                <FaPhone className="w-8 h-8 text-cyan-400" />
+                <MarketingPhoneIcon className="w-8 h-8 text-cyan-400" strokeWidth={2} />
               </div>
 
               {/* Text */}
@@ -318,20 +326,16 @@ export default function ServiceDetailPage({ service }) {
 
               {/* CTA */}
               <div className="flex flex-col items-center gap-3">
-                <Link href={`/book?appliance=${service.applianceType}`}>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-8 py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-cyan-500 to-cyan-600 shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] transition-all flex items-center gap-2"
-                  >
-                    <FaCalendarAlt className="w-4 h-4" />
-                    Book Your Service
-                  </motion.button>
-                </Link>
+                <MarketingBookLink
+                  href={`/book?appliance=${service.applianceType}`}
+                  label="Book Your Service"
+                  tone="cyan"
+                  size="lg"
+                />
                 <p className="text-gray-400 text-sm">
                   or call{' '}
-                  <a href="tel:4195551234" className="text-orange-400 hover:text-orange-300 font-medium">
-                    (419) 740-0146
+                  <a href={`tel:${MARKETING_PHONE_TEL}`} className="text-orange-400 hover:text-orange-300 font-medium">
+                    {MARKETING_PHONE_DISPLAY}
                   </a>
                 </p>
               </div>

@@ -5,8 +5,9 @@ import HomeHeroDiagnosticVisual from '../components/marketing/HomeHeroDiagnostic
 import ScrollReveal from '../components/marketing/ScrollReveal';
 import ApplianceIcon from '../components/ui/ApplianceIcon';
 import { motion } from 'framer-motion';
-import { FaClock, FaCheckCircle, FaPhone, FaArrowRight, FaDollarSign } from 'react-icons/fa';
-import { MARKETING_SERVICES, MARKETING_PHONE_TEL } from '../constants/marketingSiteContent';
+import { FaClock, FaCheckCircle, FaArrowRight, FaDollarSign } from 'react-icons/fa';
+import { MARKETING_SERVICES } from '../constants/marketingSiteContent';
+import { MarketingBookLink, MarketingCallLink } from '../components/marketing/MarketingCta';
 import OurPromiseSection from '../components/marketing/OurPromiseSection';
 import { HiLightningBolt } from 'react-icons/hi';
 import {
@@ -58,35 +59,14 @@ export default function Home() {
                 Same-day diagnostics when available. Honest assessments. No surprises.
               </p>
 
-              {/* CTA Buttons — mobile: full-width stack, call first; sm+: book then call */}
-              <div className="mt-8 flex w-full max-w-md flex-col gap-4 sm:max-w-none sm:flex-row sm:flex-wrap">
-                <a href={`tel:${MARKETING_PHONE_TEL}`} className="order-1 w-full sm:order-2 sm:w-auto">
-                  <motion.button
-                    type="button"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex w-full items-center justify-center gap-2 px-8 py-4 rounded-lg font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors sm:w-auto"
-                  >
-                    <FaPhone className="w-4 h-4" />
-                    Call Now
-                  </motion.button>
-                </a>
-
-                <Link href="/book" prefetch={false} className="order-2 w-full sm:order-1 sm:w-auto">
-                  <motion.button
-                    type="button"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="group relative w-full overflow-hidden rounded-lg px-8 py-4 font-semibold text-white sm:w-auto"
-                  >
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }} />
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(135deg, #fbbf24 0%, #fcd34d 100%)' }} />
-                    <span className="relative flex items-center justify-center gap-2">
-                      Book Service Now
-                      <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                  </motion.button>
-                </Link>
+              {/* CTA — mobile: book top, call bottom; desktop: call left, book right */}
+              <div className="mt-8 flex w-full max-w-md flex-col gap-4 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-stretch">
+                <div className="order-1 w-full sm:order-2 sm:w-auto">
+                  <MarketingBookLink label="Book Service Now" tone="cyan" size="lg" fullWidth className="sm:!w-auto" />
+                </div>
+                <div className="order-2 w-full sm:order-1 sm:w-auto">
+                  <MarketingCallLink label="Call Now" tone="orange" size="lg" fullWidth className="sm:!w-auto" />
+                </div>
               </div>
 
               {/* Trust Indicators */}
@@ -142,7 +122,7 @@ export default function Home() {
 
           {/* Mobile: compact rows */}
           <div className="md:hidden space-y-3">
-            {services.map((service) => (
+            {services.map((service, i) => (
               <Link
                 key={service.slug}
                 href={`/services/${service.slug}`}
@@ -154,27 +134,44 @@ export default function Home() {
                   <p className="text-white font-medium text-sm">{service.title}</p>
                   <p className="text-gray-500 text-xs line-clamp-2">{service.description}</p>
                 </div>
-                <FaArrowRight className="w-4 h-4 text-orange-400 flex-shrink-0" />
+                <FaArrowRight
+                  className={`w-4 h-4 flex-shrink-0 ${i % 2 === 0 ? 'text-cyan-400' : 'text-orange-400'}`}
+                />
               </Link>
             ))}
           </div>
 
           {/* Desktop: service cards */}
           <div className="hidden md:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {services.map((service, i) => (
+            {services.map((service, i) => {
+              const accentCyan = i % 2 === 0;
+              return (
               <ScrollReveal
                 key={service.slug}
                 delay={i * 0.03}
                 whileHover={{ y: -8, transition: { type: 'spring', stiffness: 120, damping: 20, mass: 1.2 } }}
                 className="group relative min-w-0"
               >
-                <div className="relative p-5 sm:p-6 rounded-2xl bg-[#0D1117] border border-white/5 hover:border-cyan-500/30 transition-all duration-300 h-full">
-                  {/* Hover Glow */}
-                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-cyan-500/5 to-orange-500/5" />
+                <div
+                  className={`relative p-5 sm:p-6 rounded-2xl bg-[#0D1117] border border-white/5 transition-all duration-300 h-full ${
+                    accentCyan ? 'hover:border-cyan-500/30' : 'hover:border-orange-500/30'
+                  }`}
+                >
+                  <div
+                    className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br ${
+                      accentCyan ? 'from-cyan-500/5 to-transparent' : 'from-orange-500/5 to-transparent'
+                    }`}
+                  />
 
                   <div className="relative min-w-0">
                     <div className="relative w-16 h-16 mb-4">
-                      <div className="absolute inset-0 bg-cyan-500/10 rounded-xl blur-xl group-hover:bg-cyan-500/20 transition-colors" />
+                      <div
+                        className={`absolute inset-0 rounded-xl blur-xl transition-colors ${
+                          accentCyan
+                            ? 'bg-cyan-500/10 group-hover:bg-cyan-500/20'
+                            : 'bg-orange-500/10 group-hover:bg-orange-500/20'
+                        }`}
+                      />
                       <div className="relative w-full h-full rounded-xl bg-[#141922] border border-white/5 flex items-center justify-center">
                         <ApplianceIcon
                           equipmentType={service.equipmentType}
@@ -193,7 +190,11 @@ export default function Home() {
                     <Link
                       href={`/services/${service.slug}`}
                       prefetch={false}
-                      className="inline-flex items-center gap-1 text-orange-400 text-sm font-medium hover:text-orange-300 transition-colors group/link"
+                      className={`inline-flex items-center gap-1 text-sm font-medium transition-colors group/link ${
+                        accentCyan
+                          ? 'text-cyan-400 hover:text-cyan-300'
+                          : 'text-orange-400 hover:text-orange-300'
+                      }`}
                     >
                       Learn more
                       <FaArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
@@ -201,7 +202,8 @@ export default function Home() {
                   </div>
                 </div>
               </ScrollReveal>
-            ))}
+            );
+            })}
           </div>
         </div>
       </section>
@@ -270,15 +272,15 @@ export default function Home() {
                   </div>
                 </div>
 
-                <Link href="/book" prefetch={false} className="relative block mt-8">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 transition-all shadow-[0_0_30px_rgba(34,211,238,0.3)]"
-                  >
-                    Schedule Appointment
-                  </motion.button>
-                </Link>
+                <div className="relative mt-8">
+                  <MarketingBookLink
+                    label="Schedule Appointment"
+                    tone="cyan"
+                    size="lg"
+                    fullWidth
+                    className="!rounded-xl"
+                  />
+                </div>
               </div>
             </div>
           </ScrollReveal>
@@ -298,31 +300,13 @@ export default function Home() {
               Don't let a broken appliance disrupt your day. Request a diagnostic visit — often same-day when we're available.
             </p>
 
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Link href="/book" prefetch={false}>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="group px-8 py-4 rounded-lg font-semibold text-white transition-all shadow-[0_0_30px_rgba(251,146,60,0.3)] hover:shadow-[0_0_40px_rgba(251,146,60,0.5)]"
-                  style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
-                >
-                  <span className="flex items-center gap-2">
-                    Book Now
-                    <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </motion.button>
-              </Link>
-
-              <a href={`tel:${MARKETING_PHONE_TEL}`}>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex items-center gap-2 px-8 py-4 rounded-lg font-semibold text-white border border-white/20 hover:bg-white/5 transition-colors"
-                >
-                  <FaPhone className="w-4 h-4" />
-                  Call Now
-                </motion.button>
-              </a>
+            <div className="mt-8 flex flex-col sm:flex-row flex-wrap justify-center items-stretch gap-4 max-w-md sm:max-w-none mx-auto">
+              <div className="order-1 sm:order-2 w-full sm:w-auto">
+                <MarketingBookLink label="Book Now" tone="cyan" size="lg" fullWidth />
+              </div>
+              <div className="order-2 sm:order-1 w-full sm:w-auto">
+                <MarketingCallLink label="Call Now" tone="orange" size="lg" fullWidth />
+              </div>
             </div>
 
             <div className="mt-8 flex flex-wrap justify-center gap-6 text-gray-400 text-sm">

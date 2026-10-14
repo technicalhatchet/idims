@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaPhone, FaCalendarAlt } from 'react-icons/fa';
+import { MarketingBookLink, MarketingPhoneIcon } from '../marketing/MarketingCta';
+import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../../constants/marketingSiteContent';
 
 export default function CTASection() {
   return (
@@ -28,7 +29,7 @@ export default function CTASection() {
           <div className="relative flex flex-col lg:flex-row items-center justify-between gap-8 p-8 lg:p-12">
             {/* Left - Phone Icon */}
             <div className="hidden lg:flex items-center justify-center w-20 h-20 rounded-full bg-cyan-500/10 border border-cyan-500/30">
-              <FaPhone className="w-8 h-8 text-cyan-400" />
+              <MarketingPhoneIcon className="w-8 h-8 text-cyan-400" strokeWidth={2} />
             </div>
 
             {/* Middle - Text */}
@@ -50,20 +51,11 @@ export default function CTASection() {
 
             {/* Right - CTA */}
             <div className="flex flex-col items-center gap-3">
-              <Link href="/book">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-cyan-500 to-cyan-600 shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] transition-all flex items-center gap-2"
-                >
-                  <FaCalendarAlt className="w-4 h-4" />
-                  Book Your Service
-                </motion.button>
-              </Link>
+              <MarketingBookLink label="Book Your Service" tone="cyan" size="lg" />
               <p className="text-gray-400 text-sm">
                 or call{' '}
-                <a href="tel:4197400146" className="text-orange-400 hover:text-orange-300 font-medium">
-                  (419) 740-0146
+                <a href={`tel:${MARKETING_PHONE_TEL}`} className="text-orange-400 hover:text-orange-300 font-medium">
+                  {MARKETING_PHONE_DISPLAY}
                 </a>
               </p>
             </div>

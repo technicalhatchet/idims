@@ -5,12 +5,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  FaUser, FaPhone, FaMapMarkerAlt, FaCheckCircle, FaArrowRight, FaArrowLeft, FaEnvelope,
+  FaUser, FaMapMarkerAlt, FaCheckCircle, FaArrowRight, FaArrowLeft, FaEnvelope,
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
 import NeonIcon from '../components/ui/NeonIcon';
 import SecretServiceMode from '../components/ui/SecretServiceMode';
 import { getBookingSymptomsForAppliance } from '../constants/applianceSymptoms';
+import { MarketingPhoneIcon } from '../components/marketing/MarketingCta';
 import {
   BOOKING_FUEL_OPTIONS,
   bookingNeedsFuel,
@@ -992,7 +993,7 @@ export default function BookService() {
                           Phone Number {!hasEmail && <span className="text-cyan-400/80">*</span>}
                         </label>
                         <div className="relative">
-                          <FaPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
+                          <MarketingPhoneIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
                           <input
                             type="tel"
                             value={formData.phone}
