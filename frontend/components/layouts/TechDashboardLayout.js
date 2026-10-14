@@ -10,6 +10,7 @@ import { startDeployReminderHeartbeat, stopDeployReminderHeartbeat } from '../..
 import { useUIPreferences } from '../../context/UIPreferencesContext';
 import { resolveUserDisplayName, resolveUserInitial } from '../../utils/userDisplayName';
 import TechIconRail from '../navigation/TechIconRail';
+import { BRAND_ICON_SRC } from '../../constants/brandAssets';
 import AtomicLogo from '../ui/AtomicLogo';
 import {
   TECH_DMA_PATH,
@@ -377,7 +378,7 @@ export default function TechDashboardLayout({ children }) {
           {expanded ? (
             <AtomicLogo height={46} className="w-auto max-w-[12rem] object-contain" />
           ) : (
-            <img src="/atomwrenches.png" alt="AR" style={{ height: 46, width: 46, objectFit: 'contain' }} />
+            <img src={BRAND_ICON_SRC} alt="AR" style={{ height: 46, width: 46, objectFit: 'contain' }} />
           )}
         </div>
 

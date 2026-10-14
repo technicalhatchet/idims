@@ -1,9 +1,14 @@
 import { useEffect } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import Header from '../navigation/Header';
 import Footer from '../navigation/Footer';
 import AtomicGlowBackground from './AtomicGlowBackground';
-import MarketingMobileActionBar from '../marketing/MarketingMobileActionBar';
+import {
+  BRAND_ICON_SRC,
+  BRAND_SOCIAL_SHARE_SRC,
+  brandPublicUrl,
+} from '../../constants/brandAssets';
 
 // Global Atomic theme colors
 const ATOMIC_THEME = {
@@ -18,7 +23,17 @@ const ATOMIC_THEME = {
   tealHighlight: '#00C2B8',
 };
 
-export default function HomeLayout({ children, title = 'Atomic Repair | Appliance Repair Toledo' }) {
+const DEFAULT_DESCRIPTION =
+  'Fast, reliable appliance repair in Toledo. Same-day service, honest diagnostics, no surprises.';
+
+export default function HomeLayout({
+  children,
+  title = 'Atomic Repair | Appliance Repair Toledo',
+  description = DEFAULT_DESCRIPTION,
+}) {
+  const router = useRouter();
+  const ogImage = brandPublicUrl(BRAND_SOCIAL_SHARE_SRC);
+  const pageUrl = brandPublicUrl(router.asPath.split('?')[0] || '/');
   useEffect(() => {
     document.documentElement.classList.add('atomic-marketing');
     return () => {
@@ -35,8 +50,21 @@ export default function HomeLayout({ children, title = 'Atomic Repair | Applianc
 
       <Head>
         <title>{title}</title>
-        <meta name="description" content="Owner-operated appliance repair in Toledo. Same-day diagnostics when available." />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content={description} />
+        <link rel="icon" href={BRAND_ICON_SRC} type="image/png" sizes="512x512" />
+        <link rel="apple-touch-icon" href={BRAND_ICON_SRC} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Atomic Repair" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:url" content={pageUrl} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
         <script
           dangerouslySetInnerHTML={{
             __html: `document.documentElement.classList.add('atomic-marketing');`,
@@ -46,11 +74,10 @@ export default function HomeLayout({ children, title = 'Atomic Repair | Applianc
 
       <Header />
 
-      <main className="flex-grow relative z-10 pb-20 md:pb-0">
+      <main className="flex-grow relative z-10">
         {children}
       </main>
 
-      <MarketingMobileActionBar />
       <Footer />
     </div>
   );

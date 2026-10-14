@@ -116,7 +116,7 @@ function ServiceVanBody() {
       <circle cx="-12" cy="10" r="4" fill="none" stroke="var(--cyan)" strokeWidth="1.2" />
       <circle cx="12" cy="10" r="4" fill="none" stroke="var(--cyan)" strokeWidth="1.2" />
       <image
-        href="/atomwrenches.png"
+        href="/icon-512.png"
         x={logoX}
         y={logoY}
         width={TRUCK_LOGO_SIZE}
@@ -461,7 +461,7 @@ export default function CoverageRadar({
               <path d="M4 18c4-6 8-8 12-8s8 2 12 8" strokeDasharray="3 3" />
               <circle cx="12" cy="8" r="2.5" fill="var(--orange)" stroke="none" />
             </svg>
-            <span>Service area map — Toledo &amp; Northwest Ohio</span>
+            <span>Live coverage from our Toledo dispatch hub</span>
           </div>
         </div>
       </div>

@@ -7,6 +7,7 @@ import {
   FaUsers, FaWrench, FaCog, FaBars, FaTimes, FaSignOutAlt, FaMoon, FaSun
 } from 'react-icons/fa';
 import Head from 'next/head';
+import { BRAND_ICON_SRC } from '../../constants/brandAssets';
 import AtomicLogo from '../ui/AtomicLogo';
 
 import NotificationsDropdown from '../notifications/NotificationsDropdown';
@@ -222,9 +223,9 @@ export default function DashboardLayout({ children }) {
         <div className="flex items-center justify-between px-4 py-3 border-b dark:border-gray-700">
           <Link href="/dashboard" className="flex items-center">
             <img
-              src="/icon-500x500.png"
+              src={BRAND_ICON_SRC}
               alt="Service Business Logo"
-              className="h-8 w-auto"
+              className="h-8 w-8 object-contain"
             />
             <span className="ml-2 text-xl font-semibold text-gray-800 dark:text-white">IDIMS</span>
           </Link>
