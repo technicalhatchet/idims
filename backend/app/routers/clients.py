@@ -20,6 +20,7 @@ from app.services.notification_service import NotificationService
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
 from app.core.dependencies import get_admin_or_manager_user
 from app.config import settings, get_portal_invite_secret
+from app.frontend_site_urls import build_frontend_url
 from app.schemas.client_appliance import ClientApplianceCreate, ClientApplianceUpdate, MergeAppliancesRequest
 from app.services import client_appliance_service as appliance_svc
 
@@ -443,7 +444,7 @@ async def send_portal_invite(
         "iat": datetime.utcnow(),
     }
     token = jwt.encode(payload, secret, algorithm="HS256")
-    invite_url = f"{settings.FRONTEND_URL.rstrip('/')}/cxdashboard/register?token={token}"
+    invite_url = f"{build_frontend_url('/cxdashboard/register')}?token={token}"
 
     # Send email via Resend
     import httpx

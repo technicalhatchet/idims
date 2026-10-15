@@ -6,15 +6,22 @@ This document outlines the Auth0 configuration needed for the IDIMS application.
 
 Create a `.env.local` file in the frontend directory with the following Auth0 configuration:
 
-IDIMS dev runs on **port 3001** by default (`npm run dev`) so it does not collide with idfms on **3000**. `AUTH0_BASE_URL` is a **fallback** when the request host is unknown; in production the Auth0 route derives `baseURL` from the incoming host (`atomicrepair419.com`, `v0-idims.vercel.app`, etc.) so login and callback stay on the same origin.
+IDIMS dev runs on **port 3001** by default (`npm run dev`) so it does not collide with idfms on **3000**. `AUTH0_BASE_URL` is a **fallback** when the request host is unknown; in production `resolveAuth0BaseUrl` (see `frontend/lib/resolveAuth0BaseUrl.js`) sets Auth0 `baseURL` from the incoming request host so login, callback, and logout stay on the **same origin** as the browser.
 
-In the Auth0 application, register **every** production callback URL you use, for example:
+### Atomic Repair production hosts (single Auth0 application)
 
-- `https://atomicrepair419.com/api/auth/callback`
-- `https://v0-idims.vercel.app/api/auth/callback`
-- `https://solodiag.com/api/auth/callback` (if applicable)
+When `HOST_BASED_ROUTING` is enabled, marketing, portal, and IDIMS each have their own hostname but share one Vercel project and one Auth0 SPA. Register **all** of the following in the Auth0 dashboard for the IDIMS application. **Updating this file does not change Auth0** — each URL must be added manually in the tenant.
 
-Same pattern for **Allowed Logout URLs** on each hostname.
+| Host | Allowed Callback URLs | Allowed Logout URLs | Allowed Web Origins |
+|------|-------------------------|---------------------|---------------------|
+| `https://atomicrepair419.com` | `https://atomicrepair419.com/api/auth/callback` | `https://atomicrepair419.com/api/auth/logout` | `https://atomicrepair419.com` |
+| `https://www.atomicrepair419.com` | `https://www.atomicrepair419.com/api/auth/callback` | `https://www.atomicrepair419.com/api/auth/logout` | `https://www.atomicrepair419.com` |
+| `https://portal.atomicrepair419.com` | `https://portal.atomicrepair419.com/api/auth/callback` | `https://portal.atomicrepair419.com/api/auth/logout` | `https://portal.atomicrepair419.com` |
+| `https://idims.atomicrepair419.com` | `https://idims.atomicrepair419.com/api/auth/callback` | `https://idims.atomicrepair419.com/api/auth/logout` | `https://idims.atomicrepair419.com` |
+
+Also register any Vercel preview or staging host you use for testing (for example `https://v0-idims.vercel.app` with the same `/api/auth/callback` and `/api/auth/logout` path pattern).
+
+After subdomain cutover, confirm login and logout on **both** portal and IDIMS hosts; a missing callback or web origin typically surfaces as Auth0 `redirect_uri` or CORS errors on that host only.
 
 ```
 # Auth0 Configuration
