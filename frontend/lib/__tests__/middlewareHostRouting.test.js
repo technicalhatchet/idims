@@ -116,6 +116,51 @@ test('Solomon standalone still redirects non-allowed app routes to /solomon', ()
   restoreEnv(snap);
 });
 
+test('Solomon standalone still blocks /logit on solodiag.com', () => {
+  const snap = snapshotEnv();
+  process.env.SOLOMON_STANDALONE = 'true';
+
+  const res = middleware(new NextRequest('https://solodiag.com/logit'));
+  assert.equal(res.headers.get('location'), 'https://solodiag.com/solomon');
+
+  restoreEnv(snap);
+});
+
+test('Logit subdomain on standalone deploy: / redirects to /logit', () => {
+  const snap = snapshotEnv();
+  process.env.SOLOMON_STANDALONE = 'true';
+
+  const res = middleware(new NextRequest('https://logit.solodiag.com/'));
+  assert.equal(res.headers.get('location'), 'https://logit.solodiag.com/logit');
+
+  restoreEnv(snap);
+});
+
+test('Logit subdomain on standalone deploy: /logit and host manifest are allowed', () => {
+  const snap = snapshotEnv();
+  process.env.SOLOMON_STANDALONE = 'true';
+
+  const app = middleware(new NextRequest('https://logit.solodiag.com/logit'));
+  assert.equal(app.headers.get('location'), null);
+
+  const manifest = middleware(
+    new NextRequest('https://logit.solodiag.com/manifest-logit-host.json'),
+  );
+  assert.equal(manifest.headers.get('location'), null);
+
+  restoreEnv(snap);
+});
+
+test('Logit subdomain on standalone deploy: /solomon redirects to /logit', () => {
+  const snap = snapshotEnv();
+  process.env.SOLOMON_STANDALONE = 'true';
+
+  const res = middleware(new NextRequest('https://logit.solodiag.com/solomon'));
+  assert.equal(res.headers.get('location'), 'https://logit.solodiag.com/logit');
+
+  restoreEnv(snap);
+});
+
 test('host routing off: portal / does not redirect via middleware', () => {
   clearAtomicRoutingEnv();
   delete process.env.HOST_BASED_ROUTING;

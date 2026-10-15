@@ -3,9 +3,11 @@ import { LOGIT_PWA_ICONS, LOGIT_PWA_VERSION } from './logitPwaIcons';
 
 const LOGIT_THEME = '#0A0F1E';
 
-export default function LogitHead({ title = 'LoGiT' }) {
+export default function LogitHead({ title = 'LoGiT', useSubdomainManifest = false }) {
   const pageTitle = title === 'LoGiT' ? 'LoGiT' : `${title} | LoGiT`;
-  const manifestHref = `/manifest-logit.json?v=${LOGIT_PWA_VERSION}`;
+  const manifestHref = useSubdomainManifest
+    ? `/manifest-logit-host.json?v=${LOGIT_PWA_VERSION}`
+    : `/manifest-logit.json?v=${LOGIT_PWA_VERSION}`;
 
   return (
     <Head>

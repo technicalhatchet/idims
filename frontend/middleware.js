@@ -3,11 +3,13 @@ import {
   isPublicPath,
   isPortalPath,
   isTechPath,
+  isLogitSubdomainStandaloneAllowedPath,
   isSolomonStandaloneAllowedPath,
   isSolomonStandaloneMode,
 } from './lib/routeAccess';
 import { hasAppSessionCookie } from './lib/hasAppSessionCookie';
-import { getHostBasedSiteRedirectUrl } from './lib/hostBasedRouting';
+import { getHostBasedSiteRedirectUrl, getRequestHostname } from './lib/hostBasedRouting';
+import { isLogitSubdomainHost } from './lib/logitSubdomainHost';
 
 function solomonStandaloneResponse(req, pathname) {
   if (pathname === '/') {
@@ -21,10 +23,25 @@ function solomonStandaloneResponse(req, pathname) {
   return NextResponse.redirect(new URL('/solomon', req.url));
 }
 
+function logitSubdomainStandaloneResponse(req, pathname) {
+  if (pathname === '/') {
+    return NextResponse.redirect(new URL('/logit', req.url));
+  }
+
+  if (isLogitSubdomainStandaloneAllowedPath(pathname)) {
+    return NextResponse.next();
+  }
+
+  return NextResponse.redirect(new URL('/logit', req.url));
+}
+
 export function middleware(req) {
   const { pathname } = req.nextUrl;
 
   if (isSolomonStandaloneMode()) {
+    if (isLogitSubdomainHost(getRequestHostname(req))) {
+      return logitSubdomainStandaloneResponse(req, pathname);
+    }
     return solomonStandaloneResponse(req, pathname);
   }
 
