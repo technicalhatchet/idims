@@ -121,7 +121,7 @@ export function isSolomonStandaloneAllowedPath(pathname) {
     return true;
   }
 
-  if (pathname.startsWith('/worker-')) {
+  if (pathname.startsWith('/worker-') || pathname.startsWith('/workbox-')) {
     return true;
   }
 
@@ -137,7 +137,7 @@ export function isLogitSubdomainStandaloneAllowedPath(pathname) {
     return true;
   }
 
-  if (pathname.startsWith('/worker-')) {
+  if (pathname.startsWith('/worker-') || pathname.startsWith('/workbox-')) {
     return true;
   }
 
