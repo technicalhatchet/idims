@@ -7,6 +7,7 @@ import {
   isPublicPath,
   isPortalPath,
   isSolomonStandaloneMode,
+  isSolomonStandaloneAllowedPath,
   isTechPath,
 } from '../routeAccess.js';
 
@@ -81,6 +82,35 @@ test('Solomon standalone still blocks /techboard before Atomic host routing', ()
 
   const req = new NextRequest('https://solodiag.com/techboard');
   const res = middleware(req);
+  assert.equal(res.headers.get('location'), 'https://solodiag.com/solomon');
+
+  restoreEnv(snap);
+});
+
+test('Solomon standalone allows hashed /styles route CSS without redirect', () => {
+  const snap = snapshotEnv();
+  process.env.SOLOMON_STANDALONE = 'true';
+
+  const stylePaths = [
+    '/styles/solomon-theme.e8ce4861.css',
+    '/styles/diagnostics-utilities.73144206.css',
+    '/styles/solomon-theme.c64e30a1.css',
+  ];
+
+  for (const pathname of stylePaths) {
+    assert.equal(isSolomonStandaloneAllowedPath(pathname), true);
+    const res = middleware(new NextRequest(`https://solodiag.com${pathname}`));
+    assert.equal(res.headers.get('location'), null);
+  }
+
+  restoreEnv(snap);
+});
+
+test('Solomon standalone still redirects non-allowed app routes to /solomon', () => {
+  const snap = snapshotEnv();
+  process.env.SOLOMON_STANDALONE = 'true';
+
+  const res = middleware(new NextRequest('https://solodiag.com/dashboard'));
   assert.equal(res.headers.get('location'), 'https://solodiag.com/solomon');
 
   restoreEnv(snap);
