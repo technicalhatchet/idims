@@ -28,6 +28,7 @@ export const HOST_ROUTING_EXEMPT_EXACT = [
   '/manifest.json',
   '/manifest-solomon.json',
   '/manifest-logit.json',
+  '/manifest-logit-host.json',
   '/manifest-book.json',
   '/sw.js',
   '/robots.txt',

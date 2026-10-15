@@ -81,6 +81,23 @@ export const SOLOMON_STANDALONE_ALLOW_EXACT = [
   '/manifest.json',
   '/manifest-solomon.json',
   '/manifest-logit.json',
+  '/manifest-logit-host.json',
+  '/sw.js',
+  '/robots.txt',
+];
+
+/** LoGiT subdomain (`logit.solodiag.com`) on the Solomon standalone deployment. */
+export const LOGIT_SUBDOMAIN_STANDALONE_ALLOW_PREFIXES = [
+  '/logit',
+  '/api/auth',
+  '/api/proxy',
+  '/api/public',
+  '/styles',
+];
+
+export const LOGIT_SUBDOMAIN_STANDALONE_ALLOW_EXACT = [
+  '/manifest-logit.json',
+  '/manifest-logit-host.json',
   '/sw.js',
   '/robots.txt',
 ];
@@ -109,6 +126,22 @@ export function isSolomonStandaloneAllowedPath(pathname) {
   }
 
   return SOLOMON_STANDALONE_ALLOW_PREFIXES.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
+  );
+}
+
+export function isLogitSubdomainStandaloneAllowedPath(pathname) {
+  if (!pathname) return false;
+
+  if (LOGIT_SUBDOMAIN_STANDALONE_ALLOW_EXACT.includes(pathname)) {
+    return true;
+  }
+
+  if (pathname.startsWith('/worker-')) {
+    return true;
+  }
+
+  return LOGIT_SUBDOMAIN_STANDALONE_ALLOW_PREFIXES.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`),
   );
 }
