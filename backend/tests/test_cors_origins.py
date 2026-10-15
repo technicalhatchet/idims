@@ -6,6 +6,8 @@ from app.cors_policy import CORS_ALLOWED_ORIGINS, origin_is_allowed
 def test_atomic_repair_origin_allowed():
     assert origin_is_allowed("https://atomicrepair419.com")
     assert origin_is_allowed("https://www.atomicrepair419.com")
+    assert origin_is_allowed("https://portal.atomicrepair419.com")
+    assert origin_is_allowed("https://idims.atomicrepair419.com")
 
 
 def test_existing_production_origins_allowed():
@@ -21,6 +23,8 @@ def test_unknown_origin_denied():
 
 def test_atomic_repair_on_explicit_allowlist():
     assert "https://atomicrepair419.com" in CORS_ALLOWED_ORIGINS
+    assert "https://portal.atomicrepair419.com" in CORS_ALLOWED_ORIGINS
+    assert "https://idims.atomicrepair419.com" in CORS_ALLOWED_ORIGINS
 
 
 def test_cors_preflight_atomic_repair():

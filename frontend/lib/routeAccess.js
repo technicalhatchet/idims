@@ -73,6 +73,8 @@ export const SOLOMON_STANDALONE_ALLOW_PREFIXES = [
   '/api/auth',
   '/api/proxy',
   '/api/public',
+  /** Hashed route-scoped CSS from public/styles (build-route-styles.mjs) */
+  '/styles',
 ];
 
 export const SOLOMON_STANDALONE_ALLOW_EXACT = [

@@ -9,6 +9,7 @@ import re
 import html
 
 from app.config import resolve_email_logo_url, settings
+from app.frontend_site_urls import build_frontend_url
 from app.services.public_booking_emails import send_booking_received_email
 from app.db.database import get_db
 from app.models.client import Client
@@ -340,7 +341,7 @@ def send_booking_notification(
           </tr>
           <tr>
             <td style="padding:0 32px 32px;">
-              <a href="{settings.FRONTEND_URL.rstrip('/')}/work_orders/{work_order_id}" style="display:block;background-color:#f59e0b;color:#0f0f1a;text-decoration:none;text-align:center;padding:15px 24px;border-radius:8px;font-weight:700;font-size:15px;">View and Schedule in IDIMS</a>
+              <a href="{build_frontend_url(f'/work_orders/{work_order_id}')}" style="display:block;background-color:#f59e0b;color:#0f0f1a;text-decoration:none;text-align:center;padding:15px 24px;border-radius:8px;font-weight:700;font-size:15px;">View and Schedule in IDIMS</a>
             </td>
           </tr>
           <tr>

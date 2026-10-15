@@ -23,6 +23,8 @@ CORS_ALLOWED_ORIGINS: List[str] = [
     "https://dma-eight.vercel.app",
     "https://atomicrepair419.com",
     "https://www.atomicrepair419.com",
+    "https://portal.atomicrepair419.com",
+    "https://idims.atomicrepair419.com",
     "https://solodiag.com",
     "https://www.solodiag.com",
 ]

@@ -7,6 +7,7 @@ import {
   isSolomonStandaloneMode,
 } from './lib/routeAccess';
 import { hasAppSessionCookie } from './lib/hasAppSessionCookie';
+import { getHostBasedSiteRedirectUrl } from './lib/hostBasedRouting';
 
 function solomonStandaloneResponse(req, pathname) {
   if (pathname === '/') {
@@ -25,6 +26,11 @@ export function middleware(req) {
 
   if (isSolomonStandaloneMode()) {
     return solomonStandaloneResponse(req, pathname);
+  }
+
+  const hostSiteRedirect = getHostBasedSiteRedirectUrl(req);
+  if (hostSiteRedirect) {
+    return NextResponse.redirect(hostSiteRedirect);
   }
 
   if (isPublicPath(pathname)) {
@@ -56,6 +62,6 @@ export function middleware(req) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|icons|.*\\.png|.*\\.jpg|.*\\.svg|.*\\.webp).*)',
+    '/((?!_next/static|_next/image|favicon.ico|icons|styles|.*\\.png|.*\\.jpg|.*\\.svg|.*\\.webp).*)',
   ],
 };

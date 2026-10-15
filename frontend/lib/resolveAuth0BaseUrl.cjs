@@ -1,6 +1,8 @@
 /**
  * CJS mirror of resolveAuth0BaseUrl.js for node tests and next.config.
  */
+const { ATOMIC_AUTH_HOST, isAtomicAuthHost } = require('./atomicApprovedHosts.cjs');
+
 const DEFAULT_DEV_ORIGIN = 'http://localhost:3001';
 
 const AUTH0_ALLOWED_HOST_SUFFIXES = ['.vercel.app'];
@@ -8,8 +10,10 @@ const AUTH0_ALLOWED_HOST_SUFFIXES = ['.vercel.app'];
 const AUTH0_ALLOWED_HOSTS = new Set([
   'localhost',
   '127.0.0.1',
-  'atomicrepair419.com',
-  'www.atomicrepair419.com',
+  ATOMIC_AUTH_HOST.MARKETING_APEX,
+  ATOMIC_AUTH_HOST.MARKETING_WWW,
+  ATOMIC_AUTH_HOST.PORTAL,
+  ATOMIC_AUTH_HOST.IDIMS,
   'v0-idims.vercel.app',
   'solodiag.com',
   'www.solodiag.com',
@@ -38,6 +42,7 @@ function isAllowedHost(host) {
   const h = String(host || '').toLowerCase().split(':')[0];
   if (!h) return false;
   if (AUTH0_ALLOWED_HOSTS.has(h)) return true;
+  if (isAtomicAuthHost(h)) return true;
   return AUTH0_ALLOWED_HOST_SUFFIXES.some((suffix) => h.endsWith(suffix));
 }
 
@@ -68,8 +73,23 @@ function resolveAuth0BaseUrl(req) {
   return `${proto}://${hostname}`;
 }
 
+function resolveAuth0CallbackUrl(req) {
+  return `${resolveAuth0BaseUrl(req).replace(/\/$/, '')}/api/auth/callback`;
+}
+
+function resolveAuth0LogoutUrl(req) {
+  return `${resolveAuth0BaseUrl(req).replace(/\/$/, '')}/api/auth/logout`;
+}
+
+function resolveAuth0LoginUrl(req) {
+  return `${resolveAuth0BaseUrl(req).replace(/\/$/, '')}/api/auth/login`;
+}
+
 module.exports = {
   resolveAuth0BaseUrl,
+  resolveAuth0CallbackUrl,
+  resolveAuth0LogoutUrl,
+  resolveAuth0LoginUrl,
   AUTH0_ALLOWED_HOSTS,
   AUTH0_ALLOWED_HOST_SUFFIXES,
 };
