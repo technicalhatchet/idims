@@ -1,22 +1,21 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaShieldAlt, FaClock, FaCheckCircle, FaDollarSign, FaCalendarAlt, FaPhone } from 'react-icons/fa';
-import ApplianceIcon from '../ui/ApplianceIcon';
+import { FaShieldAlt, FaClock, FaCheckCircle, FaDollarSign } from 'react-icons/fa';
+import AtomicIcon from '../ui/AtomicIcon';
+import { MarketingBookLink } from '../marketing/MarketingCta';
+import { MARKETING_ICON_HALO_STYLE } from '../marketing/marketingGlowLayers';
+import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../../constants/marketingSiteContent';
 
 const FEATURES = [
-  { icon: FaShieldAlt, title: 'Certified Technicians' },
-  { icon: FaClock, title: 'Same-Day Service' },
-  { icon: FaCheckCircle, title: 'Satisfaction Guaranteed' },
-  { icon: FaDollarSign, title: 'Upfront Pricing' },
+  { icon: FaClock, title: 'Same-day when available' },
+  { icon: FaCheckCircle, title: '90-day warranty' },
+  { icon: FaDollarSign, title: 'Upfront pricing' },
+  { icon: FaShieldAlt, title: 'Diagnostic-first' },
 ];
 
 export default function ServiceHero({ service }) {
   return (
     <section className="relative pt-28 pb-16 lg:pt-32 lg:pb-20 overflow-hidden">
-      {/* Background Glows */}
-      <div className="absolute left-0 top-1/3 w-[500px] h-[500px] bg-cyan-500/20 blur-[150px] -z-10" />
-      <div className="absolute right-0 bottom-0 w-[400px] h-[400px] bg-orange-500/15 blur-[120px] -z-10" />
-
       <div className="max-w-7xl mx-auto px-6">
         {/* Breadcrumb */}
         <motion.nav
@@ -38,13 +37,23 @@ export default function ServiceHero({ service }) {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-              {service.title.split(' ')[0].toUpperCase()}
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500">
-                {service.title.split(' ').slice(1).join(' ').toUpperCase() || 'REPAIR'}
-              </span>
-            </h1>
+            <div className="flex items-center justify-between gap-4">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                {service.title.split(' ')[0].toUpperCase()}
+                <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500">
+                  {service.title.split(' ').slice(1).join(' ').toUpperCase() || 'REPAIR'}
+                </span>
+              </h1>
+              {/* Mobile/tablet: icon sits beside the headline so it's above the fold */}
+              <AtomicIcon
+                equipmentType={service.applianceType}
+                motion="always"
+                decorative
+                priority
+                className="lg:hidden w-32 h-32 sm:w-40 sm:h-40 -mr-3 shrink-0"
+              />
+            </div>
 
             <p className="mt-6 text-gray-400 text-lg max-w-md leading-relaxed">
               {service.description}
@@ -72,47 +81,55 @@ export default function ServiceHero({ service }) {
             </div>
 
             {/* CTA Buttons */}
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link href={`/book?appliance=${service.applianceType}`}>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-cyan-500 to-cyan-600 shadow-[0_0_25px_rgba(34,211,238,0.4)] hover:shadow-[0_0_35px_rgba(34,211,238,0.6)] transition-all flex items-center gap-2"
-                >
-                  <FaCalendarAlt className="w-4 h-4" />
-                  Book Your Service
-                </motion.button>
-              </Link>
-              <a href="tel:4197400146" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+            <div className="mt-8 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-4">
+              <div className="order-1 sm:order-2">
+                <MarketingBookLink
+                  href={`/book?appliance=${service.applianceType}`}
+                  label="Book Your Service"
+                  tone="cyan"
+                  size="md"
+                />
+              </div>
+              <a
+                href={`tel:${MARKETING_PHONE_TEL}`}
+                className="order-2 sm:order-1 flex items-center justify-center sm:justify-start gap-2 text-gray-400 hover:text-white transition-colors text-sm py-3"
+              >
                 <span>or call</span>
-                <span className="text-orange-400 font-semibold">(419) 740-0146</span>
+                <span className="text-orange-400 font-semibold">{MARKETING_PHONE_DISPLAY}</span>
               </a>
             </div>
           </motion.div>
 
-          {/* Right - Appliance Image */}
+          {/* Right - big animated neon appliance (desktop) */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative"
+            className="relative hidden lg:block"
           >
-            <div className="relative flex items-center justify-center">
-              {/* Glow Effects */}
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-cyan-500/30 blur-[80px]" />
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/30 blur-[80px]" />
-              
-              {/* Icon */}
-              <div className="relative w-full max-w-md h-[300px] lg:h-[400px] flex items-center justify-center">
-                <div className="relative w-40 h-40 lg:w-48 lg:h-48">
-                  <div className="absolute inset-0 bg-cyan-500/15 rounded-3xl blur-2xl" />
-                  <div className="relative w-full h-full rounded-3xl bg-[#0d1117]/80 border border-white/10 flex items-center justify-center">
-                    <ApplianceIcon
-                      equipmentType={service.applianceType}
-                      className="w-24 h-24 lg:w-28 lg:h-28"
-                    />
-                  </div>
-                </div>
+            <div className="relative flex flex-col items-center justify-center">
+              <div
+                className="pointer-events-none absolute inset-0 m-auto w-80 h-80 rounded-full"
+                style={MARKETING_ICON_HALO_STYLE}
+                aria-hidden
+              />
+              <AtomicIcon
+                equipmentType={service.applianceType}
+                motion="always"
+                decorative
+                priority
+                className="relative w-80 h-80 xl:w-96 xl:h-96"
+              />
+              {/* Soft reflection, like neon on a wet floor */}
+              <div
+                aria-hidden="true"
+                className="relative -mt-14 h-24 w-80 xl:w-96 overflow-hidden opacity-20 blur-[1.5px] [transform:scaleY(-1)] [mask-image:linear-gradient(to_top,#000,transparent_70%)]"
+              >
+                <AtomicIcon
+                  equipmentType={service.applianceType}
+                  decorative
+                  className="absolute bottom-0 left-0 w-80 h-80 xl:w-96 xl:h-96"
+                />
               </div>
             </div>
           </motion.div>

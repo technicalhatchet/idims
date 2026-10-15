@@ -1,6 +1,14 @@
 import Head from 'next/head';
 import HomeLayout from '../components/layouts/HomeLayout';
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
+import { FaEnvelope, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
+import { MarketingPhoneIcon } from '../components/marketing/MarketingCta';
+import {
+  MARKETING_COVERAGE_BLURB,
+  MARKETING_EMAIL,
+  MARKETING_SCHEDULING,
+  MARKETING_PHONE_DISPLAY,
+  MARKETING_PHONE_TEL,
+} from '../constants/marketingSiteContent';
 
 export default function Contact() {
   return (
@@ -9,21 +17,6 @@ export default function Contact() {
         <title>Contact Us | Atomic Repair</title>
       </Head>
 
-      {/* Background - Atomic Theme */}
-      <div 
-        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
-        style={{ backgroundColor: '#000208' }}
-      >
-        <div 
-          className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px]"
-          style={{ backgroundColor: 'rgba(0, 229, 255, 0.15)' }}
-        />
-        <div 
-          className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px]"
-          style={{ backgroundColor: 'rgba(255, 122, 26, 0.18)' }}
-        />
-      </div>
-      
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4" style={{ color: '#EAF6FF' }}>
@@ -41,11 +34,11 @@ export default function Contact() {
               className="p-6 rounded-2xl border flex items-start gap-4"
               style={{ backgroundColor: '#000811', borderColor: '#1A2A3A' }}
             >
-              <FaPhone className="text-2xl flex-shrink-0" style={{ color: '#00E5FF' }} />
+              <MarketingPhoneIcon className="w-7 h-7 flex-shrink-0 text-[#00E5FF]" strokeWidth={2} />
               <div>
                 <h3 className="font-semibold mb-1" style={{ color: '#EAF6FF' }}>Phone</h3>
-                <p style={{ color: '#9FB3C8' }}>(419) 740-0146</p>
-                <p className="text-sm mt-1" style={{ color: '#627D98' }}>Available 7 days a week</p>
+                <a href={`tel:${MARKETING_PHONE_TEL}`} style={{ color: '#9FB3C8' }}>{MARKETING_PHONE_DISPLAY}</a>
+                <p className="text-sm mt-1" style={{ color: '#627D98' }}>Call or text — we return messages when we are not on a job</p>
               </div>
             </div>
 
@@ -56,7 +49,7 @@ export default function Contact() {
               <FaEnvelope className="text-2xl flex-shrink-0" style={{ color: '#00E5FF' }} />
               <div>
                 <h3 className="font-semibold mb-1" style={{ color: '#EAF6FF' }}>Email</h3>
-                <p style={{ color: '#9FB3C8' }}>service@atomicrepair.com</p>
+                <a href={`mailto:${MARKETING_EMAIL}`} style={{ color: '#9FB3C8' }}>{MARKETING_EMAIL}</a>
                 <p className="text-sm mt-1" style={{ color: '#627D98' }}>We respond within 24 hours</p>
               </div>
             </div>
@@ -68,8 +61,7 @@ export default function Contact() {
               <FaMapMarkerAlt className="text-2xl flex-shrink-0" style={{ color: '#FF7A1A' }} />
               <div>
                 <h3 className="font-semibold mb-1" style={{ color: '#EAF6FF' }}>Service Area</h3>
-                <p style={{ color: '#9FB3C8' }}>Toledo & Northwest Ohio</p>
-                <p className="text-sm mt-1" style={{ color: '#627D98' }}>Maumee, Perrysburg, Sylvania & more</p>
+                <p style={{ color: '#9FB3C8' }}>{MARKETING_COVERAGE_BLURB}</p>
               </div>
             </div>
 
@@ -79,9 +71,10 @@ export default function Contact() {
             >
               <FaClock className="text-2xl flex-shrink-0" style={{ color: '#FF7A1A' }} />
               <div>
-                <h3 className="font-semibold mb-1" style={{ color: '#EAF6FF' }}>Hours</h3>
-                <p style={{ color: '#9FB3C8' }}>Mon-Sat: 8am - 7pm</p>
-                <p style={{ color: '#9FB3C8' }}>Sunday: 9am - 5pm</p>
+                <h3 className="font-semibold mb-1" style={{ color: '#EAF6FF' }}>{MARKETING_SCHEDULING.title}</h3>
+                {MARKETING_SCHEDULING.lines.map((line) => (
+                  <p key={line} className="text-sm leading-relaxed" style={{ color: '#9FB3C8' }}>{line}</p>
+                ))}
               </div>
             </div>
           </div>

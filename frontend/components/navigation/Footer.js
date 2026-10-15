@@ -1,6 +1,13 @@
 import Link from 'next/link';
-import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { MarketingPhoneIcon } from '../marketing/MarketingCta';
 import AtomicLogo from '../ui/AtomicLogo';
+import {
+  MARKETING_EMAIL,
+  MARKETING_PHONE_DISPLAY,
+  MARKETING_PHONE_TEL,
+  MARKETING_SERVICES,
+} from '../../constants/marketingSiteContent';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -15,7 +22,7 @@ export default function Footer() {
               <AtomicLogo height={48} />
             </Link>
             <p className="text-gray-500 text-sm leading-relaxed">
-              Fast, reliable appliance repair in Toledo. Same-day service, honest diagnostics, no surprises.
+              Owner-operated appliance repair in Toledo. Same-day diagnostics when available.
             </p>
           </div>
 
@@ -50,31 +57,16 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4">Services</h4>
             <ul className="space-y-3">
-              <li>
-                <Link href="/services#refrigerator" className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">
-                  Refrigerator Repair
-                </Link>
-              </li>
-              <li>
-                <Link href="/services#washer" className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">
-                  Washer & Dryer
-                </Link>
-              </li>
-              <li>
-                <Link href="/services#oven" className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">
-                  Range Repair
-                </Link>
-              </li>
-              <li>
-                <Link href="/services#dishwasher" className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">
-                  Dishwasher Repair
-                </Link>
-              </li>
-              <li>
-                <Link href="/services#tv" className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">
-                  TV Repair
-                </Link>
-              </li>
+              {MARKETING_SERVICES.map((service) => (
+                <li key={service.slug}>
+                  <Link
+                    href={`/services/${service.slug}`}
+                    className="text-gray-400 hover:text-cyan-400 transition-colors text-sm"
+                  >
+                    {service.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -83,18 +75,18 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-4">Contact Us</h4>
             <ul className="space-y-3">
               <li>
-                <a href="tel:4197400146" className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors text-sm">
-                  <FaPhone className="w-4 h-4 text-cyan-400" />
-                  (419) 740-0146
+                <a href={`tel:${MARKETING_PHONE_TEL}`} className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors text-sm">
+                  <MarketingPhoneIcon className="w-4 h-4 text-cyan-400" />
+                  {MARKETING_PHONE_DISPLAY}
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:service@atomicrepair419.com"
+                  href={`mailto:${MARKETING_EMAIL}`}
                   className="flex items-center gap-3 text-gray-400 hover:text-cyan-400 transition-colors text-sm"
                 >
                   <FaEnvelope className="w-4 h-4 text-cyan-400" />
-                  service@atomicrepair419.com
+                  {MARKETING_EMAIL}
                 </a>
               </li>
               <li>

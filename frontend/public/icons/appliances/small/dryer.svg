@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 144 144" width="48" height="48" role="img" aria-label="Dryer repair">
+  <title>Dryer repair</title>
+  <defs>
+    <filter id="dryer-sm-halo" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4"/></filter>
+    <filter id="dryer-sm-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.6"/></filter>
+    <g id="dryer-sm-c" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="20" y="6" width="88" height="116" rx="10"/><path d="M20 34 H108"/><circle cx="64" cy="77" r="30"/></g>
+    <g id="dryer-sm-o" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="36" cy="20" r="5"/><path d="M53 90 c-4 -4 4 -8 0 -12 s4 -8 0 -12 M64 92 c-4 -4 4 -8 0 -12 s4 -8 0 -12 M75 90 c-4 -4 4 -8 0 -12 s4 -8 0 -12"/></g>
+  </defs>
+  <g>
+  <use href="#dryer-sm-c" stroke="#00E5FF" stroke-width="11" opacity=".4" filter="url(#dryer-sm-halo)"/>
+  <use href="#dryer-sm-o" stroke="#FF7A1A" stroke-width="11" opacity=".45" filter="url(#dryer-sm-halo)"/>
+  <use href="#dryer-sm-c" stroke="#00E5FF" stroke-width="8" opacity=".9" filter="url(#dryer-sm-glow)"/>
+  <use href="#dryer-sm-o" stroke="#FF7A1A" stroke-width="8" opacity=".9" filter="url(#dryer-sm-glow)"/>
+  <use href="#dryer-sm-c" stroke="#00E5FF" stroke-width="5.5"/>
+  <use href="#dryer-sm-o" stroke="#FF7A1A" stroke-width="5.5"/>
+  <use href="#dryer-sm-c" stroke="#D9FDFF" stroke-width="1.8"/>
+  <use href="#dryer-sm-o" stroke="#FFE6CC" stroke-width="1.8"/>
+  </g>
+</svg>

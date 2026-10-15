@@ -2,13 +2,25 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { 
-  FaCheck, FaCheckCircle, FaStar, FaTools, FaMapMarkerAlt, FaClock,
-  FaPhone, FaCalendarAlt, FaShieldAlt, FaTruck, FaDollarSign, FaAward,
-  FaUsers, FaPlus, FaMinus, FaArrowRight, FaQuoteLeft
+import {
+  FaCheck, FaCheckCircle, FaMapMarkerAlt, FaClock,
+  FaDollarSign, FaAward,
+  FaUsers, FaTruck, FaPlus, FaMinus, FaArrowRight,
 } from 'react-icons/fa';
+import OurPromiseSection from '../../components/marketing/OurPromiseSection';
+import {
+  CITY_HERO_TRUST_POINTS,
+  MARKETING_PHONE_TEL,
+  MARKETING_TRUST_STRIP,
+} from '../../constants/marketingSiteContent';
+import {
+  MarketingBookLink,
+  MarketingCallLink,
+  MarketingPhoneIcon,
+} from '../../components/marketing/MarketingCta';
 import { useState } from 'react';
 import HomeLayout from '../../components/layouts/HomeLayout';
+import AtomicIcon from '../../components/ui/AtomicIcon';
 import { 
   serviceAreas, 
   getServiceArea, 
@@ -84,16 +96,10 @@ export default function ServiceAreaPage({ area }) {
         <title>Appliance Repair in {area.name}, {area.state} | Atomic Repair</title>
         <meta 
           name="description" 
-          content={`Fast, reliable appliance repair in ${area.name}, ${area.state}. Same-day diagnostics when available. Local expert technicians. Call ${area.phone}`} 
+          content={`Appliance repair in ${area.name}, ${area.state}. Same-day diagnostics when available. Call ${area.phone}`} 
         />
         <meta name="keywords" content={`appliance repair ${area.name}, ${area.name} appliance repair, refrigerator repair ${area.name}, washer repair ${area.name}`} />
       </Head>
-
-      {/* Background */}
-      <div className="fixed inset-0 -z-50 bg-[#0B0F1A] overflow-hidden">
-        <div className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px] bg-cyan-500/10" />
-        <div className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px] bg-orange-500/10" />
-      </div>
 
       {/* HERO SECTION */}
       <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-20 overflow-hidden">
@@ -125,7 +131,7 @@ export default function ServiceAreaPage({ area }) {
 
               {/* Trust Points */}
               <div className="mt-6 space-y-2">
-                {['5-Star Local Technicians', 'Transparent Pricing', 'Same-Day Diagnostics When Available'].map((point, i) => (
+                {CITY_HERO_TRUST_POINTS.map((point, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, x: -20 }}
@@ -140,28 +146,18 @@ export default function ServiceAreaPage({ area }) {
               </div>
 
               {/* CTA Buttons */}
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Link href="/book">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-white shadow-[0_0_25px_rgba(251,146,60,0.4)] hover:shadow-[0_0_35px_rgba(251,146,60,0.6)] transition-all flex items-center gap-2"
-                    style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
-                  >
-                    <FaCalendarAlt className="w-4 h-4" />
-                    Book Service
-                  </motion.button>
-                </Link>
-                <a href={`tel:${area.phone.replace(/[^0-9]/g, '')}`}>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-white border border-white/20 hover:bg-white/5 transition-all flex items-center gap-2"
-                  >
-                    <FaPhone className="w-4 h-4" />
-                    Call Now
-                  </motion.button>
-                </a>
+              <div className="mt-8 flex flex-col sm:flex-row flex-wrap gap-4">
+                <div className="order-1 sm:order-2">
+                  <MarketingBookLink label="Book Service" tone="cyan" size="md" />
+                </div>
+                <div className="order-2 sm:order-1">
+                  <MarketingCallLink
+                    tel={area.phone.replace(/[^0-9]/g, '') || MARKETING_PHONE_TEL}
+                    label="Call Now"
+                    tone="orange"
+                    size="md"
+                  />
+                </div>
               </div>
 
               {/* Coverage Note */}
@@ -208,12 +204,12 @@ export default function ServiceAreaPage({ area }) {
                   {/* Icon grid on top */}
                   <div className="relative grid grid-cols-3 gap-4 max-w-md mx-auto p-6">
                     {[
-                      '/applianceicons/neon/neonfridge.png',
-                      '/applianceicons/neon/neonwasher.png',
-                      '/applianceicons/neon/neonrange.png',
-                      '/applianceicons/neon/neondishwasher.png',
-                      '/applianceicons/neon/neonmicrowave.png',
-                      '/applianceicons/neon/neonorangecurvedtv.png'
+                      '/icons/appliances/detail-static/french-door-fridge.svg',
+                      '/icons/appliances/detail-static/washer.svg',
+                      '/icons/appliances/detail-static/range.svg',
+                      '/icons/appliances/detail-static/dishwasher.svg',
+                      '/icons/appliances/detail-static/microwave.svg',
+                      '/icons/appliances/detail-static/tv.svg'
                     ].map((icon, i) => (
                       <motion.div
                         key={i}
@@ -232,17 +228,14 @@ export default function ServiceAreaPage({ area }) {
               {/* Other cities: Default icon grid */}
               {area.slug !== 'toledo' && area.slug !== 'maumee' && (
                 <>
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-cyan-500/20 blur-[80px]" />
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/20 blur-[80px]" />
-
                   <div className="relative grid grid-cols-3 gap-4 max-w-md mx-auto">
                     {[
-                      '/applianceicons/neon/neonfridge.png',
-                      '/applianceicons/neon/neonwasher.png',
-                      '/applianceicons/neon/neonrange.png',
-                      '/applianceicons/neon/neondishwasher.png',
-                      '/applianceicons/neon/neonmicrowave.png',
-                      '/applianceicons/neon/neonorangecurvedtv.png'
+                      '/icons/appliances/detail-static/french-door-fridge.svg',
+                      '/icons/appliances/detail-static/washer.svg',
+                      '/icons/appliances/detail-static/range.svg',
+                      '/icons/appliances/detail-static/dishwasher.svg',
+                      '/icons/appliances/detail-static/microwave.svg',
+                      '/icons/appliances/detail-static/tv.svg'
                     ].map((icon, i) => (
                       <motion.div
                         key={i}
@@ -266,13 +259,9 @@ export default function ServiceAreaPage({ area }) {
       <section className="relative py-8 border-y border-white/5 bg-white/[0.02]">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { icon: FaStar, value: area.stats.rating, label: 'Google Rating' },
-              { icon: FaTools, value: `${area.stats.repairsCompleted.toLocaleString()}+`, label: 'Repairs Completed' },
-              { icon: FaMapMarkerAlt, value: 'Locally', label: 'Owned & Operated' },
-              { icon: FaClock, value: 'Same-Day', label: 'Diagnostics' }
-            ].map((stat, i) => {
-              const Icon = stat.icon;
+            {MARKETING_TRUST_STRIP.map((stat, i) => {
+              const icons = [FaDollarSign, FaAward, FaMapMarkerAlt, FaClock];
+              const Icon = icons[i] || FaCheckCircle;
               return (
                 <motion.div
                   key={i}
@@ -366,7 +355,7 @@ export default function ServiceAreaPage({ area }) {
             </h2>
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {localServices.map((service, i) => (
               <motion.div
                 key={service.slug}
@@ -378,8 +367,13 @@ export default function ServiceAreaPage({ area }) {
               >
                 <Link href={`/services/${service.slug}`}>
                   <div className="p-5 rounded-2xl bg-white/5 border border-white/10 hover:border-cyan-500/30 transition-all h-full">
-                    <div className="w-14 h-14 relative mb-4">
-                      <Image src={service.icon} alt={service.title} fill className="object-contain" />
+                    <div className="w-16 h-16 relative mb-3 -ml-1">
+                      <AtomicIcon
+                        name={service.icon?.split('/').pop()?.replace('.svg', '')}
+                        motion="hover"
+                        decorative
+                        className="w-16 h-16"
+                      />
                     </div>
                     <h3 className="text-white font-semibold text-sm mb-2 group-hover:text-cyan-400 transition-colors">
                       {service.title}
@@ -440,60 +434,7 @@ export default function ServiceAreaPage({ area }) {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      {area.testimonials && area.testimonials.length > 0 && (
-        <section className="relative py-16 lg:py-20 border-t border-white/5">
-          <div className="max-w-6xl mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
-              <p className="text-cyan-400 text-sm font-semibold tracking-wider uppercase mb-3">
-                What Your Neighbors Are Saying
-              </p>
-              <h2 className="text-2xl lg:text-3xl font-bold text-white">
-                Real Service. Real Customers.
-              </h2>
-            </motion.div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {area.testimonials.map((testimonial, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="p-6 rounded-2xl bg-white/5 border border-white/10"
-                >
-                  <div className="flex gap-1 mb-3">
-                    {[...Array(testimonial.rating)].map((_, j) => (
-                      <FaStar key={j} className="w-4 h-4 text-orange-400" />
-                    ))}
-                  </div>
-                  <FaQuoteLeft className="w-6 h-6 text-cyan-500/30 mb-2" />
-                  <p className="text-gray-300 text-sm leading-relaxed mb-4">
-                    "{testimonial.text}"
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500/20 to-orange-500/20 flex items-center justify-center">
-                      <span className="text-white font-bold text-sm">
-                        {testimonial.author.charAt(0)}
-                      </span>
-                    </div>
-                    <div>
-                      <p className="text-white font-medium text-sm">{testimonial.author}</p>
-                      <p className="text-gray-500 text-xs">{testimonial.location}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      <OurPromiseSection cityName={area.name} />
 
       {/* MAP SECTION */}
       <section className="relative py-16 lg:py-20 border-t border-white/5">
@@ -538,28 +479,18 @@ export default function ServiceAreaPage({ area }) {
                 Not sure if you're in our area? Call or text us – we're happy to help!
               </p>
 
-              <div className="flex flex-wrap gap-4">
-                <a href={`tel:${area.phone.replace(/[^0-9]/g, '')}`}>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-white shadow-[0_0_25px_rgba(251,146,60,0.4)] flex items-center gap-2"
-                    style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
-                  >
-                    <FaPhone className="w-4 h-4" />
-                    {area.phone}
-                  </motion.button>
-                </a>
-                <Link href="/book">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-white border border-white/20 hover:bg-white/5 transition-all flex items-center gap-2"
-                  >
-                    <FaCalendarAlt className="w-4 h-4" />
-                    Book Online
-                  </motion.button>
-                </Link>
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4">
+                <div className="order-1 sm:order-2">
+                  <MarketingBookLink label="Book Online" tone="cyan" size="md" />
+                </div>
+                <div className="order-2 sm:order-1">
+                  <MarketingCallLink
+                    tel={area.phone.replace(/[^0-9]/g, '') || MARKETING_PHONE_TEL}
+                    label={area.phone}
+                    tone="orange"
+                    size="md"
+                  />
+                </div>
               </div>
             </motion.div>
           </div>
@@ -608,7 +539,7 @@ export default function ServiceAreaPage({ area }) {
             <div className="relative flex flex-col lg:flex-row items-center justify-between gap-6 p-8 lg:p-10">
               <div className="flex items-center gap-4">
                 <div className="hidden lg:flex w-14 h-14 rounded-full bg-cyan-500/10 border border-cyan-500/30 items-center justify-center">
-                  <FaPhone className="w-6 h-6 text-cyan-400" />
+                  <MarketingPhoneIcon className="w-6 h-6 text-cyan-400" strokeWidth={2} />
                 </div>
                 <div>
                   <h3 className="text-xl lg:text-2xl font-bold text-white">
@@ -618,27 +549,18 @@ export default function ServiceAreaPage({ area }) {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-4">
-                <Link href="/book">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-cyan-500 to-cyan-600 shadow-[0_0_25px_rgba(34,211,238,0.4)] flex items-center gap-2"
-                  >
-                    <FaCalendarAlt className="w-4 h-4" />
-                    Book Service Now
-                  </motion.button>
-                </Link>
-                <a href={`tel:${area.phone.replace(/[^0-9]/g, '')}`}>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-orange-400 border border-orange-500/50 hover:bg-orange-500/10 transition-all flex items-center gap-2"
-                  >
-                    <FaPhone className="w-4 h-4" />
-                    Call {area.phone}
-                  </motion.button>
-                </a>
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4">
+                <div className="order-1 sm:order-2">
+                  <MarketingBookLink label="Book Service Now" tone="cyan" size="md" />
+                </div>
+                <div className="order-2 sm:order-1">
+                  <MarketingCallLink
+                    tel={area.phone.replace(/[^0-9]/g, '') || MARKETING_PHONE_TEL}
+                    label={`Call ${area.phone}`}
+                    tone="orange"
+                    size="md"
+                  />
+                </div>
               </div>
             </div>
           </motion.div>

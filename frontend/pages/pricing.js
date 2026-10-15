@@ -3,11 +3,19 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { 
-  FaCheck, FaCheckCircle, FaShieldAlt, FaDollarSign, FaCalendarAlt, FaPhone,
+  FaCheck, FaCheckCircle, FaShieldAlt, FaDollarSign, FaCalendarAlt,
   FaCog, FaTools, FaPuzzlePiece, FaClock, FaBan, FaFileInvoiceDollar,
   FaAward, FaUserCheck, FaStar
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
+import {
+  MarketingBookLink,
+  MarketingPhoneIcon,
+} from '../components/marketing/MarketingCta';
+import {
+  MARKETING_PHONE_DISPLAY,
+  MARKETING_PHONE_TEL,
+} from '../constants/marketingSiteContent';
 
 const PRICING_TIERS = [
   {
@@ -86,12 +94,12 @@ const PRICE_FACTORS = [
 ];
 
 const REPAIR_COSTS = [
-  { service: 'Refrigerator Repair', icon: '/applianceicons/neon/neonfridge.png', range: '$180 – $400' },
-  { service: 'Washer Repair', icon: '/applianceicons/neon/neonwasher.png', range: '$150 – $350' },
-  { service: 'Dryer Repair', icon: '/applianceicons/neon/neondryer.png', range: '$140 – $300' },
-  { service: 'Oven & Range Repair', icon: '/applianceicons/neon/neonrange.png', range: '$160 – $380' },
-  { service: 'Dishwasher Repair', icon: '/applianceicons/neon/neondishwasher.png', range: '$140 – $320' },
-  { service: 'Microwave Repair', icon: '/applianceicons/neon/neonmicrowave.png', range: '$120 – $250' },
+  { service: 'Refrigerator Repair', icon: '/icons/appliances/small/french-door-fridge.svg', range: '$180 – $400' },
+  { service: 'Washer Repair', icon: '/icons/appliances/small/washer.svg', range: '$150 – $350' },
+  { service: 'Dryer Repair', icon: '/icons/appliances/small/dryer.svg', range: '$140 – $300' },
+  { service: 'Oven & Range Repair', icon: '/icons/appliances/small/range.svg', range: '$160 – $380' },
+  { service: 'Dishwasher Repair', icon: '/icons/appliances/small/dishwasher.svg', range: '$140 – $320' },
+  { service: 'Microwave Repair', icon: '/icons/appliances/small/microwave.svg', range: '$120 – $250' },
 ];
 
 const TRUST_FEATURES = [
@@ -125,21 +133,6 @@ export default function Pricing() {
         <meta name="description" content="Transparent appliance repair pricing in Toledo. No hidden fees, upfront quotes, and warranty included. See our diagnostic, repair, and priority service rates." />
       </Head>
 
-      {/* Background - Atomic Theme */}
-      <div 
-        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
-        style={{ backgroundColor: '#000208' }}
-      >
-        <div 
-          className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px]"
-          style={{ backgroundColor: 'rgba(0, 229, 255, 0.15)' }}
-        />
-        <div 
-          className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px]"
-          style={{ backgroundColor: 'rgba(255, 122, 26, 0.18)' }}
-        />
-      </div>
-
       {/* HERO SECTION */}
       <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
@@ -169,20 +162,16 @@ export default function Pricing() {
               </p>
 
               {/* CTA */}
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Link href="/book">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-white bg-transparent border border-white/20 hover:bg-white/5 transition-all flex items-center gap-2"
-                  >
-                    <FaCalendarAlt className="w-4 h-4" />
-                    Book Your Service
-                  </motion.button>
-                </Link>
-                <a href="tel:4197400146" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+              <div className="mt-8 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-4">
+                <div className="order-1 sm:order-2">
+                  <MarketingBookLink label="Book Your Service" tone="cyan" size="md" />
+                </div>
+                <a
+                  href={`tel:${MARKETING_PHONE_TEL}`}
+                  className="order-2 sm:order-1 flex items-center justify-center sm:justify-start gap-2 text-gray-400 hover:text-white transition-colors text-sm py-3"
+                >
                   <span>or call</span>
-                  <span className="text-orange-400 font-semibold">(419) 740-0146</span>
+                  <span className="text-orange-400 font-semibold">{MARKETING_PHONE_DISPLAY}</span>
                 </a>
               </div>
             </motion.div>
@@ -194,15 +183,11 @@ export default function Pricing() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              {/* Glow Effects */}
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-cyan-500/20 blur-[80px]" />
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/20 blur-[80px]" />
-
               <div className="relative flex items-center gap-8">
                 {/* Appliance Image Placeholder */}
                 <div className="flex-1 relative h-[300px] lg:h-[350px]">
                   <div className="grid grid-cols-2 gap-4 h-full">
-                    {['/applianceicons/neon/neonfridge.png', '/applianceicons/neon/neonwasher.png', '/applianceicons/neon/neonrange.png', '/applianceicons/neon/neondishwasher.png'].map((icon, i) => (
+                    {['/icons/appliances/detail-static/french-door-fridge.svg', '/icons/appliances/detail-static/washer.svg', '/icons/appliances/detail-static/range.svg', '/icons/appliances/detail-static/dishwasher.svg'].map((icon, i) => (
                       <div key={i} className="relative flex items-center justify-center">
                         <Image src={icon} alt="" width={60} height={60} className="object-contain opacity-60" />
                       </div>
@@ -542,7 +527,7 @@ export default function Pricing() {
             <div className="relative flex flex-col lg:flex-row items-center justify-between gap-8 p-8 lg:p-12">
               {/* Phone Icon */}
               <div className="hidden lg:flex items-center justify-center w-20 h-20 rounded-full bg-cyan-500/10 border border-cyan-500/30">
-                <FaPhone className="w-8 h-8 text-cyan-400" />
+                <MarketingPhoneIcon className="w-8 h-8 text-cyan-400" strokeWidth={2} />
               </div>
 
               {/* Text */}
@@ -561,20 +546,11 @@ export default function Pricing() {
 
               {/* CTA */}
               <div className="flex flex-col items-center gap-3">
-                <Link href="/book">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-8 py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-cyan-500 to-cyan-600 shadow-[0_0_30px_rgba(34,211,238,0.4)] hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] transition-all flex items-center gap-2"
-                  >
-                    <FaCalendarAlt className="w-4 h-4" />
-                    Book Your Service
-                  </motion.button>
-                </Link>
+                <MarketingBookLink label="Book Your Service" tone="cyan" size="lg" />
                 <p className="text-gray-400 text-sm">
                   or call{' '}
-                  <a href="tel:4197400146" className="text-orange-400 hover:text-orange-300 font-medium">
-                    (419) 740-0146
+                  <a href={`tel:${MARKETING_PHONE_TEL}`} className="text-orange-400 hover:text-orange-300 font-medium">
+                    {MARKETING_PHONE_DISPLAY}
                   </a>
                 </p>
               </div>

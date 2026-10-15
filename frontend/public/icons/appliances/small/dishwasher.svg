@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 144 144" width="48" height="48" role="img" aria-label="Dishwasher repair">
+  <title>Dishwasher repair</title>
+  <defs>
+    <filter id="dishwasher-sm-halo" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4"/></filter>
+    <filter id="dishwasher-sm-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.6"/></filter>
+    <g id="dishwasher-sm-c" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="22" y="6" width="84" height="116" rx="10"/><path d="M22 32 H106 M36 96 H92"/></g>
+    <g id="dishwasher-sm-o" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M52 19 H76 M48 88 l-5 -22 M64 88 V62 M80 88 l5 -22"/></g>
+  </defs>
+  <g>
+  <use href="#dishwasher-sm-c" stroke="#00E5FF" stroke-width="11" opacity=".4" filter="url(#dishwasher-sm-halo)"/>
+  <use href="#dishwasher-sm-o" stroke="#FF7A1A" stroke-width="11" opacity=".45" filter="url(#dishwasher-sm-halo)"/>
+  <use href="#dishwasher-sm-c" stroke="#00E5FF" stroke-width="8" opacity=".9" filter="url(#dishwasher-sm-glow)"/>
+  <use href="#dishwasher-sm-o" stroke="#FF7A1A" stroke-width="8" opacity=".9" filter="url(#dishwasher-sm-glow)"/>
+  <use href="#dishwasher-sm-c" stroke="#00E5FF" stroke-width="5.5"/>
+  <use href="#dishwasher-sm-o" stroke="#FF7A1A" stroke-width="5.5"/>
+  <use href="#dishwasher-sm-c" stroke="#D9FDFF" stroke-width="1.8"/>
+  <use href="#dishwasher-sm-o" stroke="#FFE6CC" stroke-width="1.8"/>
+  </g>
+</svg>

@@ -116,7 +116,7 @@ function ServiceVanBody() {
       <circle cx="-12" cy="10" r="4" fill="none" stroke="var(--cyan)" strokeWidth="1.2" />
       <circle cx="12" cy="10" r="4" fill="none" stroke="var(--cyan)" strokeWidth="1.2" />
       <image
-        href="/atomwrenches.png"
+        href="/icon-512.png"
         x={logoX}
         y={logoY}
         width={TRUCK_LOGO_SIZE}

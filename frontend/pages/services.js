@@ -3,73 +3,32 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
-  FaShieldAlt, FaBolt, FaCheckCircle, FaDollarSign,
-  FaCalendarAlt, FaSearch, FaTools, FaThumbsUp
+  FaBolt, FaCheckCircle, FaDollarSign,
+  FaCalendarAlt, FaSearch, FaTools, FaThumbsUp,
 } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
+import { MarketingBookLink, MarketingCallLink } from '../components/marketing/MarketingCta';
+import { MARKETING_PHONE_TEL } from '../constants/marketingSiteContent';
 import ApplianceIcon from '../components/ui/ApplianceIcon';
 import ServiceCard from '../components/services/ServiceCard';
 import FeatureBadge from '../components/services/FeatureBadge';
 import ProcessStep from '../components/services/ProcessStep';
 import CTASection from '../components/services/CTASection';
 import { useState } from 'react';
+import { MARKETING_SERVICES } from '../constants/marketingSiteContent';
 
-const SERVICES = [
-  {
-    id: 'refrigerator',
-    slug: 'refrigerator-repair',
-    title: 'REFRIGERATOR REPAIR',
-    description: 'Not cooling, leaking, ice maker issues, and more.',
-  },
-  {
-    id: 'washer',
-    slug: 'washer-repair',
-    title: 'WASHER REPAIR',
-    description: "Won't spin, not draining, noisy or not starting.",
-  },
-  {
-    id: 'dryer',
-    slug: 'dryer-repair',
-    title: 'DRYER REPAIR',
-    description: "Not heating, takes too long, won't start.",
-  },
-  {
-    id: 'oven',
-    slug: 'oven-repair',
-    title: 'OVEN & RANGE REPAIR',
-    description: 'Not heating, temperature issues, or not working.',
-  },
-  {
-    id: 'dishwasher',
-    slug: 'dishwasher-repair',
-    title: 'DISHWASHER REPAIR',
-    description: 'Not cleaning, leaking, not draining properly.',
-  },
-  {
-    id: 'microwave',
-    slug: 'microwave-repair',
-    title: 'MICROWAVE REPAIR',
-    description: 'Not heating, turntable issues, or not powering on.',
-  },
-  {
-    id: 'freezer',
-    slug: 'freezer-repair',
-    title: 'FREEZER REPAIR',
-    description: 'Not freezing, frost buildup, or unusual noises.',
-  },
-  {
-    id: 'tv',
-    slug: 'tv-repair',
-    title: 'TV REPAIR',
-    description: 'No picture, sound issues, or connectivity problems.',
-  },
-];
+const SERVICES = MARKETING_SERVICES.map((service) => ({
+  id: service.equipmentType,
+  slug: service.slug,
+  title: service.title.toUpperCase(),
+  description: service.description,
+}));
 
 const FEATURES = [
-  { icon: FaShieldAlt, title: 'Certified Technicians' },
-  { icon: FaBolt, title: 'Fast & Reliable' },
-  { icon: FaCheckCircle, title: 'Satisfaction Guaranteed' },
-  { icon: FaDollarSign, title: 'Upfront Pricing' },
+  { icon: FaSearch, title: 'Diagnostic-first' },
+  { icon: FaBolt, title: 'Same-day when available' },
+  { icon: FaCheckCircle, title: '90-day warranty' },
+  { icon: FaDollarSign, title: 'Upfront pricing' },
 ];
 
 const PROCESS_STEPS = [
@@ -106,21 +65,6 @@ export default function Services() {
         <title>Our Services | Atomic Repair</title>
         <meta name="description" content="Expert appliance repair services in Toledo. Refrigerator, washer, dryer, oven, dishwasher, microwave, freezer, and TV repair." />
       </Head>
-
-      {/* Background - Atomic Theme */}
-      <div 
-        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
-        style={{ backgroundColor: '#000208' }}
-      >
-        <div 
-          className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px]"
-          style={{ backgroundColor: 'rgba(0, 229, 255, 0.15)' }}
-        />
-        <div 
-          className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px]"
-          style={{ backgroundColor: 'rgba(255, 122, 26, 0.18)' }}
-        />
-      </div>
 
       {/* HERO SECTION */}
       <section className="relative pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden">
@@ -160,17 +104,9 @@ export default function Services() {
               </div>
 
               {/* Mobile CTA */}
-              <div className="mt-8 lg:hidden">
-                <Link href="/book">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-cyan-500 to-cyan-600 shadow-[0_0_25px_rgba(34,211,238,0.4)] flex items-center justify-center gap-2"
-                  >
-                    <FaCalendarAlt className="w-4 h-4" />
-                    Book Your Service
-                  </motion.button>
-                </Link>
+              <div className="mt-8 flex flex-col gap-4 lg:hidden">
+                <MarketingBookLink label="Book Your Service" tone="cyan" size="lg" fullWidth />
+                <MarketingCallLink tel={MARKETING_PHONE_TEL} label="Call Now" tone="orange" size="lg" fullWidth />
               </div>
             </motion.div>
 
@@ -181,10 +117,6 @@ export default function Services() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative lg:flex-1 w-full"
             >
-              {/* Glow Effects */}
-              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/30 blur-[100px]" />
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-orange-500/30 blur-[100px]" />
-
               {/* Image Container */}
               <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px]">
                 {!imgError && (

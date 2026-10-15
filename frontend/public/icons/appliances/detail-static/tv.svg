@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-14 -14 156 156" width="256" height="256" role="img" aria-label="TV repair">
+  <title>TV repair</title>
+  <defs>
+    <filter id="tv-halo" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5.5"/></filter>
+    <filter id="tv-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.8"/></filter>
+    <g id="tv-c" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="18" width="112" height="72" rx="5"/>
+    <path d="M16 82 L40 56 L54 70 L72 48 L104 82"/>
+    <path d="M30 90 l-6 12 M98 90 l6 12"/></g>
+    <g id="tv-o" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="88" cy="38" r="8"/>
+    <path d="M78 52 h20 M84 58 h10"/>
+    <rect x="34" y="106" width="60" height="7" rx="3.5"/>
+    <path d="M48 109.5 h0.01 M80 109.5 h0.01"/></g>
+  </defs>
+  <g>
+  <use href="#tv-c" stroke="#00E5FF" stroke-width="8" opacity=".4" filter="url(#tv-halo)"/>
+  <use href="#tv-o" stroke="#FF7A1A" stroke-width="8" opacity=".45" filter="url(#tv-halo)"/>
+  <use href="#tv-c" stroke="#00E5FF" stroke-width="5" opacity=".9" filter="url(#tv-glow)"/>
+  <use href="#tv-o" stroke="#FF7A1A" stroke-width="5" opacity=".9" filter="url(#tv-glow)"/>
+  <use href="#tv-c" stroke="#00E5FF" stroke-width="2.7"/>
+  <use href="#tv-o" stroke="#FF7A1A" stroke-width="2.7"/>
+  <use href="#tv-c" stroke="#D9FDFF" stroke-width="0.9"/>
+  <use href="#tv-o" stroke="#FFE6CC" stroke-width="0.9"/>
+  </g>
+</svg>

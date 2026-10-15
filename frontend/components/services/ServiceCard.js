@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaArrowRight } from 'react-icons/fa';
-import ApplianceIcon from '../ui/ApplianceIcon';
+import AtomicIcon from '../ui/AtomicIcon';
 
 export default function ServiceCard({ service, index }) {
   const detailHref = service.slug 
@@ -26,14 +26,14 @@ export default function ServiceCard({ service, index }) {
 
         {/* Icon */}
         <div className="relative mb-4">
-          <div className="w-16 h-16 relative">
-            <div className="absolute inset-0 bg-cyan-500/10 rounded-xl blur-lg group-hover:bg-cyan-500/20 transition-colors" />
-            <div className="relative w-full h-full rounded-xl bg-[#0d1117] border border-white/10 flex items-center justify-center">
-              <ApplianceIcon
-                equipmentType={equipmentType}
-                className="w-10 h-10"
-              />
-            </div>
+          <div className="w-20 h-20 relative -ml-2">
+            <div className="absolute inset-2 bg-cyan-500/10 rounded-full blur-lg group-hover:bg-cyan-500/20 transition-colors" />
+            <AtomicIcon
+              equipmentType={equipmentType}
+              motion="hover"
+              decorative
+              className="relative w-20 h-20"
+            />
           </div>
         </div>
 

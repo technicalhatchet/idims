@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import AtomicLogo from '../ui/AtomicLogo';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -26,7 +27,7 @@ export default function Sidebar({ open = false, onClose }) {
     <>
       <div className="p-4 sm:p-6 border-b border-white/5 flex items-center justify-between gap-3">
         <Link href="/cxdashboard" className="flex items-center gap-3 min-w-0" onClick={onClose}>
-          <img src="/arblock.png" alt="Atomic Repair" className="h-10 sm:h-12 w-auto object-contain" />
+          <AtomicLogo height={40} className="h-10 sm:h-12 w-auto object-contain" />
           <div className="min-w-0">
             <p className="text-[10px] text-gray-500 uppercase tracking-wider">Client Portal</p>
           </div>

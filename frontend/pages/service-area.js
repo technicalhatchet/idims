@@ -2,8 +2,10 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaPhone, FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaArrowRight } from 'react-icons/fa';
 import HomeLayout from '../components/layouts/HomeLayout';
+import { MarketingBookLink, MarketingCallLink } from '../components/marketing/MarketingCta';
+import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../constants/marketingSiteContent';
 import CoverageRadar from '../components/coverage/CoverageRadar';
 import { allCities, serviceAreas } from '../data/serviceAreas';
 
@@ -51,36 +53,6 @@ export default function ServiceAreaIndex() {
         />
       </Head>
 
-      {/* Background - inline style to override HomeLayout's bg */}
-      <div 
-        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
-        style={{ 
-          backgroundColor: t.bg,
-          transition: 'background-color 500ms ease'
-        }}
-      >
-        {t.showGlows && (
-          <>
-            <div 
-              className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px] transition-all duration-500"
-              style={{ 
-                backgroundColor: theme === 'atomic' 
-                  ? 'rgba(0, 229, 255, 0.15)' 
-                  : 'rgba(6, 182, 212, 0.1)' 
-              }}
-            />
-            <div 
-              className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px] transition-all duration-500"
-              style={{ 
-                backgroundColor: theme === 'atomic' 
-                  ? 'rgba(255, 122, 26, 0.18)' 
-                  : 'rgba(249, 115, 22, 0.1)' 
-              }}
-            />
-          </>
-        )}
-      </div>
-
       {/* HERO */}
       <section className="relative pt-28 pb-16 lg:pt-32 lg:pb-20">
         <div className="max-w-6xl mx-auto px-6">
@@ -122,41 +94,12 @@ export default function ServiceAreaIndex() {
               </p>
 
               <div className="mt-8 flex flex-wrap gap-4">
-                <Link href="/book">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300"
-                    style={{
-                      background: theme === 'atomic' 
-                        ? 'linear-gradient(135deg, #00E5FF, #0A84FF)' 
-                        : 'linear-gradient(to right, #06b6d4, #0891b2)',
-                      color: theme === 'atomic' ? '#000208' : 'white',
-                      boxShadow: theme === 'atomic' 
-                        ? '0 0 25px rgba(0, 229, 255, 0.4)' 
-                        : '0 0 25px rgba(34,211,238,0.4)'
-                    }}
-                  >
-                    <FaCalendarAlt className="w-4 h-4" />
-                    Book Service
-                  </motion.button>
-                </Link>
-                <a href="tel:4197400146">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300"
-                    style={{
-                      backgroundColor: 'transparent',
-                      borderWidth: '1px',
-                      borderColor: theme === 'atomic' ? '#1A2A3A' : 'rgba(255,255,255,0.2)',
-                      color: theme === 'atomic' ? '#EAF6FF' : 'white'
-                    }}
-                  >
-                    <FaPhone className="w-4 h-4" />
-                    (419) 740-0146
-                  </motion.button>
-                </a>
+                <div className="order-1 sm:order-2">
+                  <MarketingBookLink label="Book Service" tone="cyan" size="md" />
+                </div>
+                <div className="order-2 sm:order-1">
+                  <MarketingCallLink label={MARKETING_PHONE_DISPLAY} tone="orange" size="md" />
+                </div>
               </div>
             </motion.div>
 
@@ -267,7 +210,7 @@ export default function ServiceAreaIndex() {
                       {area.name}, {area.state}
                     </h3>
                     <p style={{ color: theme === 'atomic' ? '#6B7C8F' : '#9ca3af' }} className="text-sm mt-1">
-                      {area.stats.repairsCompleted}+ repairs completed
+                      Diagnostic-first service when available
                     </p>
                   </div>
                 </Link>
@@ -369,41 +312,13 @@ export default function ServiceAreaIndex() {
                 ))}
               </ul>
 
-              <div className="flex flex-wrap gap-4">
-                <a href="tel:4197400146">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold text-white flex items-center gap-2 transition-all duration-300"
-                    style={{
-                      background: theme === 'atomic' 
-                        ? 'linear-gradient(135deg, #FF7A1A, #FF9A3D)' 
-                        : 'linear-gradient(135deg, #fb923c, #fbbf24)',
-                      boxShadow: theme === 'atomic' 
-                        ? '0 0 25px rgba(255, 122, 26, 0.35)' 
-                        : '0 0 25px rgba(249,115,22,0.4)'
-                    }}
-                  >
-                    <FaPhone className="w-4 h-4" />
-                    (419) 740-0146
-                  </motion.button>
-                </a>
-                <Link href="/book">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-6 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300"
-                    style={{
-                      backgroundColor: 'transparent',
-                      borderWidth: '1px',
-                      borderColor: theme === 'atomic' ? '#1A2A3A' : 'rgba(255,255,255,0.2)',
-                      color: theme === 'atomic' ? '#EAF6FF' : 'white'
-                    }}
-                  >
-                    <FaCalendarAlt className="w-4 h-4" />
-                    Book Online
-                  </motion.button>
-                </Link>
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4">
+                <div className="order-1 sm:order-2">
+                  <MarketingBookLink label="Book Online" tone="cyan" size="md" />
+                </div>
+                <div className="order-2 sm:order-1">
+                  <MarketingCallLink label={MARKETING_PHONE_DISPLAY} tone="orange" size="md" />
+                </div>
               </div>
             </motion.div>
 
@@ -454,42 +369,13 @@ export default function ServiceAreaIndex() {
                 We serve Toledo and surrounding areas with same-day diagnostics when available. Book online or give us a call!
               </p>
 
-              <div className="flex flex-wrap justify-center gap-4">
-                <Link href="/book">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-8 py-4 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300"
-                    style={{
-                      background: theme === 'atomic' 
-                        ? 'linear-gradient(135deg, #00E5FF, #0A84FF)' 
-                        : 'linear-gradient(to right, #06b6d4, #0891b2)',
-                      color: theme === 'atomic' ? '#000208' : 'white',
-                      boxShadow: theme === 'atomic' 
-                        ? '0 0 30px rgba(0, 229, 255, 0.4)' 
-                        : '0 0 30px rgba(34,211,238,0.4)'
-                    }}
-                  >
-                    <FaCalendarAlt className="w-4 h-4" />
-                    Book Your Service
-                  </motion.button>
-                </Link>
-                <a href="tel:4197400146">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-8 py-4 rounded-xl font-semibold flex items-center gap-2 transition-all duration-300"
-                    style={{
-                      backgroundColor: 'transparent',
-                      borderWidth: '1px',
-                      borderColor: theme === 'atomic' ? 'rgba(255, 122, 26, 0.5)' : 'rgba(249, 115, 22, 0.5)',
-                      color: theme === 'atomic' ? '#FF7A1A' : '#fb923c',
-                    }}
-                  >
-                    <FaPhone className="w-4 h-4" />
-                    Call (419) 740-0146
-                  </motion.button>
-                </a>
+              <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
+                <div className="order-1 sm:order-2">
+                  <MarketingBookLink label="Book Your Service" tone="cyan" size="lg" />
+                </div>
+                <div className="order-2 sm:order-1">
+                  <MarketingCallLink label={`Call ${MARKETING_PHONE_DISPLAY}`} tone="orange" size="lg" />
+                </div>
               </div>
             </div>
           </motion.div>

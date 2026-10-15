@@ -10,7 +10,7 @@ const SAMPLE_REPAIRS = [
     date: 'May 10, 2025',
     status: 'Completed',
     price: '$245.00',
-    icon: '/applianceicons/neon/neonrange.png'
+    icon: 'range'
   },
   {
     id: 'QR-7789',
@@ -18,7 +18,7 @@ const SAMPLE_REPAIRS = [
     date: 'Apr 25, 2025',
     status: 'Completed',
     price: '$185.00',
-    icon: '/applianceicons/neon/neonwasher.png'
+    icon: 'washer'
   }
 ];
 

@@ -8,21 +8,6 @@ export default function About() {
         <title>About Us | Atomic Repair</title>
       </Head>
 
-      {/* Background - Atomic Theme */}
-      <div 
-        className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
-        style={{ backgroundColor: '#000208' }}
-      >
-        <div 
-          className="absolute blur-[120px] md:blur-[180px] w-[300px] h-[300px] md:w-[700px] md:h-[700px] -top-[50px] -left-[100px] md:-top-[100px] md:-left-[200px]"
-          style={{ backgroundColor: 'rgba(0, 229, 255, 0.15)' }}
-        />
-        <div 
-          className="absolute blur-[100px] md:blur-[150px] w-[250px] h-[250px] md:w-[500px] md:h-[500px] bottom-[15%] -right-[50px] md:bottom-[20%] md:-right-[100px]"
-          style={{ backgroundColor: 'rgba(255, 122, 26, 0.18)' }}
-        />
-      </div>
-      
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4" style={{ color: '#EAF6FF' }}>
@@ -39,8 +24,8 @@ export default function About() {
             style={{ backgroundColor: '#000811', borderColor: '#1A2A3A' }}
           >
             <p style={{ color: '#9FB3C8' }} className="text-lg leading-relaxed">
-              Atomic Repair provides expert appliance repair services across Toledo and Northwest Ohio. 
-              Our certified technicians are equipped to handle all major brands and appliance types.
+              Atomic Repair is an owner-operated appliance repair service based in Toledo. We diagnose and repair
+              major household appliances and TVs across Northwest Ohio.
             </p>
           </div>
           
@@ -50,9 +35,8 @@ export default function About() {
           >
             <h2 className="text-2xl font-bold mb-4" style={{ color: '#00E5FF' }}>Our Mission</h2>
             <p style={{ color: '#9FB3C8' }} className="leading-relaxed">
-              To provide fast, honest, and reliable appliance repair services with transparent pricing 
-              and exceptional customer service. As a family-owned and operated business, we pride 
-              ourselves on our commitment to quality and customer satisfaction.
+              To provide honest, reliable appliance repair with clear pricing and respectful communication —
+              the way we would want service in our own homes.
             </p>
           </div>
           
