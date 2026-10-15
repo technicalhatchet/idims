@@ -27,6 +27,7 @@ CORS_ALLOWED_ORIGINS: List[str] = [
     "https://idims.atomicrepair419.com",
     "https://solodiag.com",
     "https://www.solodiag.com",
+    "https://logit.solodiag.com",
 ]
 
 CORS_ALLOWED_ORIGINS = [o for o in CORS_ALLOWED_ORIGINS if o]

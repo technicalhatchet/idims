@@ -4,6 +4,7 @@
  */
 
 import { ATOMIC_AUTH_HOST, isAtomicAuthHost } from './atomicApprovedHosts';
+import { LOGIT_SUBDOMAIN_HOST } from './logitSubdomainHost';
 
 const DEFAULT_DEV_ORIGIN = 'http://localhost:3001';
 
@@ -20,6 +21,7 @@ export const AUTH0_ALLOWED_HOSTS = new Set([
   'v0-idims.vercel.app',
   'solodiag.com',
   'www.solodiag.com',
+  LOGIT_SUBDOMAIN_HOST,
   'dma-eight.vercel.app',
 ]);
 
