@@ -7,6 +7,7 @@ import {
   isSolomonStandaloneMode,
 } from './lib/routeAccess';
 import { hasAppSessionCookie } from './lib/hasAppSessionCookie';
+import { getHostBasedSiteRedirectUrl } from './lib/hostBasedRouting';
 
 function solomonStandaloneResponse(req, pathname) {
   if (pathname === '/') {
@@ -25,6 +26,11 @@ export function middleware(req) {
 
   if (isSolomonStandaloneMode()) {
     return solomonStandaloneResponse(req, pathname);
+  }
+
+  const hostSiteRedirect = getHostBasedSiteRedirectUrl(req);
+  if (hostSiteRedirect) {
+    return NextResponse.redirect(hostSiteRedirect);
   }
 
   if (isPublicPath(pathname)) {

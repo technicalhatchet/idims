@@ -3,6 +3,8 @@
  * Vercel serves multiple domains (atomicrepair419.com, v0-idims.vercel.app, etc.) on one project.
  */
 
+import { ATOMIC_AUTH_HOST, isAtomicAuthHost } from './atomicApprovedHosts';
+
 const DEFAULT_DEV_ORIGIN = 'http://localhost:3001';
 
 /** Production/custom domains; *.vercel.app allowed when listed or matched by suffix. */
@@ -11,8 +13,10 @@ export const AUTH0_ALLOWED_HOST_SUFFIXES = ['.vercel.app'];
 export const AUTH0_ALLOWED_HOSTS = new Set([
   'localhost',
   '127.0.0.1',
-  'atomicrepair419.com',
-  'www.atomicrepair419.com',
+  ATOMIC_AUTH_HOST.MARKETING_APEX,
+  ATOMIC_AUTH_HOST.MARKETING_WWW,
+  ATOMIC_AUTH_HOST.PORTAL,
+  ATOMIC_AUTH_HOST.IDIMS,
   'v0-idims.vercel.app',
   'solodiag.com',
   'www.solodiag.com',
@@ -41,6 +45,7 @@ function isAllowedHost(host) {
   const h = String(host || '').toLowerCase().split(':')[0];
   if (!h) return false;
   if (AUTH0_ALLOWED_HOSTS.has(h)) return true;
+  if (isAtomicAuthHost(h)) return true;
   return AUTH0_ALLOWED_HOST_SUFFIXES.some((suffix) => h.endsWith(suffix));
 }
 
@@ -72,4 +77,25 @@ export function resolveAuth0BaseUrl(req) {
   }
 
   return `${proto}://${hostname}`;
+}
+
+/**
+ * @param {import('http').IncomingMessage | { headers?: Record<string, string | string[] | undefined> }} req
+ */
+export function resolveAuth0CallbackUrl(req) {
+  return `${resolveAuth0BaseUrl(req).replace(/\/$/, '')}/api/auth/callback`;
+}
+
+/**
+ * @param {import('http').IncomingMessage | { headers?: Record<string, string | string[] | undefined> }} req
+ */
+export function resolveAuth0LogoutUrl(req) {
+  return `${resolveAuth0BaseUrl(req).replace(/\/$/, '')}/api/auth/logout`;
+}
+
+/**
+ * @param {import('http').IncomingMessage | { headers?: Record<string, string | string[] | undefined> }} req
+ */
+export function resolveAuth0LoginUrl(req) {
+  return `${resolveAuth0BaseUrl(req).replace(/\/$/, '')}/api/auth/login`;
 }
