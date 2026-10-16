@@ -1,5 +1,6 @@
 import {
   DIAGNOSTIC_CREDIT_MARKETING,
+  getDiagnosticFeePromiseParagraph,
   OPENING_SPECIAL_PRICE,
   SAME_DAY_DIAGNOSTICS_TAGLINE,
 } from './bookingMarketing';
@@ -39,14 +40,12 @@ export const MARKETING_TRUST_STRIP = [
 
 export const OUR_PROMISE = {
   title: 'Our Promise',
-  body:
-    'Same-day diagnostics when available, upfront pricing, and a 90-day warranty on repairs we complete. '
-    + 'Your diagnostic fee is not wasted — if you approve the repair, 50% of the diagnostic fee applies toward the repair. '
-    + 'If a repair attempt is unsuccessful, you will not be charged labor for that repair.',
+  body: getDiagnosticFeePromiseParagraph(),
   bullets: [
     'Honest diagnosis before any repair work',
     'You approve the quote before we proceed',
     'Local, owner-operated service',
+    'Your appliance records saved to your account',
   ],
 };
 

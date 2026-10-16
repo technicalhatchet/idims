@@ -10,6 +10,7 @@ import { FaClock, FaCheckCircle, FaArrowRight, FaDollarSign } from 'react-icons/
 import { MARKETING_SERVICES } from '../constants/marketingSiteContent';
 import { MarketingBookLink, MarketingCallLink } from '../components/marketing/MarketingCta';
 import OurPromiseSection from '../components/marketing/OurPromiseSection';
+import HomeMyAppliancesSection from '../components/marketing/HomeMyAppliancesSection';
 import { HiLightningBolt } from 'react-icons/hi';
 import {
   DIAGNOSTIC_CREDIT_MARKETING,
@@ -287,6 +288,8 @@ export default function Home() {
           </ScrollReveal>
         </div>
       </section>
+
+      <HomeMyAppliancesSection />
 
       <OurPromiseSection />
 
