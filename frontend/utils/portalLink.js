@@ -63,6 +63,21 @@ export function logPortalLinkDiagnostics(label, payload) {
   console.groupEnd();
 }
 
+/** Auth0 session exists but no clients row is linked to this login. */
+export function isPortalAwaitingFirstService(linkDebug) {
+  if (!linkDebug) return false;
+  return !linkDebug.client_linked_by_auth0_id && !linkDebug.client_linked_by_email;
+}
+
+export function isPortalNoClientApiError(message) {
+  if (!message || typeof message !== 'string') return false;
+  const m = message.toLowerCase();
+  return (
+    m.includes('no client record found')
+    || m.includes('client portal access required')
+  );
+}
+
 const TOKEN_REFRESH_KEY = 'portal_token_refresh_attempted';
 
 /** One-time re-login after role is newly assigned so JWT picks up client role. */

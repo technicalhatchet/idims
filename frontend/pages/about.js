@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import HomeLayout from '../components/layouts/HomeLayout';
+import { getDiagnosticFeePromiseParagraph } from '../constants/bookingMarketing';
 
 export default function About() {
   return (
@@ -46,9 +47,7 @@ export default function About() {
           >
             <h2 className="text-2xl font-bold mb-4" style={{ color: '#FF7A1A' }}>Our Promise</h2>
             <p style={{ color: '#9FB3C8' }} className="leading-relaxed">
-              Same-day diagnostics when available, upfront pricing, and a 90-day warranty on repairs we complete. 
-              Your diagnostic fee is never wasted - if you approve the repair, it applies toward 
-              the repair cost. If a repair attempt is unsuccessful, you won't be charged labor for that repair.
+              {getDiagnosticFeePromiseParagraph()}
             </p>
           </div>
         </div>
