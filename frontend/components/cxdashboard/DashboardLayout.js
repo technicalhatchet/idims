@@ -6,13 +6,14 @@ import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import ClientPwaHead from './ClientPwaHead';
 import PortalWelcome from './PortalWelcome';
-import ImpersonationBanner from './ImpersonationBanner';
+import PortalPreviewBanner from './PortalPreviewBanner';
 import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
 import {
   getPortalImpersonateClientId,
   getPortalImpersonateClientName,
-  isPortalAdminPreview,
+  isPortalPreviewActive,
   notifyPortalImpersonateChanged,
+  clearPortalPreviewSession,
 } from '../../utils/portalPreview';
 import { resolvePortalDisplayUser } from '../../utils/portalDisplayUser';
 
@@ -40,9 +41,7 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
   }, [router.pathname]);
 
   const exitPreview = useCallback(() => {
-    sessionStorage.removeItem('portal_impersonate_client_id');
-    sessionStorage.removeItem('portal_impersonate_client_name');
-    notifyPortalImpersonateChanged();
+    clearPortalPreviewSession();
     router.push('/cxdashboard');
   }, [router]);
 
@@ -193,8 +192,8 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
             onMenuClick={() => setSidebarOpen(true)}
           />
           <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-[max(1rem,env(safe-area-inset-bottom))]">
-            {isPortalAdminPreview() && (
-              <ImpersonationBanner onExit={exitPreview} />
+            {isPortalPreviewActive() && (
+              <PortalPreviewBanner onExit={exitPreview} />
             )}
             <PortalWelcome user={displayUser} />
             {children}

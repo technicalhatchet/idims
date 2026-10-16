@@ -15,22 +15,7 @@ import {
 import { formatPortalCurrency } from '../../utils/portalMoney';
 import { MARKETING_PHONE_DISPLAY } from '../../constants/marketingSiteContent';
 
-const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
-
-async function portalFetch(endpoint, token) {
-  const impersonateId = typeof window !== 'undefined'
-    ? sessionStorage.getItem('portal_impersonate_client_id')
-    : null;
-  const sep = endpoint.includes('?') ? '&' : '?';
-  const url = impersonateId
-    ? `${BACKEND}/api/portal/${endpoint}${sep}admin_client_id=${impersonateId}`
-    : `${BACKEND}/api/portal/${endpoint}`;
-  const res = await fetch(url, {
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-  });
-  if (!res.ok) throw new Error(`Portal API error: ${res.status}`);
-  return res.json();
-}
+import { portalFetch } from '../../utils/portalFetch';
 
 export default function InvoicesPage() {
   const [invoices, setInvoices] = useState([]);

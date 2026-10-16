@@ -41,7 +41,7 @@ export async function fetchPortalLinkDebug(accessToken) {
   return data;
 }
 
-export async function postPortalLinkAccount(accessToken, { inviteToken, email } = {}) {
+export async function postPortalLinkAccount(accessToken, { inviteToken } = {}) {
   const res = await fetch(`${BACKEND}/api/portal/link-account`, {
     method: 'POST',
     headers: {
@@ -50,7 +50,6 @@ export async function postPortalLinkAccount(accessToken, { inviteToken, email } 
     },
     body: JSON.stringify({
       ...(inviteToken ? { invite_token: inviteToken } : {}),
-      ...(email ? { email } : {}),
     }),
   });
   const data = await res.json().catch(() => ({}));

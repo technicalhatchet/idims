@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
-import { FaCalendarAlt, FaTools, FaFileInvoiceDollar, FaShieldAlt, FaTimes, FaEye } from 'react-icons/fa';
+import { FaCalendarAlt, FaTools, FaFileInvoiceDollar, FaShieldAlt } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import StatCard from '../../components/cxdashboard/StatCard';
 import PortalMobileStatGrid from '../../components/cxdashboard/PortalMobileStatGrid';
@@ -36,7 +36,11 @@ import {
   clearPortalTokenRefreshAttempt,
   redirectToRefreshPortalToken,
 } from '../../utils/portalLink';
-import { notifyPortalImpersonateChanged } from '../../utils/portalPreview';
+import {
+  clearPortalPreviewUnlock,
+  clearPortalPreviewSession,
+  notifyPortalImpersonateChanged,
+} from '../../utils/portalPreview';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
 const CLIENT_ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -49,23 +53,7 @@ async function portalFetch(endpoint, accessToken, impersonateClientId = null) {
   if (impersonateClientId && !isValidClientId(impersonateClientId)) {
     throw new Error('Invalid client preview selection. Please pick a client again.');
   }
-  const sep = endpoint.includes('?') ? '&' : '?';
-  const url = impersonateClientId
-    ? `${BACKEND}/api/portal/${endpoint}${sep}admin_client_id=${impersonateClientId}`
-    : `${BACKEND}/api/portal/${endpoint}`;
-
-  const res = await fetch(url, {
-    headers: {
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    },
-  });
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
-    const detail = body.detail || res.statusText;
-    throw new Error(detail || `Portal API error: ${res.status}`);
-  }
-  return res.json();
+  return portalFetchShared(endpoint, accessToken, {}, impersonateClientId);
 }
 
 
@@ -175,29 +163,6 @@ function ClientPicker({ clients, onSelect, loading }) {
   );
 }
 
-// Amber banner shown when admin is impersonating a client
-function ImpersonationBanner({ clientName, onExit }) {
-  return (
-    <div style={{
-      position: 'sticky', top: 0, zIndex: 50,
-      background: 'rgba(245,158,11,0.95)',
-      backdropFilter: 'blur(8px)',
-      padding: '8px 16px',
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      fontSize: '13px', fontWeight: '600', color: '#0f0f1a',
-      marginBottom: '1.5rem', borderRadius: '8px',
-    }}>
-      <div className="flex items-center gap-2">
-        <FaEye />
-        <span>Admin Preview — Viewing as: <strong>{clientName}</strong></span>
-      </div>
-      <button onClick={onExit} style={{ background: 'rgba(0,0,0,0.15)', border: 'none', borderRadius: '6px', padding: '4px 10px', cursor: 'pointer', color: '#0f0f1a', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: '700' }}>
-        <FaTimes size={11} /> Exit Preview
-      </button>
-    </div>
-  );
-}
-
 export default function ClientDashboard() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -260,7 +225,6 @@ export default function ClientDashboard() {
           try {
             const linkResult = await postPortalLinkAccount(token, {
               inviteToken: storedInviteToken,
-              email: sessionEmail,
             });
             logPortalLinkDiagnostics('link-account (invite)', linkResult);
             if (!linkResult.ok) {
@@ -280,7 +244,7 @@ export default function ClientDashboard() {
           }
         } else if (!staffUser) {
           try {
-            const linkResult = await postPortalLinkAccount(token, { email: sessionEmail });
+            const linkResult = await postPortalLinkAccount(token);
             logPortalLinkDiagnostics('link-account (auto)', linkResult);
             if (handleLinkRefresh(linkResult)) {
               return;
@@ -288,7 +252,7 @@ export default function ClientDashboard() {
             if (!linkResult.ok) {
               const msg = linkResult.data?.detail || `Link failed (${linkResult.status})`;
               console.warn('[Portal] Auto link-account failed:', msg);
-              if (linkResult.status === 409) {
+              if (linkResult.status === 403 || linkResult.status === 409) {
                 setError(msg);
               }
             } else if (!linkResult.data?.role_assigned) {
@@ -299,7 +263,7 @@ export default function ClientDashboard() {
           }
         }
 
-        if (!staffUser && token) {
+        if (adminUser && token) {
           try {
             linkDebug = await fetchPortalLinkDebug(token);
             logPortalLinkDiagnostics('link-debug', linkDebug);
@@ -416,6 +380,7 @@ export default function ClientDashboard() {
 
   const handleSelectClient = (client) => {
     setSelectedClient(client);
+    clearPortalPreviewUnlock();
     sessionStorage.setItem('portal_impersonate_client_id', client.id);
     sessionStorage.setItem('portal_impersonate_client_name', `${client.first_name} ${client.last_name}${client.company_name ? ` (${client.company_name})` : ''}`);
     notifyPortalImpersonateChanged();
@@ -424,9 +389,7 @@ export default function ClientDashboard() {
 
   const handleExitPreview = () => {
     setSelectedClient(null);
-    sessionStorage.removeItem('portal_impersonate_client_id');
-    sessionStorage.removeItem('portal_impersonate_client_name');
-    notifyPortalImpersonateChanged();
+    clearPortalPreviewSession();
     setProfile(null);
     setAppointments([]);
     setWorkOrders([]);
