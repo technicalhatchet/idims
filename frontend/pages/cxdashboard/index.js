@@ -2,7 +2,13 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
-import { FaCalendarAlt, FaTools, FaFileInvoiceDollar, FaShieldAlt } from 'react-icons/fa';
+import {
+  FaCalendarAlt,
+  FaEye,
+  FaFileInvoiceDollar,
+  FaShieldAlt,
+  FaTools,
+} from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import StatCard from '../../components/cxdashboard/StatCard';
 import PortalMobileStatGrid from '../../components/cxdashboard/PortalMobileStatGrid';
@@ -41,6 +47,7 @@ import {
   clearPortalPreviewSession,
   notifyPortalImpersonateChanged,
 } from '../../utils/portalPreview';
+import { portalFetch as portalFetchShared } from '../../utils/portalFetch';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
 const CLIENT_ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
