@@ -5,6 +5,7 @@ import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import SupportCTA from '../../components/cxdashboard/SupportCTA';
 import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
 import { isPortalAdminPreview } from '../../utils/portalPreview';
+import { MARKETING_PHONE_DISPLAY } from '../../constants/marketingSiteContent';
 
 const inputClass =
   'w-full rounded-lg border border-white/10 bg-[#0D1525] px-3 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-cyan-500/50';
@@ -179,7 +180,7 @@ export default function SettingsPage() {
               </label>
               <input className={`${inputClass} opacity-70`} value={form.email} disabled readOnly />
               <p className="text-white/35 text-xs mt-1.5 mb-0">
-                Email is tied to your login. Call (419) 794-1689 if you need it changed.
+                Email is tied to your login. Call {MARKETING_PHONE_DISPLAY} if you need it changed.
               </p>
             </div>
 

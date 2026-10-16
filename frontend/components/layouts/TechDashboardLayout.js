@@ -13,7 +13,7 @@ import TechIconRail from '../navigation/TechIconRail';
 import {
   TECHDECK_BRAND_VERSION,
   TECHDECK_LOCKUP_COLLAPSED_SRC,
-  TECHDECK_LOCKUP_SRC,
+  TECHDECK_LOCKUP_LIGHT_SRC,
 } from '../../constants/techdeckBrandAssets';
 import TechDeckPwaHead from '../techdeck/TechDeckPwaHead';
 import {
@@ -269,7 +269,7 @@ export default function TechDashboardLayout({ children }) {
 
         {/* Center logo */}
         <img
-          src={TECHDECK_LOCKUP_SRC}
+          src={TECHDECK_LOCKUP_LIGHT_SRC}
           alt="TechDeck"
           className="h-9 sm:h-10 w-auto max-w-[min(70vw,16rem)] object-contain absolute left-1/2 -translate-x-1/2"
         />
@@ -313,7 +313,7 @@ export default function TechDashboardLayout({ children }) {
                 style={{ 
                   background: '#0D1525', 
                   border: '1px solid rgba(34,211,238,0.3)',
-                  boxShadow: '0 0 20px rgba(0,212,255,0.1)'
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.35)'
                 }}
               >
                 {/* User Info */}
@@ -389,7 +389,7 @@ export default function TechDashboardLayout({ children }) {
         <div className="flex items-center justify-center flex-shrink-0 px-2" style={{ height: 72, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
           {expanded ? (
             <img
-              src={TECHDECK_LOCKUP_SRC}
+              src={TECHDECK_LOCKUP_LIGHT_SRC}
               alt="TechDeck"
               className="h-11 w-auto max-w-[12rem] object-contain"
             />
@@ -408,9 +408,7 @@ export default function TechDashboardLayout({ children }) {
             const active = isActive(item.href);
             const itemColor = item.color === 'orange' ? '#FF7A00' : '#00D4FF';
             const color = active ? itemColor : 'rgba(34,211,238,0.5)';
-            const glowFilter = active
-              ? (item.color === 'orange' ? 'drop-shadow(0 0 5px rgba(255,122,0,0.7))' : 'drop-shadow(0 0 5px rgba(0,212,255,0.7))')
-              : 'none';
+            const glowFilter = 'none';
             const isSweeping = sweepingItem === item.name;
 
             const handleClick = (e) => {

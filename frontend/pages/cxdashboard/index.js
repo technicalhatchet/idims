@@ -36,6 +36,7 @@ import {
   clearPortalTokenRefreshAttempt,
   redirectToRefreshPortalToken,
 } from '../../utils/portalLink';
+import { notifyPortalImpersonateChanged } from '../../utils/portalPreview';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
 const CLIENT_ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -417,6 +418,7 @@ export default function ClientDashboard() {
     setSelectedClient(client);
     sessionStorage.setItem('portal_impersonate_client_id', client.id);
     sessionStorage.setItem('portal_impersonate_client_name', `${client.first_name} ${client.last_name}${client.company_name ? ` (${client.company_name})` : ''}`);
+    notifyPortalImpersonateChanged();
     loadPortalData(accessToken, client.id);
   };
 
@@ -424,6 +426,7 @@ export default function ClientDashboard() {
     setSelectedClient(null);
     sessionStorage.removeItem('portal_impersonate_client_id');
     sessionStorage.removeItem('portal_impersonate_client_name');
+    notifyPortalImpersonateChanged();
     setProfile(null);
     setAppointments([]);
     setWorkOrders([]);

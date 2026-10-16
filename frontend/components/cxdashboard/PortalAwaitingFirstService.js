@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { FaCalendarCheck, FaPhone, FaTools } from 'react-icons/fa';
+import { FaCalendarCheck, FaTools } from 'react-icons/fa';
 import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../../constants/marketingSiteContent';
+import { MarketingPhoneIcon } from '../marketing/MarketingCta';
 
 /**
  * Shown when the user is signed in but has no linked client record (no service yet).
@@ -27,7 +28,7 @@ export default function PortalAwaitingFirstService() {
           href={`tel:${MARKETING_PHONE_TEL}`}
           className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 text-white px-6 py-3 text-sm font-semibold hover:bg-white/5 transition-colors"
         >
-          <FaPhone className="w-4 h-4 text-orange-400" aria-hidden />
+          <MarketingPhoneIcon className="w-4 h-4 text-orange-400" />
           {MARKETING_PHONE_DISPLAY}
         </a>
       </div>

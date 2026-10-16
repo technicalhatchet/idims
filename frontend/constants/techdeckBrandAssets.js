@@ -4,6 +4,8 @@ export const TECHDECK_BRAND_VERSION = 1;
 const v = `?v=${TECHDECK_BRAND_VERSION}`;
 
 export const TECHDECK_LOCKUP_SRC = `/techdeck-brand/techdeck-lockup.svg${v}`;
+/** Light wordmark for dark headers (lower visual weight than full-color lockup). */
+export const TECHDECK_LOCKUP_LIGHT_SRC = `/techdeck-brand/techdeck-lockup-light.svg${v}`;
 export const TECHDECK_LOCKUP_COLLAPSED_SRC = `/techdeck-brand/techdeck-icon.svg${v}`;
 
 export const TECHDECK_FAVICON_ICO = `/techdeck-brand/favicon.ico${v}`;
