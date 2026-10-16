@@ -10,8 +10,12 @@ import { startDeployReminderHeartbeat, stopDeployReminderHeartbeat } from '../..
 import { useUIPreferences } from '../../context/UIPreferencesContext';
 import { resolveUserDisplayName, resolveUserInitial } from '../../utils/userDisplayName';
 import TechIconRail from '../navigation/TechIconRail';
-import { BRAND_ICON_SRC } from '../../constants/brandAssets';
-import AtomicLogo from '../ui/AtomicLogo';
+import {
+  TECHDECK_BRAND_VERSION,
+  TECHDECK_LOCKUP_COLLAPSED_SRC,
+  TECHDECK_LOCKUP_SRC,
+} from '../../constants/techdeckBrandAssets';
+import TechDeckPwaHead from '../techdeck/TechDeckPwaHead';
 import {
   TECH_DMA_PATH,
   TECH_HOME,
@@ -113,6 +117,9 @@ export default function TechDashboardLayout({ children }) {
   // Rail position from user preferences (default: 'right')
   const railPosition = preferences.railPosition || 'right';
   const isRailOnRight = railPosition === 'right';
+  const pwaManifestHref = router.pathname.startsWith('/techdashboard')
+    ? `/manifest-tech.json?v=${TECHDECK_BRAND_VERSION}`
+    : `/manifest-techboard.json?v=${TECHDECK_BRAND_VERSION}`;
 
   // Role-based access control - redirect clients to their portal
   useEffect(() => {
@@ -170,6 +177,7 @@ export default function TechDashboardLayout({ children }) {
 
   return (
     <TechDashboardRailContext.Provider value={{ openRail }}>
+    <TechDeckPwaHead manifestHref={pwaManifestHref} />
     <div className="min-h-screen" style={{ background: '#0A0F1E' }}>
       <style>{`
         .hud-tactical-column {
@@ -260,7 +268,11 @@ export default function TechDashboardLayout({ children }) {
         </button>
 
         {/* Center logo */}
-        <img src="/idimslogo.png?v=2" alt="IDIMS" className="h-10 w-auto absolute left-1/2 -translate-x-1/2" />
+        <img
+          src={TECHDECK_LOCKUP_SRC}
+          alt="TechDeck"
+          className="h-9 sm:h-10 w-auto max-w-[min(70vw,16rem)] object-contain absolute left-1/2 -translate-x-1/2"
+        />
 
         {/* Notifications + Profile - position flips with rail */}
         <div className="flex items-center gap-2">
@@ -376,9 +388,17 @@ export default function TechDashboardLayout({ children }) {
         {/* Logo area */}
         <div className="flex items-center justify-center flex-shrink-0 px-2" style={{ height: 72, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
           {expanded ? (
-            <AtomicLogo height={46} className="w-auto max-w-[12rem] object-contain" />
+            <img
+              src={TECHDECK_LOCKUP_SRC}
+              alt="TechDeck"
+              className="h-11 w-auto max-w-[12rem] object-contain"
+            />
           ) : (
-            <img src={BRAND_ICON_SRC} alt="AR" style={{ height: 46, width: 46, objectFit: 'contain' }} />
+            <img
+              src={TECHDECK_LOCKUP_COLLAPSED_SRC}
+              alt="TechDeck"
+              style={{ height: 46, width: 46, objectFit: 'contain' }}
+            />
           )}
         </div>
 

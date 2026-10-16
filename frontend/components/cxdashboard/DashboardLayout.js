@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import ClientPwaHead from './ClientPwaHead';
+import PortalWelcome from './PortalWelcome';
 
 const PORTAL_SHELL = '#0B0F1A';
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
@@ -98,6 +99,7 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
             onMenuClick={() => setSidebarOpen(true)}
           />
           <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-[max(1rem,env(safe-area-inset-bottom))]">
+            <PortalWelcome user={userProp || portalUser} />
             {children}
           </main>
         </div>

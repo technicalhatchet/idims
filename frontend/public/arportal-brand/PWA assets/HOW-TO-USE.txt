@@ -1,0 +1,27 @@
+Atomic Portal (Client Portal) app icon - B4d
+
+Copy the png/ files and favicon.ico into your app's public folder.
+
+<head> tags:
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/b4d-favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#07212D">
+
+manifest.json "icons":
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "theme_color": "#07212D",
+  "background_color": "#07212D"
+
+Notes
+- The app icons are full-bleed squares on purpose. iOS and Android cut the rounded corners themselves;
+  baking corners in gives you a double-rounded edge.
+- The maskable icons keep the atom inside Android's circular safe zone, so it never gets clipped.
+- favicon-16 is a simplified version (just the keyhole core). The full atom turns to mush at 16px.
+- b4d-app-icon-rounded.svg / b4d-rounded-1024.png are for anywhere else you want the tile on its own
+  (website, docs, social).
