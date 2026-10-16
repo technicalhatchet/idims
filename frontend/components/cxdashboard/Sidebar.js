@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { PORTAL_SPLIT_FLAT_SRC } from '../../constants/portalBrandAssets';
+import PortalBrandLogo from './PortalBrandLogo';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -25,13 +25,9 @@ export default function Sidebar({ open = false, onClose }) {
 
   const drawerHeader = (
     <div className="p-4 sm:p-6 border-b border-white/5 flex items-center justify-between gap-3">
-      <Link href="/cxdashboard" className="flex items-center min-w-0 flex-1" onClick={onClose}>
-        <img
-          src={PORTAL_SPLIT_FLAT_SRC}
-          alt="Atomic Repair Client Portal"
-          className="h-10 sm:h-11 w-full max-w-[240px] object-contain object-left"
-        />
-      </Link>
+      <div className="min-w-0 flex-1 pr-2">
+        <PortalBrandLogo variant="drawer" href="/cxdashboard" onNavigate={onClose} />
+      </div>
       <button
         type="button"
         onClick={onClose}
@@ -45,13 +41,7 @@ export default function Sidebar({ open = false, onClose }) {
 
   const desktopHeader = (
     <div className="p-4 sm:p-6 border-b border-white/5">
-      <Link href="/cxdashboard" className="block min-w-0" onClick={onClose}>
-        <img
-          src={PORTAL_SPLIT_FLAT_SRC}
-          alt="Atomic Repair Client Portal"
-          className="h-10 sm:h-11 w-full max-w-[240px] object-contain object-left"
-        />
-      </Link>
+      <PortalBrandLogo variant="sidebar-desktop" href="/cxdashboard" onNavigate={onClose} />
     </div>
   );
 

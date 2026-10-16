@@ -95,6 +95,7 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
         <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <div className="min-h-screen flex flex-col lg:ml-64">
           <Topbar
+            title={title}
             user={userProp || portalUser}
             onMenuClick={() => setSidebarOpen(true)}
           />

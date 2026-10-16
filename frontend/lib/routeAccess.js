@@ -45,12 +45,22 @@ export const PUBLIC_ROUTE_PREFIXES = [
 export function isPublicPath(pathname) {
   if (!pathname) return false;
   if (pathname === '/') return true;
+  if (
+    process.env.NODE_ENV === 'development'
+    && pathname === '/cxdashboard/brand-layout-preview'
+  ) {
+    return true;
+  }
   return PUBLIC_ROUTE_PREFIXES.some((route) => pathname === route || pathname.startsWith(`${route}/`));
 }
 
 export function isPortalPath(pathname) {
   if (!pathname) return false;
-  if (pathname.startsWith('/cxdashboard/login') || pathname.startsWith('/cxdashboard/register')) {
+  if (
+    pathname.startsWith('/cxdashboard/login')
+    || pathname.startsWith('/cxdashboard/register')
+    || pathname === '/cxdashboard/brand-layout-preview'
+  ) {
     return false;
   }
   return PORTAL_ROUTE_PREFIXES.some((route) => pathname === route || pathname.startsWith(`${route}/`));
