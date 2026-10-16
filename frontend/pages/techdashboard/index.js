@@ -548,7 +548,6 @@ export default function TechDashboardTest() {
     <>
       <Head>
         <title>Tech Dashboard | Atomic Repair</title>
-        <link rel="manifest" href="/manifest-tech.json" />
         <style>{`
           /* Next job — flat spotlight (no hover/sweep on shell) */
           .tech-next-job-card {

@@ -7,6 +7,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { formatDistanceToNow, format } from 'date-fns';
 import { portalFetch, getPortalSessionToken } from '../../utils/portalFetch';
 import { parseApiDateTime } from '../../utils/parseApiDateTime';
+import { PORTAL_HEADER_LOGO_SRC } from '../../constants/portalBrandAssets';
 
 function formatNotificationTime(createdAt) {
   const date = parseApiDateTime(createdAt);
@@ -102,7 +103,6 @@ export default function Topbar({ user: userProp, onMenuClick }) {
 
   const displayName = userProp?.name || portalName
     || (auth0User ? `${auth0User.given_name || ''} ${auth0User.family_name || ''}`.trim() || auth0User.name : 'Guest');
-  const firstName = userProp?.firstName || displayName.split(' ')[0] || 'there';
   const initials = displayName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'U';
   const user = { name: displayName, initials };
   const unreadCount = notifications.filter((n) => n.unread).length;
@@ -121,13 +121,12 @@ export default function Topbar({ user: userProp, onMenuClick }) {
           <FaBars className="w-5 h-5" />
         </button>
 
-        <div className="min-w-0">
-          <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white truncate">
-            Welcome back, {firstName}!
-          </h1>
-          <p className="text-gray-500 text-xs sm:text-sm truncate hidden sm:block">
-            Here&apos;s what&apos;s happening with your services.
-          </p>
+        <div className="flex flex-1 justify-center min-w-0 px-1 sm:px-4">
+          <img
+            src={PORTAL_HEADER_LOGO_SRC}
+            alt="Atomic Repair Client Portal"
+            className="h-8 sm:h-10 w-auto max-w-[min(100%,18rem)] object-contain object-center"
+          />
         </div>
       </div>
 
