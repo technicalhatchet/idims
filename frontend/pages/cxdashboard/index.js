@@ -32,10 +32,8 @@ import {
 import { formatPortalCurrency } from '../../utils/portalMoney';
 import { countPortalActiveLaborWarranties } from '../../utils/portalWarranty';
 import {
-  fetchPortalLinkDebug,
   postPortalLinkAccount,
   logPortalLinkDiagnostics,
-  getSessionEmail,
   getSessionRoles,
   shouldRefreshPortalToken,
   hasPortalTokenRefreshBeenAttempted,
@@ -178,6 +176,7 @@ export default function ClientDashboard() {
   const [workOrders, setWorkOrders] = useState([]);
   const [invoices, setInvoices] = useState([]);
   const [error, setError] = useState(null);
+  const [clientsListError, setClientsListError] = useState(null);
 
   // Admin impersonation state
   const [isAdmin, setIsAdmin] = useState(false);
@@ -207,9 +206,6 @@ export default function ClientDashboard() {
           clearPortalTokenRefreshAttempt();
         }
 
-        const sessionEmail = getSessionEmail(session);
-        let linkDebug = null;
-
         const handleLinkRefresh = (linkResult) => {
           if (shouldRefreshPortalToken(linkResult, hasClientRole)) {
             if (hasPortalTokenRefreshBeenAttempted()) {
@@ -227,7 +223,7 @@ export default function ClientDashboard() {
 
         // If coming from registration, link the account using stored invite token
         const storedInviteToken = sessionStorage.getItem('portal_invite_token');
-        if (storedInviteToken) {
+        if (storedInviteToken && !adminUser) {
           sessionStorage.removeItem('portal_invite_token');
           try {
             const linkResult = await postPortalLinkAccount(token, {
@@ -270,34 +266,8 @@ export default function ClientDashboard() {
           }
         }
 
-        if (adminUser && token) {
-          try {
-            linkDebug = await fetchPortalLinkDebug(token);
-            logPortalLinkDiagnostics('link-debug', linkDebug);
-            if (!linkDebug.client_linked_by_auth0_id) {
-              const hint = linkDebug.email_linked_to_other_auth0
-                ? `This login (${linkDebug.auth0_user_id}) does not match the account linked to ${linkDebug.auth0_profile_email || linkDebug.client_linked_by_email?.email}. Sign in with the original portal account or contact support to reset the link.`
-                : linkDebug.auth0_profile_email
-                  ? `Auth0 email is ${linkDebug.auth0_profile_email} — ensure it matches clients.email or use a fresh invite link.`
-                  : 'Could not resolve email from Auth0 profile.';
-              if (!linkDebug.has_client_role_in_auth0 || linkDebug.email_linked_to_other_auth0) {
-                setError((prev) => prev || `Account not linked yet. ${hint}`);
-              }
-              console.warn(
-                '[Portal] Not linked yet —',
-                linkDebug.auth0_user_id,
-                'token_roles:',
-                linkDebug.token_roles,
-                'profile_email:',
-                linkDebug.auth0_profile_email,
-              );
-            }
-          } catch (e) {
-            console.warn('[Portal] link-debug unavailable:', e.message);
-          }
-        }
-
         if (adminUser) {
+          setClientsListError(null);
           const savedClientId = sessionStorage.getItem('portal_impersonate_client_id');
           if (savedClientId && !isValidClientId(savedClientId)) {
             sessionStorage.removeItem('portal_impersonate_client_id');
@@ -316,6 +286,7 @@ export default function ClientDashboard() {
             }
             const data = await res.json();
             setClients(data.items || []);
+            setClientsListError(null);
 
             const validSavedId = sessionStorage.getItem('portal_impersonate_client_id');
             if (validSavedId && isValidClientId(validSavedId)) {
@@ -330,23 +301,13 @@ export default function ClientDashboard() {
             }
           } catch (e) {
             console.error('Failed to load clients:', e);
-            setError(e.message || 'Failed to load clients');
+            setClientsListError(e.message || 'Failed to load clients');
           } finally {
             setClientsLoading(false);
           }
           setLoading(false);
         } else {
           if (!hasClientRole) {
-            if (linkDebug?.client_linked_by_auth0_id && linkDebug?.has_client_role_in_auth0) {
-              if (!hasPortalTokenRefreshBeenAttempted()) {
-                redirectToRefreshPortalToken();
-                return;
-              }
-              setError(
-                'Your account is linked, but your session does not include the client role. '
-                + 'Log out completely, then sign in again.',
-              );
-            }
             setLoading(false);
             return;
           }
@@ -408,10 +369,10 @@ export default function ClientDashboard() {
     return (
       <>
         <Head><title>Client Portal Preview | Atomic Repair</title></Head>
-        {error && (
+        {clientsListError && (
           <div className="max-w-lg mx-auto mt-8 mb-4 p-4 rounded-lg border border-red-500/30 bg-red-500/10 text-red-300 text-sm">
             <p className="font-medium mb-1">Could not load client list</p>
-            <p className="text-red-200/80">{error}</p>
+            <p className="text-red-200/80">{clientsListError}</p>
           </div>
         )}
         <ClientPicker clients={clients} onSelect={handleSelectClient} loading={clientsLoading} />
