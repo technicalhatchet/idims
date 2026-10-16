@@ -13,22 +13,7 @@ import ApplianceIcon from '../../components/cxdashboard/ApplianceIcon';
 import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../../constants/marketingSiteContent';
 import { MarketingPhoneIcon } from '../../components/marketing/MarketingCta';
 
-const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
-
-async function portalFetch(endpoint, token) {
-  const impersonateId = typeof window !== 'undefined'
-    ? sessionStorage.getItem('portal_impersonate_client_id')
-    : null;
-  const sep = endpoint.includes('?') ? '&' : '?';
-  const url = impersonateId
-    ? `${BACKEND}/api/portal/${endpoint}${sep}admin_client_id=${impersonateId}`
-    : `${BACKEND}/api/portal/${endpoint}`;
-  const res = await fetch(url, {
-    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-  });
-  if (!res.ok) throw new Error(`Portal API error: ${res.status}`);
-  return res.json();
-}
+import { portalFetch } from '../../utils/portalFetch';
 
 function WarrantyCard({ wo, expired }) {
   const daysLeft = getPortalLaborWarrantyDaysLeft(wo);

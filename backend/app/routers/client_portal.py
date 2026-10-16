@@ -3,7 +3,7 @@ Client Portal API Router
 All endpoints are scoped to the authenticated client only.
 """
 
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi import APIRouter, Depends, HTTPException, status, Query, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import desc
@@ -36,6 +36,17 @@ from app.schemas.client_appliance import (
 from app.services import client_appliance_service as appliance_svc
 from app.services import portal_schedule_service as schedule_svc
 from app.core.exceptions import ValidationException
+from app.services.portal_account_linking import (
+    EMAIL_VERIFICATION_REQUIRED_MESSAGE,
+    is_placeholder_client_email,
+    normalize_email,
+    resolve_verified_link_email_from_profile,
+)
+from app.services.portal_preview_guard import (
+    PREVIEW_UNLOCK_TTL_MINUTES,
+    assert_portal_write_allowed,
+    create_preview_unlock_token,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -129,7 +140,6 @@ def _require_portal_estimate(wo: WorkOrder, db: Session) -> None:
 
 class LinkAccountRequest(BaseModel):
     invite_token: Optional[str] = None
-    email: Optional[str] = None
 
 
 async def get_token_data(credentials: HTTPAuthorizationCredentials = Depends(security)):
@@ -151,26 +161,34 @@ def _fetch_auth0_user(auth0_user_id: str) -> dict:
     return response.json()
 
 
-def _resolve_link_email(
-    body: LinkAccountRequest,
-    token_data,
-    auth0_user_id: str,
-) -> Optional[str]:
-    """Email from request body, JWT, or Auth0 user profile."""
-    for candidate in (body.email, token_data.email):
-        if candidate:
-            normalized = str(candidate).lower().strip()
-            if normalized:
-                return normalized
+def _auth0_profile_email_for_debug(auth0_user_id: str) -> Optional[str]:
+    """Auth0 Management API email (diagnostics only — not used for linking)."""
     try:
         profile = _fetch_auth0_user(auth0_user_id)
-        auth0_email = (profile.get("email") or "").lower().strip()
-        if auth0_email:
-            logger.info(f"[LinkAccount] Resolved email from Auth0 profile: {auth0_email}")
-            return auth0_email
+        return normalize_email(profile.get("email"))
     except Exception as e:
-        logger.warning(f"[LinkAccount] Could not load Auth0 profile for {auth0_user_id}: {e}")
-    return None
+        logger.warning(f"[LinkDebug] Could not load Auth0 profile for {auth0_user_id}: {e}")
+        return None
+
+
+def require_portal_write(route: str, payment: bool = False):
+    async def _guard(
+        request: Request,
+        token_data=Depends(get_token_data),
+        admin_client_id: Optional[str] = Query(None),
+        client: Client = Depends(get_portal_client),
+    ) -> None:
+        assert_portal_write_allowed(
+            request=request,
+            token_roles=getattr(token_data, "roles", None),
+            admin_sub=token_data.sub,
+            admin_client_id=admin_client_id,
+            client_id=client.id,
+            route=route,
+            block_payment=payment,
+        )
+
+    return _guard
 
 
 def _assign_client_role(auth0_user_id: str) -> Tuple[bool, bool, Optional[str]]:
@@ -383,19 +401,10 @@ async def get_portal_client(
             detail="Admin must specify admin_client_id to preview portal"
         )
 
-    # Regular client user
+    # Regular client user — lookup by auth0_user_id only (email linking is POST /portal/link-account)
     if is_client:
         auth0_user_id = token_data.sub
         client = db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
-        if not client:
-            email = _resolve_link_email(LinkAccountRequest(), token_data, auth0_user_id)
-            if email:
-                client = db.query(Client).filter(Client.email == email).first()
-                if client and not client.auth0_user_id:
-                    client.auth0_user_id = auth0_user_id
-                    db.commit()
-                    db.refresh(client)
-                    logger.info(f"[Portal] Auto-linked client {client.id} to {auth0_user_id} via email")
         if not client:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -414,14 +423,14 @@ async def link_account_debug(
     token_data=Depends(get_token_data),
     db: Session = Depends(get_db),
 ):
-    """
-    Diagnostic snapshot for invite / link-account issues.
-    Call while logged into the client portal with the same Bearer token.
-    """
-    auth0_user_id = token_data.sub
-    token_email = (token_data.email or "").lower().strip() or None
-    resolved_email = _resolve_link_email(LinkAccountRequest(), token_data, auth0_user_id)
+    """Diagnostic snapshot for invite / link-account issues (admin only)."""
     roles = list(token_data.roles or [])
+    if "admin" not in roles:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin only")
+
+    auth0_user_id = token_data.sub
+    token_email = normalize_email(token_data.email)
+    resolved_email = _auth0_profile_email_for_debug(auth0_user_id) if auth0_user_id else None
 
     client_by_auth0 = (
         db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
@@ -499,12 +508,9 @@ async def link_portal_account(
     if not auth0_user_id:
         raise HTTPException(status_code=400, detail="Invalid token — no sub claim")
 
-    resolved_email = _resolve_link_email(body, token_data, auth0_user_id)
     logger.info(
-        "[LinkAccount] start sub=%s token_email=%s resolved_email=%s has_invite_token=%s invite_secret=%s",
+        "[LinkAccount] start sub=%s has_invite_token=%s invite_secret=%s",
         auth0_user_id,
-        token_data.email,
-        resolved_email,
         bool(body.invite_token),
         bool(get_portal_invite_secret()),
     )
@@ -551,19 +557,37 @@ async def link_portal_account(
                 invite_error = f"invite token invalid: {e}"
                 logger.warning(f"[LinkAccount] invite token invalid: {e}")
 
-    if not client and resolved_email:
-        client = db.query(Client).filter(Client.email == resolved_email).first()
-        if client:
-            link_method = link_method or "email"
+    email_verification_required = False
+    if not client:
+        try:
+            profile = _fetch_auth0_user(auth0_user_id)
+        except Exception as exc:
+            logger.warning("[LinkAccount] Auth0 profile fetch failed: %s", exc)
+            raise HTTPException(
+                status_code=503,
+                detail="Unable to verify your account right now. Please try again shortly.",
+            ) from exc
+
+        link_email, email_verified = resolve_verified_link_email_from_profile(profile)
+        if link_email and email_verified:
+            client = db.query(Client).filter(Client.email == link_email).first()
+            if client and is_placeholder_client_email(client.email):
+                client = None
+            elif client:
+                link_method = link_method or "email_verified"
+        elif link_email and not email_verified:
+            email_verification_required = True
+
+    if email_verification_required:
+        raise HTTPException(
+            status_code=403,
+            detail=EMAIL_VERIFICATION_REQUIRED_MESSAGE,
+        )
 
     if not client:
         detail = "No client record found. Please contact Atomic Repair to get access."
         if invite_error:
             detail = f"{detail} (invite: {invite_error})"
-        elif resolved_email:
-            detail = f"{detail} (no client with email {resolved_email})"
-        else:
-            detail = f"{detail} (could not determine email for this Auth0 user)"
         raise HTTPException(status_code=404, detail=detail)
 
     if client.auth0_user_id and client.auth0_user_id != auth0_user_id:
@@ -601,6 +625,32 @@ async def link_portal_account(
         role_error=role_error,
         link_method=link_method,
     )
+
+
+@router.post("/portal/admin/preview-unlock")
+async def portal_admin_preview_unlock(
+    admin_client_id: str = Query(..., description="Client UUID being previewed"),
+    token_data=Depends(get_token_data),
+    db: Session = Depends(get_db),
+):
+    roles = getattr(token_data, "roles", []) or []
+    if "admin" not in roles:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin only")
+    try:
+        client_uuid = uuid.UUID(admin_client_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid admin_client_id")
+
+    client = db.query(Client).filter(Client.id == client_uuid).first()
+    if not client:
+        raise HTTPException(status_code=404, detail="Client not found")
+
+    unlock_token = create_preview_unlock_token(token_data.sub, client.id)
+    return {
+        "unlock_token": unlock_token,
+        "expires_in_seconds": PREVIEW_UNLOCK_TTL_MINUTES * 60,
+        "client_id": str(client.id),
+    }
 
 
 @router.get("/portal/scheduling-config")
@@ -693,16 +743,9 @@ async def update_portal_profile(
     body: PortalProfileUpdate,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
-    token_data=Depends(get_token_data),
-    admin_client_id: Optional[str] = Query(None),
+    _write_guard: None = Depends(require_portal_write("PUT /portal/me")),
 ):
     """Clients can update contact name and phone. Email stays read-only (Auth0 login)."""
-    roles = getattr(token_data, 'roles', []) or []
-    if 'admin' in roles and admin_client_id:
-        raise HTTPException(
-            status_code=403,
-            detail="Profile updates are disabled in admin preview",
-        )
     updates = body.model_dump(exclude_unset=True)
     if "first_name" in updates:
         name = (updates["first_name"] or "").strip()
@@ -805,6 +848,7 @@ async def mark_portal_notification_read(
     notification_id: str,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("PUT /portal/notifications/read")),
 ):
     if not client.user_id:
         raise HTTPException(status_code=404, detail="Notification not found")
@@ -1144,6 +1188,7 @@ async def portal_pay_all_invoices(
     body: PortalPayAllInvoicesRequest,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/invoices/pay-all", payment=True)),
 ):
     from app.services.work_order_billing_helpers import compute_balance_due
     from app.services.portal_square_payment_service import square_credentials_configured
@@ -1199,6 +1244,7 @@ async def portal_pay_invoice(
     body: PortalPayInvoiceRequest,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/work-orders/pay-invoice", payment=True)),
 ):
     from app.services.work_order_payment_service import record_portal_invoice_square_payment
 
@@ -1325,6 +1371,7 @@ async def portal_schedule_confirm(
     payload: PortalScheduleConfirmRequest,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/schedule/confirm")),
 ):
     try:
         from datetime import date as date_type
@@ -1359,6 +1406,7 @@ async def portal_schedule_request(
     payload: PortalScheduleRequestBody,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/schedule/request")),
 ):
     """Same-day or priority scheduling request — pending staff approval."""
     from datetime import date as date_type
@@ -1395,6 +1443,7 @@ async def portal_schedule_request_update(
     payload: PortalScheduleUpdateRequest,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/schedule/request-update")),
 ):
     try:
         result = schedule_svc.request_update_on_appliance(
@@ -1456,6 +1505,7 @@ async def get_portal_appliance_suggestions(
 async def skip_portal_appliance_import(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/appliances/import/skip")),
 ):
     client.appliances_import_completed = True
     client.updated_at = datetime.utcnow()
@@ -1468,6 +1518,7 @@ async def confirm_portal_appliance_import(
     payload: ImportConfirmRequest,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/appliances/import/confirm")),
 ):
     try:
         created = appliance_svc.confirm_import(db, client, payload)
@@ -1492,6 +1543,7 @@ async def merge_portal_appliances(
     payload: MergeAppliancesRequest,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/appliances/merge")),
 ):
     try:
         keep = appliance_svc.merge_appliances(db, client.id, payload.keep_id, payload.merge_ids)
@@ -1508,6 +1560,7 @@ async def create_portal_appliance(
     payload: ClientApplianceCreate,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/appliances")),
 ):
     try:
         appliance = appliance_svc.create_client_appliance(db, client.id, payload, source="portal")
@@ -1525,6 +1578,7 @@ async def update_portal_appliance(
     payload: ClientApplianceUpdate,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("PUT /portal/appliances")),
 ):
     try:
         appliance = appliance_svc.update_client_appliance(
@@ -1543,6 +1597,7 @@ async def delete_portal_appliance(
     appliance_id: str,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("DELETE /portal/appliances")),
 ):
     try:
         appliance_svc.soft_delete_client_appliance(db, client.id, uuid.UUID(appliance_id))
@@ -1690,6 +1745,7 @@ async def email_portal_invoice(
     work_order_id: str,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/work-orders/email-invoice")),
 ):
     """Email the client a light PDF copy of their invoice (v2 layout, full billable lines)."""
     from app.services.email_service import EmailService
@@ -1778,6 +1834,7 @@ async def email_portal_estimate(
     work_order_id: str,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/work-orders/email-estimate")),
 ):
     """Email the client a light PDF copy of their estimate (30-day window after diagnostic)."""
     from app.services.email_service import EmailService

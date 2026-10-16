@@ -1,39 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import PortalSquarePayment from './PortalSquarePayment';
 import { MARKETING_PHONE_DISPLAY } from '../../constants/marketingSiteContent';
-
-const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
-
-async function portalFetch(endpoint, token, options = {}) {
-  const impersonateId = typeof window !== 'undefined'
-    ? sessionStorage.getItem('portal_impersonate_client_id')
-    : null;
-  const sep = endpoint.includes('?') ? '&' : '?';
-  const url = impersonateId
-    ? `${BACKEND}/api/portal/${endpoint}${sep}admin_client_id=${impersonateId}`
-    : `${BACKEND}/api/portal/${endpoint}`;
-  const res = await fetch(url, {
-    method: options.method || 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-      ...(options.headers || {}),
-    },
-    body: options.body,
-  });
-  if (!res.ok) {
-    let message = `Request failed (${res.status})`;
-    try {
-      const data = await res.json();
-      message = data.detail || data.message || message;
-    } catch {
-      // ignore
-    }
-    throw new Error(message);
-  }
-  if (res.status === 204) return null;
-  return res.json();
-}
+import { portalFetch } from '../../utils/portalFetch';
 
 export default function PortalInvoicePayModal({ invoice, token, onClose, onSuccess }) {
   const squarePaymentRef = useRef(null);

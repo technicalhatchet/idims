@@ -20,10 +20,9 @@ function backendAuthUrl(routePath) {
   return `${backendRoot()}/api/auth/${suffix}`;
 }
 
-const ROLE_IDS = {
-  client: 'rol_okGmH3pkFUu0YXWi',
+/** Auth0 RBAC roles the login callback may assign (never `client` — use link-account). */
+const CALLBACK_ASSIGNABLE_ROLE_IDS = {
   technician: 'rol_KIVgWHYL1p8smVsc',
-  diyer: 'rol_efrbzOWFRtk0sJYy',
 };
 
 async function getMgmtToken() {
@@ -52,9 +51,20 @@ async function assignRole(userId, roleId, mgmtToken) {
   });
 }
 
-async function autoAssignRole(user, accessToken) {
+function sessionEmailVerified(user) {
+  if (user?.email_verified === true) return true;
+  const claim = user?.['https://idimsapi/email_verified'];
+  if (claim === true) return true;
+  return false;
+}
+
+async function autoAssignStaffRole(user, accessToken) {
   const existingRoles = user['https://idimsapi/app_metadata']?.roles || [];
   if (existingRoles.length > 0) return;
+
+  if (!sessionEmailVerified(user)) {
+    return;
+  }
 
   try {
     const res = await fetch(backendAuthUrl('auth/identify-user'), {
@@ -63,16 +73,17 @@ async function autoAssignRole(user, accessToken) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ email: user.email, auth0_user_id: user.sub }),
+      body: JSON.stringify({ auth0_user_id: user.sub }),
     });
     if (!res.ok) return;
     const data = await res.json();
-    if (data.role && ROLE_IDS[data.role]) {
-      const mgmtToken = await getMgmtToken();
-      await assignRole(user.sub, ROLE_IDS[data.role], mgmtToken);
-    }
+    if (!data.email_verified || !data.assignable_from_callback) return;
+    const roleId = CALLBACK_ASSIGNABLE_ROLE_IDS[data.role];
+    if (!roleId) return;
+    const mgmtToken = await getMgmtToken();
+    await assignRole(user.sub, roleId, mgmtToken);
   } catch (err) {
-    console.error('[Auth] autoAssignRole error:', err.message);
+    console.error('[Auth] autoAssignStaffRole error:', err.message);
   }
 }
 
@@ -128,6 +139,9 @@ function authHandlersFor(auth0) {
     callback: auth0.handleCallback({
       async afterCallback(req, res, session, state) {
         const returnTo = String(state?.returnTo || '');
+        if (session?.user && session?.accessToken) {
+          await autoAssignStaffRole(session.user, session.accessToken);
+        }
         if (returnTo.includes('diy_enroll=1') && session?.accessToken) {
           await completeDiySignupOnCallback(session.accessToken);
         }

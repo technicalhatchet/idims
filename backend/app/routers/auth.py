@@ -12,7 +12,9 @@ from pydantic import BaseModel, ValidationError
 from app.config import settings
 
 from app.db.database import get_db
-from app.core.auth import AuthHandler, JWTToken, get_auth_handler
+from fastapi.security import HTTPAuthorizationCredentials
+
+from app.core.auth import AuthHandler, JWTToken, get_auth_handler, security
 from app.models.user import User
 from app.schemas.user import UserCreate, UserResponse, Token, UserLogin
 from app.core.exceptions import AuthenticationException, ValidationException, NotFoundException
@@ -153,8 +155,8 @@ class Auth0CallbackRequest(BaseModel):
     user_profile: Optional[Dict[str, Any]] = None  # Add field for user profile
 
 class IdentifyUserRequest(BaseModel):
-    email: str
-    auth0_user_id: str
+    email: Optional[str] = None
+    auth0_user_id: Optional[str] = None
 
 @router.post("/auth/auth0-callback", response_model=Dict[str, Any])
 async def auth0_callback(
@@ -548,51 +550,45 @@ async def set_user_role(
 async def identify_user(
     body: IdentifyUserRequest,
     db: Session = Depends(get_db),
+    credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
-    from app.models.client import Client
-    from app.models.technician import Technician
+    """
+    Role hint for the Auth0 login callback. Does not link portal accounts or assign roles.
 
-    email = body.email.lower().strip()
-    auth0_user_id = body.auth0_user_id
+    Email in the request body is ignored. The caller's Bearer token sub is matched to
+    Auth0 Management API profile (email + email_verified) before any DB lookup.
+    """
+    from app.services.auth_identify import (
+        fetch_auth0_user_profile,
+        resolve_identify_role_hint,
+        role_assignable_from_callback,
+    )
 
-    # Determine role based on matching record
-    role_id = None
-    record_id = None
+    auth_handler = get_auth_handler()
+    token_data = await auth_handler.verify_token(credentials.credentials)
+    auth0_user_id = token_data.sub
+    if body.auth0_user_id and body.auth0_user_id != auth0_user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="auth0_user_id does not match token",
+        )
 
-    client = db.query(Client).filter(Client.email == email).first()
-    if client:
-        role_id = 'rol_okGmH3pkFUu0YXWi'  # client role
-        record_id = str(client.id)
-        if not client.auth0_user_id:
-            client.auth0_user_id = auth0_user_id
-            db.commit()
-
-    if not role_id:
-        technician = db.query(Technician).filter(Technician.email == email).first()
-        if technician:
-            role_id = 'rol_KIVgWHYL1p8smVsc'  # technician role
-            record_id = str(technician.id)
-
-    if not role_id:
-        return {"role": None}
-
-    # Assign role via Management API — same pattern as set_user_role
     try:
-        management_token = get_auth_handler().get_client_credentials_token()
-        auth0_api_url = f"https://{settings.AUTH0_DOMAIN}/api/v2/users/{auth0_user_id}/roles"
-        headers = {
-            "Authorization": f"Bearer {management_token}",
-            "Content-Type": "application/json"
-        }
-        response = requests.post(auth0_api_url, headers=headers, json={"roles": [role_id]})
-        response.raise_for_status()
-        logger.info(f"[IdentifyUser] Assigned role {role_id} to {auth0_user_id}")
-    except Exception as e:
-        logger.error(f"[IdentifyUser] Role assignment failed: {str(e)}")
-        # Still return success — role can be assigned manually
+        profile = fetch_auth0_user_profile(auth0_user_id)
+    except Exception as exc:
+        logger.warning("[IdentifyUser] Auth0 profile fetch failed for %s: %s", auth0_user_id, exc)
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Unable to verify your account right now. Please try again shortly.",
+        ) from exc
 
-    role_name = 'client' if 'okGm' in role_id else 'technician'
-    return {"role": role_name, "record_id": record_id}
+    role, record_id, email_verified = resolve_identify_role_hint(db, auth0_user_id, profile)
+    return {
+        "role": role,
+        "record_id": record_id,
+        "email_verified": email_verified,
+        "assignable_from_callback": role_assignable_from_callback(role),
+    }
 
 
 DIY_STAFF_ROLE_CONFLICT = frozenset({"admin", "manager", "technician"})

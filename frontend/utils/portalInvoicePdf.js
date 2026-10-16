@@ -1,3 +1,6 @@
+import toast from 'react-hot-toast';
+import { PREVIEW_LOCKED_MESSAGE, PREVIEW_LOCKED_TOAST, getPortalPreviewUnlockHeaders } from './portalPreview';
+
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
 
 /** Portal documents: full v2 layout (no line presets / toggles exposed to clients). */
@@ -70,10 +73,19 @@ async function emailPortalDocument(workOrderId, docType) {
   const url = `${BACKEND}/api/portal/work-orders/${workOrderId}/${endpoint}${qs ? `?${qs}` : ''}`;
   const res = await fetch(url, {
     method: 'POST',
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      ...getPortalPreviewUnlockHeaders(),
+    },
   });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.detail || 'Failed to send email');
+  if (!res.ok) {
+    const detail = data.detail || 'Failed to send email';
+    if (res.status === 403 && detail === PREVIEW_LOCKED_MESSAGE) {
+      toast.error(PREVIEW_LOCKED_TOAST);
+    }
+    throw new Error(detail);
+  }
   return data;
 }
 

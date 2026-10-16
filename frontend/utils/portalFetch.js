@@ -1,26 +1,32 @@
-const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
+import toast from 'react-hot-toast';
+import {
+  PREVIEW_LOCKED_MESSAGE,
+  PREVIEW_LOCKED_TOAST,
+  buildPortalApiUrl,
+  getPortalPreviewUnlockHeaders,
+} from './portalPreview';
 
-export async function portalFetch(endpoint, token, options = {}) {
-  const impersonateId = typeof window !== 'undefined'
-    ? sessionStorage.getItem('portal_impersonate_client_id')
-    : null;
-  const sep = endpoint.includes('?') ? '&' : '?';
-  const url = impersonateId
-    ? `${BACKEND}/api/portal/${endpoint}${sep}admin_client_id=${impersonateId}`
-    : `${BACKEND}/api/portal/${endpoint}`;
+export async function portalFetch(endpoint, token, options = {}, impersonateClientId = null) {
+  const url = buildPortalApiUrl(endpoint, impersonateClientId);
+  const isWrite = options.method && options.method !== 'GET' && options.method !== 'HEAD';
 
   const res = await fetch(url, {
     ...options,
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
+      ...(isWrite ? getPortalPreviewUnlockHeaders() : {}),
       ...(options.headers || {}),
     },
   });
 
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    throw new Error(body.detail || `Portal API error: ${res.status}`);
+    const detail = body.detail || `Portal API error: ${res.status}`;
+    if (res.status === 403 && detail === PREVIEW_LOCKED_MESSAGE) {
+      toast.error(PREVIEW_LOCKED_TOAST);
+    }
+    throw new Error(typeof detail === 'string' ? detail : JSON.stringify(detail));
   }
 
   if (res.status === 204) return null;
