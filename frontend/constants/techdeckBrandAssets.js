@@ -1,5 +1,5 @@
 /** TechDeck brand assets under /public/techdeck-brand */
-export const TECHDECK_BRAND_VERSION = 1;
+export const TECHDECK_BRAND_VERSION = 2;
 
 const v = `?v=${TECHDECK_BRAND_VERSION}`;
 
