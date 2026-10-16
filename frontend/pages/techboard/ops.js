@@ -665,7 +665,7 @@ function ScheduleTestInner() {
                 bg-[size:42px_42px]"
             />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
-            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[120px] rounded-full" />
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[64px] rounded-full" />
             <div
               className="absolute inset-0 opacity-[0.028]
                 bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"
@@ -703,7 +703,7 @@ function ScheduleTestInner() {
           >
             <div
               ref={titleplateRef}
-              className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-cyan-400/30 bg-[rgba(5,12,22,.84)] backdrop-blur-2xl px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(0,217,255,.35)] sched-neon-edge sched-hud-scan"
+              className="relative overflow-hidden rounded-[18px] md:rounded-[22px] border border-cyan-400/30 bg-[rgba(5,12,22,.84)]  px-3.5 py-3 md:px-5 md:py-4 shadow-[0_0_30px_rgba(0,217,255,.35)] sched-neon-edge sched-hud-scan"
               style={{
                 ['--sched-test-hud-grid-x']: `${hudGridShift.x}px`,
                 ['--sched-test-hud-grid-y']: `${hudGridShift.y}px`,

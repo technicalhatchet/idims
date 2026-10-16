@@ -1,4 +1,5 @@
 import { resolveWorkOrderEquipmentDisplayName } from './workOrderEquipmentDisplay';
+import { roundPortalMoney } from './portalMoney';
 
 /** Client-facing appliance line: "Whirlpool Washing Machine" (no raw slugs). */
 export function formatPortalWorkOrderAppliance(workOrder) {
@@ -106,20 +107,25 @@ export function getPortalRepairProgressStep(status) {
 export function buildPortalInvoiceLookup(invoices = []) {
   const map = new Map();
   invoices.forEach((inv) => {
-    if (inv?.id) map.set(inv.id, inv);
-    if (inv?.order_number) map.set(inv.order_number, inv);
+    if (inv?.id) map.set(String(inv.id), inv);
+    if (inv?.order_number) map.set(String(inv.order_number), inv);
   });
   return map;
 }
 
-/** Final invoice total (after tax/discounts), aligned with `/cxdashboard/invoices`. */
+/** Final work-order total (services + parts + tax − discount), aligned with invoices tab. */
 export function getPortalWorkOrderDisplayTotal(workOrder, invoiceLookup) {
   if (!workOrder) return null;
-  const inv = invoiceLookup?.get(workOrder.id) || invoiceLookup?.get(workOrder.order_number);
-  if (inv?.total != null && Number.isFinite(Number(inv.total))) {
-    return Number(inv.total);
+  const woId = workOrder.id != null ? String(workOrder.id) : '';
+  const orderNo = workOrder.order_number != null ? String(workOrder.order_number) : '';
+  const inv = invoiceLookup?.get(woId) || invoiceLookup?.get(orderNo);
+  if (inv?.total != null) {
+    return roundPortalMoney(inv.total);
   }
-  return workOrder.invoice_total != null ? Number(workOrder.invoice_total) : null;
+  if (workOrder.invoice_total != null) {
+    return roundPortalMoney(workOrder.invoice_total);
+  }
+  return null;
 }
 
 const CLOSED_WO_STATUSES = new Set(['completed', 'closed', 'canceled', 'cancelled']);

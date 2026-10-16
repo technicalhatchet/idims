@@ -187,7 +187,7 @@ export default function InvoicePdfModal({ invoice, docType = 'invoice', onClose 
     <div
       onClick={handleClose}
       className="fixed inset-0 z-[200] flex items-stretch sm:items-center justify-center p-0 sm:p-4"
-      style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)' }}
+      style={{ background: 'rgba(0,0,0,0.75)' }}
     >
       <div
         onClick={e => e.stopPropagation()}

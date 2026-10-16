@@ -881,7 +881,17 @@ async def get_portal_work_orders(
     status: Optional[str] = None,
     property_id: Optional[str] = None
 ):
-    query = db.query(WorkOrder).filter(WorkOrder.client_id == client.id)
+    from app.services.work_order_billing_helpers import compute_net_invoice_total
+
+    query = (
+        db.query(WorkOrder)
+        .options(
+            joinedload(WorkOrder.service_items).joinedload(WorkOrderService.service),
+            joinedload(WorkOrder.parts),
+            joinedload(WorkOrder.appointments),
+        )
+        .filter(WorkOrder.client_id == client.id)
+    )
     if status:
         query = query.filter(WorkOrder.status == status)
     if property_id:
@@ -911,7 +921,7 @@ async def get_portal_work_orders(
             "equipment_serial": wo.equipment_serial,
             "description": wo.description,
             "symptoms": wo.symptoms or [],
-            "invoice_total": float(wo.invoice_total) if wo.invoice_total else None,
+            "invoice_total": float(compute_net_invoice_total(wo)),
             "warranty_expires": warranty_expires_iso,
             "warranty_active": _warranty_is_active(wo, db),
             "property": {
@@ -1070,7 +1080,7 @@ async def get_portal_invoices(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db)
 ):
-    from app.services.work_order_billing_helpers import compute_balance_due
+    from app.services.work_order_billing_helpers import compute_balance_due, compute_net_invoice_total
     from app.services.portal_square_payment_service import square_credentials_configured
 
     work_orders_list = (
@@ -1090,12 +1100,7 @@ async def get_portal_invoices(
     for wo in work_orders_list:
         paid = float(wo.amount_previously_paid or 0)
         balance_due = float(compute_balance_due(wo))
-        gross = float(wo.invoice_total or 0)
-        discount = float(wo.diagnostic_discount_amount or 0) if getattr(wo, 'diagnostic_discount_applied', False) else 0
-        tax = float(wo.tax_collected or 0)
-        total = round(gross - discount + tax, 2)
-        if total <= 0:
-            total = gross
+        total = float(compute_net_invoice_total(wo))
         if balance_due <= 0.01 and paid > 0:
             payment_status = "paid"
         elif paid > 0:

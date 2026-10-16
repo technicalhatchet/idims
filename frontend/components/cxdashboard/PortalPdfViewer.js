@@ -101,14 +101,22 @@ export default function PortalPdfViewer({ blobUrl, zoom = 100 }) {
           if (isStale(renderId, renderIdRef, cancelled)) return;
 
           const viewport = page.getViewport({ scale });
+          const outputScale = Math.min(window.devicePixelRatio || 1, 2);
           const canvas = document.createElement('canvas');
-          canvas.width = viewport.width;
-          canvas.height = viewport.height;
+          const ctx = canvas.getContext('2d');
+          canvas.width = Math.floor(viewport.width * outputScale);
+          canvas.height = Math.floor(viewport.height * outputScale);
+          canvas.style.width = `${Math.floor(viewport.width)}px`;
+          canvas.style.height = `${Math.floor(viewport.height)}px`;
           canvas.style.display = 'block';
           canvas.style.margin = '0 auto 12px';
 
-          const ctx = canvas.getContext('2d');
-          await page.render({ canvasContext: ctx, viewport }).promise;
+          const transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null;
+          await page.render({
+            canvasContext: ctx,
+            viewport,
+            transform,
+          }).promise;
           if (isStale(renderId, renderIdRef, cancelled)) return;
 
           fragment.appendChild(canvas);

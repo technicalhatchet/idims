@@ -48,12 +48,19 @@ const queryClient = new QueryClient({
 // One-time migration: drop SW configs that cached/intercepted Railway API.
 // After reload, next-pwa registers the fixed SW (static assets + app shell only).
 const SW_MIGRATION_KEY = 'idims_pwa_v3_migrated';
+const SW_MIGRATION_LOCK_KEY = 'idims_pwa_v3_migrating';
 const DEV_SW_CLEANED_KEY = 'idims_dev_sw_cleaned';
+const DEV_SW_CLEANUP_LOCK_KEY = 'idims_dev_sw_cleaning';
 
 /** Production SW + CacheFirst on /_next/static breaks local HMR (hot-update 404 reload loop). */
 function DevServiceWorkerCleanup() {
   useEffect(() => {
     if (process.env.NODE_ENV !== 'development') return;
+
+    if (sessionStorage.getItem(DEV_SW_CLEANED_KEY) || sessionStorage.getItem(DEV_SW_CLEANUP_LOCK_KEY)) {
+      return;
+    }
+    sessionStorage.setItem(DEV_SW_CLEANUP_LOCK_KEY, '1');
 
     async function cleanup() {
       let hadStaleCaching = false;
@@ -71,6 +78,8 @@ function DevServiceWorkerCleanup() {
         }
       } catch (err) {
         console.warn('[Dev] Service worker cleanup failed:', err);
+      } finally {
+        sessionStorage.removeItem(DEV_SW_CLEANUP_LOCK_KEY);
       }
 
       if (hadStaleCaching && !sessionStorage.getItem(DEV_SW_CLEANED_KEY)) {
@@ -89,30 +98,40 @@ function ServiceWorkerMigration() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (localStorage.getItem(SW_MIGRATION_KEY)) return;
+    if (sessionStorage.getItem(SW_MIGRATION_LOCK_KEY)) return;
+    sessionStorage.setItem(SW_MIGRATION_LOCK_KEY, '1');
 
     async function migrate() {
+      let didChange = false;
       try {
         if ('caches' in window) {
           const names = await caches.keys();
-          await Promise.all(
-            names
-              .filter((name) =>
-                /fallback-cache|workbox|precache|pages-cache|solomon-/i.test(name)
-              )
-              .map((name) => caches.delete(name))
+          const stale = names.filter((name) =>
+            /fallback-cache|workbox|precache|pages-cache|solomon-/i.test(name)
           );
+          if (stale.length > 0) {
+            didChange = true;
+            await Promise.all(stale.map((name) => caches.delete(name)));
+          }
         }
 
         if ('serviceWorker' in navigator) {
           const registrations = await navigator.serviceWorker.getRegistrations();
-          await Promise.all(registrations.map((reg) => reg.unregister()));
+          if (registrations.length > 0) {
+            didChange = true;
+            await Promise.all(registrations.map((reg) => reg.unregister()));
+          }
         }
 
         localStorage.setItem(SW_MIGRATION_KEY, '1');
-        window.location.reload();
+        if (didChange) {
+          window.location.reload();
+        }
       } catch (err) {
         console.warn('[PWA] Migration failed:', err);
         localStorage.setItem(SW_MIGRATION_KEY, '1');
+      } finally {
+        sessionStorage.removeItem(SW_MIGRATION_LOCK_KEY);
       }
     }
 
