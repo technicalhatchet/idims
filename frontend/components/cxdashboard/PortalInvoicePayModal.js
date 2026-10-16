@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import PortalSquarePayment from './PortalSquarePayment';
+import { MARKETING_PHONE_DISPLAY } from '../../constants/marketingSiteContent';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
 
@@ -176,7 +177,7 @@ export default function PortalInvoicePayModal({ invoice, token, onClose, onSucce
         ) : (
           !configError && (
             <p style={{ color: '#f59e0b', fontSize: '0.875rem' }}>
-              Online payment is not available. Please call (419) 794-1689.
+              Online payment is not available. Please call {MARKETING_PHONE_DISPLAY}.
             </p>
           )
         )}

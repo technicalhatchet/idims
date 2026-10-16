@@ -11,3 +11,10 @@ export function getPortalImpersonateClientName() {
 export function isPortalAdminPreview() {
   return Boolean(getPortalImpersonateClientId());
 }
+
+/** Call after admin selects or clears a client preview so layout headers refresh. */
+export function notifyPortalImpersonateChanged() {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new Event('portal-impersonate-changed'));
+  }
+}

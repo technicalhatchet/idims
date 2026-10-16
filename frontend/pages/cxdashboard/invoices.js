@@ -13,6 +13,7 @@ import {
   sumPortalInvoicesAmountPaid,
 } from '../../utils/portalWorkOrderDisplay';
 import { formatPortalCurrency } from '../../utils/portalMoney';
+import { MARKETING_PHONE_DISPLAY } from '../../constants/marketingSiteContent';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
 
@@ -190,7 +191,7 @@ export default function InvoicesPage() {
               Outstanding balance: {formatPortalCurrency(totalOutstanding)}
             </p>
             <p className="text-white/50 text-xs mt-1 m-0">
-              Please contact Atomic Repair at (419) 794-1689 to arrange payment.
+              Please contact Atomic Repair at {MARKETING_PHONE_DISPLAY} to arrange payment.
             </p>
           </div>
         )}

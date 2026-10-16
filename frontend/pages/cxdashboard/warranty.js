@@ -7,9 +7,11 @@ import {
   getPortalLaborWarrantyDaysLeft,
   isPortalLaborWarrantyExpired,
 } from '../../utils/portalWarranty';
-import { FaShieldAlt, FaPhone, FaEnvelope, FaTools, FaWrench } from 'react-icons/fa';
+import { FaShieldAlt, FaEnvelope, FaTools, FaWrench } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import ApplianceIcon from '../../components/cxdashboard/ApplianceIcon';
+import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../../constants/marketingSiteContent';
+import { MarketingPhoneIcon } from '../../components/marketing/MarketingCta';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
 
@@ -124,8 +126,8 @@ function WarrantyCard({ wo, expired }) {
         {/* Claim warranty CTA — only for active */}
         {!isExpired && (
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <a href="tel:4197941689" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(34,211,238,0.1)', color: '#22d3ee', border: '1px solid rgba(34,211,238,0.2)', borderRadius: '8px', padding: '6px 14px', fontSize: '0.8125rem', fontWeight: '600', textDecoration: 'none' }}>
-              <FaPhone style={{ fontSize: '11px' }} /> (419) 794-1689
+            <a href={`tel:${MARKETING_PHONE_TEL}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(34,211,238,0.1)', color: '#22d3ee', border: '1px solid rgba(34,211,238,0.2)', borderRadius: '8px', padding: '6px 14px', fontSize: '0.8125rem', fontWeight: '600', textDecoration: 'none' }}>
+              <MarketingPhoneIcon className="w-3 h-3" /> {MARKETING_PHONE_DISPLAY}
             </a>
             <a href="mailto:service@atomicrepair419.com" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.05)', color: '#9ca3af', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '6px 14px', fontSize: '0.8125rem', fontWeight: '600', textDecoration: 'none' }}>
               <FaEnvelope style={{ fontSize: '11px' }} /> Email Us

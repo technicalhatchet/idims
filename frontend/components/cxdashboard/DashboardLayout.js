@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import ClientPwaHead from './ClientPwaHead';
@@ -11,15 +12,28 @@ import {
   getPortalImpersonateClientId,
   getPortalImpersonateClientName,
   isPortalAdminPreview,
+  notifyPortalImpersonateChanged,
 } from '../../utils/portalPreview';
+import { resolvePortalDisplayUser } from '../../utils/portalDisplayUser';
 
 const PORTAL_SHELL = '#0B0F1A';
 
 export default function DashboardLayout({ children, title = 'Client Portal', user: userProp }) {
+  const { user: auth0User } = useUser();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [portalUser, setPortalUser] = useState(null);
+  const [profileUser, setProfileUser] = useState(null);
+  const [impersonateTick, setImpersonateTick] = useState(0);
   const [workOrdersForAlerts, setWorkOrdersForAlerts] = useState([]);
   const router = useRouter();
+
+  const displayUser = useMemo(() => {
+    if (userProp) return userProp;
+    return resolvePortalDisplayUser({
+      profileUser,
+      auth0User,
+      impersonateName: getPortalImpersonateClientName(),
+    });
+  }, [userProp, profileUser, auth0User, impersonateTick]);
 
   useEffect(() => {
     setSidebarOpen(false);
@@ -28,8 +42,15 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
   const exitPreview = useCallback(() => {
     sessionStorage.removeItem('portal_impersonate_client_id');
     sessionStorage.removeItem('portal_impersonate_client_name');
+    notifyPortalImpersonateChanged();
     router.push('/cxdashboard');
   }, [router]);
+
+  useEffect(() => {
+    const onImpersonateChange = () => setImpersonateTick((t) => t + 1);
+    window.addEventListener('portal-impersonate-changed', onImpersonateChange);
+    return () => window.removeEventListener('portal-impersonate-changed', onImpersonateChange);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -37,46 +58,58 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
     async function loadPortalUser() {
       try {
         const impersonateId = getPortalImpersonateClientId();
+        const token = await getPortalSessionToken();
+        if (!token) return;
+
         if (impersonateId) {
           const previewName = getPortalImpersonateClientName() || 'Client';
-          const parts = previewName.split(' ');
-          const token = await getPortalSessionToken();
+          const cleanName = previewName.replace(/\s*\([^)]*\)\s*$/, '').trim() || previewName;
+          const parts = cleanName.split(' ').filter(Boolean);
           let email = '';
-          if (token) {
-            try {
-              const profile = await portalFetch('me', token);
-              email = profile.email || '';
-            } catch {
-              // preview without /me is non-fatal
+          let firstName = parts[0] || 'Client';
+          let lastName = parts.slice(1).join(' ');
+          try {
+            const profile = await portalFetch('me', token);
+            email = profile.email || '';
+            if (profile.first_name) {
+              firstName = profile.first_name;
+              lastName = profile.last_name || '';
             }
+          } catch {
+            // Preview may run before /me is available.
           }
           if (!cancelled) {
-            setPortalUser({
-              name: previewName.replace(/\s*\([^)]*\)\s*$/, '').trim() || previewName,
-              firstName: parts[0] || 'Client',
+            const name = `${firstName} ${lastName}`.trim() || cleanName;
+            setProfileUser({
+              name,
+              firstName,
+              lastName,
               email,
+              initials: `${firstName?.[0] || ''}${lastName?.[0] || ''}`.toUpperCase() || undefined,
             });
+            sessionStorage.setItem('portal_client_name', name);
           }
           return;
         }
 
-        const token = await getPortalSessionToken();
-        if (!token) return;
-
         const profile = await portalFetch('me', token);
         const name = `${profile.first_name || ''} ${profile.last_name || ''}`.trim();
-        if (!name || cancelled) return;
+        if (cancelled) return;
 
-        setPortalUser({
-          name,
-          firstName: profile.first_name,
-          lastName: profile.last_name,
-          email: profile.email || '',
-          initials: `${profile.first_name?.[0] || ''}${profile.last_name?.[0] || ''}`.toUpperCase() || undefined,
-        });
-        sessionStorage.setItem('portal_client_name', name);
+        if (name) {
+          setProfileUser({
+            name,
+            firstName: profile.first_name,
+            lastName: profile.last_name,
+            email: profile.email || '',
+            initials: `${profile.first_name?.[0] || ''}${profile.last_name?.[0] || ''}`.toUpperCase() || undefined,
+          });
+          sessionStorage.setItem('portal_client_name', name);
+        } else {
+          setProfileUser(null);
+        }
       } catch {
-        // Topbar falls back to Auth0 profile
+        if (!cancelled) setProfileUser(null);
       }
     }
 
@@ -84,7 +117,7 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
     return () => {
       cancelled = true;
     };
-  }, [router.pathname]);
+  }, [router.pathname, impersonateTick]);
 
   useEffect(() => {
     let cancelled = false;
@@ -150,12 +183,12 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
         <Sidebar
           open={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
-          user={userProp || portalUser}
+          user={displayUser}
         />
         <div className="min-h-screen flex flex-col lg:ml-64">
           <Topbar
             title={title}
-            user={userProp || portalUser}
+            user={displayUser}
             workOrders={workOrdersForAlerts}
             onMenuClick={() => setSidebarOpen(true)}
           />
@@ -163,7 +196,7 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
             {isPortalAdminPreview() && (
               <ImpersonationBanner onExit={exitPreview} />
             )}
-            <PortalWelcome user={userProp || portalUser} />
+            <PortalWelcome user={displayUser} />
             {children}
           </main>
         </div>

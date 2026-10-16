@@ -9,6 +9,8 @@ import {
   FaEnvelope, FaCog, FaHeadset, FaTimes, FaBoxOpen, FaFolder, FaUser, FaSignOutAlt,
 } from 'react-icons/fa';
 import { portalSignOut } from './portalAuth';
+import PortalUserAvatar from './PortalUserAvatar';
+import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../../constants/marketingSiteContent';
 
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: FaHome, href: '/cxdashboard' },
@@ -24,17 +26,11 @@ const NAV_ITEMS = [
 
 const DRAWER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.id !== 'settings');
 
-function userInitials(name) {
-  if (!name) return 'U';
-  return name.split(' ').map((n) => n[0]).join('').substring(0, 2).toUpperCase();
-}
-
 export default function Sidebar({ open = false, onClose, user }) {
   const router = useRouter();
   const currentPath = router.pathname;
   const displayName = user?.name || 'Guest';
   const email = user?.email || '';
-  const initials = user?.initials || userInitials(displayName);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -95,11 +91,11 @@ export default function Sidebar({ open = false, onClose, user }) {
           </div>
         </div>
         <a
-          href="tel:4197941689"
+          href={`tel:${MARKETING_PHONE_TEL}`}
           onClick={onClose}
           className="block w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-600 text-white text-sm font-semibold hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] transition-all text-center"
         >
-          Contact Support
+          {MARKETING_PHONE_DISPLAY}
         </a>
       </div>
     </div>
@@ -144,9 +140,7 @@ export default function Sidebar({ open = false, onClose, user }) {
   const drawerUserHeader = (
     <div className="px-4 pt-3 pb-4 border-b border-white/5 flex items-start justify-between gap-3">
       <div className="flex items-center gap-3 min-w-0 flex-1">
-        <div className="w-11 h-11 rounded-full bg-gradient-to-br from-cyan-500 to-orange-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
-          {initials}
-        </div>
+        <PortalUserAvatar user={user} className="w-11 h-11" textClassName="text-sm" />
         <div className="min-w-0">
           <p className="text-white font-semibold text-sm truncate">{displayName}</p>
           {email ? (

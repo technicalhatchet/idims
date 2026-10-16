@@ -13,6 +13,7 @@ import {
   isPortalLaborWarrantyExpired,
 } from '../../utils/portalWarranty';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
+import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../../constants/marketingSiteContent';
 import ApplianceIcon from '../../components/cxdashboard/ApplianceIcon';
 import InvoicePdfModal from '../../components/cxdashboard/InvoicePdfModal';
 import RepairCardSkeleton from '../../components/cxdashboard/RepairCardSkeleton';
@@ -162,7 +163,7 @@ function RepairCard({
             <div>
               <p style={{ color: '#6b7280', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>Technician</p>
               <p style={{ color: '#d1d5db', fontSize: '0.875rem', margin: 0 }}>Atomic Repair</p>
-              <a href="tel:4197941689" style={{ color: '#22d3ee', fontSize: '0.8125rem' }}>(419) 794-1689</a>
+              <a href={`tel:${MARKETING_PHONE_TEL}`} style={{ color: '#22d3ee', fontSize: '0.8125rem' }}>{MARKETING_PHONE_DISPLAY}</a>
             </div>
           </div>
 

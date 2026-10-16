@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../../constants/marketingSiteContent';
 
 export default function PortalComingSoon({ title, description, icon: Icon }) {
   return (
@@ -14,7 +15,7 @@ export default function PortalComingSoon({ title, description, icon: Icon }) {
         <p className="text-gray-400 max-w-md text-sm leading-relaxed">{description}</p>
         <p className="text-gray-500 text-xs mt-6">
           Need help now? Call{' '}
-          <a href="tel:4197941689" className="text-cyan-400 hover:text-cyan-300">(419) 794-1689</a>
+          <a href={`tel:${MARKETING_PHONE_TEL}`} className="text-cyan-400 hover:text-cyan-300">{MARKETING_PHONE_DISPLAY}</a>
           {' '}or email{' '}
           <a href="mailto:service@atomicrepair419.com" className="text-cyan-400 hover:text-cyan-300">
             service@atomicrepair419.com

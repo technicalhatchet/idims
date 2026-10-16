@@ -1,23 +1,26 @@
 import { motion } from 'framer-motion';
-import { FaPhone, FaComments, FaQuestionCircle } from 'react-icons/fa';
+import { FaComments, FaQuestionCircle } from 'react-icons/fa';
+import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../../constants/marketingSiteContent';
+import { MarketingPhoneIcon } from '../marketing/MarketingCta';
 
 const VARIANTS = {
   default: {
     wrapper: 'relative rounded-2xl overflow-hidden',
     showGradient: true,
-    icon: FaPhone,
-    iconWrap: 'w-12 h-12 rounded-full bg-cyan-500/10 border border-cyan-500/30',
+    icon: MarketingPhoneIcon,
+    iconWrap: 'w-12 h-12 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center shrink-0',
     title: 'Have a question about your repair?',
     subtitle: "We're here to help!",
     button: (
-      <a href="tel:4197941689">
+      <a href={`tel:${MARKETING_PHONE_TEL}`}>
         <motion.button
+          type="button"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           className="px-6 py-3 rounded-xl text-white font-semibold flex items-center gap-2 hover:shadow-[0_0_25px_rgba(251,146,60,0.4)] transition-all"
           style={{ background: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)' }}
         >
-          <FaComments className="w-4 h-4" />
+          <MarketingPhoneIcon className="w-4 h-4" />
           Call Us
         </motion.button>
       </a>
@@ -29,14 +32,14 @@ const VARIANTS = {
     icon: FaQuestionCircle,
     iconWrap: 'w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shrink-0',
     title: 'Need help with an invoice?',
-    subtitle: "Contact our support team and we'll be happy to help.",
+    subtitle: `Contact us at ${MARKETING_PHONE_DISPLAY} and we'll be happy to help.`,
     button: (
-      <a href="tel:4197941689">
+      <a href={`tel:${MARKETING_PHONE_TEL}`}>
         <button
           type="button"
           className="px-4 py-2 rounded-lg text-sm font-semibold text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/10 transition-colors whitespace-nowrap"
         >
-          Contact Support
+          {MARKETING_PHONE_DISPLAY}
         </button>
       </a>
     ),
@@ -64,7 +67,7 @@ export default function SupportCTA({ variant = 'default' }) {
       <div className={`relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ${variant === 'invoices' ? 'p-4 md:p-5' : 'p-6'}`}>
         <div className="flex items-start gap-3 min-w-0">
           <div className={cfg.iconWrap}>
-            <Icon className={`${variant === 'invoices' ? 'w-3.5 h-3.5' : 'w-5 h-5'} text-cyan-400 ${variant === 'default' ? '-scale-x-100' : ''}`} />
+            <Icon className={`${variant === 'invoices' ? 'w-3.5 h-3.5' : 'w-5 h-5'} text-cyan-400`} />
           </div>
           <div className="min-w-0">
             <h4 className={`text-white font-semibold ${variant === 'invoices' ? 'text-sm' : ''}`}>{cfg.title}</h4>

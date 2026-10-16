@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PortalSquarePayment from './PortalSquarePayment';
+import { MARKETING_PHONE_DISPLAY } from '../../constants/marketingSiteContent';
 import {
   formatPortalInvoiceBulkLine,
   getPortalPayableInvoices,
@@ -192,7 +193,7 @@ export default function PortalInvoicePayAllModal({ invoices = [], token, onClose
         ) : (
           !configError && (
             <p className="text-amber-400 text-sm">
-              Online payment is not available. Please call (419) 794-1689.
+              Online payment is not available. Please call {MARKETING_PHONE_DISPLAY}.
             </p>
           )
         )}

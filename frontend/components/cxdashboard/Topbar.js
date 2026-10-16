@@ -8,9 +8,9 @@ import { formatDistanceToNow, format } from 'date-fns';
 import { portalFetch, getPortalSessionToken } from '../../utils/portalFetch';
 import { parseApiDateTime } from '../../utils/parseApiDateTime';
 import PortalBrandLogo from './PortalBrandLogo';
+import PortalUserAvatar from './PortalUserAvatar';
 import { portalIconClasses } from './portalIconClasses';
 import { buildPortalNotificationsFromWorkOrders } from '../../utils/portalNotifications';
-import { getPortalImpersonateClientName } from '../../utils/portalPreview';
 import { portalSignOut } from './portalAuth';
 
 const MOBILE_HEADER_SIDE = 'w-11';
@@ -35,19 +35,12 @@ export default function Topbar({
 }) {
   const router = useRouter();
   const { user: auth0User } = useUser();
-  const [portalName, setPortalName] = useState(null);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [apiNotifications, setApiNotifications] = useState([]);
   const [notificationsLoading, setNotificationsLoading] = useState(false);
   const notifRef = useRef(null);
   const userMenuRef = useRef(null);
-
-  useEffect(() => {
-    const previewName = getPortalImpersonateClientName();
-    const stored = previewName || sessionStorage.getItem('portal_client_name');
-    if (stored) setPortalName(stored.replace(/\s*\([^)]*\)\s*$/, '').trim());
-  }, []);
 
   const loadNotifications = useCallback(async () => {
     setNotificationsLoading(true);
@@ -153,9 +146,8 @@ export default function Topbar({
     }
   };
 
-  const displayName = userProp?.name || portalName
+  const displayName = userProp?.name
     || (auth0User ? `${auth0User.given_name || ''} ${auth0User.family_name || ''}`.trim() || auth0User.name : 'Guest');
-  const initials = displayName.split(' ').map((n) => n[0]).join('').substring(0, 2).toUpperCase() || 'U';
   const unreadCount = notifications.filter((n) => n.unread).length;
 
   const openNotifications = () => {
@@ -273,9 +265,7 @@ export default function Topbar({
               aria-label="User menu"
               aria-expanded={showUserMenu}
             >
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-orange-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
-                {initials}
-              </div>
+              <PortalUserAvatar user={userProp} className="w-9 h-9" textClassName="text-sm" />
               <span className="text-white text-sm font-medium hidden lg:block max-w-[8rem] truncate">{displayName}</span>
               <FaChevronDown className="w-3 h-3 text-gray-400 hidden sm:block" />
             </button>
