@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import AtomicLogo from '../ui/AtomicLogo';
 import { PORTAL_SPLIT_FLAT_SRC } from '../../constants/portalBrandAssets';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -45,12 +44,13 @@ export default function Sidebar({ open = false, onClose }) {
   );
 
   const desktopHeader = (
-    <div className="p-4 sm:p-6 border-b border-white/5 flex items-center gap-3">
-      <Link href="/cxdashboard" className="flex items-center gap-3 min-w-0" onClick={onClose}>
-        <AtomicLogo height={40} className="h-10 sm:h-12 w-auto object-contain" />
-        <div className="min-w-0">
-          <p className="text-[10px] text-gray-500 uppercase tracking-wider">Client Portal</p>
-        </div>
+    <div className="p-4 sm:p-6 border-b border-white/5">
+      <Link href="/cxdashboard" className="block min-w-0" onClick={onClose}>
+        <img
+          src={PORTAL_SPLIT_FLAT_SRC}
+          alt="Atomic Repair Client Portal"
+          className="h-10 sm:h-11 w-full max-w-[240px] object-contain object-left"
+        />
       </Link>
     </div>
   );
