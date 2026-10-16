@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { format, parseISO, isPast, differenceInDays } from 'date-fns';
+import { format, parseISO } from 'date-fns';
+import {
+  formatPortalLaborWarrantyExpiryLabel,
+  formatPortalWarrantyDaysLeftLabel,
+  getPortalLaborWarrantyDaysLeft,
+  isPortalLaborWarrantyExpired,
+} from '../../utils/portalWarranty';
 import { FaShieldAlt, FaPhone, FaEnvelope, FaTools, FaWrench } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import ApplianceIcon from '../../components/cxdashboard/ApplianceIcon';
@@ -23,9 +29,10 @@ async function portalFetch(endpoint, token) {
 }
 
 function WarrantyCard({ wo, expired }) {
-  const warrantyExpiry = wo.warranty_expires ? parseISO(wo.warranty_expires) : null;
-  const daysLeft = warrantyExpiry ? differenceInDays(warrantyExpiry, new Date()) : 0;
-  const isExpired = expired || (warrantyExpiry && isPast(warrantyExpiry));
+  const daysLeft = getPortalLaborWarrantyDaysLeft(wo);
+  const isExpired = expired || isPortalLaborWarrantyExpired(wo);
+  const expiryLabel = formatPortalLaborWarrantyExpiryLabel(wo);
+  const daysLabel = formatPortalWarrantyDaysLeftLabel(daysLeft);
 
   const accentColor = isExpired ? '#6b7280' : daysLeft <= 14 ? '#f59e0b' : '#22c55e';
   const borderColor = isExpired ? 'rgba(255,255,255,0.07)' : daysLeft <= 14 ? 'rgba(245,158,11,0.2)' : 'rgba(34,197,94,0.2)';
@@ -56,13 +63,14 @@ function WarrantyCard({ wo, expired }) {
               <span style={{ background: 'rgba(255,255,255,0.05)', color: '#6b7280', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '6px', padding: '3px 10px', fontSize: '0.75rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <FaShieldAlt style={{ fontSize: '10px' }} /> Expired
               </span>
-            ) : daysLeft <= 14 ? (
-              <span style={{ background: 'rgba(245,158,11,0.1)', color: '#f59e0b', border: '1px solid rgba(245,158,11,0.2)', borderRadius: '6px', padding: '3px 10px', fontSize: '0.75rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <FaShieldAlt style={{ fontSize: '10px' }} /> Expires in {daysLeft}d
-              </span>
             ) : (
-              <span style={{ background: 'rgba(34,197,94,0.1)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.2)', borderRadius: '6px', padding: '3px 10px', fontSize: '0.75rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <FaShieldAlt style={{ fontSize: '10px' }} /> Active — {daysLeft} days left
+              <span style={{
+                background: daysLeft <= 7 ? 'rgba(245,158,11,0.1)' : 'rgba(34,197,94,0.1)',
+                color: daysLeft <= 7 ? '#f59e0b' : '#22c55e',
+                border: `1px solid ${daysLeft <= 7 ? 'rgba(245,158,11,0.2)' : 'rgba(34,197,94,0.2)'}`,
+                borderRadius: '6px', padding: '3px 10px', fontSize: '0.75rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px',
+              }}>
+                <FaShieldAlt style={{ fontSize: '10px' }} /> {daysLabel}
               </span>
             )}
           </div>
@@ -79,7 +87,7 @@ function WarrantyCard({ wo, expired }) {
           <div>
             <p style={{ color: '#6b7280', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 2px' }}>Labor Warranty</p>
             <p style={{ color: isExpired ? '#6b7280' : accentColor, fontSize: '0.875rem', margin: 0, fontWeight: '600' }}>
-              {warrantyExpiry ? `Until ${format(warrantyExpiry, 'MMM d, yyyy')}` : 'N/A'}
+              {expiryLabel !== 'N/A' ? `Until ${expiryLabel}` : 'N/A'}
             </p>
           </div>
           {wo.property && (
@@ -153,12 +161,13 @@ export default function WarrantyPage() {
     load();
   }, []);
 
-  // Labor warranty from backend (service date + 90 days)
-  const warrantyJobs = workOrders.filter(wo => wo.warranty_expires);
+  const warrantyJobs = workOrders.filter(
+    (wo) => ['completed', 'closed'].includes(String(wo.status || '').toLowerCase()),
+  );
 
-  const active = warrantyJobs.filter(wo => !isPast(parseISO(wo.warranty_expires)));
+  const active = warrantyJobs.filter((wo) => !isPortalLaborWarrantyExpired(wo));
 
-  const expired = warrantyJobs.filter(wo => isPast(parseISO(wo.warranty_expires)));
+  const expired = warrantyJobs.filter((wo) => isPortalLaborWarrantyExpired(wo));
 
   const displayed = tab === 'active' ? active : expired;
 

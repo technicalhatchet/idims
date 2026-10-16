@@ -692,9 +692,17 @@ class PortalProfileUpdate(BaseModel):
 async def update_portal_profile(
     body: PortalProfileUpdate,
     client: Client = Depends(get_portal_client),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    token_data=Depends(get_token_data),
+    admin_client_id: Optional[str] = Query(None),
 ):
     """Clients can update contact name and phone. Email stays read-only (Auth0 login)."""
+    roles = getattr(token_data, 'roles', []) or []
+    if 'admin' in roles and admin_client_id:
+        raise HTTPException(
+            status_code=403,
+            detail="Profile updates are disabled in admin preview",
+        )
     updates = body.model_dump(exclude_unset=True)
     if "first_name" in updates:
         name = (updates["first_name"] or "").strip()

@@ -13,12 +13,18 @@ import RecentRepairs from '../../components/cxdashboard/RecentRepairs';
 import InvoiceList from '../../components/cxdashboard/InvoiceList';
 import SupportCTA from '../../components/cxdashboard/SupportCTA';
 import {
+  buildPortalInvoiceLookup,
   formatPortalWorkOrderAppliance,
   getPortalRepairProgressStep,
   getPortalInvoicePaymentSummary,
+  getPortalInvoiceDisplayStatus,
+  getPortalWorkOrderDisplayTotal,
   getPortalWorkOrderPartsSummary,
+  getPortalWorkOrderStatusLabel,
   pickPortalDashboardActiveRepair,
 } from '../../utils/portalWorkOrderDisplay';
+import { formatPortalCurrency } from '../../utils/portalMoney';
+import { countPortalActiveLaborWarranties } from '../../utils/portalWarranty';
 import {
   fetchPortalLinkDebug,
   postPortalLinkAccount,
@@ -82,7 +88,6 @@ function formatAppointmentForCard(appt) {
 
 function formatRepairForCard(wo) {
   if (!wo) return null;
-  const statusMap = { in_progress: 'In Progress', scheduled: 'Scheduled', en_route: 'En Route', pending: 'Pending', completed: 'Completed', completed_pending_payment: 'Pending Payment', waiting_on_parts: 'Waiting on Parts', parts_on_order: 'Parts on Order', on_hold: 'On Hold', canceled: 'Canceled', closed: 'Closed' };
   const partsSummary = getPortalWorkOrderPartsSummary(wo);
   let partsNote = null;
   if (partsSummary.hasReceivedParts) {
@@ -97,7 +102,7 @@ function formatRepairForCard(wo) {
 
   return {
     id: wo.id,
-    status: statusMap[wo.status] || wo.status,
+    status: getPortalWorkOrderStatusLabel(wo.status),
     service: formatPortalWorkOrderAppliance(wo) || 'Repair',
     date: wo.created_at ? format(parseISO(wo.created_at), 'MMM d, yyyy') : '',
     orderNumber: wo.order_number,
@@ -441,6 +446,12 @@ export default function ClientDashboard() {
     );
   }
 
+  const invoiceLookup = buildPortalInvoiceLookup(invoices);
+  const paidInvoiceCount = invoices.filter((i) => getPortalInvoiceDisplayStatus(i) === 'paid').length;
+  const outstandingInvoiceCount = invoices.length - paidInvoiceCount;
+  const warrantyActiveCount = countPortalActiveLaborWarranties(workOrders);
+  const activeRepair = pickPortalDashboardActiveRepair(workOrders);
+
   const stats = profile ? [
   {
     title: 'Upcoming Appointments',
@@ -452,7 +463,9 @@ export default function ClientDashboard() {
   {
     title: 'Active Repairs',
       value: String(profile.stats?.active_repairs ?? 0),
-      subtitle: profile.stats?.active_repairs > 0 ? 'In Progress' : 'All clear',
+      subtitle: activeRepair
+        ? getPortalWorkOrderStatusLabel(activeRepair.status)
+        : (profile.stats?.active_repairs > 0 ? 'In progress' : 'All clear'),
     icon: FaTools,
     href: '/cxdashboard/repairs',
       highlight: profile.stats?.active_repairs > 0,
@@ -460,18 +473,16 @@ export default function ClientDashboard() {
   {
     title: 'Total Invoices',
       value: String(invoices.length),
-      subtitle: (() => {
-        const paid = invoices.filter(i => i.payment_status === 'paid').length;
-        const unpaid = invoices.filter(i => i.payment_status !== 'paid').length;
-        return unpaid > 0 ? `${paid} Paid • ${unpaid} Outstanding` : `${paid} Paid`;
-      })(),
+      subtitle: outstandingInvoiceCount > 0
+        ? `${paidInvoiceCount} Paid • ${outstandingInvoiceCount} Outstanding`
+        : `${paidInvoiceCount} Paid`,
     icon: FaFileInvoiceDollar,
       href: '/cxdashboard/invoices',
   },
   {
     title: 'Warranty Coverage',
-      value: String(profile.stats?.warranty_active ?? 0),
-      subtitle: profile.stats?.warranty_active > 0 ? 'Active' : 'None active',
+      value: String(warrantyActiveCount),
+      subtitle: warrantyActiveCount > 0 ? 'Active' : 'None active',
     icon: FaShieldAlt,
       href: '/cxdashboard/warranty',
     },
@@ -479,17 +490,19 @@ export default function ClientDashboard() {
 
   const nextAppointment = appointments[0];
   const appointmentCardData = formatAppointmentForCard(nextAppointment);
-  const activeRepair = pickPortalDashboardActiveRepair(workOrders);
   const repairCardData = formatRepairForCard(activeRepair);
-  const recentRepairs = workOrders.slice(0, 5).map(wo => ({
-    id: wo.id,
-    orderNumber: wo.order_number,
-    service: formatPortalWorkOrderAppliance(wo) || 'Service',
-    date: wo.created_at ? format(parseISO(wo.created_at), 'MMM d, yyyy') : '',
-    status: wo.status === 'completed' ? 'Completed' : wo.status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-    price: wo.invoice_total ? `$${Number(wo.invoice_total).toFixed(2)}` : '—',
-    icon: wo.equipment_subtype || wo.equipment_type || 'appliance',
-  }));
+  const recentRepairs = workOrders.slice(0, 5).map((wo) => {
+    const total = getPortalWorkOrderDisplayTotal(wo, invoiceLookup);
+    return {
+      id: wo.id,
+      orderNumber: wo.order_number,
+      service: formatPortalWorkOrderAppliance(wo) || 'Service',
+      date: wo.created_at ? format(parseISO(wo.created_at), 'MMM d, yyyy') : '',
+      status: getPortalWorkOrderStatusLabel(wo.status),
+      price: total != null ? formatPortalCurrency(total) : '—',
+      icon: wo.equipment_subtype || wo.equipment_type || 'appliance',
+    };
+  });
   const invoiceListData = invoices.slice(0, 5).map((inv) => {
     const summary = getPortalInvoicePaymentSummary(inv);
     return {
@@ -545,17 +558,7 @@ export default function ClientDashboard() {
 
   return (
     <>
-      <Head>
-        <title>{isAdmin ? `Portal Preview: ${selectedClient?.first_name} ${selectedClient?.last_name}` : 'Client Portal'} | Atomic Repair</title>
-      </Head>
       <div className="space-y-4 md:space-y-8">
-        {isAdmin && selectedClient && (
-          <ImpersonationBanner
-            clientName={`${selectedClient.first_name} ${selectedClient.last_name}${selectedClient.company_name ? ` (${selectedClient.company_name})` : ''}`}
-            onExit={handleExitPreview}
-          />
-        )}
-
         <PartsUpdateCallout workOrders={workOrders} />
 
         {/* Mobile: compact 2×2 stats */}

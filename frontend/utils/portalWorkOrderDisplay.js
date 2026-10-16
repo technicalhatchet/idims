@@ -16,10 +16,31 @@ export function formatPortalWorkOrderAppliance(workOrder) {
 
 export const PORTAL_REPAIR_STEPS = [
   'Scheduled',
+  'Waiting on Parts',
   'In Progress',
   'Awaiting Payment',
   'Completed',
 ];
+
+export const PORTAL_WORK_ORDER_STATUS_LABELS = {
+  pending: 'Pending',
+  scheduled: 'Scheduled',
+  en_route: 'En Route',
+  in_progress: 'In Progress',
+  waiting_on_parts: 'Waiting on Parts',
+  parts_on_order: 'Parts on Order',
+  on_hold: 'On Hold',
+  completed_pending_payment: 'Pending Payment',
+  completed: 'Completed',
+  closed: 'Closed',
+  canceled: 'Canceled',
+};
+
+export function getPortalWorkOrderStatusLabel(status) {
+  const key = String(status || '').toLowerCase();
+  return PORTAL_WORK_ORDER_STATUS_LABELS[key]
+    || key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
 
 const PARTS_HOLD_WO_STATUSES = new Set(['waiting_on_parts', 'parts_on_order']);
 
@@ -69,17 +90,43 @@ export function getPortalRepairProgressStep(status) {
   const map = {
     pending: 0,
     scheduled: 0,
-    en_route: 1,
-    in_progress: 1,
+    canceled: 0,
     waiting_on_parts: 1,
     parts_on_order: 1,
-    on_hold: 1,
-    completed_pending_payment: 2,
-    completed: 3,
-    closed: 3,
-    canceled: 0,
+    en_route: 2,
+    in_progress: 2,
+    on_hold: 2,
+    completed_pending_payment: 3,
+    completed: 4,
+    closed: 4,
   };
   return map[s] ?? 0;
+}
+
+export function buildPortalInvoiceLookup(invoices = []) {
+  const map = new Map();
+  invoices.forEach((inv) => {
+    if (inv?.id) map.set(inv.id, inv);
+    if (inv?.order_number) map.set(inv.order_number, inv);
+  });
+  return map;
+}
+
+/** Final invoice total (after tax/discounts), aligned with `/cxdashboard/invoices`. */
+export function getPortalWorkOrderDisplayTotal(workOrder, invoiceLookup) {
+  if (!workOrder) return null;
+  const inv = invoiceLookup?.get(workOrder.id) || invoiceLookup?.get(workOrder.order_number);
+  if (inv?.total != null && Number.isFinite(Number(inv.total))) {
+    return Number(inv.total);
+  }
+  return workOrder.invoice_total != null ? Number(workOrder.invoice_total) : null;
+}
+
+const CLOSED_WO_STATUSES = new Set(['completed', 'closed', 'canceled', 'cancelled']);
+
+function isOpenWorkOrderInvoice(invoice) {
+  const status = String(invoice?.work_order_status || '').toLowerCase();
+  return status && !CLOSED_WO_STATUSES.has(status);
 }
 
 export function getPortalInvoicePaymentSummary(invoice) {
@@ -88,6 +135,11 @@ export function getPortalInvoicePaymentSummary(invoice) {
   const balance = Number(
     invoice?.balance_due ?? Math.max(0, total - paid),
   );
+
+  const zeroTotalOpenJob = total <= 0.01 && isOpenWorkOrderInvoice(invoice);
+  if (zeroTotalOpenJob) {
+    return { type: 'pending', paid, balance: 0, total };
+  }
 
   if (invoice?.payment_status === 'paid' || balance <= 0.01) {
     return { type: 'paid', paid, balance: 0, total };
@@ -101,6 +153,7 @@ export function getPortalInvoicePaymentSummary(invoice) {
 /** Display status for portal invoice cards (no overdue — due on receipt). */
 export function getPortalInvoiceDisplayStatus(invoice) {
   const summary = getPortalInvoicePaymentSummary(invoice);
+  if (summary.type === 'pending') return 'pending';
   if (summary.type === 'paid') return 'paid';
   if (summary.type === 'partial') return 'partial';
   return 'outstanding';

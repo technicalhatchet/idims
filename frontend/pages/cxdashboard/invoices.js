@@ -9,8 +9,10 @@ import PortalInvoiceDocumentCard from '../../components/cxdashboard/PortalInvoic
 import SupportCTA from '../../components/cxdashboard/SupportCTA';
 import {
   getPortalPayableInvoices,
+  getPortalInvoiceDisplayStatus,
   sumPortalInvoicesAmountPaid,
 } from '../../utils/portalWorkOrderDisplay';
+import { formatPortalCurrency } from '../../utils/portalMoney';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
 
@@ -67,8 +69,11 @@ export default function InvoicesPage() {
     setInvoices(Array.isArray(data) ? data : []);
   }
 
-  const outstanding = invoices.filter((i) => i.payment_status !== 'paid');
-  const paid = invoices.filter((i) => i.payment_status === 'paid');
+  const outstanding = invoices.filter((i) => {
+    const status = getPortalInvoiceDisplayStatus(i);
+    return status === 'outstanding' || status === 'partial' || status === 'pending';
+  });
+  const paid = invoices.filter((i) => getPortalInvoiceDisplayStatus(i) === 'paid');
   const displayed = tab === 'all' ? invoices : tab === 'outstanding' ? outstanding : paid;
   const payableInvoices = getPortalPayableInvoices(invoices);
 
@@ -95,13 +100,13 @@ export default function InvoicesPage() {
           <div className="rounded-lg border border-red-500/20 bg-[#0D1525] px-2.5 py-2.5 sm:px-4 sm:py-3 min-w-0">
             <p className="text-white/45 text-[10px] sm:text-xs m-0 mb-0.5 sm:mb-1 leading-tight">Outstanding Balance</p>
             <p className={`text-lg sm:text-2xl font-bold m-0 tabular-nums leading-none ${totalOutstanding > 0 ? 'text-red-400' : 'text-emerald-400'}`}>
-              ${totalOutstanding.toFixed(2)}
+              {formatPortalCurrency(totalOutstanding)}
             </p>
           </div>
           <div className="rounded-lg border border-emerald-500/20 bg-[#0D1525] px-2.5 py-2.5 sm:px-4 sm:py-3 min-w-0">
             <p className="text-white/45 text-[10px] sm:text-xs m-0 mb-0.5 sm:mb-1 leading-tight">Total Paid</p>
             <p className="text-emerald-400 text-lg sm:text-2xl font-bold m-0 tabular-nums leading-none">
-              ${totalPaid.toFixed(2)}
+              {formatPortalCurrency(totalPaid)}
             </p>
           </div>
         </div>
@@ -162,7 +167,7 @@ export default function InvoicesPage() {
                   {payableInvoices.length} invoice{payableInvoices.length === 1 ? '' : 's'} ready to pay online
                 </p>
                 <p className="text-white/50 text-xs mt-1 m-0">
-                  Total outstanding: ${totalOutstanding.toFixed(2)}
+                  Total outstanding: {formatPortalCurrency(totalOutstanding)}
                   {payableInvoices.length > 1 && (
                     <> — pay all in one transaction ({payableInvoices.map((i) => i.order_number).join(', ')})</>
                   )}
@@ -182,7 +187,7 @@ export default function InvoicesPage() {
         {totalOutstanding > 0 && payableInvoices.length === 0 && (
           <div className="rounded-lg border border-amber-500/20 bg-amber-500/[0.06] p-4 text-center">
             <p className="text-amber-400 font-semibold text-sm m-0">
-              Outstanding balance: ${totalOutstanding.toFixed(2)}
+              Outstanding balance: {formatPortalCurrency(totalOutstanding)}
             </p>
             <p className="text-white/50 text-xs mt-1 m-0">
               Please contact Atomic Repair at (419) 794-1689 to arrange payment.

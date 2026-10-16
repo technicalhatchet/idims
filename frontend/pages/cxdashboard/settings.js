@@ -4,6 +4,7 @@ import { FaPhone, FaEnvelope } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import SupportCTA from '../../components/cxdashboard/SupportCTA';
 import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
+import { isPortalAdminPreview } from '../../utils/portalPreview';
 
 const inputClass =
   'w-full rounded-lg border border-white/10 bg-[#0D1525] px-3 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-cyan-500/50';
@@ -13,6 +14,7 @@ export default function SettingsPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [saved, setSaved] = useState(false);
+  const previewMode = isPortalAdminPreview();
   const [form, setForm] = useState({
     first_name: '',
     last_name: '',
@@ -51,6 +53,7 @@ export default function SettingsPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (previewMode) return;
     setSaving(true);
     setError(null);
     setSaved(false);
@@ -185,10 +188,11 @@ export default function SettingsPage() {
 
             <button
               type="submit"
-              disabled={saving}
+              disabled={saving || previewMode}
+              title={previewMode ? 'Disabled in admin preview' : undefined}
               className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-cyan-500 text-[#0a0f1a] font-bold text-sm hover:bg-cyan-400 disabled:opacity-60 transition-colors"
             >
-              {saving ? 'Saving…' : 'Save changes'}
+              {previewMode ? 'Save disabled in preview' : (saving ? 'Saving…' : 'Save changes')}
             </button>
           </form>
         )}
