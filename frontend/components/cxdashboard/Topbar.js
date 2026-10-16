@@ -7,7 +7,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { formatDistanceToNow, format } from 'date-fns';
 import { portalFetch, getPortalSessionToken } from '../../utils/portalFetch';
 import { parseApiDateTime } from '../../utils/parseApiDateTime';
-import { PORTAL_HEADER_LOGO_SRC } from '../../constants/portalBrandAssets';
+import PortalBrandLogo from './PortalBrandLogo';
 
 function formatNotificationTime(createdAt) {
   const date = parseApiDateTime(createdAt);
@@ -21,7 +21,7 @@ function formatNotificationTime(createdAt) {
   }
 }
 
-export default function Topbar({ user: userProp, onMenuClick }) {
+export default function Topbar({ user: userProp, onMenuClick, title = 'Client Portal' }) {
   const router = useRouter();
   const { user: auth0User } = useUser();
   const [portalName, setPortalName] = useState(null);
@@ -121,13 +121,13 @@ export default function Topbar({ user: userProp, onMenuClick }) {
           <FaBars className="w-5 h-5" />
         </button>
 
-        <div className="flex flex-1 justify-center min-w-0 px-1 sm:px-4">
-          <img
-            src={PORTAL_HEADER_LOGO_SRC}
-            alt="Atomic Repair Client Portal"
-            className="h-8 sm:h-10 w-auto max-w-[min(100%,18rem)] object-contain object-center"
-          />
+        <div className="flex flex-1 justify-center min-w-0 px-1 sm:px-2 lg:hidden">
+          <PortalBrandLogo variant="header-mobile" href="/cxdashboard" />
         </div>
+
+        <h1 className="hidden lg:block min-w-0 flex-1 text-lg font-semibold text-white truncate">
+          {title}
+        </h1>
       </div>
 
       <div className="flex items-center gap-2 sm:gap-4 shrink-0">

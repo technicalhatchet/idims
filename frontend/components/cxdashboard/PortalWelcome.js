@@ -10,11 +10,11 @@ export default function PortalWelcome({ user: userProp }) {
   const firstName = userProp?.firstName || displayName.split(' ')[0] || 'there';
 
   return (
-    <div className="mb-6 sm:mb-8">
-      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
+    <div className="mb-4 sm:mb-5">
+      <h2 className="text-lg sm:text-xl font-semibold text-white">
         Welcome back, {firstName}!
-      </h1>
-      <p className="text-gray-500 text-sm sm:text-base mt-1">
+      </h2>
+      <p className="text-gray-500 text-xs sm:text-sm mt-0.5">
         Here&apos;s what&apos;s happening with your services.
       </p>
     </div>
