@@ -17,7 +17,14 @@ import {
   sortAppliances,
 } from '../../components/cxdashboard/appliances/appliancesPageUtils';
 import { subtypeLabel } from '../../constants/applianceEquipment';
+import PortalAwaitingFirstService from '../../components/cxdashboard/PortalAwaitingFirstService';
+import { getPortalImpersonateClientId } from '../../utils/portalPreview';
 import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
+import {
+  fetchPortalLinkDebug,
+  isPortalAwaitingFirstService,
+  isPortalNoClientApiError,
+} from '../../utils/portalLink';
 
 function applianceToForm(appliance) {
   if (!appliance) return null;
@@ -40,6 +47,7 @@ export default function AppliancesPage() {
   const [properties, setProperties] = useState([]);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [awaitingFirstService, setAwaitingFirstService] = useState(false);
   const [error, setError] = useState(null);
   const [importCandidates, setImportCandidates] = useState(null);
   const [serviceHistoryCandidates, setServiceHistoryCandidates] = useState([]);
@@ -60,6 +68,20 @@ export default function AppliancesPage() {
   const loadData = useCallback(async () => {
     const token = await getPortalSessionToken();
     if (!token) throw new Error('Not signed in');
+
+    setAwaitingFirstService(false);
+
+    if (!getPortalImpersonateClientId()) {
+      try {
+        const linkDebug = await fetchPortalLinkDebug(token);
+        if (isPortalAwaitingFirstService(linkDebug)) {
+          setAwaitingFirstService(true);
+          return;
+        }
+      } catch {
+        // Fall through to portal APIs — link-debug is diagnostic-only.
+      }
+    }
 
     const [applianceData, importData, suggestionData, propertyData, me] = await Promise.all([
       portalFetch('appliances', token),
@@ -86,7 +108,12 @@ export default function AppliancesPage() {
       try {
         await loadData();
       } catch (err) {
-        setError(err.message);
+        if (isPortalNoClientApiError(err.message)) {
+          setAwaitingFirstService(true);
+          setError(null);
+        } else {
+          setError(err.message);
+        }
       } finally {
         setLoading(false);
       }
@@ -263,6 +290,20 @@ export default function AppliancesPage() {
 
   const singlePropertyMode = propertyGroups.length === 1;
   const selfSchedulingAllowed = !!profile?.self_scheduling_allowed;
+
+  if (awaitingFirstService) {
+    return (
+      <>
+        <Head><title>My Appliances | Atomic Repair</title></Head>
+        <div className="space-y-6">
+          <div>
+            <h1 className="text-white text-2xl font-bold m-0">My Appliances</h1>
+          </div>
+          <PortalAwaitingFirstService />
+        </div>
+      </>
+    );
+  }
 
   return (
     <>

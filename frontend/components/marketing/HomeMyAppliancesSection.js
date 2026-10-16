@@ -118,9 +118,8 @@ export default function HomeMyAppliancesSection() {
               </span>
             </h2>
             <p className="mt-4 text-gray-400 text-base leading-relaxed max-w-xl">
-              Add your appliances to your free Atomic Repair account once, and you&apos;ll always have the model
-              number, serial, parts and repair history on your phone. Anything we service is saved for you
-              automatically.
+              After your first service, your appliances are saved to your free Atomic Repair account — model,
+              serial, parts and repair history, right on your phone. Add the rest of your home anytime.
             </p>
 
             <div className="mt-6 lg:hidden">

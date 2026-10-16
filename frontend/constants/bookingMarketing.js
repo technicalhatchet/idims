@@ -1,6 +1,7 @@
 /** Customer-facing copy — does not affect billing logic. */
 
 export const OPENING_SPECIAL_LIST_PRICE = 129;
+/** Canonical marketing diagnostic fee — homepage Pricing, /book, and promise copy. */
 export const OPENING_SPECIAL_PRICE = 89;
 
 export const DIAGNOSTIC_CREDIT_MARKETING =
