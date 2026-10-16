@@ -40,10 +40,21 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
         if (impersonateId) {
           const previewName = getPortalImpersonateClientName() || 'Client';
           const parts = previewName.split(' ');
+          const token = await getPortalSessionToken();
+          let email = '';
+          if (token) {
+            try {
+              const profile = await portalFetch('me', token);
+              email = profile.email || '';
+            } catch {
+              // preview without /me is non-fatal
+            }
+          }
           if (!cancelled) {
             setPortalUser({
               name: previewName.replace(/\s*\([^)]*\)\s*$/, '').trim() || previewName,
               firstName: parts[0] || 'Client',
+              email,
             });
           }
           return;
@@ -60,6 +71,8 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
           name,
           firstName: profile.first_name,
           lastName: profile.last_name,
+          email: profile.email || '',
+          initials: `${profile.first_name?.[0] || ''}${profile.last_name?.[0] || ''}`.toUpperCase() || undefined,
         });
         sessionStorage.setItem('portal_client_name', name);
       } catch {
@@ -134,7 +147,11 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
       </Head>
 
       <div className="min-h-screen bg-[#0B0F1A]">
-        <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        <Sidebar
+          open={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          user={userProp || portalUser}
+        />
         <div className="min-h-screen flex flex-col lg:ml-64">
           <Topbar
             title={title}

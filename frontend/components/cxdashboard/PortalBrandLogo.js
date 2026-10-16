@@ -7,7 +7,7 @@ import { PORTAL_LOGO_SRC } from '../../constants/portalBrandAssets';
 export default function PortalBrandLogo({ variant = 'sidebar-desktop', href = '/cxdashboard', onNavigate }) {
   const classByVariant = {
     'header-mobile':
-      'h-9 w-auto max-w-[calc(100vw-7.75rem)] object-contain object-center max-[375px]:h-8',
+      'h-11 sm:h-12 w-auto max-w-[min(19rem,calc(100vw-5.5rem))] object-contain object-center',
     'sidebar-desktop': 'h-11 w-full object-contain object-left',
     drawer: 'h-11 w-full min-w-0 object-contain object-left',
   };
