@@ -24,7 +24,7 @@ export default function PartsUpdateCallout({ workOrders = [] }) {
   const isReceived = summary.hasReceivedParts;
 
   const title = isReceived ? 'Part arrived for your repair' : 'Part ordered for your repair';
-  const partName = (isReceived ? receivedPart?.name : orderedPart?.name) || 'A part';
+  const partName = (isReceived ? receivedPart?.name : orderedPart?.name) || 'a part';
   const message = isReceived
     ? `${partName} for your ${appliance} has arrived. We'll contact you to schedule your return visit.`
     : `We've ordered ${partName} for your ${appliance} (order #${workOrder.order_number}). We'll notify you when it arrives.`;

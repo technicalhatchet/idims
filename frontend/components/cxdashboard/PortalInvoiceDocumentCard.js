@@ -13,6 +13,7 @@ import {
   getPortalInvoicePaymentSummary,
   getPortalInvoiceDisplayStatus,
 } from '../../utils/portalWorkOrderDisplay';
+import { formatPortalCurrency } from '../../utils/portalMoney';
 
 const STATUS_CONFIG = {
   paid: {
@@ -30,6 +31,11 @@ const STATUS_CONFIG = {
     label: 'OUTSTANDING',
     badgeClass: 'bg-red-500/15 text-red-400 border-red-500/30',
     Icon: FaExclamationCircle,
+  },
+  pending: {
+    label: 'PENDING',
+    badgeClass: 'bg-white/10 text-white/60 border-white/15',
+    Icon: FaClock,
   },
 };
 
@@ -59,10 +65,18 @@ function InvoiceIcon({ compact }) {
 function AmountDisplay({ summary, status }) {
   const total = summary.total || summary.paid + summary.balance;
 
+  if (status === 'pending') {
+    return (
+      <p className="text-xs sm:text-sm font-medium text-white/55 leading-snug text-right pt-1 max-w-[9rem]">
+        In progress — final invoice after repair
+      </p>
+    );
+  }
+
   if (status === 'paid') {
     return (
       <p className="text-lg sm:text-[1.375rem] font-bold text-white tabular-nums leading-none text-right pt-1">
-        ${summary.paid.toFixed(2)}
+        {formatPortalCurrency(summary.paid)}
       </p>
     );
   }

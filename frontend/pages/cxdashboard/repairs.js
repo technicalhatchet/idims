@@ -1,29 +1,23 @@
 import { useState, useEffect, useRef } from 'react';
-import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { format, parseISO, addDays, isPast } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { FaTools, FaShieldAlt, FaChevronDown, FaChevronUp, FaFileAlt } from 'react-icons/fa';
-import { formatPortalWorkOrderAppliance } from '../../utils/portalWorkOrderDisplay';
+import {
+  buildPortalInvoiceLookup,
+  formatPortalWorkOrderAppliance,
+  getPortalWorkOrderDisplayTotal,
+} from '../../utils/portalWorkOrderDisplay';
+import { formatPortalCurrency } from '../../utils/portalMoney';
+import {
+  formatPortalLaborWarrantyExpiryLabel,
+  isPortalLaborWarrantyExpired,
+} from '../../utils/portalWarranty';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import ApplianceIcon from '../../components/cxdashboard/ApplianceIcon';
 import InvoicePdfModal from '../../components/cxdashboard/InvoicePdfModal';
-
-const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
-
-async function portalFetch(endpoint, token) {
-  const impersonateId = typeof window !== 'undefined'
-    ? sessionStorage.getItem('portal_impersonate_client_id')
-    : null;
-  const sep = endpoint.includes('?') ? '&' : '?';
-  const url = impersonateId
-    ? `${BACKEND}/api/portal/${endpoint}${sep}admin_client_id=${impersonateId}`
-    : `${BACKEND}/api/portal/${endpoint}`;
-  const res = await fetch(url, {
-    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-  });
-  if (!res.ok) throw new Error(`Portal API error: ${res.status}`);
-  return res.json();
-}
+import RepairCardSkeleton from '../../components/cxdashboard/RepairCardSkeleton';
+import { portalIconClasses } from '../../components/cxdashboard/portalIconClasses';
+import { portalFetch as sharedPortalFetch, getPortalSessionToken } from '../../utils/portalFetch';
 
 const STATUS_STYLES = {
   completed: { label: 'Completed', bg: 'rgba(34,197,94,0.1)', color: '#22c55e', border: 'rgba(34,197,94,0.2)' },
@@ -45,11 +39,18 @@ function StatusBadge({ status }) {
   );
 }
 
-function RepairCard({ wo, onViewEstimate, initialExpanded = false }) {
+function RepairCard({
+  wo,
+  onViewEstimate,
+  onViewInvoice,
+  displayTotal,
+  initialExpanded = false,
+}) {
   const [expanded, setExpanded] = useState(initialExpanded);
   const cardRef = useRef(null);
-  const warrantyExpiry = wo.warranty_expires ? parseISO(wo.warranty_expires) : null;
-  const warrantyActive = warrantyExpiry && !isPast(warrantyExpiry);
+  const warrantyActive = !isPortalLaborWarrantyExpired(wo);
+  const warrantyExpiryLabel = formatPortalLaborWarrantyExpiryLabel(wo);
+  const serviceDate = wo.next_appointment?.scheduled_start || wo.created_at;
 
   useEffect(() => {
     if (initialExpanded) {
@@ -61,12 +62,15 @@ function RepairCard({ wo, onViewEstimate, initialExpanded = false }) {
   return (
     <div ref={cardRef} style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', overflow: 'hidden' }}>
       {/* Header */}
-      <div
+      <button
+        type="button"
         onClick={() => setExpanded(!expanded)}
-        style={{ padding: '1.25rem', display: 'flex', gap: '1rem', alignItems: 'flex-start', cursor: 'pointer' }}
+        aria-expanded={expanded}
+        className="w-full text-left"
+        style={{ padding: '1.25rem', display: 'flex', gap: '1rem', alignItems: 'flex-start', cursor: 'pointer', background: 'transparent', border: 'none' }}
       >
         <div style={{ background: 'rgba(0,212,255,0.08)', borderRadius: '10px', padding: '10px', flexShrink: 0 }}>
-          <ApplianceIcon type={wo.equipment_subtype || wo.equipment_type} className="w-7 h-7" />
+          <ApplianceIcon type={wo.equipment_subtype || wo.equipment_type} className={portalIconClasses.appliance} />
         </div>
 
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -94,13 +98,13 @@ function RepairCard({ wo, onViewEstimate, initialExpanded = false }) {
             </div>
           </div>
 
-          {wo.invoice_total && (
+          {displayTotal != null && (
             <p style={{ color: '#22d3ee', fontWeight: '700', fontSize: '1rem', margin: '0.5rem 0 0' }}>
-              ${Number(wo.invoice_total).toFixed(2)}
+              {formatPortalCurrency(displayTotal)}
             </p>
           )}
         </div>
-      </div>
+      </button>
 
       {/* Expanded Detail */}
       {expanded && (
@@ -148,13 +152,43 @@ function RepairCard({ wo, onViewEstimate, initialExpanded = false }) {
             </div>
           )}
 
-          {warrantyExpiry && (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.75rem' }}>
+            <div>
+              <p style={{ color: '#6b7280', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>Service date</p>
+              <p style={{ color: '#d1d5db', fontSize: '0.875rem', margin: 0 }}>
+                {serviceDate ? format(parseISO(serviceDate), 'MMM d, yyyy') : '—'}
+              </p>
+            </div>
+            <div>
+              <p style={{ color: '#6b7280', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>Technician</p>
+              <p style={{ color: '#d1d5db', fontSize: '0.875rem', margin: 0 }}>Atomic Repair</p>
+              <a href="tel:4197941689" style={{ color: '#22d3ee', fontSize: '0.8125rem' }}>(419) 794-1689</a>
+            </div>
+          </div>
+
+          {warrantyExpiryLabel !== 'N/A' && (
             <div style={{ background: warrantyActive ? 'rgba(34,197,94,0.08)' : 'rgba(255,255,255,0.03)', border: `1px solid ${warrantyActive ? 'rgba(34,197,94,0.2)' : 'rgba(255,255,255,0.06)'}`, borderRadius: '8px', padding: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <FaShieldAlt style={{ color: warrantyActive ? '#22c55e' : '#6b7280' }} />
               <span style={{ color: warrantyActive ? '#22c55e' : '#6b7280', fontSize: '0.8125rem', fontWeight: '600' }}>
-                {warrantyActive ? `Warranty active until ${format(warrantyExpiry, 'MMM d, yyyy')}` : `Warranty expired ${format(warrantyExpiry, 'MMM d, yyyy')}`}
+                {warrantyActive ? `Warranty active until ${warrantyExpiryLabel}` : `Warranty expired ${warrantyExpiryLabel}`}
               </span>
             </div>
+          )}
+
+          {onViewInvoice && (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onViewInvoice(wo); }}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                background: 'rgba(34,211,238,0.12)', color: '#22d3ee',
+                border: '1px solid rgba(34,211,238,0.25)', borderRadius: '8px',
+                padding: '8px 14px', fontSize: '0.8125rem', fontWeight: '600', cursor: 'pointer',
+              }}
+            >
+              <FaFileAlt style={{ fontSize: '12px' }} />
+              View invoice
+            </button>
           )}
 
           {wo.property && (
@@ -198,19 +232,24 @@ export default function RepairsPage() {
   const workOrderIdParam = typeof router.query.work_order === 'string' ? router.query.work_order : null;
   const highlightKey = orderParam || workOrderIdParam;
   const [workOrders, setWorkOrders] = useState([]);
+  const [invoiceLookup, setInvoiceLookup] = useState(() => new Map());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [tab, setTab] = useState('active');
   const [viewerEstimate, setViewerEstimate] = useState(null);
+  const [viewerInvoice, setViewerInvoice] = useState(null);
+  const [deepLinkHandled, setDeepLinkHandled] = useState(false);
 
   useEffect(() => {
     async function load() {
       try {
-        const sessionRes = await fetch('/api/auth/session');
-        const session = await sessionRes.json();
-        const token = session.accessToken;
-        const data = await portalFetch('work-orders', token);
-        setWorkOrders(Array.isArray(data) ? data : []);
+        const token = await getPortalSessionToken();
+        const [orders, invoices] = await Promise.all([
+          sharedPortalFetch('work-orders', token),
+          sharedPortalFetch('invoices', token),
+        ]);
+        setWorkOrders(Array.isArray(orders) ? orders : []);
+        setInvoiceLookup(buildPortalInvoiceLookup(Array.isArray(invoices) ? invoices : []));
       } catch (err) {
         setError(err.message);
       } finally {
@@ -221,14 +260,18 @@ export default function RepairsPage() {
   }, []);
 
   useEffect(() => {
-    if (!highlightKey || workOrders.length === 0) return;
+    if (!router.isReady || !highlightKey || workOrders.length === 0 || deepLinkHandled) return;
     const match = workOrders.find(
-      (w) => w.order_number === highlightKey || w.id === highlightKey
+      (w) => w.order_number === highlightKey || w.id === highlightKey,
     );
-    if (!match) return;
+    if (!match) {
+      setDeepLinkHandled(true);
+      return;
+    }
     const isCompleted = ['completed', 'closed'].includes(match.status);
     setTab(isCompleted ? 'completed' : 'active');
-  }, [highlightKey, workOrders]);
+    setDeepLinkHandled(true);
+  }, [highlightKey, workOrders, router.isReady, deepLinkHandled]);
 
   const active = workOrders.filter(w => !['completed', 'canceled', 'closed'].includes(w.status));
   const completed = workOrders.filter(w => ['completed', 'closed'].includes(w.status));
@@ -236,22 +279,24 @@ export default function RepairsPage() {
 
   return (
     <>
-      <Head><title>My Repairs | Atomic Repair</title></Head>
       <div className="space-y-6">
         <h1 style={{ color: '#fff', fontSize: '1.5rem', fontWeight: '700', margin: 0 }}>My Repairs</h1>
 
         <div style={{ display: 'flex', gap: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           {['active', 'completed'].map(t => (
             <button key={t} onClick={() => setTab(t)} style={{ padding: '0.625rem 1.25rem', background: 'none', border: 'none', borderBottom: tab === t ? '2px solid #22d3ee' : '2px solid transparent', color: tab === t ? '#22d3ee' : '#6b7280', fontWeight: '600', fontSize: '0.875rem', cursor: 'pointer', textTransform: 'capitalize', marginBottom: '-1px' }}>
-              {t === 'active' ? `Active (${active.length})` : `Completed (${completed.length})`}
+              {t === 'active'
+                ? (loading ? 'Active' : `Active (${active.length})`)
+                : (loading ? 'Completed' : `Completed (${completed.length})`)}
             </button>
           ))}
         </div>
 
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '4rem', color: '#6b7280' }}>
-            <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            Loading repairs...
+          <div className="flex flex-col gap-3">
+            <RepairCardSkeleton />
+            <RepairCardSkeleton />
+            <RepairCardSkeleton />
           </div>
         ) : error ? (
           <div style={{ textAlign: 'center', padding: '4rem', color: '#ef4444' }}>{error}</div>
@@ -262,13 +307,18 @@ export default function RepairsPage() {
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {displayed.map(wo => (
+            {displayed.map((wo) => (
               <RepairCard
                 key={wo.id}
                 wo={wo}
+                displayTotal={getPortalWorkOrderDisplayTotal(wo, invoiceLookup)}
                 onViewEstimate={setViewerEstimate}
+                onViewInvoice={(order) => {
+                  const inv = invoiceLookup.get(order.id) || invoiceLookup.get(order.order_number);
+                  if (inv) setViewerInvoice(inv);
+                }}
                 initialExpanded={Boolean(
-                  highlightKey && (wo.order_number === highlightKey || wo.id === highlightKey)
+                  highlightKey && (wo.order_number === highlightKey || wo.id === highlightKey),
                 )}
               />
             ))}
@@ -281,6 +331,13 @@ export default function RepairsPage() {
           invoice={viewerEstimate}
           docType="estimate"
           onClose={() => setViewerEstimate(null)}
+        />
+      )}
+      {viewerInvoice && (
+        <InvoicePdfModal
+          invoice={viewerInvoice}
+          docType="invoice"
+          onClose={() => setViewerInvoice(null)}
         />
       )}
     </>

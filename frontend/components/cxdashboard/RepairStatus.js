@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaPhone, FaCheckCircle } from 'react-icons/fa';
 import { PORTAL_REPAIR_STEPS } from '../../utils/portalWorkOrderDisplay';
+import { portalIconClasses } from './portalIconClasses';
 
 export default function RepairStatus({ repair }) {
   const {
@@ -46,8 +47,8 @@ export default function RepairStatus({ repair }) {
       </div>
 
       <div className="flex items-start gap-4 mb-6">
-        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500/10 to-orange-500/10 border border-white/10 flex items-center justify-center shrink-0">
-          <ApplianceIcon type={icon} className="w-8 h-8" />
+        <div className={`${portalIconClasses.statTile} rounded-xl bg-gradient-to-br from-cyan-500/10 to-orange-500/10 border border-white/10 flex items-center justify-center shrink-0`}>
+          <ApplianceIcon type={icon} className={portalIconClasses.appliance} />
         </div>
         <div className="min-w-0">
           <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${statusColors[status] || statusColors['In Progress']}`}>

@@ -1,4 +1,5 @@
 import ApplianceIcon from './ApplianceIcon';
+import { portalIconClasses } from './portalIconClasses';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaArrowRight } from 'react-icons/fa';
@@ -46,8 +47,8 @@ export default function RecentRepairs({ repairs = SAMPLE_REPAIRS }) {
             transition={{ delay: 0.3 + i * 0.1 }}
             className="flex items-center gap-4 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 transition-colors"
           >
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500/10 to-orange-500/10 flex items-center justify-center">
-              <ApplianceIcon type={repair.icon} className="w-6 h-6" />
+            <div className={`${portalIconClasses.statTile} rounded-lg bg-gradient-to-br from-cyan-500/10 to-orange-500/10 flex items-center justify-center`}>
+              <ApplianceIcon type={repair.icon} className={portalIconClasses.appliance} />
             </div>
             
             <div className="flex-1 min-w-0">

@@ -49,7 +49,7 @@ export default function AppliancesSummaryCards({ summary }) {
         index={1}
         title="Active Requests"
         value={summary.activeRequests}
-        subtitle="Need attention"
+        subtitle="In progress"
         icon={FaTools}
         accent="orange"
       />

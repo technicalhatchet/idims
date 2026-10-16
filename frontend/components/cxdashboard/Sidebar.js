@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import Link from 'next/link';
 import PortalBrandLogo from './PortalBrandLogo';
+import { portalIconClasses } from './portalIconClasses';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -22,6 +24,20 @@ const NAV_ITEMS = [
 export default function Sidebar({ open = false, onClose }) {
   const router = useRouter();
   const currentPath = router.pathname;
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    const main = document.querySelector('main');
+    if (main) main.setAttribute('inert', '');
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      if (main) main.removeAttribute('inert');
+    };
+  }, [open, onClose]);
 
   const drawerHeader = (
     <div className="p-4 sm:p-6 border-b border-white/5 flex items-center justify-between gap-3">
@@ -64,7 +80,7 @@ export default function Sidebar({ open = false, onClose }) {
                     : 'text-gray-400 hover:bg-white/5 hover:text-white'
                 }`}
               >
-                <Icon className="w-5 h-5 shrink-0" />
+                <Icon className={`${portalIconClasses.navItem} shrink-0`} aria-hidden />
                 <span className="text-sm font-medium flex-1 truncate">{item.label}</span>
               </motion.div>
             </Link>

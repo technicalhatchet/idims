@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa';
+import { portalIconClasses } from './portalIconClasses';
 
 /**
  * Compact 2×2 stat grid for client portal home on mobile (replaces stacked hero tiles).
@@ -16,6 +17,7 @@ export default function PortalMobileStatGrid({ stats = [] }) {
           <Link
             key={stat.title}
             href={stat.href || '#'}
+            aria-label={`${stat.title}: ${stat.value}. ${stat.subtitle || ''}`}
             className={`group block rounded-xl border p-3 transition-colors touch-manipulation active:opacity-90 ${
               highlight
                 ? 'border-orange-500/30 bg-orange-500/[0.08]'
@@ -24,13 +26,13 @@ export default function PortalMobileStatGrid({ stats = [] }) {
           >
             <div className="flex items-start justify-between gap-1">
               <div
-                className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                className={`${portalIconClasses.statTile} rounded-lg flex items-center justify-center shrink-0 ${
                   highlight ? 'bg-orange-500/20' : 'bg-cyan-500/10'
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${highlight ? 'text-orange-400' : 'text-cyan-400'}`} />
+                <Icon className={`${portalIconClasses.statGlyph} ${highlight ? 'text-orange-400' : 'text-cyan-400'}`} aria-hidden />
               </div>
-              <FaArrowRight className="w-3 h-3 text-white/20 group-hover:text-cyan-400/80 shrink-0 mt-0.5 transition-colors" />
+              <FaArrowRight className={`${portalIconClasses.statArrow} shrink-0 mt-0.5 transition-colors`} aria-hidden />
             </div>
             <p className="text-[10px] font-semibold uppercase tracking-wide text-white/45 mt-2.5 leading-tight">
               {stat.title}
