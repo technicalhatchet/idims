@@ -26,6 +26,12 @@ from app.schemas.client_appliance import (
 
 logger = logging.getLogger(__name__)
 
+CUSTOMER_SOURCE_LABEL_TEXT = {
+    "verified_by_atomic": "Verified by Atomic Repair",
+    "added_by_you": "Added by you",
+    "from_service_history": "From your service history",
+}
+
 WARRANTY_DAYS = 90
 WARRANTY_ELIGIBLE_STATUSES = frozenset({
     "completed",
@@ -536,6 +542,34 @@ def link_work_orders_to_appliance(db: Session, appliance: ClientAppliance, work_
     return linked
 
 
+def customer_source_label(appliance: ClientAppliance) -> Optional[str]:
+    """Portal-facing provenance key; does not mutate source."""
+    if appliance.verified_by_staff_at:
+        return "verified_by_atomic"
+    if appliance.source == "portal":
+        return "added_by_you"
+    if appliance.source in ("work_order_import", "work_order_sync"):
+        return "from_service_history"
+    if appliance.source in ("staff", "manual"):
+        return "verified_by_atomic"
+    return None
+
+
+def verify_appliance_by_staff(
+    db: Session,
+    client_id: UUID,
+    appliance_id: UUID,
+    staff_user_id: UUID,
+) -> ClientAppliance:
+    appliance = get_client_appliance(db, client_id, appliance_id)
+    now = utcnow_naive()
+    if not appliance.verified_by_staff_at:
+        appliance.verified_by_staff_at = now
+        appliance.verified_by_user_id = staff_user_id
+    appliance.updated_at = now
+    return appliance
+
+
 def serialize_appliance(
     appliance: ClientAppliance,
     db: Session,
@@ -579,6 +613,15 @@ def serialize_appliance(
         "notes": appliance.notes,
         "photo_urls": appliance.photo_urls or [],
         "source": appliance.source,
+        "verified_by_staff_at": (
+            appliance.verified_by_staff_at.isoformat() + "Z"
+            if appliance.verified_by_staff_at
+            else None
+        ),
+        "customer_source_label": customer_source_label(appliance),
+        "customer_source_label_text": CUSTOMER_SOURCE_LABEL_TEXT.get(
+            customer_source_label(appliance) or ""
+        ),
         "is_active": appliance.is_active,
         "property": {
             "id": str(prop.id),
@@ -657,6 +700,7 @@ def create_client_appliance(
     *,
     source: str = "manual",
     work_order_ids: Optional[List[str]] = None,
+    verified_by_user_id: Optional[UUID] = None,
 ) -> ClientAppliance:
     if data.property_id:
         prop = (
@@ -682,6 +726,10 @@ def create_client_appliance(
         photo_urls=data.photo_urls or [],
         source=source,
     )
+    if source == "staff" and verified_by_user_id:
+        now = utcnow_naive()
+        appliance.verified_by_staff_at = now
+        appliance.verified_by_user_id = verified_by_user_id
     db.add(appliance)
     db.flush()
     link_work_orders_to_appliance(db, appliance, work_order_ids)
@@ -791,6 +839,10 @@ def merge_appliances(
             wo.appliance_id = keep.id
 
         link_work_orders_to_appliance(db, keep)
+
+        if not keep.verified_by_staff_at and other.verified_by_staff_at:
+            keep.verified_by_staff_at = other.verified_by_staff_at
+            keep.verified_by_user_id = other.verified_by_user_id
 
         other.is_active = False
         other.merged_into_id = keep.id

@@ -3,6 +3,10 @@ import { FaChevronDown, FaChevronUp, FaPlus, FaTools } from 'react-icons/fa';
 import { apiClient } from '../../utils/api-client';
 import ApplianceFormModal from '../cxdashboard/ApplianceFormModal';
 import { applianceDisplayName } from '../../constants/applianceEquipment';
+import {
+  applianceCustomerSourceText,
+  applianceNeedsStaffVerification,
+} from '../../constants/applianceSourceLabel';
 
 export default function ClientAppliancesPanel({ clientId, properties = [] }) {
   const [expanded, setExpanded] = useState(false);
@@ -11,6 +15,7 @@ export default function ClientAppliancesPanel({ clientId, properties = [] }) {
   const [showAdd, setShowAdd] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [verifyingId, setVerifyingId] = useState(null);
 
   const loadAppliances = useCallback(async () => {
     if (!clientId) return;
@@ -28,6 +33,21 @@ export default function ClientAppliancesPanel({ clientId, properties = [] }) {
   useEffect(() => {
     if (expanded) loadAppliances();
   }, [expanded, loadAppliances]);
+
+  const handleVerify = async (applianceId) => {
+    setVerifyingId(applianceId);
+    setError(null);
+    try {
+      await apiClient(`clients/${clientId}/appliances/${applianceId}/verify`, {
+        method: 'POST',
+      });
+      await loadAppliances();
+    } catch (err) {
+      setError(err.message || 'Failed to verify appliance');
+    } finally {
+      setVerifyingId(null);
+    }
+  };
 
   const handleSave = async (form) => {
     setSubmitting(true);
@@ -86,10 +106,29 @@ export default function ClientAppliancesPanel({ clientId, properties = [] }) {
                   className="rounded-md px-3 py-2"
                   style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.06)' }}
                 >
-                  <p className="text-white text-sm font-semibold capitalize">{applianceDisplayName(a)}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">
-                    {[a.model, a.serial ? `S/N ${a.serial}` : null, a.property?.address].filter(Boolean).join(' · ')}
-                  </p>
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="text-white text-sm font-semibold capitalize">{applianceDisplayName(a)}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">
+                        {[a.model, a.serial ? `S/N ${a.serial}` : null, a.property?.address].filter(Boolean).join(' · ')}
+                      </p>
+                      {applianceCustomerSourceText(a) ? (
+                        <p className="text-[10px] text-cyan-400/80 mt-1 font-semibold uppercase tracking-wide">
+                          {applianceCustomerSourceText(a)}
+                        </p>
+                      ) : null}
+                    </div>
+                    {applianceNeedsStaffVerification(a) ? (
+                      <button
+                        type="button"
+                        onClick={() => handleVerify(a.id)}
+                        disabled={verifyingId === a.id}
+                        className="shrink-0 text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500/10 disabled:opacity-50"
+                      >
+                        {verifyingId === a.id ? '…' : 'Verify'}
+                      </button>
+                    ) : null}
+                  </div>
                 </div>
               ))}
             </div>

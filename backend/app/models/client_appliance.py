@@ -36,6 +36,12 @@ class ClientAppliance(Base):
     notes = Column(Text, nullable=True)
     photo_urls = Column(JSONB, nullable=True, default=list)
     source = Column(String(30), nullable=False, default="manual")
+    verified_by_staff_at = Column(DateTime, nullable=True)
+    verified_by_user_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("users.id", ondelete="SET NULL"),
+        nullable=True,
+    )
     is_active = Column(Boolean, default=True, nullable=False)
     merged_into_id = Column(
         UUID(as_uuid=True),
@@ -45,6 +51,7 @@ class ClientAppliance(Base):
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
+    verified_by_user = relationship("User", foreign_keys=[verified_by_user_id])
     client = relationship("Client", back_populates="appliances")
     property_ref = relationship("Property", back_populates="appliances")
     merged_into = relationship("ClientAppliance", remote_side=[id], foreign_keys=[merged_into_id])

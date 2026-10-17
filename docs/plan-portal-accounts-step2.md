@@ -36,7 +36,7 @@
 | Phase | Goals | Rationale |
 |-------|--------|-----------|
 | **2.0** | **Security hardening** | Close account-takeover via email lookup; lock staff-only routers from `client`-role JWTs. **Shipped in code (Oct 2026).** |
-| **2a** | **6** Appliance labels (Option B) | `verified_at` / `verified_by` columns; UI labels without overwriting `source`. |
+| **2a** | **6** Appliance labels (Option B) | `verified_at` / `verified_by` columns; UI labels without overwriting `source`. **Shipped in code (Oct 2026).** |
 | **2b** | **4** Claim links (dual JWT + DB) | Safer invites / email-change before scaling signup; old JWTs keep working. |
 | **2c** | **1** Open sign-up + finish profile | Creates `self_signup` clients; still needs at least one property for appliances (2d). |
 | **2d** | **2** Portal properties CRUD | Unblocks appliance add + portal schedule for net-new portal customers. |
@@ -77,7 +77,33 @@ cd backend
 python -m pytest tests/test_auth_user_email_lookup.py tests/test_staff_api_guards.py tests/test_chat_websocket_staff.py tests/test_portal_security.py -q
 ```
 
-### Manual checks (stop here before 2a)
+### Manual checks
+
+---
+
+## Phase 2a — Appliance labels (Option B, implemented)
+
+### What shipped
+
+- SQL: `db/sql/2026-10-17_client_appliance_verified.sql` (+ `_undo`) — `verified_by_staff_at`, `verified_by_user_id`; backfill `staff`/`manual` sources.
+- API: `customer_source_label` + fields on `serialize_appliance`; `POST /api/clients/{id}/appliances/{id}/verify`; staff create auto-verifies without changing `source`.
+- Portal UI: `ApplianceSourceBadge` on list + detail; staff panel **Verify** for `source=portal` rows.
+
+### Tests
+
+```bash
+cd backend && python -m pytest tests/test_client_appliance_verified.py -q
+```
+
+### Manual checks (stop here before 2b)
+
+1. Run SQL in Supabase, then deploy API + frontend.
+2. Portal: customer-added appliance shows **Added by you**; after staff **Verify**, **Verified by Atomic Repair** (`source` still `portal`).
+3. Staff-created appliance shows verified label; `source` remains `staff`.
+
+---
+
+### Manual checks (2.0 — after deploy)
 
 1. **Google staff login:** Sign in to the staff app with your Google account → schedule, DMA, properties load as before.
 2. **Portal client:** Auth0 user with only `client` role → `GET /api/dma/codes` and `GET /api/properties/client/{id}` return **403** (not 200).

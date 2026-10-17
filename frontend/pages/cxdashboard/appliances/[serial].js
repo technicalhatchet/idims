@@ -14,6 +14,7 @@ import {
   subtypeLabel,
 } from '../../../constants/applianceEquipment';
 import { getPortalSessionToken, portalFetch } from '../../../utils/portalFetch';
+import ApplianceSourceBadge from '../../../components/cxdashboard/appliances/ApplianceSourceBadge';
 
 const STATUS_STYLES = {
   completed: { label: 'Completed', bg: 'rgba(34,197,94,0.1)', color: '#22c55e', border: 'rgba(34,197,94,0.2)' },
@@ -248,6 +249,9 @@ export default function ApplianceDetailPage() {
                       <h1 style={{ color: '#fff', fontSize: '1.375rem', fontWeight: '700', margin: 0, textTransform: 'capitalize' }}>
                         {displayName}
                       </h1>
+                      <div style={{ marginTop: '0.5rem' }}>
+                        <ApplianceSourceBadge appliance={appliance} />
+                      </div>
                       {appliance.model && (
                         <p style={{ color: '#9ca3af', fontSize: '0.9375rem', margin: '2px 0 0' }}>
                           Model: {appliance.model}
