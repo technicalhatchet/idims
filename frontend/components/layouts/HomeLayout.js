@@ -31,6 +31,7 @@ export default function HomeLayout({
   children,
   title = 'Atomic Repair | Appliance Repair Toledo',
   description = DEFAULT_DESCRIPTION,
+  bookingFlow = false,
 }) {
   const router = useRouter();
   const ogImage = brandPublicUrl(BRAND_SOCIAL_SHARE_SRC);
@@ -44,7 +45,9 @@ export default function HomeLayout({
 
   return (
     <div
-      className="min-h-screen flex flex-col relative atomic-marketing-shell"
+      className={`flex flex-col relative atomic-marketing-shell overflow-hidden ${
+        bookingFlow ? 'h-[100dvh] max-h-[100dvh] min-h-0' : 'min-h-screen'
+      }`}
       style={{ backgroundColor: ATOMIC_THEME.bg }}
     >
       <AtomicGlowBackground />
@@ -77,12 +80,18 @@ export default function HomeLayout({
         <Header />
       </div>
 
-      <main className="flex-grow relative z-10 pb-20 md:pb-0">
+      <main
+        className={
+          bookingFlow
+            ? 'flex flex-1 flex-col min-h-0 overflow-hidden relative z-10 pb-0'
+            : 'flex-grow relative z-10 pb-20 md:pb-0'
+        }
+      >
         {children}
       </main>
 
-      <MarketingMobileActionBar />
-      <Footer />
+      {!bookingFlow && <MarketingMobileActionBar />}
+      {!bookingFlow && <Footer />}
     </div>
   );
 }

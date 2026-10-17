@@ -24,6 +24,15 @@ html.atomic-marketing body {
   background-color: #000208;
 }
 
+/* Public /book: internal scroll only — keeps iOS Safari toolbar from stealing first tap on Next/Submit. */
+html.book-flow-lock,
+html.book-flow-lock body {
+  overflow: hidden;
+  overscroll-behavior: none;
+  height: 100%;
+  width: 100%;
+}
+
 /* Custom button styles */
 @layer components {
   .btn-primary {
