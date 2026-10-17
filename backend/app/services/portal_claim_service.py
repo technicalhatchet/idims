@@ -20,8 +20,14 @@ from app.utils.datetime_utils import utcnow_naive
 logger = logging.getLogger(__name__)
 
 PURPOSE_PORTAL_INVITE = "portal_invite"
-PURPOSE_EMAIL_CHANGE = "email_change"
+PURPOSE_EMAIL_CHANGE = "email_change"  # reserved for phase 2e (not staff-created in 2b)
 DEFAULT_TTL_DAYS = 7
+MIN_TTL_DAYS = 1
+MAX_TTL_DAYS = 30
+
+
+def clamp_ttl_days(ttl_days: int) -> int:
+    return max(MIN_TTL_DAYS, min(MAX_TTL_DAYS, int(ttl_days)))
 
 
 class PortalClaimError(Exception):
@@ -52,6 +58,35 @@ def _staff_user_id(db: Session, auth0_sub: Optional[str]) -> Optional[UUID]:
     return row.id if row else None
 
 
+def revoke_unused_portal_invite_claims(
+    db: Session,
+    client_id: UUID,
+    *,
+    except_claim_id: Optional[UUID] = None,
+) -> int:
+    """Revoke other active portal_invite claims for this client (single active invite)."""
+    now = utcnow_naive()
+    q = db.query(ClientPortalClaim).filter(
+        ClientPortalClaim.client_id == client_id,
+        ClientPortalClaim.purpose == PURPOSE_PORTAL_INVITE,
+        ClientPortalClaim.used_at.is_(None),
+        ClientPortalClaim.revoked_at.is_(None),
+        ClientPortalClaim.expires_at > now,
+    )
+    if except_claim_id is not None:
+        q = q.filter(ClientPortalClaim.id != except_claim_id)
+    claims = q.all()
+    for claim in claims:
+        claim.revoked_at = now
+    if claims:
+        logger.info(
+            "Revoked %s prior portal_invite claim(s) for client_id=%s",
+            len(claims),
+            client_id,
+        )
+    return len(claims)
+
+
 def create_portal_claim(
     db: Session,
     client_id: UUID,
@@ -61,6 +96,9 @@ def create_portal_claim(
     metadata: Optional[Dict[str, Any]] = None,
     ttl_days: int = DEFAULT_TTL_DAYS,
 ) -> Tuple[ClientPortalClaim, str]:
+    ttl_days = clamp_ttl_days(ttl_days)
+    if purpose == PURPOSE_PORTAL_INVITE:
+        revoke_unused_portal_invite_claims(db, client_id)
     raw_token = generate_claim_token()
     now = utcnow_naive()
     claim = ClientPortalClaim(
@@ -130,7 +168,15 @@ def resolve_client_for_link(
     db: Session,
     raw_token: str,
 ) -> Tuple[Client, ClientPortalClaim]:
-    claim = _load_claim_by_token(db, raw_token)
+    if not raw_token or not raw_token.strip():
+        raise PortalClaimError("invalid", "claim token invalid")
+    token_hash = hash_claim_token(raw_token.strip())
+    claim = (
+        db.query(ClientPortalClaim)
+        .filter(ClientPortalClaim.token_hash == token_hash)
+        .with_for_update()
+        .first()
+    )
     if not claim:
         raise PortalClaimError("invalid", "claim token invalid")
     _assert_claim_usable(claim)

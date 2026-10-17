@@ -22,7 +22,6 @@ from app.core.auth import get_auth_handler
 from app.config import get_portal_invite_secret, settings
 from app.services.portal_claim_service import (
     PortalClaimError,
-    PURPOSE_EMAIL_CHANGE,
     looks_like_jwt_invite,
     mark_claim_used,
     resolve_client_for_link,
@@ -640,25 +639,6 @@ async def link_portal_account(
             role_error=role_error,
             link_method=link_method or "already_linked_same_client",
         )
-
-    if pending_claim and pending_claim.purpose == PURPOSE_EMAIL_CHANGE:
-        target_email = (pending_claim.claim_metadata or {}).get("target_email")
-        if target_email:
-            try:
-                profile = _fetch_auth0_user(auth0_user_id)
-                link_email, email_verified = resolve_verified_link_email_from_profile(profile)
-            except Exception as exc:
-                logger.warning("[LinkAccount] email-change claim profile fetch failed: %s", exc)
-                raise HTTPException(
-                    status_code=503,
-                    detail="Unable to verify your account right now. Please try again shortly.",
-                ) from exc
-            if not email_verified or normalize_email(link_email) != normalize_email(target_email):
-                raise HTTPException(
-                    status_code=403,
-                    detail="Verify the new email address in Auth0 before using this link.",
-                )
-            client.email = normalize_email(target_email)
 
     client.auth0_user_id = auth0_user_id
     if pending_claim:

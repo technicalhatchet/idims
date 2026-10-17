@@ -438,22 +438,27 @@ async def create_client_portal_claim(
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
 
+    if body.purpose != PURPOSE_PORTAL_INVITE:
+        raise HTTPException(
+            status_code=400,
+            detail="Only portal_invite purpose is supported",
+        )
+
     if body.send_email and not client.email:
         raise HTTPException(status_code=400, detail="Client has no email address on file")
 
     claim, raw_token = create_portal_claim(
         db,
         client_id,
-        purpose=body.purpose,
+        purpose=PURPOSE_PORTAL_INVITE,
         created_by_auth0_sub=current_user.auth_id,
         ttl_days=body.ttl_days,
     )
     invite_url = build_claim_register_url(raw_token)
+    db.commit()
 
     if body.send_email:
         send_portal_invite_email(client, invite_url)
-
-    db.commit()
     return {
         "claim_id": str(claim.id),
         "url": invite_url,
@@ -484,8 +489,8 @@ async def send_portal_invite(
         created_by_auth0_sub=current_user.sub or current_user.id,
     )
     invite_url = build_claim_register_url(raw_token)
-    send_portal_invite_email(client, invite_url)
     db.commit()
+    send_portal_invite_email(client, invite_url)
 
     return {"success": True, "message": f"Invite sent to {client.email}", "claim_id": str(claim.id)}
 
