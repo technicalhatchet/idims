@@ -182,6 +182,7 @@ export default function WorkOrdersTest() {
   const [technicianFilter, setTechnicianFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [needsSchedulingPreset, setNeedsSchedulingPreset] = useState(false);
+  const [portalPrepaidUnscheduled, setPortalPrepaidUnscheduled] = useState(false);
   const PER_PAGE = 5;
 
   useEffect(() => {
@@ -225,11 +226,14 @@ export default function WorkOrdersTest() {
     if (scheduleFilter === 'unscheduled') {
       params.schedule = 'unscheduled';
     }
+    if (portalPrepaidUnscheduled) {
+      params.portal_prepaid_unscheduled = true;
+    }
     if (technicianFilter !== 'all' && technicianFilter !== 'unassigned') {
       params.technician_id = technicianFilter;
     }
     return params;
-  }, [statusFilter, technicianFilter, scheduleRange, scheduleFilter, needsSchedulingPreset]);
+  }, [statusFilter, technicianFilter, scheduleRange, scheduleFilter, needsSchedulingPreset, portalPrepaidUnscheduled]);
 
   const clearNeedsSchedulingPreset = useCallback(() => {
     if (!needsSchedulingPreset) return;
@@ -250,6 +254,7 @@ export default function WorkOrdersTest() {
     scheduleFilter !== 'all',
     technicianFilter !== 'all',
     searchQuery.trim().length > 0,
+    portalPrepaidUnscheduled,
   ].filter(Boolean).length;
 
   const gridTapLayerRef = useHudGridDoubleTapRail();
@@ -312,6 +317,7 @@ export default function WorkOrdersTest() {
 
   const resetFilters = () => {
     setNeedsSchedulingPreset(false);
+    setPortalPrepaidUnscheduled(false);
     setStatusFilter('all');
     setScheduleFilter('all');
     setTechnicianFilter('all');
@@ -613,6 +619,19 @@ export default function WorkOrdersTest() {
                   </option>
                 ))}
               </select>
+            </label>
+            <label className="flex items-center gap-2 text-sm text-gray-300">
+              <input
+                type="checkbox"
+                checked={portalPrepaidUnscheduled}
+                onChange={(e) => {
+                  clearNeedsSchedulingPreset();
+                  setPortalPrepaidUnscheduled(e.target.checked);
+                  setPage(1);
+                }}
+                className="rounded border-gray-600"
+              />
+              Paid (portal), not scheduled
             </label>
             {activeFilterCount > 0 ? (
               <button

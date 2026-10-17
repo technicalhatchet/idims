@@ -675,7 +675,11 @@ async def get_portal_scheduling_config_for_client(
         "booking": settings.get("booking"),
         "priority_service_enabled": bool((settings.get("priority_service") or {}).get("enabled")),
         "priority_service": settings.get("priority_service"),
-        "payment_required": bool(payment.get("requires_payment")),
+        "payment_required": bool(payment.get("requires_payment"))
+        and not bool(getattr(client, "portal_booking_payment_waived", False)),
+        "portal_booking_payment_waived": bool(
+            getattr(client, "portal_booking_payment_waived", False)
+        ),
         "apple_pay_enabled": bool(payment.get("apple_pay_enabled", True)),
         "square": square_public,
         "comms": settings.get("comms"),

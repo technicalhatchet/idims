@@ -1192,6 +1192,28 @@ function ClientDetail() {
 
             <label className="flex items-center justify-between gap-3 mb-3 p-3 rounded-md" style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <div>
+                <p className="text-sm text-white font-semibold">Skip portal upfront payment</p>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  Client can book a guaranteed window without paying diagnostic + trip online
+                </p>
+              </div>
+              <input
+                type="checkbox"
+                checked={!!client.portal_booking_payment_waived}
+                onChange={async (e) => {
+                  try {
+                    await updateClient({
+                      id: client.id,
+                      portal_booking_payment_waived: e.target.checked,
+                    });
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+              />
+            </label>
+            <label className="flex items-center justify-between gap-3 mb-3 p-3 rounded-md" style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <div>
                 <p className="text-sm text-white font-semibold">Block self-scheduling</p>
                 <p className="text-xs text-gray-500 mt-0.5">Client must call to schedule service</p>
               </div>

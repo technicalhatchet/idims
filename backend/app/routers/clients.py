@@ -73,6 +73,9 @@ def _serialize_client_for_list(client: Client) -> dict:
         "created_by": client.created_by,
         "updated_by": getattr(client, "updated_by", None),
         "self_scheduling_blocked": bool(getattr(client, "self_scheduling_blocked", False)),
+        "portal_booking_payment_waived": bool(
+            getattr(client, "portal_booking_payment_waived", False)
+        ),
         "scheduling_zone_exempt": bool(getattr(client, "scheduling_zone_exempt", False)),
         "appliances_import_completed": bool(getattr(client, "appliances_import_completed", False)),
     }

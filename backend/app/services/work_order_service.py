@@ -148,7 +148,8 @@ class WorkOrderService:
         client_id: Optional[uuid.UUID] = None,
         technician_id: Optional[uuid.UUID] = None,
         start_date: Optional[datetime] = None,
-        end_date: Optional[datetime] = None
+        end_date: Optional[datetime] = None,
+        portal_prepaid_unscheduled: bool = False,
     ) -> Dict[str, Any]:
         """Get work orders with filtering options"""
         logger.debug("Starting WorkOrderService.get_work_orders")
@@ -180,6 +181,31 @@ class WorkOrderService:
         if end_date:
             logger.debug(f"Filtering by end_date <= {end_date}")
             query = query.filter(WorkOrder.scheduled_start <= end_date)
+
+        if portal_prepaid_unscheduled:
+            from app.models.work_order_payment import WorkOrderPayment
+            from app.services.portal_booking_payment_service import (
+                PORTAL_BOOKING_PAYMENT_NOTES,
+            )
+
+            prepaid_ids = (
+                db.query(WorkOrderPayment.work_order_id)
+                .filter(WorkOrderPayment.notes == PORTAL_BOOKING_PAYMENT_NOTES)
+                .subquery()
+            )
+            active_appt_wo_ids = (
+                db.query(WorkOrderAppointment.work_order_id)
+                .filter(
+                    WorkOrderAppointment.status.notin_(("canceled", "cancelled")),
+                    WorkOrderAppointment.scheduled_start.isnot(None),
+                )
+                .subquery()
+            )
+            query = query.filter(
+                WorkOrder.status == "pending",
+                WorkOrder.id.in_(prepaid_ids),
+                ~WorkOrder.id.in_(active_appt_wo_ids),
+            )
         
         # Get total count for pagination
         total = query.count()
@@ -1244,12 +1270,22 @@ class WorkOrderService:
                 )
                 
                 if zone_result and zone_result.get('tripCharge') is not None:
-                    zone_service.add_trip_charge_to_work_order(
-                        work_order_id=db_appointment.work_order_id,
-                        zone_key=zone_result['zoneKey'],
-                        trip_charge=zone_result['tripCharge'],
-                        appointment_id=db_appointment.id
+                    from app.services.portal_booking_payment_service import (
+                        work_order_has_trip_charge_line,
                     )
+
+                    if work_order_has_trip_charge_line(self.db, db_appointment.work_order_id):
+                        logger.info(
+                            "Skipping auto trip charge — trip line already on work order %s",
+                            db_appointment.work_order_id,
+                        )
+                    else:
+                        zone_service.add_trip_charge_to_work_order(
+                            work_order_id=db_appointment.work_order_id,
+                            zone_key=zone_result['zoneKey'],
+                            trip_charge=zone_result['tripCharge'],
+                            appointment_id=db_appointment.id
+                        )
                     logger.info(f"Added trip charge for zone '{zone_result['zoneKey']}' (method: {zone_result.get('method')}): ${zone_result['tripCharge']}")
                 elif zone_result:
                     logger.info(f"Zone '{zone_result['zoneKey']}' requires manual trip charge (method: {zone_result.get('method')})")

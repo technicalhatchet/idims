@@ -211,6 +211,10 @@ async def list_work_orders(
     technician_id: Optional[str] = Query(None, description="Filter by technician ID"),
     start_date: Optional[str] = Query(None, description="Filter by start date (ISO format)"),
     end_date: Optional[str] = Query(None, description="Filter by end date (ISO format)"),
+    portal_prepaid_unscheduled: bool = Query(
+        False,
+        description="Pending work orders with portal prepayment and no scheduled appointment",
+    ),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(10, ge=1, le=100, description="Items per page"),
     db: Session = Depends(get_db),
@@ -294,7 +298,8 @@ async def list_work_orders(
             client_id=client_uuid,
             technician_id=technician_uuid,
             start_date=start_datetime,
-            end_date=end_datetime
+            end_date=end_datetime,
+            portal_prepaid_unscheduled=portal_prepaid_unscheduled,
         )
         
         wo_items = result["items"]
@@ -351,6 +356,12 @@ async def list_work_orders(
                         wo_response_item.technician_name = tname
                 if wo_response_item.status == "pending":
                     wo_response_item.status = "scheduled"
+
+            from app.services.portal_booking_payment_service import work_order_has_portal_prepayment
+
+            wo_response_item.portal_diagnostic_prepaid = work_order_has_portal_prepayment(
+                db, work_order_model
+            )
 
             processed_items.append(wo_response_item)
         

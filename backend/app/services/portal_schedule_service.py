@@ -142,6 +142,22 @@ def _enabled_windows(settings: dict) -> List[Tuple[str, dict]]:
     return result
 
 
+def effective_portal_window_cfg(
+    db: Session,
+    on_date: date,
+    window_name: str,
+    settings: dict,
+) -> Optional[dict]:
+    """Portal window config clipped to shop hours for on_date (None if not bookable)."""
+    from app.services.shop_hours_scheduling import resolve_effective_portal_window_from_db
+
+    windows = settings.get("scheduling_windows") or {}
+    base = windows.get(window_name) or {}
+    if not base.get("enabled"):
+        return None
+    return resolve_effective_portal_window_from_db(db, on_date, window_name, base)
+
+
 def _get_technicians(db: Session, settings: dict) -> List[Technician]:
     auto = settings.get("auto_assign") or {}
     fallback_id = auto.get("fallback_technician_id")
@@ -313,12 +329,15 @@ def get_scheduling_status(db: Session, client: Client, appliance_id: uuid.UUID) 
         from app.services.portal_scheduling_helpers import reschedulable_after_denial
 
         if reschedulable_after_denial(open_wo.portal_scheduling_meta):
+            from app.services.portal_booking_payment_service import work_order_has_portal_prepayment
+
             prior_meta = open_wo.portal_scheduling_meta or {}
             prior_payment = prior_meta.get("payment") or {}
             return {
                 "can_schedule": True,
                 "reschedule_denied_request": True,
                 "prior_payment_captured": bool(prior_payment.get("square_payment_id")),
+                "portal_diagnostic_prepaid": work_order_has_portal_prepayment(db, open_wo),
                 "open_work_order_id": str(open_wo.id),
                 "open_work_order_number": open_wo.order_number,
                 "blocked_message": None,
@@ -359,11 +378,14 @@ def _build_availability_days(
     while cursor <= end_date:
         windows_out = []
         for name, cfg in _enabled_windows(settings):
+            effective_cfg = effective_portal_window_cfg(db, cursor, name, settings)
+            if not effective_cfg:
+                continue
             available = _window_has_capacity(
                 db,
                 cursor,
                 name,
-                cfg,
+                effective_cfg,
                 duration_minutes,
                 technicians,
                 occupancy_cache=occupancy_cache,
@@ -371,7 +393,7 @@ def _build_availability_days(
             windows_out.append({
                 "name": name,
                 "available": available,
-                "display_range": _format_window_label(cfg),
+                "display_range": _format_window_label(effective_cfg),
                 "narrowing_note": _narrowing_copy(cursor),
             })
         if any(w["available"] for w in windows_out):
@@ -456,7 +478,10 @@ async def confirm_schedule(
     payment_idempotency_key: Optional[str] = None,
 ) -> dict:
     from app.services.portal_scheduling_helpers import shop_today
-    from app.services.portal_square_payment_service import charge_portal_booking, get_square_config
+    from app.services.portal_square_payment_service import (
+        charge_portal_booking,
+        portal_booking_payment_required,
+    )
 
     _assert_can_schedule(db, client)
     settings = get_portal_scheduling_settings(db)
@@ -505,12 +530,11 @@ async def confirm_schedule(
     if not diagnostic:
         raise ValidationException("Unable to resolve diagnostic service for this appliance.")
 
-    square_cfg = get_square_config(db)
     payment_meta = None
     prior_payment = None
     if reschedule_existing:
         prior_payment = (open_wo.portal_scheduling_meta or {}).get("payment")
-    if square_cfg["requires_payment"]:
+    if portal_booking_payment_required(db, client):
         amount = estimate.get("estimated_total")
         if amount is None:
             raise ValidationException("Unable to determine payment amount.")
@@ -524,9 +548,8 @@ async def confirm_schedule(
                 idempotency_key=payment_idempotency_key,
             )
 
-    windows = settings.get("scheduling_windows") or {}
-    window_cfg = windows.get(time_window) or {}
-    if not window_cfg.get("enabled"):
+    window_cfg = effective_portal_window_cfg(db, scheduled_date, time_window, settings)
+    if not window_cfg:
         raise ValidationException(f"The {time_window} window is not available.")
 
     duration = int(diagnostic.get("duration_minutes") or 45)
@@ -648,6 +671,20 @@ async def confirm_schedule(
         db.commit()
         db.refresh(work_order)
         db.refresh(appointment)
+
+    from app.services.portal_booking_payment_service import finalize_portal_booking_checkout
+
+    effective_payment = payment_meta or (work_order.portal_scheduling_meta or {}).get("payment")
+    finalize_portal_booking_checkout(
+        db,
+        work_order,
+        pricing_snapshot=estimate,
+        payment_meta=effective_payment,
+        actor_id=actor_id,
+        appointment_id=appointment.id,
+    )
+    db.commit()
+    db.refresh(work_order)
 
     try:
         from app.services.web_push_service import notify_portal_self_schedule

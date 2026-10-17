@@ -203,6 +203,9 @@ export default function PortalSchedulingSettingsPanel() {
         <h3 className="text-white font-semibold mb-1">Appointment windows</h3>
         <p className="text-xs text-gray-500 mb-4">
           Customer-facing morning / afternoon / evening windows for portal booking and ETA narrowing.
+          Slots are only offered when they fall inside your{' '}
+          <span className="text-gray-400">Settings → Shop hours</span> for that weekday (portal
+          times are clipped to shop hours).
         </p>
         <div className="space-y-3">
           {Object.entries(SCHEDULING_WINDOW_LABELS).map(([key, label]) => {
