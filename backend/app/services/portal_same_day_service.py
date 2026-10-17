@@ -36,7 +36,10 @@ from app.services.portal_scheduling_helpers import (
     shop_today,
 )
 from app.services.portal_scheduling_settings_service import get_portal_scheduling_settings
-from app.services.portal_square_payment_service import charge_portal_booking, get_square_config
+from app.services.portal_square_payment_service import (
+    charge_portal_booking,
+    portal_booking_payment_required,
+)
 from app.services.work_order_service import WorkOrderService
 
 logger = logging.getLogger(__name__)
@@ -176,17 +179,22 @@ async def request_schedule(
         raise ValidationException(f"The {time_window} window is not available.")
 
     payment_meta = None
-    square_cfg = get_square_config(db)
-    if square_cfg["requires_payment"]:
+    prior_payment = None
+    if open_wo and reschedulable_after_denial(open_wo.portal_scheduling_meta):
+        prior_payment = (open_wo.portal_scheduling_meta or {}).get("payment")
+    if portal_booking_payment_required(db, client):
         amount = estimate.get("estimated_total")
         if amount is None:
             raise ValidationException("Unable to determine payment amount.")
-        payment_meta = await charge_portal_booking(
-            db,
-            amount=float(amount),
-            source_id=square_source_id or "",
-            idempotency_key=payment_idempotency_key,
-        )
+        if prior_payment and prior_payment.get("square_payment_id"):
+            payment_meta = prior_payment
+        else:
+            payment_meta = await charge_portal_booking(
+                db,
+                amount=float(amount),
+                source_id=square_source_id or "",
+                idempotency_key=payment_idempotency_key,
+            )
 
     actor_id = svc._resolve_actor_user_id(db, client)
     symptom_list = svc._symptom_list(symptoms, issue_description)

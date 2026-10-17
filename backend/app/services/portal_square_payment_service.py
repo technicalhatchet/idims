@@ -25,6 +25,16 @@ def _amount_cents(amount: float) -> int:
     return int(Decimal(str(amount)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP) * 100)
 
 
+def portal_booking_payment_required(db, client) -> bool:
+    """True when this client must pay Square before portal confirm/request."""
+    cfg = get_square_config(db)
+    if not cfg["requires_payment"]:
+        return False
+    if getattr(client, "portal_booking_payment_waived", False):
+        return False
+    return True
+
+
 def get_square_config(db) -> Dict[str, Any]:
     settings = get_portal_scheduling_settings(db)
     payment = settings.get("payment") or {}

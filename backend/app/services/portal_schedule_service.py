@@ -475,7 +475,10 @@ async def confirm_schedule(
     payment_idempotency_key: Optional[str] = None,
 ) -> dict:
     from app.services.portal_scheduling_helpers import shop_today
-    from app.services.portal_square_payment_service import charge_portal_booking, get_square_config
+    from app.services.portal_square_payment_service import (
+        charge_portal_booking,
+        portal_booking_payment_required,
+    )
 
     _assert_can_schedule(db, client)
     settings = get_portal_scheduling_settings(db)
@@ -524,12 +527,11 @@ async def confirm_schedule(
     if not diagnostic:
         raise ValidationException("Unable to resolve diagnostic service for this appliance.")
 
-    square_cfg = get_square_config(db)
     payment_meta = None
     prior_payment = None
     if reschedule_existing:
         prior_payment = (open_wo.portal_scheduling_meta or {}).get("payment")
-    if square_cfg["requires_payment"]:
+    if portal_booking_payment_required(db, client):
         amount = estimate.get("estimated_total")
         if amount is None:
             raise ValidationException("Unable to determine payment amount.")
