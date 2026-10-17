@@ -37,7 +37,7 @@ def test_customer_source_label_staff_source_legacy():
 
 
 def test_customer_source_label_work_order_import():
-    assert customer_source_label(_appliance(source="work_order_import")) == "from_service_history"
+    assert customer_source_label(_appliance(source="work_order_import")) == "verified_by_atomic"
 
 
 def test_verify_appliance_by_staff_sets_columns_without_changing_source():

@@ -1,29 +1,49 @@
-const LABEL_TEXT = {
-  verified_by_atomic: 'Verified by Atomic Repair',
-  added_by_you: 'Added by you',
-  from_service_history: 'From your service history',
-};
+export const VERIFIED_SOURCE_LABEL = '✓ Verified';
+export const ADDED_BY_YOU_LABEL = 'Added by you';
 
-/** Customer-facing provenance line for portal appliance lists. */
-export function applianceCustomerSourceText(appliance) {
-  if (!appliance) return null;
-  if (appliance.customer_source_label_text) {
-    return appliance.customer_source_label_text;
-  }
-  const key = appliance.customer_source_label || inferSourceLabelKey(appliance);
-  return key ? LABEL_TEXT[key] : null;
+const VERIFIED_SOURCES = new Set([
+  'staff',
+  'manual',
+  'work_order_import',
+  'work_order_sync',
+]);
+
+/** True when UI should show the verified inline label. */
+export function applianceIsVerified(appliance) {
+  if (!appliance) return false;
+  if (appliance.verified_by_staff_at) return true;
+  return VERIFIED_SOURCES.has(appliance.source);
 }
 
-function inferSourceLabelKey(appliance) {
-  if (appliance.verified_by_staff_at) return 'verified_by_atomic';
-  if (appliance.source === 'portal') return 'added_by_you';
-  if (appliance.source === 'work_order_import' || appliance.source === 'work_order_sync') {
-    return 'from_service_history';
-  }
-  if (appliance.source === 'staff' || appliance.source === 'manual') {
-    return 'verified_by_atomic';
-  }
+/** Short inline label text, or null when no provenance line applies. */
+export function applianceSourceInlineText(appliance) {
+  if (!appliance) return null;
+  if (applianceIsVerified(appliance)) return VERIFIED_SOURCE_LABEL;
+  if (appliance.source === 'portal') return ADDED_BY_YOU_LABEL;
   return null;
+}
+
+export function applianceSourceInlineTone(appliance) {
+  return applianceIsVerified(appliance) ? 'verified' : 'customer';
+}
+
+/** @deprecated Use applianceSourceInlineText — kept for API fallbacks during rollout */
+export function applianceCustomerSourceText(appliance) {
+  if (!appliance) return null;
+  const fromApi = appliance.customer_source_label;
+  if (fromApi === 'from_service_history') {
+    return VERIFIED_SOURCE_LABEL;
+  }
+  if (appliance.customer_source_label_text) {
+    if (appliance.customer_source_label_text === 'Verified by Atomic Repair') {
+      return VERIFIED_SOURCE_LABEL;
+    }
+    if (appliance.customer_source_label_text === 'From your service history') {
+      return VERIFIED_SOURCE_LABEL;
+    }
+    return appliance.customer_source_label_text;
+  }
+  return applianceSourceInlineText(appliance);
 }
 
 export function applianceNeedsStaffVerification(appliance) {
