@@ -1,3 +1,4 @@
+import asyncio
 import logging
 from datetime import datetime, timedelta
 from celery import shared_task
@@ -9,7 +10,9 @@ from app.models.work_order import WorkOrder
 from app.models.technician import Technician
 from app.models.client import Client
 from app.models.user import User
+from app.services.client_contact import client_automated_sms_allowed
 from app.services.notification_service import NotificationService
+from app.utils.us_phone import client_sms_destination
 from app.schemas.notification import NotificationCreate
 
 logger = logging.getLogger(__name__)
@@ -58,12 +61,18 @@ def send_appointment_reminders():
                         related_type="work_order"
                     )
                     
-                    await NotificationService.create_notification(db, notification_data)
-                    
-                    # If client has mobile number, send SMS
-                    if client.mobile:
-                        sms_message = f"Reminder: Your service is scheduled for tomorrow at {work_order.scheduled_start.strftime('%I:%M %p')}. Work Order: {work_order.order_number}."
-                        await NotificationService.send_sms(client.mobile, sms_message)
+                    asyncio.run(
+                        NotificationService.create_notification(db, notification_data)
+                    )
+
+                    if client_automated_sms_allowed(client):
+                        sms_to = client_sms_destination(client.mobile)
+                        sms_message = (
+                            f"Reminder: Your service is scheduled for tomorrow at "
+                            f"{work_order.scheduled_start.strftime('%I:%M %p')}. "
+                            f"Work Order: {work_order.order_number}."
+                        )
+                        asyncio.run(NotificationService.send_sms(sms_to, sms_message))
             
             # Send reminder to technician
             if work_order.assigned_technician_id:
@@ -81,13 +90,15 @@ def send_appointment_reminders():
                         related_type="work_order"
                     )
                     
-                    await NotificationService.create_notification(db, notification_data)
-                    
+                    asyncio.run(
+                        NotificationService.create_notification(db, notification_data)
+                    )
+
                     # If technician has mobile number via user, send SMS
                     user = db.query(User).filter(User.id == technician.user_id).first()
                     if user and user.phone:
                         sms_message = f"Reminder: You have a job scheduled for tomorrow at {work_order.scheduled_start.strftime('%I:%M %p')}. Work Order: {work_order.order_number}."
-                        await NotificationService.send_sms(user.phone, sms_message)
+                        asyncio.run(NotificationService.send_sms(user.phone, sms_message))
         
         # Close the session
         db.close()
@@ -209,7 +220,11 @@ def send_specific_reminder(work_order_id, user_id, hours_before=24):
             related_type="work_order"
         )
         
-        await NotificationService.create_notification(db, notification_data, send_immediately=True)
+        asyncio.run(
+            NotificationService.create_notification(
+                db, notification_data, send_immediately=True
+            )
+        )
         
         # Close the session
         db.close()
