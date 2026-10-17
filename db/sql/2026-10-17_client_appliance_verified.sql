@@ -1,4 +1,5 @@
 -- Staff verification on client appliance registry (portal source labels).
+-- Prerequisite: 2026-10-17_client_appliance_verified_preview.sql (read-only counts).
 -- Run BEFORE deploying app code that reads verified_by_staff_at / verified_by_user_id.
 -- Date: 2026-10-17
 
@@ -18,7 +19,7 @@ COMMENT ON COLUMN client_appliances.verified_by_user_id IS
 
 -- Legacy staff-entered rows: treat as verified for display (source unchanged).
 UPDATE client_appliances
-SET verified_by_staff_at = COALESCE(updated_at, created_at, NOW() AT TIME ZONE 'utc')
+SET verified_by_staff_at = COALESCE(updated_at, created_at, now())
 WHERE verified_by_staff_at IS NULL
   AND source IN ('staff', 'manual');
 

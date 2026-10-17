@@ -85,7 +85,7 @@ python -m pytest tests/test_auth_user_email_lookup.py tests/test_staff_api_guard
 
 ### What shipped
 
-- SQL: `db/sql/2026-10-17_client_appliance_verified.sql` (+ `_undo`) — `verified_by_staff_at`, `verified_by_user_id`; backfill `staff`/`manual` sources.
+- SQL: `db/sql/2026-10-17_client_appliance_verified_preview.sql` (read-only), then `2026-10-17_client_appliance_verified.sql` (+ `_undo`) — `verified_by_staff_at`, `verified_by_user_id`; backfill `staff`/`manual` sources. Run order in `db/sql/README.md`.
 - API: `customer_source_label` + fields on `serialize_appliance`; `POST /api/clients/{id}/appliances/{id}/verify`; staff create auto-verifies without changing `source`.
 - Portal UI: `ApplianceSourceBadge` on list + detail; staff panel **Verify** for `source=portal` rows.
 
