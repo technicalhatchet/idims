@@ -142,6 +142,22 @@ def _enabled_windows(settings: dict) -> List[Tuple[str, dict]]:
     return result
 
 
+def effective_portal_window_cfg(
+    db: Session,
+    on_date: date,
+    window_name: str,
+    settings: dict,
+) -> Optional[dict]:
+    """Portal window config clipped to shop hours for on_date (None if not bookable)."""
+    from app.services.shop_hours_scheduling import resolve_effective_portal_window_from_db
+
+    windows = settings.get("scheduling_windows") or {}
+    base = windows.get(window_name) or {}
+    if not base.get("enabled"):
+        return None
+    return resolve_effective_portal_window_from_db(db, on_date, window_name, base)
+
+
 def _get_technicians(db: Session, settings: dict) -> List[Technician]:
     auto = settings.get("auto_assign") or {}
     fallback_id = auto.get("fallback_technician_id")
@@ -359,11 +375,14 @@ def _build_availability_days(
     while cursor <= end_date:
         windows_out = []
         for name, cfg in _enabled_windows(settings):
+            effective_cfg = effective_portal_window_cfg(db, cursor, name, settings)
+            if not effective_cfg:
+                continue
             available = _window_has_capacity(
                 db,
                 cursor,
                 name,
-                cfg,
+                effective_cfg,
                 duration_minutes,
                 technicians,
                 occupancy_cache=occupancy_cache,
@@ -371,7 +390,7 @@ def _build_availability_days(
             windows_out.append({
                 "name": name,
                 "available": available,
-                "display_range": _format_window_label(cfg),
+                "display_range": _format_window_label(effective_cfg),
                 "narrowing_note": _narrowing_copy(cursor),
             })
         if any(w["available"] for w in windows_out):
@@ -524,9 +543,8 @@ async def confirm_schedule(
                 idempotency_key=payment_idempotency_key,
             )
 
-    windows = settings.get("scheduling_windows") or {}
-    window_cfg = windows.get(time_window) or {}
-    if not window_cfg.get("enabled"):
+    window_cfg = effective_portal_window_cfg(db, scheduled_date, time_window, settings)
+    if not window_cfg:
         raise ValidationException(f"The {time_window} window is not available.")
 
     duration = int(diagnostic.get("duration_minutes") or 45)

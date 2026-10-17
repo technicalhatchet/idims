@@ -171,9 +171,8 @@ async def request_schedule(
     if not diagnostic:
         raise ValidationException("Unable to resolve diagnostic service for this appliance.")
 
-    windows = settings.get("scheduling_windows") or {}
-    window_cfg = windows.get(time_window) or {}
-    if not window_cfg.get("enabled"):
+    window_cfg = svc.effective_portal_window_cfg(db, scheduled_date, time_window, settings)
+    if not window_cfg:
         raise ValidationException(f"The {time_window} window is not available.")
 
     payment_meta = None
@@ -319,8 +318,11 @@ async def approve_schedule_request(
 
     scheduled_date = date.fromisoformat(meta["requested_date"])
     time_window = meta.get("time_window") or "morning"
-    windows = settings.get("scheduling_windows") or {}
-    window_cfg = windows.get(time_window) or {}
+    window_cfg = svc.effective_portal_window_cfg(db, scheduled_date, time_window, settings)
+    if not window_cfg:
+        raise ValidationException(
+            "The requested window is outside shop hours. Deny the request or ask the client to rebook."
+        )
 
     appliance = None
     if work_order.appliance_id:
