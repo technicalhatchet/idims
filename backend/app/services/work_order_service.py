@@ -182,7 +182,7 @@ class WorkOrderService:
             logger.debug(f"Filtering by end_date <= {end_date}")
             query = query.filter(WorkOrder.scheduled_start <= end_date)
 
-        if portal_prepaid_unscheduled:
+        if portal_prepaid_unscheduled is True:
             from app.models.work_order_payment import WorkOrderPayment
             from app.services.portal_booking_payment_service import (
                 PORTAL_BOOKING_PAYMENT_NOTES,

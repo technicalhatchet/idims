@@ -58,6 +58,7 @@ from app.utils.work_order_display import (
     primary_appointments_by_work_order_ids,
     technician_display_name_from_appointment,
 )
+from app.utils.query_params import coerce_query_bool
 
 # Setup logger properly
 logger = logging.getLogger(__name__)
@@ -228,7 +229,14 @@ async def list_work_orders(
     """
     request_id = str(uuid.uuid4())
     logger.info(f"[REQUEST-{request_id}] Fetching work orders for user: {current_user.email} with roles: {current_user.roles}")
-    
+
+    portal_prepaid_unscheduled = coerce_query_bool(
+        portal_prepaid_unscheduled,
+        request,
+        "portal_prepaid_unscheduled",
+        False,
+    )
+
     # Convert string UUIDs to UUID objects if provided
     client_uuid = None
     technician_uuid = None

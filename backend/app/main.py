@@ -445,6 +445,8 @@ async def api_work_orders(
 
         # Call the new router function directly
         # Ensure all parameters expected by the router are passed
+        from app.utils.query_params import query_bool_from_request
+
         response_data = await work_orders.list_work_orders(
             request=request, # Pass the original request
             status_filter=status_filter,
@@ -452,6 +454,9 @@ async def api_work_orders(
             technician_id=technician_id,
             start_date=start_date,
             end_date=end_date,
+            portal_prepaid_unscheduled=query_bool_from_request(
+                request, "portal_prepaid_unscheduled", False
+            ),
             page=page,
             limit=limit,
             db=db,
