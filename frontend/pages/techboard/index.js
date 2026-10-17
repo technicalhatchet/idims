@@ -378,7 +378,8 @@ function NextJobCard({ job, onAppointmentStatusChange, techFirstName, driveSecon
   const [showCallOptions, setShowCallOptions] = useState(false);
   const { push: sweepPush } = useSweepNavigate(600);
   const textPhone = pickEnRouteSmsPhone(job);
-  const showEnRouteText = jobStatus === 'scheduled' && Boolean(textPhone);
+  const showEnRouteText = jobStatus === 'scheduled';
+  const canEnRouteText = Boolean(textPhone);
 
   const handleCardClick = (e) => {
     e.preventDefault();
@@ -389,7 +390,7 @@ function NextJobCard({ job, onAppointmentStatusChange, techFirstName, driveSecon
 
   const handleCallClick = (e) => {
     e.stopPropagation();
-    const hasClientPhone = Boolean(job.client_phone);
+    const hasClientPhone = Boolean(job.client_phone || job.client_mobile);
     const hasTenantPhone = Boolean(job.tenant_phone);
 
     if (hasClientPhone && hasTenantPhone) {
@@ -492,18 +493,27 @@ function NextJobCard({ job, onAppointmentStatusChange, techFirstName, driveSecon
                     <span className="relative z-10">Call</span>
                   </button>
                   {showEnRouteText && (
-                    <button
-                      type="button"
-                      onClick={handleTextClick}
-                      className="tech-btn-glow flex flex-1 min-w-0 items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium overflow-hidden relative"
-                      style={NEXT_JOB_CONTACT_BTN_STYLE}
-                    >
-                      <span className="tech-btn-sweep" />
-                      <svg viewBox="0 0 24 24" className="w-4 h-4 relative z-10 shrink-0" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                      </svg>
-                      <span className="relative z-10">Text</span>
-                    </button>
+                    canEnRouteText ? (
+                      <button
+                        type="button"
+                        onClick={handleTextClick}
+                        className="tech-btn-glow flex flex-1 min-w-0 items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium overflow-hidden relative"
+                        style={NEXT_JOB_CONTACT_BTN_STYLE}
+                      >
+                        <span className="tech-btn-sweep" />
+                        <svg viewBox="0 0 24 24" className="w-4 h-4 relative z-10 shrink-0" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        <span className="relative z-10">Text</span>
+                      </button>
+                    ) : (
+                      <span
+                        className="flex flex-1 min-w-0 items-center justify-center py-2.5 rounded-lg text-xs text-gray-500 border border-white/10"
+                        title="Add a cell number on the client record"
+                      >
+                        No cell on file
+                      </span>
+                    )
                   )}
                 </div>
                 
@@ -852,7 +862,8 @@ export default function TechDashboardTest() {
       scheduled_start: a.scheduled_start || a.start,
       status: a.status || 'scheduled',
       service_address: resolveAppointmentLocation(a) || '',
-      client_phone: a.client_phone || a.client?.phone || '',
+      client_phone: a.client_phone || a.client?.mobile || a.client?.phone || '',
+      client_mobile: a.client_mobile || a.client?.mobile || '',
       client_name: a.client_name || a.client?.name || '',
       tenant_phone: a.property?.tenant_phone || a.tenant_phone || '',
       tenant_name: a.property?.tenant_name || a.tenant_name || '',

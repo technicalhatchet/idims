@@ -56,6 +56,7 @@ class ClientBase(BaseModel):
     tax_id: Optional[str] = None
     payment_terms: Optional[int] = 30
     credit_limit: Optional[float] = None
+    sms_consent: Optional[bool] = False
     
     @validator('email', pre=True)
     def empty_str_to_none(cls, v):
@@ -95,6 +96,7 @@ class ClientUpdate(BaseModel):
     credit_limit: Optional[float] = None
     self_scheduling_blocked: Optional[bool] = None
     scheduling_zone_exempt: Optional[bool] = None
+    sms_consent: Optional[bool] = None
     
     @validator('email', pre=True)
     def empty_str_to_none(cls, v):
@@ -122,6 +124,9 @@ class ClientResponse(ClientBase):
     self_scheduling_blocked: bool = False
     scheduling_zone_exempt: bool = False
     appliances_import_completed: bool = False
+    sms_consent: bool = False
+    sms_consent_at: Optional[datetime] = None
+    sms_consent_source: Optional[str] = None
     model_config = ConfigDict(from_attributes=True)
 
 class ClientListResponse(BaseModel):

@@ -25,7 +25,9 @@ function NewClientPage() {
     last_name: '',
     company_name: '',
     email: '',
+    mobile: '',
     phone: '',
+    sms_consent: false,
     address: {
       street1: '',
       street2: '',
@@ -185,8 +187,22 @@ function NewClientPage() {
               </div>
               
               <div>
+                <label htmlFor="mobile" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Cell (texts)
+                </label>
+                <input
+                  type="tel"
+                  id="mobile"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                />
+              </div>
+
+              <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Phone
+                  Other phone
                 </label>
                 <input
                   type="tel"
@@ -196,6 +212,22 @@ function NewClientPage() {
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="flex items-start gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="sms_consent"
+                    checked={formData.sms_consent}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, sms_consent: e.target.checked }))}
+                    className="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  />
+                  <span className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Text me appointment updates and account links from Atomic Repair.
+                    Msg &amp; data rates may apply. Reply STOP to opt out.
+                  </span>
+                </label>
               </div>
               
               <div className="md:col-span-2">

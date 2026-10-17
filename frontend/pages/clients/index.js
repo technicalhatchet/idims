@@ -167,7 +167,7 @@ function ClientsPage() {
                             </div>
                             <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
                               <FaPhone className="mr-2 text-gray-400 dark:text-gray-500" />
-                              {client.phone || 'No phone provided'}
+                              {client.mobile || client.phone || 'No phone provided'}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">

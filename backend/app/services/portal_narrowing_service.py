@@ -11,7 +11,9 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.models.client import Client
 from app.models.work_order import WorkOrder, WorkOrderAppointment
+from app.services.client_contact import client_automated_sms_allowed
 from app.services.notification_service import NotificationService
+from app.utils.us_phone import client_sms_destination
 from app.services.portal_eta_service import compute_client_eta_window
 from app.services.portal_scheduling_helpers import format_display_time, parse_hhmm, shop_local_naive, shop_now
 from app.services.portal_scheduling_settings_service import get_portal_scheduling_settings
@@ -64,9 +66,10 @@ async def _notify_client_narrowing(
     send_sms: bool,
     send_email: bool,
 ) -> None:
-    if send_sms and client.phone:
+    sms_to = client_sms_destination(client.mobile) if client_automated_sms_allowed(client) else None
+    if send_sms and sms_to:
         try:
-            await NotificationService.send_sms(client.phone, message)
+            await NotificationService.send_sms(sms_to, message)
         except Exception as exc:
             logger.warning("Narrowing SMS failed for client %s: %s", client.id, exc)
 

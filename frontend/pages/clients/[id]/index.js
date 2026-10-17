@@ -14,14 +14,7 @@ import { useClient, useClientMutations } from '../../../hooks/useClients';
 import { useWorkOrders } from '../../../hooks/useWorkOrders';
 import { withPageAuthRequired } from '../../../utils/auth0-helpers';
 import { apiClient } from '../../../utils/api-client';
-
-const formatPhoneNumber = (phoneNumberString) => {
-  if (!phoneNumberString) return '';
-  const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
-  const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-  if (match) return '(' + match[1] + ') ' + match[2] + '-' + match[3];
-  return phoneNumberString;
-};
+import { clientPhoneDisplayLines, formatPhoneNumber, preferDialPhone } from '../../../utils/formatters';
 
 const PROPERTY_TYPES = [
   { value: 'residential', label: 'Residential' },
@@ -264,12 +257,30 @@ function ClientDetail() {
                 {client?.company_name ? `${client.first_name} ${client.last_name} (${client.company_name})` : `${client.first_name} ${client.last_name}`}
               </h2>
               <div className="space-y-2 text-gray-700 dark:text-gray-300">
-                {client?.phone && (
-                  <p className="flex items-center">
-                    <FaPhone className="text-gray-500 dark:text-gray-400 mr-2" />
-                    <a href={`tel:${client.phone}`} className="hover:text-blue-600 dark:hover:text-blue-400">{formatPhoneNumber(client.phone)}</a>
-                  </p>
-                )}
+                {(() => {
+                  const lines = clientPhoneDisplayLines(client?.mobile, client?.phone);
+                  const dial = preferDialPhone(client?.mobile, client?.phone);
+                  if (!dial) return null;
+                  return (
+                    <>
+                      <p className="flex items-center">
+                        <FaPhone className="text-gray-500 dark:text-gray-400 mr-2" />
+                        <a href={`tel:${dial}`} className="hover:text-blue-600 dark:hover:text-blue-400">
+                          {lines.single || lines.cell || formatPhoneNumber(dial)}
+                          {lines.single ? null : (lines.cell ? ' (cell)' : '')}
+                        </a>
+                      </p>
+                      {lines.other && (
+                        <p className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                          <FaPhone className="mr-2 opacity-60" />
+                          <a href={`tel:${client.phone}`} className="hover:text-blue-600 dark:hover:text-blue-400">
+                            {lines.other} (other)
+                          </a>
+                        </p>
+                      )}
+                    </>
+                  );
+                })()}
                 {client?.email && (
                   <p className="flex items-center">
                     <FaEnvelope className="text-gray-500 dark:text-gray-400 mr-2" />

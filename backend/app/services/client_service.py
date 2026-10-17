@@ -11,6 +11,8 @@ from app.models.invoice import Invoice
 from app.models.user import User
 from app.schemas.client import ClientCreate, ClientUpdate
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
+from app.services.client_contact import set_sms_consent
+from app.utils.us_phone import normalize_phone_field
 
 logger = logging.getLogger(__name__)
 
@@ -98,6 +100,7 @@ class ClientService:
                 raise ConflictException("Failed to create user account for client")
         
         try:
+            consent = bool(client_data.sms_consent)
             # Create new client
             new_client = Client(
                 user_id=user_id,
@@ -105,8 +108,9 @@ class ClientService:
                 first_name=client_data.first_name,
                 last_name=client_data.last_name,
                 email=client_data.email,
-                phone=client_data.phone,
-                mobile=client_data.mobile,
+                phone=normalize_phone_field(client_data.phone),
+                mobile=normalize_phone_field(client_data.mobile),
+                sms_consent=consent,
                 address=client_data.address,
                 billing_address=client_data.billing_address,
                 shipping_address=client_data.shipping_address,
@@ -120,6 +124,8 @@ class ClientService:
                 credit_limit=client_data.credit_limit,
                 created_by=created_by
             )
+            if consent:
+                set_sms_consent(new_client, consent=True, source="staff", at=datetime.utcnow())
             
             db.add(new_client)
             db.commit()
@@ -150,6 +156,13 @@ class ClientService:
         try:
             # Update client with provided fields
             update_data = client_data.dict(exclude_unset=True)
+            if "sms_consent" in update_data:
+                consent_val = bool(update_data.pop("sms_consent"))
+                set_sms_consent(client, consent=consent_val, source="staff", at=datetime.utcnow())
+            if "phone" in update_data:
+                update_data["phone"] = normalize_phone_field(update_data.get("phone"))
+            if "mobile" in update_data:
+                update_data["mobile"] = normalize_phone_field(update_data.get("mobile"))
             
             for key, value in update_data.items():
                 setattr(client, key, value)

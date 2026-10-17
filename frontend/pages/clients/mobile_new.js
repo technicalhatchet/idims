@@ -83,7 +83,9 @@ function NewClientPage() {
     last_name: '',
     company_name: '',
     email: '',
+    mobile: '',
     phone: '',
+    sms_consent: false,
     address: {
       street1: '',
       street2: '',
@@ -348,8 +350,26 @@ function NewClientPage() {
               </div>
               
               <div>
+                <label htmlFor="mobile" className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">
+                  Cell (texts)
+                </label>
+                <input
+                  type="tel"
+                  id="mobile"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2.5 rounded-md text-white text-sm"
+                  style={{
+                    background: 'rgba(0, 0, 0, 0.3)',
+                    border: '1px solid rgba(34, 211, 238, 0.2)',
+                  }}
+                />
+              </div>
+
+              <div>
                 <label htmlFor="phone" className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">
-                  Phone
+                  Other phone
                 </label>
                 <input
                   type="tel"
@@ -363,6 +383,21 @@ function NewClientPage() {
                     border: '1px solid rgba(34, 211, 238, 0.2)',
                   }}
                 />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="flex items-start gap-2 cursor-pointer text-sm text-gray-400">
+                  <input
+                    type="checkbox"
+                    checked={formData.sms_consent}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, sms_consent: e.target.checked }))}
+                    className="mt-1"
+                  />
+                  <span>
+                    Text me appointment updates and account links from Atomic Repair.
+                    Msg &amp; data rates may apply. Reply STOP to opt out.
+                  </span>
+                </label>
               </div>
               
               <div 

@@ -13,7 +13,7 @@ import TechIconRail from '../navigation/TechIconRail';
 import {
   TECHDECK_BRAND_VERSION,
   TECHDECK_LOCKUP_COLLAPSED_SRC,
-  TECHDECK_LOCKUP_LIGHT_SRC,
+  TECHDECK_LOCKUP_SRC,
 } from '../../constants/techdeckBrandAssets';
 import TechDeckPwaHead from '../techdeck/TechDeckPwaHead';
 import {
@@ -269,7 +269,7 @@ export default function TechDashboardLayout({ children }) {
 
         {/* Center logo */}
         <img
-          src={TECHDECK_LOCKUP_LIGHT_SRC}
+          src={TECHDECK_LOCKUP_SRC}
           alt="TechDeck"
           className="h-9 sm:h-10 w-auto max-w-[min(70vw,16rem)] object-contain absolute left-1/2 -translate-x-1/2"
         />
@@ -389,7 +389,7 @@ export default function TechDashboardLayout({ children }) {
         <div className="flex items-center justify-center flex-shrink-0 px-2" style={{ height: 72, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
           {expanded ? (
             <img
-              src={TECHDECK_LOCKUP_LIGHT_SRC}
+              src={TECHDECK_LOCKUP_SRC}
               alt="TechDeck"
               className="h-11 w-auto max-w-[12rem] object-contain"
             />
