@@ -63,6 +63,8 @@ class BookingRequest(BaseModel):
     contact_preference_backup: Optional[ContactChannel] = None
     sms_consent: bool = False
     communications_consent: Optional[bool] = None  # legacy; ignored
+    equipment_model: Optional[str] = Field(None, max_length=100)
+    equipment_serial: Optional[str] = Field(None, max_length=100)
 
     @model_validator(mode="after")
     def validate_contact_and_consent(self):
@@ -607,6 +609,12 @@ async def create_booking(
             description_parts.append(
                 "Customer requested priority same-day diagnostic (portal-tier pricing on estimate)."
             )
+        equipment_model = (booking.equipment_model or "").strip() or None
+        equipment_serial = (booking.equipment_serial or "").strip() or None
+        if equipment_model:
+            description_parts.append(f"Model #: {equipment_model}.")
+        if equipment_serial:
+            description_parts.append(f"Serial #: {equipment_serial}.")
         for note in contact_notes:
             description_parts.append(note)
 
@@ -630,6 +638,8 @@ async def create_booking(
             order_number=order_number,
             equipment_type=equipment["equipment_type"],
             equipment_subtype=equipment["equipment_subtype"],
+            equipment_model=equipment_model,
+            equipment_serial=equipment_serial,
             symptoms=[booking.issue],
             description=" ".join(description_parts),
             priority=wo_priority,
