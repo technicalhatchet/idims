@@ -193,10 +193,12 @@ class WorkOrderService:
                 .filter(WorkOrderPayment.notes == PORTAL_BOOKING_PAYMENT_NOTES)
                 .subquery()
             )
+            from app.constants.appointment_status import APPOINTMENT_STATUS_CANCELED
+
             active_appt_wo_ids = (
                 db.query(WorkOrderAppointment.work_order_id)
                 .filter(
-                    WorkOrderAppointment.status.notin_(("canceled", "cancelled")),
+                    WorkOrderAppointment.status != APPOINTMENT_STATUS_CANCELED,
                     WorkOrderAppointment.scheduled_start.isnot(None),
                 )
                 .subquery()
