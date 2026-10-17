@@ -14,6 +14,8 @@ def test_existing_production_origins_allowed():
     assert origin_is_allowed("https://v0-idims.vercel.app")
     assert origin_is_allowed("https://dma-eight.vercel.app")
     assert origin_is_allowed("https://preview-branch.vercel.app")
+    assert origin_is_allowed("https://logit.solodiag.com")
+    assert "https://logit.solodiag.com" in CORS_ALLOWED_ORIGINS
 
 
 def test_unknown_origin_denied():
