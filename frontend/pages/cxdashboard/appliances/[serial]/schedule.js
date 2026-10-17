@@ -451,6 +451,22 @@ export default function ScheduleAppliancePage() {
               </div>
             ) : (
               <>
+                {schedulingStatus?.portal_diagnostic_prepaid && (
+                  <div
+                    style={{
+                      background: 'rgba(34, 197, 94, 0.08)',
+                      border: '1px solid rgba(34, 197, 94, 0.3)',
+                      borderRadius: '12px',
+                      padding: '0.65rem 1rem',
+                      marginBottom: '1rem',
+                      color: '#86efac',
+                      fontSize: '0.8125rem',
+                      fontWeight: 600,
+                    }}
+                  >
+                    Diagnostic paid (portal)
+                  </div>
+                )}
                 {schedulingStatus?.reschedule_denied_request && (
                   <div style={{ background: 'rgba(59,130,246,0.08)', border: '1px solid rgba(59,130,246,0.25)', borderRadius: '12px', padding: '1rem 1.25rem', marginBottom: '1rem' }}>
                     <p style={{ color: '#93c5fd', fontWeight: '600', margin: '0 0 0.25rem', fontSize: '0.9rem' }}>

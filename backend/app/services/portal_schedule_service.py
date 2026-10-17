@@ -329,12 +329,15 @@ def get_scheduling_status(db: Session, client: Client, appliance_id: uuid.UUID) 
         from app.services.portal_scheduling_helpers import reschedulable_after_denial
 
         if reschedulable_after_denial(open_wo.portal_scheduling_meta):
+            from app.services.portal_booking_payment_service import work_order_has_portal_prepayment
+
             prior_meta = open_wo.portal_scheduling_meta or {}
             prior_payment = prior_meta.get("payment") or {}
             return {
                 "can_schedule": True,
                 "reschedule_denied_request": True,
                 "prior_payment_captured": bool(prior_payment.get("square_payment_id")),
+                "portal_diagnostic_prepaid": work_order_has_portal_prepayment(db, open_wo),
                 "open_work_order_id": str(open_wo.id),
                 "open_work_order_number": open_wo.order_number,
                 "blocked_message": None,
@@ -668,6 +671,20 @@ async def confirm_schedule(
         db.commit()
         db.refresh(work_order)
         db.refresh(appointment)
+
+    from app.services.portal_booking_payment_service import finalize_portal_booking_checkout
+
+    effective_payment = payment_meta or (work_order.portal_scheduling_meta or {}).get("payment")
+    finalize_portal_booking_checkout(
+        db,
+        work_order,
+        pricing_snapshot=estimate,
+        payment_meta=effective_payment,
+        actor_id=actor_id,
+        appointment_id=appointment.id,
+    )
+    db.commit()
+    db.refresh(work_order)
 
     try:
         from app.services.web_push_service import notify_portal_self_schedule

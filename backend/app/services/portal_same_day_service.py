@@ -280,6 +280,19 @@ async def request_schedule(
         db.commit()
         db.refresh(work_order)
 
+    from app.services.portal_booking_payment_service import finalize_portal_booking_checkout
+
+    effective_payment = payment_meta or (work_order.portal_scheduling_meta or {}).get("payment")
+    finalize_portal_booking_checkout(
+        db,
+        work_order,
+        pricing_snapshot=estimate,
+        payment_meta=effective_payment,
+        actor_id=actor_id,
+    )
+    db.commit()
+    db.refresh(work_order)
+
     try:
         from app.services.web_push_service import notify_portal_scheduling_request
 
