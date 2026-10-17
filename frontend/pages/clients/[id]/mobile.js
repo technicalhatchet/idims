@@ -4,7 +4,8 @@ import { getSession } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { FaArrowLeft, FaEdit, FaPlusCircle, FaPhone, FaEnvelope, FaMapMarkerAlt, FaHistory, FaTools, FaMoneyBillWave, FaFileInvoiceDollar, FaCreditCard, FaPaperPlane, FaHome, FaKey, FaTrash, FaTimes, FaUser, FaBuilding, FaChevronDown, FaChevronUp, FaChevronRight } from 'react-icons/fa';
+import { FaArrowLeft, FaEdit, FaPlusCircle, FaPhone, FaEnvelope, FaMapMarkerAlt, FaHistory, FaTools, FaMoneyBillWave, FaFileInvoiceDollar, FaCreditCard, FaPaperPlane, FaHome, FaKey, FaTrash, FaTimes, FaUser, FaBuilding, FaChevronDown, FaChevronUp, FaChevronRight, FaLink } from 'react-icons/fa';
+import { createPortalClaim } from '../../../services/api/clientsApi';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
@@ -237,6 +238,8 @@ function ClientDetail() {
   const [workOrdersExpanded, setWorkOrdersExpanded] = useState(false);
   const [billingExpanded, setBillingExpanded] = useState(false);
   const [emailSending, setEmailSending] = useState(false);
+  const [portalLinkCopied, setPortalLinkCopied] = useState(false);
+  const [portalLinkLoading, setPortalLinkLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [emailError, setEmailError] = useState(null);
   const [properties, setProperties] = useState([]);
@@ -396,6 +399,21 @@ function ClientDetail() {
       setEmailError(error.message || 'Failed to send registration email');
     } finally {
       setEmailSending(false);
+    }
+  };
+
+  const handleCopyPortalLink = async () => {
+    setPortalLinkLoading(true);
+    setEmailError(null);
+    try {
+      const data = await createPortalClaim(id, { sendEmail: false });
+      await navigator.clipboard.writeText(data.url);
+      setPortalLinkCopied(true);
+      setTimeout(() => setPortalLinkCopied(false), 5000);
+    } catch (error) {
+      setEmailError(error.message || 'Failed to create portal link');
+    } finally {
+      setPortalLinkLoading(false);
     }
   };
 
@@ -1246,7 +1264,22 @@ function ClientDetail() {
                 }}
               />
             </label>
+            <button
+              type="button"
+              onClick={handleCopyPortalLink}
+              disabled={portalLinkLoading}
+              className="w-full flex items-center justify-center gap-2 py-3 mb-2 rounded-md text-sm font-bold uppercase tracking-wide transition-all disabled:opacity-50 active:opacity-70"
+              style={{
+                background: 'rgba(34, 211, 238, 0.12)',
+                border: '1px solid rgba(34, 211, 238, 0.35)',
+                color: '#22D3EE',
+              }}
+            >
+              <FaLink />
+              {portalLinkLoading ? 'Creating...' : 'Copy portal link'}
+            </button>
             <button 
+              type="button"
               onClick={handleSendRegistrationEmail} 
               disabled={emailSending} 
               className="w-full flex items-center justify-center gap-2 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-all disabled:opacity-50 active:opacity-70"
@@ -1259,6 +1292,18 @@ function ClientDetail() {
               <FaPaperPlane />
               {emailSending ? 'Sending...' : 'Send Registration Email'}
             </button>
+            {portalLinkCopied && (
+              <div 
+                className="mt-3 p-3 rounded-md text-sm"
+                style={{
+                  background: 'rgba(34, 211, 238, 0.1)',
+                  border: '1px solid rgba(34, 211, 238, 0.3)',
+                  color: '#22D3EE',
+                }}
+              >
+                <span className="font-bold">Copied!</span> Portal link is on your clipboard.
+              </div>
+            )}
             {emailSent && (
               <div 
                 className="mt-3 p-3 rounded-md text-sm"

@@ -195,6 +195,17 @@ export async function sendRegistrationEmail({ clientId, data }) {
   }
 }
 
+/** Create a DB-backed portal claim link (optional email). */
+export async function createPortalClaim(clientId, { sendEmail = false, purpose = 'portal_invite' } = {}) {
+  return apiClient(`/clients/${clientId}/portal-claims`, {
+    method: 'POST',
+    body: JSON.stringify({
+      purpose,
+      send_email: sendEmail,
+    }),
+  });
+}
+
 /**
  * Hook for a single client by ID
  */

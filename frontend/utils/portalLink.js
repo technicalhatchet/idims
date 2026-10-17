@@ -41,16 +41,23 @@ export async function fetchPortalLinkDebug(accessToken) {
   return data;
 }
 
-export async function postPortalLinkAccount(accessToken, { inviteToken } = {}) {
+export async function postPortalLinkAccount(accessToken, { inviteToken, claimToken } = {}) {
+  const token = claimToken || inviteToken;
+  const body = {};
+  if (token) {
+    if (token.split('.').length === 3) {
+      body.invite_token = token;
+    } else {
+      body.claim_token = token;
+    }
+  }
   const res = await fetch(`${BACKEND}/api/portal/link-account`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      ...(inviteToken ? { invite_token: inviteToken } : {}),
-    }),
+    body: JSON.stringify(body),
   });
   const data = await res.json().catch(() => ({}));
   return { ok: res.ok, status: res.status, data };

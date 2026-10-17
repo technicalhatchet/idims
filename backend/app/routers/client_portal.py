@@ -20,6 +20,13 @@ from urllib.parse import quote
 from app.db.database import get_db
 from app.core.auth import get_auth_handler
 from app.config import get_portal_invite_secret, settings
+from app.services.portal_claim_service import (
+    PortalClaimError,
+    looks_like_jwt_invite,
+    mark_claim_used,
+    resolve_client_for_link,
+    validate_claim_for_register,
+)
 from app.models.client import Client
 from app.models.user import User as DBUser
 from app.models.notification import Notification
@@ -140,6 +147,7 @@ def _require_portal_estimate(wo: WorkOrder, db: Session) -> None:
 
 class LinkAccountRequest(BaseModel):
     invite_token: Optional[str] = None
+    claim_token: Optional[str] = None
 
 
 async def get_token_data(credentials: HTTPAuthorizationCredentials = Depends(security)):
@@ -498,6 +506,15 @@ async def link_account_debug(
     }
 
 
+@router.get("/portal/validate-claim")
+async def validate_portal_claim(
+    token: str = Query(..., min_length=16),
+    db: Session = Depends(get_db),
+):
+    """Pre-login validation for DB-backed claim tokens (non-sensitive client preview)."""
+    return validate_claim_for_register(db, token)
+
+
 @router.post("/portal/link-account")
 async def link_portal_account(
     body: LinkAccountRequest,
@@ -509,8 +526,9 @@ async def link_portal_account(
         raise HTTPException(status_code=400, detail="Invalid token — no sub claim")
 
     logger.info(
-        "[LinkAccount] start sub=%s has_invite_token=%s invite_secret=%s",
+        "[LinkAccount] start sub=%s has_claim_token=%s has_invite_token=%s invite_secret=%s",
         auth0_user_id,
+        bool(body.claim_token),
         bool(body.invite_token),
         bool(get_portal_invite_secret()),
     )
@@ -532,8 +550,21 @@ async def link_portal_account(
     client = None
     link_method = None
     invite_error = None
+    pending_claim = None
 
-    if body.invite_token:
+    raw_claim = (body.claim_token or "").strip() or None
+    if not raw_claim and body.invite_token and not looks_like_jwt_invite(body.invite_token):
+        raw_claim = body.invite_token.strip()
+
+    if raw_claim:
+        try:
+            client, pending_claim = resolve_client_for_link(db, raw_claim)
+            link_method = "claim_token"
+        except PortalClaimError as exc:
+            invite_error = exc.message
+            logger.warning("[LinkAccount] claim token rejected: %s", exc.code)
+
+    if not client and body.invite_token and looks_like_jwt_invite(body.invite_token):
         secret = get_portal_invite_secret()
         if not secret:
             invite_error = "PORTAL_INVITE_SECRET not configured on API server"
@@ -610,9 +641,17 @@ async def link_portal_account(
         )
 
     client.auth0_user_id = auth0_user_id
+    if pending_claim:
+        mark_claim_used(db, pending_claim)
     db.commit()
     db.refresh(client)
-    logger.info("[LinkAccount] linked client %s to %s via %s", client.id, auth0_user_id, link_method)
+    logger.info(
+        "[LinkAccount] linked client %s to %s via %s claim_id=%s",
+        client.id,
+        auth0_user_id,
+        link_method,
+        pending_claim.id if pending_claim else None,
+    )
 
     role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
     return _finalize_link_account_response(

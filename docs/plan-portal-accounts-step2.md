@@ -1,7 +1,7 @@
 # Portal accounts — Step 2 plan
 
 **Date:** 2026-10-17  
-**Status:** In progress — phase **2.0** implemented; phases **2a–2f** pending  
+**Status:** In progress — phases **2.0**, **2a**, **2b** implemented in code; **2c–2f** pending  
 **Base audit:** [`docs/audit-portal-accounts.md`](./audit-portal-accounts.md) (2026-03-16)  
 **Rules:** No Alembic; DB changes via `db/sql/*.sql` + matching `*_undo.sql` (run in Supabase). Do **not** change diagnostic discount or repair credit logic (`portal_scheduling_helpers.apply_tier_pricing`, public booking tier math, or related credit paths).
 
@@ -37,7 +37,7 @@
 |-------|--------|-----------|
 | **2.0** | **Security hardening** | Close account-takeover via email lookup; lock staff-only routers from `client`-role JWTs. **Shipped in code (Oct 2026).** |
 | **2a** | **6** Appliance labels (Option B) | `verified_at` / `verified_by` columns; UI labels without overwriting `source`. **Shipped in code (Oct 2026).** |
-| **2b** | **4** Claim links (dual JWT + DB) | Safer invites / email-change before scaling signup; old JWTs keep working. |
+| **2b** | **4** Claim links (dual JWT + DB) | Safer invites / email-change before scaling signup; old JWTs keep working. **Shipped in code (Oct 2026).** |
 | **2c** | **1** Open sign-up + finish profile | Creates `self_signup` clients; still needs at least one property for appliances (2d). |
 | **2d** | **2** Portal properties CRUD | Unblocks appliance add + portal schedule for net-new portal customers. |
 | **2e** | **3** One link model (phased) | **3a:** set `client.user_id` to existing `users` row for Auth0 `sub` (no duplicate user create). **3b:** `client_logins` + multi-identity (phone step 3). |
@@ -94,6 +94,35 @@ python -m pytest tests/test_auth_user_email_lookup.py tests/test_staff_api_guard
 ```bash
 cd backend && python -m pytest tests/test_client_appliance_verified.py -q
 ```
+
+---
+
+## Phase 2b — Claim links (implemented)
+
+### What shipped
+
+- SQL: `db/sql/2026-10-17_client_portal_claims.sql` (+ `_undo`) — `client_portal_claims` with hashed tokens.
+- API: `POST /api/clients/{id}/portal-claims`, `POST /api/work-orders/{id}/portal-claims`, `GET /api/portal/validate-claim`, `link-account` accepts `claim_token` (legacy JWT `invite_token` still works).
+- Staff: **Copy portal link** + invite email uses DB claims (`?claim=` on register).
+- Register/validate: `claim` or `token` query param; Next `validate-invite` proxies claim validation to API.
+
+### Deploy
+
+Run `2026-10-17_client_portal_claims.sql` in Supabase before deploying API.
+
+### Tests
+
+```bash
+cd backend && python -m pytest tests/test_portal_claim_service.py tests/test_portal_security.py -q
+```
+
+### Manual checks (stop here before 2c)
+
+1. Staff → Copy portal link → open in private window → register → link succeeds.
+2. Re-open same link → invalid / already used.
+3. Legacy JWT `?token=` invite still validates and links until expiry.
+
+---
 
 ### Manual checks (stop here before 2b)
 
