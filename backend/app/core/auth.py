@@ -19,11 +19,26 @@ from app.config import settings
 from app.db.database import get_db
 from app.models.user import User as DBUser
 from app.core.exceptions import AuthenticationException, AuthorizationException, NotFoundException
+from app.services.portal_account_linking import auth0_email_verified
 
 logger = logging.getLogger(__name__)
 
 # Reduce auth noise in production — full token dumps are expensive and leak PII to logs.
 VERBOSE_AUTH_LOGS = settings.DEBUG or settings.ENVIRONMENT == "development"
+
+
+def _token_email_verified(raw_payload: Dict[str, Any]) -> bool:
+    """Whether Auth0 marked the login email as verified (for safe email-based user lookup)."""
+    if not raw_payload:
+        return False
+    if auth0_email_verified(raw_payload):
+        return True
+    custom = raw_payload.get("https://idimsapi/email_verified")
+    if custom is True:
+        return True
+    if isinstance(custom, str) and custom.lower() in ("true", "1", "yes"):
+        return True
+    return False
 
 
 def _auth_log_info(message: str) -> None:
@@ -465,11 +480,35 @@ class AuthHandler:
                 if user:
                     _auth_log_info(f"Found user by auth_id: {user.id}")
             
-            # If not found by auth_id, try by email
+            # If not found by auth_id, try by email only when verified and safe to adopt
             if not user and real_email:
-                user = db.query(DBUser).filter(DBUser.email == real_email).first()
-                if user:
-                    _auth_log_info(f"Found user by email: {user.id}")
+                if _token_email_verified(raw_payload):
+                    candidate = db.query(DBUser).filter(DBUser.email == real_email).first()
+                    if candidate:
+                        if candidate.auth_id and candidate.auth_id != auth_id:
+                            logger.warning(
+                                "[Auth] Email lookup rejected: user_id=%s email=%s "
+                                "stored auth_id=%s does not match token sub=%s",
+                                candidate.id,
+                                real_email,
+                                candidate.auth_id,
+                                auth_id,
+                            )
+                            raise HTTPException(
+                                status_code=status.HTTP_403_FORBIDDEN,
+                                detail=(
+                                    "This email is associated with a different sign-in. "
+                                    "Use your original login method or contact support."
+                                ),
+                            )
+                        if not candidate.auth_id:
+                            user = candidate
+                            _auth_log_info(f"Found user by verified email (unlinked auth_id): {user.id}")
+                        elif candidate.auth_id == auth_id:
+                            user = candidate
+                            _auth_log_info(f"Found user by verified email: {user.id}")
+                else:
+                    _auth_log_info("Skipping email user lookup: email not verified in token")
             
             # If user exists, update profile info if needed
             if user:
@@ -574,6 +613,8 @@ class AuthHandler:
             # Return the user
             return user
             
+        except HTTPException:
+            raise
         except Exception as e:
             logger.error(f"Error getting current user: {str(e)}")
             raise HTTPException(

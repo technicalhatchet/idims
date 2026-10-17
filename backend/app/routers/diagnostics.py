@@ -2,7 +2,7 @@ import logging
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.core.dependencies import get_current_user
+from app.core.dependencies import get_staff_user
 from app.models.user import User
 from app.schemas.diagnostics_ai import (
     GenerateDiagnosticNotesRequest,
@@ -18,7 +18,7 @@ router = APIRouter()
 @router.post("/generate-notes", response_model=GenerateDiagnosticNotesResponse)
 async def generate_notes_route(
     body: GenerateDiagnosticNotesRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     """Rewrite structured diagnostic facts into service note prose (summarize only)."""
     if current_user.is_client:

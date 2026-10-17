@@ -75,6 +75,29 @@ async def get_current_user(
             headers={"WWW-Authenticate": "Bearer"}
         )
 
+STAFF_ROLES = frozenset({"admin", "manager", "technician"})
+
+
+def is_staff_user(user: User) -> bool:
+    """True if user has any staff role (admin, manager, or technician)."""
+    if not user or not user.roles:
+        return False
+    normalized = {str(r).lower() for r in user.roles if r}
+    return bool(normalized & STAFF_ROLES)
+
+
+async def get_staff_user(
+    current_user: User = Depends(get_current_user),
+) -> User:
+    """Reject portal-only (client) users from internal staff APIs."""
+    if is_staff_user(current_user):
+        return current_user
+    raise HTTPException(
+        status_code=status.HTTP_403_FORBIDDEN,
+        detail="Staff access required",
+    )
+
+
 # Helper functions for requiring specific roles
 def has_roles(user: User, required_roles: List[str]) -> bool:
     """Check if user has any of the required roles"""

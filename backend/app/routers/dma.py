@@ -9,7 +9,7 @@ from sqlalchemy.exc import OperationalError, ProgrammingError
 from sqlalchemy.orm import Session
 
 from app.constants.dma_codes import DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES
-from app.core.dependencies import get_current_user
+from app.core.dependencies import get_staff_user
 from app.db.database import get_db
 from app.models.user import User
 from app.schemas.dma import (
@@ -78,7 +78,7 @@ router = APIRouter()
 
 @router.get("/codes", response_model=DmaCodesResponse)
 async def get_dma_codes(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     """Return problem and resolution code labels for Repair Outcome notes."""
     return DmaCodesResponse(
@@ -90,7 +90,7 @@ async def get_dma_codes(
 @router.get("/tags", response_model=DmaTagsResponse)
 async def get_dma_tags(
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     """List all repair memory tags."""
     try:
@@ -110,7 +110,7 @@ async def search_dma_error_codes(
     page: int = Query(1, ge=1),
     limit: int = Query(30, ge=1, le=100),
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     """Search read-only manufacturer error code reference rows."""
     result = search_error_code_references(
@@ -129,7 +129,7 @@ async def search_dma_error_codes(
 async def get_dma_error_code(
     reference_id: uuid.UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     payload = get_error_code_reference(db, reference_id)
     if not payload:
@@ -144,7 +144,7 @@ async def get_dma_repair_suggestions(
     error_code: Optional[str] = Query(None),
     work_order_id: Optional[uuid.UUID] = Query(None),
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     """In-context repair memory suggestions for equipment on a job."""
     result = get_dma_suggestions(
@@ -164,7 +164,7 @@ async def get_dma_evidence_nudges_route(
     tags: List[str] = Query(..., description="DMA tag slug(s) to match"),
     exclude_work_order_id: Optional[uuid.UUID] = Query(None),
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     """Historical repair counts per tag — feeds diagnostic evidence nudges (Phase 6d)."""
     result = get_dma_evidence_nudges(
@@ -186,7 +186,7 @@ async def get_dma_pattern_report_route(
     min_cases: int = Query(2, ge=1, le=10),
     limit: int = Query(10, ge=1, le=25),
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     """Read-only repair pattern discovery (Phase 6f)."""
     result = get_dma_pattern_report(
@@ -214,7 +214,7 @@ async def search_dma_repairs(
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     """Search confirmed repair outcomes and standalone field records."""
     result = search_repair_outcomes(
@@ -240,7 +240,7 @@ async def list_dma_repair_records(
     moderation_status: Optional[str] = Query(None),
     context: Optional[str] = Query(None),
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     try:
         result = list_repair_records(
@@ -260,7 +260,7 @@ async def list_dma_repair_records(
 async def create_dma_repair_record(
     body: DmaRepairRecordCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     """Create a standalone field repair memory record (no work order)."""
     try:
@@ -281,7 +281,7 @@ async def create_dma_repair_record(
 async def get_dma_repair_record(
     record_id: uuid.UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     record = get_repair_record(db, record_id)
     if not record:
@@ -296,7 +296,7 @@ async def update_dma_repair_record(
     record_id: uuid.UUID,
     body: DmaRepairRecordUpdate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     record = get_repair_record(db, record_id)
     if not record:
@@ -321,7 +321,7 @@ async def update_dma_repair_record(
 async def delete_dma_repair_record(
     record_id: uuid.UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     record = get_repair_record(db, record_id)
     if not record:
@@ -341,7 +341,7 @@ async def delete_dma_repair_record(
 async def get_work_order_outcome_status(
     work_order_id: uuid.UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     """Check whether a work order already has a DMA repair outcome."""
     outcome = get_outcome_for_work_order(db, work_order_id)
@@ -352,7 +352,7 @@ async def get_work_order_outcome_status(
 async def get_work_order_dma_outcome(
     work_order_id: uuid.UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     """Get the DMA repair outcome for a single work order, if recorded."""
     from app.models.work_order import WorkOrder
@@ -397,7 +397,7 @@ async def moderate_dma_repair_record(
     record_id: uuid.UUID,
     body: DmaRepairRecordModerateRequest,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     """Approve or reject a field record for the shared repair memory pool."""
     record = get_repair_record(db, record_id)
@@ -425,7 +425,7 @@ async def import_dma_record_to_work_order(
     record_id: uuid.UUID,
     work_order_id: uuid.UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     """Import standalone outcome + linked diagnostics into work order notes."""
     record = get_repair_record(db, record_id)
@@ -461,7 +461,7 @@ async def list_dma_standalone_diagnostics(
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     result = list_standalone_diagnostics(
         db,
@@ -480,7 +480,7 @@ async def list_dma_standalone_diagnostics(
 async def create_dma_standalone_diagnostic(
     body: DmaStandaloneDiagnosticCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     try:
         row = create_standalone_diagnostic(db, current_user, body)
@@ -500,7 +500,7 @@ async def create_dma_standalone_diagnostic(
 async def get_dma_standalone_diagnostic(
     diagnostic_id: uuid.UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     row = get_standalone_diagnostic(db, diagnostic_id)
     if not row:
@@ -515,7 +515,7 @@ async def update_dma_standalone_diagnostic(
     diagnostic_id: uuid.UUID,
     body: DmaStandaloneDiagnosticUpdate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     row = get_standalone_diagnostic(db, diagnostic_id)
     if not row:
@@ -540,7 +540,7 @@ async def update_dma_standalone_diagnostic(
 async def delete_dma_standalone_diagnostic(
     diagnostic_id: uuid.UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     row = get_standalone_diagnostic(db, diagnostic_id)
     if not row:
@@ -561,7 +561,7 @@ async def link_dma_diagnostic_to_outcome(
     diagnostic_id: uuid.UUID,
     outcome_id: uuid.UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     row = get_standalone_diagnostic(db, diagnostic_id)
     if not row:
@@ -580,7 +580,7 @@ async def link_dma_diagnostic_to_outcome(
 async def unlink_dma_diagnostic_from_outcome(
     diagnostic_id: uuid.UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     row = get_standalone_diagnostic(db, diagnostic_id)
     if not row:
@@ -603,7 +603,7 @@ async def import_dma_diagnostic_to_work_order(
     diagnostic_id: uuid.UUID,
     work_order_id: uuid.UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     """Import standalone diagnostic wizard data as a work order Diagnostic Results note."""
     row = get_standalone_diagnostic(db, diagnostic_id)
@@ -631,7 +631,7 @@ async def get_standalone_diagnostic_pdf_v2(
     variant: str = Query("light", pattern="^(dark|light)$"),
     show_technician: bool = Query(True),
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     from app.services.diagnostic_pdf_data import generate_standalone_diagnostic_pdf_v2
 

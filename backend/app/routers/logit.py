@@ -9,7 +9,7 @@ from fastapi.responses import StreamingResponse
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from app.core.dependencies import get_current_user
+from app.core.dependencies import get_staff_user
 from app.db.database import get_db
 from app.models.logit import LogitEntry, LogitProject
 from app.models.user import User
@@ -79,7 +79,7 @@ def _project_response(db: Session, project: LogitProject) -> LogitProjectRespons
 
 @router.get("/projects", response_model=List[LogitProjectResponse])
 async def list_projects(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db),
 ):
     projects = (
@@ -94,7 +94,7 @@ async def list_projects(
 @router.post("/projects", response_model=LogitProjectResponse, status_code=status.HTTP_201_CREATED)
 async def create_project(
     body: LogitProjectCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db),
 ):
     project = LogitProject(
@@ -113,7 +113,7 @@ async def create_project(
 async def update_project(
     project_id: UUID,
     body: LogitProjectUpdate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db),
 ):
     project = _get_owned_project(db, project_id, current_user.id)
@@ -131,7 +131,7 @@ async def update_project(
 @router.delete("/projects/{project_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_project(
     project_id: UUID,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db),
 ):
     project = _get_owned_project(db, project_id, current_user.id)
@@ -143,7 +143,7 @@ async def delete_project(
 @router.get("/projects/{project_id}/entries", response_model=List[LogitEntryResponse])
 async def list_entries(
     project_id: UUID,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db),
 ):
     _get_owned_project(db, project_id, current_user.id)
@@ -161,7 +161,7 @@ async def get_project_report_pdf(
     project_id: UUID,
     variant: str = Query("light", pattern="^(dark|light)$"),
     include_original_transcripts: bool = Query(False),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db),
 ):
     try:
@@ -191,7 +191,7 @@ async def get_project_report_pdf(
 @router.get("/entries/{entry_id}", response_model=LogitEntryResponse)
 async def get_entry(
     entry_id: UUID,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db),
 ):
     return _get_owned_entry(db, entry_id, current_user.id)
@@ -200,7 +200,7 @@ async def get_entry(
 @router.post("/classify", response_model=LogitClassifyResponse)
 async def classify_observation(
     body: LogitClassifyRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db),
 ):
     project = _get_owned_project(db, body.project_id, current_user.id)
@@ -232,7 +232,7 @@ async def classify_observation(
 @router.post("/entries", response_model=LogitEntryResponse, status_code=status.HTTP_201_CREATED)
 async def create_entry(
     body: LogitEntryCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db),
 ):
     _get_owned_project(db, body.project_id, current_user.id)
@@ -270,7 +270,7 @@ async def create_entry(
 async def update_entry(
     entry_id: UUID,
     body: LogitEntryUpdate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db),
 ):
     entry = _get_owned_entry(db, entry_id, current_user.id)
@@ -288,7 +288,7 @@ async def update_entry(
 @router.delete("/entries/{entry_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_entry(
     entry_id: UUID,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db),
 ):
     entry = _get_owned_entry(db, entry_id, current_user.id)

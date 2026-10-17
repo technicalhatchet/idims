@@ -11,7 +11,9 @@ from sqlalchemy.orm import Session
 from app.core.auth import AuthUser
 from app.core.exceptions import NotFoundException, ValidationException
 from app.db.database import get_db
-from app.routers.scheduling import get_current_user_dependency, get_manager_or_admin_dependency
+from app.core.dependencies import get_staff_user
+from app.models.user import User
+from app.routers.scheduling import get_manager_or_admin_dependency
 from app.schemas.calendar_block import (
     CalendarBlockCreate,
     CalendarBlockListResponse,
@@ -35,7 +37,7 @@ async def list_calendar_blocks(
     technician_id: Optional[uuid.UUID] = Query(None),
     include_canceled: bool = Query(False),
     db: Session = Depends(get_db),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_staff_user),
 ):
     start_datetime = datetime.combine(start_date, datetime.min.time())
     end_datetime = datetime.combine(end_date, datetime.max.time())

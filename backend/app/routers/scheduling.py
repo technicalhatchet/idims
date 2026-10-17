@@ -28,7 +28,7 @@ from app.schemas.route_optimization import (
     RouteOptimizePreviewResponse,
 )
 from app.services.route_optimization_service import apply_route_preview, build_route_preview
-from app.core.dependencies import get_current_user, get_admin_or_manager_user
+from app.core.dependencies import get_current_user, get_admin_or_manager_user, is_staff_user
 from app.utils.work_order_display import (
     primary_appointments_by_work_order_ids,
     technician_display_name_from_appointment,
@@ -91,6 +91,17 @@ async def get_current_user_dependency(request: Request = None):
             detail=f"Authentication error: {str(e)}",
             headers={"WWW-Authenticate": "Bearer"},
         )
+
+async def get_staff_user_dependency(request: Request = None):
+    """Authenticated user with admin, manager, or technician role."""
+    user = await get_current_user_dependency(request)
+    if not is_staff_user(user):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Staff access required",
+        )
+    return user
+
 
 async def get_manager_or_admin_dependency(request: Request = None):
     """Lazy-loaded dependency for manager or admin"""
