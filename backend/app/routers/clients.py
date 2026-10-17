@@ -5,7 +5,6 @@ import uuid
 from datetime import datetime
 import logging
 from pydantic import BaseModel
-import jwt
 import os
 from datetime import datetime, timedelta
 
@@ -19,10 +18,16 @@ from app.services.client_service import ClientService
 from app.services.notification_service import NotificationService
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
 from app.core.dependencies import get_admin_or_manager_user
-from app.config import settings, get_portal_invite_secret
-from app.frontend_site_urls import build_frontend_url
+from app.config import settings
 from app.schemas.client_appliance import ClientApplianceCreate, ClientApplianceUpdate, MergeAppliancesRequest
 from app.services import client_appliance_service as appliance_svc
+from app.services.portal_claim_service import (
+    PURPOSE_PORTAL_INVITE,
+    build_claim_register_url,
+    create_portal_claim,
+    send_portal_invite_email,
+)
+from app.models.user import User
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -415,13 +420,55 @@ async def send_registration_email_alias(
         db=db
     )
     
+class PortalClaimCreateBody(BaseModel):
+    purpose: str = PURPOSE_PORTAL_INVITE
+    send_email: bool = False
+    ttl_days: int = 7
+
+
+@router.post("/{client_id}/portal-claims")
+async def create_client_portal_claim(
+    client_id: uuid.UUID,
+    body: PortalClaimCreateBody = Body(default_factory=PortalClaimCreateBody),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_admin_or_manager_user),
+):
+    """Create a single-use portal claim link (optionally email the client)."""
+    client = db.query(Client).filter(Client.id == client_id).first()
+    if not client:
+        raise HTTPException(status_code=404, detail="Client not found")
+
+    if body.send_email and not client.email:
+        raise HTTPException(status_code=400, detail="Client has no email address on file")
+
+    claim, raw_token = create_portal_claim(
+        db,
+        client_id,
+        purpose=body.purpose,
+        created_by_auth0_sub=current_user.auth_id,
+        ttl_days=body.ttl_days,
+    )
+    invite_url = build_claim_register_url(raw_token)
+
+    if body.send_email:
+        send_portal_invite_email(client, invite_url)
+
+    db.commit()
+    return {
+        "claim_id": str(claim.id),
+        "url": invite_url,
+        "expires_at": claim.expires_at.isoformat() + "Z" if claim.expires_at else None,
+        "email_sent": body.send_email,
+    }
+
+
 @router.post("/{client_id}/invite")
 async def send_portal_invite(
     client_id: str,
     db: Session = Depends(get_db),
     current_user: AuthUser = Depends(get_admin_dependency),
 ):
-    """Generate a signed invite token and send registration email to client."""
+    """Create a DB-backed claim link and send registration email (legacy route)."""
 
     client = db.query(Client).filter(Client.id == client_id).first()
     if not client:
@@ -430,59 +477,17 @@ async def send_portal_invite(
     if not client.email:
         raise HTTPException(status_code=400, detail="Client has no email address on file")
 
-    # Generate signed JWT invite token — expires in 7 days
-    secret = get_portal_invite_secret()
-    if not secret:
-        raise HTTPException(
-            status_code=500,
-            detail="Portal invite signing is not configured. Set PORTAL_INVITE_SECRET (or SECRET_KEY) on the server.",
-        )
-    payload = {
-        "client_id": str(client.id),
-        "first_name": client.first_name,
-        "last_name": client.last_name,
-        "company_name": client.company_name,
-        "email": client.email,
-        "exp": datetime.utcnow() + timedelta(days=7),
-        "iat": datetime.utcnow(),
-    }
-    token = jwt.encode(payload, secret, algorithm="HS256")
-    invite_url = f"{build_frontend_url('/cxdashboard/register')}?token={token}"
-
-    # Send email via Resend
-    import httpx
-
-    html = f"""
-    <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0A0F1E;padding:2rem;border-radius:12px;">
-      <img src="{settings.LOGO_URL}" alt="Atomic Repair" style="height:40px;margin-bottom:1.5rem;" />
-      <h2 style="color:#fff;">You&apos;re invited to the Atomic Repair Client Portal</h2>
-      <p style="color:#9ca3af;">Hi {client.first_name},</p>
-      <p style="color:#9ca3af;">You can now access your service history, upcoming appointments, and invoices online.</p>
-      <a href="{invite_url}" style="display:inline-block;background:#00D4FF;color:#0A0F1E;padding:0.875rem 2rem;border-radius:8px;font-weight:700;text-decoration:none;margin:1.5rem 0;">
-        Create My Account
-      </a>
-      <p style="color:#6b7280;font-size:0.75rem;">This link expires in 7 days. If you didn&apos;t expect this email, you can ignore it.</p>
-    </div>
-    """
-
-    response = httpx.post(
-        "https://api.resend.com/emails",
-        headers={
-            "Authorization": f"Bearer {settings.RESEND_API_KEY}",
-            "Content-Type": "application/json"
-        },
-        json={
-            "from": "Atomic Repair <service@atomicrepair419.com>",
-            "to": client.email,
-            "subject": "Your Atomic Repair Client Portal Invite",
-            "html": html,
-        }
+    claim, raw_token = create_portal_claim(
+        db,
+        client.id,
+        purpose=PURPOSE_PORTAL_INVITE,
+        created_by_auth0_sub=current_user.sub or current_user.id,
     )
+    invite_url = build_claim_register_url(raw_token)
+    send_portal_invite_email(client, invite_url)
+    db.commit()
 
-    if response.status_code not in (200, 201):
-        raise HTTPException(status_code=500, detail="Failed to send invite email")
-
-    return {"success": True, "message": f"Invite sent to {client.email}"}
+    return {"success": True, "message": f"Invite sent to {client.email}", "claim_id": str(claim.id)}
 
 
 @router.get("/{client_id}/appliances")

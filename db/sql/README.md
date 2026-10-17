@@ -48,6 +48,14 @@ Optional: `reports/2026-10-17_public_schema_backup_tables.sql` to find legacy `p
 | 4 | **`2026-10-17_client_appliance_verified.sql`** | **Before phase 2a app deploy** — columns + `staff`/`manual` backfill |
 | 5 | Deploy backend + frontend (phase 2a) | Verify API + portal badges |
 
+| 6 | **`2026-10-17_client_portal_claims.sql`** | **Before phase 2b app deploy** — claim tokens for portal invites |
+| 7 | Deploy backend + frontend (phase 2b) | |
+
+### Rollback (portal 2b claims)
+
+1. Redeploy the **previous** application build.
+2. Run `2026-10-17_client_portal_claims_undo.sql`.
+
 ### Rollback (portal 2a appliance verification)
 
 1. Redeploy the **previous** application build.

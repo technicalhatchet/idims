@@ -314,6 +314,36 @@ async def test_link_account_invite_token_links(mock_finalize, _role, _secret):
 
 
 @pytest.mark.asyncio
+@patch("app.routers.client_portal.mark_claim_used")
+@patch("app.routers.client_portal.resolve_client_for_link")
+@patch("app.routers.client_portal._assign_client_role", return_value=(True, True, None))
+@patch("app.routers.client_portal._finalize_link_account_response")
+async def test_link_account_claim_token_links(mock_finalize, _role, mock_resolve, _mark_used):
+    from app.routers.client_portal import link_portal_account, LinkAccountRequest
+
+    client_id = uuid4()
+    client = SimpleNamespace(
+        id=client_id,
+        auth0_user_id=None,
+        email="claim@example.com",
+        first_name="C",
+        last_name="L",
+    )
+    claim = SimpleNamespace(id=uuid4(), purpose="portal_invite", claim_metadata=None)
+    mock_resolve.return_value = (client, claim)
+    mock_finalize.return_value = {"success": True}
+
+    db = MagicMock()
+    db.query.return_value.filter.return_value.first.return_value = None
+
+    token_data = SimpleNamespace(sub="auth0|claim-user", email=None, roles=[])
+
+    await link_portal_account(LinkAccountRequest(claim_token="raw-claim-token"), token_data, db)
+    assert client.auth0_user_id == "auth0|claim-user"
+    _mark_used.assert_called_once()
+
+
+@pytest.mark.asyncio
 @patch("app.routers.client_portal._assign_client_role", return_value=(True, False, None))
 @patch("app.routers.client_portal._finalize_link_account_response")
 async def test_already_linked_client_still_works(mock_finalize, _role):

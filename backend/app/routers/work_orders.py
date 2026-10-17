@@ -3377,3 +3377,53 @@ async def deny_portal_scheduling_request(
         )
     except ValidationException as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+
+class PortalClaimCreateBody(BaseModel):
+    purpose: str = "portal_invite"
+    send_email: bool = False
+    ttl_days: int = 7
+
+
+@router.post("/{work_order_id}/portal-claims")
+async def create_work_order_portal_claim(
+    work_order_id: uuid.UUID = Path(...),
+    body: PortalClaimCreateBody = Body(default_factory=PortalClaimCreateBody),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_admin_or_manager_user),
+):
+    """Create a portal claim link for the work order's client."""
+    from app.services.portal_claim_service import (
+        PURPOSE_PORTAL_INVITE,
+        build_claim_register_url,
+        create_portal_claim,
+        send_portal_invite_email,
+    )
+
+    wo = await WorkOrderService.get_work_order(db, work_order_id)
+    if not wo.client_id:
+        raise HTTPException(status_code=400, detail="Work order has no client")
+    client = db.query(Client).filter(Client.id == wo.client_id).first()
+    if not client:
+        raise HTTPException(status_code=404, detail="Client not found")
+    if body.send_email and not client.email:
+        raise HTTPException(status_code=400, detail="Client has no email address on file")
+
+    claim, raw_token = create_portal_claim(
+        db,
+        client.id,
+        purpose=body.purpose or PURPOSE_PORTAL_INVITE,
+        created_by_auth0_sub=current_user.auth_id,
+        ttl_days=body.ttl_days,
+    )
+    invite_url = build_claim_register_url(raw_token)
+    if body.send_email:
+        send_portal_invite_email(client, invite_url)
+    db.commit()
+    return {
+        "claim_id": str(claim.id),
+        "client_id": str(client.id),
+        "url": invite_url,
+        "expires_at": claim.expires_at.isoformat() + "Z" if claim.expires_at else None,
+        "email_sent": body.send_email,
+    }

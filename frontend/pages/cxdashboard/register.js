@@ -11,7 +11,7 @@ import AtomicLogo from '../../components/ui/AtomicLogo';
 
 export default function PortalRegister() {
   const router = useRouter();
-  const { token } = router.query;
+  const inviteToken = router.query.claim || router.query.token;
 
   const [state, setState] = useState('validating'); // validating | valid | invalid | registering | success | error
   const [clientInfo, setClientInfo] = useState(null);
@@ -19,9 +19,9 @@ export default function PortalRegister() {
 
   // Validate the invite token on load
   useEffect(() => {
-    if (!token) return;
+    if (!inviteToken) return;
 
-    fetch(`/api/portal/validate-invite?token=${token}`)
+    fetch(`/api/portal/validate-invite?token=${encodeURIComponent(inviteToken)}`)
       .then(res => res.json())
       .then(data => {
         if (data.valid) {
@@ -36,24 +36,24 @@ export default function PortalRegister() {
         setError('Unable to validate invite link. Please try again.');
         setState('invalid');
       });
-  }, [token]);
+  }, [inviteToken]);
 
   // Already logged in — link from dashboard instead of another Auth0 consent screen
   useEffect(() => {
-    if (!token || state !== 'valid') return;
+    if (!inviteToken || state !== 'valid') return;
     fetch('/api/auth/session')
       .then((res) => (res.ok ? res.json() : null))
       .then((session) => {
         if (!session?.user) return;
-        sessionStorage.setItem('portal_invite_token', token);
+        sessionStorage.setItem('portal_invite_token', inviteToken);
         router.replace('/cxdashboard');
       })
       .catch(() => {});
-  }, [token, state, router]);
+  }, [inviteToken, state, router]);
 
   const handleRegister = () => {
     if (typeof window === 'undefined') return;
-    sessionStorage.setItem('portal_invite_token', token);
+    sessionStorage.setItem('portal_invite_token', inviteToken);
     const params = new URLSearchParams({
       returnTo: '/cxdashboard',
       screen_hint: 'signup',

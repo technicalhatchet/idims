@@ -4,7 +4,8 @@ import { getSession } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { FaArrowLeft, FaEdit, FaPlusCircle, FaPhone, FaEnvelope, FaMapMarkerAlt, FaHistory, FaTools, FaMoneyBillWave, FaFileInvoiceDollar, FaCreditCard, FaPaperPlane, FaHome, FaKey, FaTrash, FaTimes, FaUser } from 'react-icons/fa';
+import { FaArrowLeft, FaEdit, FaPlusCircle, FaPhone, FaEnvelope, FaMapMarkerAlt, FaHistory, FaTools, FaMoneyBillWave, FaFileInvoiceDollar, FaCreditCard, FaPaperPlane, FaHome, FaKey, FaTrash, FaTimes, FaUser, FaLink } from 'react-icons/fa';
+import { createPortalClaim } from '../../../services/api/clientsApi';
 import DashboardLayout from '../../../components/layouts/DashboardLayout';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
@@ -103,6 +104,8 @@ function ClientDetail() {
   const [activeTab, setActiveTab] = useState('details');
   const [emailSending, setEmailSending] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [portalLinkCopied, setPortalLinkCopied] = useState(false);
+  const [portalLinkLoading, setPortalLinkLoading] = useState(false);
   const [emailError, setEmailError] = useState(null);
   const [properties, setProperties] = useState([]);
   const [propertiesLoading, setPropertiesLoading] = useState(false);
@@ -203,6 +206,21 @@ function ClientDetail() {
       setEmailError(error.message || 'Failed to send invite email');
     } finally {
       setEmailSending(false);
+    }
+  };
+
+  const handleCopyPortalLink = async () => {
+    setPortalLinkLoading(true);
+    setEmailError(null);
+    try {
+      const data = await createPortalClaim(id, { sendEmail: false });
+      await navigator.clipboard.writeText(data.url);
+      setPortalLinkCopied(true);
+      setTimeout(() => setPortalLinkCopied(false), 5000);
+    } catch (error) {
+      setEmailError(error.message || 'Failed to create portal link');
+    } finally {
+      setPortalLinkLoading(false);
     }
   };
 
@@ -518,9 +536,15 @@ function ClientDetail() {
           <div className="flex flex-col items-center justify-center text-center">
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">Account Registration</h3>
             <p className="text-gray-500 dark:text-gray-400 mb-4">Send an email invitation for this client to create their account in the client portal.</p>
-            <button onClick={handleSendRegistrationEmail} disabled={emailSending} className="flex items-center px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition">
-              <FaPaperPlane className="mr-2" />{emailSending ? 'Sending...' : 'Send Registration Email'}
-            </button>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <button type="button" onClick={handleCopyPortalLink} disabled={portalLinkLoading} className="flex items-center px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 transition disabled:opacity-50">
+                <FaLink className="mr-2" />{portalLinkLoading ? 'Creating...' : 'Copy portal link'}
+              </button>
+              <button type="button" onClick={handleSendRegistrationEmail} disabled={emailSending} className="flex items-center px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition">
+                <FaPaperPlane className="mr-2" />{emailSending ? 'Sending...' : 'Send Registration Email'}
+              </button>
+            </div>
+            {portalLinkCopied && <div className="mt-3 text-cyan-600 dark:text-cyan-400"><span className="font-bold">Copied!</span> Portal registration link is on your clipboard.</div>}
             {emailSent && <div className="mt-3 text-green-600 dark:text-green-400"><span className="font-bold">Success!</span> Registration email sent to {client.email}</div>}
             {emailError && <div className="mt-3 text-red-600 dark:text-red-400"><span className="font-bold">Error!</span> {emailError}</div>}
           </div>
