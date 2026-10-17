@@ -1149,6 +1149,7 @@ async def get_portal_invoices(
     db: Session = Depends(get_db)
 ):
     from app.services.work_order_billing_helpers import compute_balance_due, compute_net_invoice_total
+    from app.services.portal_booking_payment_service import work_order_has_portal_prepayment
     from app.services.portal_square_payment_service import square_credentials_configured
 
     work_orders_list = (
@@ -1169,7 +1170,14 @@ async def get_portal_invoices(
         paid = float(wo.amount_previously_paid or 0)
         balance_due = float(compute_balance_due(wo))
         total = float(compute_net_invoice_total(wo))
-        if balance_due <= 0.01 and paid > 0:
+        wo_status = (
+            wo.status.value if hasattr(wo.status, "value") else str(wo.status or "")
+        ).lower()
+        portal_prepaid = work_order_has_portal_prepayment(db, wo)
+        open_wo = wo_status not in ("completed", "closed", "canceled", "cancelled")
+        if open_wo and portal_prepaid and paid > 0:
+            payment_status = "prepaid"
+        elif balance_due <= 0.01 and paid > 0:
             payment_status = "paid"
         elif paid > 0:
             payment_status = "partial"
@@ -1189,6 +1197,7 @@ async def get_portal_invoices(
             "balance_due": round(balance_due, 2),
             "payment_status": payment_status,
             "work_order_status": wo.status,
+            "portal_diagnostic_prepaid": portal_prepaid,
             "can_pay_online": pay_online and balance_due >= 1.0,
             **_estimate_fields(wo, db),
         })

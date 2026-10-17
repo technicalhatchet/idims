@@ -6,7 +6,19 @@ import { updateWorkOrderStatusOffline } from '../../lib/offlineWrites';
  */
 export async function getWorkOrders(params = {}) {
   console.log('getWorkOrders API function called with params:', params);
-  const { page = 1, limit = 10, status, status_filter, client_id, technician_id, start_date, end_date } = params;
+  const {
+    page = 1,
+    limit = 10,
+    status,
+    status_filter,
+    client_id,
+    technician_id,
+    start_date,
+    end_date,
+    portal_prepaid_unscheduled,
+    preset,
+    schedule,
+  } = params;
   
   // Build query string
   const queryParams = new URLSearchParams();
@@ -23,6 +35,9 @@ export async function getWorkOrders(params = {}) {
   if (technician_id) queryParams.append('technician_id', technician_id);
   if (start_date) queryParams.append('start_date', start_date);
   if (end_date) queryParams.append('end_date', end_date);
+  if (portal_prepaid_unscheduled) queryParams.append('portal_prepaid_unscheduled', 'true');
+  if (preset) queryParams.append('preset', preset);
+  if (schedule) queryParams.append('schedule', schedule);
   
   try {
     const url = `work-orders?${queryParams.toString()}`;

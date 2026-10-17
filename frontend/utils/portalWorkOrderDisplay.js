@@ -135,6 +135,17 @@ function isOpenWorkOrderInvoice(invoice) {
   return status && !CLOSED_WO_STATUSES.has(status);
 }
 
+/** Portal booking deposit on a job that is not finished yet — not the same as paid in full. */
+export function isOpenPortalPrepaidInvoice(invoice) {
+  if (!isOpenWorkOrderInvoice(invoice)) return false;
+  const paid = Number(invoice?.amount_paid || 0);
+  if (paid <= 0.01) return false;
+  return (
+    invoice?.payment_status === 'prepaid'
+    || invoice?.portal_diagnostic_prepaid === true
+  );
+}
+
 export function getPortalInvoicePaymentSummary(invoice) {
   const paid = Number(invoice?.amount_paid || 0);
   const total = Number(invoice?.total || 0);
@@ -145,6 +156,10 @@ export function getPortalInvoicePaymentSummary(invoice) {
   const zeroTotalOpenJob = total <= 0.01 && isOpenWorkOrderInvoice(invoice);
   if (zeroTotalOpenJob) {
     return { type: 'pending', paid, balance: 0, total };
+  }
+
+  if (isOpenPortalPrepaidInvoice(invoice)) {
+    return { type: 'prepaid', paid, balance, total };
   }
 
   if (invoice?.payment_status === 'paid' || balance <= 0.01) {
@@ -160,6 +175,7 @@ export function getPortalInvoicePaymentSummary(invoice) {
 export function getPortalInvoiceDisplayStatus(invoice) {
   const summary = getPortalInvoicePaymentSummary(invoice);
   if (summary.type === 'pending') return 'pending';
+  if (summary.type === 'prepaid') return 'prepaid';
   if (summary.type === 'paid') return 'paid';
   if (summary.type === 'partial') return 'partial';
   return 'outstanding';

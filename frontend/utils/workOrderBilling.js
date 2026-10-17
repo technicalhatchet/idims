@@ -2,6 +2,34 @@ import { hasCompletedRepairAppointment } from './appointmentStatusLabels';
 
 export const round2 = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
 
+const CLOSED_WO_STATUSES = new Set(['completed', 'closed', 'canceled', 'cancelled']);
+
+export function isOpenWorkOrderStatus(status) {
+  return !CLOSED_WO_STATUSES.has(String(status || '').toLowerCase());
+}
+
+export function hasPortalDiagnosticPrepayment(workOrder) {
+  return Boolean(
+    workOrder?.portal_diagnostic_prepaid
+    || workOrder?.portal_scheduling_meta?.payment?.square_payment_id,
+  );
+}
+
+/** Open job with portal booking deposit — not paid in full for the visit. */
+export function isOpenJobPortalPrepaidDeposit(workOrder) {
+  if (!workOrder || !isOpenWorkOrderStatus(workOrder.status)) return false;
+  if (!hasPortalDiagnosticPrepayment(workOrder)) return false;
+  return parseFloat(workOrder.amount_previously_paid || 0) > 0;
+}
+
+/** Invoice PDF / header: only true paid-in-full when the job is actually closed out. */
+export function isWorkOrderPaidInFullForDocuments(workOrder, billingTotals) {
+  if (!billingTotals) return false;
+  if (billingTotals.dueToday > 0.01 || billingTotals.previouslyPaid <= 0) return false;
+  if (isOpenJobPortalPrepaidDeposit(workOrder)) return false;
+  return true;
+}
+
 export const PART_DUE_STATUSES = ['phone_payment', 'upfront_50', 'installed', 'paid_not_installed'];
 export const PART_NON_TAXABLE_STATUSES = ['not_installed'];
 

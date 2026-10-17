@@ -13,7 +13,7 @@ export default function PortalDiagnosticPrepaidBadge({ workOrder }) {
         color: '#86efac',
       }}
     >
-      Diagnostic paid (portal)
+      Prepaid (portal)
     </span>
   );
 }

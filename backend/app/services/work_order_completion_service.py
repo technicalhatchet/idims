@@ -12,8 +12,14 @@ from app.models.work_order import (
     WorkOrderService as WorkOrderServiceModel,
     WorkOrderStatusHistory,
 )
-
 logger = logging.getLogger(__name__)
+
+# Keep in sync with work_order_billing_helpers.PAYMENT_READY_APPOINTMENT_STATUSES
+_PAYMENT_READY_APPOINTMENT_STATUSES = frozenset({
+    "phone_payment",
+    "completed",
+    "completed_pending_payment",
+})
 
 CLOSED_WORK_ORDER_STATUSES = frozenset({"completed", "canceled", "closed"})
 
@@ -98,6 +104,20 @@ def work_order_needs_repair_outcome(db: Session, work_order_id: uuid.UUID) -> bo
     return get_outcome_for_work_order(db, work_order_id) is None
 
 
+def work_order_allows_payment_driven_completion(work_order: WorkOrder) -> bool:
+    """
+    Auto-complete after payment only when checkout is tied to a finished visit
+    (work order or appointment in a payment-ready status).
+    """
+    wo_status = _appointment_status_str(work_order)
+    if wo_status in {"completed_pending_payment", "completed"}:
+        return True
+    for appt in work_order.appointments or []:
+        if _appointment_status_str(appt) in _PAYMENT_READY_APPOINTMENT_STATUSES:
+            return True
+    return False
+
+
 def load_work_order_for_completion_check(db: Session, work_order_id: uuid.UUID) -> Optional[WorkOrder]:
     return (
         db.query(WorkOrder)
@@ -135,6 +155,14 @@ def try_auto_complete_after_payment(
 
     if getattr(work_order, "is_closed", False) or work_order.status in CLOSED_WORK_ORDER_STATUSES:
         result["needs_repair_outcome"] = work_order_needs_repair_outcome(db, work_order.id)
+        return result
+
+    if not work_order_allows_payment_driven_completion(work_order):
+        logger.info(
+            "Work order %s not auto-completed: visit not in payment-ready status (wo=%s)",
+            work_order.id,
+            _appointment_status_str(work_order.status),
+        )
         return result
 
     if not is_work_order_financially_closed(work_order):
