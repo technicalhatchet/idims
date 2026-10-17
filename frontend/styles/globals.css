@@ -7,6 +7,11 @@
   html {
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    @apply font-sans;
+  }
+
+  body {
+    @apply font-sans;
   }
 
   @media (max-width: 640px) {
