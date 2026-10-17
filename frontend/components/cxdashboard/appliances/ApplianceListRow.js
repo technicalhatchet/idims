@@ -8,6 +8,7 @@ import { applianceDisplayName } from '../../../constants/applianceEquipment';
 import { getPrimaryStatus } from './appliancesPageUtils';
 import ApplianceOverflowMenu from './ApplianceOverflowMenu';
 import ApplianceScheduleButton from './ApplianceScheduleButton';
+import ApplianceSourceBadge from './ApplianceSourceBadge';
 
 function DetailBlock({ label, value }) {
   return (
@@ -62,7 +63,10 @@ export default function ApplianceListRow({
 
         <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-[1.4fr_auto_1fr] sm:items-center gap-1 sm:gap-4">
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-white truncate">{displayName}</p>
+            <div className="flex items-center gap-2 flex-wrap min-w-0">
+              <p className="text-sm font-semibold text-white truncate">{displayName}</p>
+              <ApplianceSourceBadge appliance={appliance} />
+            </div>
             {appliance.model ? (
               <p className="text-xs text-gray-500 truncate">{appliance.model}</p>
             ) : null}

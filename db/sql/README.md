@@ -38,6 +38,21 @@ Supabase SQL editor shows **only the last statement’s result** in a multi-stat
 
 Optional: `reports/2026-10-17_public_schema_backup_tables.sql` to find legacy `public.*backup*` tables.
 
+## Deploy order (portal accounts — Step 2)
+
+| Step | Action | Notes |
+|------|--------|--------|
+| 1 | `2026-10-17_client_portal_booking_payment_waived.sql` | If not already run — before app reads `portal_booking_payment_waived` |
+| 2 | Deploy **phase 2.0** (auth hardening) | Merged via PR #34 |
+| 3 | `2026-10-17_client_appliance_verified_preview.sql` | Counts / backfill scope (read-only) |
+| 4 | **`2026-10-17_client_appliance_verified.sql`** | **Before phase 2a app deploy** — columns + `staff`/`manual` backfill |
+| 5 | Deploy backend + frontend (phase 2a) | Verify API + portal badges |
+
+### Rollback (portal 2a appliance verification)
+
+1. Redeploy the **previous** application build.
+2. Run `2026-10-17_client_appliance_verified_undo.sql`.
+
 ### Rollback (contact data)
 
 1. Redeploy the **previous** application build (code must not reference removed columns).

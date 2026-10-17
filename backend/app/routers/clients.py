@@ -508,7 +508,13 @@ async def create_client_appliance_staff(
     if not client:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Client not found")
     try:
-        appliance = appliance_svc.create_client_appliance(db, client_id, payload, source="staff")
+        appliance = appliance_svc.create_client_appliance(
+            db,
+            client_id,
+            payload,
+            source="staff",
+            verified_by_user_id=current_user.id,
+        )
         db.commit()
         db.refresh(appliance)
         return appliance_svc.serialize_appliance(appliance, db)
@@ -546,6 +552,25 @@ async def delete_client_appliance_staff(
         appliance_svc.soft_delete_client_appliance(db, client_id, appliance_id)
         db.commit()
         return {"success": True}
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.post("/{client_id}/appliances/{appliance_id}/verify")
+async def verify_client_appliance_staff(
+    client_id: uuid.UUID,
+    appliance_id: uuid.UUID,
+    current_user: AuthUser = Depends(get_admin_or_manager_user),
+    db: Session = Depends(get_db),
+):
+    try:
+        appliance = appliance_svc.verify_appliance_by_staff(
+            db, client_id, appliance_id, current_user.id
+        )
+        db.commit()
+        db.refresh(appliance)
+        return appliance_svc.serialize_appliance(appliance, db)
     except ValueError as exc:
         db.rollback()
         raise HTTPException(status_code=404, detail=str(exc)) from exc
