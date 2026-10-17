@@ -26,7 +26,7 @@ import {
   BOOKING_TIMING_NOTE,
   DIAGNOSTIC_CREDIT_MARKETING,
 } from '../constants/bookingMarketing';
-import { portalSignUpUrl } from '../utils/portalAuthUrls';
+import { portalSignInUrl, portalSignUpUrl } from '../utils/portalAuthUrls';
 
 const CONTACT_CHANNELS = [
   { id: 'phone', label: 'Phone call' },
@@ -79,17 +79,40 @@ const APPLIANCES = [
   { id: 'other', name: 'Other', icon: 'wrench', color: 'cyan', allowCustom: true },
 ];
 
-const TIME_OPTIONS = [
-  { id: 'today', name: 'Today', icon: 'calendarDot', desc: 'Same-day diagnostic' },
-  { id: 'tomorrow', name: 'Tomorrow', icon: 'calendar', desc: 'Next day' },
-  { id: 'this-week', name: 'This Week', icon: 'calendarWeek', desc: 'Flexible' },
-  { id: 'flexible', name: 'Flexible', icon: 'hourglass', desc: 'Any time' },
+const SCHEDULING_OPTIONS = [
+  {
+    id: 'flexible',
+    name: "I'm flexible — call me to schedule",
+    desc: 'Tell us your issue now; we will call when we can fit you in.',
+    icon: 'hourglass',
+    timePreference: 'flexible',
+    priorityRequested: false,
+  },
+  {
+    id: 'asap',
+    name: 'As soon as possible (priority)',
+    desc: 'Request the earliest diagnostic visit. Priority / same-day rates apply when offered.',
+    icon: 'calendarDot',
+    timePreference: 'today',
+    priorityRequested: true,
+  },
 ];
+
+function resolvePublicBookingScheduling(schedulingChoice) {
+  const option = SCHEDULING_OPTIONS.find((o) => o.id === schedulingChoice);
+  if (!option) {
+    return { time_preference: '', priority_requested: false };
+  }
+  return {
+    time_preference: option.timePreference,
+    priority_requested: option.priorityRequested,
+  };
+}
 
 const STEPS = [
   { number: 1, title: 'Select Appliance' },
   { number: 2, title: "What's the issue?" },
-  { number: 3, title: 'Choose a time' },
+  { number: 3, title: 'Scheduling' },
   { number: 4, title: 'Your Information' },
   { number: 5, title: 'Confirm Request' },
 ];
@@ -107,7 +130,9 @@ export default function BookService() {
     additionalIssues: [],
     errorCode: '',
     issueDescription: '',
-    time: '',
+    equipmentModel: '',
+    equipmentSerial: '',
+    schedulingChoice: '',
     name: '',
     mobile: '',
     otherPhone: '',
@@ -117,7 +142,6 @@ export default function BookService() {
     contactBackup: '',
     smsConsent: false,
   });
-  const [priorityRequested, setPriorityRequested] = useState(false);
   const [schedulingContext, setSchedulingContext] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -131,7 +155,10 @@ export default function BookService() {
     formData.applianceFuel,
   );
 
+  const bookingScheduling = resolvePublicBookingScheduling(formData.schedulingChoice);
+
   const fetchPricingEstimate = useCallback(async (signal) => {
+    const scheduling = resolvePublicBookingScheduling(formData.schedulingChoice);
     const response = await fetch('/api/public/booking-estimate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -141,8 +168,8 @@ export default function BookService() {
         address: formData.address.trim(),
         custom_appliance: formData.appliance === 'other' ? formData.customAppliance : undefined,
         equipment_subtype: resolvedEquipmentSubtype || undefined,
-        time_preference: formData.time || undefined,
-        priority_requested: Boolean(priorityRequested && formData.time === 'today'),
+        time_preference: scheduling.time_preference || undefined,
+        priority_requested: scheduling.priority_requested,
       }),
     });
 
@@ -161,9 +188,8 @@ export default function BookService() {
     formData.applianceFuel,
     formData.address,
     formData.customAppliance,
-    formData.time,
+    formData.schedulingChoice,
     resolvedEquipmentSubtype,
-    priorityRequested,
   ]);
 
   const isOutOfServiceArea = pricingEstimate?.serviceable === false;
@@ -182,7 +208,7 @@ export default function BookService() {
         }
       }
       if (time === 'today') {
-        updates.time = 'today';
+        updates.schedulingChoice = 'asap';
       }
       if (Object.keys(updates).length) {
         setFormData(prev => ({ ...prev, ...updates }));
@@ -224,8 +250,7 @@ export default function BookService() {
     formData.applianceFuel,
     formData.address,
     formData.customAppliance,
-    formData.time,
-    priorityRequested,
+    formData.schedulingChoice,
     fetchPricingEstimate,
   ]);
 
@@ -262,8 +287,7 @@ export default function BookService() {
     formData.appliance,
     formData.applianceFuel,
     formData.customAppliance,
-    formData.time,
-    priorityRequested,
+    formData.schedulingChoice,
     fetchPricingEstimate,
   ]);
 
@@ -301,7 +325,7 @@ export default function BookService() {
   const priorityOffered = Boolean(
     schedulingContext?.priority_service_enabled
     && schedulingContext?.scheduling_context?.priority_service_open
-    && formData.time === 'today',
+    && formData.schedulingChoice === 'asap',
   );
 
   const updateFormData = (field, value) => {
@@ -324,9 +348,6 @@ export default function BookService() {
       if (field === 'address') {
         setPricingEstimate(null);
         setPricingError(null);
-      }
-      if (field === 'time' && value !== 'today') {
-        setPriorityRequested(false);
       }
       if (field === 'mobile' || field === 'otherPhone' || field === 'email') {
         const primary = next.contactPrimary;
@@ -379,7 +400,7 @@ export default function BookService() {
           return formData.customIssue.trim() !== '';
         }
         return formData.issue !== '';
-      case 3: return formData.time !== '';
+      case 3: return formData.schedulingChoice !== '';
       case 4: {
         if (!formData.name || !formData.address || !hasContactMethod) return false;
         if (wantsSmsChannel && !formData.smsConsent) return false;
@@ -446,8 +467,10 @@ export default function BookService() {
           custom_appliance: formData.appliance === 'other' ? formData.customAppliance : undefined,
           equipment_subtype: resolvedEquipmentSubtype || undefined,
           issue: buildBookingIssueText(formData),
-          time_preference: formData.time,
-          priority_requested: Boolean(priorityRequested && formData.time === 'today'),
+          time_preference: bookingScheduling.time_preference,
+          priority_requested: bookingScheduling.priority_requested,
+          equipment_model: formData.equipmentModel.trim() || undefined,
+          equipment_serial: formData.equipmentSerial.trim() || undefined,
           contact_preference_primary: formData.contactPrimary,
           contact_preference_backup: formData.contactBackup || undefined,
           sms_consent: formData.smsConsent,
@@ -504,7 +527,8 @@ export default function BookService() {
     const summary = buildBookingIssueText(formData);
     return summary ? { name: summary } : null;
   };
-  const getSelectedTime = () => TIME_OPTIONS.find(t => t.id === formData.time);
+  const getSelectedScheduling = () =>
+    SCHEDULING_OPTIONS.find((o) => o.id === formData.schedulingChoice);
 
   const formatCurrency = (amount) => {
     if (amount == null || Number.isNaN(Number(amount))) return null;
@@ -890,79 +914,96 @@ export default function BookService() {
                           </motion.div>
                         )}
                       </AnimatePresence>
+
+                      {formData.issue && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                          <div>
+                            <label className="block text-xs text-gray-400 mb-1.5">
+                              Model # <span className="text-gray-600">(optional)</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.equipmentModel}
+                              onChange={(e) => updateFormData('equipmentModel', e.target.value)}
+                              placeholder="e.g. WFW5620HW"
+                              maxLength={100}
+                              className={issueFieldClass}
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs text-gray-400 mb-1.5">
+                              Serial # <span className="text-gray-600">(optional)</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.equipmentSerial}
+                              onChange={(e) => updateFormData('equipmentSerial', e.target.value)}
+                              placeholder="On the rating plate"
+                              maxLength={100}
+                              className={issueFieldClass}
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
 
-                  {/* Step 3: Time Selection */}
+                  {/* Step 3: Scheduling preference (no calendar / no payment) */}
                   {currentStep === 3 && (
                     <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        {TIME_OPTIONS.map((option) => (
-                            <motion.button
-                              key={option.id}
-                              onClick={() => updateFormData('time', option.id)}
-                              className={`p-5 rounded-xl border transition-all duration-200 flex flex-col items-center gap-2 ${
-                                formData.time === option.id
-                                  ? 'bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_20px_rgba(34,211,238,0.2)]'
-                                  : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
-                              }`}
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                            >
-                              <NeonIcon
-                                name={option.icon}
-                                className="w-8 h-8"
-                                variant="cyan"
-                              />
-                              <span className="text-white font-medium">{option.name}</span>
-                              {formData.time === option.id && (
-                                <motion.div
-                                  initial={{ scale: 0 }}
-                                  animate={{ scale: 1 }}
-                                >
-                                  <FaCheckCircle className="w-5 h-5 text-cyan-400" />
-                                </motion.div>
-                              )}
-                            </motion.button>
+                      <div className="grid grid-cols-1 gap-4">
+                        {SCHEDULING_OPTIONS.map((option) => (
+                          <motion.button
+                            key={option.id}
+                            type="button"
+                            onClick={() => {
+                              updateFormData('schedulingChoice', option.id);
+                              setPricingEstimate(null);
+                            }}
+                            className={`p-5 rounded-xl border transition-all duration-200 flex items-start gap-4 text-left ${
+                              formData.schedulingChoice === option.id
+                                ? 'bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_20px_rgba(34,211,238,0.2)]'
+                                : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
+                            }`}
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
+                          >
+                            <NeonIcon
+                              name={option.icon}
+                              className="w-9 h-9 flex-shrink-0 mt-0.5"
+                              variant={option.id === 'asap' ? 'orange' : 'cyan'}
+                            />
+                            <span className="flex-1 min-w-0">
+                              <span className="block text-white font-medium">{option.name}</span>
+                              <span className="block text-xs text-gray-400 mt-1 leading-relaxed">{option.desc}</span>
+                            </span>
+                            {formData.schedulingChoice === option.id && (
+                              <FaCheckCircle className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-1" />
+                            )}
+                          </motion.button>
                         ))}
                       </div>
                       <p className="text-xs text-gray-500 leading-relaxed">
                         {BOOKING_TIMING_NOTE}
                       </p>
-                      {schedulingContext?.scheduling_context?.message && formData.time === 'today' && (
+                      {formData.schedulingChoice === 'asap' && schedulingContext?.scheduling_context?.message && (
                         <p className="text-xs text-amber-200/80 leading-relaxed rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2">
                           {schedulingContext.scheduling_context.message}
                         </p>
                       )}
-                      {formData.time === 'today' && !priorityOffered && (
-                        <p className="text-xs text-gray-500 leading-relaxed">
-                          Choosing <span className="text-gray-400">Today</span> does not change the estimated price by itself.
-                          Priority / same-day diagnostic rates apply only if you check{' '}
-                          <span className="text-gray-400">Request priority service</span> when that option is offered
-                          (usually after standard same-day hours).
+                      {formData.schedulingChoice === 'asap' && priorityOffered && (
+                        <p className="text-xs text-orange-200/80 leading-relaxed rounded-lg border border-orange-500/30 bg-orange-500/10 px-3 py-2">
+                          Priority same-day rates apply to your estimate when available. We&apos;ll call to confirm — no online charge.
                         </p>
                       )}
-                      {priorityOffered && (
-                        <label className="flex items-start gap-3 rounded-xl border border-orange-500/30 bg-orange-500/10 p-4 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={priorityRequested}
-                            onChange={(e) => {
-                              setPriorityRequested(e.target.checked);
-                              setPricingEstimate(null);
-                            }}
-                            className="mt-1 w-4 h-4 rounded border-gray-600 bg-gray-800 text-orange-500 focus:ring-orange-500"
-                          />
-                          <span>
-                            <span className="block text-sm font-semibold text-orange-200">Request priority service</span>
-                            <span className="block text-xs text-orange-200/70 mt-1 leading-relaxed">
-                              Same-day priority uses higher diagnostic/trip rates when available. We&apos;ll call to confirm
-                              before anything is scheduled — no online charge. Repairs that need ordered parts may still
-                              require a return visit.
-                            </span>
-                          </span>
-                        </label>
-                      )}
+                      <p className="text-sm text-center pt-1">
+                        <Link
+                          href={portalSignInUrl('/cxdashboard')}
+                          className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors"
+                        >
+                          Have an account? Log in to pick a guaranteed time
+                        </Link>
+                      </p>
                     </div>
                   )}
 
@@ -1241,14 +1282,27 @@ export default function BookService() {
                             <span className="text-white font-medium text-right line-clamp-2">{getSelectedIssue()?.name || '-'}</span>
                           </div>
                           <div className="flex justify-between text-sm gap-2">
-                            <span className="text-gray-500 flex-shrink-0">Time</span>
+                            <span className="text-gray-500 flex-shrink-0">Scheduling</span>
                             <span className="text-white font-medium text-right">
-                              {getSelectedTime()?.name || '-'}
-                              {priorityRequested && formData.time === 'today' && (
-                                <span className="block text-xs text-orange-300 font-normal">Priority requested</span>
-                              )}
+                              {getSelectedScheduling()?.name || '-'}
                             </span>
                           </div>
+                          {(formData.equipmentModel?.trim() || formData.equipmentSerial?.trim()) && (
+                            <>
+                              {formData.equipmentModel?.trim() && (
+                                <div className="flex justify-between text-sm gap-2">
+                                  <span className="text-gray-500 flex-shrink-0">Model #</span>
+                                  <span className="text-white font-medium text-right">{formData.equipmentModel.trim()}</span>
+                                </div>
+                              )}
+                              {formData.equipmentSerial?.trim() && (
+                                <div className="flex justify-between text-sm gap-2">
+                                  <span className="text-gray-500 flex-shrink-0">Serial #</span>
+                                  <span className="text-white font-medium text-right break-all">{formData.equipmentSerial.trim()}</span>
+                                </div>
+                              )}
+                            </>
+                          )}
                           <div className="border-t border-white/10 my-3" />
                           <div className="flex justify-between text-sm gap-2">
                             <span className="text-gray-500 flex-shrink-0">Name</span>

@@ -15,8 +15,8 @@ export const SAME_DAY_DIAGNOSTICS_TAGLINE = 'Same-day diagnostics when available
 
 /** Shown on /book step 3. */
 export const BOOKING_TIMING_NOTE =
-  'Choosing Today tells us you want the earliest diagnostic visit — often same-day when slots are open. '
-  + 'We will call to confirm your appointment; online requests are not auto-scheduled.';
+  'These options are requests only — we call to confirm your visit. '
+  + 'For a guaranteed time slot, log in to the client portal.';
 
 export const BOOKING_REPAIR_NOTE =
   'Many repairs finish on the first visit. If parts must be ordered, we will schedule a return trip when they arrive.';
