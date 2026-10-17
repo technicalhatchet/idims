@@ -121,6 +121,7 @@ def record_portal_booking_prepayment(
         amount,
         tax_amount=0,
         mark_billable_services_paid=False,
+        advance_visit_and_completion=False,
         user_id=actor_id,
     )
     db.flush()

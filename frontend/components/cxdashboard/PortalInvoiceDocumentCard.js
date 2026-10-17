@@ -37,6 +37,11 @@ const STATUS_CONFIG = {
     badgeClass: 'bg-white/10 text-white/60 border-white/15',
     Icon: FaClock,
   },
+  prepaid: {
+    label: 'PREPAID',
+    badgeClass: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
+    Icon: FaCheckCircle,
+  },
 };
 
 function StatusBadge({ status }) {
@@ -69,6 +74,19 @@ function AmountDisplay({ summary, status }) {
     return (
       <p className="text-xs sm:text-sm font-medium text-white/55 leading-snug text-right pt-1 max-w-[9rem]">
         In progress — final invoice after repair
+      </p>
+    );
+  }
+
+  if (status === 'prepaid') {
+    return (
+      <p className="text-sm sm:text-base font-semibold text-cyan-200/90 leading-snug text-right pt-1 max-w-[10rem] ml-auto">
+        Deposit received
+        {summary.paid > 0.01 ? (
+          <span className="block text-lg sm:text-[1.25rem] font-bold text-white tabular-nums mt-0.5">
+            {formatPortalCurrency(summary.paid)}
+          </span>
+        ) : null}
       </p>
     );
   }
@@ -146,9 +164,11 @@ export default function PortalInvoiceDocumentCard({
   const ariaLabel = [
     `Invoice ${invoice.order_number}`,
     STATUS_CONFIG[status]?.label,
-    status === 'paid'
-      ? `$${summary.paid.toFixed(2)} paid`
-      : `$${summary.balance.toFixed(2)} balance due`,
+    status === 'prepaid'
+      ? `Prepaid deposit $${summary.paid.toFixed(2)}`
+      : status === 'paid'
+        ? `$${summary.paid.toFixed(2)} paid`
+        : `$${summary.balance.toFixed(2)} balance due`,
     applianceLine,
     dateLine,
   ].filter(Boolean).join(', ');

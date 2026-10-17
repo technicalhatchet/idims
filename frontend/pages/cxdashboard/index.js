@@ -443,7 +443,12 @@ export default function ClientDashboard() {
       ...inv,
       number: inv.order_number,
       date: inv.created_at ? format(parseISO(inv.created_at), 'MMM d, yyyy') : '',
-      status: inv.payment_status === 'paid' ? 'Paid' : 'Due',
+      status:
+        inv.payment_status === 'prepaid'
+          ? 'Prepaid'
+          : inv.payment_status === 'paid'
+            ? 'Paid'
+            : 'Due',
       paymentSummary: summary,
     };
   });

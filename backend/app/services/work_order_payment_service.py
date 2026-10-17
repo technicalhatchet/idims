@@ -120,6 +120,7 @@ def apply_payment_to_work_order(
     *,
     tax_amount: float = 0,
     mark_billable_services_paid: bool = True,
+    advance_visit_and_completion: bool = True,
     user_id: Optional[uuid.UUID] = None,
 ) -> Dict[str, Any]:
     """Same financial updates as Stripe successful payment."""
@@ -143,15 +144,20 @@ def apply_payment_to_work_order(
             logger.info("Marked service %s as paid", service.id)
         mark_billable_parts_paid_after_checkout(db, work_order)
 
-    complete_pending_payment_appointments(
-        db, work_order.id, user_id=user_id or work_order.updated_by or work_order.created_by
-    )
+    actor_id = user_id or work_order.updated_by or work_order.created_by
+    if advance_visit_and_completion:
+        complete_pending_payment_appointments(db, work_order.id, user_id=actor_id)
     work_order.calculate_totals()
     db.flush()
+    if not advance_visit_and_completion:
+        return {
+            "work_order_completed": False,
+            "needs_repair_outcome": False,
+        }
     return try_auto_complete_after_payment(
         db,
         work_order,
-        user_id=user_id or work_order.updated_by or work_order.created_by,
+        user_id=actor_id,
     )
 
 

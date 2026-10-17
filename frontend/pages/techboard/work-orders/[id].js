@@ -66,6 +66,7 @@ import {
   round2,
   SERVICE_BILLING_STATUS_OPTIONS,
   taxablePartsSubtotal,
+  isWorkOrderPaidInFullForDocuments,
 } from '../../../utils/workOrderBilling';
 import { formatAppointmentStatus } from '../../../utils/appointmentStatusLabels';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
@@ -2806,7 +2807,7 @@ function WorkOrderDetail() {
         orderNumber={workOrder?.order_number}
         clientEmail={workOrder?.client_user?.email || workOrder?.client?.email || ''}
         hasPayments={fieldPayments.length > 0}
-        isPaidInFull={billingTotals.dueToday <= 0 && billingTotals.previouslyPaid > 0}
+        isPaidInFull={isWorkOrderPaidInFullForDocuments(workOrder, billingTotals)}
       />
 
       <RepairOutcomePromptSheet
