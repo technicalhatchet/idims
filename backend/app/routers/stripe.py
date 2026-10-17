@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from typing import Dict, Any, Optional
 
 from app.db.database import get_db
-from app.core.dependencies import get_current_user, get_admin_or_manager_user
+from app.core.dependencies import get_staff_user, get_admin_or_manager_user
 from app.models.user import User
 from app.services.stripe_service import StripeService
 from app.schemas.stripe import (
@@ -31,7 +31,7 @@ async def create_checkout_session(
     request: CreateCheckoutSessionRequest,
     background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_staff_user),
 ):
     """
     Create a Stripe checkout session for a work order payment
@@ -125,7 +125,7 @@ async def create_checkout_session(
 async def get_session_status(
     session_id: str,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_staff_user),
 ):
     """
     Get the status of a Stripe checkout session

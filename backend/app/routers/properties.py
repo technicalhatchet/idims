@@ -6,7 +6,8 @@ from uuid import UUID
 from app.db.database import get_db
 from app.models.property import Property
 from app.schemas.property import PropertyCreate, PropertyUpdate, PropertyResponse
-from app.core.dependencies import get_current_user
+from app.core.dependencies import get_staff_user
+from app.models.user import User
 
 router = APIRouter()
 
@@ -14,7 +15,7 @@ router = APIRouter()
 async def create_property(
     property_data: PropertyCreate,
     db: Session = Depends(get_db),
-    current_user = Depends(get_current_user)
+    current_user: User = Depends(get_staff_user),
 ):
     """Create a new property for a client"""
     new_property = Property(**property_data.dict())
@@ -27,7 +28,7 @@ async def create_property(
 async def get_client_properties(
     client_id: UUID,
     db: Session = Depends(get_db),
-    current_user = Depends(get_current_user)
+    current_user: User = Depends(get_staff_user),
 ):
     """Get all properties for a specific client"""
     properties = db.query(Property).filter(Property.client_id == client_id).all()
@@ -37,7 +38,7 @@ async def get_client_properties(
 async def get_property(
     property_id: UUID,
     db: Session = Depends(get_db),
-    current_user = Depends(get_current_user)
+    current_user: User = Depends(get_staff_user),
 ):
     """Get a specific property"""
     property = db.query(Property).filter(Property.id == property_id).first()
@@ -50,7 +51,7 @@ async def update_property(
     property_id: UUID,
     property_data: PropertyUpdate,
     db: Session = Depends(get_db),
-    current_user = Depends(get_current_user)
+    current_user: User = Depends(get_staff_user),
 ):
     """Update a property"""
     property = db.query(Property).filter(Property.id == property_id).first()
@@ -68,7 +69,7 @@ async def update_property(
 async def delete_property(
     property_id: UUID,
     db: Session = Depends(get_db),
-    current_user = Depends(get_current_user)
+    current_user: User = Depends(get_staff_user),
 ):
     """Delete a property"""
     property = db.query(Property).filter(Property.id == property_id).first()

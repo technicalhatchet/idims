@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, Upload
 from fastapi.responses import Response
 from sqlalchemy.orm import Session
 
-from app.core.dependencies import get_admin_or_manager_user, get_current_user
+from app.core.dependencies import get_admin_or_manager_user, get_staff_user
 from app.models.user import User
 from app.db.database import get_db
 from app.schemas.job_economics import (
@@ -38,13 +38,13 @@ router = APIRouter()
 
 @router.get("/drive-status", response_model=DriveStorageStatusResponse)
 async def get_drive_storage_status(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     return DriveStorageStatusResponse(**drive_storage_status())
 
 
 @router.get("/categories", response_model=ExpenseCategoriesResponse)
-async def get_expense_categories(current_user: User = Depends(get_current_user)):
+async def get_expense_categories(current_user: User = Depends(get_staff_user)):
     items = [ExpenseCategoryItem(**row) for row in svc.expense_categories_payload()]
     return ExpenseCategoriesResponse(items=items)
 
@@ -52,7 +52,7 @@ async def get_expense_categories(current_user: User = Depends(get_current_user))
 @router.get("/vendors", response_model=ExpenseVendorListResponse)
 async def get_expense_vendors(
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     vendors = svc.list_vendors(db)
     return ExpenseVendorListResponse(items=[ExpenseVendorResponse.model_validate(v) for v in vendors])
@@ -62,7 +62,7 @@ async def get_expense_vendors(
 async def list_work_order_expenses(
     work_order_id: UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     rows = svc.list_expenses(db, work_order_id)
     total = sum((r.amount for r in rows), start=0)
@@ -81,7 +81,7 @@ async def create_work_order_expense(
     work_order_id: UUID,
     body: WorkOrderExpenseCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     try:
         created = svc.create_expense(db, work_order_id, body.model_dump(), current_user.id)
@@ -97,7 +97,7 @@ async def update_work_order_expense(
     expense_id: UUID,
     body: WorkOrderExpenseUpdate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     try:
         row = svc.update_expense(db, expense_id, body.model_dump(exclude_unset=True))
@@ -110,7 +110,7 @@ async def update_work_order_expense(
 async def delete_work_order_expense(
     expense_id: UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     try:
         svc.delete_expense(db, expense_id)
@@ -122,7 +122,7 @@ async def delete_work_order_expense(
 async def list_work_order_receipts(
     work_order_id: UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     rows = svc.list_receipts(db, work_order_id)
     return ExpenseReceiptListResponse(items=[ExpenseReceiptResponse.model_validate(r) for r in rows])
@@ -140,7 +140,7 @@ async def upload_work_order_receipt(
     category: str = Form("misc"),
     vendor_name: str = Form("receipt"),
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     try:
         content = await file.read()
@@ -166,7 +166,7 @@ async def upload_work_order_receipt(
 async def download_receipt(
     receipt_id: UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     try:
         row = svc.get_receipt(db, receipt_id)
@@ -186,7 +186,7 @@ async def upsert_appointment_mileage(
     appointment_id: UUID,
     body: AppointmentMileageUpsert,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     try:
         row = svc.upsert_appointment_mileage(db, appointment_id, body.model_dump(), current_user.id)
@@ -199,7 +199,7 @@ async def upsert_appointment_mileage(
 async def list_work_order_mileage(
     work_order_id: UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     rows = svc.list_mileage_for_work_order(db, work_order_id)
     return {"items": [AppointmentMileageResponse.model_validate(r) for r in rows]}
@@ -236,7 +236,7 @@ async def get_monthly_economics_report(
 async def get_property_service_history(
     property_id: UUID,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
 ):
     try:
         data = svc.property_service_history(db, property_id)

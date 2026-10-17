@@ -5,8 +5,8 @@ import uuid
 from datetime import datetime
 import json
 
-from app.db.database import get_db
-from app.core.auth import get_auth_handler, AuthUser
+from app.db.database import get_db, SessionLocal
+from app.core.auth import get_auth_handler
 from app.config import settings
 from app.models.chat import ChatMessage, ChatSession
 from app.schemas.chat import (
@@ -16,17 +16,25 @@ from app.schemas.chat import (
 )
 from app.services.chat_service import ChatService
 from app.core.exceptions import NotFoundException, ValidationException
-from app.core.dependencies import get_current_user
+from app.core.dependencies import get_staff_user, is_staff_user
+from app.models.user import User
 
 router = APIRouter()
 
 # In a real app, this would be stored in a database or Redis
 active_connections: Dict[str, Set[WebSocket]] = {}
 
-async def get_current_user_dependency():
-    """Lazy-loaded dependency for current user"""
-    auth_handler = get_auth_handler()
-    return await auth_handler.get_current_user()
+WS_CLOSE_NOT_AUTHORIZED = "Not authorized"
+WS_CLOSE_STAFF_REQUIRED = "Staff access required"
+
+
+def staff_db_user_for_auth_id(db: Session, auth_id: str) -> Optional[User]:
+    """Resolve DB user for Auth0 sub; None if missing or not staff."""
+    user = db.query(User).filter(User.auth_id == auth_id).first()
+    if not user or not is_staff_user(user):
+        return None
+    return user
+
 
 @router.websocket("/chat/ws/{user_id}")
 async def chat_websocket(
@@ -39,12 +47,20 @@ async def chat_websocket(
     """
     # Authenticate user with token
     try:
-        # Verify token and check if user_id matches
-        token_data = auth_handler.verify_token(token)
+        auth_handler = get_auth_handler()
+        token_data = await auth_handler.verify_token(token)
         if token_data.sub != user_id:
-            await websocket.close(code=1008, reason="Not authorized")
+            await websocket.close(code=1008, reason=WS_CLOSE_NOT_AUTHORIZED)
             return
-        
+
+        db = SessionLocal()
+        try:
+            if not staff_db_user_for_auth_id(db, token_data.sub):
+                await websocket.close(code=1008, reason=WS_CLOSE_STAFF_REQUIRED)
+                return
+        finally:
+            db.close()
+
         # Accept the connection
         await websocket.accept()
         
@@ -128,7 +144,7 @@ async def get_chat_history(
     conversation_id: str = Path(..., description="ID of the conversation"),
     limit: int = Query(50, ge=1, le=100, description="Maximum number of messages to return"),
     before: Optional[str] = Query(None, description="ISO timestamp to get messages before"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -154,7 +170,7 @@ async def get_chat_history(
 
 @router.get("/chat/conversations")
 async def list_conversations(
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -185,7 +201,7 @@ async def list_conversations(
 @router.post("/chat/send")
 async def send_message(
     message: Dict[str, Any] = Body(...),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -207,7 +223,7 @@ async def send_message(
 @router.post("/chat/mark-read")
 async def mark_messages_read(
     data: Dict[str, Any] = Body(...),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -223,7 +239,7 @@ async def mark_messages_read(
 
 @router.get("/chat/unread-count")
 async def get_unread_count(
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -237,7 +253,7 @@ async def get_unread_count(
 async def list_chat_rooms(
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(20, ge=1, le=100, description="Items per page"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     # Implementation of the method
@@ -246,7 +262,7 @@ async def list_chat_rooms(
 @router.post("/chat/rooms", response_model=ChatSessionResponse, status_code=status.HTTP_201_CREATED)
 async def create_chat_room(
     room: ChatSessionCreate = Body(...),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     # Implementation of the method
@@ -255,7 +271,7 @@ async def create_chat_room(
 @router.get("/chat/rooms/{room_id}", response_model=ChatSessionResponse)
 async def get_chat_room(
     room_id: uuid.UUID = Path(..., description="The ID of the chat room"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     # Implementation of the method
@@ -266,7 +282,7 @@ async def get_chat_messages(
     room_id: uuid.UUID = Path(..., description="The ID of the chat room"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(50, ge=1, le=100, description="Messages per page"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     # Implementation of the method
@@ -276,7 +292,7 @@ async def get_chat_messages(
 async def create_chat_message(
     room_id: uuid.UUID = Path(..., description="The ID of the chat room"),
     message: ChatMessageCreate = Body(...),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     # Implementation of the method
