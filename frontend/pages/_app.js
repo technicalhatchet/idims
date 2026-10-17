@@ -1,5 +1,6 @@
 import '../styles/globals.css';
 import '../styles/atomic-icons.css';
+import { inter } from '../lib/siteFonts';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { UserRoleProvider } from '../context/UserRoleContext';
 import { ThemeProvider } from '../context/ThemeContext';
@@ -224,6 +225,7 @@ function MyApp({ Component, pageProps }) {
   const { user } = pageProps;
 
   return (
+    <div className={`${inter.variable} font-sans`}>
     <UserProvider>
       <UserRoleProvider>
       <ThemeProvider>
@@ -252,6 +254,7 @@ function MyApp({ Component, pageProps }) {
       </ThemeProvider>
       </UserRoleProvider>
     </UserProvider>
+    </div>
   );
 }
 
