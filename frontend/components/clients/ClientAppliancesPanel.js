@@ -3,10 +3,8 @@ import { FaChevronDown, FaChevronUp, FaPlus, FaTools } from 'react-icons/fa';
 import { apiClient } from '../../utils/api-client';
 import ApplianceFormModal from '../cxdashboard/ApplianceFormModal';
 import { applianceDisplayName } from '../../constants/applianceEquipment';
-import {
-  applianceCustomerSourceText,
-  applianceNeedsStaffVerification,
-} from '../../constants/applianceSourceLabel';
+import { applianceNeedsStaffVerification } from '../../constants/applianceSourceLabel';
+import ApplianceSourceSubtitle from '../cxdashboard/appliances/ApplianceSourceSubtitle';
 
 export default function ClientAppliancesPanel({ clientId, properties = [] }) {
   const [expanded, setExpanded] = useState(false);
@@ -67,6 +65,7 @@ export default function ClientAppliancesPanel({ clientId, properties = [] }) {
   };
 
   return (
+    <>
     <div
       className="rounded-lg overflow-hidden"
       style={{
@@ -109,14 +108,10 @@ export default function ClientAppliancesPanel({ clientId, properties = [] }) {
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
                       <p className="text-white text-sm font-semibold capitalize">{applianceDisplayName(a)}</p>
-                      <p className="text-xs text-gray-500 mt-0.5">
-                        {[a.model, a.serial ? `S/N ${a.serial}` : null, a.property?.address].filter(Boolean).join(' · ')}
-                      </p>
-                      {applianceCustomerSourceText(a) ? (
-                        <p className="text-[10px] text-cyan-400/80 mt-1 font-semibold uppercase tracking-wide">
-                          {applianceCustomerSourceText(a)}
-                        </p>
-                      ) : null}
+                      <ApplianceSourceSubtitle
+                        appliance={a}
+                        extraParts={[a.serial ? `S/N ${a.serial}` : null, a.property?.address]}
+                      />
                     </div>
                     {applianceNeedsStaffVerification(a) ? (
                       <button
@@ -149,15 +144,17 @@ export default function ClientAppliancesPanel({ clientId, properties = [] }) {
         </div>
       )}
 
-      {showAdd && (
-        <ApplianceFormModal
-          title="Add client appliance"
-          properties={properties}
-          submitting={submitting}
-          onClose={() => setShowAdd(false)}
-          onSave={handleSave}
-        />
-      )}
     </div>
+
+    {showAdd && (
+      <ApplianceFormModal
+        title="Add client appliance"
+        properties={properties}
+        submitting={submitting}
+        onClose={() => setShowAdd(false)}
+        onSave={handleSave}
+      />
+    )}
+    </>
   );
 }

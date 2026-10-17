@@ -27,9 +27,8 @@ from app.schemas.client_appliance import (
 logger = logging.getLogger(__name__)
 
 CUSTOMER_SOURCE_LABEL_TEXT = {
-    "verified_by_atomic": "Verified by Atomic Repair",
+    "verified_by_atomic": "✓ Verified",
     "added_by_you": "Added by you",
-    "from_service_history": "From your service history",
 }
 
 WARRANTY_DAYS = 90
@@ -548,9 +547,7 @@ def customer_source_label(appliance: ClientAppliance) -> Optional[str]:
         return "verified_by_atomic"
     if appliance.source == "portal":
         return "added_by_you"
-    if appliance.source in ("work_order_import", "work_order_sync"):
-        return "from_service_history"
-    if appliance.source in ("staff", "manual"):
+    if appliance.source in ("staff", "manual", "work_order_import", "work_order_sync"):
         return "verified_by_atomic"
     return None
 

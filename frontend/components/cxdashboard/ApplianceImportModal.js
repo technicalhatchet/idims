@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { FaCheck, FaCompressArrowsAlt, FaTimes } from 'react-icons/fa';
 import ApplianceIcon from './ApplianceIcon';
 import { applianceDisplayName, EQUIPMENT_SUBTYPES, EQUIPMENT_TYPES, MANUFACTURERS } from '../../constants/applianceEquipment';
@@ -96,6 +97,25 @@ export default function ApplianceImportModal({
 }) {
   const isOnboarding = mode === 'onboarding';
   const [items, setItems] = useState(() => candidates.map((c) => ({ ...c, selected: true })));
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const mq = window.matchMedia('(max-width: 639px)');
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return undefined;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
 
   const mergeGroups = useMemo(() => {
     const groups = {};
@@ -131,96 +151,95 @@ export default function ApplianceImportModal({
   };
 
   const selectedItems = items.filter((i) => i.selected);
+  const title = isOnboarding ? 'Import your appliances' : 'Add from service history';
+  const subtitle = isOnboarding
+    ? 'We found these from your service history. Confirm or edit before saving.'
+    : 'These appliances were found on past work orders. Select what to add to your account.';
 
-  return (
-    <div
-      style={{
-        position: 'fixed', inset: 0, zIndex: 60,
-        background: 'rgba(0,0,0,0.75)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem',
-      }}
-    >
-      <div style={{
-        width: '100%', maxWidth: '640px', maxHeight: '90vh', overflow: 'auto',
-        background: '#0B0F1A', border: '1px solid rgba(0,212,255,0.2)', borderRadius: '16px', padding: '1.5rem',
-      }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-          <div>
-            <h2 style={{ color: '#fff', margin: 0, fontSize: '1.25rem' }}>
-              {isOnboarding ? 'Import your appliances' : 'Add from service history'}
-            </h2>
-            <p style={{ color: '#6b7280', fontSize: '0.875rem', margin: '0.25rem 0 0' }}>
-              {isOnboarding
-                ? 'We found these from your service history. Confirm or edit before saving.'
-                : 'These appliances were found on past work orders. Select what to add to your account.'}
-            </p>
+  if (typeof document === 'undefined') return null;
+
+  const shellClass = isMobile
+    ? 'relative z-[1] flex h-full w-full max-h-full flex-col rounded-none border-0 bg-[#0B0F1A]'
+    : 'relative z-[1] flex w-full max-h-[min(90vh,720px)] max-w-[640px] flex-col overflow-hidden rounded-2xl border border-cyan-500/20 bg-[#0B0F1A]';
+
+  const overlayAlign = isMobile ? 'items-stretch justify-stretch p-0' : 'items-center justify-center p-4';
+
+  return createPortal(
+    <div className={`fixed inset-0 z-[9999] flex ${overlayAlign} touch-manipulation`}>
+      <button type="button" aria-label="Close dialog backdrop" className="absolute inset-0 bg-black/75" onClick={onSkip} />
+
+      <div className={shellClass}>
+        <header
+          className={`sticky top-0 z-10 flex shrink-0 items-start justify-between gap-3 border-b border-white/10 bg-[#0B0F1A] px-4 py-3 ${
+            isMobile ? 'pt-[max(12px,env(safe-area-inset-top))]' : ''
+          }`}
+        >
+          <div className="min-w-0 pr-2">
+            <h2 className="m-0 text-lg font-semibold text-white">{title}</h2>
+            <p className="mt-1 text-sm text-gray-500">{subtitle}</p>
           </div>
-          <button type="button" onClick={onSkip} style={{ color: '#6b7280', background: 'none', border: 'none' }}>
-            <FaTimes />
-          </button>
-        </div>
-
-        {mergeGroups.length > 0 && (
-          <div style={{ marginBottom: '1rem', padding: '0.75rem', borderRadius: '8px', background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)' }}>
-            <p style={{ color: '#f59e0b', fontSize: '0.8125rem', margin: '0 0 0.5rem' }}>
-              Some items look like duplicates. Merge them into one appliance?
-            </p>
-            {mergeGroups.map(([hint, ids]) => (
-              <button
-                key={hint}
-                type="button"
-                onClick={() => handleMergeGroup(hint)}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
-                  marginRight: '0.5rem', marginBottom: '0.35rem',
-                  background: 'rgba(245,158,11,0.12)', color: '#fbbf24', border: '1px solid rgba(245,158,11,0.25)',
-                  borderRadius: '6px', padding: '0.35rem 0.65rem', fontSize: '0.75rem', cursor: 'pointer',
-                }}
-              >
-                <FaCompressArrowsAlt /> Merge {ids.length} similar
-              </button>
-            ))}
-          </div>
-        )}
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-          {items.map((item) => (
-            <CandidateRow
-              key={item.candidate_id}
-              item={item}
-              selected={item.selected}
-              onToggle={() => updateItem(item.candidate_id, { selected: !item.selected })}
-              onChange={(patch) => updateItem(item.candidate_id, patch)}
-            />
-          ))}
-        </div>
-
-        <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.25rem' }}>
           <button
             type="button"
             onClick={onSkip}
-            style={{
-              flex: 1, padding: '0.75rem', borderRadius: '8px',
-              border: '1px solid rgba(255,255,255,0.12)', background: 'transparent', color: '#9ca3af',
-            }}
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-gray-500 hover:text-gray-300"
+            aria-label="Close"
           >
+            <FaTimes />
+          </button>
+        </header>
+
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4">
+          {mergeGroups.length > 0 && (
+            <div className="mb-4 rounded-lg border border-amber-500/20 bg-amber-500/10 p-3">
+              <p className="mb-2 text-[0.8125rem] text-amber-400">
+                Some items look like duplicates. Merge them into one appliance?
+              </p>
+              {mergeGroups.map(([hint, ids]) => (
+                <button
+                  key={hint}
+                  type="button"
+                  onClick={() => handleMergeGroup(hint)}
+                  className="mb-1 mr-2 inline-flex items-center gap-1 rounded-md border border-amber-500/25 bg-amber-500/10 px-2 py-1 text-xs text-amber-300"
+                >
+                  <FaCompressArrowsAlt /> Merge {ids.length} similar
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div className="flex flex-col gap-3">
+            {items.map((item) => (
+              <CandidateRow
+                key={item.candidate_id}
+                item={item}
+                selected={item.selected}
+                onToggle={() => updateItem(item.candidate_id, { selected: !item.selected })}
+                onChange={(patch) => updateItem(item.candidate_id, patch)}
+              />
+            ))}
+          </div>
+        </div>
+
+        <footer
+          className={`sticky bottom-0 z-10 flex shrink-0 gap-3 border-t border-white/10 bg-[#0B0F1A] px-4 py-3 ${
+            isMobile ? 'pb-[max(12px,env(safe-area-inset-bottom))]' : ''
+          }`}
+        >
+          <button type="button" onClick={onSkip} className="flex-1 rounded-lg border border-white/10 px-3 py-3 text-gray-400">
             {isOnboarding ? 'Skip for now' : 'Cancel'}
           </button>
           <button
             type="button"
             disabled={submitting || selectedItems.length === 0}
             onClick={() => onConfirm(selectedItems)}
-            style={{
-              flex: 2, padding: '0.75rem', borderRadius: '8px', border: 'none',
-              background: '#00D4FF', color: '#0A0F1E', fontWeight: 700,
-              opacity: submitting || selectedItems.length === 0 ? 0.6 : 1,
-            }}
+            className="flex-[2] rounded-lg border-0 bg-[#00D4FF] px-3 py-3 font-bold text-[#0A0F1E] disabled:opacity-60"
           >
-            <FaCheck style={{ marginRight: '0.35rem' }} />
+            <FaCheck className="mr-1 inline" />
             {submitting ? 'Saving...' : `Save ${selectedItems.length} appliance${selectedItems.length !== 1 ? 's' : ''}`}
           </button>
-        </div>
+        </footer>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
