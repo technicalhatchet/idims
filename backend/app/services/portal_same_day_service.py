@@ -83,9 +83,13 @@ async def _notify_client_scheduling_decision(
         )
         subject = "Update on your service request"
 
-    if comms.get("same_day_approval_sms" if approved else "denial_sms") and client.phone:
+    from app.services.client_contact import client_automated_sms_allowed
+    from app.utils.us_phone import client_sms_destination
+
+    sms_to = client_sms_destination(client.mobile) if client_automated_sms_allowed(client) else None
+    if comms.get("same_day_approval_sms" if approved else "denial_sms") and sms_to:
         try:
-            await NotificationService.send_sms(client.phone, message)
+            await NotificationService.send_sms(sms_to, message)
         except Exception as exc:
             logger.warning("Scheduling SMS failed: %s", exc)
 

@@ -32,6 +32,12 @@ from app.services.portal_scheduling_helpers import (
     scheduling_context,
     shop_today,
 )
+from app.services.client_contact import (
+    apply_booking_contact_to_client,
+    find_client_by_contact,
+    set_sms_consent,
+)
+from app.utils.us_phone import client_sms_destination, normalize_phone_field
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +48,9 @@ ContactChannel = Literal["phone", "email", "sms"]
 
 class BookingRequest(BaseModel):
     name: str
-    phone: Optional[str] = None
+    mobile: Optional[str] = None
+    other_phone: Optional[str] = None
+    phone: Optional[str] = None  # legacy shim: treated as mobile when mobile omitted
     email: Optional[str] = None
     address: str
     appliance: str
@@ -53,23 +61,36 @@ class BookingRequest(BaseModel):
     priority_requested: bool = False
     contact_preference_primary: ContactChannel
     contact_preference_backup: Optional[ContactChannel] = None
-    communications_consent: bool = False
+    sms_consent: bool = False
+    communications_consent: Optional[bool] = None  # legacy; ignored
 
     @model_validator(mode="after")
     def validate_contact_and_consent(self):
-        phone = (self.phone or "").strip()
+        cell = (self.mobile or self.phone or "").strip()
+        other = (self.other_phone or "").strip()
         email = (self.email or "").strip()
-        if not phone and not email:
-            raise ValueError("Phone or email is required")
-        if not self.communications_consent:
-            raise ValueError("Appointment communications consent is required")
+        if not cell and not email:
+            raise ValueError("Cell or email is required")
+
+        wants_sms = (
+            self.contact_preference_primary == "sms"
+            or self.contact_preference_backup == "sms"
+            or self.sms_consent
+        )
+        if wants_sms and not self.sms_consent:
+            raise ValueError("SMS consent is required for text message contact")
+        if wants_sms and not cell:
+            raise ValueError("Cell number is required for text message contact")
+
         if self.contact_preference_backup and self.contact_preference_backup == self.contact_preference_primary:
             raise ValueError("Backup contact method must differ from primary")
 
         def channel_available(channel: str) -> bool:
             if channel == "email":
                 return bool(email)
-            return bool(phone)
+            if channel == "sms":
+                return bool(cell)
+            return bool(cell) or bool(other)
 
         if not channel_available(self.contact_preference_primary):
             raise ValueError(f"Primary contact method ({self.contact_preference_primary}) requires the matching contact info")
@@ -126,8 +147,7 @@ def _booking_address_to_location(address: str) -> dict:
 
 
 def _normalize_phone(phone: Optional[str]) -> Optional[str]:
-    trimmed = (phone or "").strip()
-    return trimmed or None
+    return normalize_phone_field(phone)
 
 
 def _normalize_email(email: Optional[str]) -> Optional[str]:
@@ -373,12 +393,16 @@ def send_booking_notification(
 
 
 def _maybe_send_booking_sms(
-    phone: Optional[str],
+    mobile: Optional[str],
     order_number: str,
     contact_primary: str,
     contact_backup: Optional[str],
+    sms_consent: bool,
 ) -> None:
-    if not phone or not (settings.TWILIO_ACCOUNT_SID and settings.TWILIO_AUTH_TOKEN):
+    if not sms_consent or not (settings.TWILIO_ACCOUNT_SID and settings.TWILIO_AUTH_TOKEN):
+        return
+    phone = client_sms_destination(mobile)
+    if not phone:
         return
     wants_sms = contact_primary == "sms" or contact_backup == "sms"
     if not wants_sms:
@@ -474,7 +498,8 @@ async def create_booking(
         if not address:
             raise HTTPException(status_code=400, detail="Service address is required")
 
-        phone = _normalize_phone(booking.phone)
+        cell = _normalize_phone(booking.mobile or booking.phone)
+        other_phone = _normalize_phone(booking.other_phone)
         email = _normalize_email(booking.email)
 
         trip = estimate_trip_charge(db, address)
@@ -492,46 +517,59 @@ async def create_booking(
         first_name = name_parts[0]
         last_name = name_parts[1] if len(name_parts) > 1 else ""
 
-        client = None
-        if phone:
-            client = db.query(Client).filter(Client.phone == phone).first()
-        if not client and email:
-            client = db.query(Client).filter(Client.email == email).first()
+        client = find_client_by_contact(
+            db,
+            mobile=cell,
+            other_phone=other_phone,
+            email=email,
+        )
 
         service_location = _booking_address_to_location(booking.address)
-        client_email = email or _placeholder_email_for_phone(phone or "unknown")
+        client_email = email or _placeholder_email_for_phone(cell or "unknown")
 
         comm_prefs = {
             "appointment_contact_primary": booking.contact_preference_primary,
             "appointment_contact_backup": booking.contact_preference_backup,
-            "appointment_comms_consent_at": datetime.utcnow().isoformat() + "Z",
         }
+        if booking.sms_consent:
+            comm_prefs["appointment_comms_consent_at"] = datetime.utcnow().isoformat() + "Z"
+
+        contact_notes: list[str] = []
 
         if not client:
             client = Client(
                 first_name=first_name,
-                last_name=last_name,
-                phone=phone,
+                last_name=last_name or "",
+                mobile=cell,
+                phone=other_phone,
                 email=client_email,
                 address=service_location or None,
                 user_id=None,
                 custom_fields=comm_prefs,
+                sms_consent=bool(booking.sms_consent),
             )
+            if booking.sms_consent:
+                set_sms_consent(client, consent=True, source="public_booking", at=datetime.utcnow())
             db.add(client)
             db.flush()
         else:
-            client.first_name = first_name
-            if last_name:
-                client.last_name = last_name
-            if phone:
-                client.phone = phone
-            if email and (not client.email or "@noreply.atomicrepair419.com" in client.email):
-                client.email = email
-            elif email:
-                client.email = email
-            if service_location and not client.address:
-                client.address = service_location
+            contact_notes = apply_booking_contact_to_client(
+                client,
+                first_name=first_name,
+                last_name=last_name,
+                mobile=cell,
+                other_phone=other_phone,
+                email=email,
+                address_json=service_location,
+            )
             _merge_client_custom_fields(client, comm_prefs)
+            if booking.sms_consent:
+                set_sms_consent(client, consent=True, source="public_booking", at=datetime.utcnow())
+                custom = client.custom_fields if isinstance(client.custom_fields, dict) else {}
+                client.custom_fields = {
+                    **custom,
+                    "appointment_comms_consent_at": datetime.utcnow().isoformat() + "Z",
+                }
 
         prop = db.query(Property).filter(
             Property.client_id == client.id,
@@ -569,6 +607,8 @@ async def create_booking(
             description_parts.append(
                 "Customer requested priority same-day diagnostic (portal-tier pricing on estimate)."
             )
+        for note in contact_notes:
+            description_parts.append(note)
 
         estimate_snapshot = build_booking_estimate(
             db,
@@ -616,7 +656,7 @@ async def create_booking(
         background_tasks.add_task(
             send_booking_notification,
             booking.name,
-            phone or "",
+            cell or "",
             email or "",
             booking.address,
             display_label,
@@ -640,13 +680,14 @@ async def create_booking(
                 estimated_total=estimate_snapshot.get("estimated_total"),
             )
 
-        if phone:
+        if cell:
             background_tasks.add_task(
                 _maybe_send_booking_sms,
-                phone,
+                cell,
                 order_number,
                 booking.contact_preference_primary,
                 booking.contact_preference_backup,
+                booking.sms_consent,
             )
 
         return {

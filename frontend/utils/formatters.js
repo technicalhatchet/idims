@@ -31,25 +31,7 @@ export function formatDate(date, options = {}) {
   return new Intl.DateTimeFormat('en-US', { ...defaultOptions, ...options }).format(new Date(date));
 }
 
-/**
- * Format phone number to (XXX) XXX-XXXX
- * @param {string} phone - The phone number to format
- * @returns {string} Formatted phone number
- */
-export function formatPhoneNumber(phone) {
-  if (!phone) return '';
-  
-  // Remove all non-digit characters
-  const cleaned = phone.replace(/\D/g, '');
-  
-  // Format to (XXX) XXX-XXXX
-  if (cleaned.length === 10) {
-    return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
-  }
-  
-  // If not valid 10-digit number, return original
-  return phone;
-}
+export { formatPhoneNumber, preferDialPhone, phonesEqual, clientPhoneDisplayLines } from './phone';
 
 /**
  * Truncate text with ellipsis

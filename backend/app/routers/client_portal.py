@@ -717,6 +717,7 @@ async def get_portal_profile(
         "phone": client.phone,
         "mobile": client.mobile,
         "email": client.email,
+        "sms_consent": bool(client.sms_consent),
         "self_scheduling_allowed": appliance_svc.client_self_scheduling_allowed(client, db),
         "self_scheduling_blocked": bool(client.self_scheduling_blocked),
         "appliances_import_completed": bool(client.appliances_import_completed),
@@ -736,6 +737,7 @@ class PortalProfileUpdate(BaseModel):
     last_name: Optional[str] = None
     phone: Optional[str] = None
     mobile: Optional[str] = None
+    sms_consent: Optional[bool] = None
 
 
 @router.put("/portal/me")
@@ -761,16 +763,33 @@ async def update_portal_profile(
         if len(name) > 100:
             raise HTTPException(status_code=422, detail="Last name is too long.")
         client.last_name = name
+    from app.services.client_contact import set_sms_consent
+    from app.utils.us_phone import normalize_phone_field
+
     if "phone" in updates:
-        phone = (updates["phone"] or "").strip()
-        if len(phone) > 20:
+        phone = normalize_phone_field(updates["phone"])
+        if phone and len(phone) > 20:
             raise HTTPException(status_code=422, detail="Phone number is too long.")
-        client.phone = phone or None
+        client.phone = phone
     if "mobile" in updates:
-        mobile = (updates["mobile"] or "").strip()
-        if len(mobile) > 20:
+        mobile = normalize_phone_field(updates["mobile"])
+        if mobile and len(mobile) > 20:
             raise HTTPException(status_code=422, detail="Mobile number is too long.")
-        client.mobile = mobile or None
+        client.mobile = mobile
+    if "sms_consent" in updates and updates["sms_consent"] is not None:
+        consent = bool(updates["sms_consent"])
+        set_sms_consent(
+            client,
+            consent=consent,
+            source="portal",
+            at=datetime.utcnow(),
+        )
+        if consent:
+            custom = client.custom_fields if isinstance(client.custom_fields, dict) else {}
+            client.custom_fields = {
+                **custom,
+                "appointment_comms_consent_at": datetime.utcnow().isoformat() + "Z",
+            }
 
     db.add(client)
     db.commit()
@@ -784,6 +803,7 @@ async def update_portal_profile(
         "phone": client.phone,
         "mobile": client.mobile,
         "email": client.email,
+        "sms_consent": bool(client.sms_consent),
     }
 
 

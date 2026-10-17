@@ -39,9 +39,9 @@ export function buildSmsUrl(phone, body) {
   return `sms:${num}?body=${encodeURIComponent(body)}`;
 }
 
-/** Tenant first, then client (per techboard en-route text rules). */
+/** Tenant first, then client cell only (not landline). */
 export function pickEnRouteSmsPhone(job) {
   if (job?.tenant_phone) return job.tenant_phone;
-  if (job?.client_phone) return job.client_phone;
+  if (job?.client_mobile) return job.client_mobile;
   return null;
 }

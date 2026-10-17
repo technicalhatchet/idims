@@ -714,10 +714,14 @@ async def get_combined_schedule(
             # Get client name from related work order
             client_name = "Unknown"
             client_phone = None
+            client_mobile = None
             if work_order.client:
                 client_name = work_order.client.company_name or f"{work_order.client.first_name} {work_order.client.last_name}"
-                # Include client phone if available
-                client_phone = work_order.client.phone
+                from app.utils.us_phone import prefer_dial_phone
+
+                c = work_order.client
+                client_mobile = c.mobile
+                client_phone = prefer_dial_phone(c.mobile, c.phone)
             
             # Get technician name (appointment row, else work order assignment)
             technician_name = "Unassigned"
@@ -749,6 +753,7 @@ async def get_combined_schedule(
                 "client_id": str(work_order.client_id) if work_order.client_id else None,
                 "client_name": client_name,
                 "client_phone": client_phone,
+                "client_mobile": client_mobile,
                 "property": property_data,
                 "location": _work_order_service_address(work_order),
                 "service_address": _work_order_service_address(work_order),

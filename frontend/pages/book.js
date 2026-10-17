@@ -109,12 +109,13 @@ export default function BookService() {
     issueDescription: '',
     time: '',
     name: '',
-    phone: '',
+    mobile: '',
+    otherPhone: '',
     email: '',
     address: '',
     contactPrimary: 'phone',
     contactBackup: '',
-    communicationsConsent: false,
+    smsConsent: false,
   });
   const [priorityRequested, setPriorityRequested] = useState(false);
   const [schedulingContext, setSchedulingContext] = useState(null);
@@ -284,13 +285,17 @@ export default function BookService() {
     };
   }, [currentStep]);
 
-  const hasPhone = Boolean(formData.phone?.trim());
+  const hasMobile = Boolean(formData.mobile?.trim());
+  const hasOtherPhone = Boolean(formData.otherPhone?.trim());
   const hasEmail = Boolean(formData.email?.trim());
-  const hasContactMethod = hasPhone || hasEmail;
+  const hasContactMethod = hasMobile || hasEmail;
+  const wantsSmsChannel =
+    formData.contactPrimary === 'sms' || formData.contactBackup === 'sms';
 
   const channelAvailable = (channel) => {
     if (channel === 'email') return hasEmail;
-    return hasPhone;
+    if (channel === 'sms') return hasMobile;
+    return hasMobile || hasOtherPhone;
   };
 
   const priorityOffered = Boolean(
@@ -323,13 +328,13 @@ export default function BookService() {
       if (field === 'time' && value !== 'today') {
         setPriorityRequested(false);
       }
-      if (field === 'phone' || field === 'email') {
+      if (field === 'mobile' || field === 'otherPhone' || field === 'email') {
         const primary = next.contactPrimary;
         const backup = next.contactBackup;
-        if (primary && !channelAvailableForValues(primary, next.phone, next.email)) {
-          next.contactPrimary = next.phone?.trim() ? 'phone' : next.email?.trim() ? 'email' : '';
+        if (primary && !channelAvailableForValues(primary, next.mobile, next.otherPhone, next.email)) {
+          next.contactPrimary = next.mobile?.trim() ? 'phone' : next.email?.trim() ? 'email' : '';
         }
-        if (backup && !channelAvailableForValues(backup, next.phone, next.email)) {
+        if (backup && !channelAvailableForValues(backup, next.mobile, next.otherPhone, next.email)) {
           next.contactBackup = '';
         }
       }
@@ -337,9 +342,10 @@ export default function BookService() {
     });
   };
 
-  function channelAvailableForValues(channel, phone, email) {
+  function channelAvailableForValues(channel, mobile, otherPhone, email) {
     if (channel === 'email') return Boolean(email?.trim());
-    return Boolean(phone?.trim());
+    if (channel === 'sms') return Boolean(mobile?.trim());
+    return Boolean(mobile?.trim()) || Boolean(otherPhone?.trim());
   }
 
   const symptomOptions = getBookingSymptomsForAppliance(
@@ -376,7 +382,7 @@ export default function BookService() {
       case 3: return formData.time !== '';
       case 4: {
         if (!formData.name || !formData.address || !hasContactMethod) return false;
-        if (!formData.communicationsConsent) return false;
+        if (wantsSmsChannel && !formData.smsConsent) return false;
         if (!formData.contactPrimary || !channelAvailable(formData.contactPrimary)) return false;
         if (formData.contactBackup) {
           if (formData.contactBackup === formData.contactPrimary) return false;
@@ -432,7 +438,8 @@ export default function BookService() {
         },
         body: JSON.stringify({
           name: formData.name,
-          phone: formData.phone.trim() || undefined,
+          mobile: formData.mobile.trim() || undefined,
+          other_phone: formData.otherPhone.trim() || undefined,
           email: formData.email.trim() || undefined,
           address: formData.address,
           appliance: formData.appliance === 'other' ? 'other' : formData.appliance,
@@ -443,7 +450,7 @@ export default function BookService() {
           priority_requested: Boolean(priorityRequested && formData.time === 'today'),
           contact_preference_primary: formData.contactPrimary,
           contact_preference_backup: formData.contactBackup || undefined,
-          communications_consent: formData.communicationsConsent,
+          sms_consent: formData.smsConsent,
         }),
       });
 
@@ -976,26 +983,41 @@ export default function BookService() {
                         </div>
                       </div>
                       <p className="text-xs text-gray-500">
-                        Provide <span className="text-gray-400">phone or email</span> (or both) so we can reach you.
+                        Provide <span className="text-gray-400">cell or email</span> (cell and other phone optional). We text your cell when you opt in below.
                       </p>
                       <div>
                         <label className="block text-sm text-gray-400 mb-2">
-                          Phone Number {!hasEmail && <span className="text-cyan-400/80">*</span>}
+                          Cell (texts) {!hasEmail && <span className="text-cyan-400/80">*</span>}
                         </label>
                         <div className="relative">
                           <MarketingPhoneIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
                           <input
                             type="tel"
-                            value={formData.phone}
-                            onChange={(e) => updateFormData('phone', e.target.value)}
+                            value={formData.mobile}
+                            onChange={(e) => updateFormData('mobile', e.target.value)}
                             placeholder="(419) 740-0146"
+                            autoComplete="tel"
+                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm text-gray-400 mb-2">Other phone (optional)</label>
+                        <div className="relative">
+                          <MarketingPhoneIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
+                          <input
+                            type="tel"
+                            value={formData.otherPhone}
+                            onChange={(e) => updateFormData('otherPhone', e.target.value)}
+                            placeholder="Landline or backup"
+                            autoComplete="tel-national"
                             className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-gray-500 focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
                           />
                         </div>
                       </div>
                       <div>
                         <label className="block text-sm text-gray-400 mb-2">
-                          Email {!hasPhone && <span className="text-cyan-400/80">*</span>}
+                          Email {!hasMobile && <span className="text-cyan-400/80">*</span>}
                         </label>
                         <div className="relative">
                           <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
@@ -1104,13 +1126,13 @@ export default function BookService() {
                         <label className="flex items-start gap-2 cursor-pointer">
                           <input
                             type="checkbox"
-                            checked={formData.communicationsConsent}
-                            onChange={(e) => updateFormData('communicationsConsent', e.target.checked)}
+                            checked={formData.smsConsent}
+                            onChange={(e) => updateFormData('smsConsent', e.target.checked)}
                             className="mt-0.5 w-4 h-4 rounded border-gray-600 bg-gray-800 text-cyan-500 focus:ring-cyan-500"
                           />
                           <span className="text-xs text-gray-400 leading-relaxed">
-                            I agree to receive appointment updates from Atomic Repair by my selected contact methods.
-                            SMS will be used when you choose text message and we have your mobile number on file.
+                            Text me appointment updates and account links from Atomic Repair.
+                            Msg &amp; data rates may apply. Reply STOP to opt out.
                           </span>
                         </label>
                       </div>
@@ -1233,8 +1255,8 @@ export default function BookService() {
                             <span className="text-white font-medium text-right">{formData.name || '-'}</span>
                           </div>
                           <div className="flex justify-between text-sm gap-2">
-                            <span className="text-gray-500 flex-shrink-0">Phone</span>
-                            <span className="text-white font-medium">{formData.phone || '-'}</span>
+                            <span className="text-gray-500 flex-shrink-0">Cell</span>
+                            <span className="text-white font-medium">{formData.mobile || '-'}</span>
                           </div>
                           {formData.email?.trim() && (
                             <div className="flex justify-between text-sm gap-2">

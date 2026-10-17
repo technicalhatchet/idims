@@ -12,11 +12,14 @@ class Client(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
-    auth0_user_id = Column(String(255), nullable=True, index=True)  # Auth0 sub claim
+    auth0_user_id = Column(Text, nullable=True, index=True)  # Auth0 sub claim
     company_name = Column(String(255), nullable=True)
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
-    email = Column(String(255), nullable=False, index=True)
+    email = Column(String(255), nullable=True, index=True)
+    sms_consent = Column(Boolean, nullable=False, default=False)
+    sms_consent_at = Column(DateTime, nullable=True)
+    sms_consent_source = Column(String(50), nullable=True)
     phone = Column(String(20), nullable=True)
     mobile = Column(String(20), nullable=True)
     address = Column(JSONB, nullable=True)

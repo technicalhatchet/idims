@@ -327,7 +327,7 @@ def build_work_order_invoice_rd(db: Session, work_order) -> Dict[str, Any]:
                 "first_name": c.first_name,
                 "last_name": c.last_name,
                 "email": c.email,
-                "phone": c.phone or c.mobile,
+                "phone": c.mobile or c.phone,
             }
             if c.user_id:
                 u = db.query(UserModel).filter(UserModel.id == c.user_id).first()

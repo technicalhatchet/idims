@@ -84,7 +84,7 @@ export default function WorkOrderMobileDetailsTab({
 }) {
   const clientName = resolveClientDisplayName(workOrder);
   const tenantName = workOrder?.property?.tenant_name?.trim() || '';
-  const clientPhone = workOrder?.client?.phone || workOrder?.client?.mobile || '';
+  const clientPhone = workOrder?.client?.mobile || workOrder?.client?.phone || '';
   const tenantPhone = workOrder?.property?.tenant_phone || '';
 
   const equipmentDisplayName = resolveWorkOrderEquipmentDisplayName(workOrder);

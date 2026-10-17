@@ -10,6 +10,9 @@ import { MARKETING_PHONE_DISPLAY } from '../../constants/marketingSiteContent';
 const inputClass =
   'w-full rounded-lg border border-white/10 bg-[#0D1525] px-3 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-cyan-500/50';
 
+const SMS_CONSENT_LABEL =
+  'Text me appointment updates and account links from Atomic Repair. Msg & data rates may apply. Reply STOP to opt out.';
+
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -23,6 +26,7 @@ export default function SettingsPage() {
     mobile: '',
     email: '',
     company_name: '',
+    sms_consent: false,
   });
 
   useEffect(() => {
@@ -37,6 +41,7 @@ export default function SettingsPage() {
           mobile: me.mobile || '',
           email: me.email || '',
           company_name: me.company_name || '',
+          sms_consent: Boolean(me.sms_consent),
         });
       } catch (err) {
         setError(err.message);
@@ -67,6 +72,7 @@ export default function SettingsPage() {
           last_name: form.last_name,
           phone: form.phone,
           mobile: form.mobile,
+          sms_consent: form.sms_consent,
         }),
       });
       setForm((prev) => ({
@@ -77,6 +83,7 @@ export default function SettingsPage() {
         mobile: updated.mobile || '',
         email: updated.email || prev.email,
         company_name: updated.company_name || prev.company_name,
+        sms_consent: Boolean(updated.sms_consent),
       }));
       const name = `${updated.first_name || ''} ${updated.last_name || ''}`.trim();
       if (name) sessionStorage.setItem('portal_client_name', name);
@@ -143,24 +150,10 @@ export default function SettingsPage() {
             </div>
 
             <div>
-              <label htmlFor="portal-phone" className="block text-[11px] uppercase tracking-wide text-white/45 mb-1.5">
-                <span className="inline-flex items-center gap-1.5">
-                  <FaPhone className="w-3 h-3" /> Phone
-                </span>
-              </label>
-              <input
-                id="portal-phone"
-                type="tel"
-                className={inputClass}
-                value={form.phone}
-                onChange={(e) => setField('phone', e.target.value)}
-                autoComplete="tel"
-              />
-            </div>
-
-            <div>
               <label htmlFor="portal-mobile" className="block text-[11px] uppercase tracking-wide text-white/45 mb-1.5">
-                Mobile
+                <span className="inline-flex items-center gap-1.5">
+                  <FaPhone className="w-3 h-3" /> Cell (texts)
+                </span>
               </label>
               <input
                 id="portal-mobile"
@@ -169,6 +162,20 @@ export default function SettingsPage() {
                 value={form.mobile}
                 onChange={(e) => setField('mobile', e.target.value)}
                 autoComplete="tel"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="portal-phone" className="block text-[11px] uppercase tracking-wide text-white/45 mb-1.5">
+                Other phone
+              </label>
+              <input
+                id="portal-phone"
+                type="tel"
+                className={inputClass}
+                value={form.phone}
+                onChange={(e) => setField('phone', e.target.value)}
+                autoComplete="tel-national"
               />
             </div>
 
@@ -183,6 +190,17 @@ export default function SettingsPage() {
                 Email is tied to your login. Call {MARKETING_PHONE_DISPLAY} if you need it changed.
               </p>
             </div>
+
+            <label className="flex items-start gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={form.sms_consent}
+                onChange={(e) => setField('sms_consent', e.target.checked)}
+                disabled={previewMode}
+                className="mt-0.5 w-4 h-4 rounded border-white/20 bg-[#0D1525] text-cyan-500 focus:ring-cyan-500"
+              />
+              <span className="text-xs text-white/55 leading-relaxed">{SMS_CONSENT_LABEL}</span>
+            </label>
 
             {error && <p className="text-red-400 text-sm m-0">{error}</p>}
             {saved && <p className="text-emerald-400 text-sm m-0">Saved. We’ll use this on your next visit.</p>}

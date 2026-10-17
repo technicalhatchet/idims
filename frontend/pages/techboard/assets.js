@@ -101,12 +101,12 @@ function ClientCard({ client }) {
               </div>
             )}
 
-            {(client.phone || client.mobile) && (
+            {(client.mobile || client.phone) && (
               <div className="flex items-center gap-1.5">
                 <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" style={{ stroke: '#9CA3AF', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4A2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
-                <p className="text-xs text-gray-400 truncate">{client.phone || client.mobile}</p>
+                <p className="text-xs text-gray-400 truncate">{client.mobile || client.phone}</p>
               </div>
             )}
           </div>
