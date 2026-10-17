@@ -225,7 +225,17 @@ function MyApp({ Component, pageProps }) {
   const { user } = pageProps;
 
   return (
-    <div className={`${inter.variable} font-sans`}>
+    <>
+      <style jsx global>{`
+        :root {
+          --font-inter: ${inter.style.fontFamily};
+        }
+        html,
+        body {
+          font-family: ${inter.style.fontFamily};
+        }
+      `}</style>
+      <div className={`${inter.variable} font-sans`}>
     <UserProvider>
       <UserRoleProvider>
       <ThemeProvider>
@@ -254,7 +264,8 @@ function MyApp({ Component, pageProps }) {
       </ThemeProvider>
       </UserRoleProvider>
     </UserProvider>
-    </div>
+      </div>
+    </>
   );
 }
 
