@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -149,6 +149,7 @@ export default function BookService() {
   const [pricingLoading, setPricingLoading] = useState(false);
   const [pricingError, setPricingError] = useState(null);
   const [submittedOrderNumber, setSubmittedOrderNumber] = useState('');
+  const cardScrollRef = useRef(null);
 
   const resolvedEquipmentSubtype = resolveBookingEquipmentSubtype(
     formData.appliance,
@@ -307,6 +308,24 @@ export default function BookService() {
     return () => {
       cancelled = true;
     };
+  }, [currentStep]);
+
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    html.classList.add('book-flow-lock');
+    body.classList.add('book-flow-lock');
+    return () => {
+      html.classList.remove('book-flow-lock');
+      body.classList.remove('book-flow-lock');
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    const el = cardScrollRef.current;
+    if (el) {
+      el.scrollTop = 0;
+    }
   }, [currentStep]);
 
   const hasMobile = Boolean(formData.mobile?.trim());
@@ -535,14 +554,44 @@ export default function BookService() {
     return `$${Number(amount).toFixed(2)}`;
   };
 
-  const formatTripCharge = (tripCharge) => {
-    if (!tripCharge) return '—';
-    if (tripCharge.is_custom && tripCharge.amount == null) {
-      return 'Outside service area';
-    }
-    const formatted = formatCurrency(tripCharge.amount);
-    return formatted != null ? formatted : '—';
+  const formatLineAmount = (amount) => {
+    if (amount == null || Number.isNaN(Number(amount))) return '—';
+    return formatCurrency(Number(amount));
   };
+
+  const bookingEstimateLineItems = (estimate) => {
+    if (!estimate || estimate.serviceable === false) return [];
+    const lines = [];
+    if (estimate.diagnostic?.price != null) {
+      lines.push({
+        key: 'diagnostic',
+        label: 'Diagnostic',
+        amount: Number(estimate.diagnostic.price),
+        detail: estimate.diagnostic.name,
+      });
+    }
+    if (estimate.trip_charge && !(estimate.trip_charge.is_custom && estimate.trip_charge.amount == null)) {
+      const tripAmount = estimate.trip_charge.amount != null ? Number(estimate.trip_charge.amount) : 0;
+      lines.push({
+        key: 'trip',
+        label: 'Trip charge',
+        amount: tripAmount,
+        detail: estimate.trip_charge.zone_name ? `${estimate.trip_charge.zone_name} area` : null,
+      });
+    }
+    if (estimate.tier_flat_fee != null && Number(estimate.tier_flat_fee) > 0) {
+      lines.push({
+        key: 'tier_fee',
+        label: estimate.tier_label || 'Priority service',
+        amount: Number(estimate.tier_flat_fee),
+        detail: null,
+      });
+    }
+    return lines;
+  };
+
+  const estimateLinesSum = (lines) =>
+    lines.reduce((sum, line) => sum + (Number.isFinite(line.amount) ? line.amount : 0), 0);
 
   return (
     <>
@@ -554,13 +603,13 @@ export default function BookService() {
 
       <MarketingBookVignette />
 
-      <div className="min-h-screen pt-28 pb-32 px-4 sm:px-6 relative z-10">
-        <div className="max-w-3xl mx-auto">
+      <div className="book-flow flex flex-1 flex-col min-h-0 h-full max-h-full overflow-hidden relative z-10 px-4 sm:px-6 pt-20 sm:pt-24">
+        <div className="max-w-3xl mx-auto flex flex-1 flex-col min-h-0 w-full">
           {/* Logo & Title */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex items-center justify-start gap-4 mb-6"
+            className="flex items-center justify-start gap-4 mb-4 sm:mb-6 shrink-0"
           >
             {/* Tap logo 5 times to reveal Service Mode */}
             <SecretServiceMode>
@@ -582,7 +631,7 @@ export default function BookService() {
         
 
           {/* Progress Bar */}
-          <div className="mb-8">
+          <div className="mb-4 sm:mb-6 shrink-0">
             <div className="flex items-center justify-between relative">
               {/* Progress Line Background */}
               <div className="absolute top-4 left-0 right-0 h-0.5 bg-white/10" />
@@ -618,6 +667,10 @@ export default function BookService() {
             </div>
           </div>
 
+          <div
+            ref={cardScrollRef}
+            className="flex-1 min-h-0 overflow-y-auto overscroll-y-contain [-webkit-overflow-scrolling:touch] pb-4"
+          >
           {/* Main Card */}
           <motion.div
             className="relative rounded-2xl overflow-visible"
@@ -1353,39 +1406,39 @@ export default function BookService() {
                             </p>
                           )}
 
-                          {pricingEstimate && !pricingLoading && !isOutOfServiceArea && (
+                          {pricingEstimate && !pricingLoading && !isOutOfServiceArea && (() => {
+                            const lineItems = bookingEstimateLineItems(pricingEstimate);
+                            const linesTotal = estimateLinesSum(lineItems);
+                            const showTotal = pricingEstimate.estimated_total != null;
+                            return (
                             <>
-                              <div className="flex justify-between text-sm gap-2">
-                                <span className="text-gray-500 flex-shrink-0">Diagnostic</span>
-                                <span className="text-white font-medium text-right">
-                                  {pricingEstimate.diagnostic
-                                    ? `${formatCurrency(pricingEstimate.diagnostic.price)} · ${pricingEstimate.diagnostic.name}`
-                                    : 'Contact for quote'}
-                                </span>
-                              </div>
-                              <div className="flex justify-between text-sm gap-2">
-                                <span className="text-gray-500 flex-shrink-0">Trip charge</span>
-                                <span className="text-white font-medium text-right">
-                                  {formatTripCharge(pricingEstimate.trip_charge)}
-                                  {pricingEstimate.trip_charge?.zone_name && (
-                                    <span className="block text-xs text-gray-500 font-normal">
-                                      {pricingEstimate.trip_charge.zone_name} area
-                                    </span>
-                                  )}
-                                </span>
-                              </div>
-                              {pricingEstimate.tier_label && (
-                                <p className="text-xs text-orange-300/90 font-medium">
-                                  {pricingEstimate.tier_label}
-                                </p>
+                              {lineItems.length === 0 && (
+                                <p className="text-sm text-gray-400">Contact for quote</p>
                               )}
-                              {pricingEstimate.estimated_total != null && (
-                                <div className="flex justify-between text-sm gap-2 pt-1">
+                              {lineItems.map((line) => (
+                                <div key={line.key} className="flex justify-between text-sm gap-2">
+                                  <span className="text-gray-500 flex-shrink-0">{line.label}</span>
+                                  <span className="text-white font-medium text-right">
+                                    {formatLineAmount(line.amount)}
+                                    {line.detail && (
+                                      <span className="block text-xs text-gray-500 font-normal">{line.detail}</span>
+                                    )}
+                                  </span>
+                                </div>
+                              ))}
+                              {showTotal && (
+                                <div className="flex justify-between text-sm gap-2 pt-1 border-t border-white/10 mt-2">
                                   <span className="text-gray-400 font-medium">Estimated total</span>
                                   <span className="text-cyan-300 font-semibold">
                                     {formatCurrency(pricingEstimate.estimated_total)}
                                   </span>
                                 </div>
+                              )}
+                              {showTotal && lineItems.length > 0
+                                && Math.abs(linesTotal - Number(pricingEstimate.estimated_total)) > 0.02 && (
+                                <p className="text-xs text-amber-400/90">
+                                  Line items ({formatLineAmount(linesTotal)}) should match total; contact us if this looks wrong.
+                                </p>
                               )}
                               <p className="text-xs text-gray-500 leading-relaxed pt-2 border-t border-white/5">
                                 {BOOKING_PAYMENT_NOTE}
@@ -1396,7 +1449,8 @@ export default function BookService() {
                                 </p>
                               )}
                             </>
-                          )}
+                            );
+                          })()}
                         </div>
                       </div>
                     </div>
@@ -1483,7 +1537,7 @@ export default function BookService() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4"
+            className="mt-6 sm:mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4"
           >
             {[
               { icon: 'zap', title: 'FAST & EASY', desc: 'Book in under 60 seconds' },
@@ -1500,18 +1554,14 @@ export default function BookService() {
                 </div>
             ))}
           </motion.div>
-        </div>
-      </div>
+          </div>
 
-      {/* Mobile Sticky CTA */}
-      <div 
-        className="fixed bottom-0 left-0 right-0 px-4 pt-4 backdrop-blur-md border-t border-white/5 sm:hidden z-40" 
-        style={{ 
-          backgroundColor: 'rgba(0, 2, 8, 0.95)',
-          paddingBottom: 'calc(1rem + env(safe-area-inset-bottom, 0px))'
-        }}
-      >
-        <div className="flex gap-3">
+          {/* Mobile nav — in-flow (not fixed) so iOS Safari toolbar does not eat the first tap */}
+          <div
+            className="shrink-0 sm:hidden border-t border-white/10 bg-[#000208] px-0 pt-3 z-50"
+            style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom, 0px))' }}
+          >
+        <div className="flex gap-3 max-w-3xl mx-auto w-full">
           {currentStep > 1 && !isComplete && (
             <button
               onClick={prevStep}
@@ -1559,11 +1609,17 @@ export default function BookService() {
             </Link>
           )}
         </div>
+          </div>
+        </div>
       </div>
     </>
   );
 }
 
 BookService.getLayout = function getLayout(page) {
-  return <HomeLayout title="Book Service | Atomic Repair">{page}</HomeLayout>;
+  return (
+    <HomeLayout title="Book Service | Atomic Repair" bookingFlow>
+      {page}
+    </HomeLayout>
+  );
 };

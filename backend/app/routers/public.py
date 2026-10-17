@@ -121,6 +121,7 @@ class DiagnosticEstimate(BaseModel):
     name: str
     price: float
     sku_code: Optional[str] = None
+    base_price: Optional[float] = None
 
 
 class TripChargeEstimate(BaseModel):
@@ -129,6 +130,7 @@ class TripChargeEstimate(BaseModel):
     amount: Optional[float]
     is_custom: bool
     method: str
+    base_amount: Optional[float] = None
 
 
 class BookingEstimateResponse(BaseModel):
@@ -140,6 +142,7 @@ class BookingEstimateResponse(BaseModel):
     service_area_message: Optional[str] = None
     service_tier: Optional[str] = None
     tier_label: Optional[str] = None
+    tier_flat_fee: Optional[float] = None
 
 
 def _booking_address_to_location(address: str) -> dict:
@@ -471,9 +474,18 @@ async def estimate_booking_pricing(
             name=d["name"],
             price=d["price"],
             sku_code=d.get("sku_code"),
+            base_price=d.get("base_price"),
         )
 
-    trip_charge = TripChargeEstimate(**result["trip_charge"])
+    trip_raw = result["trip_charge"]
+    trip_charge = TripChargeEstimate(
+        zone_key=trip_raw["zone_key"],
+        zone_name=trip_raw["zone_name"],
+        amount=trip_raw.get("amount"),
+        is_custom=trip_raw.get("is_custom", False),
+        method=trip_raw.get("method", "default"),
+        base_amount=trip_raw.get("base_amount"),
+    )
 
     return BookingEstimateResponse(
         diagnostic=diagnostic,
@@ -484,6 +496,7 @@ async def estimate_booking_pricing(
         service_area_message=result.get("service_area_message"),
         service_tier=result.get("service_tier"),
         tier_label=result.get("tier_label"),
+        tier_flat_fee=result.get("tier_flat_fee"),
     )
 
 
