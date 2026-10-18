@@ -17,6 +17,7 @@ const AUTH0_ALLOWED_HOSTS = new Set([
   'v0-idims.vercel.app',
   'solodiag.com',
   'www.solodiag.com',
+  'logit.solodiag.com', // keep in sync with logitSubdomainHost.js LOGIT_SUBDOMAIN_HOST
   'dma-eight.vercel.app',
 ]);
 

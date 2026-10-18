@@ -106,12 +106,87 @@ test('Solomon standalone allows hashed /styles route CSS without redirect', () =
   restoreEnv(snap);
 });
 
+test('Solomon standalone allows Workbox and worker runtime bundles', () => {
+  const snap = snapshotEnv();
+  process.env.SOLOMON_STANDALONE = 'true';
+
+  const pwaAssets = [
+    '/workbox-ea8382b1.js',
+    '/worker-dcHmAK2OsBnSKrJmVYJRh.js',
+  ];
+
+  for (const pathname of pwaAssets) {
+    assert.equal(isSolomonStandaloneAllowedPath(pathname), true);
+    const res = middleware(new NextRequest(`https://solodiag.com${pathname}`));
+    assert.equal(res.headers.get('location'), null);
+  }
+
+  restoreEnv(snap);
+});
+
 test('Solomon standalone still redirects non-allowed app routes to /solomon', () => {
   const snap = snapshotEnv();
   process.env.SOLOMON_STANDALONE = 'true';
 
   const res = middleware(new NextRequest('https://solodiag.com/dashboard'));
   assert.equal(res.headers.get('location'), 'https://solodiag.com/solomon');
+
+  restoreEnv(snap);
+});
+
+test('Solomon standalone still blocks /logit on solodiag.com', () => {
+  const snap = snapshotEnv();
+  process.env.SOLOMON_STANDALONE = 'true';
+
+  const res = middleware(new NextRequest('https://solodiag.com/logit'));
+  assert.equal(res.headers.get('location'), 'https://solodiag.com/solomon');
+
+  restoreEnv(snap);
+});
+
+test('Logit subdomain on standalone deploy: / redirects to /logit', () => {
+  const snap = snapshotEnv();
+  process.env.SOLOMON_STANDALONE = 'true';
+
+  const res = middleware(new NextRequest('https://logit.solodiag.com/'));
+  assert.equal(res.headers.get('location'), 'https://logit.solodiag.com/logit');
+
+  restoreEnv(snap);
+});
+
+test('Logit subdomain on standalone deploy: /logit and host manifest are allowed', () => {
+  const snap = snapshotEnv();
+  process.env.SOLOMON_STANDALONE = 'true';
+
+  const app = middleware(new NextRequest('https://logit.solodiag.com/logit'));
+  assert.equal(app.headers.get('location'), null);
+
+  const manifest = middleware(
+    new NextRequest('https://logit.solodiag.com/manifest-logit-host.json'),
+  );
+  assert.equal(manifest.headers.get('location'), null);
+
+  restoreEnv(snap);
+});
+
+test('Logit subdomain on standalone deploy: Workbox runtime bundle is allowed', () => {
+  const snap = snapshotEnv();
+  process.env.SOLOMON_STANDALONE = 'true';
+
+  const res = middleware(
+    new NextRequest('https://logit.solodiag.com/workbox-ea8382b1.js'),
+  );
+  assert.equal(res.headers.get('location'), null);
+
+  restoreEnv(snap);
+});
+
+test('Logit subdomain on standalone deploy: /solomon redirects to /logit', () => {
+  const snap = snapshotEnv();
+  process.env.SOLOMON_STANDALONE = 'true';
+
+  const res = middleware(new NextRequest('https://logit.solodiag.com/solomon'));
+  assert.equal(res.headers.get('location'), 'https://logit.solodiag.com/logit');
 
   restoreEnv(snap);
 });

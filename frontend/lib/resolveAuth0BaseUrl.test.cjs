@@ -56,6 +56,16 @@ try {
   );
 
   assert.equal(
+    resolveAuth0BaseUrl(req('logit.solodiag.com')),
+    'https://logit.solodiag.com',
+  );
+  assert.equal(
+    resolveAuth0CallbackUrl(req('logit.solodiag.com')),
+    'https://logit.solodiag.com/api/auth/callback',
+  );
+  assert.ok(AUTH0_ALLOWED_HOSTS.has('logit.solodiag.com'));
+
+  assert.equal(
     resolveAuth0BaseUrl({
       headers: {
         host: 'localhost:3001',
