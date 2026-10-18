@@ -122,7 +122,9 @@ def test_repoint_moves_notification_user_id():
     new_id = uuid4()
     client_id = uuid4()
 
+    row_ids = [uuid4(), uuid4(), uuid4()]
     chain = MagicMock()
+    chain.filter.return_value.all.return_value = [(i,) for i in row_ids]
     chain.filter.return_value.update.return_value = 3
     db.query.return_value = chain
 

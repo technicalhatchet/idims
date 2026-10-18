@@ -37,6 +37,7 @@ def find_client_by_normalized_email(
         return None
     query = db.query(Client).filter(
         func.lower(func.trim(Client.email)) == normalized,
+        Client.merged_into_client_id.is_(None),
     )
     if for_update:
         query = query.with_for_update()

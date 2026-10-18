@@ -156,6 +156,8 @@ def validate_claim_for_register(db: Session, raw_token: str) -> Dict[str, Any]:
     client = db.query(Client).filter(Client.id == claim.client_id).first()
     if not client:
         return {"valid": False, "message": "This invite link is invalid."}
+    if client.merged_into_client_id:
+        return {"valid": False, "message": "This client record was merged; request a new invite."}
     return {
         "valid": True,
         "token_type": "claim",
@@ -183,6 +185,8 @@ def resolve_client_for_link(
     client = db.query(Client).filter(Client.id == claim.client_id).first()
     if not client:
         raise PortalClaimError("invalid", "client not found for claim")
+    if client.merged_into_client_id:
+        raise PortalClaimError("merged", "This client record was merged into another account.")
     return client, claim
 
 

@@ -464,7 +464,14 @@ async def get_portal_client(
     # Regular client user — lookup by auth0_user_id only (email linking is POST /portal/link-account)
     if is_client:
         auth0_user_id = token_data.sub
-        client = db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
+        client = (
+            db.query(Client)
+            .filter(
+                Client.auth0_user_id == auth0_user_id,
+                Client.merged_into_client_id.is_(None),
+            )
+            .first()
+        )
         if not client:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -493,7 +500,12 @@ async def link_account_debug(
     resolved_email = _auth0_profile_email_for_debug(auth0_user_id) if auth0_user_id else None
 
     client_by_auth0 = (
-        db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
+        db.query(Client)
+        .filter(
+            Client.auth0_user_id == auth0_user_id,
+            Client.merged_into_client_id.is_(None),
+        )
+        .first()
         if auth0_user_id
         else None
     )
@@ -589,7 +601,14 @@ async def link_portal_account(
         bool(get_portal_invite_secret()),
     )
 
-    existing = db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
+    existing = (
+        db.query(Client)
+        .filter(
+            Client.auth0_user_id == auth0_user_id,
+            Client.merged_into_client_id.is_(None),
+        )
+        .first()
+    )
     if existing:
         if portal_signup_needs_profile(existing):
             return _pending_profile_link_response(
@@ -778,7 +797,14 @@ async def portal_signup_status(
     if not auth0_user_id:
         raise HTTPException(status_code=400, detail="Invalid token — no sub claim")
 
-    client = db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
+    client = (
+        db.query(Client)
+        .filter(
+            Client.auth0_user_id == auth0_user_id,
+            Client.merged_into_client_id.is_(None),
+        )
+        .first()
+    )
     if not client:
         return {
             "status": "unlinked",
@@ -827,7 +853,10 @@ async def complete_portal_signup(
 
     client = (
         db.query(Client)
-        .filter(Client.auth0_user_id == auth0_user_id)
+        .filter(
+            Client.auth0_user_id == auth0_user_id,
+            Client.merged_into_client_id.is_(None),
+        )
         .with_for_update()
         .first()
     )

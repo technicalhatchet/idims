@@ -41,6 +41,13 @@ class Client(Base):
     scheduling_zone_exempt = Column(Boolean, default=False, nullable=False)
     appliances_import_completed = Column(Boolean, default=False, nullable=False)
     portal_profile_completed_at = Column(DateTime, nullable=True)
+    merged_into_client_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("clients.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+    merged_at = Column(DateTime, nullable=True)
 
     # Relationships
     user = relationship("User", foreign_keys=[user_id], back_populates="client")

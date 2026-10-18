@@ -15,6 +15,7 @@ import { useWorkOrders } from '../../../hooks/useWorkOrders';
 import { withPageAuthRequired } from '../../../utils/auth0-helpers';
 import { apiClient } from '../../../utils/api-client';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import { useUserRole } from '../../../context/UserRoleContext';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
 import ClientAppliancesPanel from '../../../components/clients/ClientAppliancesPanel';
 import { techWorkOrderDetailPath, techWorkOrderNewPath } from '../../../lib/techRoutes';
@@ -249,6 +250,8 @@ function ClientDetail() {
   const router = useRouter();
   const { id } = router.query;
   const { user } = useUser();
+  const { isAdmin } = useUserRole();
+  const [mergeWarnings, setMergeWarnings] = useState([]);
   const [detailsExpanded, setDetailsExpanded] = useState(true);
   const [propertiesExpanded, setPropertiesExpanded] = useState(false);
   const [workOrdersExpanded, setWorkOrdersExpanded] = useState(false);
@@ -268,6 +271,20 @@ function ClientDetail() {
   const [expandedProperties, setExpandedProperties] = useState(new Set());
 
   const { data: client, isLoading: clientLoading, error: clientError } = useClient(id);
+
+  useEffect(() => {
+    if (!id) return;
+    const key = `merge_cleanup_warnings_${id}`;
+    const raw = sessionStorage.getItem(key);
+    if (raw) {
+      try {
+        setMergeWarnings(JSON.parse(raw));
+      } catch {
+        setMergeWarnings([]);
+      }
+      sessionStorage.removeItem(key);
+    }
+  }, [id]);
 
   const tacticalColumnRef = useRef(null);
   const { openRail } = useTechDashboardRail() || {};
@@ -553,6 +570,25 @@ function ClientDetail() {
             }}
           >
             <div className="px-4 space-y-4">
+          {mergeWarnings.length > 0 && (
+            <div
+              className="rounded-lg p-4 text-sm text-amber-200"
+              style={{
+                background: 'rgba(245, 158, 11, 0.12)',
+                border: '1px solid rgba(245, 158, 11, 0.35)',
+              }}
+            >
+              <p className="font-bold text-amber-300 mb-2">After merge — review duplicates</p>
+              <ul className="list-disc pl-4 space-y-1">
+                {mergeWarnings.map((w) => (
+                  <li key={`${w.code}-${w.message}`}>{w.message}</li>
+                ))}
+              </ul>
+              <p className="mt-2 text-xs text-amber-100/80">
+                Use appliance merge on this profile to consolidate duplicates.
+              </p>
+            </div>
+          )}
           <div 
             className="rounded-lg p-4"
             style={{
@@ -642,6 +678,20 @@ function ClientDetail() {
                 </p>
               </div>
             </div>
+
+            {isAdmin && (
+              <Link
+                href={`/clients/${id}/merge`}
+                className="flex items-center justify-center gap-2 py-3 mt-4 rounded-lg text-sm font-bold uppercase tracking-wide w-full"
+                style={{
+                  background: 'rgba(245, 158, 11, 0.12)',
+                  border: '1px solid rgba(245, 158, 11, 0.35)',
+                  color: '#FCD34D',
+                }}
+              >
+                Merge duplicate…
+              </Link>
+            )}
 
             <div className="grid grid-cols-2 gap-3 mt-4">
               <Link

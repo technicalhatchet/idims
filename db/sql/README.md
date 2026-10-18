@@ -57,6 +57,13 @@ Optional: `reports/2026-10-17_public_schema_backup_tables.sql` to find legacy `p
 | 12 | Deploy backend (phase 2e) | Link sets `clients.user_id`; legacy APIs staff-only |
 | 13 | `2026-10-18_client_user_id_backfill_preview.sql` | Read-only: backfill rows + conflicts |
 | 14 | `2026-10-18_client_user_id_backfill.sql` | `backups.clients_user_id_2026_10_18` + UPDATE |
+| 15 | **`2026-10-18_client_merge.sql`** | **Before phase 2f app deploy** — merge metadata + `client_merge_audits` |
+| 16 | Deploy backend + frontend (phase 2f) | Admin merge API + TechDeck wizard |
+
+### Rollback (portal 2f client merge schema)
+
+1. Redeploy the **previous** application build.
+2. Run `2026-10-18_client_merge_undo.sql` (schema only; does not reverse merges).
 
 ### Rollback (portal 2e user_id backfill)
 
