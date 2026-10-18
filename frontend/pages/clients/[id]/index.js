@@ -25,6 +25,7 @@ const PROPERTY_TYPES = [
 ];
 
 const emptyPropertyForm = {
+  nickname: '',
   address: '',
   unit_number: '',
   property_type: 'residential',
@@ -48,6 +49,10 @@ function PropertyForm({ propertyForm, setPropertyForm, propertyError, savingProp
       </div>
       {propertyError && <p className="text-sm text-red-600 dark:text-red-400 mb-3">{propertyError}</p>}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="md:col-span-2">
+          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Nickname (optional)</label>
+          <input type="text" value={propertyForm.nickname} onChange={e => setPropertyForm(p => ({ ...p, nickname: e.target.value.slice(0, 60) }))} placeholder="Home, Mom's house, Rental on Main St" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm mb-2" />
+        </div>
         <div className="md:col-span-2">
           <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Address *</label>
           <input type="text" value={propertyForm.address} onChange={e => setPropertyForm(p => ({ ...p, address: e.target.value }))} placeholder="123 Main St, Toledo, OH 43604" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
@@ -178,6 +183,7 @@ function ClientDetail() {
   const handleEditProperty = (property) => {
     setEditingProperty(property);
     setPropertyForm({
+      nickname: property.nickname || '',
       address: property.address || '',
       unit_number: property.unit_number || '',
       property_type: property.property_type || 'residential',
@@ -395,7 +401,18 @@ function ClientDetail() {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
                             <h4 className="font-semibold text-gray-900 dark:text-white">
-                              {property.address}{property.unit_number ? ` — Unit ${property.unit_number}` : ''}
+                              {property.nickname ? (
+                                <>
+                                  <span>{property.nickname}</span>
+                                  <span className="block text-xs text-gray-500 dark:text-gray-400 font-normal mt-0.5">
+                                    {property.address}{property.unit_number ? ` — Unit ${property.unit_number}` : ''}
+                                  </span>
+                                </>
+                              ) : (
+                                <>
+                                  {property.address}{property.unit_number ? ` — Unit ${property.unit_number}` : ''}
+                                </>
+                              )}
                             </h4>
                             <span className="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 capitalize">
                               {property.property_type || 'residential'}

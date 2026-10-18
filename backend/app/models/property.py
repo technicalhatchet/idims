@@ -12,6 +12,7 @@ class Property(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     client_id = Column(UUID(as_uuid=True), ForeignKey('clients.id', ondelete='CASCADE'), nullable=False)
     address = Column(Text, nullable=False)
+    nickname = Column(String(60), nullable=True)
     unit_number = Column(String(50), nullable=True)
     property_type = Column(String(50), nullable=True)  # residential, commercial, rental, flip
     notes = Column(Text, nullable=True)

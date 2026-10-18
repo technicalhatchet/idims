@@ -35,6 +35,7 @@ const PROPERTY_TYPES = [
 ];
 
 const emptyPropertyForm = {
+  nickname: '',
   address: '',
   unit_number: '',
   property_type: 'residential',
@@ -67,6 +68,21 @@ function PropertyForm({ propertyForm, setPropertyForm, propertyError, savingProp
       </div>
       {propertyError && <p className="text-sm text-red-400 mb-3 bg-red-500/10 border border-red-500/30 rounded px-3 py-2">{propertyError}</p>}
       <div className="grid grid-cols-1 gap-3">
+        <div>
+          <label className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">Nickname (optional)</label>
+          <input
+            type="text"
+            value={propertyForm.nickname}
+            onChange={e => setPropertyForm(p => ({ ...p, nickname: e.target.value.slice(0, 60) }))}
+            placeholder="Home, Mom's house"
+            autoComplete="off"
+            className="w-full px-3 py-2.5 rounded-md text-white text-sm"
+            style={{
+              background: 'rgba(0, 0, 0, 0.3)',
+              border: '1px solid rgba(34, 211, 238, 0.2)',
+            }}
+          />
+        </div>
         <div>
           <label className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">Address *</label>
           <input 
@@ -374,6 +390,7 @@ function ClientDetail() {
   const handleEditProperty = (property) => {
     setEditingProperty(property);
     setPropertyForm({
+      nickname: property.nickname || '',
       address: property.address || '',
       unit_number: property.unit_number || '',
       property_type: property.property_type || 'residential',
@@ -845,9 +862,15 @@ function ClientDetail() {
                             <FaMapMarkerAlt className="text-cyan-400 flex-shrink-0 mt-1" size={14} />
                             <div className="flex-1 min-w-0">
                               <p className="text-white font-medium text-sm">
-                                {property.address}
-                                {property.unit_number && ` — Unit ${property.unit_number}`}
+                                {property.nickname || property.address}
+                                {property.unit_number && !property.nickname && ` — Unit ${property.unit_number}`}
                               </p>
+                              {property.nickname ? (
+                                <p className="text-xs text-gray-500 mt-0.5">
+                                  {property.address}
+                                  {property.unit_number && ` — Unit ${property.unit_number}`}
+                                </p>
+                              ) : null}
                               <span 
                                 className="inline-block px-2 py-0.5 mt-1 text-xs rounded capitalize"
                                 style={{

@@ -13,6 +13,9 @@ import {
 } from '../../../../constants/applianceSymptoms';
 import { getPortalSessionToken, portalFetch } from '../../../../utils/portalFetch';
 import PortalSquarePayment from '../../../../components/cxdashboard/PortalSquarePayment';
+import PropertyFormModal from '../../../../components/cxdashboard/PropertyFormModal';
+import { propertyPrimaryTitle } from '../../../../utils/propertyDisplay';
+import { isPortalPreviewActive, isPortalPreviewUnlocked } from '../../../../utils/portalPreview';
 
 const STEPS = ['Issue', 'Date & Time', 'Review', 'Confirmed'];
 const SUPPORT_PHONE = '(419) 740-0146';
@@ -151,6 +154,11 @@ export default function ScheduleAppliancePage() {
   const [confirmError, setConfirmError] = useState(null);
   const [confirmation, setConfirmation] = useState(null);
   const [paymentFormReady, setPaymentFormReady] = useState(false);
+  const [properties, setProperties] = useState([]);
+  const [selectedPropertyId, setSelectedPropertyId] = useState('');
+  const [assigningProperty, setAssigningProperty] = useState(false);
+  const [assignError, setAssignError] = useState(null);
+  const [showAddProperty, setShowAddProperty] = useState(false);
   const squarePaymentRef = useRef(null);
   const handleSquareError = useCallback((msg) => setConfirmError(msg), []);
   const handleSquareReady = useCallback((isReady) => setPaymentFormReady(Boolean(isReady)), []);
@@ -172,12 +180,15 @@ export default function ScheduleAppliancePage() {
     try {
       const token = await getPortalSessionToken();
       const applianceData = await portalFetch(`appliances/${encodeURIComponent(serial)}?include_history=false`, token);
-      const [me, status, schedCfg] = await Promise.all([
+      const [me, status, schedCfg, propertyList] = await Promise.all([
         portalFetch('me', token),
         portalFetch(`schedule/status/${encodeURIComponent(applianceData.id)}`, token),
         portalFetch('scheduling-config', token),
+        portalFetch('properties', token).catch(() => []),
       ]);
       setAppliance(applianceData);
+      setProperties(Array.isArray(propertyList) ? propertyList : []);
+      setSelectedPropertyId(applianceData.property_id || '');
       setProfile(me);
       setSchedulingStatus(status);
       setSchedulingConfig(schedCfg);
@@ -380,7 +391,54 @@ export default function ScheduleAppliancePage() {
   const displayName = appliance ? applianceDisplayName(appliance) : 'Schedule Service';
   const blocked = profile && !profile.self_scheduling_allowed;
   const hasOpenWo = schedulingStatus && !schedulingStatus.can_schedule;
-  const notReady = appliance && !appliance.scheduling_ready;
+  const missingServiceAddress = appliance?.scheduling_missing?.includes('service_address');
+  const notReady = appliance && !missingServiceAddress && !appliance.scheduling_ready;
+  const previewLocked = isPortalPreviewActive() && !isPortalPreviewUnlocked();
+
+  async function handleAssignProperty(propertyId) {
+    if (!appliance?.id || !propertyId) return;
+    setAssigningProperty(true);
+    setAssignError(null);
+    try {
+      const token = await getPortalSessionToken();
+      const updated = await portalFetch(`appliances/${appliance.id}`, token, {
+        method: 'PUT',
+        body: JSON.stringify({
+          property_id: propertyId,
+          equipment_type: appliance.equipment_type,
+          equipment_subtype: appliance.equipment_subtype,
+          make: appliance.make,
+        }),
+      });
+      setAppliance(updated);
+      setSelectedPropertyId(propertyId);
+      const status = await portalFetch(`schedule/status/${encodeURIComponent(updated.id)}`, token);
+      setSchedulingStatus(status);
+    } catch (err) {
+      setAssignError(err.message);
+    } finally {
+      setAssigningProperty(false);
+    }
+  }
+
+  async function handleCreateProperty(payload) {
+    setAssigningProperty(true);
+    setAssignError(null);
+    try {
+      const token = await getPortalSessionToken();
+      const created = await portalFetch('properties', token, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+      setProperties((prev) => [...prev, created]);
+      setShowAddProperty(false);
+      await handleAssignProperty(created.id);
+    } catch (err) {
+      setAssignError(err.message);
+    } finally {
+      setAssigningProperty(false);
+    }
+  }
 
   return (
     <>
@@ -427,11 +485,100 @@ export default function ScheduleAppliancePage() {
                   {SUPPORT_PHONE}
                 </a>
               </div>
+            ) : missingServiceAddress ? (
+              <div style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', padding: '1.5rem' }}>
+                <p style={{ color: '#fff', fontWeight: '600', marginBottom: '0.5rem' }}>Choose a service address</p>
+                <p style={{ color: '#9ca3af', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                  Pick where this appliance is located, or add a new property, before booking online.
+                </p>
+                {properties.length === 0 ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowAddProperty(true)}
+                    disabled={previewLocked}
+                    style={{
+                      width: '100%',
+                      background: '#00D4FF',
+                      color: '#0A0F1E',
+                      border: 'none',
+                      borderRadius: '8px',
+                      padding: '0.75rem',
+                      fontWeight: '700',
+                      cursor: previewLocked ? 'not-allowed' : 'pointer',
+                      opacity: previewLocked ? 0.5 : 1,
+                    }}
+                  >
+                    Add property
+                  </button>
+                ) : (
+                  <>
+                    <select
+                      value={selectedPropertyId}
+                      onChange={(e) => setSelectedPropertyId(e.target.value)}
+                      style={{
+                        width: '100%',
+                        background: '#0a0f1a',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: '8px',
+                        padding: '0.75rem',
+                        color: '#fff',
+                        fontSize: '0.875rem',
+                        marginBottom: '0.75rem',
+                      }}
+                    >
+                      <option value="">Select property</option>
+                      {properties.map((p) => (
+                        <option key={p.id} value={p.id}>{propertyPrimaryTitle(p)}</option>
+                      ))}
+                    </select>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                      <button
+                        type="button"
+                        onClick={() => handleAssignProperty(selectedPropertyId)}
+                        disabled={!selectedPropertyId || assigningProperty || previewLocked}
+                        style={{
+                          flex: 1,
+                          minWidth: '140px',
+                          background: '#22d3ee',
+                          color: '#0a0f1a',
+                          border: 'none',
+                          borderRadius: '8px',
+                          padding: '0.625rem 1rem',
+                          fontWeight: '700',
+                          opacity: !selectedPropertyId || assigningProperty || previewLocked ? 0.5 : 1,
+                        }}
+                      >
+                        {assigningProperty ? 'Saving…' : 'Continue'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowAddProperty(true)}
+                        disabled={previewLocked}
+                        style={{
+                          flex: 1,
+                          minWidth: '140px',
+                          background: 'transparent',
+                          color: '#22d3ee',
+                          border: '1px solid rgba(34,211,238,0.35)',
+                          borderRadius: '8px',
+                          padding: '0.625rem 1rem',
+                          fontWeight: '600',
+                        }}
+                      >
+                        Add new
+                      </button>
+                    </div>
+                  </>
+                )}
+                {assignError ? (
+                  <p style={{ color: '#ef4444', fontSize: '0.8125rem', marginTop: '0.75rem' }}>{assignError}</p>
+                ) : null}
+              </div>
             ) : notReady ? (
               <div style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', padding: '1.5rem' }}>
                 <p style={{ color: '#fff', fontWeight: '600', marginBottom: '0.5rem' }}>Appliance not ready to schedule</p>
                 <p style={{ color: '#9ca3af', fontSize: '0.9rem' }}>
-                  We need the appliance type, subtype, make, and a service address on file before you can book online.
+                  We need the appliance type, subtype, and make on file before you can book online.
                 </p>
               </div>
             ) : hasOpenWo ? (
@@ -800,6 +947,16 @@ export default function ScheduleAppliancePage() {
           </>
         )}
       </div>
+
+      {showAddProperty ? (
+        <PropertyFormModal
+          title="Add property"
+          submitting={assigningProperty}
+          readOnly={previewLocked}
+          onClose={() => setShowAddProperty(false)}
+          onSave={handleCreateProperty}
+        />
+      ) : null}
     </>
   );
 }

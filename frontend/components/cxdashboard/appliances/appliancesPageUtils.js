@@ -1,5 +1,10 @@
 import { differenceInMonths, parseISO } from 'date-fns';
 import { applianceDisplayName, subtypeLabel } from '../../../constants/applianceEquipment';
+import {
+  propertyPrimaryTitle,
+  propertySecondaryLine,
+  propertySortKey,
+} from '../../../utils/propertyDisplay';
 
 export const STATUS_FILTERS = [
   { value: 'all', label: 'All Status' },
@@ -26,11 +31,30 @@ export function propertyKey(appliance) {
 
 export function propertyLabel(appliance) {
   const prop = appliance?.property;
-  if (prop?.address) {
-    return prop.unit_number ? `${prop.address} Unit ${prop.unit_number}` : prop.address;
+  if (prop?.address || prop?.nickname) {
+    return propertyPrimaryTitle(prop);
   }
   if (appliance?.service_address) return appliance.service_address;
   return 'No property assigned';
+}
+
+export function propertyGroupMeta(appliance) {
+  const prop = appliance?.property;
+  if (prop?.address || prop?.nickname) {
+    return {
+      label: propertyPrimaryTitle(prop),
+      subtitle: propertySecondaryLine(prop),
+      sortKey: propertySortKey(prop),
+    };
+  }
+  if (appliance?.service_address) {
+    return {
+      label: appliance.service_address,
+      subtitle: null,
+      sortKey: appliance.service_address.toLowerCase(),
+    };
+  }
+  return { label: 'No property assigned', subtitle: null, sortKey: 'zzz' };
 }
 
 export function applianceTypeLabel(appliance) {
@@ -124,9 +148,11 @@ export function groupAppliancesByProperty(appliances) {
   appliances.forEach((appliance) => {
     const key = propertyKey(appliance);
     if (!map.has(key)) {
+      const meta = propertyGroupMeta(appliance);
       map.set(key, {
         key,
-        label: propertyLabel(appliance),
+        label: meta.label,
+        subtitle: meta.subtitle,
         appliances: [],
       });
     }

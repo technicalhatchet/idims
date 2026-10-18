@@ -563,6 +563,7 @@ async def get_work_order(
             response_dict["client_properties"] = [
                 {
                     "id": str(p.id),
+                    "nickname": p.nickname,
                     "address": p.address,
                     "unit_number": p.unit_number,
                     "property_type": p.property_type,
@@ -580,6 +581,7 @@ async def get_work_order(
                 if matched:
                     response_dict["property"] = {
                         "id": str(matched.id),
+                        "nickname": matched.nickname,
                         "address": matched.address,
                         "unit_number": matched.unit_number,
                         "property_type": matched.property_type,

@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FaHome, FaCalendarAlt, FaTools, FaFileInvoiceDollar, FaShieldAlt,
-  FaEnvelope, FaCog, FaHeadset, FaTimes, FaBoxOpen, FaFolder, FaUser, FaSignOutAlt,
+  FaEnvelope, FaCog, FaHeadset, FaTimes, FaBoxOpen, FaFolder, FaUser, FaSignOutAlt, FaMapMarkerAlt,
 } from 'react-icons/fa';
 import { portalSignOut } from './portalAuth';
 import PortalUserAvatar from './PortalUserAvatar';
@@ -21,6 +21,7 @@ const NAV_ITEMS = [
   { id: 'warranty', label: 'Warranty', icon: FaShieldAlt, href: '/cxdashboard/warranty' },
   { id: 'messages', label: 'Messages', icon: FaEnvelope, href: '/cxdashboard/messages' },
   { id: 'appliances', label: 'My Appliances', icon: FaBoxOpen, href: '/cxdashboard/appliances' },
+  { id: 'properties', label: 'My Properties', icon: FaMapMarkerAlt, href: '/cxdashboard/properties' },
   { id: 'settings', label: 'Account Settings', icon: FaCog, href: '/cxdashboard/settings' },
 ];
 

@@ -182,6 +182,23 @@ def test_locked_preview_write_returns_403(_secret):
 
 
 @patch("app.services.portal_preview_guard.get_portal_invite_secret", return_value="test-secret")
+def test_locked_preview_property_create_returns_403(_secret):
+    client_id = uuid4()
+    request = _request_with_unlock(None)
+    with pytest.raises(HTTPException) as exc:
+        assert_portal_write_allowed(
+            request=request,
+            token_roles=["admin"],
+            admin_sub="auth0|admin",
+            admin_client_id=str(client_id),
+            client_id=client_id,
+            route="POST /portal/properties",
+        )
+    assert exc.value.status_code == 403
+    assert exc.value.detail == PREVIEW_LOCKED_DETAIL
+
+
+@patch("app.services.portal_preview_guard.get_portal_invite_secret", return_value="test-secret")
 def test_unlocked_preview_write_allowed(_secret):
     client_id = uuid4()
     admin_sub = "auth0|admin"

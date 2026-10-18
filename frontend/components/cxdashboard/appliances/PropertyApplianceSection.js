@@ -54,6 +54,9 @@ export default function PropertyApplianceSection({
 
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-white truncate">{group.label}</p>
+          {group.subtitle ? (
+            <p className="text-xs text-gray-500 truncate mt-0.5">{group.subtitle}</p>
+          ) : null}
           <div className="flex flex-wrap items-center gap-2 mt-1">
             <span className="text-[11px] text-gray-400">{stats.count} Appliance{stats.count === 1 ? '' : 's'}</span>
             {stats.activeRequests > 0 ? (

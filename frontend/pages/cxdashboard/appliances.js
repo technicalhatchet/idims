@@ -4,6 +4,8 @@ import { FaBoxOpen, FaPlus } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import ApplianceImportModal from '../../components/cxdashboard/ApplianceImportModal';
 import ApplianceFormModal from '../../components/cxdashboard/ApplianceFormModal';
+import PropertyFormModal from '../../components/cxdashboard/PropertyFormModal';
+import { isPortalPreviewActive, isPortalPreviewUnlocked } from '../../utils/portalPreview';
 import AppliancesSummaryCards from '../../components/cxdashboard/appliances/AppliancesSummaryCards';
 import AppliancesToolbar from '../../components/cxdashboard/appliances/AppliancesToolbar';
 import PropertyApplianceSection from '../../components/cxdashboard/appliances/PropertyApplianceSection';
@@ -55,7 +57,11 @@ export default function AppliancesPage() {
   const [suggestionsBannerDismissed, setSuggestionsBannerDismissed] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
   const [editingAppliance, setEditingAppliance] = useState(null);
+  const [showPropertyForm, setShowPropertyForm] = useState(false);
+  const [resumeApplianceAfterProperty, setResumeApplianceAfterProperty] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+
+  const previewLocked = isPortalPreviewActive() && !isPortalPreviewUnlocked();
 
   const [search, setSearch] = useState('');
   const [propertyFilter, setPropertyFilter] = useState('all');
@@ -264,6 +270,38 @@ export default function AppliancesPage() {
     }
   };
 
+  const openAddPropertyFromAppliance = () => {
+    setResumeApplianceAfterProperty(editingAppliance || 'add');
+    setShowAdd(false);
+    setEditingAppliance(null);
+    setShowPropertyForm(true);
+  };
+
+  const handleSaveProperty = async (payload) => {
+    setSubmitting(true);
+    setError(null);
+    try {
+      const token = await getPortalSessionToken();
+      await portalFetch('properties', token, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      });
+      setShowPropertyForm(false);
+      await loadData();
+      const resume = resumeApplianceAfterProperty;
+      setResumeApplianceAfterProperty(null);
+      if (resume && resume !== 'add') {
+        setEditingAppliance(resume);
+      } else {
+        setShowAdd(true);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const handleRemoveAppliance = async (appliance) => {
     const name = appliance.nickname || [appliance.make, appliance.model].filter(Boolean).join(' ') || 'this appliance';
     if (!window.confirm(`Remove ${name} from your account?`)) return;
@@ -433,6 +471,7 @@ export default function AppliancesPage() {
           submitting={submitting}
           onClose={() => setShowAdd(false)}
           onSave={handleAddAppliance}
+          onRequestAddProperty={openAddPropertyFromAppliance}
         />
       ) : null}
 
@@ -444,6 +483,26 @@ export default function AppliancesPage() {
           submitting={submitting}
           onClose={() => setEditingAppliance(null)}
           onSave={handleUpdateAppliance}
+          onRequestAddProperty={openAddPropertyFromAppliance}
+        />
+      ) : null}
+
+      {showPropertyForm ? (
+        <PropertyFormModal
+          title="Add property"
+          submitting={submitting}
+          readOnly={previewLocked}
+          onClose={() => {
+            setShowPropertyForm(false);
+            const resume = resumeApplianceAfterProperty;
+            setResumeApplianceAfterProperty(null);
+            if (resume && resume !== 'add') {
+              setEditingAppliance(resume);
+            } else if (resume) {
+              setShowAdd(true);
+            }
+          }}
+          onSave={handleSaveProperty}
         />
       ) : null}
     </>

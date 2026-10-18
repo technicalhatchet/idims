@@ -622,6 +622,7 @@ def serialize_appliance(
         "is_active": appliance.is_active,
         "property": {
             "id": str(prop.id),
+            "nickname": prop.nickname,
             "address": prop.address,
             "unit_number": prop.unit_number,
         } if prop else (

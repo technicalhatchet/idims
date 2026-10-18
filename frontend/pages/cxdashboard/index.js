@@ -6,9 +6,12 @@ import {
   FaCalendarAlt,
   FaEye,
   FaFileInvoiceDollar,
+  FaMapMarkerAlt,
   FaShieldAlt,
   FaTools,
 } from 'react-icons/fa';
+import PropertyFormModal from '../../components/cxdashboard/PropertyFormModal';
+import { isPortalPreviewActive, isPortalPreviewUnlocked } from '../../utils/portalPreview';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import StatCard from '../../components/cxdashboard/StatCard';
 import PortalMobileStatGrid from '../../components/cxdashboard/PortalMobileStatGrid';
@@ -174,6 +177,9 @@ export default function ClientDashboard() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
+  const [properties, setProperties] = useState([]);
+  const [showAddProperty, setShowAddProperty] = useState(false);
+  const [savingProperty, setSavingProperty] = useState(false);
   const [appointments, setAppointments] = useState([]);
   const [workOrders, setWorkOrders] = useState([]);
   const [invoices, setInvoices] = useState([]);
@@ -348,13 +354,15 @@ export default function ClientDashboard() {
     setLoading(true);
     setError(null);
     try {
-      const [prof, appts, wos, invs] = await Promise.all([
+      const [prof, appts, wos, invs, props] = await Promise.all([
         portalFetch('me', token, clientId),
         portalFetch('appointments?upcoming_only=true', token, clientId),
         portalFetch('work-orders', token, clientId),
         portalFetch('invoices', token, clientId),
+        portalFetch('properties', token, clientId).catch(() => []),
       ]);
       setProfile(prof);
+      setProperties(Array.isArray(props) ? props : []);
       if (prof?.first_name) {
         sessionStorage.setItem('portal_client_name', `${prof.first_name} ${prof.last_name}`);
       }
@@ -517,10 +525,53 @@ export default function ClientDashboard() {
     );
   }
 
+  const previewLocked = isPortalPreviewActive() && !isPortalPreviewUnlocked();
+
+  const handleDashboardAddProperty = async (payload) => {
+    setSavingProperty(true);
+    try {
+      await portalFetch('properties', accessToken, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }, selectedClient?.id);
+      setShowAddProperty(false);
+      const props = await portalFetch('properties', accessToken, selectedClient?.id);
+      setProperties(Array.isArray(props) ? props : []);
+    } catch (err) {
+      window.alert(err.message || 'Could not save property');
+    } finally {
+      setSavingProperty(false);
+    }
+  };
+
   return (
     <>
       <div className="space-y-4 md:space-y-8">
         <PartsUpdateCallout workOrders={workOrders} />
+
+        {!loading && properties.length === 0 ? (
+          <div className="rounded-2xl border border-cyan-500/25 bg-cyan-500/10 p-4 md:p-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+            <div className="flex gap-3 min-w-0">
+              <div className="w-11 h-11 rounded-xl bg-cyan-500/15 text-cyan-400 flex items-center justify-center shrink-0">
+                <FaMapMarkerAlt />
+              </div>
+              <div>
+                <p className="text-white font-semibold m-0">Add your home address to get started</p>
+                <p className="text-gray-400 text-sm mt-1 m-0">
+                  Save a service address before adding appliances or booking online.
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowAddProperty(true)}
+              disabled={previewLocked}
+              className="shrink-0 rounded-lg bg-[#00D4FF] text-[#0A0F1E] px-4 py-2.5 text-sm font-bold disabled:opacity-50"
+            >
+              Add property
+            </button>
+          </div>
+        ) : null}
 
         {/* Mobile: compact 2×2 stats */}
         <div className="md:hidden">
@@ -561,6 +612,16 @@ export default function ClientDashboard() {
 
         <SupportCTA />
       </div>
+
+      {showAddProperty ? (
+        <PropertyFormModal
+          title="Add property"
+          submitting={savingProperty}
+          readOnly={previewLocked}
+          onClose={() => setShowAddProperty(false)}
+          onSave={handleDashboardAddProperty}
+        />
+      ) : null}
     </>
   );
 }

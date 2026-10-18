@@ -1411,9 +1411,15 @@ function WorkOrderDetail() {
                           <div className="flex items-start justify-between mb-2">
                             <div className="flex-1 min-w-0">
                               <p className={`font-medium ${WO_MOBILE_FIELD_VALUE}`}>
-                                {property.address}
-                                {property.unit_number && ` - Unit ${property.unit_number}`}
+                                {property.nickname || property.address}
+                                {property.unit_number && !property.nickname && ` - Unit ${property.unit_number}`}
                               </p>
+                              {property.nickname ? (
+                                <p className="text-xs text-gray-500 mt-0.5">
+                                  {property.address}
+                                  {property.unit_number && ` - Unit ${property.unit_number}`}
+                                </p>
+                              ) : null}
                               {property.property_type && (
                                 <p className="text-sm text-gray-500 capitalize mt-1">
                                   {property.property_type}
