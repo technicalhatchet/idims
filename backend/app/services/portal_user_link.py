@@ -16,19 +16,14 @@ from app.services.portal_user_auth import STAFF_ROLES, is_placeholder_client_aut
 logger = logging.getLogger(__name__)
 
 def _customer_user_id_moves():
-    """Lazy imports — some models are not import-safe at module load."""
-    from app.models.chat import ChatMessage, ChatSession
+    """Tables that exist in prod and are customer-owned by users.id."""
     from app.models.document import Document
     from app.models.push_subscription import PushSubscription
-    from app.models.sync import OfflineSyncQueue
 
     return (
         (Notification, "user_id"),
         (PushSubscription, "user_id"),
-        (OfflineSyncQueue, "user_id"),
         (Document, "user_id"),
-        (ChatSession, "user_id"),
-        (ChatMessage, "sender_id"),
     )
 
 # FKs to users.id we intentionally do NOT move (staff/technician attribution, WO audit, etc.):

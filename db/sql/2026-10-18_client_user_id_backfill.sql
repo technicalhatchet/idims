@@ -38,29 +38,11 @@ FROM push_subscriptions ps
 INNER JOIN backups.clients_user_id_placeholder_repoint_2026_10_18 b
   ON ps.user_id = b.old_user_id;
 
-CREATE TABLE backups.offline_sync_queue_user_id_placeholder_repoint_2026_10_18 AS
-SELECT osq.id AS row_id, osq.user_id AS old_user_id, b.client_id
-FROM offline_sync_queue osq
-INNER JOIN backups.clients_user_id_placeholder_repoint_2026_10_18 b
-  ON osq.user_id = b.old_user_id;
-
 CREATE TABLE backups.documents_user_id_placeholder_repoint_2026_10_18 AS
 SELECT d.id AS row_id, d.user_id AS old_user_id, b.client_id
 FROM documents d
 INNER JOIN backups.clients_user_id_placeholder_repoint_2026_10_18 b
   ON d.user_id = b.old_user_id;
-
-CREATE TABLE backups.chat_sessions_user_id_placeholder_repoint_2026_10_18 AS
-SELECT cs.id AS row_id, cs.user_id AS old_user_id, b.client_id
-FROM chat_sessions cs
-INNER JOIN backups.clients_user_id_placeholder_repoint_2026_10_18 b
-  ON cs.user_id = b.old_user_id;
-
-CREATE TABLE backups.chat_messages_sender_id_placeholder_repoint_2026_10_18 AS
-SELECT cm.id AS row_id, cm.sender_id AS old_user_id, b.client_id
-FROM chat_messages cm
-INNER JOIN backups.clients_user_id_placeholder_repoint_2026_10_18 b
-  ON cm.sender_id = b.old_user_id;
 
 UPDATE notifications n
 SET user_id = b.new_user_id
@@ -72,25 +54,10 @@ SET user_id = b.new_user_id
 FROM backups.clients_user_id_placeholder_repoint_2026_10_18 b
 WHERE ps.user_id = b.old_user_id;
 
-UPDATE offline_sync_queue osq
-SET user_id = b.new_user_id
-FROM backups.clients_user_id_placeholder_repoint_2026_10_18 b
-WHERE osq.user_id = b.old_user_id;
-
 UPDATE documents d
 SET user_id = b.new_user_id
 FROM backups.clients_user_id_placeholder_repoint_2026_10_18 b
 WHERE d.user_id = b.old_user_id;
-
-UPDATE chat_sessions cs
-SET user_id = b.new_user_id
-FROM backups.clients_user_id_placeholder_repoint_2026_10_18 b
-WHERE cs.user_id = b.old_user_id;
-
-UPDATE chat_messages cm
-SET sender_id = b.new_user_id
-FROM backups.clients_user_id_placeholder_repoint_2026_10_18 b
-WHERE cm.sender_id = b.old_user_id;
 
 UPDATE clients c
 SET user_id = b.new_user_id
