@@ -28,6 +28,12 @@ from app.services.portal_claim_service import (
     send_portal_invite_email,
 )
 from app.models.user import User
+from app.schemas.client_merge import ClientMergeRequest, ClientMergeExecuteResponse
+from app.services.client_merge_service import (
+    ClientMergeError,
+    build_merge_preview,
+    execute_client_merge,
+)
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -197,6 +203,54 @@ async def list_clients(
     except Exception as e:
         logger.exception("list_clients failed")
         raise HTTPException(status_code=500, detail=f"Failed to load clients: {e}")
+
+
+@router.get("/merge/preview")
+async def preview_client_merge(
+    keep_id: uuid.UUID = Query(..., description="Survivor client id"),
+    merge_id: uuid.UUID = Query(..., description="Duplicate client id to absorb"),
+    current_user: User = Depends(get_admin_dependency),
+    db: Session = Depends(get_db),
+):
+    """Side-by-side merge preview with row counts, warnings, and blockers. Admin only."""
+    try:
+        return build_merge_preview(db, keep_client_id=keep_id, merge_client_id=merge_id)
+    except ClientMergeError as e:
+        raise HTTPException(status_code=e.status_code, detail={"code": e.code, "message": e.message})
+
+
+@router.post("/merge", response_model=ClientMergeExecuteResponse)
+async def merge_clients(
+    body: ClientMergeRequest,
+    current_user: User = Depends(get_admin_dependency),
+    db: Session = Depends(get_db),
+):
+    """Merge duplicate clients into one survivor. Admin only."""
+    admin_name = f"{current_user.first_name} {current_user.last_name}".strip() or current_user.email
+    try:
+        keep, audit, warnings = execute_client_merge(
+            db,
+            keep_client_id=body.keep_client_id,
+            merge_client_id=body.merge_client_id,
+            field_choices=body.field_choices.model_dump(),
+            merged_by_user_id=current_user.id,
+            admin_display_name=admin_name,
+        )
+        db.commit()
+        return ClientMergeExecuteResponse(
+            keep_client_id=keep.id,
+            merge_client_id=body.merge_client_id,
+            audit_id=audit.id,
+            warnings=warnings,
+        )
+    except ClientMergeError as e:
+        db.rollback()
+        raise HTTPException(status_code=e.status_code, detail={"code": e.code, "message": e.message})
+    except Exception:
+        db.rollback()
+        logger.exception("merge_clients failed")
+        raise HTTPException(status_code=500, detail="Client merge failed")
+
 
 @router.post("", response_model=ClientResponse, status_code=status.HTTP_201_CREATED, include_in_schema=False)
 @router.post("/", response_model=ClientResponse, status_code=status.HTTP_201_CREATED)

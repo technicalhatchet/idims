@@ -305,4 +305,16 @@ export function useClientMutations() {
       deleteClientMutation.error ||
       sendRegistrationEmailMutation.error,
   };
-} 
+}
+
+export async function previewClientMerge(keepId, mergeId) {
+  const params = new URLSearchParams({ keep_id: keepId, merge_id: mergeId });
+  return apiClient(`/clients/merge/preview?${params.toString()}`);
+}
+
+export async function executeClientMerge(payload) {
+  return apiClient('/clients/merge', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+}

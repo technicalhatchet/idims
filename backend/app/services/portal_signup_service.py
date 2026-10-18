@@ -73,7 +73,13 @@ def create_self_signup_client(
         )
 
     existing_auth0 = (
-        db.query(Client).filter(Client.auth0_user_id == auth0_user_id).with_for_update().first()
+        db.query(Client)
+        .filter(
+            Client.auth0_user_id == auth0_user_id,
+            Client.merged_into_client_id.is_(None),
+        )
+        .with_for_update()
+        .first()
     )
     if existing_auth0:
         return existing_auth0
@@ -115,7 +121,10 @@ def create_self_signup_client(
         db.rollback()
         existing = (
             db.query(Client)
-            .filter(Client.auth0_user_id == auth0_user_id)
+            .filter(
+                Client.auth0_user_id == auth0_user_id,
+                Client.merged_into_client_id.is_(None),
+            )
             .first()
         )
         if existing:

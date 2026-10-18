@@ -35,7 +35,11 @@ class ClientService:
     ) -> Dict[str, Any]:
         """Get clients with filtering and pagination"""
         # Use joinedload to eagerly load the user relationship
-        query = db.query(Client).options(joinedload(Client.user))
+        query = (
+            db.query(Client)
+            .options(joinedload(Client.user))
+            .filter(Client.merged_into_client_id.is_(None))
+        )
         
         # Apply filters
         if search:

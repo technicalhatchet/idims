@@ -1,7 +1,7 @@
 # Portal accounts — Step 2 plan
 
 **Date:** 2026-10-17  
-**Status:** In progress — phases **2.0**–**2d** shipped; **2e (3a)** implemented in code; **2f** pending  
+**Status:** In progress — phases **2.0**–**2e** shipped; **2f (admin client merge)** implemented in code (pending SQL + deploy)  
 **Base audit:** [`docs/audit-portal-accounts.md`](./audit-portal-accounts.md) (2026-03-16)  
 **Rules:** No Alembic; DB changes via `db/sql/*.sql` + matching `*_undo.sql` (run in Supabase). Do **not** change diagnostic discount or repair credit logic (`portal_scheduling_helpers.apply_tier_pricing`, public booking tier math, or related credit paths).
 
@@ -371,6 +371,56 @@ cd backend && python -m pytest tests/test_portal_client_user_link.py tests/test_
 ### Deferred (3b)
 
 - `client_logins` table + multi-identity — **step 3 phone login**, not 2e.
+
+---
+
+## Phase 2f — Admin client merge (Goal 5, shipped in code)
+
+### Schema (`db/sql/2026-10-18_client_merge.sql` + `_undo`)
+
+- `clients.merged_into_client_id`, `clients.merged_at`
+- `client_merge_audits` — `keep_client_id`, `merge_client_id`, `merged_by`, `field_choices`, `moved` (table → row id list), `warnings`
+
+### Repoint `client_id` (prod FK inventory)
+
+`properties`, `client_appliances`, `work_orders` (**`client_id` only** — no WO pricing/discount/tax fields), `quotes`, `invoices`, `payment_methods`, `documents`.
+
+Optional: `media` where `media_type = client` and `reference_id` = merge id (skipped if `media` table absent).
+
+**Not repointed:** `audit_logs` (mapping lives in `client_merge_audits` only). `client_portal_claims` — **revoke** open claims on merge client (FK stays on inactive row).
+
+### Portal / list behavior
+
+- Merged clients excluded from `ClientService` list/search, email link lookup, Auth0 client resolution, claim register.
+- Both real `auth0_user_id` → blocker (preview + 409).
+- Login move rules match 2e when only one side has Auth0 / placeholder `user_id`.
+
+### API (admin only)
+
+- `GET /api/clients/merge/preview?keep_id=&merge_id=`
+- `POST /api/clients/merge` — `{ keep_client_id, merge_client_id, field_choices }`
+
+### UI
+
+- TechDeck `clients/[id]/mobile` → **Merge duplicate…** (admin) → `clients/[id]/merge` wizard; post-merge warnings on survivor profile.
+
+### Deploy order (2f)
+
+| Step | Action |
+|------|--------|
+| 1 | Run `2026-10-18_client_merge.sql` in Supabase |
+| 2 | Deploy backend + frontend |
+| 3 | Smoke: preview + merge test pair; merged row inactive; survivor has WO/properties |
+
+### Tests
+
+```bash
+cd backend && python -m pytest tests/test_client_merge.py -q
+```
+
+### Rollback
+
+- Redeploy previous build; run `2026-10-18_client_merge_undo.sql` (schema only — does not undo data merges).
 
 ---
 

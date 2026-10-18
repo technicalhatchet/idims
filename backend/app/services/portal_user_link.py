@@ -1,7 +1,7 @@
 """Portal link-account: sync clients.user_id to users row for Auth0 sub (phase 2e)."""
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 from uuid import UUID
 
 from sqlalchemy.orm import Session
@@ -55,6 +55,28 @@ def ensure_db_user_for_portal_link(db: Session, token_data: Any) -> DBUser:
     return auth_handler.ensure_db_user_from_token(db, token_data)
 
 
+def repoint_user_customer_data_collect_ids(
+    db: Session,
+    *,
+    from_user_id: UUID,
+    to_user_id: UUID,
+) -> Dict[str, List[str]]:
+    """Move customer-owned rows between users; return table -> moved row ids."""
+    moved: Dict[str, List[str]] = {}
+    for model, column_name in _customer_user_id_moves():
+        column = getattr(model, column_name)
+        rows = db.query(model.id).filter(column == from_user_id).all()
+        ids = [row[0] for row in rows]
+        if not ids:
+            continue
+        db.query(model).filter(model.id.in_(ids)).update(
+            {column_name: to_user_id},
+            synchronize_session=False,
+        )
+        moved[model.__tablename__] = [str(i) for i in ids]
+    return moved
+
+
 def repoint_placeholder_user_customer_data(
     db: Session,
     *,
@@ -63,16 +85,12 @@ def repoint_placeholder_user_customer_data(
     client_id: UUID,
 ) -> Dict[str, int]:
     """Move customer-owned rows from staff placeholder user to Auth0-linked user. Placeholder row kept."""
-    counts: Dict[str, int] = {}
-    for model, column_name in _customer_user_id_moves():
-        column = getattr(model, column_name)
-        updated = (
-            db.query(model)
-            .filter(column == placeholder_user_id)
-            .update({column_name: real_user_id}, synchronize_session=False)
-        )
-        if updated:
-            counts[model.__tablename__] = updated
+    moved = repoint_user_customer_data_collect_ids(
+        db,
+        from_user_id=placeholder_user_id,
+        to_user_id=real_user_id,
+    )
+    counts = {table: len(ids) for table, ids in moved.items()}
 
     logger.info(
         "[LinkAccount] Repointed placeholder user %s -> %s for client %s (placeholder auth_id kept): %s",
