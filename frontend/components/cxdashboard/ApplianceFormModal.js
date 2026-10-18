@@ -4,15 +4,20 @@ import { FaTimes } from 'react-icons/fa';
 import { emptyApplianceForm, EQUIPMENT_SUBTYPES, EQUIPMENT_TYPES, MANUFACTURERS } from '../../constants/applianceEquipment';
 import { propertyPrimaryTitle } from '../../utils/propertyDisplay';
 
-const fieldStyle = {
+const controlStyle = {
   width: '100%',
   padding: '0.625rem 0.75rem',
   background: 'rgba(0,0,0,0.3)',
   border: '1px solid rgba(255,255,255,0.12)',
   borderRadius: '8px',
   color: '#fff',
-  fontSize: '0.875rem',
+  fontSize: '16px',
   boxSizing: 'border-box',
+};
+
+const buttonFieldStyle = {
+  ...controlStyle,
+  fontSize: '0.875rem',
 };
 
 const labelStyle = { display: 'block', color: '#9ca3af', fontSize: '0.75rem', marginBottom: '0.35rem' };
@@ -124,7 +129,7 @@ export default function ApplianceFormModal({
                 <p className="text-sm text-amber-100 m-0 mb-2">Add an address before saving this appliance.</p>
                 <button
                   type="button"
-                  onClick={() => onRequestAddProperty?.()}
+                  onClick={() => onRequestAddProperty?.({ ...form })}
                   className="w-full rounded-lg bg-[#00D4FF] text-[#0A0F1E] border-0 py-2.5 text-sm font-bold"
                 >
                   Add property
@@ -133,7 +138,7 @@ export default function ApplianceFormModal({
             ) : (
               <div>
                 <label style={labelStyle}>Service property *</label>
-                <select value={form.property_id || ''} onChange={(e) => set({ property_id: e.target.value })} style={fieldStyle} required>
+                <select value={form.property_id || ''} onChange={(e) => set({ property_id: e.target.value })} style={controlStyle} required>
                   <option value="">Select property</option>
                   {properties.map((p) => (
                     <option key={p.id} value={p.id}>{propertyPrimaryTitle(p)}</option>
@@ -147,7 +152,7 @@ export default function ApplianceFormModal({
 
             <div>
               <label style={labelStyle}>Nickname (optional)</label>
-              <input value={form.nickname || ''} onChange={(e) => set({ nickname: e.target.value })} placeholder="Kitchen fridge" style={fieldStyle} />
+              <input value={form.nickname || ''} onChange={(e) => set({ nickname: e.target.value })} placeholder="Kitchen fridge" style={controlStyle} />
             </div>
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -156,7 +161,7 @@ export default function ApplianceFormModal({
                 <select
                   value={form.equipment_type}
                   onChange={(e) => set({ equipment_type: e.target.value, equipment_subtype: '' })}
-                  style={fieldStyle}
+                  style={controlStyle}
                   required
                 >
                   {EQUIPMENT_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
@@ -167,7 +172,7 @@ export default function ApplianceFormModal({
                 <select
                   value={form.equipment_subtype || ''}
                   onChange={(e) => set({ equipment_subtype: e.target.value })}
-                  style={fieldStyle}
+                  style={controlStyle}
                   required
                 >
                   <option value="">Select...</option>
@@ -181,25 +186,25 @@ export default function ApplianceFormModal({
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div>
                 <label style={labelStyle}>Make *</label>
-                <input list="appliance-makes" value={form.make || ''} onChange={(e) => set({ make: e.target.value })} style={fieldStyle} required />
+                <input list="appliance-makes" value={form.make || ''} onChange={(e) => set({ make: e.target.value })} style={controlStyle} required />
                 <datalist id="appliance-makes">
                   {MANUFACTURERS.map((m) => <option key={m} value={m} />)}
                 </datalist>
               </div>
               <div>
                 <label style={labelStyle}>Model</label>
-                <input value={form.model || ''} onChange={(e) => set({ model: e.target.value })} style={fieldStyle} />
+                <input value={form.model || ''} onChange={(e) => set({ model: e.target.value })} style={controlStyle} />
               </div>
             </div>
 
             <div>
               <label style={labelStyle}>Serial number</label>
-              <input value={form.serial || ''} onChange={(e) => set({ serial: e.target.value })} style={{ ...fieldStyle, fontFamily: 'monospace' }} />
+              <input value={form.serial || ''} onChange={(e) => set({ serial: e.target.value })} style={{ ...controlStyle, fontFamily: 'monospace' }} />
             </div>
 
             <div>
               <label style={labelStyle}>Notes</label>
-              <textarea value={form.notes || ''} onChange={(e) => set({ notes: e.target.value })} rows={2} style={fieldStyle} />
+              <textarea value={form.notes || ''} onChange={(e) => set({ notes: e.target.value })} rows={2} style={controlStyle} />
             </div>
           </div>
         </div>
@@ -209,7 +214,7 @@ export default function ApplianceFormModal({
             isMobile ? 'pb-[max(12px,env(safe-area-inset-bottom))]' : ''
           }`}
         >
-          <button type="button" onClick={onClose} className="flex-1 cursor-pointer" style={fieldStyle}>
+          <button type="button" onClick={onClose} className="flex-1 cursor-pointer" style={buttonFieldStyle}>
             Cancel
           </button>
           <button

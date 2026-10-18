@@ -13,7 +13,10 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative z-10" style={{ backgroundColor: 'transparent' }}>
+    <footer
+      className="relative z-10 max-md:pb-[calc(max(env(safe-area-inset-bottom),12px)+10px+5.25rem)] md:pb-0"
+      style={{ backgroundColor: 'transparent' }}
+    >
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid md:grid-cols-4 gap-10">
           {/* Brand */}
