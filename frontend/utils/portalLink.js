@@ -41,6 +41,33 @@ export async function fetchPortalLinkDebug(accessToken) {
   return data;
 }
 
+export async function fetchPortalSignupStatus(accessToken) {
+  const res = await fetch(`${BACKEND}/api/portal/signup-status`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.detail || `signup-status failed (${res.status})`);
+  }
+  return data;
+}
+
+export async function postPortalCompleteSignup(accessToken, body) {
+  const res = await fetch(`${BACKEND}/api/portal/complete-signup`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json().catch(() => ({}));
+  return { ok: res.ok, status: res.status, data };
+}
+
 export async function postPortalLinkAccount(accessToken, { inviteToken, claimToken } = {}) {
   const token = claimToken || inviteToken;
   const body = {};
@@ -87,8 +114,13 @@ export function isPortalNoClientApiError(message) {
 const TOKEN_REFRESH_KEY = 'portal_token_refresh_attempted';
 
 /** One-time re-login after role is newly assigned so JWT picks up client role. */
+export function linkResultNeedsFinishProfile(linkResult) {
+  return Boolean(linkResult?.ok && linkResult.data?.needs_profile);
+}
+
 export function shouldRefreshPortalToken(linkResult, hasClientRoleInToken) {
   if (hasClientRoleInToken) return false;
+  if (linkResultNeedsFinishProfile(linkResult)) return false;
   if (!linkResult?.ok || !linkResult.data?.role_assigned) return false;
   return Boolean(
     linkResult.data.role_newly_assigned

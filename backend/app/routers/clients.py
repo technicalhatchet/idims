@@ -165,6 +165,10 @@ async def get_admin_dependency(request: Request = None):
 async def list_clients(
     search: Optional[str] = Query(None, description="Search term for client name or email"),
     status: Optional[str] = Query(None, description="Filter by status"),
+    portal_signup_incomplete: bool = Query(
+        False,
+        description="Self-signup clients with default New/Customer names and unfinished profile",
+    ),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(10, ge=1, le=100, description="Items per page"),
     current_user: AuthUser = Depends(get_current_user_dependency),
@@ -191,7 +195,14 @@ async def list_clients(
     # For staff, get all clients with filters
     skip = (page - 1) * limit
     try:
-        result = await ClientService.get_clients(db, search=search, status=status, skip=skip, limit=limit)
+        result = await ClientService.get_clients(
+            db,
+            search=search,
+            status=status,
+            portal_signup_incomplete=portal_signup_incomplete,
+            skip=skip,
+            limit=limit,
+        )
         return {
             "total": result["total"],
             "items": [_serialize_client_for_list(c) for c in result["items"]],

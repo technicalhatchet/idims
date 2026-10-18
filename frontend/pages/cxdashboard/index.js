@@ -33,6 +33,8 @@ import { formatPortalCurrency } from '../../utils/portalMoney';
 import { countPortalActiveLaborWarranties } from '../../utils/portalWarranty';
 import {
   postPortalLinkAccount,
+  fetchPortalSignupStatus,
+  linkResultNeedsFinishProfile,
   logPortalLinkDiagnostics,
   getSessionRoles,
   shouldRefreshPortalToken,
@@ -206,7 +208,18 @@ export default function ClientDashboard() {
           clearPortalTokenRefreshAttempt();
         }
 
+        const goFinishProfileIfNeeded = (linkResult) => {
+          if (linkResultNeedsFinishProfile(linkResult)) {
+            router.replace('/cxdashboard/finish-profile');
+            return true;
+          }
+          return false;
+        };
+
         const handleLinkRefresh = (linkResult) => {
+          if (goFinishProfileIfNeeded(linkResult)) {
+            return true;
+          }
           if (shouldRefreshPortalToken(linkResult, hasClientRole)) {
             if (hasPortalTokenRefreshBeenAttempted()) {
               setError(
@@ -308,6 +321,15 @@ export default function ClientDashboard() {
           setLoading(false);
         } else {
           if (!hasClientRole) {
+            try {
+              const signupStatus = await fetchPortalSignupStatus(token);
+              if (signupStatus.status === 'needs_profile') {
+                router.replace('/cxdashboard/finish-profile');
+                return;
+              }
+            } catch (e) {
+              console.warn('[Portal] signup-status:', e);
+            }
             setLoading(false);
             return;
           }

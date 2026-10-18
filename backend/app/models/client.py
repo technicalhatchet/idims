@@ -40,7 +40,8 @@ class Client(Base):
     portal_booking_payment_waived = Column(Boolean, default=False, nullable=False)
     scheduling_zone_exempt = Column(Boolean, default=False, nullable=False)
     appliances_import_completed = Column(Boolean, default=False, nullable=False)
-    
+    portal_profile_completed_at = Column(DateTime, nullable=True)
+
     # Relationships
     user = relationship("User", foreign_keys=[user_id], back_populates="client")
     creator = relationship("User", foreign_keys=[created_by])
