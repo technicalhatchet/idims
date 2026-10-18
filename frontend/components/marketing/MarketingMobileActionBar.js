@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { MarketingBookIcon, MarketingGradientButton, MarketingPhoneIcon } from './MarketingCta';
 import { MARKETING_PHONE_TEL } from '../../constants/marketingSiteContent';
+import { MARKETING_MOBILE_BAR_BOTTOM_PAD } from '../../constants/marketingMobileBarLayout';
 
 const HIDDEN_PREFIXES = ['/book', '/cxdashboard', '/techboard', '/dashboard', '/solomon', '/login', '/api'];
 
@@ -19,7 +20,8 @@ export default function MarketingMobileActionBar() {
 
   return (
     <div
-      className="fixed bottom-0 inset-x-0 z-40 md:hidden border-t border-white/10 bg-[#000208]/95 backdrop-blur-md pb-[env(safe-area-inset-bottom)]"
+      className="fixed bottom-0 inset-x-0 z-40 md:hidden border-t border-white/10 bg-[#000208]/95 backdrop-blur-md"
+      style={{ paddingBottom: MARKETING_MOBILE_BAR_BOTTOM_PAD }}
       aria-label="Call or book"
     >
       <div className="grid grid-cols-2 gap-2 p-3 max-w-lg mx-auto">

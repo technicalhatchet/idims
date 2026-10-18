@@ -84,7 +84,7 @@ export default function HomeLayout({
         className={
           bookingFlow
             ? 'flex flex-1 flex-col min-h-0 overflow-hidden relative z-10 pb-0'
-            : 'flex-grow relative z-10 pb-20 md:pb-0'
+            : 'flex-grow relative z-10 max-md:pb-[calc(max(env(safe-area-inset-bottom),12px)+10px+5.25rem)] md:pb-0'
         }
       >
         {children}

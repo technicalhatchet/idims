@@ -3,15 +3,20 @@ import { createPortal } from 'react-dom';
 import { FaTimes } from 'react-icons/fa';
 import { propertyPrimaryTitle } from '../../utils/propertyDisplay';
 
-const fieldStyle = {
+const controlStyle = {
   width: '100%',
   padding: '0.625rem 0.75rem',
   background: 'rgba(0,0,0,0.3)',
   border: '1px solid rgba(255,255,255,0.12)',
   borderRadius: '8px',
   color: '#fff',
-  fontSize: '0.875rem',
+  fontSize: '16px',
   boxSizing: 'border-box',
+};
+
+const buttonFieldStyle = {
+  ...controlStyle,
+  fontSize: '0.875rem',
 };
 
 const labelStyle = { display: 'block', color: '#9ca3af', fontSize: '0.75rem', marginBottom: '0.35rem' };
@@ -211,7 +216,7 @@ export default function PropertyFormModal({
                 value={form.nickname || ''}
                 onChange={(e) => set({ nickname: e.target.value.slice(0, 60) })}
                 placeholder={`e.g. Home, Mom's house, Rental on Main St`}
-                style={fieldStyle}
+                style={controlStyle}
                 disabled={readOnly}
                 maxLength={60}
               />
@@ -223,7 +228,7 @@ export default function PropertyFormModal({
                 value={form.address}
                 onChange={(e) => set({ address: e.target.value })}
                 placeholder="123 Main St, Toledo, OH 43604"
-                style={fieldStyle}
+                style={controlStyle}
                 required
                 disabled={readOnly || addressLocked}
                 autoComplete="street-address"
@@ -247,7 +252,7 @@ export default function PropertyFormModal({
                 value={form.unit_number || ''}
                 onChange={(e) => set({ unit_number: e.target.value })}
                 placeholder="Apt 4B"
-                style={fieldStyle}
+                style={controlStyle}
                 disabled={readOnly || addressLocked}
               />
             </div>
@@ -257,7 +262,7 @@ export default function PropertyFormModal({
               <select
                 value={form.property_type || 'residential'}
                 onChange={(e) => set({ property_type: e.target.value })}
-                style={fieldStyle}
+                style={controlStyle}
                 disabled={readOnly}
               >
                 {PROPERTY_TYPES.map((t) => (
@@ -271,7 +276,7 @@ export default function PropertyFormModal({
               <input
                 value={form.gate_code || ''}
                 onChange={(e) => set({ gate_code: e.target.value })}
-                style={fieldStyle}
+                style={controlStyle}
                 disabled={readOnly}
               />
             </div>
@@ -282,7 +287,7 @@ export default function PropertyFormModal({
                 value={form.access_instructions || ''}
                 onChange={(e) => set({ access_instructions: e.target.value })}
                 placeholder="Side door, park in back…"
-                style={fieldStyle}
+                style={controlStyle}
                 disabled={readOnly}
               />
             </div>
@@ -296,21 +301,21 @@ export default function PropertyFormModal({
                   value={form.tenant_name || ''}
                   onChange={(e) => set({ tenant_name: e.target.value })}
                   placeholder="Tenant name"
-                  style={fieldStyle}
+                  style={controlStyle}
                   disabled={readOnly}
                 />
                 <input
                   value={form.tenant_phone || ''}
                   onChange={(e) => set({ tenant_phone: e.target.value })}
                   placeholder="Tenant phone"
-                  style={fieldStyle}
+                  style={controlStyle}
                   disabled={readOnly}
                 />
                 <input
                   value={form.tenant_email || ''}
                   onChange={(e) => set({ tenant_email: e.target.value })}
                   placeholder="Tenant email"
-                  style={fieldStyle}
+                  style={controlStyle}
                   disabled={readOnly}
                 />
               </div>
@@ -323,7 +328,7 @@ export default function PropertyFormModal({
             isMobile ? 'pb-[max(12px,env(safe-area-inset-bottom))]' : ''
           }`}
         >
-          <button type="button" onClick={onClose} className="flex-1 cursor-pointer" style={fieldStyle}>
+          <button type="button" onClick={onClose} className="flex-1 cursor-pointer" style={buttonFieldStyle}>
             Cancel
           </button>
           {!readOnly ? (

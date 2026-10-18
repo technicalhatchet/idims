@@ -59,6 +59,7 @@ export default function AppliancesPage() {
   const [editingAppliance, setEditingAppliance] = useState(null);
   const [showPropertyForm, setShowPropertyForm] = useState(false);
   const [resumeApplianceAfterProperty, setResumeApplianceAfterProperty] = useState(null);
+  const [applianceFormDraft, setApplianceFormDraft] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
   const previewLocked = isPortalPreviewActive() && !isPortalPreviewUnlocked();
@@ -244,6 +245,7 @@ export default function AppliancesPage() {
       const token = await getPortalSessionToken();
       await portalFetch('appliances', token, { method: 'POST', body: JSON.stringify(form) });
       setShowAdd(false);
+      setApplianceFormDraft(null);
       await loadData();
     } catch (err) {
       setError(err.message);
@@ -262,6 +264,7 @@ export default function AppliancesPage() {
         body: JSON.stringify(form),
       });
       setEditingAppliance(null);
+      setApplianceFormDraft(null);
       await loadData();
     } catch (err) {
       setError(err.message);
@@ -270,8 +273,11 @@ export default function AppliancesPage() {
     }
   };
 
-  const openAddPropertyFromAppliance = () => {
-    setResumeApplianceAfterProperty(editingAppliance || 'add');
+  const openAddPropertyFromAppliance = (formSnapshot) => {
+    if (formSnapshot) {
+      setApplianceFormDraft(formSnapshot);
+    }
+    setResumeApplianceAfterProperty(showAdd ? 'add' : editingAppliance || 'add');
     setShowAdd(false);
     setEditingAppliance(null);
     setShowPropertyForm(true);
@@ -356,7 +362,10 @@ export default function AppliancesPage() {
           </div>
           <button
             type="button"
-            onClick={() => setShowAdd(true)}
+            onClick={() => {
+              setApplianceFormDraft(null);
+              setShowAdd(true);
+            }}
             className="inline-flex items-center gap-2 rounded-lg bg-[#00D4FF] text-[#0A0F1E] border-0 px-4 py-2.5 text-sm font-bold cursor-pointer shrink-0"
           >
             <FaPlus /> Add Appliance
@@ -415,7 +424,10 @@ export default function AppliancesPage() {
             </p>
             <button
               type="button"
-              onClick={() => setShowAdd(true)}
+              onClick={() => {
+                setApplianceFormDraft(null);
+                setShowAdd(true);
+              }}
               className="rounded-lg bg-[#00D4FF] text-[#0A0F1E] border-0 px-5 py-2.5 font-bold"
             >
               Add your first appliance
@@ -467,9 +479,13 @@ export default function AppliancesPage() {
       {showAdd ? (
         <ApplianceFormModal
           title="Add appliance"
+          initial={applianceFormDraft || undefined}
           properties={properties}
           submitting={submitting}
-          onClose={() => setShowAdd(false)}
+          onClose={() => {
+            setShowAdd(false);
+            setApplianceFormDraft(null);
+          }}
           onSave={handleAddAppliance}
           onRequestAddProperty={openAddPropertyFromAppliance}
         />
@@ -478,10 +494,13 @@ export default function AppliancesPage() {
       {editingAppliance ? (
         <ApplianceFormModal
           title="Edit appliance"
-          initial={applianceToForm(editingAppliance)}
+          initial={applianceFormDraft || applianceToForm(editingAppliance)}
           properties={properties}
           submitting={submitting}
-          onClose={() => setEditingAppliance(null)}
+          onClose={() => {
+            setEditingAppliance(null);
+            setApplianceFormDraft(null);
+          }}
           onSave={handleUpdateAppliance}
           onRequestAddProperty={openAddPropertyFromAppliance}
         />
