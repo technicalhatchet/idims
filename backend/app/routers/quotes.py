@@ -14,7 +14,7 @@ from app.schemas.quote import (
 )
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
 from app.services.quote_service import QuoteService
-from app.core.dependencies import get_current_user
+from app.core.dependencies import get_staff_user
 
 router = APIRouter()
 
@@ -36,7 +36,7 @@ async def list_quotes(
     end_date: Optional[date] = Query(None, description="Filter by creation date (end)"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(10, ge=1, le=100, description="Items per page"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -183,7 +183,7 @@ async def create_quote(
 @router.get("/quotes/{quote_id}", response_model=QuoteResponse)
 async def get_quote(
     quote_id: uuid.UUID = Path(..., description="The ID of the quote to retrieve"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -313,7 +313,7 @@ async def delete_quote(
 async def update_quote_status(
     quote_id: uuid.UUID = Path(..., description="The ID of the quote"),
     status_update: QuoteStatusUpdate = Body(...),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """

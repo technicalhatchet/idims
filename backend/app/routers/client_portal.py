@@ -180,9 +180,13 @@ def _pending_profile_link_response(
     client: Client,
     auth0_user_id: str,
     db: Session,
+    token_data,
     already_linked: bool,
     link_method: str,
 ) -> dict:
+    from app.services.portal_user_link import sync_client_user_id_on_link
+
+    sync_client_user_id_on_link(db, client, token_data)
     payload = _link_account_response(
         client=client,
         already_linked=already_linked,
@@ -402,12 +406,16 @@ def _finalize_link_account_response(
     auth0_user_id: str,
     client: Client,
     db: Session,
+    token_data,
     already_linked: bool,
     role_assigned: bool,
     role_newly_assigned: bool = False,
     role_error: Optional[str] = None,
     link_method: Optional[str] = None,
 ) -> dict:
+    from app.services.portal_user_link import sync_client_user_id_on_link
+
+    sync_client_user_id_on_link(db, client, token_data)
     name_synced, name_error = _sync_client_identity(auth0_user_id, client, db)
     payload = _link_account_response(
         client=client,
@@ -588,6 +596,7 @@ async def link_portal_account(
                 client=existing,
                 auth0_user_id=auth0_user_id,
                 db=db,
+                token_data=token_data,
                 already_linked=True,
                 link_method="self_signup_pending_profile",
             )
@@ -596,6 +605,7 @@ async def link_portal_account(
             auth0_user_id=auth0_user_id,
             client=existing,
             db=db,
+            token_data=token_data,
             already_linked=True,
             role_assigned=role_assigned,
             role_newly_assigned=role_newly_assigned,
@@ -694,6 +704,7 @@ async def link_portal_account(
                     client=client,
                     auth0_user_id=auth0_user_id,
                     db=db,
+                    token_data=token_data,
                     already_linked=False,
                     link_method=link_method,
                 )
@@ -721,6 +732,7 @@ async def link_portal_account(
             auth0_user_id=auth0_user_id,
             client=client,
             db=db,
+            token_data=token_data,
             already_linked=True,
             role_assigned=role_assigned,
             role_newly_assigned=role_newly_assigned,
@@ -746,6 +758,7 @@ async def link_portal_account(
         auth0_user_id=auth0_user_id,
         client=client,
         db=db,
+        token_data=token_data,
         already_linked=False,
         role_assigned=role_assigned,
         role_newly_assigned=role_newly_assigned,
@@ -830,6 +843,7 @@ async def complete_portal_signup(
             auth0_user_id=auth0_user_id,
             client=client,
             db=db,
+            token_data=token_data,
             already_linked=True,
             role_assigned=role_assigned,
             role_newly_assigned=role_newly_assigned,
@@ -868,6 +882,7 @@ async def complete_portal_signup(
         auth0_user_id=auth0_user_id,
         client=client,
         db=db,
+        token_data=token_data,
         already_linked=False,
         role_assigned=role_assigned,
         role_newly_assigned=role_newly_assigned,

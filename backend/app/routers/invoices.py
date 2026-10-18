@@ -14,7 +14,7 @@ from app.schemas.invoice import (
 )
 from app.services.invoice_service import InvoiceService
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
-from app.core.dependencies import get_current_user, get_admin_or_manager_user
+from app.core.dependencies import get_staff_user, get_admin_or_manager_user
 
 router = APIRouter()
 
@@ -28,7 +28,7 @@ async def list_invoices(
     end_date: Optional[date] = Query(None, description="Filter by issue date (end)"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(10, ge=1, le=100, description="Items per page"),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -89,7 +89,7 @@ async def create_invoice(
 @router.get("/invoices/{invoice_id}", response_model=InvoiceResponse)
 async def get_invoice(
     invoice_id: uuid.UUID = Path(..., description="The ID of the invoice to retrieve"),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -230,7 +230,7 @@ async def send_invoice(
 async def download_invoice(
     invoice_id: uuid.UUID = Path(..., description="The ID of the invoice to download"),
     format: str = Query("pdf", description="Format to download (pdf, csv)"),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """

@@ -54,6 +54,14 @@ Optional: `reports/2026-10-17_public_schema_backup_tables.sql` to find legacy `p
 | 9 | Deploy backend + frontend (phase 2c) | Open sign-up + finish-profile |
 | 10 | **`2026-10-18_property_nickname.sql`** | **Before phase 2d app deploy** — optional property label |
 | 11 | Deploy backend + frontend (phase 2d) | Portal properties CRUD + nicknames |
+| 12 | Deploy backend (phase 2e) | Link sets `clients.user_id`; legacy APIs staff-only |
+| 13 | `2026-10-18_client_user_id_backfill_preview.sql` | Read-only: backfill rows + conflicts |
+| 14 | `2026-10-18_client_user_id_backfill.sql` | `backups.clients_user_id_2026_10_18` + UPDATE |
+
+### Rollback (portal 2e user_id backfill)
+
+1. Redeploy the **previous** application build.
+2. Run `2026-10-18_client_user_id_backfill_undo.sql`.
 
 ### Rollback (portal 2d property nickname)
 

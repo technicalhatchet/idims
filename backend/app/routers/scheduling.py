@@ -28,7 +28,7 @@ from app.schemas.route_optimization import (
     RouteOptimizePreviewResponse,
 )
 from app.services.route_optimization_service import apply_route_preview, build_route_preview
-from app.core.dependencies import get_current_user, get_admin_or_manager_user, is_staff_user
+from app.core.dependencies import get_staff_user, get_admin_or_manager_user, is_staff_user
 from app.utils.work_order_display import (
     primary_appointments_by_work_order_ids,
     technician_display_name_from_appointment,
@@ -124,7 +124,7 @@ async def get_schedule(
     technician_id: Optional[uuid.UUID] = Query(None, description="Filter by technician ID"),
     client_id: Optional[uuid.UUID] = Query(None, description="Filter by client ID"),
     view_type: str = Query("day", description="View type (day, week, month, list)"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -373,7 +373,7 @@ async def get_available_slots(
     date: date = Query(..., description="Date to check for available slots"),
     technician_id: Optional[uuid.UUID] = Query(None, description="Technician ID to check availability for"),
     duration_minutes: int = Query(60, description="Duration of the appointment in minutes"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -431,7 +431,7 @@ async def get_appointment_preview_slots(
     technician_id: Optional[uuid.UUID] = Query(None, description="Limit to one technician; omit for all active techs"),
     duration_minutes: Optional[int] = Query(None, ge=15, le=960, description="Slot length in minutes (ignored if service_ids provided)"),
     service_ids: Optional[List[uuid.UUID]] = Query(None, description="If set, duration = sum of service duration_minutes"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db),
 ):
     """
@@ -513,7 +513,7 @@ async def get_technician_availability(
     technician_id: uuid.UUID = Query(..., description="Technician ID to check availability for"),
     start_date: date = Query(..., description="Start date of the range"),
     end_date: date = Query(..., description="End date of the range"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -591,7 +591,7 @@ async def update_technician_availability(
     request: Request,
     technician_id: uuid.UUID = Path(..., description="Technician ID to update availability for"),
     availability: TechnicianAvailability = Body(...),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -652,7 +652,7 @@ async def get_combined_schedule(
     client_id: Optional[uuid.UUID] = None,
     view_type: str = "day",
     db: Session = Depends(get_db),
-    current_user: AuthUser = Depends(get_current_user_dependency)
+    current_user: AuthUser = Depends(get_staff_user)
 ):
     """
     Get appointment data for a date range. This endpoint only returns appointments

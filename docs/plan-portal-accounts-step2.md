@@ -1,7 +1,7 @@
 # Portal accounts — Step 2 plan
 
 **Date:** 2026-10-17  
-**Status:** In progress — phases **2.0**, **2a**, **2b**, **2c**, **2d** implemented in code; **2e–2f** pending  
+**Status:** In progress — phases **2.0**–**2d** shipped; **2e (3a)** implemented in code; **2f** pending  
 **Base audit:** [`docs/audit-portal-accounts.md`](./audit-portal-accounts.md) (2026-03-16)  
 **Rules:** No Alembic; DB changes via `db/sql/*.sql` + matching `*_undo.sql` (run in Supabase). Do **not** change diagnostic discount or repair credit logic (`portal_scheduling_helpers.apply_tier_pricing`, public booking tier math, or related credit paths).
 
@@ -40,7 +40,7 @@
 | **2b** | **4** Claim links (dual JWT + DB) | Safer invites / email-change before scaling signup; old JWTs keep working. **Shipped in code (Oct 2026).** |
 | **2c** | **1** Open sign-up + finish profile | Creates `self_signup` clients; still needs at least one property for appliances (2d). **Shipped in code (Oct 2026).** |
 | **2d** | **2** Portal properties CRUD | Portal CRUD + nicknames + appliance/schedule flows. **Shipped in code (Oct 2026).** |
-| **2e** | **3** One link model (phased) | **3a:** set `client.user_id` to existing `users` row for Auth0 `sub` (no duplicate user create). **3b:** `client_logins` + multi-identity (phone step 3). |
+| **2e** | **3a** Link `user_id` + staff-only legacy APIs | **Shipped in code (Oct 2026).** **3b** `client_logins` deferred to **step 3 phone login**. |
 | **2f** | **5** Admin client merge | Highest blast radius; needs stable linking + claim-link audit patterns. |
 
 ---
@@ -324,9 +324,59 @@ Goals **1** and **2** can ship as one release if finish-profile routes users to 
 
 ---
 
+## Phase 2e — Link `clients.user_id` + legacy API guards (shipped, Goal 3a)
+
+### What shipped
+
+**Link / signup (`portal_user_link.py`, `auth.ensure_db_user_from_token`, `client_portal.py`)**
+
+- On every successful `link-account` path (existing, claim, invite, verified email, self-signup pending profile) and `complete-signup`: resolve the **`users` row for token `sub`** via the same logic as `get_current_user` (no second row for the same `sub`).
+- When `clients.user_id` is null → set to that `users.id`.
+- **`get_current_user` / `ensure_db_user_from_token`:** verified-email fallback **adopts** staff placeholders (`auth_id` `client|…`): sets `auth_id` to token `sub` on that row (no second `users` row). Staff-role candidates are never adopted; other `auth_id` mismatches stay **403** (this fixes first portal login for staff-created clients with email — previously 403).
+- When `clients.user_id` already points at a placeholder but a **separate** `users` row exists for `auth0_user_id` → repoint `client.user_id` and move customer-owned rows (see `portal_user_link.py`); placeholder `users` row kept.
+- When `clients.user_id` points at a **non-placeholder** different `users` row → **do not change**; log warning (2f merge).
+- Link code does **not** assign staff roles on `users`.
+
+**Portal notifications**
+
+- `GET/PUT /api/portal/notifications*` unchanged; they work once `user_id` is set. Part/invoice notification writers already use `client.user_id`.
+
+**Legacy staff APIs (no `resolve_client_for_auth` on routers)**
+
+- Portal customers use **`/api/portal/*` only** (verified: no client-role call to `/api/clients` except **admin preview** on `cxdashboard/index.js`, which uses staff session).
+- Routers gated with **`get_staff_user`**: `clients`, `work_orders`, `scheduling`, `invoices`, `payments`, `quotes`, `reports` (client-role JWT → **403**).
+- **Excluded** (unchanged): `POST /api/payments/payments/process-stripe-webhook` (Stripe signature), `POST /api/stripe/stripe/webhook`, public `/book` and portal routes.
+
+**SQL**
+
+- `db/sql/2026-10-18_client_user_id_backfill_preview.sql` — candidates + `user_id`/`auth0` conflicts (read-only).
+- `db/sql/2026-10-18_client_user_id_backfill.sql` — `backups.clients_user_id_2026_10_18` + UPDATE + final count.
+- `db/sql/2026-10-18_client_user_id_backfill_undo.sql` — restore from backup.
+
+### Deploy order (2e)
+
+| Step | Action |
+|------|--------|
+| 1 | Deploy backend (phase 2e) — new links get `user_id` immediately |
+| 2 | Run `2026-10-18_client_user_id_backfill_preview.sql` | Review conflicts |
+| 3 | Run `2026-10-18_client_user_id_backfill.sql` | Existing Auth0-linked clients |
+| 4 | Smoke: portal bell notifications; client JWT → 403 on `GET /api/clients` |
+
+### Tests
+
+```bash
+cd backend && python -m pytest tests/test_portal_client_user_link.py tests/test_staff_api_guards.py tests/test_portal_security.py tests/test_portal_signup.py -q
+```
+
+### Deferred (3b)
+
+- `client_logins` table + multi-identity — **step 3 phone login**, not 2e.
+
+---
+
 ## Goal 3 — One link model (`auth0_user_id` vs `user_id`, multi-login later)
 
-### Current state
+### Current state (pre-2e historical notes below; 3a shipped above)
 
 **Two parallel links**
 

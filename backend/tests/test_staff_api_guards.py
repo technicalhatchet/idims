@@ -78,12 +78,23 @@ def api_client(client_role_user):
             "/api/diagnostics/generate-notes",
             {"work_order_id": "00000000-0000-0000-0000-000000000001"},
         ),
+        ("GET", "/api/clients", None),
+        ("PUT", f"/api/clients/{uuid4()}", {"first_name": "A", "last_name": "B"}),
+        ("GET", "/api/invoices", None),
+        ("GET", "/api/quotes/quotes", None),
+        (
+            "GET",
+            "/api/scheduling/schedule?start_date=2026-01-01&end_date=2026-01-02",
+            None,
+        ),
     ],
 )
 def test_client_role_gets_403_on_staff_routes(api_client, method, path, json_body):
     headers = {"Authorization": "Bearer test-token"}
     if method == "POST":
         response = api_client.post(path, json=json_body or {}, headers=headers)
+    elif method == "PUT":
+        response = api_client.put(path, json=json_body or {}, headers=headers)
     else:
         response = api_client.get(path, headers=headers)
     assert response.status_code == 403, f"{path}: {response.status_code} {response.text}"

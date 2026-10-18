@@ -20,6 +20,10 @@ from app.db.database import get_db
 from app.models.user import User as DBUser
 from app.core.exceptions import AuthenticationException, AuthorizationException, NotFoundException
 from app.services.portal_account_linking import auth0_email_verified
+from app.services.portal_user_auth import (
+    is_placeholder_client_auth_id,
+    user_has_staff_role,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -365,11 +369,12 @@ class AuthHandler:
         if db is None:
             db = next(get_db())
             
-        # Get token data
         token_data = await self.verify_token(token)
-        
+        return self.ensure_db_user_from_token(db, token_data)
+
+    def ensure_db_user_from_token(self, db: Session, token_data) -> DBUser:
+        """Find or create the users row for this token (shared with portal link-account)."""
         try:
-            # Extract user information from token
             auth_id = token_data.sub
             email = token_data.email
             
@@ -486,22 +491,48 @@ class AuthHandler:
                     candidate = db.query(DBUser).filter(DBUser.email == real_email).first()
                     if candidate:
                         if candidate.auth_id and candidate.auth_id != auth_id:
-                            logger.warning(
-                                "[Auth] Email lookup rejected: user_id=%s email=%s "
-                                "stored auth_id=%s does not match token sub=%s",
-                                candidate.id,
-                                real_email,
-                                candidate.auth_id,
-                                auth_id,
-                            )
-                            raise HTTPException(
-                                status_code=status.HTTP_403_FORBIDDEN,
-                                detail=(
-                                    "This email is associated with a different sign-in. "
-                                    "Use your original login method or contact support."
-                                ),
-                            )
-                        if not candidate.auth_id:
+                            if is_placeholder_client_auth_id(candidate.auth_id):
+                                if user_has_staff_role(candidate):
+                                    logger.warning(
+                                        "[Auth] Email lookup rejected: placeholder user_id=%s "
+                                        "has staff roles email=%s",
+                                        candidate.id,
+                                        real_email,
+                                    )
+                                    raise HTTPException(
+                                        status_code=status.HTTP_403_FORBIDDEN,
+                                        detail=(
+                                            "This email is associated with a different sign-in. "
+                                            "Use your original login method or contact support."
+                                        ),
+                                    )
+                                logger.info(
+                                    "[Auth] Adopting staff-created placeholder user_id=%s email=%s "
+                                    "placeholder_auth_id=%s token_sub=%s",
+                                    candidate.id,
+                                    real_email,
+                                    candidate.auth_id,
+                                    auth_id,
+                                )
+                                candidate.auth_id = auth_id
+                                user = candidate
+                            else:
+                                logger.warning(
+                                    "[Auth] Email lookup rejected: user_id=%s email=%s "
+                                    "stored auth_id=%s does not match token sub=%s",
+                                    candidate.id,
+                                    real_email,
+                                    candidate.auth_id,
+                                    auth_id,
+                                )
+                                raise HTTPException(
+                                    status_code=status.HTTP_403_FORBIDDEN,
+                                    detail=(
+                                        "This email is associated with a different sign-in. "
+                                        "Use your original login method or contact support."
+                                    ),
+                                )
+                        elif not candidate.auth_id:
                             user = candidate
                             _auth_log_info(f"Found user by verified email (unlinked auth_id): {user.id}")
                         elif candidate.auth_id == auth_id:
@@ -517,8 +548,14 @@ class AuthHandler:
                 # Check if we need to update user information
                 update_needed = False
                 
-                # Always update auth_id if it's not set
-                if auth_id and not user.auth_id:
+                # Always update auth_id if it's not set, or replace staff placeholder auth_id
+                if auth_id and (
+                    not user.auth_id
+                    or (
+                        is_placeholder_client_auth_id(user.auth_id)
+                        and user.auth_id != auth_id
+                    )
+                ):
                     user.auth_id = auth_id
                     update_needed = True
                     logger.info(f"Updating auth_id to: {auth_id}")
@@ -610,19 +647,18 @@ class AuthHandler:
                     )
             
             logger.info(f"Returning user: ID={user.id}, Email={user.email}, Roles={user.roles}")
-            # Return the user
             return user
-            
+
         except HTTPException:
             raise
         except Exception as e:
-            logger.error(f"Error getting current user: {str(e)}")
+            logger.error(f"Error resolving user from token: {str(e)}")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail=f"Error getting current user: {str(e)}",
-                headers={"WWW-Authenticate": "Bearer"}
+                headers={"WWW-Authenticate": "Bearer"},
             )
-    
+
     async def auth_wrapper(self, credentials: HTTPAuthorizationCredentials = Depends(security)) -> TokenData:
         """Dependency for token authentication"""
         try:

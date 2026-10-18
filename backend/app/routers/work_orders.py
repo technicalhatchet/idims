@@ -50,7 +50,7 @@ from app.services import work_order_photos_service as photos_svc
 from app.schemas.service import ServiceResponse
 from app.services.work_order_service import WorkOrderService
 from app.services.diagnostic_last_measurements_service import get_last_diagnostic_measurements
-from app.core.dependencies import get_current_user, get_admin_or_manager_user, get_admin_user
+from app.core.dependencies import get_current_user, get_staff_user, get_admin_or_manager_user, get_admin_user
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException, BadRequestException
 from app.services.user_service import UserService
 from app import schemas
@@ -219,7 +219,7 @@ async def list_work_orders(
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(10, ge=1, le=100, description="Items per page"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """
     List work orders with filtering options.
@@ -478,7 +478,7 @@ async def get_diagnostic_last_measurements(
         description="Exclude notes from this work order (current WO being edited)",
     ),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     """Return the most recent prior diagnostic field readings for a serial + template."""
     if "client" in (current_user.roles or []):
@@ -506,7 +506,7 @@ async def get_diagnostic_last_measurements(
 async def get_work_order(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order to retrieve"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """
     Get a specific work order by ID, including all its details and appointments.
@@ -891,7 +891,7 @@ async def update_work_order_status(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     status_update: WorkOrderStatusUpdate = Body(...),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """Update a work order's status"""
     # Debug logging
@@ -1011,7 +1011,7 @@ async def assign_work_order(
 async def get_work_order_timeline(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """Get the timeline of events for a work order"""
     # Check permissions directly
@@ -1037,7 +1037,7 @@ async def get_work_order_timeline(
 async def get_work_order_performance(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """On-site time and other stored performance metrics for a work order."""
     can_access = await can_view_work_order(work_order_id, current_user, db)
@@ -1278,7 +1278,7 @@ async def list_work_order_appointments(
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(100, ge=1, le=500, description="Items per page"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """
     List appointments for a specific work order with optional status filtering.
@@ -1364,7 +1364,7 @@ async def create_work_order_appointment(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     appointment: WorkOrderAppointmentCreate = Body(...),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """
     Create a new appointment for a work order.
@@ -1463,7 +1463,7 @@ def get_technician_schedule(
     technician_id: UUID4 = Query(..., description="ID of the technician whose schedule is being requested"),
     schedule_date: py_date = Query(..., description="The specific date for the schedule (YYYY-MM-DD)"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     """
     Get all appointments for a technician on a specific date across all work orders.
@@ -1573,7 +1573,7 @@ def get_technician_schedule(
 async def get_work_order_appointment(
     appointment_id: uuid.UUID = Path(..., description="The ID of the appointment"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """
     Get a specific appointment by ID.
@@ -1624,7 +1624,7 @@ async def update_work_order_appointment(
     appointment_id: uuid.UUID = Path(..., description="The ID of the appointment"),
     appointment_update: WorkOrderAppointmentUpdate = Body(...),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """
     Update an existing appointment.
@@ -1801,7 +1801,7 @@ async def list_work_order_notes_v2(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     include_private: bool = Query(True, description="Whether to include private notes"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """
     List notes for a specific work order.
@@ -1867,7 +1867,7 @@ async def update_work_order_note(
     note_id: uuid.UUID = Path(...),
     body: dict = Body(..., example={"note": "Updated note content"}),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """Update a note. Only the author can edit their own note."""
     from app.models.work_order import WorkOrderNote
@@ -1916,7 +1916,7 @@ async def create_work_order_note_v2(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     note: WorkOrderNoteCreate = Body(...),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """
     Create a new note for a work order.
@@ -1987,7 +1987,7 @@ async def create_work_order_note_v2(
 async def list_work_order_photos(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     can_access = await can_view_work_order(work_order_id, current_user, db)
     if not can_access:
@@ -2009,7 +2009,7 @@ async def upload_work_order_photo(
     description: Optional[str] = Form(None),
     is_model_sn_tag: str = Form("false"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     can_access = await can_access_work_order(work_order_id, current_user, db)
     if not can_access:
@@ -2045,7 +2045,7 @@ async def upload_work_order_photo(
 async def download_work_order_photo(
     photo_id: uuid.UUID = Path(..., description="The ID of the photo"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     try:
         row = photos_svc.get_photo(db, photo_id)
@@ -2136,7 +2136,7 @@ async def migrate_work_order_schedules(
 async def create_appointment_from_schedule(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """
     Create an appointment entry from a work order's scheduled_start/end times.
@@ -2221,7 +2221,7 @@ async def create_appointment_from_schedule(
 async def get_work_order_parts(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """Get all parts for a work order"""
     if not await can_view_work_order(work_order_id, current_user, db):
@@ -2244,7 +2244,7 @@ async def create_work_order_part(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     part: WorkOrderPartCreate = Body(...),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """Create a new part for a work order"""
     from app.services.parts_settings_service import PartsSettingsService
@@ -2309,7 +2309,7 @@ async def get_work_order_estimate_pdf(
     work_order_id: uuid.UUID = Path(...),
     variant: str = Query("light", pattern="^(dark|light)$"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """Legacy URL — same as estimate-v2.pdf with default display options."""
     from app.services.work_order_invoice_pdf_data import generate_work_order_estimate_pdf_v2
@@ -2350,7 +2350,7 @@ async def get_work_order_estimate_pdf_v2(
         description="Line filter: diagnostic (trip/diag), repair (+ parts), or full billable",
     ),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     """Generate and stream estimate PDF v2 (payment ledger, line presets)."""
     from app.services.work_order_invoice_pdf_data import generate_work_order_estimate_pdf_v2
@@ -2391,7 +2391,7 @@ async def get_work_order_invoice_pdf(
     work_order_id: uuid.UUID = Path(...),
     variant: str = Query("light", pattern="^(dark|light)$"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """Legacy URL — same as invoice-v2.pdf with default full-invoice options."""
     from app.services.work_order_invoice_pdf_data import generate_work_order_invoice_pdf_v2
@@ -2433,7 +2433,7 @@ async def get_work_order_invoice_pdf_v2(
         description="Line filter (invoices always use full billable lines)",
     ),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     """Generate and stream invoice PDF v2 (payment ledger, line presets)."""
     from app.services.work_order_invoice_pdf_data import generate_work_order_invoice_pdf_v2
@@ -2478,7 +2478,7 @@ async def get_work_order_diagnostic_pdf_v2(
     show_photos: bool = Query(False, description="Include work-order field photos"),
     note_id: Optional[uuid.UUID] = Query(None, description="Specific diagnostic note (latest if omitted)"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     """Generate and stream diagnostic report PDF v2."""
     from app.services.diagnostic_pdf_data import generate_work_order_diagnostic_pdf_v2
@@ -2530,7 +2530,7 @@ async def email_work_order_document_v2(
         description="Line filter: diagnostic (trip/diag), repair (+ parts), or full billable",
     ),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     """Email the client an invoice or estimate PDF v2 with the selected display options."""
     from app.services.email_service import EmailService
@@ -2592,7 +2592,7 @@ async def update_work_order_part(
     part_id: uuid.UUID = Path(..., description="The ID of the part"),
     part_update: WorkOrderPartUpdate = Body(...),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """Update a part for a work order"""
     from app.utils.part_warranty import apply_part_warranty_fields
@@ -2693,7 +2693,7 @@ async def update_work_order_part(
 async def delete_work_order_part(
     part_id: uuid.UUID = Path(..., description="The ID of the part"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """Delete a part for a work order"""
     # Check if part exists
@@ -2735,7 +2735,7 @@ async def update_work_order_equipment(
         }
     ),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """Update equipment details for a work order"""
     # Check if work order exists
@@ -2798,7 +2798,7 @@ async def update_work_order_equipment(
 async def get_work_order_billing_summary(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user)
+    current_user: UserModel = Depends(get_staff_user)
 ):
     """
     Get billing summary for a work order including due today calculation.
@@ -2863,7 +2863,7 @@ async def add_work_order_estimate_lines(
     work_order_id: uuid.UUID = Path(...),
     body: WorkOrderEstimateLinesCreate = Body(...),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     """Add SKU lines to a work order without scheduling a visit (for estimates)."""
     work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
@@ -2915,7 +2915,7 @@ async def add_work_order_estimate_lines(
 async def delete_work_order_estimate_line(
     service_line_id: uuid.UUID = Path(..., description="Work order service line ID"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     """Remove an unscheduled estimate SKU line from a work order."""
     try:
@@ -3038,7 +3038,7 @@ async def update_service_billing_status(
 @router.get("/square-payment-config")
 async def get_square_payment_config(
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     """Public Square Web Payments fields for work order checkout (no access token)."""
     from app.services.portal_square_payment_service import (
@@ -3060,7 +3060,7 @@ async def get_square_payment_config(
 async def get_work_order_payments(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     """List field-recorded payments for a work order."""
     if not await can_view_work_order(work_order_id, current_user, db):
@@ -3074,7 +3074,7 @@ async def square_work_order_payment_endpoint(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     body: SquareWorkOrderPaymentRequest = Body(...),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     """Charge due balance via Square and record payment (same billing updates as Stripe)."""
     if not await can_access_work_order(work_order_id, current_user, db):
@@ -3132,7 +3132,7 @@ async def record_work_order_payment_endpoint(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     body: RecordWorkOrderPaymentRequest = Body(...),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     """
     Record a payment received in the field (cash, check, etc.).
@@ -3244,7 +3244,7 @@ async def admin_billing_override(
 async def get_work_order_close_readiness(
     work_order_id: uuid.UUID = Path(...),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     from app.services.work_order_lifecycle_service import build_close_readiness
 
@@ -3261,7 +3261,7 @@ async def get_work_order_close_readiness(
 async def close_work_order_endpoint(
     work_order_id: uuid.UUID = Path(...),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     from app.services.work_order_lifecycle_service import close_work_order
 
@@ -3316,7 +3316,7 @@ async def create_redo_work_order_endpoint(
     work_order_id: uuid.UUID = Path(...),
     body: RedoWorkOrderCreateRequest = Body(...),
     db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserModel = Depends(get_staff_user),
 ):
     from app.services.work_order_redo_service import create_redo_from_appointment
 

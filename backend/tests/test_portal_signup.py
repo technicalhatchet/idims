@@ -58,6 +58,7 @@ def test_create_self_signup_client_rejects_unverified():
 
 
 @pytest.mark.asyncio
+@patch("app.services.portal_user_link.sync_client_user_id_on_link")
 @patch("app.routers.client_portal._assign_client_role", return_value=(True, True, None))
 @patch("app.routers.client_portal._finalize_link_account_response")
 @patch("app.routers.client_portal.create_self_signup_client")
@@ -67,6 +68,7 @@ async def test_link_account_self_signup_returns_needs_profile(
     mock_create,
     mock_finalize,
     _role,
+    _sync_user,
 ):
     from app.routers.client_portal import LinkAccountRequest, link_portal_account
 
