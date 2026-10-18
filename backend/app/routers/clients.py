@@ -454,7 +454,7 @@ async def send_portal_invite(
         db,
         client.id,
         purpose=PURPOSE_PORTAL_INVITE,
-        created_by_auth0_sub=current_user.sub or current_user.id,
+        created_by_auth0_sub=current_user.auth_id,
     )
     invite_url = build_claim_register_url(raw_token)
     db.commit()
