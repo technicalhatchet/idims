@@ -27,6 +27,12 @@ from app.services.portal_claim_service import (
     resolve_client_for_link,
     validate_claim_for_register,
 )
+from app.services.portal_signup_service import (
+    PortalSignupError,
+    apply_portal_profile_completion,
+    create_self_signup_client,
+    portal_signup_needs_profile,
+)
 from app.models.client import Client
 from app.models.user import User as DBUser
 from app.models.notification import Notification
@@ -45,9 +51,12 @@ from app.services import portal_schedule_service as schedule_svc
 from app.core.exceptions import ValidationException
 from app.services.portal_account_linking import (
     EMAIL_VERIFICATION_REQUIRED_MESSAGE,
+    STAFF_PORTAL_ACCOUNT_FORBIDDEN,
+    find_client_by_normalized_email,
     is_placeholder_client_email,
     normalize_email,
     resolve_verified_link_email_from_profile,
+    token_has_staff_portal_role,
 )
 from app.services.portal_preview_guard import (
     PREVIEW_UNLOCK_TTL_MINUTES,
@@ -148,6 +157,33 @@ def _require_portal_estimate(wo: WorkOrder, db: Session) -> None:
 class LinkAccountRequest(BaseModel):
     invite_token: Optional[str] = None
     claim_token: Optional[str] = None
+
+
+class CompleteSignupRequest(BaseModel):
+    first_name: str
+    last_name: str
+    mobile: str
+    phone: Optional[str] = None
+    sms_consent: bool = False
+
+
+def _pending_profile_link_response(
+    *,
+    client: Client,
+    auth0_user_id: str,
+    db: Session,
+    already_linked: bool,
+    link_method: str,
+) -> dict:
+    payload = _link_account_response(
+        client=client,
+        already_linked=already_linked,
+        role_assigned=False,
+        link_method=link_method,
+    )
+    payload["needs_profile"] = True
+    payload["profile_completed"] = False
+    return payload
 
 
 async def get_token_data(credentials: HTTPAuthorizationCredentials = Depends(security)):
@@ -446,7 +482,7 @@ async def link_account_debug(
         else None
     )
     client_by_email = (
-        db.query(Client).filter(Client.email == resolved_email).first()
+        find_client_by_normalized_email(db, resolved_email)
         if resolved_email
         else None
     )
@@ -525,6 +561,10 @@ async def link_portal_account(
     if not auth0_user_id:
         raise HTTPException(status_code=400, detail="Invalid token — no sub claim")
 
+    roles = list(getattr(token_data, "roles", []) or [])
+    if token_has_staff_portal_role(roles):
+        raise HTTPException(status_code=403, detail=STAFF_PORTAL_ACCOUNT_FORBIDDEN)
+
     logger.info(
         "[LinkAccount] start sub=%s has_claim_token=%s has_invite_token=%s invite_secret=%s",
         auth0_user_id,
@@ -535,6 +575,14 @@ async def link_portal_account(
 
     existing = db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
     if existing:
+        if portal_signup_needs_profile(existing):
+            return _pending_profile_link_response(
+                client=existing,
+                auth0_user_id=auth0_user_id,
+                db=db,
+                already_linked=True,
+                link_method="self_signup_pending_profile",
+            )
         role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
         return _finalize_link_account_response(
             auth0_user_id=auth0_user_id,
@@ -601,7 +649,7 @@ async def link_portal_account(
 
         link_email, email_verified = resolve_verified_link_email_from_profile(profile)
         if link_email and email_verified:
-            client = db.query(Client).filter(Client.email == link_email).first()
+            client = find_client_by_normalized_email(db, link_email)
             if client and is_placeholder_client_email(client.email):
                 client = None
             elif client:
@@ -616,6 +664,38 @@ async def link_portal_account(
         )
 
     if not client:
+        try:
+            profile = _fetch_auth0_user(auth0_user_id)
+        except Exception as exc:
+            logger.warning("[LinkAccount] self-signup profile fetch failed: %s", exc)
+            raise HTTPException(
+                status_code=503,
+                detail="Unable to verify your account right now. Please try again shortly.",
+            ) from exc
+        try:
+            client = create_self_signup_client(
+                db,
+                auth0_user_id=auth0_user_id,
+                profile=profile,
+            )
+            link_method = "self_signup"
+            db.commit()
+            db.refresh(client)
+            if portal_signup_needs_profile(client):
+                return _pending_profile_link_response(
+                    client=client,
+                    auth0_user_id=auth0_user_id,
+                    db=db,
+                    already_linked=False,
+                    link_method=link_method,
+                )
+        except PortalSignupError as exc:
+            if exc.code == "email_unverified":
+                raise HTTPException(status_code=403, detail=exc.message) from exc
+            if exc.code == "email_linked_other":
+                raise HTTPException(status_code=409, detail=exc.message) from exc
+            raise HTTPException(status_code=404, detail=exc.message) from exc
+
         detail = "No client record found. Please contact Atomic Repair to get access."
         if invite_error:
             detail = f"{detail} (invite: {invite_error})"
@@ -664,6 +744,131 @@ async def link_portal_account(
         role_error=role_error,
         link_method=link_method,
     )
+
+
+@router.get("/portal/signup-status")
+async def portal_signup_status(
+    token_data=Depends(get_token_data),
+    db: Session = Depends(get_db),
+):
+    """Pre-role gate: whether this Auth0 user must finish portal profile."""
+    auth0_user_id = token_data.sub
+    roles = getattr(token_data, "roles", []) or []
+    if not auth0_user_id:
+        raise HTTPException(status_code=400, detail="Invalid token — no sub claim")
+
+    client = db.query(Client).filter(Client.auth0_user_id == auth0_user_id).first()
+    if not client:
+        return {
+            "status": "unlinked",
+            "has_client_role": "client" in roles,
+            "needs_profile": False,
+            "profile_completed": False,
+        }
+
+    needs = portal_signup_needs_profile(client)
+    completed = bool(getattr(client, "portal_profile_completed_at", None))
+    if needs:
+        status = "needs_profile"
+    elif "client" in roles or completed or (client.source or "") != "self_signup":
+        status = "ready"
+    else:
+        status = "needs_profile"
+
+    return {
+        "status": status,
+        "has_client_role": "client" in roles,
+        "needs_profile": status == "needs_profile",
+        "profile_completed": completed,
+        "client_id": str(client.id),
+        "email": client.email,
+        "first_name": client.first_name,
+        "last_name": client.last_name,
+        "mobile": client.mobile,
+        "sms_consent": bool(client.sms_consent),
+    }
+
+
+@router.post("/portal/complete-signup")
+async def complete_portal_signup(
+    body: CompleteSignupRequest,
+    token_data=Depends(get_token_data),
+    db: Session = Depends(get_db),
+):
+    """Finish self_signup profile and assign Auth0 client role."""
+    auth0_user_id = token_data.sub
+    if not auth0_user_id:
+        raise HTTPException(status_code=400, detail="Invalid token — no sub claim")
+
+    roles = list(getattr(token_data, "roles", []) or [])
+    if token_has_staff_portal_role(roles):
+        raise HTTPException(status_code=403, detail=STAFF_PORTAL_ACCOUNT_FORBIDDEN)
+
+    client = (
+        db.query(Client)
+        .filter(Client.auth0_user_id == auth0_user_id)
+        .with_for_update()
+        .first()
+    )
+    if not client:
+        raise HTTPException(
+            status_code=404,
+            detail="No portal account found for this login. Try signing in again.",
+        )
+
+    if not portal_signup_needs_profile(client):
+        role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
+        payload = _finalize_link_account_response(
+            auth0_user_id=auth0_user_id,
+            client=client,
+            db=db,
+            already_linked=True,
+            role_assigned=role_assigned,
+            role_newly_assigned=role_newly_assigned,
+            role_error=role_error,
+            link_method="complete_signup_not_applicable",
+        )
+        payload["needs_profile"] = False
+        payload["profile_completed"] = bool(getattr(client, "portal_profile_completed_at", None))
+        return payload
+
+    from app.utils.us_phone import normalize_phone_field
+
+    first_name = (body.first_name or "").strip()
+    last_name = (body.last_name or "").strip()
+    if not first_name or not last_name:
+        raise HTTPException(status_code=422, detail="First and last name are required.")
+    mobile = normalize_phone_field(body.mobile)
+    if not mobile:
+        raise HTTPException(status_code=422, detail="A mobile phone number is required.")
+    phone = normalize_phone_field(body.phone) if body.phone else None
+
+    apply_portal_profile_completion(
+        db,
+        client,
+        first_name=first_name,
+        last_name=last_name,
+        mobile=mobile,
+        phone=phone,
+        sms_consent=body.sms_consent,
+    )
+    db.commit()
+    db.refresh(client)
+
+    role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
+    payload = _finalize_link_account_response(
+        auth0_user_id=auth0_user_id,
+        client=client,
+        db=db,
+        already_linked=False,
+        role_assigned=role_assigned,
+        role_newly_assigned=role_newly_assigned,
+        role_error=role_error,
+        link_method="complete_signup",
+    )
+    payload["needs_profile"] = False
+    payload["profile_completed"] = True
+    return payload
 
 
 @router.post("/portal/admin/preview-unlock")
@@ -761,6 +966,8 @@ async def get_portal_profile(
         "mobile": client.mobile,
         "email": client.email,
         "sms_consent": bool(client.sms_consent),
+        "profile_completed": bool(getattr(client, "portal_profile_completed_at", None)),
+        "source": client.source,
         "self_scheduling_allowed": appliance_svc.client_self_scheduling_allowed(client, db),
         "self_scheduling_blocked": bool(client.self_scheduling_blocked),
         "appliances_import_completed": bool(client.appliances_import_completed),

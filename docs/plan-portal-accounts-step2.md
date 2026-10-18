@@ -1,7 +1,7 @@
 # Portal accounts — Step 2 plan
 
 **Date:** 2026-10-17  
-**Status:** In progress — phases **2.0**, **2a**, **2b** implemented in code; **2c–2f** pending  
+**Status:** In progress — phases **2.0**, **2a**, **2b**, **2c** implemented in code; **2d–2f** pending  
 **Base audit:** [`docs/audit-portal-accounts.md`](./audit-portal-accounts.md) (2026-03-16)  
 **Rules:** No Alembic; DB changes via `db/sql/*.sql` + matching `*_undo.sql` (run in Supabase). Do **not** change diagnostic discount or repair credit logic (`portal_scheduling_helpers.apply_tier_pricing`, public booking tier math, or related credit paths).
 
@@ -38,7 +38,7 @@
 | **2.0** | **Security hardening** | Close account-takeover via email lookup; lock staff-only routers from `client`-role JWTs. **Shipped in code (Oct 2026).** |
 | **2a** | **6** Appliance labels (Option B) | `verified_at` / `verified_by` columns; UI labels without overwriting `source`. **Shipped in code (Oct 2026).** |
 | **2b** | **4** Claim links (dual JWT + DB) | Safer invites / email-change before scaling signup; old JWTs keep working. **Shipped in code (Oct 2026).** |
-| **2c** | **1** Open sign-up + finish profile | Creates `self_signup` clients; still needs at least one property for appliances (2d). |
+| **2c** | **1** Open sign-up + finish profile | Creates `self_signup` clients; still needs at least one property for appliances (2d). **Shipped in code (Oct 2026).** |
 | **2d** | **2** Portal properties CRUD | Unblocks appliance add + portal schedule for net-new portal customers. |
 | **2e** | **3** One link model (phased) | **3a:** set `client.user_id` to existing `users` row for Auth0 `sub` (no duplicate user create). **3b:** `client_logins` + multi-identity (phone step 3). |
 | **2f** | **5** Admin client merge | Highest blast radius; needs stable linking + claim-link audit patterns. |
@@ -115,6 +115,32 @@ Run `2026-10-17_client_portal_claims.sql` in Supabase before deploying API.
 ```bash
 cd backend && python -m pytest tests/test_portal_claim_service.py tests/test_portal_security.py -q
 ```
+
+## Phase 2c — Open sign-up + finish profile (implemented)
+
+### What shipped
+
+- SQL: `db/sql/2026-10-17_portal_self_signup.sql` (+ `_undo`) — `clients.portal_profile_completed_at`.
+- API: `link-account` creates `source=self_signup` when verified email has no match (no `client` role until profile done); `GET /portal/signup-status`, `POST /portal/complete-signup`.
+- Frontend: `/cxdashboard/finish-profile`; dashboard redirects when `needs_profile`.
+
+### Deploy
+
+Run `2026-10-17_portal_self_signup.sql` in Supabase before deploying API.
+
+### Tests
+
+```bash
+cd backend && python -m pytest tests/test_portal_signup.py tests/test_portal_security.py -q
+```
+
+### Manual checks (stop here before 2d)
+
+1. New Auth0 user (verified email) → portal → finish profile → dashboard loads after re-login if needed.
+2. Existing client / invite / claim paths unchanged.
+3. Unverified email → 403 on link-account.
+
+---
 
 ### Manual checks (stop here before 2c)
 

@@ -34,6 +34,9 @@ export const getClients = async (params = {}) => {
     if (params.limit) queryParams.append('limit', params.limit);
     if (params.search) queryParams.append('search', params.search);
     if (params.status) queryParams.append('status', params.status);
+    if (params.portalSignupIncomplete) {
+      queryParams.append('portal_signup_incomplete', 'true');
+    }
     if (params.sort) queryParams.append('sort', params.sort);
     if (params.order) queryParams.append('order', params.order);
     

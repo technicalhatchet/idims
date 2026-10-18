@@ -6,6 +6,11 @@ import uuid
 import logging
 
 from app.models.client import Client
+from app.services.portal_signup_service import (
+    DEFAULT_FIRST_NAME,
+    DEFAULT_LAST_NAME,
+    SOURCE_SELF_SIGNUP,
+)
 from app.models.work_order import WorkOrder
 from app.models.invoice import Invoice
 from app.models.user import User
@@ -24,6 +29,7 @@ class ClientService:
         db: Session, 
         search: Optional[str] = None,
         status: Optional[str] = None,
+        portal_signup_incomplete: bool = False,
         skip: int = 0, 
         limit: int = 100
     ) -> Dict[str, Any]:
@@ -43,6 +49,14 @@ class ClientService:
         
         if status:
             query = query.filter(Client.status == status)
+
+        if portal_signup_incomplete:
+            query = query.filter(
+                Client.source == SOURCE_SELF_SIGNUP,
+                Client.portal_profile_completed_at.is_(None),
+                Client.first_name == DEFAULT_FIRST_NAME,
+                Client.last_name == DEFAULT_LAST_NAME,
+            )
         
         # Get total count for pagination
         total = query.count()

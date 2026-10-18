@@ -15,6 +15,7 @@ function ClientsPage() {
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
+  const [portalSignupIncomplete, setPortalSignupIncomplete] = useState(false);
   
   // Authorization check
   useAuthRedirect();
@@ -25,7 +26,7 @@ function ClientsPage() {
     isLoading, 
     error,
     refetch
-  } = useClients({ page, limit, search, status });
+  } = useClients({ page, limit, search, status, portalSignupIncomplete });
   
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
@@ -44,6 +45,7 @@ function ClientsPage() {
   const clearFilters = () => {
     setSearch('');
     setStatus('');
+    setPortalSignupIncomplete(false);
     setPage(1);
   };
   
@@ -94,6 +96,19 @@ function ClientsPage() {
                 <option value="inactive">Inactive</option>
                 <option value="lead">Lead</option>
               </select>
+            </div>
+            <div className="w-full md:w-auto flex items-center">
+              <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                <input
+                  type="checkbox"
+                  checked={portalSignupIncomplete}
+                  onChange={(e) => {
+                    setPortalSignupIncomplete(e.target.checked);
+                    setPage(1);
+                  }}
+                />
+                Incomplete portal sign-up
+              </label>
             </div>
             <div className="flex gap-2">
               <button

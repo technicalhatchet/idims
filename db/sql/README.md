@@ -50,6 +50,13 @@ Optional: `reports/2026-10-17_public_schema_backup_tables.sql` to find legacy `p
 
 | 6 | **`2026-10-17_client_portal_claims.sql`** | **Before phase 2b app deploy** — claim tokens for portal invites |
 | 7 | Deploy backend + frontend (phase 2b) | |
+| 8 | **`2026-10-17_portal_self_signup.sql`** | **Before phase 2c app deploy** — `portal_profile_completed_at` |
+| 9 | Deploy backend + frontend (phase 2c) | Open sign-up + finish-profile |
+
+### Rollback (portal 2c self-signup)
+
+1. Redeploy the **previous** application build.
+2. Run `2026-10-17_portal_self_signup_undo.sql`.
 
 ### Rollback (portal 2b claims)
 
