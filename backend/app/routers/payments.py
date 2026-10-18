@@ -19,7 +19,7 @@ from app.schemas.payment import (
 )
 from app.core.exceptions import NotFoundException, ValidationException, ConflictException
 from app.services.payment_service import PaymentService
-from app.core.dependencies import get_current_user, get_admin_or_manager_user
+from app.core.dependencies import get_staff_user, get_admin_or_manager_user
 
 router = APIRouter()
 
@@ -43,7 +43,7 @@ async def list_payments(
     end_date: Optional[date] = Query(None, description="Filter by payment date (end)"),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(20, ge=1, le=100, description="Items per page"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -109,7 +109,7 @@ async def create_payment(
 @router.get("/payments/{payment_id}", response_model=PaymentResponse)
 async def get_payment(
     payment_id: uuid.UUID = Path(..., description="The ID of the payment to retrieve"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -199,7 +199,7 @@ async def process_stripe_webhook(
 @router.get("/clients/{client_id}/payment-methods", response_model=List[PaymentMethodResponse])
 async def get_client_payment_methods(
     client_id: uuid.UUID = Path(..., description="The ID of the client"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -229,7 +229,7 @@ async def get_client_payment_methods(
 async def create_client_payment_method(
     client_id: uuid.UUID = Path(..., description="The ID of the client"),
     payment_method: PaymentMethodCreate = Body(...),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
@@ -263,7 +263,7 @@ async def create_client_payment_method(
 async def delete_client_payment_method(
     client_id: uuid.UUID = Path(..., description="The ID of the client"),
     payment_method_id: uuid.UUID = Path(..., description="The ID of the payment method to delete"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """

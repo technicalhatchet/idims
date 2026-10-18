@@ -17,7 +17,7 @@ from app.schemas.client import (
 from app.services.client_service import ClientService
 from app.services.notification_service import NotificationService
 from app.core.exceptions import NotFoundException, ConflictException, ValidationException
-from app.core.dependencies import get_admin_or_manager_user
+from app.core.dependencies import get_admin_or_manager_user, get_staff_user
 from app.config import settings
 from app.schemas.client_appliance import ClientApplianceCreate, ClientApplianceUpdate, MergeAppliancesRequest
 from app.services import client_appliance_service as appliance_svc
@@ -171,28 +171,13 @@ async def list_clients(
     ),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(10, ge=1, le=100, description="Items per page"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
     List clients with filtering and pagination.
-    Permissions: All authenticated users can access, but regular clients only see themselves.
+    Permissions: Staff only (portal customers use /api/portal/*).
     """
-    user_roles = _normalize_roles(getattr(current_user, "roles", None))
-    if "client" in user_roles and not _is_staff_user(user_roles):
-        # Clients can only view their own data
-        client = db.query(Client).filter(Client.user_id == current_user.id).first()
-        if not client:
-            raise NotFoundException("Client profile not found")
-
-        return {
-            "total": 1,
-            "items": [_serialize_client_for_list(client)],
-            "page": 1,
-            "pages": 1,
-        }
-
-    # For staff, get all clients with filters
     skip = (page - 1) * limit
     try:
         result = await ClientService.get_clients(
@@ -234,23 +219,13 @@ async def create_client(
 @router.get("/{client_id}", response_model=ClientResponse)
 async def get_client(
     client_id: uuid.UUID = Path(..., description="The ID of the client to retrieve"),
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
     Get a specific client by ID.
-    Permissions: Staff can access any client, clients can only access themselves.
+    Permissions: Staff only.
     """
-    user_roles = _normalize_roles(getattr(current_user, "roles", None))
-    if "client" in user_roles and not _is_staff_user(user_roles):
-        # Clients can only view their own data
-        client = db.query(Client).filter(Client.user_id == current_user.id).first()
-        if not client or client.id != client_id:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Not authorized to view this client"
-            )
-    
     try:
         return await ClientService.get_client(db, client_id)
     except NotFoundException as e:
@@ -260,22 +235,13 @@ async def get_client(
 async def update_client(
     client_id: uuid.UUID,
     client_update: ClientUpdate,
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
     Update a client.
-    Permissions: Staff can update any client, clients can only update themselves.
+    Permissions: Staff only.
     """
-    if "client" in current_user.roles:
-        # Clients can only update their own data
-        client = db.query(Client).filter(Client.user_id == current_user.id).first()
-        if not client or client.id != client_id:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Not authorized to update this client"
-            )
-    
     try:
         return await ClientService.update_client(db, client_id, client_update)
     except NotFoundException as e:
@@ -315,22 +281,13 @@ async def delete_client(
 @router.get("/{client_id}/service-history", response_model=List)
 async def get_client_service_history(
     client_id: uuid.UUID,
-    current_user: AuthUser = Depends(get_current_user_dependency),
+    current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
     """
     Get service history for a client.
-    Permissions: Staff can access any client history, clients can only access their own.
+    Permissions: Staff only.
     """
-    if "client" in current_user.roles:
-        # Clients can only view their own data
-        client = db.query(Client).filter(Client.user_id == current_user.id).first()
-        if not client or client.id != client_id:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Not authorized to view this client's service history"
-            )
-    
     try:
         return await ClientService.get_client_service_history(db, client_id)
     except NotFoundException as e:
