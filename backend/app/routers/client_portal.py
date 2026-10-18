@@ -63,6 +63,14 @@ from app.services.portal_preview_guard import (
     assert_portal_write_allowed,
     create_preview_unlock_token,
 )
+from app.schemas.portal_property import PortalPropertyUpdate, PortalPropertyWrite
+from app.services.portal_property_service import (
+    PortalPropertyError,
+    create_portal_property,
+    delete_portal_property,
+    serialize_portal_property_list_item,
+    update_portal_property,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -1339,6 +1347,10 @@ async def get_portal_work_order_detail(
     }
 
 
+def _raise_portal_property_error(exc: PortalPropertyError) -> None:
+    raise HTTPException(status_code=exc.status_code, detail=exc.message)
+
+
 @router.get("/portal/properties")
 async def get_portal_properties(
     client: Client = Depends(get_portal_client),
@@ -1349,44 +1361,70 @@ async def get_portal_properties(
     ).all()
 
     now = datetime.utcnow()
+    return [
+        serialize_portal_property_list_item(
+            db,
+            prop,
+            now=now,
+            warranty_is_active=_warranty_is_active,
+        )
+        for prop in properties_list
+    ]
 
-    result = []
-    for prop in properties_list:
-        work_orders_list = db.query(WorkOrder).filter(
-            WorkOrder.property_id == prop.id
-        ).order_by(desc(WorkOrder.created_at)).all()
 
-        active_wo = [w for w in work_orders_list if w.status not in ("completed", "cancelled", "closed")]
-        warranty_active = any(_warranty_is_active(w, db, now) for w in work_orders_list)
+@router.post("/portal/properties")
+async def create_portal_property_route(
+    body: PortalPropertyWrite,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/properties")),
+):
+    try:
+        prop = create_portal_property(db, client, body)
+        db.commit()
+        db.refresh(prop)
+        return serialize_portal_property_list_item(
+            db, prop, warranty_is_active=_warranty_is_active
+        )
+    except PortalPropertyError as exc:
+        db.rollback()
+        _raise_portal_property_error(exc)
 
-        result.append({
-            "id": str(prop.id),
-            "address": prop.address,
-            "unit_number": prop.unit_number,
-            "property_type": prop.property_type,
-            "tenant_name": prop.tenant_name,
-            "tenant_phone": prop.tenant_phone,
-            "tenant_email": prop.tenant_email,
-            "stats": {
-                "active_repairs": len(active_wo),
-                "total_repairs": len(work_orders_list),
-                "warranty_active": warranty_active,
-            },
-            "recent_work_orders": [
-                {
-                    "id": str(w.id),
-                    "order_number": w.order_number,
-                    "status": w.status,
-                    "equipment_make": w.equipment_make,
-                    "equipment_model": w.equipment_model,
-                    "equipment_subtype": w.equipment_subtype,
-                    "created_at": w.created_at.isoformat() if w.created_at else None,
-                    "invoice_total": float(w.invoice_total) if w.invoice_total else None,
-                }
-                for w in work_orders_list[:5]
-            ]
-        })
-    return result
+
+@router.put("/portal/properties/{property_id}")
+async def update_portal_property_route(
+    property_id: uuid.UUID,
+    body: PortalPropertyUpdate,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("PUT /portal/properties")),
+):
+    try:
+        prop = update_portal_property(db, client, property_id, body)
+        db.commit()
+        db.refresh(prop)
+        return serialize_portal_property_list_item(
+            db, prop, warranty_is_active=_warranty_is_active
+        )
+    except PortalPropertyError as exc:
+        db.rollback()
+        _raise_portal_property_error(exc)
+
+
+@router.delete("/portal/properties/{property_id}")
+async def delete_portal_property_route(
+    property_id: uuid.UUID,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("DELETE /portal/properties")),
+):
+    try:
+        delete_portal_property(db, client.id, property_id)
+        db.commit()
+        return {"success": True}
+    except PortalPropertyError as exc:
+        db.rollback()
+        _raise_portal_property_error(exc)
 
 
 @router.get("/portal/invoices")
@@ -1848,7 +1886,8 @@ async def create_portal_appliance(
         return appliance_svc.serialize_appliance(appliance, db)
     except ValueError as exc:
         db.rollback()
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        status = 404 if "Property not found" in str(exc) else 400
+        raise HTTPException(status_code=status, detail=str(exc)) from exc
 
 
 @router.put("/portal/appliances/{appliance_id}")
@@ -1868,7 +1907,8 @@ async def update_portal_appliance(
         return appliance_svc.serialize_appliance(appliance, db)
     except ValueError as exc:
         db.rollback()
-        raise HTTPException(status_code=404, detail=str(exc)) from exc
+        status = 404 if "Property not found" in str(exc) else 404
+        raise HTTPException(status_code=status, detail=str(exc)) from exc
 
 
 @router.delete("/portal/appliances/{appliance_id}")

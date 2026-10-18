@@ -4,6 +4,7 @@ from datetime import datetime
 
 class PropertyBase(BaseModel):
     address: str
+    nickname: Optional[str] = None
     unit_number: Optional[str] = None
     property_type: Optional[str] = None
     notes: Optional[str] = None

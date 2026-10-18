@@ -1,7 +1,7 @@
 # Portal accounts — Step 2 plan
 
 **Date:** 2026-10-17  
-**Status:** In progress — phases **2.0**, **2a**, **2b**, **2c** implemented in code; **2d–2f** pending  
+**Status:** In progress — phases **2.0**, **2a**, **2b**, **2c**, **2d** implemented in code; **2e–2f** pending  
 **Base audit:** [`docs/audit-portal-accounts.md`](./audit-portal-accounts.md) (2026-03-16)  
 **Rules:** No Alembic; DB changes via `db/sql/*.sql` + matching `*_undo.sql` (run in Supabase). Do **not** change diagnostic discount or repair credit logic (`portal_scheduling_helpers.apply_tier_pricing`, public booking tier math, or related credit paths).
 
@@ -39,7 +39,7 @@
 | **2a** | **6** Appliance labels (Option B) | `verified_at` / `verified_by` columns; UI labels without overwriting `source`. **Shipped in code (Oct 2026).** |
 | **2b** | **4** Claim links (dual JWT + DB) | Safer invites / email-change before scaling signup; old JWTs keep working. **Shipped in code (Oct 2026).** |
 | **2c** | **1** Open sign-up + finish profile | Creates `self_signup` clients; still needs at least one property for appliances (2d). **Shipped in code (Oct 2026).** |
-| **2d** | **2** Portal properties CRUD | Unblocks appliance add + portal schedule for net-new portal customers. |
+| **2d** | **2** Portal properties CRUD | Portal CRUD + nicknames + appliance/schedule flows. **Shipped in code (Oct 2026).** |
 | **2e** | **3** One link model (phased) | **3a:** set `client.user_id` to existing `users` row for Auth0 `sub` (no duplicate user create). **3b:** `client_logins` + multi-identity (phone step 3). |
 | **2f** | **5** Admin client merge | Highest blast radius; needs stable linking + claim-link audit patterns. |
 
@@ -268,81 +268,59 @@ Goals **1** and **2** can ship as one release if finish-profile routes users to 
 
 ---
 
-## Goal 2 — Properties (portal CRUD)
+## Goal 2 — Properties (portal CRUD) — **Phase 2d shipped**
 
-### Current state
+### What shipped
 
-**Portal**
+**SQL (run before deploy)**
 
-- `GET /portal/properties` only (`client_portal.py` ~1096–1143): aggregates WO stats per property.
-- No `POST`/`PUT`/`DELETE` under `/portal/properties`.
+- `db/sql/2026-10-18_property_nickname.sql` — `properties.nickname varchar(60)` (optional label; scheduling/invoices still use street address).
+- Undo: `2026-10-18_property_nickname_undo.sql`.
 
-**Staff API**
+**Portal API** (`client_portal.py`, `portal_property_service.py`)
 
-- `backend/app/routers/properties.py`: CRUD with `get_current_user` only — **no check** that caller may write that `client_id` (~13–80). Not used by portal today.
-
-**UI**
-
-- Properties loaded for appliance forms (`cxdashboard/appliances.js` ~90, `ApplianceFormModal.js` ~21–40). If `properties.length === 0`, appliance form can submit without `property_id` (~39–45) — scheduling still needs a coherent address elsewhere.
-
-**Public booking**
-
-- Creates `Property` rows when booking (`public.py` ~589–599).
-
-**Dependencies**
-
-- `Client.properties` relationship (`client.py` ~50).
-- Work orders: `work_orders.property_id`; portal schedule flows use `appliance_id` → appliance → `property_id`.
-
-**If we build portal property CRUD**
-
-- Must scope all mutations to `get_portal_client` client id (same as appliances).
-- Admin preview: wrap writes with `require_portal_write`.
-- Changing address string may affect trip/zone logic for **new** schedules only — do not rewrite historical WO addresses.
-
-### Plan
-
-**API**
-
-- `POST /portal/properties` — `PropertyCreate` minus `client_id` (inject from client).
-- `PUT /portal/properties/{id}` — ownership check `property.client_id == client.id`.
-- `DELETE /portal/properties/{id}` — soft-delete vs hard-delete: prefer **block delete** if active WOs or appliances reference it; else SET NULL appliances (`property_id` nullable on `client_appliance.py` ~22–27).
-
-**Validation**
-
-- Reuse address normalization patterns from booking (`estimate_trip_charge` / serviceability) optionally on create — **warn** if out of zone, don’t block property record (scheduling already enforces).
+- `GET /portal/properties` — list with stats, `has_service_history`, `address_editable`, `appliance_count`, optional `nickname`.
+- `POST` / `PUT` / `DELETE /portal/properties/{id}` — client from `get_portal_client` only; `require_portal_write` on mutations.
+- Allowlisted fields: address, unit, type (`residential` \| `rental` \| `commercial`), gate code, access instructions, tenant contact; phone normalized via `normalize_phone_field`. Staff-only `properties.notes` is not exposed or writable via portal.
+- Service area: create + address change use `estimate_trip_charge` + `is_address_serviceable` (same as `/book`) → **403** with `OUT_OF_SERVICE_AREA_MESSAGE` when out of zone.
+- Duplicate client+address+unit (case/space-insensitive) → **409**.
+- Work order history blocks address/unit edits → **400**; delete blocked when WOs or active appliances → **409**.
+- Portal appliance `POST`/`PUT`: foreign `property_id` → **404** (`client_appliance_service` ownership).
 
 **UI**
 
-- New `/cxdashboard/properties` or section under settings/appliances: list from existing GET shape + add/edit form (address, unit, gate, access).
-- After Goal 1: finish-profile “Add service address” step can call same API.
+- `/cxdashboard/properties` — list, add, edit, delete; `PropertyFormModal` (portal to `document.body`); service-area hint via public `booking-estimate`.
+- Sidebar **My Properties**; dashboard empty-state card for zero properties.
+- Appliance form: property picker with nicknames; zero properties → “Add an address first” opens property sheet; single property auto-selected.
+- Schedule: missing service address → pick/add property instead of dead-end error.
+- Admin preview: same UI; writes blocked until preview unlock (toast on 403).
 
-**Files touched**
+**Staff / TechDeck**
 
-| Area | Files |
+- Nickname on staff client property forms; list + work order / TechDeck property lines show nickname with muted full address.
+
+**Tests**
+
+- `backend/tests/test_portal_properties.py` (service + route error mapping).
+- `test_portal_security.py` — preview locked on `POST /portal/properties`.
+
+### Deploy order (portal 2d)
+
+| Step | Action |
 |------|--------|
-| Backend | `client_portal.py`, `schemas/property.py` (portal-specific DTOs), optional `property_service.py` |
-| Frontend | `cxdashboard/properties.js`, `Sidebar.js` nav, `appliances.js` empty-state CTA |
-| Staff | Optionally tighten `properties.py` auth in separate hardening PR (not required for portal path) |
+| 1 | Run `2026-10-18_property_nickname.sql` in Supabase |
+| 2 | Deploy backend + frontend (phase 2d) |
+| 3 | Smoke: portal create property → appliance → schedule; preview locked POST → 403 |
 
-**SQL**
+### Rollback (portal 2d)
 
-- Likely **none** if `properties` table sufficient. Optional: `properties.created_via varchar(30)` (`portal`, `staff`, `public_booking`) for support — only if product wants audit.
+1. Redeploy previous build.
+2. Run `2026-10-18_property_nickname_undo.sql`.
 
-**Risks**
+### Still out of scope
 
-- Duplicate property rows same address string (booking uses exact string match ~589–592); portal create should normalize or dedupe by normalized address key.
-- CASCADE delete on `properties.client_id` (`property.py` ~13) — avoid hard delete when children exist.
-
-**Must ship first**
-
-- Goal **1** for self-signup users without staff-created properties.
-
-**How to test**
-
-- Portal client creates property → appears in GET → appliance form dropdown → schedule prep succeeds.
-- IDOR: another client’s property id on PUT → 404.
-- Preview locked → POST returns 403 `Preview is locked`.
+- Staff `properties.py` auth hardening (separate PR).
+- `properties.created_via` audit column.
 
 ---
 

@@ -881,8 +881,20 @@ function WorkOrderDetail() {
                       <div className="md:col-span-2">
                         <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Address</h3>
                         <p className="mt-1 text-sm text-gray-900 dark:text-white">
-                          {workOrder.property.address || 'N/A'}
-                          {workOrder.property.unit_number && ` - Unit ${workOrder.property.unit_number}`}
+                          {workOrder.property.nickname ? (
+                            <>
+                              <span>{workOrder.property.nickname}</span>
+                              <span className="block text-xs text-gray-500 dark:text-gray-400 font-normal mt-0.5">
+                                {workOrder.property.address || 'N/A'}
+                                {workOrder.property.unit_number && ` - Unit ${workOrder.property.unit_number}`}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              {workOrder.property.address || 'N/A'}
+                              {workOrder.property.unit_number && ` - Unit ${workOrder.property.unit_number}`}
+                            </>
+                          )}
                         </p>
                       </div>
                       {workOrder.property.property_type && (

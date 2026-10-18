@@ -52,6 +52,13 @@ Optional: `reports/2026-10-17_public_schema_backup_tables.sql` to find legacy `p
 | 7 | Deploy backend + frontend (phase 2b) | |
 | 8 | **`2026-10-17_portal_self_signup.sql`** | **Before phase 2c app deploy** — `portal_profile_completed_at` |
 | 9 | Deploy backend + frontend (phase 2c) | Open sign-up + finish-profile |
+| 10 | **`2026-10-18_property_nickname.sql`** | **Before phase 2d app deploy** — optional property label |
+| 11 | Deploy backend + frontend (phase 2d) | Portal properties CRUD + nicknames |
+
+### Rollback (portal 2d property nickname)
+
+1. Redeploy the **previous** application build.
+2. Run `2026-10-18_property_nickname_undo.sql`.
 
 ### Rollback (portal 2c self-signup)
 

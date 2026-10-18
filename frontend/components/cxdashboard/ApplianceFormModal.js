@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { FaTimes } from 'react-icons/fa';
 import { emptyApplianceForm, EQUIPMENT_SUBTYPES, EQUIPMENT_TYPES, MANUFACTURERS } from '../../constants/applianceEquipment';
+import { propertyPrimaryTitle } from '../../utils/propertyDisplay';
 
 const fieldStyle = {
   width: '100%',
@@ -38,6 +39,7 @@ export default function ApplianceFormModal({
   onSave,
   onClose,
   submitting,
+  onRequestAddProperty,
 }) {
   const [form, setForm] = useState({ ...emptyApplianceForm, ...initial });
   const isMobile = useIsMobileSheet();
@@ -45,6 +47,12 @@ export default function ApplianceFormModal({
   useEffect(() => {
     setForm({ ...emptyApplianceForm, ...initial });
   }, [initial]);
+
+  useEffect(() => {
+    if (properties.length === 1 && !form.property_id) {
+      setForm((prev) => ({ ...prev, property_id: properties[0].id }));
+    }
+  }, [properties, form.property_id]);
 
   useEffect(() => {
     if (typeof document === 'undefined') return undefined;
@@ -62,7 +70,10 @@ export default function ApplianceFormModal({
     if (!form.equipment_type || !form.equipment_subtype || !form.make?.trim()) {
       return;
     }
-    if (properties.length > 0 && !form.property_id) {
+    if (properties.length === 0) {
+      return;
+    }
+    if (!form.property_id) {
       return;
     }
     onSave({
@@ -108,13 +119,24 @@ export default function ApplianceFormModal({
 
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4">
           <div className="grid gap-3">
-            {properties.length > 0 && (
+            {properties.length === 0 ? (
+              <div className="rounded-lg border border-amber-500/25 bg-amber-500/10 p-3">
+                <p className="text-sm text-amber-100 m-0 mb-2">Add an address before saving this appliance.</p>
+                <button
+                  type="button"
+                  onClick={() => onRequestAddProperty?.()}
+                  className="w-full rounded-lg bg-[#00D4FF] text-[#0A0F1E] border-0 py-2.5 text-sm font-bold"
+                >
+                  Add property
+                </button>
+              </div>
+            ) : (
               <div>
                 <label style={labelStyle}>Service property *</label>
                 <select value={form.property_id || ''} onChange={(e) => set({ property_id: e.target.value })} style={fieldStyle} required>
                   <option value="">Select property</option>
                   {properties.map((p) => (
-                    <option key={p.id} value={p.id}>{p.address}{p.unit_number ? ` · Unit ${p.unit_number}` : ''}</option>
+                    <option key={p.id} value={p.id}>{propertyPrimaryTitle(p)}</option>
                   ))}
                 </select>
                 <p className="mt-1.5 text-[0.7rem] text-gray-500">
@@ -192,7 +214,7 @@ export default function ApplianceFormModal({
           </button>
           <button
             type="submit"
-            disabled={submitting}
+            disabled={submitting || properties.length === 0}
             className="flex-[2] rounded-lg border-0 bg-[#00D4FF] px-3 py-3 font-bold text-[#0A0F1E] disabled:opacity-60"
           >
             {submitting ? 'Saving...' : 'Save'}
