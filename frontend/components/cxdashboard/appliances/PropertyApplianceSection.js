@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaHome, FaChevronDown } from 'react-icons/fa';
-import { propertyStats } from './appliancesPageUtils';
+import { FaHome, FaChevronDown, FaHistory } from 'react-icons/fa';
+import { propertyStats, propertyStatsSummaryLine } from './appliancesPageUtils';
 import ApplianceListRow from './ApplianceListRow';
 
 export default function PropertyApplianceSection({
@@ -12,6 +12,8 @@ export default function PropertyApplianceSection({
   onRemove,
   viewMode,
   showHeader = true,
+  onFindFromHistory,
+  historySuggestionCount = 0,
 }) {
   const stats = propertyStats(group.appliances);
 
@@ -53,28 +55,39 @@ export default function PropertyApplianceSection({
         </div>
 
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-white truncate">{group.label}</p>
+          <p className="text-sm font-semibold text-white truncate leading-tight">{group.label}</p>
           {group.subtitle ? (
-            <p className="text-xs text-gray-500 truncate mt-0.5">{group.subtitle}</p>
+            <p className="text-xs text-gray-500 truncate mt-0.5 leading-snug">{group.subtitle}</p>
           ) : null}
-          <div className="flex flex-wrap items-center gap-2 mt-1">
-            <span className="text-[11px] text-gray-400">{stats.count} Appliance{stats.count === 1 ? '' : 's'}</span>
-            {stats.activeRequests > 0 ? (
-              <span className="text-[11px] font-semibold text-orange-400">
-                {stats.activeRequests} Active Request{stats.activeRequests === 1 ? '' : 's'}
-              </span>
-            ) : null}
-            {stats.underWarranty > 0 ? (
-              <span className="text-[11px] font-semibold text-green-400">
-                {stats.underWarranty} Under Warranty
-              </span>
-            ) : null}
-          </div>
+          <p className="text-[11px] text-gray-400 truncate mt-1">
+            {propertyStatsSummaryLine(stats)}
+          </p>
         </div>
 
-        <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
-          <FaChevronDown className="w-4 h-4 text-gray-500 shrink-0" />
-        </motion.span>
+        <div className="flex items-center gap-1 shrink-0">
+          {onFindFromHistory ? (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onFindFromHistory();
+              }}
+              className="lg:hidden h-8 px-2 rounded-lg text-[11px] font-semibold text-gray-400 hover:text-white hover:bg-white/10 inline-flex items-center gap-1"
+              title="Find from service history"
+            >
+              <FaHistory className="w-3 h-3" />
+              History
+              {historySuggestionCount > 0 ? (
+                <span className="min-w-[1rem] h-4 px-1 rounded-full bg-cyan-500/20 text-cyan-300 text-[9px] font-bold inline-flex items-center justify-center">
+                  {historySuggestionCount}
+                </span>
+              ) : null}
+            </button>
+          ) : null}
+          <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
+            <FaChevronDown className="w-4 h-4 text-gray-500" />
+          </motion.span>
+        </div>
       </button>
 
       <AnimatePresence initial={false}>

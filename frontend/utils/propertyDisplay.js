@@ -1,9 +1,25 @@
 /** Portal/staff display helpers — nicknames are labels only; routing uses real address. */
 
+export function stripTrailingUsa(value) {
+  if (!value) return '';
+  return String(value).replace(/,\s*USA\s*$/i, '').trim();
+}
+
 export function formatPropertyAddress(prop) {
   if (!prop?.address) return '';
   const unit = prop.unit_number?.trim();
-  return unit ? `${prop.address} · Unit ${unit}` : prop.address;
+  const line = unit ? `${prop.address} · Unit ${unit}` : prop.address;
+  return stripTrailingUsa(line);
+}
+
+/** Portal property section header: nickname title + optional address line. */
+export function propertyHeaderLines(prop) {
+  const nick = prop?.nickname?.trim();
+  const addr = formatPropertyAddress(prop);
+  if (nick) {
+    return { title: nick, addressLine: addr || null };
+  }
+  return { title: addr || 'Property', addressLine: null };
 }
 
 export function propertyPrimaryTitle(prop) {

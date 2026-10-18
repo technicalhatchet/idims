@@ -1,9 +1,10 @@
-import { differenceInMonths, parseISO } from 'date-fns';
+import { differenceInMonths, format, parseISO } from 'date-fns';
 import { applianceDisplayName, subtypeLabel } from '../../../constants/applianceEquipment';
 import {
+  propertyHeaderLines,
   propertyPrimaryTitle,
-  propertySecondaryLine,
   propertySortKey,
+  stripTrailingUsa,
 } from '../../../utils/propertyDisplay';
 
 export const STATUS_FILTERS = [
@@ -41,20 +42,52 @@ export function propertyLabel(appliance) {
 export function propertyGroupMeta(appliance) {
   const prop = appliance?.property;
   if (prop?.address || prop?.nickname) {
+    const header = propertyHeaderLines(prop);
     return {
-      label: propertyPrimaryTitle(prop),
-      subtitle: propertySecondaryLine(prop),
+      label: header.title,
+      subtitle: header.addressLine,
       sortKey: propertySortKey(prop),
     };
   }
   if (appliance?.service_address) {
+    const addr = stripTrailingUsa(appliance.service_address);
     return {
-      label: appliance.service_address,
+      label: addr,
       subtitle: null,
-      sortKey: appliance.service_address.toLowerCase(),
+      sortKey: addr.toLowerCase(),
     };
   }
   return { label: 'No property assigned', subtitle: null, sortKey: 'zzz' };
+}
+
+export function statusLinePresentation(status) {
+  switch (status?.key) {
+    case 'active_request':
+      return { text: 'Active request', className: 'text-orange-400' };
+    case 'warranty':
+      return { text: 'Warranty', className: 'text-green-400' };
+    case 'maintenance_due':
+      return { text: 'Maintenance due', className: 'text-gray-400' };
+    default:
+      return { text: 'Out of warranty', className: 'text-gray-500' };
+  }
+}
+
+export function formatApplianceLastService(dateStr) {
+  if (!dateStr) return 'No service yet';
+  try {
+    return format(parseISO(dateStr), 'M/d/yy');
+  } catch {
+    return 'No service yet';
+  }
+}
+
+export function countActiveFilters({ statusFilter, typeFilter, sortBy }) {
+  let n = 0;
+  if (statusFilter && statusFilter !== 'all') n += 1;
+  if (typeFilter && typeFilter !== 'all') n += 1;
+  if (sortBy && sortBy !== 'property') n += 1;
+  return n;
 }
 
 export function applianceTypeLabel(appliance) {
@@ -205,4 +238,15 @@ export function propertyStats(appliances) {
     activeRequests: appliances.filter((a) => a.active_repair).length,
     underWarranty: appliances.filter((a) => a.warranty_active).length,
   };
+}
+
+export function propertyStatsSummaryLine(stats) {
+  const parts = [`${stats.count} appliance${stats.count === 1 ? '' : 's'}`];
+  if (stats.activeRequests > 0) {
+    parts.push(`${stats.activeRequests} active`);
+  }
+  if (stats.underWarranty > 0) {
+    parts.push(`${stats.underWarranty} warranty`);
+  }
+  return parts.join(' · ');
 }

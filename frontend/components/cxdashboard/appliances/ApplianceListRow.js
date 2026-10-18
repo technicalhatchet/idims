@@ -1,11 +1,14 @@
 import { useState, useRef } from 'react';
 import Link from 'next/link';
-import { format, parseISO } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaEllipsisV } from 'react-icons/fa';
 import ApplianceIcon from '../ApplianceIcon';
 import { applianceDisplayName } from '../../../constants/applianceEquipment';
-import { getPrimaryStatus } from './appliancesPageUtils';
+import {
+  formatApplianceLastService,
+  getPrimaryStatus,
+  statusLinePresentation,
+} from './appliancesPageUtils';
 import ApplianceOverflowMenu from './ApplianceOverflowMenu';
 import ApplianceScheduleButton from './ApplianceScheduleButton';
 import ApplianceSourceSubtitle from './ApplianceSourceSubtitle';
@@ -16,6 +19,24 @@ function DetailBlock({ label, value }) {
       <p className="text-[10px] uppercase tracking-wide text-gray-500 mb-0.5">{label}</p>
       <p className="text-sm text-gray-200 break-words">{value || '—'}</p>
     </div>
+  );
+}
+
+function ApplianceMetaLine({ appliance }) {
+  const status = getPrimaryStatus(appliance);
+  const { text: statusText, className: statusClass } = statusLinePresentation(status);
+  const lastService = formatApplianceLastService(appliance.last_service_date);
+  const serviceCount = appliance.service_count || 0;
+  const servicesLabel = `${serviceCount} service${serviceCount === 1 ? '' : 's'}`;
+
+  return (
+    <p className="text-[11px] text-gray-500 truncate mt-0.5">
+      <span className={`font-medium ${statusClass}`}>{statusText}</span>
+      <span className="text-gray-600"> · </span>
+      <span>{lastService}</span>
+      <span className="text-gray-600"> · </span>
+      <span>{servicesLabel}</span>
+    </p>
   );
 }
 
@@ -33,11 +54,6 @@ export default function ApplianceListRow({
   const detailId = appliance.id;
   const detailHref = `/cxdashboard/appliances/${encodeURIComponent(detailId)}`;
   const scheduleHref = `/cxdashboard/appliances/${encodeURIComponent(detailId)}/schedule`;
-  const status = getPrimaryStatus(appliance);
-  const lastService = appliance.last_service_date
-    ? format(parseISO(appliance.last_service_date), 'MMM d, yyyy')
-    : '—';
-  const serviceCount = appliance.service_count || 0;
 
   const toggleExpanded = () => setExpanded((prev) => !prev);
 
@@ -49,7 +65,7 @@ export default function ApplianceListRow({
     >
       <motion.div
         layout
-        className={`group flex items-center gap-3 px-3 sm:px-4 min-h-[72px] cursor-pointer transition-colors hover:bg-white/[0.03] ${
+        className={`group flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3 min-h-[68px] cursor-pointer transition-colors hover:bg-white/[0.03] ${
           expanded ? 'bg-white/[0.02]' : ''
         }`}
         onClick={toggleExpanded}
@@ -61,34 +77,17 @@ export default function ApplianceListRow({
           />
         </div>
 
-        <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-[1.4fr_auto_1fr] sm:items-center gap-1 sm:gap-4">
-          <div className="min-w-0">
-            <p className="text-sm font-semibold text-white truncate">{displayName}</p>
-            <ApplianceSourceSubtitle appliance={appliance} className="text-xs text-gray-500 truncate" />
-          </div>
-
-          <div className="flex sm:justify-center">
-            <span
-              className={`inline-flex items-center rounded-md border px-2 py-0.5 text-[11px] font-semibold ${status.className}`}
-            >
-              {status.label}
-            </span>
-          </div>
-
-          <div className="hidden sm:flex items-center justify-end gap-4 text-xs text-gray-400">
-            <div className="text-right">
-              <p className="text-[10px] uppercase tracking-wide text-gray-500">Last Service</p>
-              <p className="text-gray-300">{lastService}</p>
-            </div>
-            <div className="text-right min-w-[72px]">
-              <p className="text-[10px] uppercase tracking-wide text-gray-500">Services</p>
-              <p className="text-cyan-300 font-semibold">{serviceCount}</p>
-            </div>
-          </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-semibold text-white truncate leading-tight">{displayName}</p>
+          <ApplianceSourceSubtitle
+            appliance={appliance}
+            className="text-xs text-gray-500 truncate mt-0.5 leading-snug"
+          />
+          <ApplianceMetaLine appliance={appliance} />
         </div>
 
         <div
-          className="flex items-center gap-1.5 shrink-0"
+          className="flex items-center gap-1.5 shrink-0 self-center"
           onClick={(e) => e.stopPropagation()}
         >
           <ApplianceScheduleButton
@@ -121,13 +120,6 @@ export default function ApplianceListRow({
           </div>
         </div>
       </motion.div>
-
-      <div className="sm:hidden px-3 pb-2 flex items-center justify-between text-xs text-gray-400 -mt-1">
-        <span>Last: {lastService}</span>
-        <span>
-          <span className="text-cyan-300 font-semibold">{serviceCount}</span> service{serviceCount === 1 ? '' : 's'}
-        </span>
-      </div>
 
       <AnimatePresence initial={false}>
         {expanded ? (
