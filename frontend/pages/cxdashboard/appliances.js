@@ -439,7 +439,7 @@ export default function AppliancesPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {propertyGroups.map((group) => (
+            {propertyGroups.map((group, groupIndex) => (
               <PropertyApplianceSection
                 key={group.key}
                 group={group}
@@ -450,6 +450,8 @@ export default function AppliancesPage() {
                 onRemove={handleRemoveAppliance}
                 viewMode={viewMode}
                 showHeader={!singlePropertyMode}
+                onFindFromHistory={groupIndex === 0 ? handleFindFromHistory : undefined}
+                historySuggestionCount={groupIndex === 0 ? serviceHistoryCandidates.length : 0}
               />
             ))}
           </div>
