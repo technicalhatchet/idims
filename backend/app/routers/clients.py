@@ -800,6 +800,38 @@ async def resend_portal_person_invite(
     return {"url": invite_url, "email_sent": bool(claim.invited_email)}
 
 
+@router.post("/{client_id}/portal-access/invites/{claim_id}/cancel")
+async def cancel_portal_person_invite(
+    client_id: uuid.UUID,
+    claim_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_admin_or_manager_user),
+):
+    from app.models.client_portal_claim import ClientPortalClaim
+    from app.utils.datetime_utils import utcnow_naive
+
+    client = db.query(Client).filter(Client.id == client_id).first()
+    if not client:
+        raise HTTPException(status_code=404, detail="Client not found")
+
+    claim = (
+        db.query(ClientPortalClaim)
+        .filter(
+            ClientPortalClaim.id == claim_id,
+            ClientPortalClaim.client_id == client_id,
+            ClientPortalClaim.purpose == PURPOSE_PORTAL_INVITE,
+        )
+        .first()
+    )
+    if not claim or claim.used_at:
+        raise HTTPException(status_code=404, detail="Invite not found")
+
+    if not claim.revoked_at:
+        claim.revoked_at = utcnow_naive()
+    db.commit()
+    return {"success": True}
+
+
 @router.post("/{client_id}/portal-access/logins/{login_id}/revoke")
 async def revoke_client_portal_login_route(
     client_id: uuid.UUID,

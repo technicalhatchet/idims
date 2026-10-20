@@ -79,6 +79,7 @@ def test_cannot_invite_existing_member_email():
 @pytest.mark.asyncio
 async def test_portal_create_invite_sends_email_and_notifies():
     from app.routers.client_portal import PortalMemberInviteBody, portal_create_account_invite
+    from app.services.portal_member_invite_service import PortalInviteActor
 
     client = _client()
     login = _login(client.id)
@@ -88,32 +89,51 @@ async def test_portal_create_invite_sends_email_and_notifies():
         client_id=client.id,
         expires_at=datetime.utcnow() + timedelta(days=7),
     )
+    actor = PortalInviteActor(
+        invited_by_login_id=login.id,
+        login=login,
+        claim_metadata={"invited_by": "customer"},
+        notify_admins_on_invite=True,
+        created_by_auth0_sub=None,
+    )
+    token_data = SimpleNamespace(sub=login.auth0_user_id, roles=["client"])
 
     with patch(
         "app.routers.client_portal.assert_can_create_customer_invite",
         return_value="spouse@example.com",
     ):
         with patch(
-            "app.routers.client_portal.create_portal_claim",
-            return_value=(claim, "raw-token"),
+            "app.routers.client_portal.resolve_portal_invite_actor",
+            return_value=actor,
         ):
-            with patch("app.routers.client_portal.build_claim_register_url", return_value="https://x/claim"):
-                with patch("app.routers.client_portal.send_portal_invite_email") as send_email:
-                    with patch(
-                        "app.routers.client_portal.notify_admins_portal_access_event",
-                        new_callable=AsyncMock,
-                    ):
-                        result = await portal_create_account_invite(
-                            body=PortalMemberInviteBody(
-                                display_name="Spouse",
-                                email="spouse@example.com",
-                            ),
-                            client=client,
-                            login=login,
-                            db=db,
-                            _write_guard=None,
-                        )
+            with patch(
+                "app.routers.client_portal.create_portal_claim",
+                return_value=(claim, "raw-token"),
+            ) as mock_create:
+                with patch(
+                    "app.routers.client_portal.build_claim_register_url",
+                    return_value="https://x/claim",
+                ):
+                    with patch("app.routers.client_portal.send_portal_invite_email") as send_email:
+                        with patch(
+                            "app.routers.client_portal.notify_admins_portal_access_event",
+                            new_callable=AsyncMock,
+                        ) as notify:
+                            result = await portal_create_account_invite(
+                                body=PortalMemberInviteBody(
+                                    display_name="Spouse",
+                                    email="spouse@example.com",
+                                ),
+                                token_data=token_data,
+                                client=client,
+                                db=db,
+                                admin_client_id=None,
+                                _write_guard=None,
+                            )
     send_email.assert_called_once()
+    notify.assert_awaited_once()
+    mock_create.assert_called_once()
+    assert mock_create.call_args.kwargs["invited_by_login_id"] == login.id
     assert result["email_sent"] is True
     db.commit.assert_called_once()
 
@@ -209,7 +229,69 @@ async def test_admin_preview_invite_locked_without_unlock():
 
 
 @pytest.mark.asyncio
-async def test_get_portal_client_login_blocks_admin_preview():
+async def test_admin_preview_invite_unlocked_returns_200():
+    from app.routers.client_portal import PortalMemberInviteBody, portal_create_account_invite
+    from app.services.portal_member_invite_service import PortalInviteActor
+
+    client = _client()
+    db = MagicMock()
+    claim = SimpleNamespace(
+        id=uuid.uuid4(),
+        client_id=client.id,
+        expires_at=datetime.utcnow() + timedelta(days=7),
+    )
+    staff_actor = PortalInviteActor(
+        invited_by_login_id=None,
+        login=None,
+        claim_metadata={
+            "invited_by": "staff_preview",
+            "invited_by_staff": {"user_id": "u1", "name": "Admin User"},
+        },
+        notify_admins_on_invite=False,
+        created_by_auth0_sub="auth0|admin",
+    )
+    token_data = SimpleNamespace(sub="auth0|admin", roles=["admin"])
+
+    with patch(
+        "app.routers.client_portal.assert_can_create_customer_invite",
+        return_value="spouse@example.com",
+    ):
+        with patch(
+            "app.routers.client_portal.resolve_portal_invite_actor",
+            return_value=staff_actor,
+        ):
+            with patch(
+                "app.routers.client_portal.create_portal_claim",
+                return_value=(claim, "raw-token"),
+            ) as mock_create:
+                with patch(
+                    "app.routers.client_portal.build_claim_register_url",
+                    return_value="https://x/claim",
+                ):
+                    with patch("app.routers.client_portal.send_portal_invite_email"):
+                        with patch(
+                            "app.routers.client_portal.notify_admins_portal_access_event",
+                            new_callable=AsyncMock,
+                        ) as notify:
+                            result = await portal_create_account_invite(
+                                body=PortalMemberInviteBody(
+                                    display_name="Spouse",
+                                    email="spouse@example.com",
+                                ),
+                                token_data=token_data,
+                                client=client,
+                                db=db,
+                                admin_client_id=str(client.id),
+                                _write_guard=None,
+                            )
+    assert result["email_sent"] is True
+    assert mock_create.call_args.kwargs["invited_by_login_id"] is None
+    assert "invited_by_staff" in mock_create.call_args.kwargs["metadata"]
+    notify.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_get_portal_client_login_blocks_admin_preview_for_leave():
     from app.routers.client_portal import get_portal_client_login
 
     client = _client()

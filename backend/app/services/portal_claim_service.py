@@ -132,7 +132,7 @@ def _load_claim_by_token(db: Session, raw_token: str) -> Optional[ClientPortalCl
 def _assert_claim_usable(claim: ClientPortalClaim) -> None:
     now = utcnow_naive()
     if claim.revoked_at:
-        raise PortalClaimError("revoked", "This link has been revoked.")
+        raise PortalClaimError("revoked", "This invite link is no longer valid.")
     if claim.used_at:
         raise PortalClaimError("used", "This link has already been used.")
     expires = claim.expires_at

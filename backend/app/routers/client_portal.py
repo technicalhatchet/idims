@@ -85,6 +85,7 @@ from app.services.portal_member_invite_service import (
     list_pending_portal_invites,
     login_display_name,
     notify_admins_portal_access_event,
+    resolve_portal_invite_actor,
     serialize_pending_invite,
 )
 from app.services.portal_preview_guard import (
@@ -1073,9 +1074,10 @@ async def portal_list_account_invites(
 @router.post("/portal/account/invites")
 async def portal_create_account_invite(
     body: PortalMemberInviteBody,
+    token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
-    login: ClientLogin = Depends(get_portal_client_login),
     db: Session = Depends(get_db),
+    admin_client_id: Optional[str] = Query(None),
     _write_guard: None = Depends(require_portal_write("POST /portal/account/invites")),
 ):
     display_name = (body.display_name or "").strip()
@@ -1083,6 +1085,13 @@ async def portal_create_account_invite(
         raise HTTPException(status_code=400, detail="Name is required")
     try:
         normalized_email = assert_can_create_customer_invite(db, client.id, body.email)
+        actor = resolve_portal_invite_actor(
+            db,
+            token_sub=token_data.sub,
+            token_roles=getattr(token_data, "roles", None),
+            admin_client_id=admin_client_id,
+            client=client,
+        )
     except PortalMemberInviteError as exc:
         raise HTTPException(status_code=exc.status_code, detail=exc.message)
 
@@ -1090,10 +1099,11 @@ async def portal_create_account_invite(
         db,
         client.id,
         purpose=PURPOSE_PORTAL_INVITE,
+        created_by_auth0_sub=actor.created_by_auth0_sub,
         invited_email=normalized_email,
         display_name=display_name,
-        invited_by_login_id=login.id,
-        metadata={"invited_by": "customer"},
+        invited_by_login_id=actor.invited_by_login_id,
+        metadata=actor.claim_metadata,
     )
     invite_url = build_claim_register_url(raw_token)
     db.commit()
@@ -1105,14 +1115,15 @@ async def portal_create_account_invite(
         invitee_name=display_name,
     )
 
-    inviter_name = login_display_name(db, login)
-    client_label = client_display_label(client)
-    await notify_admins_portal_access_event(
-        db,
-        message=f"{inviter_name} invited {display_name} ({normalized_email}) to {client_label}",
-        client_id=client.id,
-        event="customer_portal_invite",
-    )
+    if actor.notify_admins_on_invite and actor.login:
+        inviter_name = login_display_name(db, actor.login)
+        client_label = client_display_label(client)
+        await notify_admins_portal_access_event(
+            db,
+            message=f"{inviter_name} invited {display_name} ({normalized_email}) to {client_label}",
+            client_id=client.id,
+            event="customer_portal_invite",
+        )
 
     return {
         "claim_id": str(claim.id),
@@ -1124,9 +1135,10 @@ async def portal_create_account_invite(
 @router.post("/portal/account/invites/{claim_id}/resend")
 async def portal_resend_account_invite(
     claim_id: uuid.UUID,
+    token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
-    login: ClientLogin = Depends(get_portal_client_login),
     db: Session = Depends(get_db),
+    admin_client_id: Optional[str] = Query(None),
     _write_guard: None = Depends(
         require_portal_write("POST /portal/account/invites/{claim_id}/resend")
     ),
@@ -1137,15 +1149,28 @@ async def portal_resend_account_invite(
     if not claim.invited_email:
         raise HTTPException(status_code=400, detail="This invite has no email address")
 
+    try:
+        actor = resolve_portal_invite_actor(
+            db,
+            token_sub=token_data.sub,
+            token_roles=getattr(token_data, "roles", None),
+            admin_client_id=admin_client_id,
+            client=client,
+        )
+    except PortalMemberInviteError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message)
+
+    resend_meta = {**actor.claim_metadata, "resend_of": str(claim.id)}
     now = utcnow_naive()
     _, raw_token = create_portal_claim(
         db,
         client.id,
         purpose=PURPOSE_PORTAL_INVITE,
+        created_by_auth0_sub=actor.created_by_auth0_sub,
         invited_email=claim.invited_email,
         display_name=claim.display_name,
-        invited_by_login_id=login.id,
-        metadata={"invited_by": "customer", "resend_of": str(claim.id)},
+        invited_by_login_id=actor.invited_by_login_id,
+        metadata=resend_meta,
     )
     claim.revoked_at = now
     invite_url = build_claim_register_url(raw_token)
@@ -1165,7 +1190,6 @@ async def portal_cancel_account_invite(
     claim_id: uuid.UUID,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
-    _login: ClientLogin = Depends(get_portal_client_login),
     _write_guard: None = Depends(
         require_portal_write("POST /portal/account/invites/{claim_id}/cancel")
     ),
