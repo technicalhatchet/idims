@@ -506,7 +506,15 @@ UNIQUE(provider, subject)
 
 **SQL (3b)**
 
-- `db/sql/2026-XX-XX_client_logins.sql` + backfill from `auth0_user_id` + `_undo`.
+- `db/sql/2026-10-20_client_logins.sql` + backfill from `auth0_user_id` + `_undo` (**Phase 2g shipped on branch**).
+
+### Phase 2g notes (household logins)
+
+- Portal resolution: `client_logins.auth0_user_id` (active row), not `clients.auth0_user_id`.
+- Revoked access: email match and claims created **before** `revoked_at` cannot re-link; only a newer invite claim restores access. Revoked users with no other active logins may `self_signup` into a new empty client.
+- Notifications: fan-out per active login `user_id` on create; portal bell filters by the signed-in person’s `user_id`.
+- Legacy `/api/clients`, payments, quotes, invoices for role `client` remain **staff-era** (`clients.user_id` only); customers use `/portal/*`.
+- **Same verified email, two Auth0 subs:** `users.email` uniqueness still returns 403 “different sign-in” from `ensure_db_user_from_token` — do not workaround in app code; **Auth0 account linking** is the future fix.
 
 **Risks**
 

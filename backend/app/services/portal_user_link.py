@@ -102,7 +102,13 @@ def repoint_placeholder_user_customer_data(
     return counts
 
 
-def sync_client_user_id_on_link(db: Session, client: Client, token_data: Any) -> None:
+def sync_client_user_id_on_link(
+    db: Session,
+    client: Client,
+    token_data: Any,
+    *,
+    login=None,
+) -> None:
     """Set or repoint client.user_id; migrate data off staff placeholder users."""
     auth0_user_id = getattr(token_data, "sub", None)
     if not auth0_user_id:
@@ -110,6 +116,11 @@ def sync_client_user_id_on_link(db: Session, client: Client, token_data: Any) ->
         return
 
     user = ensure_db_user_for_portal_link(db, token_data)
+
+    if login is not None:
+        from app.services.portal_login_service import sync_login_user_id
+
+        sync_login_user_id(db, login, user)
 
     if client.user_id is None:
         client.user_id = user.id

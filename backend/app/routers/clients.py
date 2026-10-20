@@ -623,3 +623,197 @@ async def merge_client_appliances_staff(
     except ValueError as exc:
         db.rollback()
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+class PortalPersonInviteBody(BaseModel):
+    display_name: str
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    send_email: bool = False
+    ttl_days: int = 7
+
+
+def _serialize_portal_login_row(db: Session, login) -> Dict[str, Any]:
+    from app.models.client_login import ClientLogin
+    from app.models.user import User as DBUser
+
+    assert isinstance(login, ClientLogin)
+    user = db.query(DBUser).filter(DBUser.id == login.user_id).first() if login.user_id else None
+    contact = login.invited_email or login.invited_phone
+    if not contact and user:
+        contact = user.email
+    last_login = user.last_login if user else None
+    return {
+        "id": str(login.id),
+        "display_name": login.display_name,
+        "contact": contact,
+        "added_via": login.added_via,
+        "created_at": login.created_at.isoformat() if login.created_at else None,
+        "revoked_at": login.revoked_at.isoformat() if login.revoked_at else None,
+        "last_login": last_login.isoformat() if last_login else None,
+    }
+
+
+def _serialize_pending_claim(claim) -> Dict[str, Any]:
+    return {
+        "id": str(claim.id),
+        "display_name": claim.display_name,
+        "invited_email": claim.invited_email,
+        "invited_phone": claim.invited_phone,
+        "expires_at": claim.expires_at.isoformat() if claim.expires_at else None,
+        "created_at": claim.created_at.isoformat() if claim.created_at else None,
+    }
+
+
+@router.get("/{client_id}/portal-access")
+async def get_client_portal_access(
+    client_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_admin_or_manager_user),
+):
+    client = db.query(Client).filter(Client.id == client_id).first()
+    if not client:
+        raise HTTPException(status_code=404, detail="Client not found")
+
+    from app.models.client_login import ClientLogin
+    from app.models.client_portal_claim import ClientPortalClaim
+    from app.utils.datetime_utils import utcnow_naive
+
+    logins = (
+        db.query(ClientLogin)
+        .filter(ClientLogin.client_id == client_id)
+        .order_by(ClientLogin.created_at.asc())
+        .all()
+    )
+    now = utcnow_naive()
+    pending = (
+        db.query(ClientPortalClaim)
+        .filter(
+            ClientPortalClaim.client_id == client_id,
+            ClientPortalClaim.purpose == PURPOSE_PORTAL_INVITE,
+            ClientPortalClaim.used_at.is_(None),
+            ClientPortalClaim.revoked_at.is_(None),
+            ClientPortalClaim.expires_at > now,
+        )
+        .order_by(ClientPortalClaim.created_at.desc())
+        .all()
+    )
+    return {
+        "logins": [_serialize_portal_login_row(db, row) for row in logins],
+        "pending_invites": [_serialize_pending_claim(c) for c in pending],
+    }
+
+
+@router.post("/{client_id}/portal-access/invites")
+async def invite_portal_person(
+    client_id: uuid.UUID,
+    body: PortalPersonInviteBody,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_admin_or_manager_user),
+):
+    if not (body.email or "").strip() and not (body.phone or "").strip():
+        raise HTTPException(status_code=400, detail="Email or phone is required")
+
+    client = db.query(Client).filter(Client.id == client_id).first()
+    if not client:
+        raise HTTPException(status_code=404, detail="Client not found")
+
+    claim, raw_token = create_portal_claim(
+        db,
+        client_id,
+        purpose=PURPOSE_PORTAL_INVITE,
+        created_by_auth0_sub=current_user.auth_id,
+        ttl_days=body.ttl_days,
+        invited_email=body.email,
+        invited_phone=body.phone,
+        display_name=body.display_name,
+    )
+    invite_url = build_claim_register_url(raw_token)
+    db.commit()
+
+    email_sent = False
+    if body.send_email and body.email:
+        send_portal_invite_email(client, invite_url)
+        email_sent = True
+
+    return {
+        "claim_id": str(claim.id),
+        "url": invite_url,
+        "expires_at": claim.expires_at.isoformat() if claim.expires_at else None,
+        "email_sent": email_sent,
+    }
+
+
+@router.post("/{client_id}/portal-access/invites/{claim_id}/resend")
+async def resend_portal_person_invite(
+    client_id: uuid.UUID,
+    claim_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_admin_or_manager_user),
+):
+    from app.models.client_portal_claim import ClientPortalClaim
+    from app.utils.datetime_utils import utcnow_naive
+
+    claim = (
+        db.query(ClientPortalClaim)
+        .filter(
+            ClientPortalClaim.id == claim_id,
+            ClientPortalClaim.client_id == client_id,
+        )
+        .first()
+    )
+    if not claim or claim.used_at or claim.revoked_at:
+        raise HTTPException(status_code=404, detail="Invite not found")
+    now = utcnow_naive()
+    if claim.expires_at and claim.expires_at < now:
+        raise HTTPException(status_code=400, detail="Invite expired; create a new one")
+
+    client = db.query(Client).filter(Client.id == client_id).first()
+    if not client:
+        raise HTTPException(status_code=404, detail="Client not found")
+
+    _, raw_token = create_portal_claim(
+        db,
+        client_id,
+        purpose=PURPOSE_PORTAL_INVITE,
+        created_by_auth0_sub=current_user.auth_id,
+        invited_email=claim.invited_email,
+        invited_phone=claim.invited_phone,
+        display_name=claim.display_name,
+    )
+    claim.revoked_at = now
+    invite_url = build_claim_register_url(raw_token)
+    db.commit()
+
+    if claim.invited_email:
+        send_portal_invite_email(client, invite_url)
+    return {"url": invite_url, "email_sent": bool(claim.invited_email)}
+
+
+@router.post("/{client_id}/portal-access/logins/{login_id}/revoke")
+async def revoke_client_portal_login_route(
+    client_id: uuid.UUID,
+    login_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_admin_or_manager_user),
+):
+    from app.models.client_login import ClientLogin
+    from app.services.portal_login_service import (
+        remove_auth0_client_role_if_orphaned,
+        revoke_client_login,
+    )
+
+    login = (
+        db.query(ClientLogin)
+        .filter(ClientLogin.id == login_id, ClientLogin.client_id == client_id)
+        .first()
+    )
+    if not login:
+        raise HTTPException(status_code=404, detail="Portal login not found")
+
+    auth0_sub = login.auth0_user_id
+    revoke_client_login(db, login_id)
+    # Commit before Auth0 role removal (orphan check uses a fresh DB session).
+    db.commit()
+    role_error = remove_auth0_client_role_if_orphaned(auth0_sub)
+    return {"success": True, "role_removal_error": role_error}

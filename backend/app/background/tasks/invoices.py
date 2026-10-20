@@ -57,18 +57,23 @@ def check_overdue_invoices():
             # Notify client if this invoice has a client and the client has a user
             if invoice.client_id:
                 client = db.query(Client).filter(Client.id == invoice.client_id).first()
-                if client and client.user_id:
-                    # Create notification
-                    notification_data = NotificationCreate(
-                        user_id=client.user_id,
-                        title="Invoice Overdue",
-                        content=f"Invoice #{invoice.invoice_number} for ${invoice.total:.2f} is now overdue. Please make payment as soon as possible.",
-                        type="in_app",
-                        related_id=invoice.id,
-                        related_type="invoice"
+                if client:
+                    from app.services.client_portal_notification_service import (
+                        notify_client_portal_users,
                     )
-                    
-                    await NotificationService.create_notification(db, notification_data)
+
+                    await notify_client_portal_users(
+                        db,
+                        client.id,
+                        title="Invoice Overdue",
+                        message=(
+                            f"Invoice #{invoice.invoice_number} for ${invoice.total:.2f} is now overdue. "
+                            "Please make payment as soon as possible."
+                        ),
+                        notification_type="in_app",
+                        reference_id=invoice.id,
+                        related_type="invoice",
+                    )
                     
                     # If client has email, send email reminder
                     if client.email:
@@ -135,18 +140,23 @@ def send_payment_reminders():
             # Notify client if this invoice has a client and the client has a user
             if invoice.client_id:
                 client = db.query(Client).filter(Client.id == invoice.client_id).first()
-                if client and client.user_id:
-                    # Create notification
-                    notification_data = NotificationCreate(
-                        user_id=client.user_id,
-                        title="Payment Reminder",
-                        content=f"Invoice #{invoice.invoice_number} for ${invoice.total:.2f} is due in 3 days on {invoice.due_date.strftime('%B %d, %Y')}.",
-                        type="in_app",
-                        related_id=invoice.id,
-                        related_type="invoice"
+                if client:
+                    from app.services.client_portal_notification_service import (
+                        notify_client_portal_users,
                     )
-                    
-                    await NotificationService.create_notification(db, notification_data)
+
+                    await notify_client_portal_users(
+                        db,
+                        client.id,
+                        title="Payment Reminder",
+                        message=(
+                            f"Invoice #{invoice.invoice_number} for ${invoice.total:.2f} is due in 3 days on "
+                            f"{invoice.due_date.strftime('%B %d, %Y')}."
+                        ),
+                        notification_type="in_app",
+                        reference_id=invoice.id,
+                        related_type="invoice",
+                    )
                     
                     # If client has email, send email reminder
                     if client.email:

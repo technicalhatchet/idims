@@ -479,18 +479,20 @@ class InvoiceService:
             db.refresh(invoice)
             
             # Send notifications
-            if send_data.send_to_client and invoice.client and invoice.client.user_id:
-                # Create in-app notification
-                notification_data = NotificationCreate(
-                    user_id=invoice.client.user_id,
-                    title=f"New Invoice #{invoice.invoice_number}",
-                    content=f"You have a new invoice for ${invoice.total:.2f} due on {invoice.due_date.isoformat()}",
-                    type="in_app",
-                    related_id=invoice.id,
-                    related_type="invoice"
+            if send_data.send_to_client and invoice.client:
+                from app.services.client_portal_notification_service import (
+                    notify_client_portal_users,
                 )
-                
-                await NotificationService.create_notification(db, notification_data)
+
+                await notify_client_portal_users(
+                    db,
+                    invoice.client.id,
+                    title=f"New Invoice #{invoice.invoice_number}",
+                    message=f"You have a new invoice for ${invoice.total:.2f} due on {invoice.due_date.isoformat()}",
+                    notification_type="in_app",
+                    reference_id=invoice.id,
+                    related_type="invoice",
+                )
                 
                 # Send email notification if email recipients provided
                 if send_data.email_recipients or invoice.client.email:

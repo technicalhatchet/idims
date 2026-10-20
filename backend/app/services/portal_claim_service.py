@@ -15,6 +15,7 @@ from sqlalchemy.orm import Session
 from app.frontend_site_urls import build_frontend_url
 from app.models.client import Client
 from app.models.client_portal_claim import ClientPortalClaim
+from app.services.portal_account_linking import normalize_email
 from app.utils.datetime_utils import utcnow_naive
 
 logger = logging.getLogger(__name__)
@@ -95,10 +96,11 @@ def create_portal_claim(
     created_by_auth0_sub: Optional[str] = None,
     metadata: Optional[Dict[str, Any]] = None,
     ttl_days: int = DEFAULT_TTL_DAYS,
+    invited_email: Optional[str] = None,
+    invited_phone: Optional[str] = None,
+    display_name: Optional[str] = None,
 ) -> Tuple[ClientPortalClaim, str]:
     ttl_days = clamp_ttl_days(ttl_days)
-    if purpose == PURPOSE_PORTAL_INVITE:
-        revoke_unused_portal_invite_claims(db, client_id)
     raw_token = generate_claim_token()
     now = utcnow_naive()
     claim = ClientPortalClaim(
@@ -108,6 +110,9 @@ def create_portal_claim(
         expires_at=now + timedelta(days=ttl_days),
         created_by=_staff_user_id(db, created_by_auth0_sub),
         claim_metadata=metadata,
+        invited_email=normalize_email(invited_email) if invited_email else None,
+        invited_phone=(invited_phone or "").strip() or None,
+        display_name=(display_name or "").strip() or None,
     )
     db.add(claim)
     db.flush()

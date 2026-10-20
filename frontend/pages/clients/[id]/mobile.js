@@ -5,7 +5,13 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { FaArrowLeft, FaEdit, FaPlusCircle, FaPhone, FaEnvelope, FaMapMarkerAlt, FaHistory, FaTools, FaMoneyBillWave, FaFileInvoiceDollar, FaCreditCard, FaPaperPlane, FaHome, FaKey, FaTrash, FaTimes, FaUser, FaBuilding, FaChevronDown, FaChevronUp, FaChevronRight, FaLink } from 'react-icons/fa';
-import { createPortalClaim } from '../../../services/api/clientsApi';
+import {
+  createPortalClaim,
+  getClientPortalAccess,
+  invitePortalPerson,
+  resendPortalInvite,
+  revokePortalLogin,
+} from '../../../services/api/clientsApi';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
@@ -259,6 +265,15 @@ function ClientDetail() {
   const [emailSending, setEmailSending] = useState(false);
   const [portalLinkCopied, setPortalLinkCopied] = useState(false);
   const [portalLinkLoading, setPortalLinkLoading] = useState(false);
+  const [portalAccess, setPortalAccess] = useState({ logins: [], pending_invites: [] });
+  const [portalAccessLoading, setPortalAccessLoading] = useState(false);
+  const [invitePersonForm, setInvitePersonForm] = useState({
+    displayName: '',
+    email: '',
+    phone: '',
+    sendEmail: true,
+  });
+  const [invitePersonLoading, setInvitePersonLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [emailError, setEmailError] = useState(null);
   const [properties, setProperties] = useState([]);
@@ -271,6 +286,28 @@ function ClientDetail() {
   const [expandedProperties, setExpandedProperties] = useState(new Set());
 
   const { data: client, isLoading: clientLoading, error: clientError } = useClient(id);
+
+  const refreshPortalAccess = async () => {
+    if (!id) return;
+    setPortalAccessLoading(true);
+    try {
+      const data = await getClientPortalAccess(id);
+      setPortalAccess({
+        logins: data?.logins || [],
+        pending_invites: data?.pending_invites || [],
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setPortalAccessLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (id && client?.id) {
+      refreshPortalAccess();
+    }
+  }, [id, client?.id]);
 
   useEffect(() => {
     if (!id) return;
@@ -1275,10 +1312,135 @@ function ClientDetail() {
           >
             <div className="flex items-center gap-3 mb-3">
               <FaPaperPlane className="text-purple-400" size={20} />
-              <h3 className="text-white font-bold uppercase tracking-wide">Client Portal</h3>
+              <h3 className="text-white font-bold uppercase tracking-wide">Portal access</h3>
+            </div>
+            <p className="text-sm text-gray-400 mb-3">
+              Household members with their own login. Invites are per person (name + email or cell).
+            </p>
+            {portalAccessLoading ? (
+              <p className="text-xs text-gray-500 mb-4">Loading access list...</p>
+            ) : (
+              <div className="mb-4 space-y-2">
+                {(portalAccess.logins || []).map((login) => (
+                  <div
+                    key={login.id}
+                    className="flex items-start justify-between gap-2 p-3 rounded-md text-sm"
+                    style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}
+                  >
+                    <div>
+                      <p className="text-white font-semibold m-0">
+                        {login.display_name || 'Portal user'}
+                        {login.revoked_at ? (
+                          <span className="text-red-400 text-xs ml-2">(removed)</span>
+                        ) : null}
+                      </p>
+                      <p className="text-gray-500 text-xs m-0 mt-0.5">
+                        {login.contact || '—'} · {login.added_via}
+                        {login.last_login ? ` · last login ${new Date(login.last_login).toLocaleDateString()}` : ''}
+                      </p>
+                    </div>
+                    {!login.revoked_at ? (
+                      <button
+                        type="button"
+                        className="text-xs text-red-400 shrink-0"
+                        onClick={async () => {
+                          if (!window.confirm('Remove portal access for this person?')) return;
+                          try {
+                            await revokePortalLogin(id, login.id);
+                            await refreshPortalAccess();
+                          } catch (e) {
+                            setEmailError(e.message || 'Failed to revoke access');
+                          }
+                        }}
+                      >
+                        Remove
+                      </button>
+                    ) : null}
+                  </div>
+                ))}
+                {(portalAccess.pending_invites || []).map((inv) => (
+                  <div
+                    key={inv.id}
+                    className="flex items-start justify-between gap-2 p-3 rounded-md text-sm"
+                    style={{ background: 'rgba(0,0,0,0.2)', border: '1px dashed rgba(147, 51, 234, 0.35)' }}
+                  >
+                    <div>
+                      <p className="text-purple-200 font-semibold m-0">Pending: {inv.display_name || 'Invite'}</p>
+                      <p className="text-gray-500 text-xs m-0 mt-0.5">
+                        {inv.invited_email || inv.invited_phone || '—'}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      className="text-xs text-cyan-400 shrink-0"
+                      onClick={async () => {
+                        try {
+                          await resendPortalInvite(id, inv.id);
+                          await refreshPortalAccess();
+                        } catch (e) {
+                          setEmailError(e.message || 'Resend failed');
+                        }
+                      }}
+                    >
+                      Resend
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div
+              className="p-3 rounded-md mb-4 space-y-2"
+              style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}
+            >
+              <p className="text-xs text-gray-400 uppercase tracking-wide m-0">Invite person</p>
+              <input
+                type="text"
+                placeholder="Name on account"
+                value={invitePersonForm.displayName}
+                onChange={(e) => setInvitePersonForm((p) => ({ ...p, displayName: e.target.value }))}
+                className="w-full px-3 py-2 rounded-md text-sm text-white"
+                style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(34, 211, 238, 0.2)' }}
+              />
+              <input
+                type="email"
+                placeholder="Email (optional)"
+                value={invitePersonForm.email}
+                onChange={(e) => setInvitePersonForm((p) => ({ ...p, email: e.target.value }))}
+                className="w-full px-3 py-2 rounded-md text-sm text-white"
+                style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(34, 211, 238, 0.2)' }}
+              />
+              <input
+                type="tel"
+                placeholder="Cell (optional)"
+                value={invitePersonForm.phone}
+                onChange={(e) => setInvitePersonForm((p) => ({ ...p, phone: e.target.value }))}
+                className="w-full px-3 py-2 rounded-md text-sm text-white"
+                style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(34, 211, 238, 0.2)' }}
+              />
+              <button
+                type="button"
+                disabled={invitePersonLoading || !invitePersonForm.displayName.trim()}
+                onClick={async () => {
+                  setInvitePersonLoading(true);
+                  setEmailError(null);
+                  try {
+                    await invitePortalPerson(id, invitePersonForm);
+                    setInvitePersonForm({ displayName: '', email: '', phone: '', sendEmail: true });
+                    await refreshPortalAccess();
+                  } catch (e) {
+                    setEmailError(e.message || 'Invite failed');
+                  } finally {
+                    setInvitePersonLoading(false);
+                  }
+                }}
+                className="w-full py-2 rounded-md text-xs font-bold uppercase tracking-wide text-purple-200 disabled:opacity-50"
+                style={{ border: '1px solid rgba(147, 51, 234, 0.5)' }}
+              >
+                {invitePersonLoading ? 'Sending...' : 'Invite person'}
+              </button>
             </div>
             <p className="text-sm text-gray-400 mb-4">
-              Send an email invitation for this client to create their account in the client portal.
+              Legacy: generic link or email to the primary client email on file.
             </p>
 
             <label className="flex items-center justify-between gap-3 mb-3 p-3 rounded-md" style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}>

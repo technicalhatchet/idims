@@ -57,7 +57,13 @@ class Client(Base):
     documents = relationship("Document", back_populates="client", cascade="all, delete-orphan")
     properties = relationship("Property", back_populates="client", cascade="all, delete-orphan")
     appliances = relationship("ClientAppliance", back_populates="client", cascade="all, delete-orphan")
-    
+    portal_logins = relationship(
+        "ClientLogin",
+        back_populates="client",
+        cascade="all, delete-orphan",
+        foreign_keys="ClientLogin.client_id",
+    )
+
     def __repr__(self):
         return f"<Client {self.id}: {self.company_name or f'{self.first_name} {self.last_name}'}>"
     

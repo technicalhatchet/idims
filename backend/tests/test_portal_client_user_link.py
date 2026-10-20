@@ -365,7 +365,19 @@ async def test_staff_created_client_first_login_adopts_placeholder():
     base_query.filter.return_value.count.return_value = 1
     notif_db.query.return_value.filter.return_value = base_query
 
-    result = await list_portal_notifications(client=client, db=notif_db, page=1, limit=20)
+    token_data = SimpleNamespace(sub=auth_sub, roles=["client"])
+    active_login = SimpleNamespace(id=uuid4(), client_id=client.id, user_id=placeholder_id)
+    with patch(
+        "app.routers.client_portal.get_active_login_for_sub",
+        return_value=active_login,
+    ):
+        result = await list_portal_notifications(
+            client=client,
+            token_data=token_data,
+            db=notif_db,
+            page=1,
+            limit=20,
+        )
     assert result["portal_linked"] is True
     assert result["total"] == 1
     notif_db.query.assert_called_with(Notification)
@@ -400,7 +412,19 @@ async def test_portal_notifications_when_user_id_set():
     db = MagicMock()
     db.query.return_value.filter.return_value = base_query
 
-    result = await list_portal_notifications(client=client, db=db, page=1, limit=20)
+    token_data = SimpleNamespace(sub="auth0|notify", roles=["client"])
+    active_login = SimpleNamespace(id=uuid4(), client_id=client.id, user_id=user_id)
+    with patch(
+        "app.routers.client_portal.get_active_login_for_sub",
+        return_value=active_login,
+    ):
+        result = await list_portal_notifications(
+            client=client,
+            token_data=token_data,
+            db=db,
+            page=1,
+            limit=20,
+        )
     assert result["portal_linked"] is True
     assert result["total"] == 1
     assert len(result["notifications"]) == 1
