@@ -99,6 +99,7 @@ def create_portal_claim(
     invited_email: Optional[str] = None,
     invited_phone: Optional[str] = None,
     display_name: Optional[str] = None,
+    invited_by_login_id: Optional[UUID] = None,
 ) -> Tuple[ClientPortalClaim, str]:
     ttl_days = clamp_ttl_days(ttl_days)
     raw_token = generate_claim_token()
@@ -113,6 +114,7 @@ def create_portal_claim(
         invited_email=normalize_email(invited_email) if invited_email else None,
         invited_phone=(invited_phone or "").strip() or None,
         display_name=(display_name or "").strip() or None,
+        invited_by_login_id=invited_by_login_id,
     )
     db.add(claim)
     db.flush()
@@ -205,7 +207,13 @@ def looks_like_jwt_invite(token: str) -> bool:
     return token.count(".") == 2
 
 
-def send_portal_invite_email(client: Client, invite_url: str) -> None:
+def send_portal_invite_email(
+    client: Client,
+    invite_url: str,
+    *,
+    to_email: Optional[str] = None,
+    invitee_name: Optional[str] = None,
+) -> None:
     """Send Resend HTML invite (same template as legacy JWT invite)."""
     from fastapi import HTTPException
     import httpx
@@ -216,7 +224,7 @@ def send_portal_invite_email(client: Client, invite_url: str) -> None:
     <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0A0F1E;padding:2rem;border-radius:12px;">
       <img src="{settings.LOGO_URL}" alt="Atomic Repair" style="height:40px;margin-bottom:1.5rem;" />
       <h2 style="color:#fff;">You&apos;re invited to the Atomic Repair Client Portal</h2>
-      <p style="color:#9ca3af;">Hi {client.first_name},</p>
+      <p style="color:#9ca3af;">Hi {invitee_name or client.first_name or "there"},</p>
       <p style="color:#9ca3af;">You can now access your service history, upcoming appointments, and invoices online.</p>
       <a href="{invite_url}" style="display:inline-block;background:#00D4FF;color:#0A0F1E;padding:0.875rem 2rem;border-radius:8px;font-weight:700;text-decoration:none;margin:1.5rem 0;">
         Create My Account
@@ -233,7 +241,7 @@ def send_portal_invite_email(client: Client, invite_url: str) -> None:
         },
         json={
             "from": "Atomic Repair <service@atomicrepair419.com>",
-            "to": client.email,
+            "to": to_email or client.email,
             "subject": "Your Atomic Repair Client Portal Invite",
             "html": html,
         },

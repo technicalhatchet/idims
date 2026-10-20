@@ -22,9 +22,13 @@ from app.core.auth import get_auth_handler
 from app.config import get_portal_invite_secret, settings
 from app.services.portal_claim_service import (
     PortalClaimError,
+    PURPOSE_PORTAL_INVITE,
+    build_claim_register_url,
+    create_portal_claim,
     looks_like_jwt_invite,
     mark_claim_used,
     resolve_client_for_link,
+    send_portal_invite_email,
     validate_claim_for_register,
 )
 from app.services.portal_signup_service import (
@@ -40,6 +44,7 @@ from app.models.notification import Notification
 from app.models.work_order import WorkOrder, WorkOrderAppointment, WorkOrderService
 from app.models.property import Property
 from app.models.client_appliance import ClientAppliance
+from app.utils.datetime_utils import utcnow_naive
 from app.utils.portal_estimate import portal_estimate_meta
 from app.schemas.client_appliance import (
     ClientApplianceCreate,
@@ -62,12 +67,25 @@ from app.services.portal_account_linking import (
 from app.services.portal_login_service import (
     PortalLoginError,
     added_via_for_link_method,
+    count_active_logins,
     ensure_client_login,
     find_open_claim_by_invited_email,
     get_active_login_for_sub,
     person_fields_from_claim,
     portal_member_display_names,
+    remove_auth0_client_role_if_orphaned,
     resolve_portal_client,
+    revoke_client_login,
+)
+from app.services.portal_member_invite_service import (
+    PortalMemberInviteError,
+    assert_can_create_customer_invite,
+    client_display_label,
+    get_pending_invite_for_client,
+    list_pending_portal_invites,
+    login_display_name,
+    notify_admins_portal_access_event,
+    serialize_pending_invite,
 )
 from app.services.portal_preview_guard import (
     PREVIEW_UNLOCK_TTL_MINUTES,
@@ -504,6 +522,33 @@ async def get_portal_client(
         status_code=status.HTTP_403_FORBIDDEN,
         detail="Client portal access required"
     )
+
+
+async def get_portal_client_login(
+    token_data=Depends(get_token_data),
+    db: Session = Depends(get_db),
+    client: Client = Depends(get_portal_client),
+    admin_client_id: Optional[str] = Query(None),
+) -> ClientLogin:
+    """Active login for the current client user (not admin preview)."""
+    roles = getattr(token_data, "roles", []) or []
+    if "admin" in roles and admin_client_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Sign in as a client to manage household access.",
+        )
+    if "client" not in roles:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Client portal access required",
+        )
+    login = get_active_login_for_sub(db, token_data.sub)
+    if not login or login.client_id != client.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Active portal login required",
+        )
+    return login
 
 
 @router.get("/portal/link-debug")
@@ -1002,6 +1047,173 @@ async def portal_account_members(
 ):
     """Display names of everyone with active portal access (household visibility)."""
     return {"members": portal_member_display_names(db, client.id)}
+
+
+class PortalMemberInviteBody(BaseModel):
+    display_name: str
+    email: str
+
+
+class PortalLeaveAccountBody(BaseModel):
+    confirm_last_member: bool = False
+
+
+@router.get("/portal/account/invites")
+async def portal_list_account_invites(
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    pending = list_pending_portal_invites(db, client.id)
+    return {
+        "pending_invites": [serialize_pending_invite(c) for c in pending],
+        "active_login_count": count_active_logins(db, client.id),
+    }
+
+
+@router.post("/portal/account/invites")
+async def portal_create_account_invite(
+    body: PortalMemberInviteBody,
+    client: Client = Depends(get_portal_client),
+    login: ClientLogin = Depends(get_portal_client_login),
+    db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/account/invites")),
+):
+    display_name = (body.display_name or "").strip()
+    if not display_name:
+        raise HTTPException(status_code=400, detail="Name is required")
+    try:
+        normalized_email = assert_can_create_customer_invite(db, client.id, body.email)
+    except PortalMemberInviteError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message)
+
+    claim, raw_token = create_portal_claim(
+        db,
+        client.id,
+        purpose=PURPOSE_PORTAL_INVITE,
+        invited_email=normalized_email,
+        display_name=display_name,
+        invited_by_login_id=login.id,
+        metadata={"invited_by": "customer"},
+    )
+    invite_url = build_claim_register_url(raw_token)
+    db.commit()
+
+    send_portal_invite_email(
+        client,
+        invite_url,
+        to_email=normalized_email,
+        invitee_name=display_name,
+    )
+
+    inviter_name = login_display_name(db, login)
+    client_label = client_display_label(client)
+    await notify_admins_portal_access_event(
+        db,
+        message=f"{inviter_name} invited {display_name} ({normalized_email}) to {client_label}",
+        client_id=client.id,
+        event="customer_portal_invite",
+    )
+
+    return {
+        "claim_id": str(claim.id),
+        "expires_at": claim.expires_at.isoformat() if claim.expires_at else None,
+        "email_sent": True,
+    }
+
+
+@router.post("/portal/account/invites/{claim_id}/resend")
+async def portal_resend_account_invite(
+    claim_id: uuid.UUID,
+    client: Client = Depends(get_portal_client),
+    login: ClientLogin = Depends(get_portal_client_login),
+    db: Session = Depends(get_db),
+    _write_guard: None = Depends(
+        require_portal_write("POST /portal/account/invites/{claim_id}/resend")
+    ),
+):
+    claim = get_pending_invite_for_client(db, client.id, claim_id)
+    if not claim:
+        raise HTTPException(status_code=404, detail="Invite not found")
+    if not claim.invited_email:
+        raise HTTPException(status_code=400, detail="This invite has no email address")
+
+    now = utcnow_naive()
+    _, raw_token = create_portal_claim(
+        db,
+        client.id,
+        purpose=PURPOSE_PORTAL_INVITE,
+        invited_email=claim.invited_email,
+        display_name=claim.display_name,
+        invited_by_login_id=login.id,
+        metadata={"invited_by": "customer", "resend_of": str(claim.id)},
+    )
+    claim.revoked_at = now
+    invite_url = build_claim_register_url(raw_token)
+    db.commit()
+
+    send_portal_invite_email(
+        client,
+        invite_url,
+        to_email=claim.invited_email,
+        invitee_name=claim.display_name,
+    )
+    return {"email_sent": True}
+
+
+@router.post("/portal/account/invites/{claim_id}/cancel")
+async def portal_cancel_account_invite(
+    claim_id: uuid.UUID,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    _login: ClientLogin = Depends(get_portal_client_login),
+    _write_guard: None = Depends(
+        require_portal_write("POST /portal/account/invites/{claim_id}/cancel")
+    ),
+):
+    claim = get_pending_invite_for_client(db, client.id, claim_id)
+    if not claim:
+        raise HTTPException(status_code=404, detail="Invite not found")
+    claim.revoked_at = utcnow_naive()
+    db.commit()
+    return {"success": True}
+
+
+@router.post("/portal/account/leave")
+async def portal_leave_account(
+    body: PortalLeaveAccountBody,
+    token_data=Depends(get_token_data),
+    client: Client = Depends(get_portal_client),
+    login: ClientLogin = Depends(get_portal_client_login),
+    db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/account/leave")),
+):
+    active_count = count_active_logins(db, client.id)
+    if active_count <= 1 and not body.confirm_last_member:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "You are the only person with portal access to this account. "
+                "Leaving will remove online access for everyone until Atomic Repair sends a new invite. "
+                "Set confirm_last_member to true to continue."
+            ),
+        )
+
+    leaver_name = login_display_name(db, login)
+    client_label = client_display_label(client)
+    auth0_sub = login.auth0_user_id
+
+    revoke_client_login(db, login.id)
+    db.commit()
+    role_error = remove_auth0_client_role_if_orphaned(auth0_sub)
+
+    await notify_admins_portal_access_event(
+        db,
+        message=f"{leaver_name} left portal access for {client_label}",
+        client_id=client.id,
+        event="customer_portal_leave",
+    )
+
+    return {"success": True, "role_removal_error": role_error}
 
 
 @router.post("/portal/admin/preview-unlock")
