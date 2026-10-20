@@ -6,6 +6,7 @@ import SupportCTA from '../../components/cxdashboard/SupportCTA';
 import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
 import { isPortalAdminPreview } from '../../utils/portalPreview';
 import { MARKETING_PHONE_DISPLAY } from '../../constants/marketingSiteContent';
+import { portalSignOut } from '../../components/cxdashboard/portalAuth';
 
 const inputClass =
   'w-full rounded-lg border border-white/10 bg-[#0D1525] px-3 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-cyan-500/50';
@@ -19,6 +20,16 @@ export default function SettingsPage() {
   const [error, setError] = useState(null);
   const [saved, setSaved] = useState(false);
   const [householdMembers, setHouseholdMembers] = useState([]);
+  const [pendingInvites, setPendingInvites] = useState([]);
+  const [activeLoginCount, setActiveLoginCount] = useState(0);
+  const [inviteForm, setInviteForm] = useState({ display_name: '', email: '' });
+  const [inviteBusy, setInviteBusy] = useState(false);
+  const [inviteError, setInviteError] = useState(null);
+  const [inviteSuccess, setInviteSuccess] = useState(null);
+  const [leaveBusy, setLeaveBusy] = useState(false);
+  const [leaveError, setLeaveError] = useState(null);
+  const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
+  const [leaveConfirmLast, setLeaveConfirmLast] = useState(false);
   const previewMode = isPortalAdminPreview();
   const [form, setForm] = useState({
     first_name: '',
@@ -41,6 +52,14 @@ export default function SettingsPage() {
         } catch {
           setHouseholdMembers([]);
         }
+        try {
+          const access = await portalFetch('account/invites', token);
+          setPendingInvites(Array.isArray(access?.pending_invites) ? access.pending_invites : []);
+          setActiveLoginCount(Number(access?.active_login_count) || 0);
+        } catch {
+          setPendingInvites([]);
+          setActiveLoginCount(0);
+        }
         setForm({
           first_name: me.first_name || '',
           last_name: me.last_name || '',
@@ -62,6 +81,90 @@ export default function SettingsPage() {
   function setField(key, value) {
     setSaved(false);
     setForm((prev) => ({ ...prev, [key]: value }));
+  }
+
+  async function refreshAccess(token) {
+    const members = await portalFetch('account/members', token);
+    setHouseholdMembers(Array.isArray(members?.members) ? members.members : []);
+    const access = await portalFetch('account/invites', token);
+    setPendingInvites(Array.isArray(access?.pending_invites) ? access.pending_invites : []);
+    setActiveLoginCount(Number(access?.active_login_count) || 0);
+  }
+
+  async function handleInviteSubmit(e) {
+    e.preventDefault();
+    if (previewMode) return;
+    setInviteBusy(true);
+    setInviteError(null);
+    setInviteSuccess(null);
+    try {
+      const token = await getPortalSessionToken();
+      await portalFetch('account/invites', token, {
+        method: 'POST',
+        body: JSON.stringify({
+          display_name: inviteForm.display_name.trim(),
+          email: inviteForm.email.trim(),
+        }),
+      });
+      setInviteForm({ display_name: '', email: '' });
+      setInviteSuccess('Invite sent. They can create their login from the email link.');
+      await refreshAccess(token);
+    } catch (err) {
+      setInviteError(err.message);
+    } finally {
+      setInviteBusy(false);
+    }
+  }
+
+  async function resendInvite(claimId) {
+    if (previewMode) return;
+    setInviteError(null);
+    try {
+      const token = await getPortalSessionToken();
+      await portalFetch(`account/invites/${claimId}/resend`, token, { method: 'POST' });
+      setInviteSuccess('Invite email sent again.');
+      await refreshAccess(token);
+    } catch (err) {
+      setInviteError(err.message);
+    }
+  }
+
+  async function cancelInvite(claimId) {
+    if (previewMode) return;
+    setInviteError(null);
+    try {
+      const token = await getPortalSessionToken();
+      await portalFetch(`account/invites/${claimId}/cancel`, token, { method: 'POST' });
+      await refreshAccess(token);
+    } catch (err) {
+      setInviteError(err.message);
+    }
+  }
+
+  async function handleLeaveAccount() {
+    if (previewMode) return;
+    setLeaveBusy(true);
+    setLeaveError(null);
+    try {
+      const token = await getPortalSessionToken();
+      await portalFetch('account/leave', token, {
+        method: 'POST',
+        body: JSON.stringify({ confirm_last_member: leaveConfirmLast }),
+      });
+      portalSignOut();
+    } catch (err) {
+      setLeaveError(err.message);
+      setLeaveBusy(false);
+    }
+  }
+
+  function formatExpires(iso) {
+    if (!iso) return '';
+    try {
+      return new Date(iso).toLocaleString();
+    } catch {
+      return iso;
+    }
   }
 
   async function handleSubmit(e) {
@@ -120,18 +223,101 @@ export default function SettingsPage() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="rounded-xl border border-white/[0.07] bg-[#0D1525] p-4 sm:p-5 space-y-4">
-            {householdMembers.length > 0 ? (
-              <div className="rounded-lg border border-white/10 bg-[#0a101c] p-3">
+            <div className="rounded-lg border border-white/10 bg-[#0a101c] p-3 space-y-4">
+              <div>
                 <p className="text-[11px] uppercase tracking-wide text-white/45 mb-2 m-0">
                   People with access to this account
                 </p>
-                <ul className="text-sm text-white/80 list-disc pl-5 m-0 space-y-1">
-                  {householdMembers.map((name) => (
-                    <li key={name}>{name}</li>
-                  ))}
-                </ul>
+                {householdMembers.length > 0 ? (
+                  <ul className="text-sm text-white/80 list-disc pl-5 m-0 space-y-1">
+                    {householdMembers.map((name) => (
+                      <li key={name}>{name}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm text-white/50 m-0">Only you have access right now.</p>
+                )}
               </div>
-            ) : null}
+
+              {pendingInvites.length > 0 ? (
+                <div>
+                  <p className="text-[11px] uppercase tracking-wide text-white/45 mb-2 m-0">
+                    Pending invites
+                  </p>
+                  <ul className="m-0 p-0 list-none space-y-2">
+                    {pendingInvites.map((inv) => (
+                      <li
+                        key={inv.id}
+                        className="text-sm text-white/75 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border border-white/5 rounded-md px-2 py-2"
+                      >
+                        <span>
+                          <span className="text-white/90">{inv.display_name || 'Invite'}</span>
+                          {inv.invited_email ? (
+                            <span className="text-white/45"> · {inv.invited_email}</span>
+                          ) : null}
+                          {inv.expires_at ? (
+                            <span className="block text-xs text-white/35 mt-0.5">
+                              Expires {formatExpires(inv.expires_at)}
+                            </span>
+                          ) : null}
+                        </span>
+                        <span className="flex gap-2 shrink-0">
+                          <button
+                            type="button"
+                            disabled={previewMode}
+                            onClick={() => resendInvite(inv.id)}
+                            className="text-xs px-2 py-1 rounded border border-white/15 text-cyan-400 hover:bg-white/5 disabled:opacity-50"
+                          >
+                            Resend
+                          </button>
+                          <button
+                            type="button"
+                            disabled={previewMode}
+                            onClick={() => cancelInvite(inv.id)}
+                            className="text-xs px-2 py-1 rounded border border-white/15 text-white/60 hover:bg-white/5 disabled:opacity-50"
+                          >
+                            Cancel
+                          </button>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+
+              <form onSubmit={handleInviteSubmit} className="space-y-2 border-t border-white/5 pt-3">
+                <p className="text-[11px] uppercase tracking-wide text-white/45 m-0">Invite someone</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <input
+                    className={inputClass}
+                    placeholder="Their name"
+                    value={inviteForm.display_name}
+                    onChange={(e) => setInviteForm((p) => ({ ...p, display_name: e.target.value }))}
+                    required
+                    disabled={previewMode}
+                  />
+                  <input
+                    type="email"
+                    className={inputClass}
+                    placeholder="Their email"
+                    value={inviteForm.email}
+                    onChange={(e) => setInviteForm((p) => ({ ...p, email: e.target.value }))}
+                    required
+                    disabled={previewMode}
+                    autoComplete="email"
+                  />
+                </div>
+                {inviteError ? <p className="text-red-400 text-xs m-0">{inviteError}</p> : null}
+                {inviteSuccess ? <p className="text-emerald-400 text-xs m-0">{inviteSuccess}</p> : null}
+                <button
+                  type="submit"
+                  disabled={inviteBusy || previewMode}
+                  className="text-sm px-3 py-2 rounded-lg border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/10 disabled:opacity-50"
+                >
+                  {previewMode ? 'Invites disabled in preview' : (inviteBusy ? 'Sending…' : 'Send invite')}
+                </button>
+              </form>
+            </div>
             {form.company_name ? (
               <div>
                 <label className="block text-[11px] uppercase tracking-wide text-white/45 mb-1.5">Company</label>
@@ -234,6 +420,60 @@ export default function SettingsPage() {
             </button>
           </form>
         )}
+
+        {!loading ? (
+          <div className="rounded-xl border border-white/[0.07] bg-[#0D1525] p-4 sm:p-5 space-y-3 max-w-xl">
+            <div>
+              <h2 className="text-white text-base font-semibold m-0">Leave this account</h2>
+              <p className="text-white/45 text-sm mt-1 mb-0">
+                Remove your portal login from this household. You will not be able to see invoices or
+                appointments here unless you are invited again. To remove someone else, contact Atomic Repair.
+              </p>
+            </div>
+            {activeLoginCount <= 1 && showLeaveConfirm ? (
+              <p className="text-amber-400/90 text-sm m-0 border border-amber-500/30 rounded-lg p-3 bg-amber-500/5">
+                You are the only person with portal access. Leaving removes online access for this
+                account until our team sends a new invite.
+              </p>
+            ) : null}
+            {leaveError ? <p className="text-red-400 text-sm m-0">{leaveError}</p> : null}
+            {!showLeaveConfirm ? (
+              <button
+                type="button"
+                disabled={previewMode}
+                onClick={() => {
+                  setShowLeaveConfirm(true);
+                  setLeaveConfirmLast(activeLoginCount <= 1);
+                }}
+                className="text-sm px-3 py-2 rounded-lg border border-white/15 text-white/70 hover:bg-white/5 disabled:opacity-50"
+              >
+                Leave this account
+              </button>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  disabled={leaveBusy || previewMode}
+                  onClick={handleLeaveAccount}
+                  className="text-sm px-3 py-2 rounded-lg bg-red-500/90 text-white font-medium hover:bg-red-500 disabled:opacity-50"
+                >
+                  {leaveBusy ? 'Leaving…' : 'Confirm leave'}
+                </button>
+                <button
+                  type="button"
+                  disabled={leaveBusy}
+                  onClick={() => {
+                    setShowLeaveConfirm(false);
+                    setLeaveError(null);
+                  }}
+                  className="text-sm px-3 py-2 rounded-lg border border-white/15 text-white/60"
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+          </div>
+        ) : null}
 
         <SupportCTA />
       </div>

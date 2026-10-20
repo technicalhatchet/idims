@@ -733,7 +733,12 @@ async def invite_portal_person(
 
     email_sent = False
     if body.send_email and body.email:
-        send_portal_invite_email(client, invite_url)
+        send_portal_invite_email(
+            client,
+            invite_url,
+            to_email=body.email,
+            invitee_name=body.display_name,
+        )
         email_sent = True
 
     return {
@@ -786,7 +791,12 @@ async def resend_portal_person_invite(
     db.commit()
 
     if claim.invited_email:
-        send_portal_invite_email(client, invite_url)
+        send_portal_invite_email(
+            client,
+            invite_url,
+            to_email=claim.invited_email,
+            invitee_name=claim.display_name,
+        )
     return {"url": invite_url, "email_sent": bool(claim.invited_email)}
 
 

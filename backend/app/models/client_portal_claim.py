@@ -35,6 +35,12 @@ class ClientPortalClaim(Base):
     invited_email = Column(Text, nullable=True)
     invited_phone = Column(Text, nullable=True)
     display_name = Column(Text, nullable=True)
+    invited_by_login_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("client_logins.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
     revoked_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
