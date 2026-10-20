@@ -5,7 +5,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, ForeignKey, String
+from sqlalchemy import Column, DateTime, ForeignKey, String, Text
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import relationship
 
@@ -32,6 +32,9 @@ class ClientPortalClaim(Base):
         nullable=True,
     )
     claim_metadata = Column("metadata", JSONB, nullable=True)
+    invited_email = Column(Text, nullable=True)
+    invited_phone = Column(Text, nullable=True)
+    display_name = Column(Text, nullable=True)
     revoked_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 

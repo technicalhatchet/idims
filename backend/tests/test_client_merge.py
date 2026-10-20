@@ -20,8 +20,8 @@ from app.services.client_merge_service import (
     _blockers,
     build_merge_preview,
     client_is_merged,
-    has_real_portal_login,
 )
+from app.services.portal_login_service import has_real_portal_login
 
 
 def _client(**kwargs):
@@ -47,11 +47,14 @@ def _client(**kwargs):
     return c
 
 
-def test_both_portal_logins_blocker():
+def test_both_portal_logins_not_a_blocker():
     keep = _client(auth0_user_id="auth0|keep")
     merge = _client(id=uuid4(), auth0_user_id="auth0|merge")
-    codes = {b["code"] for b in _blockers(keep, merge, MagicMock())}
-    assert "both_portal_logins" in codes
+    db = MagicMock()
+    db.query.return_value.filter.return_value.all.return_value = []
+    db.query.return_value.filter.return_value.first.return_value = None
+    codes = {b["code"] for b in _blockers(keep, merge, db)}
+    assert "both_portal_logins" not in codes
 
 
 def test_auth0_user_id_mismatch_blocker():
@@ -66,8 +69,20 @@ def test_auth0_user_id_mismatch_blocker():
         last_name="R",
         roles=["client"],
     )
+    from app.models.client_login import ClientLogin
+
+    login = SimpleNamespace(auth0_user_id="auth0|active-on-merge", revoked_at=None)
     db = MagicMock()
-    db.query.return_value.filter.return_value.first.return_value = wrong_user
+
+    def query_router(model):
+        q = MagicMock()
+        if model is ClientLogin:
+            q.filter.return_value.all.return_value = [login]
+        else:
+            q.filter.return_value.first.return_value = wrong_user
+        return q
+
+    db.query.side_effect = query_router
     blockers = _auth0_user_identity_blockers(db, keep, merge)
     assert any(b["code"] == "auth0_user_id_mismatch" for b in blockers)
 
@@ -105,6 +120,10 @@ def test_keep_login_merges_staff_placeholder_notifications():
 
     moved = {}
     db = MagicMock()
+    primary_login = SimpleNamespace(auth0_user_id="auth0|signup", client_id=keep.id)
+    db.query.return_value.filter.return_value.order_by.return_value.first.return_value = (
+        primary_login
+    )
     with patch(
         "app.services.client_merge_service._resolve_real_user_for_auth0",
         return_value=real_user,
@@ -161,6 +180,10 @@ def test_merge_login_moves_auth0_and_repoints_keep_placeholder():
 
     moved = {}
     db = MagicMock()
+    primary_login = SimpleNamespace(auth0_user_id="auth0|portal", client_id=keep.id)
+    db.query.return_value.filter.return_value.order_by.return_value.first.return_value = (
+        primary_login
+    )
     with patch(
         "app.services.client_merge_service._resolve_real_user_for_auth0",
         return_value=real_user,
@@ -174,9 +197,7 @@ def test_merge_login_moves_auth0_and_repoints_keep_placeholder():
                 return_value={"notifications": ["n1"]},
             ) as mock_repoint:
                 _apply_portal_identity_merge(db, keep, merge, moved)
-    assert keep.auth0_user_id == "auth0|portal"
     assert keep.user_id == real_id
-    assert merge.auth0_user_id is None
     mock_repoint.assert_called()
     assert moved["notifications"] == ["n1"]
 
@@ -310,4 +331,6 @@ def test_non_admin_merge_forbidden():
 def test_client_is_merged_helper():
     c = _client(merged_into_client_id=uuid4())
     assert client_is_merged(c) is True
-    assert has_real_portal_login(_client(auth0_user_id="auth0|x")) is True
+    db = MagicMock()
+    db.query.return_value.filter.return_value.count.return_value = 1
+    assert has_real_portal_login(db, _client()) is True

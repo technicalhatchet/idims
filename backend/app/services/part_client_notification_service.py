@@ -30,7 +30,7 @@ async def notify_client_part_status_change(
         return
 
     client = db.query(Client).filter(Client.id == work_order.client_id).first()
-    if not client or not client.user_id:
+    if not client:
         return
 
     part_label = (part.description or part.number or "Part").strip()
@@ -50,20 +50,20 @@ async def notify_client_part_status_change(
         )
 
     try:
-        await NotificationService.create_notification(
+        from app.services.client_portal_notification_service import notify_client_portal_users
+
+        await notify_client_portal_users(
             db,
-            {
-                "user_id": client.user_id,
-                "title": title,
-                "message": message,
-                "type": "in_app",
-                "reference_id": work_order.id,
-                "related_type": "work_order",
-                "meta_data": {
-                    "part_id": str(part.id),
-                    "part_status": new_status,
-                    "work_order_number": order_num,
-                },
+            client.id,
+            title=title,
+            message=message,
+            notification_type="in_app",
+            reference_id=work_order.id,
+            related_type="work_order",
+            meta_data={
+                "part_id": str(part.id),
+                "part_status": new_status,
+                "work_order_number": order_num,
             },
         )
     except Exception as exc:

@@ -34,6 +34,7 @@ from app.services.portal_signup_service import (
     portal_signup_needs_profile,
 )
 from app.models.client import Client
+from app.models.client_login import ClientLogin
 from app.models.user import User as DBUser
 from app.models.notification import Notification
 from app.models.work_order import WorkOrder, WorkOrderAppointment, WorkOrderService
@@ -57,6 +58,16 @@ from app.services.portal_account_linking import (
     normalize_email,
     resolve_verified_link_email_from_profile,
     token_has_staff_portal_role,
+)
+from app.services.portal_login_service import (
+    PortalLoginError,
+    added_via_for_link_method,
+    ensure_client_login,
+    find_open_claim_by_invited_email,
+    get_active_login_for_sub,
+    person_fields_from_claim,
+    portal_member_display_names,
+    resolve_portal_client,
 )
 from app.services.portal_preview_guard import (
     PREVIEW_UNLOCK_TTL_MINUTES,
@@ -183,10 +194,11 @@ def _pending_profile_link_response(
     token_data,
     already_linked: bool,
     link_method: str,
+    login=None,
 ) -> dict:
     from app.services.portal_user_link import sync_client_user_id_on_link
 
-    sync_client_user_id_on_link(db, client, token_data)
+    sync_client_user_id_on_link(db, client, token_data, login=login)
     payload = _link_account_response(
         client=client,
         already_linked=already_linked,
@@ -368,8 +380,18 @@ def _client_summary(client: Client) -> dict:
         "id": str(client.id),
         "email": client.email,
         "name": f"{client.first_name} {client.last_name}",
-        "auth0_user_id": client.auth0_user_id,
     }
+
+
+def _raise_for_portal_login_error(exc: PortalLoginError) -> None:
+    if exc.code == "revoked":
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=exc.message)
+    if exc.code == "other_client":
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=exc.message)
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=exc.message or "No client record found.",
+    )
 
 
 def _link_account_response(
@@ -412,10 +434,11 @@ def _finalize_link_account_response(
     role_newly_assigned: bool = False,
     role_error: Optional[str] = None,
     link_method: Optional[str] = None,
+    login=None,
 ) -> dict:
     from app.services.portal_user_link import sync_client_user_id_on_link
 
-    sync_client_user_id_on_link(db, client, token_data)
+    sync_client_user_id_on_link(db, client, token_data, login=login)
     name_synced, name_error = _sync_client_identity(auth0_user_id, client, db)
     payload = _link_account_response(
         client=client,
@@ -461,23 +484,21 @@ async def get_portal_client(
             detail="Admin must specify admin_client_id to preview portal"
         )
 
-    # Regular client user — lookup by auth0_user_id only (email linking is POST /portal/link-account)
+    # Regular client user — active client_logins row (email linking is POST /portal/link-account)
     if is_client:
         auth0_user_id = token_data.sub
-        client = (
-            db.query(Client)
-            .filter(
-                Client.auth0_user_id == auth0_user_id,
-                Client.merged_into_client_id.is_(None),
-            )
-            .first()
-        )
-        if not client:
+        try:
+            return resolve_portal_client(db, auth0_user_id)
+        except PortalLoginError as exc:
+            if exc.code == "revoked":
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail=exc.message,
+                )
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="No client record found for this account. Please contact support."
+                detail="No client record found for this account. Please contact support.",
             )
-        return client
 
     raise HTTPException(
         status_code=status.HTTP_403_FORBIDDEN,
@@ -499,16 +520,17 @@ async def link_account_debug(
     token_email = normalize_email(token_data.email)
     resolved_email = _auth0_profile_email_for_debug(auth0_user_id) if auth0_user_id else None
 
-    client_by_auth0 = (
-        db.query(Client)
-        .filter(
-            Client.auth0_user_id == auth0_user_id,
-            Client.merged_into_client_id.is_(None),
+    login_by_sub = get_active_login_for_sub(db, auth0_user_id) if auth0_user_id else None
+    client_by_auth0 = None
+    if login_by_sub:
+        client_by_auth0 = (
+            db.query(Client)
+            .filter(
+                Client.id == login_by_sub.client_id,
+                Client.merged_into_client_id.is_(None),
+            )
+            .first()
         )
-        .first()
-        if auth0_user_id
-        else None
-    )
     client_by_email = (
         find_client_by_normalized_email(db, resolved_email)
         if resolved_email
@@ -563,8 +585,14 @@ async def link_account_debug(
         "client_linked_by_email": _client_summary(client_by_email) if client_by_email else None,
         "email_linked_to_other_auth0": bool(
             client_by_email
-            and client_by_email.auth0_user_id
-            and client_by_email.auth0_user_id != auth0_user_id
+            and not login_by_sub
+            and db.query(ClientLogin)
+            .filter(
+                ClientLogin.client_id == client_by_email.id,
+                ClientLogin.revoked_at.is_(None),
+            )
+            .count()
+            > 0
         ),
         "expected_client_role_id": CLIENT_ROLE_ID,
     }
@@ -601,36 +629,39 @@ async def link_portal_account(
         bool(get_portal_invite_secret()),
     )
 
-    existing = (
-        db.query(Client)
-        .filter(
-            Client.auth0_user_id == auth0_user_id,
-            Client.merged_into_client_id.is_(None),
+    active_login = get_active_login_for_sub(db, auth0_user_id)
+    if active_login:
+        existing = (
+            db.query(Client)
+            .filter(
+                Client.id == active_login.client_id,
+                Client.merged_into_client_id.is_(None),
+            )
+            .first()
         )
-        .first()
-    )
-    if existing:
-        if portal_signup_needs_profile(existing):
-            return _pending_profile_link_response(
-                client=existing,
+        if existing:
+            if portal_signup_needs_profile(existing):
+                return _pending_profile_link_response(
+                    client=existing,
+                    auth0_user_id=auth0_user_id,
+                    db=db,
+                    token_data=token_data,
+                    already_linked=True,
+                    link_method="self_signup_pending_profile",
+                )
+            role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
+            return _finalize_link_account_response(
                 auth0_user_id=auth0_user_id,
+                client=existing,
                 db=db,
                 token_data=token_data,
                 already_linked=True,
-                link_method="self_signup_pending_profile",
+                role_assigned=role_assigned,
+                role_newly_assigned=role_newly_assigned,
+                role_error=role_error,
+                link_method="existing_portal_login",
+                login=active_login,
             )
-        role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
-        return _finalize_link_account_response(
-            auth0_user_id=auth0_user_id,
-            client=existing,
-            db=db,
-            token_data=token_data,
-            already_linked=True,
-            role_assigned=role_assigned,
-            role_newly_assigned=role_newly_assigned,
-            role_error=role_error,
-            link_method="existing_auth0_user_id",
-        )
 
     client = None
     link_method = None
@@ -686,11 +717,25 @@ async def link_portal_account(
 
         link_email, email_verified = resolve_verified_link_email_from_profile(profile)
         if link_email and email_verified:
-            client = find_client_by_normalized_email(db, link_email)
-            if client and is_placeholder_client_email(client.email):
-                client = None
-            elif client:
-                link_method = link_method or "email_verified"
+            invite_claim = find_open_claim_by_invited_email(db, link_email)
+            if invite_claim:
+                client = (
+                    db.query(Client)
+                    .filter(
+                        Client.id == invite_claim.client_id,
+                        Client.merged_into_client_id.is_(None),
+                    )
+                    .first()
+                )
+                if client:
+                    pending_claim = invite_claim
+                    link_method = link_method or "invite_email_match"
+            if not client:
+                client = find_client_by_normalized_email(db, link_email)
+                if client and is_placeholder_client_email(client.email):
+                    client = None
+                elif client:
+                    link_method = link_method or "email_verified"
         elif link_email and not email_verified:
             email_verification_required = True
 
@@ -719,6 +764,18 @@ async def link_portal_account(
             db.commit()
             db.refresh(client)
             if portal_signup_needs_profile(client):
+                try:
+                    signup_login, _ = ensure_client_login(
+                        db,
+                        client=client,
+                        auth0_sub=auth0_user_id,
+                        added_via=added_via_for_link_method(link_method),
+                        link_method="self_signup",
+                        claim=None,
+                    )
+                except PortalLoginError as exc:
+                    _raise_for_portal_login_error(exc)
+                db.commit()
                 return _pending_profile_link_response(
                     client=client,
                     auth0_user_id=auth0_user_id,
@@ -726,6 +783,7 @@ async def link_portal_account(
                     token_data=token_data,
                     already_linked=False,
                     link_method=link_method,
+                    login=signup_login,
                 )
         except PortalSignupError as exc:
             if exc.code == "email_unverified":
@@ -739,37 +797,39 @@ async def link_portal_account(
             detail = f"{detail} (invite: {invite_error})"
         raise HTTPException(status_code=404, detail=detail)
 
-    if client.auth0_user_id and client.auth0_user_id != auth0_user_id:
-        raise HTTPException(
-            status_code=409,
-            detail="This client record is already linked to a different login.",
-        )
+    link_method_key = link_method or "unknown"
+    if link_method_key == "email_verified":
+        link_method_key = "email_match"
+    if link_method_key == "invite_email_match":
+        link_method_key = "claim_token"
 
-    if client.auth0_user_id == auth0_user_id:
-        role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
-        return _finalize_link_account_response(
-            auth0_user_id=auth0_user_id,
+    person = person_fields_from_claim(pending_claim)
+    try:
+        login, created = ensure_client_login(
+            db,
             client=client,
-            db=db,
-            token_data=token_data,
-            already_linked=True,
-            role_assigned=role_assigned,
-            role_newly_assigned=role_newly_assigned,
-            role_error=role_error,
-            link_method=link_method or "already_linked_same_client",
+            auth0_sub=auth0_user_id,
+            added_via=added_via_for_link_method(link_method),
+            link_method=link_method_key,
+            claim=pending_claim,
+            display_name=person.get("display_name"),
+            invited_email=person.get("invited_email"),
+            invited_phone=person.get("invited_phone"),
         )
+    except PortalLoginError as exc:
+        _raise_for_portal_login_error(exc)
 
-    client.auth0_user_id = auth0_user_id
     if pending_claim:
         mark_claim_used(db, pending_claim)
     db.commit()
     db.refresh(client)
     logger.info(
-        "[LinkAccount] linked client %s to %s via %s claim_id=%s",
+        "[LinkAccount] linked client %s to %s via %s claim_id=%s created_login=%s",
         client.id,
         auth0_user_id,
         link_method,
         pending_claim.id if pending_claim else None,
+        created,
     )
 
     role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
@@ -778,11 +838,12 @@ async def link_portal_account(
         client=client,
         db=db,
         token_data=token_data,
-        already_linked=False,
+        already_linked=not created,
         role_assigned=role_assigned,
         role_newly_assigned=role_newly_assigned,
         role_error=role_error,
         link_method=link_method,
+        login=login,
     )
 
 
@@ -797,14 +858,17 @@ async def portal_signup_status(
     if not auth0_user_id:
         raise HTTPException(status_code=400, detail="Invalid token — no sub claim")
 
-    client = (
-        db.query(Client)
-        .filter(
-            Client.auth0_user_id == auth0_user_id,
-            Client.merged_into_client_id.is_(None),
+    active_login = get_active_login_for_sub(db, auth0_user_id)
+    client = None
+    if active_login:
+        client = (
+            db.query(Client)
+            .filter(
+                Client.id == active_login.client_id,
+                Client.merged_into_client_id.is_(None),
+            )
+            .first()
         )
-        .first()
-    )
     if not client:
         return {
             "status": "unlinked",
@@ -851,10 +915,16 @@ async def complete_portal_signup(
     if token_has_staff_portal_role(roles):
         raise HTTPException(status_code=403, detail=STAFF_PORTAL_ACCOUNT_FORBIDDEN)
 
+    active_login = get_active_login_for_sub(db, auth0_user_id)
+    if not active_login:
+        raise HTTPException(
+            status_code=404,
+            detail="No portal account found for this login. Try signing in again.",
+        )
     client = (
         db.query(Client)
         .filter(
-            Client.auth0_user_id == auth0_user_id,
+            Client.id == active_login.client_id,
             Client.merged_into_client_id.is_(None),
         )
         .with_for_update()
@@ -878,6 +948,7 @@ async def complete_portal_signup(
             role_newly_assigned=role_newly_assigned,
             role_error=role_error,
             link_method="complete_signup_not_applicable",
+            login=active_login,
         )
         payload["needs_profile"] = False
         payload["profile_completed"] = bool(getattr(client, "portal_profile_completed_at", None))
@@ -917,10 +988,20 @@ async def complete_portal_signup(
         role_newly_assigned=role_newly_assigned,
         role_error=role_error,
         link_method="complete_signup",
+        login=active_login,
     )
     payload["needs_profile"] = False
     payload["profile_completed"] = True
     return payload
+
+
+@router.get("/portal/account/members")
+async def portal_account_members(
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    """Display names of everyone with active portal access (household visibility)."""
+    return {"members": portal_member_display_names(db, client.id)}
 
 
 @router.post("/portal/admin/preview-unlock")
@@ -1126,26 +1207,62 @@ def _serialize_portal_notification(notification: Notification) -> dict:
     }
 
 
+def _portal_notification_user_id(
+    db: Session,
+    token_data,
+    client: Client,
+) -> Optional[uuid.UUID]:
+    from app.services.portal_user_link import ensure_db_user_for_portal_link
+
+    login = get_active_login_for_sub(db, token_data.sub)
+    if not login or login.client_id != client.id:
+        return None
+    if not login.user_id:
+        user = ensure_db_user_for_portal_link(db, token_data)
+        from app.services.portal_login_service import sync_login_user_id
+
+        sync_login_user_id(db, login, user)
+        db.commit()
+        db.refresh(login)
+    return login.user_id
+
+
 @router.get("/portal/notifications")
 async def list_portal_notifications(
     client: Client = Depends(get_portal_client),
+    token_data=Depends(get_token_data),
     db: Session = Depends(get_db),
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
+    admin_client_id: Optional[str] = Query(None),
 ):
     """In-app notifications for the portal client (supports admin preview via admin_client_id)."""
-    if not client.user_id:
-        return {
-            "total": 0,
-            "notifications": [],
-            "page": page,
-            "pages": 0,
-            "unread_count": 0,
-            "portal_linked": False,
-        }
+    roles = getattr(token_data, "roles", []) or []
+    if "admin" in roles and admin_client_id:
+        if not client.user_id:
+            return {
+                "total": 0,
+                "notifications": [],
+                "page": page,
+                "pages": 0,
+                "unread_count": 0,
+                "portal_linked": False,
+            }
+        notification_user_id = client.user_id
+    else:
+        notification_user_id = _portal_notification_user_id(db, token_data, client)
+        if not notification_user_id:
+            return {
+                "total": 0,
+                "notifications": [],
+                "page": page,
+                "pages": 0,
+                "unread_count": 0,
+                "portal_linked": False,
+            }
 
     skip = (page - 1) * limit
-    base_query = db.query(Notification).filter(Notification.user_id == client.user_id)
+    base_query = db.query(Notification).filter(Notification.user_id == notification_user_id)
     total = base_query.count()
     notifications = (
         base_query.order_by(Notification.created_at.desc())
@@ -1169,10 +1286,12 @@ async def list_portal_notifications(
 async def mark_portal_notification_read(
     notification_id: str,
     client: Client = Depends(get_portal_client),
+    token_data=Depends(get_token_data),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("PUT /portal/notifications/read")),
 ):
-    if not client.user_id:
+    notification_user_id = _portal_notification_user_id(db, token_data, client)
+    if not notification_user_id:
         raise HTTPException(status_code=404, detail="Notification not found")
 
     try:
@@ -1182,7 +1301,7 @@ async def mark_portal_notification_read(
 
     notification = db.query(Notification).filter(
         Notification.id == parsed_id,
-        Notification.user_id == client.user_id,
+        Notification.user_id == notification_user_id,
     ).first()
     if not notification:
         raise HTTPException(status_code=404, detail="Notification not found")

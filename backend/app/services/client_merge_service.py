@@ -14,6 +14,7 @@ from sqlalchemy.orm import Session
 from app.models.client import Client
 from app.models.client_appliance import ClientAppliance
 from app.models.client_merge_audit import ClientMergeAudit
+from app.models.client_login import ClientLogin
 from app.models.client_portal_claim import ClientPortalClaim
 from app.models.document import Document
 from app.models.invoice import Invoice
@@ -23,6 +24,7 @@ from app.models.quote import Quote
 from app.models.user import User as DBUser
 from app.models.work_order import WorkOrder
 from app.services.portal_user_auth import is_placeholder_client_auth_id, user_has_staff_role
+from app.services.portal_login_service import count_active_logins, has_real_portal_login
 from app.services.portal_user_link import repoint_user_customer_data_collect_ids
 from app.utils.datetime_utils import utcnow_naive
 
@@ -38,6 +40,7 @@ CLIENT_ID_REPOINT_MODELS: Tuple[Tuple[Type, str], ...] = (
     (Invoice, "client_id"),
     (PaymentMethod, "client_id"),
     (Document, "client_id"),
+    (ClientLogin, "client_id"),
 )
 
 
@@ -56,18 +59,6 @@ def client_is_merged(client: Client) -> bool:
 def active_client_query(db: Session):
     """Clients eligible for list, search, portal link, and merge."""
     return db.query(Client).filter(Client.merged_into_client_id.is_(None))
-
-
-def has_real_portal_login(client: Client) -> bool:
-    return bool((client.auth0_user_id or "").strip())
-
-
-def _survivor_auth0_sub(keep: Client, merge: Client) -> Optional[str]:
-    keep_auth = (keep.auth0_user_id or "").strip()
-    merge_auth = (merge.auth0_user_id or "").strip()
-    if keep_auth and merge_auth:
-        return None
-    return keep_auth or merge_auth or None
 
 
 def _load_user(db: Session, user_id: Optional[UUID]) -> Optional[DBUser]:
@@ -90,7 +81,7 @@ def _merge_moved_chunks(moved: Dict[str, List[str]], chunk: Dict[str, List[str]]
         moved.setdefault(table, []).extend(ids)
 
 
-def _client_core_snapshot(client: Client) -> Dict[str, Any]:
+def _client_core_snapshot(db: Session, client: Client) -> Dict[str, Any]:
     return {
         "id": str(client.id),
         "first_name": client.first_name,
@@ -102,7 +93,8 @@ def _client_core_snapshot(client: Client) -> Dict[str, Any]:
         "status": client.status,
         "auth0_user_id": client.auth0_user_id,
         "user_id": str(client.user_id) if client.user_id else None,
-        "has_portal_login": has_real_portal_login(client),
+        "has_portal_login": has_real_portal_login(db, client),
+        "active_login_count": count_active_logins(db, client.id),
         "merged_into_client_id": (
             str(client.merged_into_client_id) if client.merged_into_client_id else None
         ),
@@ -254,36 +246,42 @@ def _blockers(keep: Client, merge: Client, db: Session) -> List[Dict[str, str]]:
                 "severity": "blocker",
             }
         )
-    if has_real_portal_login(keep) and has_real_portal_login(merge):
-        blockers.append(
-            {
-                "code": "both_portal_logins",
-                "message": "Both clients have portal logins; resolve manually before merging.",
-                "severity": "blocker",
-            }
-        )
     blockers.extend(_auth0_user_identity_blockers(db, keep, merge))
     return blockers
 
 
 def _auth0_user_identity_blockers(db: Session, keep: Client, merge: Client) -> List[Dict[str, str]]:
-    """Block when survivor would have auth0_sub A but keep.user_id is a real user for sub B."""
-    survivor_auth = _survivor_auth0_sub(keep, merge)
-    if not survivor_auth:
-        return []
+    """Block when keep.user_id is a real user not tied to any active login on either client."""
     keep_user = _load_user(db, keep.user_id)
-    if keep_user and _is_real_login_user(keep_user) and keep_user.auth_id != survivor_auth:
-        return [
-            {
-                "code": "auth0_user_id_mismatch",
-                "message": (
-                    "Survivor auth0_user_id does not match the real users row on keep.user_id; "
-                    "fix manually before merging."
-                ),
-                "severity": "blocker",
-            }
-        ]
-    return []
+    if not keep_user or not _is_real_login_user(keep_user):
+        return []
+    active_subs = set()
+    for client_id in (keep.id, merge.id):
+        for login in (
+            db.query(ClientLogin)
+            .filter(
+                ClientLogin.client_id == client_id,
+                ClientLogin.revoked_at.is_(None),
+            )
+            .all()
+        ):
+            sub = (login.auth0_user_id or "").strip()
+            if sub:
+                active_subs.add(sub)
+    if keep_user.auth_id in active_subs:
+        return []
+    if not active_subs:
+        return []
+    return [
+        {
+            "code": "auth0_user_id_mismatch",
+            "message": (
+                "keep.user_id does not match any active portal login on these records; "
+                "fix manually before merging."
+            ),
+            "severity": "blocker",
+        }
+    ]
 
 
 def _merge_preview_from_clients(db: Session, keep: Client, merge: Client) -> Dict[str, Any]:
@@ -314,8 +312,8 @@ def _merge_preview_from_clients(db: Session, keep: Client, merge: Client) -> Dic
         row_counts["client_portal_claims_to_revoke"] = open_claims
 
     return {
-        "keep": _client_core_snapshot(keep),
-        "merge": _client_core_snapshot(merge),
+        "keep": _client_core_snapshot(db, keep),
+        "merge": _client_core_snapshot(db, merge),
         "row_counts": row_counts,
         "warnings": warnings,
         "blockers": blockers,
@@ -462,15 +460,21 @@ def _resolve_real_user_for_auth0(db: Session, auth0_sub: str, keep: Client, merg
 
 
 def _apply_portal_identity_merge(db: Session, keep: Client, merge: Client, moved: Dict[str, List[str]]) -> None:
-    merge_auth = (merge.auth0_user_id or "").strip()
-    keep_auth = (keep.auth0_user_id or "").strip()
+    """Reconcile keep.user_id with active portal logins after client_logins repoint."""
+    primary_login = (
+        db.query(ClientLogin)
+        .filter(
+            ClientLogin.client_id == keep.id,
+            ClientLogin.revoked_at.is_(None),
+        )
+        .order_by(ClientLogin.created_at.asc())
+        .first()
+    )
+    if not primary_login:
+        merge.user_id = None
+        return
 
-    if merge_auth and not keep_auth:
-        merge.auth0_user_id = None
-        db.flush()
-        keep.auth0_user_id = merge_auth
-
-    survivor_auth = (keep.auth0_user_id or "").strip()
+    survivor_auth = (primary_login.auth0_user_id or "").strip()
     if not survivor_auth:
         return
 

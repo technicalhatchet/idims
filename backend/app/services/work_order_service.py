@@ -829,17 +829,20 @@ class WorkOrderService:
             if work_order.client_id:
                 client = db.query(Client).filter(Client.id == work_order.client_id).first()
                 
-                if client and client.user_id:
-                    client_notification = NotificationCreate(
-                        user_id=client.user_id,
-                        title="New Work Order Created",
-                        content=f"A new work order #{work_order.order_number} has been created for you",
-                        type="in_app",
-                        related_id=work_order.id,
-                        related_type="work_order"
+                if client:
+                    from app.services.client_portal_notification_service import (
+                        notify_client_portal_users,
                     )
-                    
-                    await NotificationService.create_notification(db, client_notification, send_immediately=True)
+
+                    await notify_client_portal_users(
+                        db,
+                        client.id,
+                        title="New Work Order Created",
+                        message=f"A new work order #{work_order.order_number} has been created for you",
+                        notification_type="in_app",
+                        reference_id=work_order.id,
+                        related_type="work_order",
+                    )
             
             # Notify technician if assigned
             if work_order.assigned_technician_id:

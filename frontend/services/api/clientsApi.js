@@ -209,6 +209,35 @@ export async function createPortalClaim(clientId, { sendEmail = false, purpose =
   });
 }
 
+export async function getClientPortalAccess(clientId) {
+  return apiClient(`/clients/${clientId}/portal-access`);
+}
+
+export async function invitePortalPerson(clientId, body) {
+  return apiClient(`/clients/${clientId}/portal-access/invites`, {
+    method: 'POST',
+    body: JSON.stringify({
+      display_name: body.displayName,
+      email: body.email || null,
+      phone: body.phone || null,
+      send_email: Boolean(body.sendEmail),
+      ttl_days: body.ttlDays ?? 7,
+    }),
+  });
+}
+
+export async function resendPortalInvite(clientId, claimId) {
+  return apiClient(`/clients/${clientId}/portal-access/invites/${claimId}/resend`, {
+    method: 'POST',
+  });
+}
+
+export async function revokePortalLogin(clientId, loginId) {
+  return apiClient(`/clients/${clientId}/portal-access/logins/${loginId}/revoke`, {
+    method: 'POST',
+  });
+}
+
 /**
  * Hook for a single client by ID
  */

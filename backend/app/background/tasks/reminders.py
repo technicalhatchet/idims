@@ -48,21 +48,26 @@ def send_appointment_reminders():
             # Send reminder to client
             if work_order.client_id:
                 client = db.query(Client).filter(Client.id == work_order.client_id).first()
-                if client and client.user_id:
+                if client:
                     logger.debug(f"Sending client reminder for work order {work_order.order_number}")
-                    
-                    # Create notification
-                    notification_data = NotificationCreate(
-                        user_id=client.user_id,
-                        title="Appointment Reminder",
-                        content=f"Your appointment #{work_order.order_number} is scheduled for {work_order.scheduled_start.strftime('%B %d at %I:%M %p')}.",
-                        type="in_app",
-                        related_id=work_order.id,
-                        related_type="work_order"
+
+                    from app.services.client_portal_notification_service import (
+                        notify_client_portal_users,
                     )
-                    
+
                     asyncio.run(
-                        NotificationService.create_notification(db, notification_data)
+                        notify_client_portal_users(
+                            db,
+                            client.id,
+                            title="Appointment Reminder",
+                            message=(
+                                f"Your appointment #{work_order.order_number} is scheduled for "
+                                f"{work_order.scheduled_start.strftime('%B %d at %I:%M %p')}."
+                            ),
+                            notification_type="in_app",
+                            reference_id=work_order.id,
+                            related_type="work_order",
+                        )
                     )
 
                     if client_automated_sms_allowed(client):

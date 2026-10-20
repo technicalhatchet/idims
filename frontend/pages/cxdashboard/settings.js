@@ -18,6 +18,7 @@ export default function SettingsPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [saved, setSaved] = useState(false);
+  const [householdMembers, setHouseholdMembers] = useState([]);
   const previewMode = isPortalAdminPreview();
   const [form, setForm] = useState({
     first_name: '',
@@ -34,6 +35,12 @@ export default function SettingsPage() {
       try {
         const token = await getPortalSessionToken();
         const me = await portalFetch('me', token);
+        try {
+          const members = await portalFetch('account/members', token);
+          setHouseholdMembers(Array.isArray(members?.members) ? members.members : []);
+        } catch {
+          setHouseholdMembers([]);
+        }
         setForm({
           first_name: me.first_name || '',
           last_name: me.last_name || '',
@@ -113,6 +120,18 @@ export default function SettingsPage() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="rounded-xl border border-white/[0.07] bg-[#0D1525] p-4 sm:p-5 space-y-4">
+            {householdMembers.length > 0 ? (
+              <div className="rounded-lg border border-white/10 bg-[#0a101c] p-3">
+                <p className="text-[11px] uppercase tracking-wide text-white/45 mb-2 m-0">
+                  People with access to this account
+                </p>
+                <ul className="text-sm text-white/80 list-disc pl-5 m-0 space-y-1">
+                  {householdMembers.map((name) => (
+                    <li key={name}>{name}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
             {form.company_name ? (
               <div>
                 <label className="block text-[11px] uppercase tracking-wide text-white/45 mb-1.5">Company</label>
