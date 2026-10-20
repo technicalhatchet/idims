@@ -10,6 +10,7 @@ import {
   getClientPortalAccess,
   invitePortalPerson,
   resendPortalInvite,
+  cancelPortalInvite,
   revokePortalLogin,
 } from '../../../services/api/clientsApi';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
@@ -262,6 +263,7 @@ function ClientDetail() {
   const [propertiesExpanded, setPropertiesExpanded] = useState(false);
   const [workOrdersExpanded, setWorkOrdersExpanded] = useState(false);
   const [billingExpanded, setBillingExpanded] = useState(false);
+  const [portalAccessExpanded, setPortalAccessExpanded] = useState(false);
   const [emailSending, setEmailSending] = useState(false);
   const [portalLinkCopied, setPortalLinkCopied] = useState(false);
   const [portalLinkLoading, setPortalLinkLoading] = useState(false);
@@ -308,6 +310,9 @@ function ClientDetail() {
       refreshPortalAccess();
     }
   }, [id, client?.id]);
+
+  const portalActiveLoginCount = (portalAccess.logins || []).filter((l) => !l.revoked_at).length;
+  const portalPendingInviteCount = (portalAccess.pending_invites || []).length;
 
   useEffect(() => {
     if (!id) return;
@@ -1300,8 +1305,8 @@ function ClientDetail() {
             <ClientAppliancesPanel clientId={client?.id} properties={properties} />
           </div>
 
-          <div 
-            className="rounded-lg p-4"
+          <div
+            className="rounded-lg overflow-hidden mb-4"
             style={{
               background: 'rgba(13, 21, 37, 0.85)',
               backdropFilter: 'blur(12px)',
@@ -1310,11 +1315,33 @@ function ClientDetail() {
               boxShadow: '0 0 20px rgba(147, 51, 234, 0.15)',
             }}
           >
-            <div className="flex items-center gap-3 mb-3">
-              <FaPaperPlane className="text-purple-400" size={20} />
-              <h3 className="text-white font-bold uppercase tracking-wide">Portal access</h3>
-            </div>
-            <p className="text-sm text-gray-400 mb-3">
+            <button
+              type="button"
+              onClick={() => setPortalAccessExpanded(!portalAccessExpanded)}
+              className="w-full flex items-center justify-between p-4 transition-colors active:bg-purple-500/10"
+            >
+              <div className="flex items-center gap-3 text-left">
+                <FaPaperPlane className="text-purple-400 shrink-0" size={20} />
+                <div>
+                  <span className="text-white font-bold uppercase tracking-wide block">Portal access</span>
+                  {!portalAccessExpanded ? (
+                    <span className="text-xs text-gray-500 mt-0.5 block">
+                      {portalAccessLoading
+                        ? 'Loading…'
+                        : `${portalActiveLoginCount} with access · ${portalPendingInviteCount} pending`}
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+              {portalAccessExpanded ? (
+                <FaChevronUp className="text-purple-400 shrink-0" size={16} />
+              ) : (
+                <FaChevronDown className="text-purple-400 shrink-0" size={16} />
+              )}
+            </button>
+            {portalAccessExpanded && (
+            <div className="px-4 pb-4 border-t border-purple-500/20">
+            <p className="text-sm text-gray-400 mb-3 pt-3">
               Household members with their own login. Invites are per person (name + email or cell).
             </p>
             {portalAccessLoading ? (
@@ -1370,20 +1397,37 @@ function ClientDetail() {
                         {inv.invited_email || inv.invited_phone || '—'}
                       </p>
                     </div>
-                    <button
-                      type="button"
-                      className="text-xs text-cyan-400 shrink-0"
-                      onClick={async () => {
-                        try {
-                          await resendPortalInvite(id, inv.id);
-                          await refreshPortalAccess();
-                        } catch (e) {
-                          setEmailError(e.message || 'Resend failed');
-                        }
-                      }}
-                    >
-                      Resend
-                    </button>
+                    <div className="flex flex-col items-end gap-1 shrink-0">
+                      <button
+                        type="button"
+                        className="text-xs text-cyan-400"
+                        onClick={async () => {
+                          try {
+                            await resendPortalInvite(id, inv.id);
+                            await refreshPortalAccess();
+                          } catch (e) {
+                            setEmailError(e.message || 'Resend failed');
+                          }
+                        }}
+                      >
+                        Resend
+                      </button>
+                      <button
+                        type="button"
+                        className="text-xs text-red-400"
+                        onClick={async () => {
+                          if (!window.confirm(`Cancel invite for ${inv.display_name || 'this person'}?`)) return;
+                          try {
+                            await cancelPortalInvite(id, inv.id);
+                            await refreshPortalAccess();
+                          } catch (e) {
+                            setEmailError(e.message || 'Cancel failed');
+                          }
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -1562,6 +1606,8 @@ function ClientDetail() {
               >
                 <span className="font-bold">Error!</span> {emailError}
               </div>
+            )}
+            </div>
             )}
           </div>
         </div>

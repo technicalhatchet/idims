@@ -232,6 +232,12 @@ export async function resendPortalInvite(clientId, claimId) {
   });
 }
 
+export async function cancelPortalInvite(clientId, claimId) {
+  return apiClient(`/clients/${clientId}/portal-access/invites/${claimId}/cancel`, {
+    method: 'POST',
+  });
+}
+
 export async function revokePortalLogin(clientId, loginId) {
   return apiClient(`/clients/${clientId}/portal-access/logins/${loginId}/revoke`, {
     method: 'POST',

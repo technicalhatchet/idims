@@ -15,6 +15,8 @@ from app.models.client_portal_claim import ClientPortalClaim
 from app.models.user import User as DBUser
 from app.services.portal_account_linking import normalize_email
 from app.services.portal_claim_service import PURPOSE_PORTAL_INVITE
+from app.services.portal_login_service import get_active_login_for_sub
+from app.services.portal_preview_guard import is_admin_preview
 from app.utils.datetime_utils import utcnow_naive
 
 logger = logging.getLogger(__name__)
@@ -24,6 +26,72 @@ RATE_LIMIT_MESSAGE = (
     "You can send up to 5 invites per day for this account. "
     "Try again tomorrow or call Atomic Repair for help."
 )
+
+
+class PortalInviteActor:
+    """Who initiated a portal household invite (customer login or admin preview)."""
+
+    def __init__(
+        self,
+        *,
+        invited_by_login_id: Optional[UUID],
+        login: Optional[ClientLogin],
+        claim_metadata: Dict[str, Any],
+        notify_admins_on_invite: bool,
+        created_by_auth0_sub: Optional[str],
+    ):
+        self.invited_by_login_id = invited_by_login_id
+        self.login = login
+        self.claim_metadata = claim_metadata
+        self.notify_admins_on_invite = notify_admins_on_invite
+        self.created_by_auth0_sub = created_by_auth0_sub
+
+
+def resolve_portal_invite_actor(
+    db: Session,
+    *,
+    token_sub: str,
+    token_roles: Optional[List[str]],
+    admin_client_id: Optional[str],
+    client: Client,
+) -> PortalInviteActor:
+    """
+    Customer sessions attribute invites to client_login; admin preview uses staff metadata only.
+    """
+    roles = token_roles or []
+    if is_admin_preview(roles, admin_client_id):
+        user = db.query(DBUser).filter(DBUser.auth_id == token_sub).first()
+        staff_name = user.full_name if user else token_sub
+        staff_id = str(user.id) if user else None
+        return PortalInviteActor(
+            invited_by_login_id=None,
+            login=None,
+            claim_metadata={
+                "invited_by": "staff_preview",
+                "invited_by_staff": {
+                    "user_id": staff_id,
+                    "name": staff_name,
+                    "auth0_sub": token_sub,
+                },
+            },
+            notify_admins_on_invite=False,
+            created_by_auth0_sub=token_sub,
+        )
+
+    login = get_active_login_for_sub(db, token_sub)
+    if not login or login.client_id != client.id:
+        raise PortalMemberInviteError(
+            "login_required",
+            "Active portal login required.",
+            status_code=403,
+        )
+    return PortalInviteActor(
+        invited_by_login_id=login.id,
+        login=login,
+        claim_metadata={"invited_by": "customer"},
+        notify_admins_on_invite=True,
+        created_by_auth0_sub=None,
+    )
 
 
 class PortalMemberInviteError(Exception):

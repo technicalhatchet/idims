@@ -4,7 +4,11 @@ import { FaPhone, FaEnvelope } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import SupportCTA from '../../components/cxdashboard/SupportCTA';
 import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
-import { isPortalAdminPreview } from '../../utils/portalPreview';
+import {
+  isPortalAdminPreview,
+  isPortalPreviewActive,
+  isPortalPreviewUnlocked,
+} from '../../utils/portalPreview';
 import { MARKETING_PHONE_DISPLAY } from '../../constants/marketingSiteContent';
 import { portalSignOut } from '../../components/cxdashboard/portalAuth';
 
@@ -31,6 +35,7 @@ export default function SettingsPage() {
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const [leaveConfirmLast, setLeaveConfirmLast] = useState(false);
   const previewMode = isPortalAdminPreview();
+  const previewLocked = isPortalPreviewActive() && !isPortalPreviewUnlocked();
   const [form, setForm] = useState({
     first_name: '',
     last_name: '',
@@ -93,7 +98,7 @@ export default function SettingsPage() {
 
   async function handleInviteSubmit(e) {
     e.preventDefault();
-    if (previewMode) return;
+    if (previewLocked) return;
     setInviteBusy(true);
     setInviteError(null);
     setInviteSuccess(null);
@@ -117,7 +122,7 @@ export default function SettingsPage() {
   }
 
   async function resendInvite(claimId) {
-    if (previewMode) return;
+    if (previewLocked) return;
     setInviteError(null);
     try {
       const token = await getPortalSessionToken();
@@ -130,7 +135,7 @@ export default function SettingsPage() {
   }
 
   async function cancelInvite(claimId) {
-    if (previewMode) return;
+    if (previewLocked) return;
     setInviteError(null);
     try {
       const token = await getPortalSessionToken();
@@ -264,7 +269,7 @@ export default function SettingsPage() {
                         <span className="flex gap-2 shrink-0">
                           <button
                             type="button"
-                            disabled={previewMode}
+                            disabled={previewLocked}
                             onClick={() => resendInvite(inv.id)}
                             className="text-xs px-2 py-1 rounded border border-white/15 text-cyan-400 hover:bg-white/5 disabled:opacity-50"
                           >
@@ -272,7 +277,7 @@ export default function SettingsPage() {
                           </button>
                           <button
                             type="button"
-                            disabled={previewMode}
+                            disabled={previewLocked}
                             onClick={() => cancelInvite(inv.id)}
                             className="text-xs px-2 py-1 rounded border border-white/15 text-white/60 hover:bg-white/5 disabled:opacity-50"
                           >
@@ -294,7 +299,7 @@ export default function SettingsPage() {
                     value={inviteForm.display_name}
                     onChange={(e) => setInviteForm((p) => ({ ...p, display_name: e.target.value }))}
                     required
-                    disabled={previewMode}
+                    disabled={previewLocked}
                   />
                   <input
                     type="email"
@@ -303,7 +308,7 @@ export default function SettingsPage() {
                     value={inviteForm.email}
                     onChange={(e) => setInviteForm((p) => ({ ...p, email: e.target.value }))}
                     required
-                    disabled={previewMode}
+                    disabled={previewLocked}
                     autoComplete="email"
                   />
                 </div>
@@ -311,10 +316,10 @@ export default function SettingsPage() {
                 {inviteSuccess ? <p className="text-emerald-400 text-xs m-0">{inviteSuccess}</p> : null}
                 <button
                   type="submit"
-                  disabled={inviteBusy || previewMode}
+                  disabled={inviteBusy || previewLocked}
                   className="text-sm px-3 py-2 rounded-lg border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/10 disabled:opacity-50"
                 >
-                  {previewMode ? 'Invites disabled in preview' : (inviteBusy ? 'Sending…' : 'Send invite')}
+                  {previewLocked ? 'Unlock preview to send invites' : (inviteBusy ? 'Sending…' : 'Send invite')}
                 </button>
               </form>
             </div>
@@ -421,7 +426,7 @@ export default function SettingsPage() {
           </form>
         )}
 
-        {!loading ? (
+        {!loading && !isPortalPreviewActive() ? (
           <div className="rounded-xl border border-white/[0.07] bg-[#0D1525] p-4 sm:p-5 space-y-3 max-w-xl">
             <div>
               <h2 className="text-white text-base font-semibold m-0">Leave this account</h2>
