@@ -75,6 +75,7 @@ export default function PropertyFormModal({
   onClose,
   submitting,
   readOnly = false,
+  saveError = null,
 }) {
   const [form, setForm] = useState({ ...emptyPortalPropertyForm, ...initial });
   const [areaWarning, setAreaWarning] = useState(null);
@@ -322,6 +323,15 @@ export default function PropertyFormModal({
             </div>
           </div>
         </div>
+
+        {saveError ? (
+          <p
+            className="mx-4 mb-2 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300"
+            role="alert"
+          >
+            {saveError}
+          </p>
+        ) : null}
 
         <footer
           className={`sticky bottom-0 z-10 flex shrink-0 gap-3 border-t border-white/10 bg-[#0B0F1A] px-4 py-3 ${

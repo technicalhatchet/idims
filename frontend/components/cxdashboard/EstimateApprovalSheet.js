@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { formatPortalCurrency } from '../../utils/portalMoney';
+import {
+  fetchPortalEstimatePdfBlob,
+  triggerBlobDownload,
+} from '../../utils/portalInvoicePdf';
 import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
 
 function SignaturePad({ onChange }) {
@@ -95,11 +99,11 @@ export default function EstimateApprovalSheet({ workOrder, onClose, onDecided })
   const [state, setState] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [mode, setMode] = useState(null);
   const [signerName, setSignerName] = useState('');
   const [signature, setSignature] = useState('');
   const [declineReason, setDeclineReason] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [pdfLoading, setPdfLoading] = useState(false);
 
   const woId = workOrder?.id;
 
@@ -156,6 +160,19 @@ export default function EstimateApprovalSheet({ workOrder, onClose, onDecided })
     }
   };
 
+  const downloadPdf = async () => {
+    setPdfLoading(true);
+    setError(null);
+    try {
+      const blob = await fetchPortalEstimatePdfBlob(woId);
+      triggerBlobDownload(blob, `estimate-${workOrder.order_number || woId}.pdf`);
+    } catch (err) {
+      setError(err.message || 'Could not download PDF');
+    } finally {
+      setPdfLoading(false);
+    }
+  };
+
   const canAct = state?.can_approve || state?.can_decline;
   const decided = state?.current_decision && !canAct;
 
@@ -205,7 +222,7 @@ export default function EstimateApprovalSheet({ workOrder, onClose, onDecided })
             </p>
 
             {state.lines?.length > 0 && (
-              <div style={{ marginBottom: '1rem' }}>
+              <div style={{ marginBottom: '0.75rem' }}>
                 {state.lines.map((line, i) => (
                   <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8125rem', padding: '4px 0', color: '#d1d5db' }}>
                     <span style={{ paddingRight: 8 }}>{line.name}</span>
@@ -219,8 +236,28 @@ export default function EstimateApprovalSheet({ workOrder, onClose, onDecided })
               </div>
             )}
 
+            <button
+              type="button"
+              onClick={downloadPdf}
+              disabled={pdfLoading}
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                marginBottom: '1rem',
+                color: '#22d3ee',
+                fontSize: '0.8125rem',
+                fontWeight: 600,
+                cursor: pdfLoading ? 'wait' : 'pointer',
+                textDecoration: 'underline',
+                textUnderlineOffset: 3,
+              }}
+            >
+              {pdfLoading ? 'Preparing PDF…' : 'Download PDF'}
+            </button>
+
             {decided && (
-              <p style={{ color: state.current_decision === 'approved' ? '#22c55e' : '#f59e0b', fontWeight: 600, fontSize: '0.875rem' }}>
+              <p style={{ color: state.current_decision === 'approved' ? '#22c55e' : '#9ca3af', fontWeight: 600, fontSize: '0.875rem' }}>
                 {state.current_decision === 'approved'
                   ? `Approved by ${state.signer_name || 'you'}${state.decided_at ? ` on ${format(parseISO(state.decided_at), 'MMM d, yyyy')}` : ''}`
                   : `Declined${state.decided_at ? ` on ${format(parseISO(state.decided_at), 'MMM d, yyyy')}` : ''}`}
@@ -228,42 +265,7 @@ export default function EstimateApprovalSheet({ workOrder, onClose, onDecided })
               </p>
             )}
 
-            {canAct && !mode && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <button
-                  type="button"
-                  onClick={() => setMode('approve')}
-                  style={{
-                    padding: '10px 14px',
-                    borderRadius: 8,
-                    border: 'none',
-                    background: '#22d3ee',
-                    color: '#0A0F1E',
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                  }}
-                >
-                  Approve estimate
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setMode('decline')}
-                  style={{
-                    padding: '10px 14px',
-                    borderRadius: 8,
-                    border: '1px solid rgba(255,255,255,0.15)',
-                    background: 'transparent',
-                    color: '#9ca3af',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                  }}
-                >
-                  Decline
-                </button>
-              </div>
-            )}
-
-            {canAct && mode === 'approve' && (
+            {canAct && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <label style={{ color: '#9ca3af', fontSize: '0.75rem' }}>
                   Your name
@@ -292,38 +294,37 @@ export default function EstimateApprovalSheet({ workOrder, onClose, onDecided })
                     cursor: 'pointer',
                   }}
                 >
-                  {submitting ? 'Saving…' : 'Submit approval'}
+                  {submitting ? 'Saving…' : 'Approve estimate'}
                 </button>
-              </div>
-            )}
-
-            {canAct && mode === 'decline' && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <label style={{ color: '#9ca3af', fontSize: '0.75rem' }}>
-                  Reason (optional)
-                  <textarea
-                    value={declineReason}
-                    onChange={(e) => setDeclineReason(e.target.value)}
-                    rows={3}
-                    className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white"
-                  />
-                </label>
-                <button
-                  type="button"
-                  disabled={submitting}
-                  onClick={submitDecline}
-                  style={{
-                    padding: '10px 14px',
-                    borderRadius: 8,
-                    border: 'none',
-                    background: '#f59e0b',
-                    color: '#0A0F1E',
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                  }}
-                >
-                  {submitting ? 'Saving…' : 'Submit decline'}
-                </button>
+                <div>
+                  <label style={{ color: '#9ca3af', fontSize: '0.75rem' }}>
+                    Reason for declining (optional)
+                    <textarea
+                      value={declineReason}
+                      onChange={(e) => setDeclineReason(e.target.value)}
+                      rows={2}
+                      className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white"
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    disabled={submitting}
+                    onClick={submitDecline}
+                    style={{
+                      marginTop: 8,
+                      width: '100%',
+                      padding: '10px 14px',
+                      borderRadius: 8,
+                      border: '1px solid rgba(255,255,255,0.15)',
+                      background: 'transparent',
+                      color: '#9ca3af',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {submitting ? 'Saving…' : 'Decline estimate'}
+                  </button>
+                </div>
               </div>
             )}
           </>
