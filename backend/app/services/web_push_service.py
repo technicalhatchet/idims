@@ -443,6 +443,26 @@ def _notify_users(
     return total
 
 
+def notify_admins_push(
+    db: Session,
+    *,
+    title: str,
+    body: str,
+    url: Optional[str] = None,
+    tag: Optional[str] = None,
+    rule_key: str = "portal_estimate_decision",
+) -> int:
+    """Web push to staff per push rule (admin/manager by default)."""
+    return _notify_push_rule(
+        db,
+        rule_key,
+        title=title,
+        body=body,
+        url=url or "/techboard/work-orders",
+        tag=tag or "portal-staff-alert",
+    )
+
+
 def notify_pending_work_order(db: Session, work_order: WorkOrder) -> int:
     """Push to admin/manager staff when a new pending work order arrives."""
     if (work_order.status or "").lower() != "pending":

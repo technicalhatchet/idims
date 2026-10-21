@@ -2819,6 +2819,7 @@ async def list_portal_work_order_photos(
 @router.post("/portal/work-orders/{work_order_id}/photos")
 async def upload_portal_work_order_photos(
     work_order_id: str,
+    background_tasks: BackgroundTasks,
     files: List[UploadFile] = File(...),
     client: Client = Depends(get_portal_client),
     login: ClientLogin = Depends(get_portal_client_login),
@@ -2862,6 +2863,29 @@ async def upload_portal_work_order_photos(
     except ValueError as exc:
         db.rollback()
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    if saved:
+        wo_id = wo.id
+        file_count = len(saved)
+
+        async def _notify_staff_media() -> None:
+            from app.db.database import SessionLocal
+            from app.services.portal_staff_notify_service import notify_staff_customer_media_upload
+
+            session = SessionLocal()
+            try:
+                refreshed = session.query(WorkOrder).filter(WorkOrder.id == wo_id).first()
+                if refreshed:
+                    await notify_staff_customer_media_upload(
+                        session,
+                        work_order=refreshed,
+                        file_count=file_count,
+                    )
+                    session.commit()
+            finally:
+                session.close()
+
+        background_tasks.add_task(_notify_staff_media)
 
     return {"items": saved}
 

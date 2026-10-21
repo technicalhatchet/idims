@@ -22,7 +22,7 @@ import { subtypeLabel } from '../../constants/applianceEquipment';
 import PortalAwaitingFirstService from '../../components/cxdashboard/PortalAwaitingFirstService';
 import { getPortalImpersonateClientId } from '../../utils/portalPreview';
 import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
-import { buildPortalApiUrl } from '../../utils/portalPreview';
+import { buildPortalExportUrl } from '../../utils/portalPreview';
 import {
   fetchPortalLinkDebug,
   isPortalAwaitingFirstService,
@@ -68,11 +68,12 @@ export default function AppliancesPage() {
   const [search, setSearch] = useState('');
   const [propertyFilter, setPropertyFilter] = useState('all');
 
-  const exportQuery = propertyFilter !== 'all' ? `?property_id=${encodeURIComponent(propertyFilter)}` : '';
+  const exportExtraQuery =
+    propertyFilter !== 'all' ? { property_id: propertyFilter } : {};
 
   const downloadExport = async (path) => {
     const token = await getPortalSessionToken();
-    const url = buildPortalApiUrl(`appliances/${path}${exportQuery}`);
+    const url = buildPortalExportUrl(path, exportExtraQuery);
     const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
     if (!res.ok) throw new Error('Export failed');
     const blob = await res.blob();
@@ -85,7 +86,7 @@ export default function AppliancesPage() {
 
   const openPrintExport = async () => {
     const token = await getPortalSessionToken();
-    const url = buildPortalApiUrl(`appliances/export-print${exportQuery}`);
+    const url = buildPortalExportUrl('export-print', exportExtraQuery);
     const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
     if (!res.ok) throw new Error('Export failed');
     const html = await res.text();
