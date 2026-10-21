@@ -41,6 +41,48 @@ def get_photo(db: Session, photo_id: UUID) -> WorkOrderPhoto:
     return row
 
 
+ALLOWED_CUSTOMER_IMAGE_TYPES = frozenset({
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/webp",
+})
+ALLOWED_CUSTOMER_VIDEO_TYPES = frozenset({
+    "video/mp4",
+    "video/quicktime",
+})
+MAX_CUSTOMER_FILE_BYTES = 25 * 1024 * 1024
+MAX_CUSTOMER_FILES_PER_BATCH = 6
+
+
+def strip_image_exif(file_bytes: bytes, mime_type: str) -> bytes:
+    if mime_type not in ALLOWED_CUSTOMER_IMAGE_TYPES:
+        return file_bytes
+    try:
+        from io import BytesIO
+
+        from PIL import Image
+
+        img = Image.open(BytesIO(file_bytes))
+        out = BytesIO()
+        fmt = "JPEG" if mime_type in ("image/jpeg", "image/jpg") else img.format or "PNG"
+        if fmt == "JPEG" and img.mode not in ("RGB", "L"):
+            img = img.convert("RGB")
+        img.save(out, format=fmt, quality=90)
+        return out.getvalue()
+    except Exception:
+        logger.warning("EXIF strip failed; using original bytes")
+        return file_bytes
+
+
+def validate_customer_media(file_bytes: bytes, mime_type: str) -> None:
+    if len(file_bytes) > MAX_CUSTOMER_FILE_BYTES:
+        raise ValueError("Each file must be 25 MB or smaller.")
+    allowed = ALLOWED_CUSTOMER_IMAGE_TYPES | ALLOWED_CUSTOMER_VIDEO_TYPES
+    if mime_type not in allowed:
+        raise ValueError("Unsupported file type.")
+
+
 def photo_to_dict(row: WorkOrderPhoto) -> dict:
     user_name = None
     if row.uploader:
@@ -57,6 +99,7 @@ def photo_to_dict(row: WorkOrderPhoto) -> dict:
         "drive_web_view_link": row.drive_web_view_link,
         "uploaded_by": row.uploaded_by,
         "user_name": user_name,
+        "source": getattr(row, "source", None) or "staff",
         "created_at": row.created_at,
     }
 
@@ -166,3 +209,86 @@ def save_photo(
         .filter(WorkOrderPhoto.id == row.id)
         .first()
     )
+
+
+def save_customer_portal_media(
+    db: Session,
+    *,
+    work_order_id: UUID,
+    uploaded_by_user_id: UUID,
+    client_login_id: Optional[UUID],
+    file_bytes: bytes,
+    original_filename: str,
+    mime_type: str,
+    description: Optional[str] = None,
+) -> WorkOrderPhoto:
+    validate_customer_media(file_bytes, mime_type)
+    if mime_type in ALLOWED_CUSTOMER_IMAGE_TYPES:
+        file_bytes = strip_image_exif(file_bytes, mime_type)
+
+    wo = db.query(WorkOrder).filter(WorkOrder.id == work_order_id).first()
+    if not wo:
+        raise ValueError("Work order not found")
+
+    existing = (
+        db.query(WorkOrderPhoto)
+        .filter(
+            WorkOrderPhoto.work_order_id == work_order_id,
+            WorkOrderPhoto.source == "customer",
+        )
+        .count()
+    )
+    if existing >= MAX_CUSTOMER_FILES_PER_BATCH:
+        raise ValueError("You can upload up to 6 files per work order.")
+
+    order_number = wo.order_number or str(work_order_id)[:8]
+    filename = build_photo_filename(order_number, description or "customer", original_filename)
+    year = date.today().year
+
+    drive_result = upload_photo_to_drive(
+        file_bytes=file_bytes,
+        filename=filename,
+        mime_type=mime_type,
+        order_number=order_number,
+        year=year,
+    )
+
+    if drive_result:
+        file_id, link, folder_id = drive_result
+        row = WorkOrderPhoto(
+            work_order_id=work_order_id,
+            description=description or "From customer",
+            filename=filename,
+            mime_type=mime_type,
+            file_size=len(file_bytes),
+            storage_backend="drive",
+            drive_file_id=file_id,
+            drive_web_view_link=link,
+            drive_folder_id=folder_id,
+            uploaded_by=uploaded_by_user_id,
+            source="customer",
+            client_login_id=client_login_id,
+        )
+    else:
+        local_path = save_photo_locally(
+            file_bytes=file_bytes,
+            filename=filename,
+            order_number=order_number,
+            year=year,
+        )
+        row = WorkOrderPhoto(
+            work_order_id=work_order_id,
+            description=description or "From customer",
+            filename=filename,
+            mime_type=mime_type,
+            file_size=len(file_bytes),
+            storage_backend="local",
+            local_path=local_path,
+            uploaded_by=uploaded_by_user_id,
+            source="customer",
+            client_login_id=client_login_id,
+        )
+
+    db.add(row)
+    db.flush()
+    return row

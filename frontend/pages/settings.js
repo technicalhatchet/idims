@@ -11,6 +11,7 @@ import {
 } from '../utils/partsSettings';
 import { uploadPartsLookupLogo } from '../services/api/partsSettingsApi';
 import PortalSchedulingSettingsPanel from '../components/settings/PortalSchedulingSettingsPanel';
+import PortalReviewsSettingsPanel from '../components/settings/PortalReviewsSettingsPanel';
 import PushNotificationSettingsPanel from '../components/settings/PushNotificationSettingsPanel';
 
 const DAYS = [
@@ -2331,7 +2332,12 @@ export default function Settings() {
         <div className="space-y-6">
           {activeTab === 'interface' && renderInterfaceTab()}
           {activeTab === 'availability' && renderAvailabilityTab()}
-          {activeTab === 'client-portal' && <PortalSchedulingSettingsPanel />}
+          {activeTab === 'client-portal' && (
+            <>
+              <PortalSchedulingSettingsPanel />
+              <PortalReviewsSettingsPanel />
+            </>
+          )}
           {activeTab === 'notifications' && <PushNotificationSettingsPanel />}
           {activeTab === 'service-areas' && renderServiceAreasTab()}
           {activeTab === 'tax' && renderTaxTab()}

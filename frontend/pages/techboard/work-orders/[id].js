@@ -34,6 +34,8 @@ import WorkOrderPerformancePanel from '../../../components/work_orders/WorkOrder
 import WorkOrderRedoBar from '../../../components/work_orders/WorkOrderRedoBar';
 import PortalSchedulingApprovalBar from '../../../components/work_orders/PortalSchedulingApprovalBar';
 import PortalDiagnosticPrepaidBadge from '../../../components/work_orders/PortalDiagnosticPrepaidBadge';
+import PortalEstimateApprovalBadge from '../../../components/work_orders/PortalEstimateApprovalBadge';
+import PortalReviewRequestBar from '../../../components/work_orders/PortalReviewRequestBar';
 import WorkOrderRedoParentLink from '../../../components/work_orders/WorkOrderRedoParentLink';
 import WorkOrderCloseModal from '../../../components/work_orders/WorkOrderCloseModal';
 import WoMobileGlassSection, {
@@ -863,6 +865,8 @@ function WorkOrderDetail() {
 
         <div className="flex flex-wrap items-center gap-2 mb-2">
           <PortalDiagnosticPrepaidBadge workOrder={workOrder} />
+          <PortalEstimateApprovalBadge workOrder={workOrder} />
+          <PortalReviewRequestBar workOrder={workOrder} onUpdated={refetch} />
         </div>
 
         <PortalSchedulingApprovalBar workOrder={workOrder} onUpdated={refetch} />

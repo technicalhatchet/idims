@@ -504,6 +504,29 @@ async def get_portal_scheduling_defaults():
     return default_portal_scheduling()
 
 
+from app.services.portal_reviews_settings_service import (
+    default_portal_reviews,
+    get_portal_reviews_settings,
+)
+
+
+@router.get("/portal-reviews/config")
+async def get_portal_reviews_config(db: Session = Depends(get_db)):
+    try:
+        return get_portal_reviews_settings(db)
+    except Exception as e:
+        logger.error("Error retrieving portal reviews config: %s", e)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error retrieving portal reviews config",
+        )
+
+
+@router.get("/portal-reviews/defaults")
+async def get_portal_reviews_defaults():
+    return default_portal_reviews()
+
+
 from app.services.push_notification_settings_service import (
     default_push_notifications,
     get_push_notification_settings,
