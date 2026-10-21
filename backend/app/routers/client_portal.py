@@ -2258,6 +2258,70 @@ async def get_portal_appliance_suggestions(
     return {"count": len(candidates), "candidates": candidates}
 
 
+@router.get("/portal/appliances/export.csv")
+async def export_portal_appliances_csv(
+    property_id: Optional[str] = None,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    from fastapi.responses import Response
+    from app.services.portal_property_export_service import appliances_csv
+
+    prop_uuid = None
+    if property_id:
+        try:
+            prop_uuid = uuid.UUID(property_id)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail="Invalid property id") from exc
+    body = appliances_csv(db, client, prop_uuid)
+    return Response(
+        content=body,
+        media_type="text/csv",
+        headers={"Content-Disposition": 'attachment; filename="appliances.csv"'},
+    )
+
+
+@router.get("/portal/appliances/repairs-export.csv")
+async def export_portal_repairs_csv(
+    property_id: Optional[str] = None,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    from fastapi.responses import Response
+    from app.services.portal_property_export_service import repairs_csv
+
+    prop_uuid = None
+    if property_id:
+        try:
+            prop_uuid = uuid.UUID(property_id)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail="Invalid property id") from exc
+    body = repairs_csv(db, client, prop_uuid)
+    return Response(
+        content=body,
+        media_type="text/csv",
+        headers={"Content-Disposition": 'attachment; filename="repair-history.csv"'},
+    )
+
+
+@router.get("/portal/appliances/export-print")
+async def export_portal_appliances_print(
+    property_id: Optional[str] = None,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    from fastapi.responses import HTMLResponse
+    from app.services.portal_property_export_service import appliances_print_html
+
+    prop_uuid = None
+    if property_id:
+        try:
+            prop_uuid = uuid.UUID(property_id)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail="Invalid property id") from exc
+    return HTMLResponse(appliances_print_html(db, client, prop_uuid))
+
+
 @router.post("/portal/appliances/import/skip")
 async def skip_portal_appliance_import(
     client: Client = Depends(get_portal_client),
@@ -2888,67 +2952,3 @@ async def upload_portal_work_order_photos(
         background_tasks.add_task(_notify_staff_media)
 
     return {"items": saved}
-
-
-@router.get("/portal/appliances/export.csv")
-async def export_portal_appliances_csv(
-    property_id: Optional[str] = None,
-    client: Client = Depends(get_portal_client),
-    db: Session = Depends(get_db),
-):
-    from fastapi.responses import Response
-    from app.services.portal_property_export_service import appliances_csv
-
-    prop_uuid = None
-    if property_id:
-        try:
-            prop_uuid = uuid.UUID(property_id)
-        except ValueError as exc:
-            raise HTTPException(status_code=400, detail="Invalid property id") from exc
-    body = appliances_csv(db, client, prop_uuid)
-    return Response(
-        content=body,
-        media_type="text/csv",
-        headers={"Content-Disposition": 'attachment; filename="appliances.csv"'},
-    )
-
-
-@router.get("/portal/appliances/repairs-export.csv")
-async def export_portal_repairs_csv(
-    property_id: Optional[str] = None,
-    client: Client = Depends(get_portal_client),
-    db: Session = Depends(get_db),
-):
-    from fastapi.responses import Response
-    from app.services.portal_property_export_service import repairs_csv
-
-    prop_uuid = None
-    if property_id:
-        try:
-            prop_uuid = uuid.UUID(property_id)
-        except ValueError as exc:
-            raise HTTPException(status_code=400, detail="Invalid property id") from exc
-    body = repairs_csv(db, client, prop_uuid)
-    return Response(
-        content=body,
-        media_type="text/csv",
-        headers={"Content-Disposition": 'attachment; filename="repair-history.csv"'},
-    )
-
-
-@router.get("/portal/appliances/export-print")
-async def export_portal_appliances_print(
-    property_id: Optional[str] = None,
-    client: Client = Depends(get_portal_client),
-    db: Session = Depends(get_db),
-):
-    from fastapi.responses import HTMLResponse
-    from app.services.portal_property_export_service import appliances_print_html
-
-    prop_uuid = None
-    if property_id:
-        try:
-            prop_uuid = uuid.UUID(property_id)
-        except ValueError as exc:
-            raise HTTPException(status_code=400, detail="Invalid property id") from exc
-    return HTMLResponse(appliances_print_html(db, client, prop_uuid))
