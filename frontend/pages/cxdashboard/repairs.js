@@ -21,6 +21,12 @@ import PortalCustomerMediaUpload from '../../components/cxdashboard/PortalCustom
 import RepairCardSkeleton from '../../components/cxdashboard/RepairCardSkeleton';
 import { portalIconClasses } from '../../components/cxdashboard/portalIconClasses';
 import { portalFetch as sharedPortalFetch, getPortalSessionToken } from '../../utils/portalFetch';
+import {
+  portalEstimateApprovalTotal,
+  portalEstimateDecisionCardLabel,
+  portalEstimateNeedsCustomerAction,
+  PORTAL_ESTIMATE_APPROVAL_AMBER,
+} from '../../utils/portalEstimateApproval';
 
 const STATUS_STYLES = {
   completed: { label: 'Completed', bg: 'rgba(34,197,94,0.1)', color: '#22c55e', border: 'rgba(34,197,94,0.2)' },
@@ -29,6 +35,7 @@ const STATUS_STYLES = {
   parts_on_order: { label: 'Parts on Order', bg: 'rgba(59,130,246,0.1)', color: '#60a5fa', border: 'rgba(59,130,246,0.2)' },
   scheduled: { label: 'Scheduled', bg: 'rgba(34,211,238,0.1)', color: '#22d3ee', border: 'rgba(34,211,238,0.2)' },
   pending: { label: 'Pending', bg: 'rgba(255,255,255,0.05)', color: '#9ca3af', border: 'rgba(255,255,255,0.1)' },
+  pending_estimate_approval: { label: 'Pending Estimate', bg: 'rgba(255,255,255,0.05)', color: '#9ca3af', border: 'rgba(255,255,255,0.1)' },
   canceled: { label: 'Canceled', bg: 'rgba(239,68,68,0.1)', color: '#ef4444', border: 'rgba(239,68,68,0.2)' },
   completed_pending_payment: { label: 'Pending Payment', bg: 'rgba(245,158,11,0.1)', color: '#f59e0b', border: 'rgba(245,158,11,0.2)' },
 };
@@ -48,6 +55,7 @@ function RepairCard({
   onViewInvoice,
   onReviewEstimate,
   displayTotal,
+  invoiceLookup,
   initialExpanded = false,
 }) {
   const [expanded, setExpanded] = useState(initialExpanded);
@@ -55,6 +63,10 @@ function RepairCard({
   const warrantyActive = !isPortalLaborWarrantyExpired(wo);
   const warrantyExpiryLabel = formatPortalLaborWarrantyExpiryLabel(wo);
   const serviceDate = wo.next_appointment?.scheduled_start || wo.created_at;
+  const needsApproval = portalEstimateNeedsCustomerAction(wo);
+  const decisionLabel = portalEstimateDecisionCardLabel(wo);
+  const estimateTotal = portalEstimateApprovalTotal(wo, invoiceLookup);
+  const hideEstimatePdfOnCard = wo.status === 'pending_estimate_approval' && wo.estimate_available;
 
   useEffect(() => {
     if (initialExpanded) {
@@ -63,52 +75,122 @@ function RepairCard({
     }
   }, [initialExpanded]);
 
-  return (
-    <div ref={cardRef} style={{ background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', overflow: 'hidden' }}>
-      {/* Header */}
-      <button
-        type="button"
-        onClick={() => setExpanded(!expanded)}
-        aria-expanded={expanded}
-        className="w-full text-left"
-        style={{ padding: '1.25rem', display: 'flex', gap: '1rem', alignItems: 'flex-start', cursor: 'pointer', background: 'transparent', border: 'none' }}
-      >
-        <div style={{ background: 'rgba(0,212,255,0.08)', borderRadius: '10px', padding: '10px', flexShrink: 0 }}>
-          <ApplianceIcon type={wo.equipment_subtype || wo.equipment_type} className={portalIconClasses.appliance} />
-        </div>
+  const cardSurface = needsApproval
+    ? {
+        background: '#0D1525',
+        border: PORTAL_ESTIMATE_APPROVAL_AMBER.border,
+        boxShadow: PORTAL_ESTIMATE_APPROVAL_AMBER.boxShadow,
+        borderRadius: '12px',
+        overflow: 'hidden',
+      }
+    : {
+        background: '#0D1525',
+        border: '1px solid rgba(255,255,255,0.07)',
+        borderRadius: '12px',
+        overflow: 'hidden',
+      };
 
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
-            <div>
-              <p style={{ color: '#fff', fontWeight: '600', margin: 0 }}>
-                {formatPortalWorkOrderAppliance(wo) || 'Service'}
-              </p>
-              <p style={{ color: '#6b7280', fontSize: '0.8125rem', margin: '2px 0 0' }}>
-                Order #{wo.order_number}
-              </p>
-              <p style={{ color: '#6b7280', fontSize: '0.8125rem', margin: '2px 0 0' }}>
-                {wo.created_at ? format(parseISO(wo.created_at), 'MMM d, yyyy') : ''}
-              </p>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <StatusBadge status={wo.status} />
-              {warrantyActive && (
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#22c55e', fontSize: '0.75rem', fontWeight: '600' }}>
-                  <FaShieldAlt style={{ fontSize: '10px' }} />
-                  Warranty
-                </span>
-              )}
-              {expanded ? <FaChevronUp style={{ color: '#6b7280' }} /> : <FaChevronDown style={{ color: '#6b7280' }} />}
-            </div>
+  return (
+    <div ref={cardRef} style={cardSurface}>
+      <div style={{ padding: '1.25rem', paddingBottom: needsApproval || decisionLabel ? '0.75rem' : '1.25rem' }}>
+        <button
+          type="button"
+          onClick={() => setExpanded(!expanded)}
+          aria-expanded={expanded}
+          className="w-full text-left"
+          style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', cursor: 'pointer', background: 'transparent', border: 'none', padding: 0, width: '100%' }}
+        >
+          <div style={{ background: 'rgba(0,212,255,0.08)', borderRadius: '10px', padding: '10px', flexShrink: 0 }}>
+            <ApplianceIcon type={wo.equipment_subtype || wo.equipment_type} className={portalIconClasses.appliance} />
           </div>
 
-          {displayTotal != null && (
-            <p style={{ color: '#22d3ee', fontWeight: '700', fontSize: '1rem', margin: '0.5rem 0 0' }}>
-              {formatPortalCurrency(displayTotal)}
-            </p>
-          )}
-        </div>
-      </button>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <div>
+                <p style={{ color: '#fff', fontWeight: '600', margin: 0 }}>
+                  {formatPortalWorkOrderAppliance(wo) || 'Service'}
+                </p>
+                <p style={{ color: '#6b7280', fontSize: '0.8125rem', margin: '2px 0 0' }}>
+                  Order #{wo.order_number}
+                </p>
+                <p style={{ color: '#6b7280', fontSize: '0.8125rem', margin: '2px 0 0' }}>
+                  {wo.created_at ? format(parseISO(wo.created_at), 'MMM d, yyyy') : ''}
+                </p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                {needsApproval ? (
+                  <span
+                    style={{
+                      background: PORTAL_ESTIMATE_APPROVAL_AMBER.badgeBg,
+                      color: PORTAL_ESTIMATE_APPROVAL_AMBER.badgeColor,
+                      border: `1px solid ${PORTAL_ESTIMATE_APPROVAL_AMBER.badgeBorder}`,
+                      borderRadius: '6px',
+                      padding: '2px 10px',
+                      fontSize: '0.75rem',
+                      fontWeight: '600',
+                    }}
+                  >
+                    Approval needed
+                  </span>
+                ) : (
+                  <StatusBadge status={wo.status} />
+                )}
+                {warrantyActive && (
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#22c55e', fontSize: '0.75rem', fontWeight: '600' }}>
+                    <FaShieldAlt style={{ fontSize: '10px' }} />
+                    Warranty
+                  </span>
+                )}
+                {expanded ? <FaChevronUp style={{ color: '#6b7280' }} /> : <FaChevronDown style={{ color: '#6b7280' }} />}
+              </div>
+            </div>
+
+            {!needsApproval && displayTotal != null && (
+              <p style={{ color: '#22d3ee', fontWeight: '700', fontSize: '1rem', margin: '0.5rem 0 0' }}>
+                {formatPortalCurrency(displayTotal)}
+              </p>
+            )}
+          </div>
+        </button>
+
+        {needsApproval && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onReviewEstimate?.(wo);
+            }}
+            style={{
+              width: '100%',
+              marginTop: '0.75rem',
+              padding: '12px 14px',
+              borderRadius: '10px',
+              border: `1px solid ${PORTAL_ESTIMATE_APPROVAL_AMBER.buttonBorder}`,
+              background: PORTAL_ESTIMATE_APPROVAL_AMBER.buttonBg,
+              color: PORTAL_ESTIMATE_APPROVAL_AMBER.buttonColor,
+              fontWeight: 700,
+              fontSize: '0.9375rem',
+              cursor: 'pointer',
+            }}
+          >
+            Review estimate
+            {estimateTotal != null ? ` · ${formatPortalCurrency(estimateTotal)}` : ''}
+          </button>
+        )}
+
+        {decisionLabel && (
+          <p
+            style={{
+              margin: '0.75rem 0 0',
+              fontSize: '0.875rem',
+              fontWeight: 600,
+              color: wo.estimate_approval?.current_decision === 'approved' ? '#22c55e' : '#9ca3af',
+            }}
+          >
+            {decisionLabel}
+          </p>
+        )}
+      </div>
 
       {/* Expanded Detail */}
       {expanded && (
@@ -215,30 +297,7 @@ function RepairCard({
             </p>
           )}
 
-          {wo.status === 'pending_estimate_approval' && wo.estimate_available && (wo.estimate_approval?.can_approve || wo.estimate_approval?.can_decline) && (
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); onReviewEstimate?.(wo); }}
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: '6px',
-                background: 'rgba(34,197,94,0.12)', color: '#4ade80',
-                border: '1px solid rgba(34,197,94,0.25)', borderRadius: '8px',
-                padding: '8px 14px', fontSize: '0.8125rem', fontWeight: '600', cursor: 'pointer',
-              }}
-            >
-              Review & approve estimate
-            </button>
-          )}
-
-          {wo.estimate_approval?.current_decision && !wo.estimate_approval?.can_approve && (
-            <p style={{ color: '#9ca3af', fontSize: '0.8125rem', margin: 0 }}>
-              {wo.estimate_approval.current_decision === 'approved'
-                ? `Approved by ${wo.estimate_approval.signer_name || 'you'}`
-                : 'Estimate declined'}
-            </p>
-          )}
-
-          {wo.estimate_available && (
+          {wo.estimate_available && !hideEstimatePdfOnCard && (
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.75rem' }}>
               <button
                 type="button"
@@ -353,6 +412,7 @@ export default function RepairsPage() {
                 key={wo.id}
                 wo={wo}
                 displayTotal={getPortalWorkOrderDisplayTotal(wo, invoiceLookup)}
+                invoiceLookup={invoiceLookup}
                 onViewEstimate={setViewerEstimate}
                 onReviewEstimate={setApprovalWo}
                 onViewInvoice={(order) => {

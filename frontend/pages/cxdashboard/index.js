@@ -51,6 +51,10 @@ import {
   notifyPortalImpersonateChanged,
 } from '../../utils/portalPreview';
 import { portalFetch as portalFetchShared } from '../../utils/portalFetch';
+import EstimateApprovalSheet from '../../components/cxdashboard/EstimateApprovalSheet';
+import {
+  portalEstimateNeedsCustomerAction,
+} from '../../utils/portalEstimateApproval';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
 const CLIENT_ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -180,6 +184,8 @@ export default function ClientDashboard() {
   const [properties, setProperties] = useState([]);
   const [showAddProperty, setShowAddProperty] = useState(false);
   const [savingProperty, setSavingProperty] = useState(false);
+  const [propertySaveError, setPropertySaveError] = useState(null);
+  const [approvalWo, setApprovalWo] = useState(null);
   const [appointments, setAppointments] = useState([]);
   const [workOrders, setWorkOrders] = useState([]);
   const [invoices, setInvoices] = useState([]);
@@ -529,8 +535,9 @@ export default function ClientDashboard() {
 
   const handleDashboardAddProperty = async (payload) => {
     setSavingProperty(true);
+    setPropertySaveError(null);
     try {
-      await portalFetch('properties', accessToken, {
+      await portalFetchShared('properties', accessToken, {
         method: 'POST',
         body: JSON.stringify(payload),
       }, selectedClient?.id);
@@ -538,15 +545,32 @@ export default function ClientDashboard() {
       const props = await portalFetch('properties', accessToken, selectedClient?.id);
       setProperties(Array.isArray(props) ? props : []);
     } catch (err) {
-      window.alert(err.message || 'Could not save property');
+      setPropertySaveError(err.message || 'Could not save property');
     } finally {
       setSavingProperty(false);
     }
   };
 
+  const estimatesNeedingApproval = workOrders.filter(portalEstimateNeedsCustomerAction);
+
   return (
     <>
       <div className="space-y-4 md:space-y-8">
+        {estimatesNeedingApproval.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setApprovalWo(estimatesNeedingApproval[0])}
+            className="w-full text-left rounded-2xl border border-amber-500/40 bg-amber-500/10 px-4 py-3.5 md:px-5 md:py-4 shadow-[0_0_24px_rgba(245,158,11,0.12)] hover:bg-amber-500/15 transition-colors"
+          >
+            <p className="text-amber-200 font-semibold text-sm md:text-base m-0">
+              {estimatesNeedingApproval.length === 1
+                ? '1 estimate needs your approval'
+                : `${estimatesNeedingApproval.length} estimates need your approval`}
+            </p>
+            <p className="text-amber-200/70 text-xs md:text-sm mt-1 m-0">Tap to review and sign</p>
+          </button>
+        )}
+
         <PartsUpdateCallout workOrders={workOrders} />
 
         {!loading && properties.length === 0 ? (
@@ -564,7 +588,10 @@ export default function ClientDashboard() {
             </div>
             <button
               type="button"
-              onClick={() => setShowAddProperty(true)}
+              onClick={() => {
+                setPropertySaveError(null);
+                setShowAddProperty(true);
+              }}
               disabled={previewLocked}
               className="shrink-0 rounded-lg bg-[#00D4FF] text-[#0A0F1E] px-4 py-2.5 text-sm font-bold disabled:opacity-50"
             >
@@ -618,10 +645,26 @@ export default function ClientDashboard() {
           title="Add property"
           submitting={savingProperty}
           readOnly={previewLocked}
-          onClose={() => setShowAddProperty(false)}
+          saveError={propertySaveError}
+          onClose={() => {
+            setShowAddProperty(false);
+            setPropertySaveError(null);
+          }}
           onSave={handleDashboardAddProperty}
         />
       ) : null}
+
+      {approvalWo && (
+        <EstimateApprovalSheet
+          workOrder={approvalWo}
+          onClose={() => setApprovalWo(null)}
+          onDecided={async () => {
+            if (!accessToken) return;
+            const orders = await portalFetch('work-orders', accessToken, selectedClient?.id);
+            setWorkOrders(Array.isArray(orders) ? orders : []);
+          }}
+        />
+      )}
     </>
   );
 }
