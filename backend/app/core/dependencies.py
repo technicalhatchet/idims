@@ -67,6 +67,8 @@ async def get_current_user(
         if settings.DEBUG:
             logger.info(f"Successfully authenticated user: {user.email}, roles: {user.roles}")
         return user
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Authentication error in get_current_user: {str(e)}")
         raise HTTPException(

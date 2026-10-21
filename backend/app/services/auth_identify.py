@@ -8,7 +8,7 @@ from urllib.parse import quote
 import requests
 from sqlalchemy.orm import Session
 
-from app.core.auth import get_auth_handler
+from app.core.auth import auth0_mgmt_api_url, get_auth_handler
 from app.services.portal_account_linking import (
     auth0_email_verified,
     resolve_verified_link_email_from_profile,
@@ -23,7 +23,7 @@ def fetch_auth0_user_profile(auth0_user_id: str) -> Dict[str, Any]:
     management_token = auth_handler.get_client_credentials_token()
     encoded_user_id = quote(auth0_user_id, safe="")
     response = requests.get(
-        f"https://{auth_handler.domain}/api/v2/users/{encoded_user_id}",
+        auth0_mgmt_api_url(f"/users/{encoded_user_id}"),
         headers={"Authorization": f"Bearer {management_token}"},
         timeout=15,
     )

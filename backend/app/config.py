@@ -95,6 +95,8 @@ class Settings(BaseModel):
     
     # Auth0 settings — all from env vars, never hardcoded
     AUTH0_DOMAIN: str = Field(default_factory=lambda: os.getenv("AUTH0_DOMAIN", ""))
+    # Canonical tenant host for Management API (xxx.us.auth0.com). Login/JWT keep AUTH0_DOMAIN.
+    AUTH0_MGMT_DOMAIN: str = Field(default_factory=lambda: os.getenv("AUTH0_MGMT_DOMAIN", ""))
     AUTH0_CLIENT_ID: str = Field(default_factory=lambda: os.getenv("AUTH0_CLIENT_ID", ""))
     AUTH0_CLIENT_SECRET: str = Field(default_factory=lambda: os.getenv("AUTH0_CLIENT_SECRET", ""))
     AUTH0_API_AUDIENCE: str = Field(default_factory=lambda: os.getenv("AUTH0_API_AUDIENCE", "https://idimsapi"))

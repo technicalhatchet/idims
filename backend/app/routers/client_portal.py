@@ -18,7 +18,7 @@ import uuid
 from urllib.parse import quote
 
 from app.db.database import get_db
-from app.core.auth import get_auth_handler
+from app.core.auth import auth0_mgmt_api_url, get_auth_handler
 from app.config import get_portal_invite_secret, settings
 from app.services.portal_claim_service import (
     PortalClaimError,
@@ -246,7 +246,7 @@ def _fetch_auth0_user(auth0_user_id: str) -> dict:
     management_token = auth_handler.get_client_credentials_token()
     encoded_user_id = quote(auth0_user_id, safe="")
     response = requests.get(
-        f"https://{auth_handler.domain}/api/v2/users/{encoded_user_id}",
+        auth0_mgmt_api_url(f"/users/{encoded_user_id}"),
         headers={"Authorization": f"Bearer {management_token}"},
         timeout=15,
     )
@@ -290,7 +290,7 @@ def _assign_client_role(auth0_user_id: str) -> Tuple[bool, bool, Optional[str]]:
         auth_handler = get_auth_handler()
         management_token = auth_handler.get_client_credentials_token()
         encoded_user_id = quote(auth0_user_id, safe="")
-        roles_url = f"https://{auth_handler.domain}/api/v2/users/{encoded_user_id}/roles"
+        roles_url = auth0_mgmt_api_url(f"/users/{encoded_user_id}/roles")
         headers = {
             "Authorization": f"Bearer {management_token}",
             "Content-Type": "application/json",
@@ -342,7 +342,7 @@ def _sync_auth0_user_name(
         encoded_user_id = quote(auth0_user_id, safe="")
         full_name = f"{first_name} {last_name}".strip()
         response = requests.patch(
-            f"https://{auth_handler.domain}/api/v2/users/{encoded_user_id}",
+            auth0_mgmt_api_url(f"/users/{encoded_user_id}"),
             headers={
                 "Authorization": f"Bearer {management_token}",
                 "Content-Type": "application/json",
@@ -670,7 +670,7 @@ async def link_account_debug(
         mgmt_token_ok = True
         encoded_user_id = quote(auth0_user_id, safe="")
         roles_resp = requests.get(
-            f"https://{auth_handler.domain}/api/v2/users/{encoded_user_id}/roles",
+            auth0_mgmt_api_url(f"/users/{encoded_user_id}/roles"),
             headers={"Authorization": f"Bearer {mgmt_token}"},
             timeout=15,
         )

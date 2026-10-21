@@ -1,6 +1,7 @@
 from fastapi import Depends, status, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 from jose import jwt, JWTError
 from datetime import datetime, timedelta
 import logging
@@ -26,6 +27,25 @@ from app.services.portal_user_auth import (
 )
 
 logger = logging.getLogger(__name__)
+
+EMAIL_ALREADY_REGISTERED_DETAIL = (
+    "An account with this email already exists. "
+    "Sign in with your original method or contact support."
+)
+
+
+def get_auth0_mgmt_domain() -> str:
+    """Auth0 tenant domain for Management API (not the custom login domain)."""
+    domain = (settings.AUTH0_MGMT_DOMAIN or settings.AUTH0_DOMAIN or "").strip().rstrip("/")
+    return domain
+
+
+def auth0_mgmt_api_url(path: str) -> str:
+    """Build https://{mgmt_domain}/api/v2/... URL."""
+    domain = get_auth0_mgmt_domain()
+    if not path.startswith("/"):
+        path = f"/{path}"
+    return f"https://{domain}/api/v2{path}"
 
 # Reduce auth noise in production — full token dumps are expensive and leak PII to logs.
 VERBOSE_AUTH_LOGS = settings.DEBUG or settings.ENVIRONMENT == "development"
@@ -156,6 +176,13 @@ class AuthHandler:
         self.jwks_last_updated = None
         self.algorithm = "RS256"  # Auth0 uses RS256 by default
 
+    @property
+    def mgmt_domain(self) -> str:
+        return get_auth0_mgmt_domain() or self.domain
+
+    def mgmt_api_url(self, path: str) -> str:
+        return auth0_mgmt_api_url(path)
+
     def get_client_credentials_token(self) -> str:
         """Auth0 Management API token (client credentials)."""
         now = datetime.utcnow()
@@ -174,13 +201,14 @@ class AuthHandler:
                 "(set AUTH0_MGMT_CLIENT_ID and AUTH0_MGMT_CLIENT_SECRET)"
             )
 
+        mgmt_domain = self.mgmt_domain
         response = requests.post(
-            f"https://{self.domain}/oauth/token",
+            f"https://{mgmt_domain}/oauth/token",
             json={
                 "grant_type": "client_credentials",
                 "client_id": mgmt_client_id,
                 "client_secret": mgmt_client_secret,
-                "audience": f"https://{self.domain}/api/v2/",
+                "audience": f"https://{mgmt_domain}/api/v2/",
             },
             timeout=15,
         )
@@ -372,7 +400,13 @@ class AuthHandler:
         token_data = await self.verify_token(token)
         return self.ensure_db_user_from_token(db, token_data)
 
-    def ensure_db_user_from_token(self, db: Session, token_data) -> DBUser:
+    def ensure_db_user_from_token(
+        self,
+        db: Session,
+        token_data,
+        *,
+        trusted_placeholder_user: Optional[DBUser] = None,
+    ) -> DBUser:
         """Find or create the users row for this token (shared with portal link-account)."""
         try:
             auth_id = token_data.sub
@@ -484,6 +518,20 @@ class AuthHandler:
                 user = db.query(DBUser).filter(DBUser.auth_id == auth_id).first()
                 if user:
                     _auth_log_info(f"Found user by auth_id: {user.id}")
+
+            # Claim-link proof: adopt client's staff placeholder without email_verified
+            if (
+                not user
+                and trusted_placeholder_user
+                and is_placeholder_client_auth_id(trusted_placeholder_user.auth_id)
+            ):
+                logger.info(
+                    "[Auth] Adopting trusted placeholder user_id=%s for claim link sub=%s",
+                    trusted_placeholder_user.id,
+                    auth_id,
+                )
+                user = trusted_placeholder_user
+                user.auth_id = auth_id
             
             # If not found by auth_id, try by email only when verified and safe to adopt
             if not user and real_email:
@@ -607,6 +655,13 @@ class AuthHandler:
                     try:
                         db.commit()
                         db.refresh(user)
+                    except IntegrityError as e:
+                        db.rollback()
+                        logger.warning("[Auth] User update integrity error: %s", e)
+                        raise HTTPException(
+                            status_code=status.HTTP_409_CONFLICT,
+                            detail=EMAIL_ALREADY_REGISTERED_DETAIL,
+                        ) from e
                     except Exception as e:
                         db.rollback()
                         logger.error(f"Error updating user: {str(e)}")
@@ -638,6 +693,13 @@ class AuthHandler:
                     db.refresh(new_user)
                     user = new_user
                     logger.info(f"Created new user with ID: {user.id}")
+                except IntegrityError as e:
+                    db.rollback()
+                    logger.warning("[Auth] User create integrity error: %s", e)
+                    raise HTTPException(
+                        status_code=status.HTTP_409_CONFLICT,
+                        detail=EMAIL_ALREADY_REGISTERED_DETAIL,
+                    ) from e
                 except Exception as e:
                     db.rollback()
                     logger.error(f"Error creating user: {str(e)}")
