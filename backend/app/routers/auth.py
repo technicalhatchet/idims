@@ -14,7 +14,7 @@ from app.config import settings
 from app.db.database import get_db
 from fastapi.security import HTTPAuthorizationCredentials
 
-from app.core.auth import AuthHandler, JWTToken, get_auth_handler, security
+from app.core.auth import AuthHandler, JWTToken, auth0_mgmt_api_url, get_auth_handler, security
 from app.models.user import User
 from app.schemas.user import UserCreate, UserResponse, Token, UserLogin
 from app.core.exceptions import AuthenticationException, ValidationException, NotFoundException
@@ -506,7 +506,7 @@ async def set_user_role(
         management_token = get_auth_handler().get_client_credentials_token()
         
         # Update user's app_metadata in Auth0
-        auth0_api_url = f"https://{settings.AUTH0_DOMAIN}/api/v2/users/{user_id}"
+        auth0_api_url = auth0_mgmt_api_url(f"/users/{user_id}")
         headers = {
             "Authorization": f"Bearer {management_token}",
             "Content-Type": "application/json"
@@ -624,13 +624,12 @@ async def complete_diy_signup(
     auth0_synced = True
     try:
         management_token = get_auth_handler().get_client_credentials_token()
-        auth0_domain = settings.AUTH0_DOMAIN
         headers = {
             "Authorization": f"Bearer {management_token}",
             "Content-Type": "application/json",
         }
 
-        patch_url = f"https://{auth0_domain}/api/v2/users/{auth_id}"
+        patch_url = auth0_mgmt_api_url(f"/users/{auth_id}")
         patch_response = requests.patch(
             patch_url,
             headers=headers,
@@ -643,7 +642,7 @@ async def complete_diy_signup(
                 f"{patch_response.text}"
             )
 
-        roles_url = f"https://{auth0_domain}/api/v2/users/{auth_id}/roles"
+        roles_url = auth0_mgmt_api_url(f"/users/{auth_id}/roles")
         role_response = requests.post(
             roles_url,
             headers=headers,

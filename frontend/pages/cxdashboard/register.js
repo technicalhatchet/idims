@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import AtomicLogo from '../../components/ui/AtomicLogo';
+import { persistPortalInviteToken } from '../../utils/portalInviteTokenStorage';
 
 export default function PortalRegister() {
   const router = useRouter();
@@ -45,7 +46,7 @@ export default function PortalRegister() {
       .then((res) => (res.ok ? res.json() : null))
       .then((session) => {
         if (!session?.user) return;
-        sessionStorage.setItem('portal_invite_token', inviteToken);
+        persistPortalInviteToken(inviteToken);
         router.replace('/cxdashboard');
       })
       .catch(() => {});
@@ -53,7 +54,7 @@ export default function PortalRegister() {
 
   const handleRegister = () => {
     if (typeof window === 'undefined') return;
-    sessionStorage.setItem('portal_invite_token', inviteToken);
+    persistPortalInviteToken(inviteToken);
     const params = new URLSearchParams({
       returnTo: '/cxdashboard',
       screen_hint: 'signup',

@@ -7,7 +7,14 @@ from uuid import uuid4
 import pytest
 from fastapi import HTTPException
 
-from app.core.auth import AuthHandler, TokenData, _token_email_verified
+from sqlalchemy.exc import IntegrityError
+
+from app.core.auth import (
+    AuthHandler,
+    EMAIL_ALREADY_REGISTERED_DETAIL,
+    TokenData,
+    _token_email_verified,
+)
 
 
 def test_token_email_verified_reads_auth0_claim():
@@ -159,4 +166,68 @@ async def test_get_current_user_rejects_placeholder_with_staff_role():
         with pytest.raises(HTTPException) as exc:
             await handler.get_current_user("fake-token", db=db)
     assert exc.value.status_code == 403
+
+
+def test_ensure_db_user_adopts_trusted_placeholder_without_email_verified():
+    handler = AuthHandler(domain="example.auth0.com", audience="https://api")
+    auth_id = "auth0|claim-redeem"
+    placeholder_id = uuid4()
+    placeholder = SimpleNamespace(
+        id=placeholder_id,
+        auth_id=f"client|{uuid4()}",
+        email="customer@example.com",
+        first_name="Cust",
+        last_name="Omer",
+        roles=["client"],
+        last_login=None,
+        avatar_url=None,
+    )
+    token_data = TokenData(
+        sub=auth_id,
+        exp=9999999999,
+        email="customer@example.com",
+        roles=["client"],
+        raw_payload={
+            "email": "customer@example.com",
+            "email_verified": False,
+        },
+    )
+
+    db = MagicMock()
+    db.query.return_value.filter.return_value.first.return_value = None
+
+    user = handler.ensure_db_user_from_token(
+        db,
+        token_data,
+        trusted_placeholder_user=placeholder,
+    )
+
+    assert user is placeholder
+    assert placeholder.auth_id == auth_id
+    db.add.assert_not_called()
+
+
+@pytest.mark.asyncio
+async def test_get_current_user_email_unique_violation_returns_409():
+    handler = AuthHandler(domain="example.auth0.com", audience="https://api")
+    token_data = TokenData(
+        sub="auth0|new-user",
+        exp=9999999999,
+        email="dup@example.com",
+        roles=["client"],
+        raw_payload={"email": "dup@example.com", "email_verified": False},
+    )
+
+    db = MagicMock()
+    db.query.return_value.filter.return_value.first.return_value = None
+    db.commit.side_effect = IntegrityError("insert", {}, Exception("users_email_key"))
+
+    with patch.object(handler, "verify_token", new=AsyncMock(return_value=token_data)):
+        with patch("app.core.auth.DBUser", side_effect=lambda **kw: SimpleNamespace(**kw)):
+            with pytest.raises(HTTPException) as exc:
+                await handler.get_current_user("fake-token", db=db)
+
+    assert exc.value.status_code == 409
+    assert exc.value.detail == EMAIL_ALREADY_REGISTERED_DETAIL
+    db.rollback.assert_called()
 

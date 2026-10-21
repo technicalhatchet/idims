@@ -37,6 +37,7 @@ import { countPortalActiveLaborWarranties } from '../../utils/portalWarranty';
 import {
   postPortalLinkAccount,
   fetchPortalSignupStatus,
+  formatPortalLinkAccountError,
   linkResultNeedsFinishProfile,
   logPortalLinkDiagnostics,
   getSessionRoles,
@@ -45,6 +46,11 @@ import {
   clearPortalTokenRefreshAttempt,
   redirectToRefreshPortalToken,
 } from '../../utils/portalLink';
+import {
+  clearPortalInviteToken,
+  getPortalInviteToken,
+} from '../../utils/portalInviteTokenStorage';
+import PortalAccountLinkBlocked from '../../components/cxdashboard/PortalAccountLinkBlocked';
 import {
   clearPortalPreviewUnlock,
   clearPortalPreviewSession,
@@ -198,161 +204,212 @@ export default function ClientDashboard() {
   const [clientsLoading, setClientsLoading] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null); // { id, first_name, last_name, company_name }
   const [accessToken, setAccessToken] = useState(null);
+  const [accountBlocked, setAccountBlocked] = useState(null);
+  const [linkRetrying, setLinkRetrying] = useState(false);
 
-  // On mount: get session and determine role
-  useEffect(() => {
-    async function init() {
-      try {
-        const sessionRes = await fetch('/api/auth/session');
-        if (!sessionRes.ok) { router.push('/cxdashboard/login'); return; }
-        const session = await sessionRes.json();
-        const token = session.accessToken;
-        setAccessToken(token);
+  async function runPortalLinkFlow(token, session, { adminUser, staffUser, hasClientRole }) {
+    if (adminUser || staffUser) {
+      return { ok: true, skipped: true };
+    }
 
-        // Check roles
-        const roles = getSessionRoles(session);
-        const adminUser = roles.includes('admin');
-        const staffUser = roles.some((r) => ['admin', 'manager', 'technician'].includes(r));
-        const hasClientRole = roles.includes('client');
-        setIsAdmin(adminUser);
+    const storedInviteToken = getPortalInviteToken();
+    const linkLabel = storedInviteToken ? 'link-account (invite)' : 'link-account (auto)';
+    let linkResult;
+    try {
+      if (storedInviteToken) {
+        linkResult = await postPortalLinkAccount(token, { inviteToken: storedInviteToken });
+      } else {
+        linkResult = await postPortalLinkAccount(token);
+      }
+      logPortalLinkDiagnostics(linkLabel, linkResult);
+    } catch (e) {
+      return {
+        ok: false,
+        blockedMessage: e.message || 'Link account failed',
+      };
+    }
 
-        if (hasClientRole) {
-          clearPortalTokenRefreshAttempt();
+    if (!linkResult.ok) {
+      return {
+        ok: false,
+        blockedMessage: formatPortalLinkAccountError(linkResult),
+        linkResult,
+      };
+    }
+
+    if (linkResultNeedsFinishProfile(linkResult)) {
+      clearPortalInviteToken();
+      return { ok: true, finishProfile: true, linkResult };
+    }
+
+    if (shouldRefreshPortalToken(linkResult, hasClientRole)) {
+      if (hasPortalTokenRefreshBeenAttempted()) {
+        return {
+          ok: false,
+          blockedMessage:
+            'Your account is linked, but your session does not include portal access yet. '
+            + 'Log out completely, then sign in again. If it still fails, contact support.',
+        };
+      }
+      redirectToRefreshPortalToken();
+      return { ok: true, redirecting: true };
+    }
+
+    if (!linkResult.data?.role_assigned) {
+      const warn = linkResult.data?.role_error || linkResult.data?.role_warning;
+      return {
+        ok: false,
+        blockedMessage: warn || 'Account linked but portal access was not assigned.',
+        linkResult,
+      };
+    }
+
+    clearPortalInviteToken();
+    return { ok: true, linkResult };
+  }
+
+  async function ensureClientPortalAccess(token, session, context) {
+    const { hasClientRole } = context;
+    if (hasClientRole) {
+      clearPortalTokenRefreshAttempt();
+      return true;
+    }
+
+    try {
+      const signupStatus = await fetchPortalSignupStatus(token);
+      if (signupStatus.status === 'needs_profile') {
+        router.replace('/cxdashboard/finish-profile');
+        return false;
+      }
+    } catch (e) {
+      console.warn('[Portal] signup-status:', e);
+    }
+
+    setAccountBlocked({
+      detail:
+        'Your login is active, but this account is not linked to the customer portal yet. '
+        + 'Use Try again if you came from an invite email, or contact us for help.',
+    });
+    return false;
+  }
+
+  async function bootstrapPortalSession() {
+    setAccountBlocked(null);
+    setError(null);
+    setLoading(true);
+    try {
+      const sessionRes = await fetch('/api/auth/session');
+      if (!sessionRes.ok) {
+        router.push('/cxdashboard/login');
+        return;
+      }
+      const session = await sessionRes.json();
+      const token = session.accessToken;
+      setAccessToken(token);
+
+      const roles = getSessionRoles(session);
+      const adminUser = roles.includes('admin');
+      const staffUser = roles.some((r) => ['admin', 'manager', 'technician'].includes(r));
+      const hasClientRole = roles.includes('client');
+      setIsAdmin(adminUser);
+
+      const linkOutcome = await runPortalLinkFlow(token, session, {
+        adminUser,
+        staffUser,
+        hasClientRole,
+      });
+      if (linkOutcome.redirecting) return;
+      if (linkOutcome.finishProfile) {
+        router.replace('/cxdashboard/finish-profile');
+        return;
+      }
+      if (!linkOutcome.ok && !linkOutcome.skipped) {
+        setAccountBlocked({ detail: linkOutcome.blockedMessage });
+        setLoading(false);
+        return;
+      }
+
+      let hasClientRoleNow = getSessionRoles(session).includes('client');
+      if (!adminUser && !staffUser && !hasClientRoleNow && linkOutcome.linkResult?.data?.role_assigned) {
+        if (!hasPortalTokenRefreshBeenAttempted()) {
+          redirectToRefreshPortalToken();
+          return;
+        }
+        const refreshed = await fetch('/api/auth/session').then((r) => (r.ok ? r.json() : session));
+        hasClientRoleNow = getSessionRoles(refreshed).includes('client');
+      }
+
+      if (adminUser) {
+        setClientsListError(null);
+        const savedClientId = sessionStorage.getItem('portal_impersonate_client_id');
+        if (savedClientId && !isValidClientId(savedClientId)) {
+          sessionStorage.removeItem('portal_impersonate_client_id');
+          sessionStorage.removeItem('portal_impersonate_client_name');
         }
 
-        const goFinishProfileIfNeeded = (linkResult) => {
-          if (linkResultNeedsFinishProfile(linkResult)) {
-            router.replace('/cxdashboard/finish-profile');
-            return true;
+        setClientsLoading(true);
+        try {
+          const res = await fetch(`${BACKEND}/api/clients?page=1&limit=100`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.detail || `Failed to load clients (${res.status})`);
           }
-          return false;
-        };
-
-        const handleLinkRefresh = (linkResult) => {
-          if (goFinishProfileIfNeeded(linkResult)) {
-            return true;
-          }
-          if (shouldRefreshPortalToken(linkResult, hasClientRole)) {
-            if (hasPortalTokenRefreshBeenAttempted()) {
-              setError(
-                'Your account is linked, but your session does not include portal access yet. '
-                + 'Log out completely, then sign in again. If it still fails, contact support.',
-              );
-              return true;
-            }
-            redirectToRefreshPortalToken();
-            return true;
-          }
-          return false;
-        };
-
-        // If coming from registration, link the account using stored invite token
-        const storedInviteToken = sessionStorage.getItem('portal_invite_token');
-        if (storedInviteToken && !adminUser) {
-          sessionStorage.removeItem('portal_invite_token');
-          try {
-            const linkResult = await postPortalLinkAccount(token, {
-              inviteToken: storedInviteToken,
-            });
-            logPortalLinkDiagnostics('link-account (invite)', linkResult);
-            if (!linkResult.ok) {
-              const msg = linkResult.data?.detail || `Link failed (${linkResult.status})`;
-              console.error('[Portal] Link account failed:', msg);
-              setError(msg);
-            } else if (!linkResult.data?.role_assigned) {
-              const warn = linkResult.data?.role_error || linkResult.data?.role_warning;
-              console.warn('[Portal] Linked but role not assigned:', warn);
-              setError(warn || 'Account linked but Auth0 client role was not assigned.');
-            } else if (handleLinkRefresh(linkResult)) {
-              return;
-            }
-          } catch (e) {
-            console.error('[Portal] Link account error:', e);
-            setError(e.message || 'Link account failed');
-          }
-        } else if (!staffUser) {
-          try {
-            const linkResult = await postPortalLinkAccount(token);
-            logPortalLinkDiagnostics('link-account (auto)', linkResult);
-            if (handleLinkRefresh(linkResult)) {
-              return;
-            }
-            if (!linkResult.ok) {
-              const msg = linkResult.data?.detail || `Link failed (${linkResult.status})`;
-              console.warn('[Portal] Auto link-account failed:', msg);
-              if (linkResult.status === 403 || linkResult.status === 409) {
-                setError(msg);
-              }
-            } else if (!linkResult.data?.role_assigned) {
-              console.warn('[Portal] Auto link role issue:', linkResult.data?.role_error);
-            }
-          } catch (e) {
-            console.warn('[Portal] Auto link-account skipped:', e);
-          }
-        }
-
-        if (adminUser) {
+          const data = await res.json();
+          setClients(data.items || []);
           setClientsListError(null);
-          const savedClientId = sessionStorage.getItem('portal_impersonate_client_id');
-          if (savedClientId && !isValidClientId(savedClientId)) {
+
+          const validSavedId = sessionStorage.getItem('portal_impersonate_client_id');
+          if (validSavedId && isValidClientId(validSavedId)) {
+            const savedClient = (data.items || []).find((c) => c.id === validSavedId);
+            if (savedClient) {
+              setSelectedClient(savedClient);
+              await loadPortalData(token, savedClient.id);
+              return;
+            }
             sessionStorage.removeItem('portal_impersonate_client_id');
             sessionStorage.removeItem('portal_impersonate_client_name');
           }
-
-          // Load client list for picker
-          setClientsLoading(true);
-          try {
-            const res = await fetch(`${BACKEND}/api/clients?page=1&limit=100`, {
-              headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (!res.ok) {
-              const err = await res.json().catch(() => ({}));
-              throw new Error(err.detail || `Failed to load clients (${res.status})`);
-            }
-            const data = await res.json();
-            setClients(data.items || []);
-            setClientsListError(null);
-
-            const validSavedId = sessionStorage.getItem('portal_impersonate_client_id');
-            if (validSavedId && isValidClientId(validSavedId)) {
-              const savedClient = (data.items || []).find((c) => c.id === validSavedId);
-              if (savedClient) {
-                setSelectedClient(savedClient);
-                await loadPortalData(token, savedClient.id);
-                return;
-              }
-              sessionStorage.removeItem('portal_impersonate_client_id');
-              sessionStorage.removeItem('portal_impersonate_client_name');
-            }
-          } catch (e) {
-            console.error('Failed to load clients:', e);
-            setClientsListError(e.message || 'Failed to load clients');
-          } finally {
-            setClientsLoading(false);
-          }
-          setLoading(false);
-        } else {
-          if (!hasClientRole) {
-            try {
-              const signupStatus = await fetchPortalSignupStatus(token);
-              if (signupStatus.status === 'needs_profile') {
-                router.replace('/cxdashboard/finish-profile');
-                return;
-              }
-            } catch (e) {
-              console.warn('[Portal] signup-status:', e);
-            }
-            setLoading(false);
-            return;
-          }
-          await loadPortalData(token, null);
+        } catch (e) {
+          console.error('Failed to load clients:', e);
+          setClientsListError(e.message || 'Failed to load clients');
+        } finally {
+          setClientsLoading(false);
         }
-      } catch (err) {
-        setError(err.message);
         setLoading(false);
+        return;
       }
+
+      if (!hasClientRoleNow) {
+        const allowed = await ensureClientPortalAccess(token, session, {
+          hasClientRole: hasClientRoleNow,
+        });
+        if (!allowed) {
+          setLoading(false);
+          return;
+        }
+      }
+
+      await loadPortalData(token, null);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
     }
-    init();
+  }
+
+  const handleRetryLinkAccount = async () => {
+    setLinkRetrying(true);
+    try {
+      await bootstrapPortalSession();
+    } finally {
+      setLinkRetrying(false);
+    }
+  };
+
+  // On mount: get session and determine role
+  useEffect(() => {
+    bootstrapPortalSession();
   }, []);
 
   // Load portal data for a specific client (or self)
@@ -399,6 +456,16 @@ export default function ClientDashboard() {
     setWorkOrders([]);
     setInvoices([]);
   };
+
+  if (accountBlocked && !isAdmin) {
+    return (
+      <PortalAccountLinkBlocked
+        detail={accountBlocked.detail}
+        onRetry={handleRetryLinkAccount}
+        retrying={linkRetrying}
+      />
+    );
+  }
 
   // Admin with no client selected — show picker (or load error)
   if (isAdmin && !selectedClient) {

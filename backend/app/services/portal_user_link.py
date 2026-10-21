@@ -39,7 +39,12 @@ def _roles_from_token(token_data: Any) -> list:
     return []
 
 
-def ensure_db_user_for_portal_link(db: Session, token_data: Any) -> DBUser:
+def ensure_db_user_for_portal_link(
+    db: Session,
+    token_data: Any,
+    *,
+    client: Optional[Client] = None,
+) -> DBUser:
     """
     Resolve users row for token sub using the same path as get_current_user.
     Never elevates to staff from this module — roles come from the token only.
@@ -51,8 +56,17 @@ def ensure_db_user_for_portal_link(db: Session, token_data: Any) -> DBUser:
             roles,
             getattr(token_data, "sub", None),
         )
+    trusted_placeholder = None
+    if client and client.user_id:
+        linked = db.query(DBUser).filter(DBUser.id == client.user_id).first()
+        if linked and is_placeholder_client_auth_id(linked.auth_id):
+            trusted_placeholder = linked
     auth_handler = get_auth_handler()
-    return auth_handler.ensure_db_user_from_token(db, token_data)
+    return auth_handler.ensure_db_user_from_token(
+        db,
+        token_data,
+        trusted_placeholder_user=trusted_placeholder,
+    )
 
 
 def repoint_user_customer_data_collect_ids(
@@ -115,7 +129,7 @@ def sync_client_user_id_on_link(
         logger.warning("[LinkAccount] sync_client_user_id skipped: no token sub")
         return
 
-    user = ensure_db_user_for_portal_link(db, token_data)
+    user = ensure_db_user_for_portal_link(db, token_data, client=client)
 
     if login is not None:
         from app.services.portal_login_service import sync_login_user_id

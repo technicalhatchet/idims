@@ -18,7 +18,7 @@ import uuid
 from urllib.parse import quote
 
 from app.db.database import get_db
-from app.core.auth import get_auth_handler
+from app.core.auth import auth0_mgmt_api_url, get_auth_handler
 from app.config import get_portal_invite_secret, settings
 from app.services.portal_claim_service import (
     PortalClaimError,
@@ -246,7 +246,7 @@ def _fetch_auth0_user(auth0_user_id: str) -> dict:
     management_token = auth_handler.get_client_credentials_token()
     encoded_user_id = quote(auth0_user_id, safe="")
     response = requests.get(
-        f"https://{auth_handler.domain}/api/v2/users/{encoded_user_id}",
+        auth0_mgmt_api_url(f"/users/{encoded_user_id}"),
         headers={"Authorization": f"Bearer {management_token}"},
         timeout=15,
     )
@@ -290,7 +290,7 @@ def _assign_client_role(auth0_user_id: str) -> Tuple[bool, bool, Optional[str]]:
         auth_handler = get_auth_handler()
         management_token = auth_handler.get_client_credentials_token()
         encoded_user_id = quote(auth0_user_id, safe="")
-        roles_url = f"https://{auth_handler.domain}/api/v2/users/{encoded_user_id}/roles"
+        roles_url = auth0_mgmt_api_url(f"/users/{encoded_user_id}/roles")
         headers = {
             "Authorization": f"Bearer {management_token}",
             "Content-Type": "application/json",
@@ -342,7 +342,7 @@ def _sync_auth0_user_name(
         encoded_user_id = quote(auth0_user_id, safe="")
         full_name = f"{first_name} {last_name}".strip()
         response = requests.patch(
-            f"https://{auth_handler.domain}/api/v2/users/{encoded_user_id}",
+            auth0_mgmt_api_url(f"/users/{encoded_user_id}"),
             headers={
                 "Authorization": f"Bearer {management_token}",
                 "Content-Type": "application/json",
@@ -417,6 +417,47 @@ def _raise_for_portal_login_error(exc: PortalLoginError) -> None:
         status_code=status.HTTP_404_NOT_FOUND,
         detail=exc.message or "No client record found.",
     )
+
+
+def _http_exception_detail_str(detail) -> str:
+    if isinstance(detail, str):
+        return detail
+    if isinstance(detail, list):
+        return "; ".join(
+            str(item.get("msg", item)) if isinstance(item, dict) else str(item)
+            for item in detail
+        )
+    return str(detail)
+
+
+def _log_link_account_outcome(
+    auth0_user_id: str,
+    method_tried: Optional[str],
+    result: str,
+    *,
+    status_code: Optional[int] = None,
+    error_code: Optional[str] = None,
+    detail: Optional[str] = None,
+) -> None:
+    logger.info(
+        "[LinkAccount] outcome sub=%s method=%s result=%s status=%s error_code=%s detail=%s",
+        auth0_user_id,
+        method_tried or "none",
+        result,
+        status_code if status_code is not None else "",
+        error_code or "",
+        (detail or "")[:500],
+    )
+
+
+def _initial_link_method_label(body: LinkAccountRequest) -> str:
+    if (body.claim_token or "").strip():
+        return "claim_token"
+    if body.invite_token:
+        if looks_like_jwt_invite(body.invite_token):
+            return "invite_token"
+        return "claim_token"
+    return "auto"
 
 
 def _link_account_response(
@@ -629,7 +670,7 @@ async def link_account_debug(
         mgmt_token_ok = True
         encoded_user_id = quote(auth0_user_id, safe="")
         roles_resp = requests.get(
-            f"https://{auth_handler.domain}/api/v2/users/{encoded_user_id}/roles",
+            auth0_mgmt_api_url(f"/users/{encoded_user_id}/roles"),
             headers={"Authorization": f"Bearer {mgmt_token}"},
             timeout=15,
         )
@@ -690,11 +731,28 @@ async def link_portal_account(
     db: Session = Depends(get_db),
 ):
     auth0_user_id = token_data.sub
+    link_trace = {"method": _initial_link_method_label(body)}
     if not auth0_user_id:
+        _log_link_account_outcome(
+            "",
+            link_trace["method"],
+            "error",
+            status_code=400,
+            error_code="missing_sub",
+            detail="Invalid token — no sub claim",
+        )
         raise HTTPException(status_code=400, detail="Invalid token — no sub claim")
 
     roles = list(getattr(token_data, "roles", []) or [])
     if token_has_staff_portal_role(roles):
+        _log_link_account_outcome(
+            auth0_user_id,
+            link_trace["method"],
+            "error",
+            status_code=403,
+            error_code="staff_forbidden",
+            detail=STAFF_PORTAL_ACCOUNT_FORBIDDEN,
+        )
         raise HTTPException(status_code=403, detail=STAFF_PORTAL_ACCOUNT_FORBIDDEN)
 
     logger.info(
@@ -705,6 +763,34 @@ async def link_portal_account(
         bool(get_portal_invite_secret()),
     )
 
+    try:
+        return _link_portal_account_impl(
+            body=body,
+            token_data=token_data,
+            db=db,
+            auth0_user_id=auth0_user_id,
+            link_trace=link_trace,
+        )
+    except HTTPException as exc:
+        _log_link_account_outcome(
+            auth0_user_id,
+            link_trace["method"],
+            "error",
+            status_code=exc.status_code,
+            error_code=str(exc.status_code),
+            detail=_http_exception_detail_str(exc.detail),
+        )
+        raise
+
+
+def _link_portal_account_impl(
+    *,
+    body: LinkAccountRequest,
+    token_data,
+    db: Session,
+    auth0_user_id: str,
+    link_trace: dict,
+):
     active_login = get_active_login_for_sub(db, auth0_user_id)
     if active_login:
         existing = (
@@ -717,7 +803,8 @@ async def link_portal_account(
         )
         if existing:
             if portal_signup_needs_profile(existing):
-                return _pending_profile_link_response(
+                link_trace["method"] = "self_signup_pending_profile"
+                payload = _pending_profile_link_response(
                     client=existing,
                     auth0_user_id=auth0_user_id,
                     db=db,
@@ -725,8 +812,14 @@ async def link_portal_account(
                     already_linked=True,
                     link_method="self_signup_pending_profile",
                 )
+                _log_link_account_outcome(
+                    auth0_user_id,
+                    link_trace["method"],
+                    "needs_profile",
+                )
+                return payload
             role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
-            return _finalize_link_account_response(
+            payload = _finalize_link_account_response(
                 auth0_user_id=auth0_user_id,
                 client=existing,
                 db=db,
@@ -738,6 +831,12 @@ async def link_portal_account(
                 link_method="existing_portal_login",
                 login=active_login,
             )
+            _log_link_account_outcome(
+                auth0_user_id,
+                payload.get("link_method") or "existing_portal_login",
+                "linked",
+            )
+            return payload
 
     client = None
     link_method = None
@@ -754,6 +853,7 @@ async def link_portal_account(
             link_method = "claim_token"
         except PortalClaimError as exc:
             invite_error = exc.message
+            link_trace["method"] = "claim_token"
             logger.warning("[LinkAccount] claim token rejected: %s", exc.code)
 
     if not client and body.invite_token and looks_like_jwt_invite(body.invite_token):
@@ -769,6 +869,7 @@ async def link_portal_account(
                     client = db.query(Client).filter(Client.id == client_id).first()
                     if client:
                         link_method = "invite_token"
+                        link_trace["method"] = "invite_token"
                     else:
                         invite_error = f"client_id {client_id} not found in database"
                 else:
@@ -806,12 +907,14 @@ async def link_portal_account(
                 if client:
                     pending_claim = invite_claim
                     link_method = link_method or "invite_email_match"
+                    link_trace["method"] = link_method
             if not client:
                 client = find_client_by_normalized_email(db, link_email)
                 if client and is_placeholder_client_email(client.email):
                     client = None
                 elif client:
                     link_method = link_method or "email_verified"
+                    link_trace["method"] = link_method
         elif link_email and not email_verified:
             email_verification_required = True
 
@@ -852,7 +955,7 @@ async def link_portal_account(
                 except PortalLoginError as exc:
                     _raise_for_portal_login_error(exc)
                 db.commit()
-                return _pending_profile_link_response(
+                payload = _pending_profile_link_response(
                     client=client,
                     auth0_user_id=auth0_user_id,
                     db=db,
@@ -861,6 +964,13 @@ async def link_portal_account(
                     link_method=link_method,
                     login=signup_login,
                 )
+                link_trace["method"] = link_method or link_trace["method"]
+                _log_link_account_outcome(
+                    auth0_user_id,
+                    link_trace["method"],
+                    "needs_profile",
+                )
+                return payload
         except PortalSignupError as exc:
             if exc.code == "email_unverified":
                 raise HTTPException(status_code=403, detail=exc.message) from exc
@@ -909,7 +1019,7 @@ async def link_portal_account(
     )
 
     role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
-    return _finalize_link_account_response(
+    payload = _finalize_link_account_response(
         auth0_user_id=auth0_user_id,
         client=client,
         db=db,
@@ -921,6 +1031,16 @@ async def link_portal_account(
         link_method=link_method,
         login=login,
     )
+    outcome = "linked" if role_assigned else "linked_role_pending"
+    if link_method:
+        link_trace["method"] = link_method
+    _log_link_account_outcome(
+        auth0_user_id,
+        payload.get("link_method") or link_trace["method"],
+        outcome,
+        detail=role_error,
+    )
+    return payload
 
 
 @router.get("/portal/signup-status")

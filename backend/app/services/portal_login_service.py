@@ -356,7 +356,7 @@ def remove_auth0_client_role_if_orphaned(auth0_sub: str) -> Optional[str]:
         auth_handler = get_auth_handler()
         management_token = auth_handler.get_client_credentials_token()
         encoded_user_id = quote(auth0_sub, safe="")
-        roles_url = f"https://{auth_handler.domain}/api/v2/users/{encoded_user_id}/roles"
+        roles_url = auth_handler.mgmt_api_url(f"/users/{encoded_user_id}/roles")
         headers = {"Authorization": f"Bearer {management_token}"}
         response = requests.delete(
             roles_url,
