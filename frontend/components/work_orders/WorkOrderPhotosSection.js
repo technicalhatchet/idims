@@ -172,6 +172,9 @@ export default function WorkOrderPhotosSection({
                     </p>
                     <div className={`mt-1 flex flex-wrap gap-x-3 text-xs ${isMobile ? 'text-gray-500' : 'text-gray-500'}`}>
                       <span>{photo.user_name || 'Unknown'}</span>
+                      {photo.source === 'customer' && (
+                        <span className="text-amber-600 font-semibold">From customer</span>
+                      )}
                       <span>{formatPhotoDate(photo.created_at)}</span>
                     </div>
                   </div>

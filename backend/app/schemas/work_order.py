@@ -653,6 +653,7 @@ class WorkOrderPhotoResponse(BaseModel):
     drive_web_view_link: Optional[str] = None
     uploaded_by: UUID
     user_name: Optional[str] = None
+    source: Optional[str] = "staff"
     created_at: datetime
     model_config = ConfigDict(from_attributes=True)
 

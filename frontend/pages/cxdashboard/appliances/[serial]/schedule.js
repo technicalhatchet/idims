@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import PortalCustomerMediaUpload from '../../../../components/cxdashboard/PortalCustomerMediaUpload';
 import { useRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 import { FaArrowLeft, FaCalendarAlt, FaCheckCircle, FaPhone } from 'react-icons/fa';
@@ -930,6 +931,11 @@ export default function ScheduleAppliancePage() {
                       <p style={{ color: '#22d3ee', fontWeight: '600', marginBottom: '1.5rem' }}>
                         Estimated total: {formatCurrency(confirmation.estimated_total)}
                       </p>
+                    )}
+                    {confirmation.work_order_id && (
+                      <div style={{ textAlign: 'left', maxWidth: 360, margin: '0 auto 1.25rem' }}>
+                        <PortalCustomerMediaUpload workOrderId={confirmation.work_order_id} />
+                      </div>
                     )}
                     <Link
                       href="/cxdashboard/repairs"

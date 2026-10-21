@@ -110,6 +110,7 @@ class WorkOrder(Base):
     closed_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
     parent_work_order_id = Column(UUID(as_uuid=True), ForeignKey("work_orders.id", ondelete="SET NULL"), nullable=True)
     is_redo = Column(Boolean, nullable=False, default=False)
+    review_requested_at = Column(DateTime, nullable=True)
     redo_source_appointment_id = Column(
         UUID(as_uuid=True),
         ForeignKey("work_order_appointments.id", ondelete="SET NULL"),
@@ -365,6 +366,8 @@ class WorkOrderPhoto(Base):
     drive_web_view_link = Column(String(512), nullable=True)
     drive_folder_id = Column(String(128), nullable=True)
     uploaded_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    source = Column(String(20), nullable=False, default="staff")
+    client_login_id = Column(UUID(as_uuid=True), ForeignKey("client_logins.id"), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     work_order = relationship("WorkOrder", back_populates="photos")
