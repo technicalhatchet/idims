@@ -65,6 +65,9 @@ export default function AppliancesPage() {
 
   const previewLocked = isPortalPreviewActive() && !isPortalPreviewUnlocked();
 
+  const [search, setSearch] = useState('');
+  const [propertyFilter, setPropertyFilter] = useState('all');
+
   const exportQuery = propertyFilter !== 'all' ? `?property_id=${encodeURIComponent(propertyFilter)}` : '';
 
   const downloadExport = async (path) => {
@@ -91,9 +94,6 @@ export default function AppliancesPage() {
     window.open(blobUrl, '_blank');
     URL.revokeObjectURL(blobUrl);
   };
-
-  const [search, setSearch] = useState('');
-  const [propertyFilter, setPropertyFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
   const [sortBy, setSortBy] = useState('property');
