@@ -21,7 +21,7 @@ def _enum_value(value) -> str:
 
 
 def completed_diagnostic_date(db: Session, work_order_id) -> Optional[datetime]:
-    """Earliest completed diagnostic visit date for a work order."""
+    """Most recent completed diagnostic visit date (drives 30-day estimate window)."""
     appt = (
         db.query(WorkOrderAppointment)
         .filter(
@@ -29,7 +29,7 @@ def completed_diagnostic_date(db: Session, work_order_id) -> Optional[datetime]:
             WorkOrderAppointment.appointment_type == "diagnostic",
             WorkOrderAppointment.status == "completed",
         )
-        .order_by(WorkOrderAppointment.scheduled_start.asc())
+        .order_by(WorkOrderAppointment.scheduled_start.desc())
         .first()
     )
     if not appt:

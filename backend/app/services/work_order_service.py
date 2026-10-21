@@ -1952,6 +1952,14 @@ class WorkOrderService:
 
         self._recalculate_invoice_subtotal_for_work_order(work_order_id)
         work_order.calculate_totals()
+        from app.services.work_order_estimate_gate_service import maybe_promote_pending_estimate_approval
+
+        maybe_promote_pending_estimate_approval(
+            self.db,
+            work_order,
+            user_id,
+            note="Estimate labor added after diagnostic visit",
+        )
         self.db.commit()
 
         for row in created:

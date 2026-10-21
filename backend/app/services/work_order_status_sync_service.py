@@ -419,6 +419,12 @@ def sync_work_order_status_from_appointment(
     if not target_wo_status:
         return False
 
+    from app.services.work_order_estimate_gate_service import resolve_completion_status_after_visit
+
+    target_wo_status = resolve_completion_status_after_visit(
+        db, work_order, target_wo_status
+    )
+
     is_closed = getattr(work_order, "is_closed", False)
     # Special case: allow "redo" status sync on closed work orders
     # When an appointment is marked redo on a closed WO, the WO status should change to redo

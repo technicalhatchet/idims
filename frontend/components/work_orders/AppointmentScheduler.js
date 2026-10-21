@@ -857,6 +857,7 @@ export default forwardRef(function AppointmentScheduler({
       assigned_technician_id: sourceAppointment.assigned_technician_id || '',
       time_window: sourceAppointment.time_window || null,
     });
+    syncServiceCategoryForCatalogId(serviceId);
     setSkuBlockWarning(null);
     setFormErrors({});
     setShowForm(true);
