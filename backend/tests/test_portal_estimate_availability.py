@@ -76,3 +76,16 @@ def test_completed_diagnostic_prefers_actual_end():
     db = MagicMock()
     db.query.return_value.filter.return_value.order_by.return_value.first.return_value = appt
     assert completed_diagnostic_date(db, uuid4()) == datetime(2026, 1, 1, 11, 30)
+
+
+def test_estimate_uses_most_recent_completed_diagnostic():
+    recent_end = datetime(2026, 10, 22, 20, 0)
+    db = MagicMock()
+    db.query.return_value.filter.return_value.order_by.return_value.first.return_value = _appt(
+        scheduled_start=datetime(2026, 10, 22, 17, 0),
+        actual_end=recent_end,
+    )
+    now = recent_end + timedelta(days=5)
+    meta = portal_estimate_meta(_wo(status="pending_estimate_approval"), db, now=now)
+    assert meta["estimate_available"] is True
+    assert meta["diagnostic_completed_at"] == recent_end.isoformat()

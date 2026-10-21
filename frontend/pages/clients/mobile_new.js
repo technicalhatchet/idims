@@ -59,10 +59,9 @@ function NewClientPage() {
     };
 
     const onDblClick = (e) => {
-      if (tryOpenRail(e.clientX, e.clientY, e)) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
+      e.preventDefault();
+      e.stopPropagation();
+      openRail();
     };
 
     layer.addEventListener('touchstart', onTouch, { passive: false });

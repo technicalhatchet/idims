@@ -131,6 +131,7 @@ def test_phase1_mapping_keys():
         "reschedule",
         "failed",
         "unreachable",
+        "redo",
     }
 
 
@@ -165,8 +166,12 @@ def test_sync_skips_completion_status_before_billing(mock_apply):
     mock_apply.assert_not_called()
 
 
+@patch(
+    "app.services.work_order_estimate_gate_service.should_promote_pending_estimate_approval",
+    return_value=False,
+)
 @patch("app.services.work_order_status_sync_service.apply_work_order_status_change")
-def test_sync_completion_after_billing(mock_apply):
+def test_sync_completion_after_billing(mock_apply, _mock_promote):
     mock_apply.return_value = True
     work_order = MagicMock()
     work_order.status = "in_progress"
@@ -188,8 +193,12 @@ def test_sync_completion_after_billing(mock_apply):
     assert mock_apply.call_args[0][2] == "completed_pending_payment"
 
 
+@patch(
+    "app.services.work_order_estimate_gate_service.should_promote_pending_estimate_approval",
+    return_value=False,
+)
 @patch("app.services.work_order_status_sync_service.apply_work_order_status_change")
-def test_sync_phone_payment_to_completed_pending_payment(mock_apply):
+def test_sync_phone_payment_to_completed_pending_payment(mock_apply, _mock_promote):
     mock_apply.return_value = True
     work_order = MagicMock()
     work_order.status = "in_progress"

@@ -6,6 +6,8 @@ import {
   getPortalPreviewUnlockHeaders,
 } from './portalPreview';
 
+const PREVIEW_PAYMENT_FORBIDDEN = 'Payments are not available in admin preview';
+
 export async function portalFetch(endpoint, token, options = {}, impersonateClientId = null) {
   const url = buildPortalApiUrl(endpoint, impersonateClientId);
   const isWrite = options.method && options.method !== 'GET' && options.method !== 'HEAD';
@@ -25,6 +27,9 @@ export async function portalFetch(endpoint, token, options = {}, impersonateClie
     const detail = body.detail || `Portal API error: ${res.status}`;
     if (res.status === 403 && detail === PREVIEW_LOCKED_MESSAGE) {
       toast.error(PREVIEW_LOCKED_TOAST);
+    }
+    if (res.status === 403 && detail === PREVIEW_PAYMENT_FORBIDDEN) {
+      toast.error(detail);
     }
     throw new Error(typeof detail === 'string' ? detail : JSON.stringify(detail));
   }

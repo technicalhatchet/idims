@@ -174,6 +174,24 @@ def try_auto_complete_after_payment(
         )
         return result
 
+    from app.services.work_order_estimate_gate_service import (
+        maybe_promote_pending_estimate_approval,
+        should_promote_pending_estimate_approval,
+    )
+
+    if should_promote_pending_estimate_approval(db, work_order):
+        previous_status = activity._status_val(work_order.status)
+        promoted = maybe_promote_pending_estimate_approval(
+            db,
+            work_order,
+            actor_id,
+            note="Diagnostic paid with unscheduled estimate labor awaiting customer approval",
+        )
+        if promoted:
+            result["work_order_completed"] = False
+            result["needs_repair_outcome"] = work_order_needs_repair_outcome(db, work_order.id)
+            return result
+
     previous_status = activity._status_val(work_order.status)
     work_order.status = "completed"
     work_order.updated_by = actor_id

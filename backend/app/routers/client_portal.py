@@ -558,6 +558,30 @@ async def get_portal_client_login(
     return login
 
 
+async def get_portal_client_login_for_actions(
+    token_data=Depends(get_token_data),
+    db: Session = Depends(get_db),
+    client: Client = Depends(get_portal_client),
+    admin_client_id: Optional[str] = Query(None),
+) -> Optional[ClientLogin]:
+    """Client login for portal actions; None when admin is previewing (unlock required on writes)."""
+    roles = getattr(token_data, "roles", []) or []
+    if "admin" in roles and admin_client_id:
+        return None
+    if "client" not in roles:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Client portal access required",
+        )
+    login = get_active_login_for_sub(db, token_data.sub)
+    if not login or login.client_id != client.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Active portal login required",
+        )
+    return login
+
+
 @router.get("/portal/link-debug")
 async def link_account_debug(
     token_data=Depends(get_token_data),
@@ -2647,10 +2671,10 @@ async def approve_portal_estimate(
     request: Request,
     background_tasks: BackgroundTasks,
     client: Client = Depends(get_portal_client),
-    login: ClientLogin = Depends(get_portal_client_login),
+    login: Optional[ClientLogin] = Depends(get_portal_client_login_for_actions),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(
-        require_portal_write("POST /portal/work-orders/estimate-approval/approve", payment=True)
+        require_portal_write("POST /portal/work-orders/estimate-approval/approve")
     ),
 ):
     from app.services.portal_estimate_approval_service import (
@@ -2714,10 +2738,10 @@ async def decline_portal_estimate(
     request: Request,
     background_tasks: BackgroundTasks,
     client: Client = Depends(get_portal_client),
-    login: ClientLogin = Depends(get_portal_client_login),
+    login: Optional[ClientLogin] = Depends(get_portal_client_login_for_actions),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(
-        require_portal_write("POST /portal/work-orders/estimate-approval/decline", payment=True)
+        require_portal_write("POST /portal/work-orders/estimate-approval/decline")
     ),
 ):
     from app.services.portal_estimate_approval_service import (

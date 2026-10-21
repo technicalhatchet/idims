@@ -7,7 +7,7 @@ Branch: `feature/portal-wave-1` — one commit per feature (A–D). SQL in `db/s
 ## A. Estimate approval
 
 - SQL: `2026-10-22_portal_wave_1_estimate_approval.sql`
-- API: `GET /api/portal/work-orders/{id}/estimate-approval`, `POST .../approve`, `POST .../decline` (preview blocked like payments)
+- API: `GET /api/portal/work-orders/{id}/estimate-approval`, `POST .../approve`, `POST .../decline` (admin preview: unlock editing; payments still blocked)
 - Staff: `estimate_approval` on `GET /api/work-orders/{id}`
 - Smoke: WO in `pending_estimate_approval` with valid estimate → approve/decline; TechDeck badge; declined → approve allowed; approved → decline blocked
 

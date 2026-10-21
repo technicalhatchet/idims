@@ -206,6 +206,15 @@ function RepairCard({
             <PortalCustomerMediaUpload workOrderId={wo.id} />
           )}
 
+          {wo.status === 'pending_estimate_approval' && !wo.estimate_available && (
+            <p style={{ color: '#fbbf24', fontSize: '0.8125rem', margin: 0 }}>
+              Estimate approval is waiting on a completed diagnostic visit within the last 30 days.
+              {wo.estimate_expires_at
+                ? ` Valid through ${format(parseISO(wo.estimate_expires_at), 'MMM d, yyyy')}.`
+                : ' Contact Atomic Repair if you need help.'}
+            </p>
+          )}
+
           {wo.status === 'pending_estimate_approval' && wo.estimate_available && (wo.estimate_approval?.can_approve || wo.estimate_approval?.can_decline) && (
             <button
               type="button"
