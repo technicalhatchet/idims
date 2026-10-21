@@ -1,7 +1,7 @@
 from fastapi.responses import StreamingResponse, Response
 from io import BytesIO
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status, Body, Path, Request, Header, File, Form, UploadFile
+from fastapi import APIRouter, Depends, HTTPException, Query, status, Body, Path, Request, Header, File, Form, UploadFile, BackgroundTasks
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -820,6 +820,12 @@ async def get_work_order(
             response_dict["tax_zip_code"] = tax_result.get("zipCode")
         response_dict["tax_rate"] = float(work_order.tax_rate or 0)
         
+        from app.services.portal_estimate_approval_service import staff_estimate_approval_summary
+
+        response_dict["estimate_approval"] = staff_estimate_approval_summary(db, work_order)
+        if work_order.review_requested_at:
+            response_dict["review_requested_at"] = work_order.review_requested_at.isoformat()
+
         # Convert any remaining UUID objects to strings for JSON serialization
         for key, value in response_dict.items():
             if isinstance(value, uuid.UUID):
@@ -3129,6 +3135,7 @@ async def square_work_order_payment_endpoint(
 
 @router.post("/{work_order_id}/record-payment", response_model=WorkOrderPaymentResponse, status_code=status.HTTP_201_CREATED)
 async def record_work_order_payment_endpoint(
+    background_tasks: BackgroundTasks,
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
     body: RecordWorkOrderPaymentRequest = Body(...),
     db: Session = Depends(get_db),
@@ -3145,6 +3152,10 @@ async def record_work_order_payment_endpoint(
         payment, completion = record_work_order_payment(db, work_order_id, current_user.id, body)
         db.commit()
         db.refresh(payment)
+
+        from app.services.portal_review_hooks import maybe_enqueue_review_request
+
+        maybe_enqueue_review_request(background_tasks, db, work_order_id)
 
         recorder_name = f"{current_user.first_name} {current_user.last_name}".strip()
         return WorkOrderPaymentResponse(
@@ -3173,6 +3184,27 @@ async def record_work_order_payment_endpoint(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error recording payment: {str(e)}",
         )
+
+
+@router.post("/{work_order_id}/send-review-request")
+async def send_work_order_review_request(
+    work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
+    force: bool = Query(False),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_staff_user),
+):
+    if not await can_access_work_order(work_order_id, current_user, db):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
+
+    from app.services.portal_review_request_service import send_portal_review_request
+
+    result = await send_portal_review_request(db, work_order_id, force=force)
+    if not result.get("sent"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Review request not sent: {result.get('reason', 'unknown')}",
+        )
+    return result
 
 
 @router.post("/{work_order_id}/admin-override")

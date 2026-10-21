@@ -16,6 +16,8 @@ import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import { MARKETING_PHONE_DISPLAY, MARKETING_PHONE_TEL } from '../../constants/marketingSiteContent';
 import ApplianceIcon from '../../components/cxdashboard/ApplianceIcon';
 import InvoicePdfModal from '../../components/cxdashboard/InvoicePdfModal';
+import EstimateApprovalSheet from '../../components/cxdashboard/EstimateApprovalSheet';
+import PortalCustomerMediaUpload from '../../components/cxdashboard/PortalCustomerMediaUpload';
 import RepairCardSkeleton from '../../components/cxdashboard/RepairCardSkeleton';
 import { portalIconClasses } from '../../components/cxdashboard/portalIconClasses';
 import { portalFetch as sharedPortalFetch, getPortalSessionToken } from '../../utils/portalFetch';
@@ -44,6 +46,7 @@ function RepairCard({
   wo,
   onViewEstimate,
   onViewInvoice,
+  onReviewEstimate,
   displayTotal,
   initialExpanded = false,
 }) {
@@ -199,6 +202,33 @@ function RepairCard({
             </div>
           )}
 
+          {!['completed', 'canceled', 'closed'].includes(wo.status) && (
+            <PortalCustomerMediaUpload workOrderId={wo.id} />
+          )}
+
+          {wo.status === 'pending_estimate_approval' && wo.estimate_available && (wo.estimate_approval?.can_approve || wo.estimate_approval?.can_decline) && (
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); onReviewEstimate?.(wo); }}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                background: 'rgba(34,197,94,0.12)', color: '#4ade80',
+                border: '1px solid rgba(34,197,94,0.25)', borderRadius: '8px',
+                padding: '8px 14px', fontSize: '0.8125rem', fontWeight: '600', cursor: 'pointer',
+              }}
+            >
+              Review & approve estimate
+            </button>
+          )}
+
+          {wo.estimate_approval?.current_decision && !wo.estimate_approval?.can_approve && (
+            <p style={{ color: '#9ca3af', fontSize: '0.8125rem', margin: 0 }}>
+              {wo.estimate_approval.current_decision === 'approved'
+                ? `Approved by ${wo.estimate_approval.signer_name || 'you'}`
+                : 'Estimate declined'}
+            </p>
+          )}
+
           {wo.estimate_available && (
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.75rem' }}>
               <button
@@ -239,6 +269,7 @@ export default function RepairsPage() {
   const [tab, setTab] = useState('active');
   const [viewerEstimate, setViewerEstimate] = useState(null);
   const [viewerInvoice, setViewerInvoice] = useState(null);
+  const [approvalWo, setApprovalWo] = useState(null);
   const [deepLinkHandled, setDeepLinkHandled] = useState(false);
 
   useEffect(() => {
@@ -314,6 +345,7 @@ export default function RepairsPage() {
                 wo={wo}
                 displayTotal={getPortalWorkOrderDisplayTotal(wo, invoiceLookup)}
                 onViewEstimate={setViewerEstimate}
+                onReviewEstimate={setApprovalWo}
                 onViewInvoice={(order) => {
                   const inv = invoiceLookup.get(order.id) || invoiceLookup.get(order.order_number);
                   if (inv) setViewerInvoice(inv);
@@ -326,6 +358,18 @@ export default function RepairsPage() {
           </div>
         )}
       </div>
+
+      {approvalWo && (
+        <EstimateApprovalSheet
+          workOrder={approvalWo}
+          onClose={() => setApprovalWo(null)}
+          onDecided={async () => {
+            const token = await getPortalSessionToken();
+            const orders = await sharedPortalFetch('work-orders', token);
+            setWorkOrders(Array.isArray(orders) ? orders : []);
+          }}
+        />
+      )}
 
       {viewerEstimate && (
         <InvoicePdfModal

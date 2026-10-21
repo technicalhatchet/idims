@@ -3,7 +3,7 @@ Client Portal API Router
 All endpoints are scoped to the authenticated client only.
 """
 
-from fastapi import APIRouter, Depends, HTTPException, status, Query, Request
+from fastapi import APIRouter, Depends, HTTPException, status, Query, Request, BackgroundTasks, UploadFile, File
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import desc
@@ -178,6 +178,12 @@ def _warranty_is_active(wo: WorkOrder, db: Session, now: Optional[datetime] = No
 
 def _estimate_fields(wo: WorkOrder, db: Session) -> dict:
     return portal_estimate_meta(wo, db)
+
+
+def _portal_estimate_approval_summary(wo: WorkOrder, db: Session) -> dict:
+    from app.services.portal_estimate_approval_service import portal_estimate_approval_summary
+
+    return portal_estimate_approval_summary(db, wo)
 
 
 def _require_portal_estimate(wo: WorkOrder, db: Session) -> None:
@@ -1666,6 +1672,7 @@ async def get_portal_work_orders(
                 for p in (wo.parts or [])
             ],
             **_estimate_fields(wo, db),
+            "estimate_approval": _portal_estimate_approval_summary(wo, db),
         })
     return result
 
@@ -1743,6 +1750,7 @@ async def get_portal_work_order_detail(
             for a in appointments
         ],
         **_estimate_fields(wo, db),
+        "estimate_approval": _portal_estimate_approval_summary(wo, db),
     }
 
 
@@ -1902,6 +1910,7 @@ class PortalPayAllInvoicesRequest(BaseModel):
 @router.post("/portal/invoices/pay-all")
 async def portal_pay_all_invoices(
     body: PortalPayAllInvoicesRequest,
+    background_tasks: BackgroundTasks,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/invoices/pay-all", payment=True)),
@@ -1944,6 +1953,10 @@ async def portal_pay_all_invoices(
             payment_idempotency_key=body.payment_idempotency_key,
         )
         db.commit()
+        from app.services.portal_review_hooks import maybe_enqueue_review_request
+
+        for wo_id in wo_ids:
+            maybe_enqueue_review_request(background_tasks, db, wo_id)
         return {"success": True, **result}
     except ValidationException as exc:
         db.rollback()
@@ -1958,6 +1971,7 @@ async def portal_pay_all_invoices(
 async def portal_pay_invoice(
     work_order_id: str,
     body: PortalPayInvoiceRequest,
+    background_tasks: BackgroundTasks,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/work-orders/pay-invoice", payment=True)),
@@ -1979,6 +1993,9 @@ async def portal_pay_invoice(
             payment_idempotency_key=body.payment_idempotency_key,
         )
         db.commit()
+        from app.services.portal_review_hooks import maybe_enqueue_review_request
+
+        maybe_enqueue_review_request(background_tasks, db, wo_uuid)
         return {
             "success": True,
             "payment_number": payment.payment_number,
@@ -2595,3 +2612,295 @@ async def email_portal_estimate(
         raise HTTPException(status_code=503, detail="Unable to send email right now. Please try again later.")
 
     return {"success": True, "message": f"Estimate emailed to {client.email}"}
+
+
+class PortalEstimateApproveBody(BaseModel):
+    signer_name: str
+    signature_png: str
+
+
+class PortalEstimateDeclineBody(BaseModel):
+    decline_reason: Optional[str] = None
+
+
+@router.get("/portal/work-orders/{work_order_id}/estimate-approval")
+async def get_portal_estimate_approval(
+    work_order_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    from app.services.portal_estimate_approval_service import get_estimate_approval_state
+
+    wo = db.query(WorkOrder).filter(
+        WorkOrder.id == work_order_id,
+        WorkOrder.client_id == client.id,
+    ).first()
+    if not wo:
+        raise HTTPException(status_code=404, detail="Work order not found")
+    return get_estimate_approval_state(db, wo)
+
+
+@router.post("/portal/work-orders/{work_order_id}/estimate-approval/approve")
+async def approve_portal_estimate(
+    work_order_id: str,
+    body: PortalEstimateApproveBody,
+    request: Request,
+    background_tasks: BackgroundTasks,
+    client: Client = Depends(get_portal_client),
+    login: ClientLogin = Depends(get_portal_client_login),
+    db: Session = Depends(get_db),
+    _write_guard: None = Depends(
+        require_portal_write("POST /portal/work-orders/estimate-approval/approve", payment=True)
+    ),
+):
+    from app.services.portal_estimate_approval_service import (
+        EstimateApprovalError,
+        record_estimate_approval,
+        notify_staff_estimate_decision,
+    )
+
+    wo = db.query(WorkOrder).filter(
+        WorkOrder.id == work_order_id,
+        WorkOrder.client_id == client.id,
+    ).first()
+    if not wo:
+        raise HTTPException(status_code=404, detail="Work order not found")
+    try:
+        row = record_estimate_approval(
+            db,
+            work_order=wo,
+            client=client,
+            login=login,
+            decision="approved",
+            signer_name=body.signer_name,
+            signature_png_b64=body.signature_png,
+            decline_reason=None,
+            ip=request.client.host if request.client else None,
+            user_agent=request.headers.get("user-agent"),
+        )
+        db.commit()
+    except EstimateApprovalError as exc:
+        db.rollback()
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+    wo_id = wo.id
+    signer = row.signer_name
+
+    async def _notify():
+        from app.db.database import SessionLocal
+
+        session = SessionLocal()
+        try:
+            refreshed = session.query(WorkOrder).filter(WorkOrder.id == wo_id).first()
+            if refreshed:
+                await notify_staff_estimate_decision(
+                    session,
+                    work_order=refreshed,
+                    decision="approved",
+                    signer_name=signer,
+                )
+        finally:
+            session.close()
+
+    background_tasks.add_task(_notify)
+
+    return {"success": True, "decision": "approved", "decided_at": row.created_at.isoformat()}
+
+
+@router.post("/portal/work-orders/{work_order_id}/estimate-approval/decline")
+async def decline_portal_estimate(
+    work_order_id: str,
+    body: PortalEstimateDeclineBody,
+    request: Request,
+    background_tasks: BackgroundTasks,
+    client: Client = Depends(get_portal_client),
+    login: ClientLogin = Depends(get_portal_client_login),
+    db: Session = Depends(get_db),
+    _write_guard: None = Depends(
+        require_portal_write("POST /portal/work-orders/estimate-approval/decline", payment=True)
+    ),
+):
+    from app.services.portal_estimate_approval_service import (
+        EstimateApprovalError,
+        record_estimate_approval,
+        notify_staff_estimate_decision,
+    )
+
+    wo = db.query(WorkOrder).filter(
+        WorkOrder.id == work_order_id,
+        WorkOrder.client_id == client.id,
+    ).first()
+    if not wo:
+        raise HTTPException(status_code=404, detail="Work order not found")
+    try:
+        row = record_estimate_approval(
+            db,
+            work_order=wo,
+            client=client,
+            login=login,
+            decision="declined",
+            signer_name=None,
+            signature_png_b64=None,
+            decline_reason=body.decline_reason,
+            ip=request.client.host if request.client else None,
+            user_agent=request.headers.get("user-agent"),
+        )
+        db.commit()
+    except EstimateApprovalError as exc:
+        db.rollback()
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+    reason = (body.decline_reason or "").strip() or None
+    wo_id = wo.id
+
+    async def _notify():
+        from app.db.database import SessionLocal
+
+        session = SessionLocal()
+        try:
+            refreshed = session.query(WorkOrder).filter(WorkOrder.id == wo_id).first()
+            if refreshed:
+                await notify_staff_estimate_decision(
+                    session,
+                    work_order=refreshed,
+                    decision="declined",
+                    decline_reason=reason,
+                )
+        finally:
+            session.close()
+
+    background_tasks.add_task(_notify)
+
+    return {"success": True, "decision": "declined", "decided_at": row.created_at.isoformat()}
+
+
+@router.get("/portal/work-orders/{work_order_id}/photos")
+async def list_portal_work_order_photos(
+    work_order_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    from app.services import work_order_photos_service as photos_svc
+
+    wo = db.query(WorkOrder).filter(
+        WorkOrder.id == work_order_id,
+        WorkOrder.client_id == client.id,
+    ).first()
+    if not wo:
+        raise HTTPException(status_code=404, detail="Work order not found")
+    rows = photos_svc.list_photos(db, wo.id)
+    return {"items": [photos_svc.photo_to_dict(r) for r in rows]}
+
+
+@router.post("/portal/work-orders/{work_order_id}/photos")
+async def upload_portal_work_order_photos(
+    work_order_id: str,
+    files: List[UploadFile] = File(...),
+    client: Client = Depends(get_portal_client),
+    login: ClientLogin = Depends(get_portal_client_login),
+    db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("POST /portal/work-orders/photos")),
+):
+    from app.services import work_order_photos_service as photos_svc
+
+    if len(files) > photos_svc.MAX_CUSTOMER_FILES_PER_BATCH:
+        raise HTTPException(status_code=400, detail="You can upload up to 6 files at a time.")
+
+    wo = db.query(WorkOrder).filter(
+        WorkOrder.id == work_order_id,
+        WorkOrder.client_id == client.id,
+    ).first()
+    if not wo:
+        raise HTTPException(status_code=404, detail="Work order not found")
+
+    if not client.user_id:
+        raise HTTPException(
+            status_code=400,
+            detail="Your account is not fully linked yet. Please call us to add photos.",
+        )
+
+    saved = []
+    try:
+        for upload in files:
+            content = await upload.read()
+            mime = upload.content_type or "application/octet-stream"
+            row = photos_svc.save_customer_portal_media(
+                db,
+                work_order_id=wo.id,
+                uploaded_by_user_id=client.user_id,
+                client_login_id=login.id if login else None,
+                file_bytes=content,
+                original_filename=upload.filename or "upload",
+                mime_type=mime,
+            )
+            saved.append(photos_svc.photo_to_dict(row))
+        db.commit()
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    return {"items": saved}
+
+
+@router.get("/portal/appliances/export.csv")
+async def export_portal_appliances_csv(
+    property_id: Optional[str] = None,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    from fastapi.responses import Response
+    from app.services.portal_property_export_service import appliances_csv
+
+    prop_uuid = None
+    if property_id:
+        try:
+            prop_uuid = uuid.UUID(property_id)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail="Invalid property id") from exc
+    body = appliances_csv(db, client, prop_uuid)
+    return Response(
+        content=body,
+        media_type="text/csv",
+        headers={"Content-Disposition": 'attachment; filename="appliances.csv"'},
+    )
+
+
+@router.get("/portal/appliances/repairs-export.csv")
+async def export_portal_repairs_csv(
+    property_id: Optional[str] = None,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    from fastapi.responses import Response
+    from app.services.portal_property_export_service import repairs_csv
+
+    prop_uuid = None
+    if property_id:
+        try:
+            prop_uuid = uuid.UUID(property_id)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail="Invalid property id") from exc
+    body = repairs_csv(db, client, prop_uuid)
+    return Response(
+        content=body,
+        media_type="text/csv",
+        headers={"Content-Disposition": 'attachment; filename="repair-history.csv"'},
+    )
+
+
+@router.get("/portal/appliances/export-print")
+async def export_portal_appliances_print(
+    property_id: Optional[str] = None,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    from fastapi.responses import HTMLResponse
+    from app.services.portal_property_export_service import appliances_print_html
+
+    prop_uuid = None
+    if property_id:
+        try:
+            prop_uuid = uuid.UUID(property_id)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail="Invalid property id") from exc
+    return HTMLResponse(appliances_print_html(db, client, prop_uuid))
