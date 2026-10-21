@@ -49,6 +49,16 @@ class PushNotificationSettings(BaseModel):
             include_assigned_technician=True,
         )
     )
+    portal_estimate_decision: PushNotificationRule = Field(
+        default_factory=lambda: PushNotificationRule(
+            recipients=PushRecipients(admin=True, manager=True, technician=False),
+        )
+    )
+    portal_customer_media: PushNotificationRule = Field(
+        default_factory=lambda: PushNotificationRule(
+            recipients=PushRecipients(admin=True, manager=True, technician=False),
+        )
+    )
     deploy_reminder: PushNotificationRule = Field(
         default_factory=lambda: PushNotificationRule(
             recipients=PushRecipients(admin=False, manager=False, technician=True),

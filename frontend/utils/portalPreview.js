@@ -98,8 +98,25 @@ export async function requestPortalPreviewUnlock(accessToken, adminClientId) {
 export function buildPortalApiUrl(endpoint, impersonateClientId = null) {
   const impersonateId = impersonateClientId || getPortalImpersonateClientId();
   const sep = endpoint.includes('?') ? '&' : '?';
-  if (impersonateId) {
-    return `${BACKEND}/api/portal/${endpoint}${sep}admin_client_id=${encodeURIComponent(impersonateId)}`;
+  const query = impersonateId
+    ? `${sep}admin_client_id=${encodeURIComponent(impersonateId)}`
+    : '';
+  const path = `api/portal/${endpoint}${query}`;
+  if (typeof window !== 'undefined') {
+    return `${window.location.origin}/api/proxy/${path}`;
   }
-  return `${BACKEND}/api/portal/${endpoint}`;
+  return `${BACKEND}/${path}`;
+}
+
+/** Binary / CSV / print exports (GET, blob or HTML). */
+export function buildPortalExportUrl(relativePath, extraQuery = {}) {
+  const impersonateId = getPortalImpersonateClientId();
+  const params = new URLSearchParams();
+  Object.entries(extraQuery).forEach(([key, value]) => {
+    if (value != null && value !== '') params.set(key, String(value));
+  });
+  if (impersonateId) params.set('admin_client_id', impersonateId);
+  const qs = params.toString();
+  const endpoint = `appliances/${relativePath}${qs ? `?${qs}` : ''}`;
+  return buildPortalApiUrl(endpoint);
 }

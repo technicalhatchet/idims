@@ -252,46 +252,15 @@ async def notify_staff_estimate_decision(
     signer_name: Optional[str] = None,
     decline_reason: Optional[str] = None,
 ) -> None:
-    from app.models.user import User as DBUser
-    from app.services.notification_service import NotificationService
+    from app.services.portal_staff_notify_service import notify_staff_estimate_decision as _notify
 
-    order = work_order.order_number or str(work_order.id)[:8]
-    if decision == "approved":
-        message = f"Estimate approved for WO #{order}: order parts"
-        if signer_name:
-            message = f"Estimate approved for WO #{order} by {signer_name}: order parts"
-    else:
-        reason = (decline_reason or "").strip()
-        message = f"Estimate declined for WO #{order}"
-        if signer_name:
-            message += f" by {signer_name}"
-        if reason:
-            message += f" — {reason}"
-
-    admins = db.query(DBUser).filter(DBUser.is_active.is_(True)).all()
-    admin_ids = [u.id for u in admins if u.is_admin]
-    for user_id in admin_ids:
-        try:
-            await NotificationService.create_notification(
-                db,
-                {
-                    "user_id": user_id,
-                    "title": "Estimate decision",
-                    "message": message,
-                    "type": "in_app",
-                    "reference_id": work_order.id,
-                    "related_type": "work_order",
-                },
-            )
-        except Exception:
-            logger.exception("Failed staff estimate notification user_id=%s", user_id)
-
-    try:
-        from app.services.web_push_service import notify_admins_push
-
-        notify_admins_push(title="Estimate decision", body=message)
-    except Exception:
-        logger.debug("Push notify skipped for estimate decision", exc_info=True)
+    await _notify(
+        db,
+        work_order=work_order,
+        decision=decision,
+        signer_name=signer_name,
+        decline_reason=decline_reason,
+    )
 
 
 def record_estimate_approval(

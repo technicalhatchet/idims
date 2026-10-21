@@ -16,6 +16,7 @@ import {
   TECHDECK_LOCKUP_SRC,
 } from '../../constants/techdeckBrandAssets';
 import TechDeckPwaHead from '../techdeck/TechDeckPwaHead';
+import TechDeckNotificationsBell from '../techdeck/TechDeckNotificationsBell';
 import {
   TECH_DMA_PATH,
   TECH_HOME,
@@ -276,16 +277,12 @@ export default function TechDashboardLayout({ children }) {
 
         {/* Notifications + Profile - position flips with rail */}
         <div className="flex items-center gap-2">
-          {/* Notifications Bell */}
-          <button
-            className="w-10 h-10 flex items-center justify-center rounded-lg transition-all hover:bg-white/5"
-            style={{ border: '1px solid rgba(255,255,255,0.07)' }}
-          >
-            <svg viewBox="0 0 24 24" width="20" height="20" style={{ stroke: '#9CA3AF', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-            </svg>
-          </button>
+          <TechDeckNotificationsBell
+            align={isRailOnRight ? 'left' : 'right'}
+            onOpenChange={(next) => {
+              if (next) setProfileOpen(false);
+            }}
+          />
 
           {/* Profile Dropdown */}
           <div className="relative" ref={profileRef}>
