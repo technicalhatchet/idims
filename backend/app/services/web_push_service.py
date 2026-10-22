@@ -81,7 +81,10 @@ def send_push_to_user(
         except WebPushException as exc:
             status_code = getattr(exc.response, "status_code", None) if exc.response else None
             logger.warning("Web push failed for subscription %s: %s (status=%s)", sub.id, exc, status_code)
-            if status_code in (404, 410):
+            # 410 Gone — subscription expired; remove so we stop hammering it.
+            if status_code == 410:
+                stale.append(sub)
+            elif status_code == 404:
                 stale.append(sub)
         except Exception as exc:
             logger.error("Unexpected web push error for subscription %s: %s", sub.id, exc)

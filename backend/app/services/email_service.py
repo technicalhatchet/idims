@@ -1,113 +1,157 @@
-from typing import Optional
-import uuid
-from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
-from pydantic import EmailStr
+from typing import Any, Dict, List, Optional
+import base64
 import logging
+import uuid
+
+import httpx
+from pydantic import EmailStr
+
 from app.config import settings
 
 logger = logging.getLogger(__name__)
 
+RESEND_API_URL = "https://api.resend.com/emails"
+
+
+def resolve_outbound_from_address(override: Optional[str] = None) -> str:
+    if override and "@" in override:
+        return override.strip()
+    for candidate in (settings.DEFAULT_FROM_EMAIL, settings.CONTACT_EMAIL):
+        if candidate and "@" in candidate:
+            return candidate.strip()
+    return "service@atomicrepair419.com"
+
 
 class EmailService:
-    _conf: Optional[ConnectionConfig] = None
+    @staticmethod
+    async def send_resend_email(
+        to_email: str,
+        subject: str,
+        html: str,
+        *,
+        from_email: Optional[str] = None,
+        reply_to: Optional[str] = None,
+        attachments: Optional[List[Dict[str, Any]]] = None,
+        timeout: float = 10.0,
+    ) -> bool:
+        """Send HTML email via Resend HTTP API."""
+        if not settings.RESEND_API_KEY:
+            logger.warning("RESEND_API_KEY not configured; cannot send email to %s", to_email)
+            return False
+        if not to_email or not subject:
+            return False
 
-    @classmethod
-    def _resolve_from_address(cls) -> Optional[str]:
-        for candidate in (settings.MAIL_FROM, settings.DEFAULT_FROM_EMAIL):
-            if candidate and "@" in candidate:
-                return candidate
-        return None
+        from_addr = resolve_outbound_from_address(from_email)
+        payload: Dict[str, Any] = {
+            "from": f"{settings.MAIL_FROM_NAME} <{from_addr}>",
+            "to": [to_email],
+            "subject": subject,
+            "html": html,
+        }
+        if reply_to:
+            payload["reply_to"] = reply_to
+        if attachments:
+            resend_attachments = []
+            for item in attachments:
+                filename = item.get("filename")
+                content = item.get("content")
+                if not filename or content is None:
+                    continue
+                if isinstance(content, bytes):
+                    encoded = base64.b64encode(content).decode("ascii")
+                else:
+                    encoded = str(content)
+                resend_attachments.append({"filename": filename, "content": encoded})
+            if resend_attachments:
+                payload["attachments"] = resend_attachments
 
-    @classmethod
-    def _get_conf(cls) -> Optional[ConnectionConfig]:
-        if cls._conf is not None:
-            return cls._conf
-        mail_from = cls._resolve_from_address()
-        if not mail_from or not settings.MAIL_USERNAME or not settings.MAIL_PASSWORD:
-            return None
-        cls._conf = ConnectionConfig(
-            MAIL_USERNAME=settings.MAIL_USERNAME,
-            MAIL_PASSWORD=settings.MAIL_PASSWORD,
-            MAIL_FROM=mail_from,
-            MAIL_PORT=settings.MAIL_PORT,
-            MAIL_SERVER=settings.MAIL_SERVER,
-            MAIL_FROM_NAME=settings.MAIL_FROM_NAME,
-            MAIL_STARTTLS=True,
-            MAIL_SSL_TLS=False,
-            USE_CREDENTIALS=True,
-        )
-        return cls._conf
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    RESEND_API_URL,
+                    headers={
+                        "Authorization": f"Bearer {settings.RESEND_API_KEY}",
+                        "Content-Type": "application/json",
+                    },
+                    json=payload,
+                    timeout=timeout,
+                )
+            if response.status_code in (200, 201):
+                return True
+            logger.error(
+                "Resend email failed: %s %s",
+                response.status_code,
+                response.text,
+            )
+            return False
+        except Exception as exc:
+            logger.exception("Resend email error to %s: %s", to_email, exc)
+            return False
+
+    @staticmethod
+    def send_resend_email_sync(
+        to_email: str,
+        subject: str,
+        html: str,
+        *,
+        from_email: Optional[str] = None,
+        timeout: float = 10.0,
+    ) -> bool:
+        """Sync Resend send for BackgroundTasks / Celery (off the main event loop)."""
+        if not settings.RESEND_API_KEY or not to_email:
+            return False
+        from_addr = resolve_outbound_from_address(from_email)
+        payload = {
+            "from": f"{settings.MAIL_FROM_NAME} <{from_addr}>",
+            "to": [to_email],
+            "subject": subject,
+            "html": html,
+        }
+        try:
+            response = httpx.post(
+                RESEND_API_URL,
+                headers={
+                    "Authorization": f"Bearer {settings.RESEND_API_KEY}",
+                    "Content-Type": "application/json",
+                },
+                json=payload,
+                timeout=timeout,
+            )
+            return response.status_code in (200, 201)
+        except Exception as exc:
+            logger.exception("Resend sync email error to %s: %s", to_email, exc)
+            return False
 
     @staticmethod
     async def send_quote_email(
         quote_id: uuid.UUID,
         recipient_email: EmailStr,
-        message: Optional[str] = None
+        message: Optional[str] = None,
     ) -> bool:
-        """
-        Send a quote email to a client.
-        """
-        try:
-            # TODO: Fetch quote details from database
-            # For now, using placeholder data
-            subject = f"Quote #{quote_id}"
-            body = message or "Please find attached your quote for review."
-            
-            message = MessageSchema(
-                subject=subject,
-                recipients=[recipient_email],
-                body=body,
-                subtype="html"
-            )
-            
-            conf = EmailService._get_conf()
-            if not conf:
-                logger.warning("Email not configured; skipping quote email")
-                return False
-
-            fm = FastMail(conf)
-            await fm.send_message(message)
-            return True
-            
-        except Exception as e:
-            logger.exception("Error sending quote email: %s", e)
-            return False
+        subject = f"Quote #{quote_id}"
+        body = message or "Please find attached your quote for review."
+        return await EmailService.send_resend_email(
+            str(recipient_email),
+            subject,
+            f"<p>{body}</p>",
+        )
 
     @staticmethod
     async def send_quote_status_update_email(
         quote_id: uuid.UUID,
         recipient_email: EmailStr,
         status: str,
-        message: Optional[str] = None
+        message: Optional[str] = None,
     ) -> bool:
-        """
-        Send an email notification about quote status updates.
-        """
-        try:
-            subject = f"Quote #{quote_id} Status Update"
-            body = f"Your quote status has been updated to {status}."
-            if message:
-                body += f"\n\nAdditional information: {message}"
-            
-            message = MessageSchema(
-                subject=subject,
-                recipients=[recipient_email],
-                body=body,
-                subtype="html"
-            )
-            
-            conf = EmailService._get_conf()
-            if not conf:
-                logger.warning("Email not configured; skipping quote status email")
-                return False
-
-            fm = FastMail(conf)
-            await fm.send_message(message)
-            return True
-            
-        except Exception as e:
-            logger.exception("Error sending quote status update email: %s", e)
-            return False
+        subject = f"Quote #{quote_id} Status Update"
+        body = f"Your quote status has been updated to {status}."
+        if message:
+            body += f"<br><br>Additional information: {message}"
+        return await EmailService.send_resend_email(
+            str(recipient_email),
+            subject,
+            f"<p>{body}</p>",
+        )
 
     @staticmethod
     async def send_invoice_pdf_email(
@@ -118,23 +162,9 @@ class EmailService:
         *,
         filename: Optional[str] = None,
     ) -> bool:
-        """
-        Email a work-order invoice PDF via Resend (same provider as portal invites).
-        """
-        import base64
-
-        import httpx
-
-        from app.config import settings
-
-        if not settings.RESEND_API_KEY:
-            logger.warning("RESEND_API_KEY not configured; cannot send invoice email")
-            return False
-
         if not to_email:
             return False
 
-        from_addr = settings.CONTACT_EMAIL or "service@atomicrepair419.com"
         safe_name = recipient_name.strip() or "there"
         attach_name = filename or f"invoice-{order_number}.pdf"
         html = f"""
@@ -146,35 +176,13 @@ class EmailService:
           <p style="color:#6b7280;font-size:0.75rem;margin-top:1.5rem;">Thank you for choosing Atomic Repair.</p>
         </div>
         """
-
-        try:
-            response = httpx.post(
-                "https://api.resend.com/emails",
-                headers={
-                    "Authorization": f"Bearer {settings.RESEND_API_KEY}",
-                    "Content-Type": "application/json",
-                },
-                json={
-                    "from": f"Atomic Repair <{from_addr}>",
-                    "to": [to_email],
-                    "subject": f"Atomic Repair Invoice #{order_number}",
-                    "html": html,
-                    "attachments": [
-                        {
-                            "filename": attach_name,
-                            "content": base64.b64encode(pdf_bytes).decode("ascii"),
-                        }
-                    ],
-                },
-                timeout=30.0,
-            )
-            if response.status_code in (200, 201):
-                return True
-            logger.error("Resend invoice email failed: %s %s", response.status_code, response.text)
-            return False
-        except Exception as e:
-            logger.exception("Error sending invoice email: %s", e)
-            return False
+        return await EmailService.send_resend_email(
+            to_email,
+            f"Atomic Repair Invoice #{order_number}",
+            html,
+            attachments=[{"filename": attach_name, "content": pdf_bytes}],
+            timeout=30.0,
+        )
 
     @staticmethod
     async def send_work_order_document_pdf_email(
@@ -186,23 +194,11 @@ class EmailService:
         doc_type: str = "invoice",
         filename: Optional[str] = None,
     ) -> bool:
-        """Email a work-order invoice or estimate PDF via Resend."""
-        import base64
-
-        import httpx
-
-        from app.config import settings
-
-        if not settings.RESEND_API_KEY:
-            logger.warning("RESEND_API_KEY not configured; cannot send document email")
-            return False
-
         if not to_email:
             return False
 
         doc_label = "Invoice" if doc_type == "invoice" else "Estimate"
         doc_lower = doc_label.lower()
-        from_addr = settings.CONTACT_EMAIL or "service@atomicrepair419.com"
         safe_name = recipient_name.strip() or "there"
         attach_name = filename or f"{doc_lower}-{order_number}.pdf"
         html = f"""
@@ -214,32 +210,10 @@ class EmailService:
           <p style="color:#6b7280;font-size:0.75rem;margin-top:1.5rem;">Thank you for choosing Atomic Repair.</p>
         </div>
         """
-
-        try:
-            response = httpx.post(
-                "https://api.resend.com/emails",
-                headers={
-                    "Authorization": f"Bearer {settings.RESEND_API_KEY}",
-                    "Content-Type": "application/json",
-                },
-                json={
-                    "from": f"Atomic Repair <{from_addr}>",
-                    "to": [to_email],
-                    "subject": f"Atomic Repair {doc_label} #{order_number}",
-                    "html": html,
-                    "attachments": [
-                        {
-                            "filename": attach_name,
-                            "content": base64.b64encode(pdf_bytes).decode("ascii"),
-                        }
-                    ],
-                },
-                timeout=30.0,
-            )
-            if response.status_code in (200, 201):
-                return True
-            logger.error("Resend document email failed: %s %s", response.status_code, response.text)
-            return False
-        except Exception as e:
-            logger.exception("Error sending document email: %s", e)
-            return False
+        return await EmailService.send_resend_email(
+            to_email,
+            f"Atomic Repair {doc_label} #{order_number}",
+            html,
+            attachments=[{"filename": attach_name, "content": pdf_bytes}],
+            timeout=30.0,
+        )

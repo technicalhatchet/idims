@@ -113,14 +113,7 @@ class Settings(BaseModel):
     MAX_UPLOAD_SIZE: int = 10 * 1024 * 1024
     ALLOWED_EXTENSIONS: List[str] = ["pdf", "doc", "docx", "xls", "xlsx", "jpg", "jpeg", "png"]
     
-    # Email settings — all from env vars
-    MAIL_SERVER: str = Field(default_factory=lambda: os.getenv("MAIL_SERVER", "smtp.zoho.com"))
-    MAIL_PORT: int = 465
-    MAIL_USE_TLS: bool = False
-    MAIL_USE_SSL: bool = True
-    MAIL_USERNAME: str = Field(default_factory=lambda: os.getenv("MAIL_USERNAME", ""))
-    MAIL_PASSWORD: str = Field(default_factory=lambda: os.getenv("MAIL_PASSWORD", ""))
-    MAIL_FROM: str = Field(default_factory=lambda: os.getenv("MAIL_FROM", ""))
+    # Transactional email (Resend)
     MAIL_FROM_NAME: str = "Atomic Repair"
     RESEND_API_KEY: str = Field(default_factory=lambda: os.getenv("RESEND_API_KEY", ""))
     PORTAL_INVITE_SECRET: str = Field(default_factory=lambda: os.getenv("PORTAL_INVITE_SECRET", ""))
@@ -230,12 +223,13 @@ class Settings(BaseModel):
     FEATURE_AUDIT: bool = True
     FEATURE_BACKUP: bool = True
     
-    # Email provider settings
-    EMAIL_PROVIDER: str = "zoho"
+    # Email provider settings (NotificationService)
+    EMAIL_PROVIDER: str = Field(
+        default_factory=lambda: os.getenv("EMAIL_PROVIDER", "resend").lower(),
+    )
     SENDGRID_API_KEY: str = Field(default_factory=lambda: os.getenv("SENDGRID_API_KEY", ""))
     MAILGUN_API_KEY: str = Field(default_factory=lambda: os.getenv("MAILGUN_API_KEY", ""))
     MAILGUN_DOMAIN: str = ""
-    RESEND_API_KEY: str = Field(default_factory=lambda: os.getenv("RESEND_API_KEY", ""))
     
     # Company/Site Information
     SITE_NAME: str = "Atomic Repair"
@@ -244,7 +238,11 @@ class Settings(BaseModel):
         default_factory=lambda: os.getenv("LOGO_URL")
         or f"{_default_frontend_url()}/arneonpano800.webp"
     )
-    DEFAULT_FROM_EMAIL: str = Field(default_factory=lambda: os.getenv("MAIL_FROM", ""))
+    DEFAULT_FROM_EMAIL: str = Field(
+        default_factory=lambda: os.getenv("DEFAULT_FROM_EMAIL")
+        or os.getenv("CONTACT_EMAIL")
+        or "service@atomicrepair419.com",
+    )
     
     # URL settings — used in emails, invites, OAuth redirects
     FRONTEND_URL: str = Field(default_factory=_default_frontend_url)

@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 from app.frontend_site_urls import build_frontend_url
 from app.models.user import User as DBUser
 from app.models.work_order import WorkOrder
+from app.services.notification_delivery import deliver_resend_email, deliver_sync_in_threadpool
 from app.services.notification_service import NotificationService
 
 logger = logging.getLogger(__name__)
@@ -56,7 +57,7 @@ async def _email_ops(subject: str, body_html: str) -> None:
     if not to:
         return
     try:
-        await NotificationService.send_email(to, subject, body_html)
+        await deliver_resend_email(to, subject, body_html)
     except Exception:
         logger.exception("Portal ops email failed to=%s subject=%s", to, subject)
 
@@ -119,7 +120,8 @@ async def notify_staff_estimate_decision(
     await _email_ops(email_subject, body_html)
 
     try:
-        _push_for_work_order(
+        await deliver_sync_in_threadpool(
+            _push_for_work_order,
             db,
             rule_key="portal_estimate_decision",
             title="Estimate decision",
@@ -155,7 +157,8 @@ async def notify_staff_customer_media_upload(
     await _email_ops(email_subject, body_html)
 
     try:
-        _push_for_work_order(
+        await deliver_sync_in_threadpool(
+            _push_for_work_order,
             db,
             rule_key="portal_customer_media",
             title="Customer media",

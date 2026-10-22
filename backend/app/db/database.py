@@ -17,7 +17,7 @@ engine = create_engine(
     pool_size=10,  # Increased from 5
     max_overflow=20,  # Increased from 10
     pool_timeout=30,
-    pool_recycle=60,  # Recycle connections every 60 seconds
+    pool_recycle=300,  # Recycle connections before Supabase idle timeout
     pool_reset_on_return='rollback',
     connect_args={
         'keepalives': 1,

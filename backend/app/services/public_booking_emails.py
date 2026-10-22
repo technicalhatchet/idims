@@ -6,10 +6,10 @@ import html
 import logging
 from typing import Optional
 
-import httpx
 from sqlalchemy.orm import Session
 
 from app.config import resolve_email_logo_url, settings
+from app.services.email_service import EmailService
 from app.models.client import Client
 from app.models.work_order import WorkOrder, WorkOrderAppointment
 
@@ -23,23 +23,15 @@ def _is_real_customer_email(email: Optional[str]) -> bool:
 
 
 def _send_resend_html(to_email: str, subject: str, html_body: str) -> None:
-    if not settings.RESEND_API_KEY:
-        logger.warning("RESEND_API_KEY not configured; skipping email to %s", to_email)
-        return
-    httpx.post(
-        "https://api.resend.com/emails",
-        headers={
-            "Authorization": f"Bearer {settings.RESEND_API_KEY}",
-            "Content-Type": "application/json",
-        },
-        json={
-            "from": "Atomic Repair <booking@atomicrepair419.com>",
-            "to": to_email,
-            "subject": subject,
-            "html": html_body,
-        },
+    ok = EmailService.send_resend_email_sync(
+        to_email,
+        subject,
+        html_body,
+        from_email="booking@atomicrepair419.com",
         timeout=30.0,
     )
+    if not ok:
+        logger.warning("Resend booking email failed for %s", to_email)
 
 
 def _email_shell(inner_rows: str) -> str:
