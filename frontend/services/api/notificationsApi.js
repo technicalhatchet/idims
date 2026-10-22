@@ -15,14 +15,14 @@ export async function getNotifications(params = {}) {
   
   if (is_read !== undefined) queryParams.append('is_read', is_read);
   
-  return apiClient(`${API_URL}/api/notifications?${queryParams.toString()}`);
+  return apiClient(`${API_URL}/api/notifications/notifications?${queryParams.toString()}`);
 }
 
 /**
  * Mark notification as read
  */
 export async function markNotificationAsRead(id) {
-  return apiClient(`${API_URL}/api/notifications/${id}/read`, {
+  return apiClient(`${API_URL}/api/notifications/notifications/${id}/read`, {
     method: 'PUT',
   });
 }
@@ -31,7 +31,7 @@ export async function markNotificationAsRead(id) {
  * Mark all notifications as read
  */
 export async function markAllNotificationsAsRead() {
-  return apiClient(`${API_URL}/api/notifications/read-all`, {
+  return apiClient(`${API_URL}/api/notifications/notifications/read-all`, {
     method: 'PUT',
   });
 }

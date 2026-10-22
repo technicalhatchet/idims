@@ -8,7 +8,7 @@ export function useNotificationsApi() {
     if (!apiClient) return [];
     
     try {
-      const response = await apiClient('/notifications', {
+      const response = await apiClient('/notifications/notifications', {
         params
       });
       return response;
@@ -22,7 +22,7 @@ export function useNotificationsApi() {
     if (!apiClient) return;
     
     try {
-      const response = await apiClient(`/notifications/${notificationId}/read`, {
+      const response = await apiClient(`/notifications/notifications/${notificationId}/read`, {
         method: 'PUT'
       });
       return response;
@@ -36,7 +36,7 @@ export function useNotificationsApi() {
     if (!apiClient) return;
     
     try {
-      const response = await apiClient('/notifications/read-all', {
+      const response = await apiClient('/notifications/notifications/read-all', {
         method: 'PUT'
       });
       return response;
