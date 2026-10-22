@@ -204,7 +204,7 @@ export default function ClientDashboard() {
   const [clientsLoading, setClientsLoading] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null); // { id, first_name, last_name, company_name }
   const [accessToken, setAccessToken] = useState(null);
-  const [accountBlocked, setAccountBlocked] = useState(null);
+  const [accountBlocked, setAccountBlocked] = useState(null); // { detail, needsSignOut? }
   const [linkRetrying, setLinkRetrying] = useState(false);
 
   async function runPortalLinkFlow(token, session, { adminUser, staffUser, hasClientRole }) {
@@ -246,9 +246,10 @@ export default function ClientDashboard() {
       if (hasPortalTokenRefreshBeenAttempted()) {
         return {
           ok: false,
+          needsSignOut: true,
           blockedMessage:
-            'Your account is linked, but your session does not include portal access yet. '
-            + 'Log out completely, then sign in again. If it still fails, contact support.',
+            'Your account is linked on our side, but your login session does not include portal access yet. '
+            + 'Sign out completely, then sign in again. If it still fails, contact support.',
         };
       }
       redirectToRefreshPortalToken();
@@ -324,7 +325,10 @@ export default function ClientDashboard() {
         return;
       }
       if (!linkOutcome.ok && !linkOutcome.skipped) {
-        setAccountBlocked({ detail: linkOutcome.blockedMessage });
+        setAccountBlocked({
+          detail: linkOutcome.blockedMessage,
+          needsSignOut: Boolean(linkOutcome.needsSignOut),
+        });
         setLoading(false);
         return;
       }
@@ -337,6 +341,16 @@ export default function ClientDashboard() {
         }
         const refreshed = await fetch('/api/auth/session').then((r) => (r.ok ? r.json() : session));
         hasClientRoleNow = getSessionRoles(refreshed).includes('client');
+        if (!hasClientRoleNow) {
+          setAccountBlocked({
+            needsSignOut: true,
+            detail:
+              'Your account is linked on our side, but your login session does not include portal access yet. '
+              + 'Sign out completely, then sign in again. If it still fails, contact support.',
+          });
+          setLoading(false);
+          return;
+        }
       }
 
       if (adminUser) {
@@ -382,6 +396,19 @@ export default function ClientDashboard() {
       }
 
       if (!hasClientRoleNow) {
+        if (
+          linkOutcome.linkResult?.data?.role_assigned
+          && hasPortalTokenRefreshBeenAttempted()
+        ) {
+          setAccountBlocked({
+            needsSignOut: true,
+            detail:
+              'Your account is linked on our side, but your login session does not include portal access yet. '
+              + 'Sign out completely, then sign in again. If it still fails, contact support.',
+          });
+          setLoading(false);
+          return;
+        }
         const allowed = await ensureClientPortalAccess(token, session, {
           hasClientRole: hasClientRoleNow,
         });
@@ -461,6 +488,7 @@ export default function ClientDashboard() {
     return (
       <PortalAccountLinkBlocked
         detail={accountBlocked.detail}
+        needsSignOut={accountBlocked.needsSignOut}
         onRetry={handleRetryLinkAccount}
         retrying={linkRetrying}
       />

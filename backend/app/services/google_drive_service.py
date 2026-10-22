@@ -336,6 +336,63 @@ def _ensure_folder(service, parent_id: str, name: str) -> Optional[str]:
         return None
 
 
+def upload_file_to_existing_folder(
+    *,
+    folder_id: str,
+    file_bytes: bytes,
+    filename: str,
+    mime_type: str,
+) -> Optional[Tuple[str, str, str]]:
+    """Upload into an existing Drive folder. Returns (file_id, web_view_link, folder_id)."""
+    parent_id = (folder_id or "").strip()
+    if not parent_id:
+        _set_drive_failure("Google Drive folder id is required")
+        return None
+
+    service = _drive_service()
+    if not service:
+        _set_drive_failure("Google Drive client could not be initialized")
+        return None
+
+    try:
+        from googleapiclient.errors import HttpError
+        from googleapiclient.http import MediaIoBaseUpload
+
+        media_upload = MediaIoBaseUpload(
+            io.BytesIO(file_bytes),
+            mimetype=mime_type or "application/octet-stream",
+            resumable=True,
+        )
+        created = (
+            service.files()
+            .create(
+                body={"name": filename, "parents": [parent_id]},
+                media_body=media_upload,
+                fields="id, webViewLink",
+                supportsAllDrives=True,
+            )
+            .execute()
+        )
+    except HttpError as exc:
+        reason = f"Google Drive upload failed for {filename}: {exc}"
+        logger.error(reason)
+        _set_drive_failure(reason)
+        return None
+    except Exception as exc:
+        reason = f"Google Drive upload failed for {filename}: {exc}"
+        logger.error(reason)
+        _set_drive_failure(reason)
+        return None
+
+    file_id = created.get("id")
+    link = created.get("webViewLink")
+    if not file_id:
+        _set_drive_failure(f"Google Drive upload for {filename} returned no file id")
+        return None
+    _clear_drive_failure()
+    return file_id, link, parent_id
+
+
 def upload_file_to_drive(
     *,
     root_folder_id: str,
@@ -439,7 +496,15 @@ def upload_photo_to_drive(
     mime_type: str,
     order_number: str,
     year: int,
+    existing_folder_id: Optional[str] = None,
 ) -> Optional[Tuple[str, str, str]]:
+    if existing_folder_id:
+        return upload_file_to_existing_folder(
+            folder_id=existing_folder_id,
+            file_bytes=file_bytes,
+            filename=filename,
+            mime_type=mime_type,
+        )
     return upload_file_to_drive(
         root_folder_id=settings.GOOGLE_DRIVE_PHOTOS_ROOT_FOLDER_ID,
         file_bytes=file_bytes,
