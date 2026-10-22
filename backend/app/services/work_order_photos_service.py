@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 from typing import List, Optional
 from uuid import UUID
@@ -22,6 +22,29 @@ from app.services.google_drive_service import (
 logger = logging.getLogger(__name__)
 
 MODEL_SN_TAG_LABEL = "Model SN tag"
+
+
+def work_order_photo_year(wo: WorkOrder) -> int:
+    created = getattr(wo, "created_at", None)
+    if isinstance(created, datetime):
+        return created.year
+    return date.today().year
+
+
+def existing_work_order_drive_folder_id(db: Session, work_order_id: UUID) -> Optional[str]:
+    row = (
+        db.query(WorkOrderPhoto)
+        .filter(
+            WorkOrderPhoto.work_order_id == work_order_id,
+            WorkOrderPhoto.drive_folder_id.isnot(None),
+            WorkOrderPhoto.drive_folder_id != "",
+        )
+        .order_by(WorkOrderPhoto.created_at.asc())
+        .first()
+    )
+    if not row or not row.drive_folder_id:
+        return None
+    return row.drive_folder_id
 
 
 def list_photos(db: Session, work_order_id: UUID) -> List[WorkOrderPhoto]:
@@ -148,7 +171,8 @@ def save_photo(
         original_filename,
         is_model_sn_tag=is_model_sn_tag,
     )
-    year = date.today().year
+    year = work_order_photo_year(wo)
+    existing_folder_id = existing_work_order_drive_folder_id(db, work_order_id)
 
     drive_result = upload_photo_to_drive(
         file_bytes=file_bytes,
@@ -156,6 +180,7 @@ def save_photo(
         mime_type=mime_type,
         order_number=order_number,
         year=year,
+        existing_folder_id=existing_folder_id,
     )
 
     if drive_result:
@@ -243,7 +268,8 @@ def save_customer_portal_media(
 
     order_number = wo.order_number or str(work_order_id)[:8]
     filename = build_photo_filename(order_number, description or "customer", original_filename)
-    year = date.today().year
+    year = work_order_photo_year(wo)
+    existing_folder_id = existing_work_order_drive_folder_id(db, work_order_id)
 
     drive_result = upload_photo_to_drive(
         file_bytes=file_bytes,
@@ -251,6 +277,7 @@ def save_customer_portal_media(
         mime_type=mime_type,
         order_number=order_number,
         year=year,
+        existing_folder_id=existing_folder_id,
     )
 
     if drive_result:

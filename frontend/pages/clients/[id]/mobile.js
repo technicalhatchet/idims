@@ -26,6 +26,10 @@ import { useUserRole } from '../../../context/UserRoleContext';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
 import ClientAppliancesPanel from '../../../components/clients/ClientAppliancesPanel';
 import { techWorkOrderDetailPath, techWorkOrderNewPath } from '../../../lib/techRoutes';
+import {
+  buildPortalInviteSmsBody,
+  buildPortalInviteSmsUrl,
+} from '../../../utils/portalInviteSms';
 
 const formatPhoneNumber = (phoneNumberString) => {
   if (!phoneNumberString) return '';
@@ -276,6 +280,8 @@ function ClientDetail() {
     sendEmail: true,
   });
   const [invitePersonLoading, setInvitePersonLoading] = useState(false);
+  const [cellInviteShare, setCellInviteShare] = useState(null);
+  const [cellInviteLinkCopied, setCellInviteLinkCopied] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [emailError, setEmailError] = useState(null);
   const [properties, setProperties] = useState([]);
@@ -1438,9 +1444,12 @@ function ClientDetail() {
               <p className="text-xs text-gray-400 uppercase tracking-wide m-0">Invite person</p>
               <input
                 type="text"
-                placeholder="Name on account"
+                placeholder="Their name (e.g. Mike)"
                 value={invitePersonForm.displayName}
-                onChange={(e) => setInvitePersonForm((p) => ({ ...p, displayName: e.target.value }))}
+                onChange={(e) => {
+                  setCellInviteShare(null);
+                  setInvitePersonForm((p) => ({ ...p, displayName: e.target.value }));
+                }}
                 className="w-full px-3 py-2 rounded-md text-sm text-white"
                 style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(34, 211, 238, 0.2)' }}
               />
@@ -1448,7 +1457,10 @@ function ClientDetail() {
                 type="email"
                 placeholder="Email (optional)"
                 value={invitePersonForm.email}
-                onChange={(e) => setInvitePersonForm((p) => ({ ...p, email: e.target.value }))}
+                onChange={(e) => {
+                  setCellInviteShare(null);
+                  setInvitePersonForm((p) => ({ ...p, email: e.target.value }));
+                }}
                 className="w-full px-3 py-2 rounded-md text-sm text-white"
                 style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(34, 211, 238, 0.2)' }}
               />
@@ -1456,18 +1468,41 @@ function ClientDetail() {
                 type="tel"
                 placeholder="Cell (optional)"
                 value={invitePersonForm.phone}
-                onChange={(e) => setInvitePersonForm((p) => ({ ...p, phone: e.target.value }))}
+                onChange={(e) => {
+                  setCellInviteShare(null);
+                  setInvitePersonForm((p) => ({ ...p, phone: e.target.value }));
+                }}
                 className="w-full px-3 py-2 rounded-md text-sm text-white"
                 style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(34, 211, 238, 0.2)' }}
               />
               <button
                 type="button"
-                disabled={invitePersonLoading || !invitePersonForm.displayName.trim()}
+                disabled={
+                  invitePersonLoading
+                  || !invitePersonForm.displayName.trim()
+                  || (!invitePersonForm.email.trim() && !invitePersonForm.phone.trim())
+                }
                 onClick={async () => {
                   setInvitePersonLoading(true);
                   setEmailError(null);
+                  setCellInviteShare(null);
+                  setCellInviteLinkCopied(false);
+                  const email = invitePersonForm.email.trim();
+                  const phone = invitePersonForm.phone.trim();
                   try {
-                    await invitePortalPerson(id, invitePersonForm);
+                    const result = await invitePortalPerson(id, {
+                      ...invitePersonForm,
+                      email,
+                      phone,
+                      sendEmail: Boolean(email),
+                    });
+                    if (!email && phone && result?.url) {
+                      setCellInviteShare({
+                        url: result.url,
+                        phone,
+                        displayName: invitePersonForm.displayName.trim(),
+                      });
+                    }
                     setInvitePersonForm({ displayName: '', email: '', phone: '', sendEmail: true });
                     await refreshPortalAccess();
                   } catch (e) {
@@ -1481,6 +1516,42 @@ function ClientDetail() {
               >
                 {invitePersonLoading ? 'Sending...' : 'Invite person'}
               </button>
+              {cellInviteShare ? (
+                <div
+                  className="mt-2 p-3 rounded-md space-y-2 text-left"
+                  style={{ background: 'rgba(34, 211, 238, 0.08)', border: '1px solid rgba(34, 211, 238, 0.25)' }}
+                >
+                  <p className="text-xs text-cyan-200 m-0 font-semibold">Send this link to {cellInviteShare.displayName}</p>
+                  <p className="text-[11px] text-gray-400 m-0 break-all">{cellInviteShare.url}</p>
+                  <div className="flex flex-col gap-2">
+                    <button
+                      type="button"
+                      className="w-full py-2 rounded-md text-xs font-bold uppercase tracking-wide text-cyan-200"
+                      style={{ border: '1px solid rgba(34, 211, 238, 0.4)' }}
+                      onClick={async () => {
+                        await navigator.clipboard.writeText(cellInviteShare.url);
+                        setCellInviteLinkCopied(true);
+                        setTimeout(() => setCellInviteLinkCopied(false), 4000);
+                      }}
+                    >
+                      {cellInviteLinkCopied ? 'Copied!' : 'Copy link'}
+                    </button>
+                    <a
+                      href={buildPortalInviteSmsUrl(
+                        cellInviteShare.phone,
+                        buildPortalInviteSmsBody({
+                          inviteeName: cellInviteShare.displayName,
+                          inviteUrl: cellInviteShare.url,
+                        }),
+                      ) || '#'}
+                      className="w-full py-2 rounded-md text-xs font-bold uppercase tracking-wide text-center text-purple-200"
+                      style={{ border: '1px solid rgba(147, 51, 234, 0.5)' }}
+                    >
+                      Text from my phone
+                    </a>
+                  </div>
+                </div>
+              ) : null}
             </div>
             <p className="text-sm text-gray-400 mb-4">
               Legacy: generic link or email to the primary client email on file.

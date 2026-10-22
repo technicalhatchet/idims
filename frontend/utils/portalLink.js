@@ -137,10 +137,8 @@ export function shouldRefreshPortalToken(linkResult, hasClientRoleInToken) {
   if (hasClientRoleInToken) return false;
   if (linkResultNeedsFinishProfile(linkResult)) return false;
   if (!linkResult?.ok || !linkResult.data?.role_assigned) return false;
-  return Boolean(
-    linkResult.data.role_newly_assigned
-    || (!linkResult.data.already_linked && linkResult.data.link_method),
-  );
+  // Backend assigned client role; JWT may still be stale (e.g. already_linked + role_newly_assigned false).
+  return true;
 }
 
 export function markPortalTokenRefreshAttempted() {
