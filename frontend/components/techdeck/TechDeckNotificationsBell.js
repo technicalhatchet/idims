@@ -42,7 +42,7 @@ export default function TechDeckNotificationsBell({
   const loadNotifications = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await apiClient('/notifications?limit=20');
+      const data = await apiClient('/notifications/notifications?limit=20');
       const list = data?.notifications || [];
       setItems(list);
       setUnreadCount(
@@ -75,7 +75,7 @@ export default function TechDeckNotificationsBell({
   const markRead = async (notification) => {
     if (!notification?.id || notification.is_read) return;
     try {
-      await apiClient(`/notifications/${notification.id}/read`, { method: 'PUT' });
+      await apiClient(`/notifications/notifications/${notification.id}/read`, { method: 'PUT' });
       setItems((prev) =>
         prev.map((n) => (n.id === notification.id ? { ...n, is_read: true } : n))
       );
@@ -95,7 +95,7 @@ export default function TechDeckNotificationsBell({
 
   const markAllRead = async () => {
     try {
-      await apiClient('/notifications/read-all', { method: 'PUT' });
+      await apiClient('/notifications/notifications/read-all', { method: 'PUT' });
       setItems((prev) => prev.map((n) => ({ ...n, is_read: true })));
       setUnreadCount(0);
     } catch (err) {
