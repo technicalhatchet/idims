@@ -95,17 +95,32 @@ export async function requestPortalPreviewUnlock(accessToken, adminClientId) {
   return data;
 }
 
-export function buildPortalApiUrl(endpoint, impersonateClientId = null) {
+function portalApiPathWithQuery(endpoint, impersonateClientId = null) {
   const impersonateId = impersonateClientId || getPortalImpersonateClientId();
   const sep = endpoint.includes('?') ? '&' : '?';
   const query = impersonateId
     ? `${sep}admin_client_id=${encodeURIComponent(impersonateId)}`
     : '';
-  const path = `api/portal/${endpoint}${query}`;
+  return `api/portal/${endpoint}${query}`;
+}
+
+/** JSON portal API via same-origin BFF proxy (avoids CORS for typical fetch calls). */
+export function buildPortalApiUrl(endpoint, impersonateClientId = null) {
+  const path = portalApiPathWithQuery(endpoint, impersonateClientId);
   if (typeof window !== 'undefined') {
     return `${window.location.origin}/api/proxy/${path}`;
   }
-  return `${BACKEND}/${path}`;
+  const base = BACKEND.replace(/\/$/, '');
+  return `${base}/${path}`;
+}
+
+/**
+ * Multipart / large uploads: browser → Railway API directly (proxy re-stringifies bodies and Vercel caps ~4.5 MB).
+ */
+export function buildPortalDirectApiUrl(endpoint, impersonateClientId = null) {
+  const path = portalApiPathWithQuery(endpoint, impersonateClientId);
+  const base = BACKEND.replace(/\/$/, '');
+  return `${base}/${path}`;
 }
 
 /** Binary / CSV / print exports (GET, blob or HTML). */
