@@ -64,6 +64,29 @@ def test_cors_preflight_unknown_origin():
     assert response.headers.get("access-control-allow-origin") != "https://evil.example.com"
 
 
+def test_cors_preflight_portal_photo_upload_from_portal_host():
+    from fastapi.testclient import TestClient
+
+    from app.main import app
+
+    client = TestClient(app)
+    response = client.options(
+        "/api/portal/work-orders/00000000-0000-0000-0000-000000000001/photos",
+        headers={
+            "Origin": "https://portal.atomicrepair419.com",
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "authorization,x-portal-preview-unlock",
+        },
+    )
+    assert response.status_code == 200
+    assert (
+        response.headers.get("access-control-allow-origin")
+        == "https://portal.atomicrepair419.com"
+    )
+    allow_headers = (response.headers.get("access-control-allow-headers") or "").lower()
+    assert "authorization" in allow_headers
+
+
 def test_cors_get_with_bearer_style_origin():
     from fastapi.testclient import TestClient
 

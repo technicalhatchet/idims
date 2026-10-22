@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import { FaCamera, FaVideo } from 'react-icons/fa';
-import { buildPortalApiUrl } from '../../utils/portalPreview';
-import { getPortalPreviewUnlockHeaders } from '../../utils/portalPreview';
+import { buildPortalDirectApiUrl, getPortalPreviewUnlockHeaders } from '../../utils/portalPreview';
 import { getPortalSessionToken } from '../../utils/portalFetch';
 
 const ACCEPT = 'image/jpeg,image/png,image/webp,video/mp4,video/quicktime';
@@ -56,7 +55,7 @@ export default function PortalCustomerMediaUpload({ workOrderId, onUploaded }) {
       const token = await getPortalSessionToken();
       const form = new FormData();
       slice.forEach((f) => form.append('files', f));
-      const url = buildPortalApiUrl(`work-orders/${workOrderId}/photos`);
+      const url = buildPortalDirectApiUrl(`work-orders/${workOrderId}/photos`);
       const res = await fetch(url, {
         method: 'POST',
         headers: {
