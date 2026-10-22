@@ -13,9 +13,7 @@ from app.models.quote import Quote
 import uuid
 import jinja2
 import os
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+from app.services.notification_delivery import deliver_sync_in_threadpool
 
 logger = logging.getLogger(__name__)
 
@@ -51,9 +49,16 @@ class NotificationService:
                 return await NotificationService._send_ses_email(
                     to_email, subject, content, from_email, reply_to, attachments
                 )
-            elif provider == "zoho":
-                return await NotificationService._send_zoho_email(
-                    to_email, subject, content, from_email, reply_to, attachments
+            elif provider == "resend":
+                from app.services.email_service import EmailService
+
+                return await EmailService.send_resend_email(
+                    to_email,
+                    subject,
+                    content,
+                    from_email=from_email,
+                    reply_to=reply_to,
+                    attachments=attachments,
                 )
             else:
                 logger.error(f"Unsupported email provider: {provider}")
@@ -197,45 +202,6 @@ class NotificationService:
             return False
     
     @staticmethod
-    async def _send_zoho_email(
-        to_email: str,
-        subject: str,
-        content: str,
-        from_email: str,
-        reply_to: Optional[str] = None,
-        attachments: Optional[List[Dict[str, Any]]] = None
-    ) -> bool:
-        """Send email using Zoho SMTP server"""
-        if not settings.MAIL_USERNAME or not settings.MAIL_PASSWORD:
-            logger.error("Zoho Mail credentials not configured")
-            return False
-        
-        try:
-            # Create message
-            message = MIMEMultipart()
-            message["From"] = f"{settings.MAIL_FROM_NAME} <{from_email}>"
-            message["To"] = to_email
-            message["Subject"] = subject
-            
-            if reply_to:
-                message["Reply-To"] = reply_to
-                
-            # Attach HTML content
-            message.attach(MIMEText(content, "html"))
-            
-            # Connect to Zoho SMTP server
-            with smtplib.SMTP_SSL(settings.MAIL_SERVER, settings.MAIL_PORT) as server:
-                server.login(settings.MAIL_USERNAME, settings.MAIL_PASSWORD)
-                server.send_message(message)
-                
-            logger.info(f"Email sent to {to_email} via Zoho SMTP")
-            return True
-            
-        except Exception as e:
-            logger.error(f"Error sending email via Zoho SMTP: {str(e)}")
-            return False
-    
-    @staticmethod
     async def send_sms(
         to_phone: str,
         message: str,
@@ -324,30 +290,27 @@ class NotificationService:
 
         url = (data or {}).get("url")
         tag = (data or {}).get("tag")
+        def _deliver(session: Session) -> int:
+            return send_push_to_user(
+                session,
+                uuid.UUID(str(user_id)),
+                title=title,
+                body=body,
+                url=url,
+                tag=tag,
+            )
+
         try:
             if db is None:
                 from app.db.database import SessionLocal
-                db = SessionLocal()
+
+                session = SessionLocal()
                 try:
-                    count = send_push_to_user(
-                        db,
-                        uuid.UUID(str(user_id)),
-                        title=title,
-                        body=body,
-                        url=url,
-                        tag=tag,
-                    )
+                    count = await deliver_sync_in_threadpool(_deliver, session) or 0
                 finally:
-                    db.close()
+                    session.close()
             else:
-                count = send_push_to_user(
-                    db,
-                    uuid.UUID(str(user_id)),
-                    title=title,
-                    body=body,
-                    url=url,
-                    tag=tag,
-                )
+                count = await deliver_sync_in_threadpool(_deliver, db) or 0
             if count:
                 await cache_service.increment("push_notifications_sent")
             return count > 0
