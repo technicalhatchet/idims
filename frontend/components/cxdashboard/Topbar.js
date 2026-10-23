@@ -209,7 +209,7 @@ export default function Topbar({
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="fixed lg:absolute right-4 lg:right-0 top-[calc(4.25rem+env(safe-area-inset-top))] lg:top-12 w-[min(20rem,calc(100vw-2rem))] rounded-2xl bg-[#0d1117] border border-white/10 shadow-xl overflow-hidden z-50"
+                  className="fixed lg:absolute right-4 lg:right-0 top-[calc(4.25rem+env(safe-area-inset-top))] lg:top-12 w-[min(20rem,calc(100vw-2rem))] rounded-2xl bg-[#0d1117] border border-white/10 shadow-xl overflow-hidden z-[70]"
                 >
                   <div className="p-4 border-b border-white/5">
                     <h3 className="text-white font-semibold">Notifications</h3>
@@ -276,7 +276,7 @@ export default function Topbar({
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="absolute right-0 top-12 w-48 rounded-xl bg-[#0d1117] border border-white/10 shadow-xl overflow-hidden z-50"
+                  className="absolute right-0 top-12 w-48 rounded-xl bg-[#0d1117] border border-white/10 shadow-xl overflow-hidden z-[70]"
                 >
                   <Link href="/cxdashboard/settings" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-white/5 hover:text-white">
                     <FaCog className="w-4 h-4" />

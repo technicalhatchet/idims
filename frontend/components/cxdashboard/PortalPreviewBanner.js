@@ -51,12 +51,11 @@ export default function PortalPreviewBanner({ onExit }) {
 
   return (
     <div
+      className="relative z-0 shrink-0 w-full rounded-none border-b border-black/10"
       style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 50,
         background: bg,
         padding: '8px 16px',
+        paddingTop: 'max(8px, env(safe-area-inset-top))',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -65,8 +64,6 @@ export default function PortalPreviewBanner({ onExit }) {
         fontSize: '13px',
         fontWeight: '600',
         color: '#0f0f1a',
-        marginBottom: '1.5rem',
-        borderRadius: '8px',
       }}
     >
       <div className="flex items-center gap-2">

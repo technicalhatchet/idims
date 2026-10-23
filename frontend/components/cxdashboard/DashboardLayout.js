@@ -185,6 +185,9 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
           user={displayUser}
         />
         <div className="min-h-screen flex flex-col lg:ml-64">
+          {isPortalPreviewActive() ? (
+            <PortalPreviewBanner onExit={exitPreview} />
+          ) : null}
           <Topbar
             title={title}
             user={displayUser}
@@ -192,9 +195,6 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
             onMenuClick={() => setSidebarOpen(true)}
           />
           <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-[max(1rem,env(safe-area-inset-bottom))]">
-            {isPortalPreviewActive() && (
-              <PortalPreviewBanner onExit={exitPreview} />
-            )}
             <PortalWelcome user={displayUser} />
             {children}
           </main>

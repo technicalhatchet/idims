@@ -170,7 +170,7 @@ export default function Sidebar({ open = false, onClose, user }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm lg:hidden"
             onClick={onClose}
             aria-label="Close menu"
           />
@@ -182,7 +182,7 @@ export default function Sidebar({ open = false, onClose, user }) {
         initial={false}
         animate={{ x: open ? 0 : '-100%' }}
         transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-        className={`fixed left-0 top-0 z-50 flex h-[100dvh] w-[min(88vw,300px)] flex-col bg-[#0a0e17]/98 backdrop-blur-xl border-r border-white/5 lg:hidden ${open ? '' : 'pointer-events-none'}`}
+        className={`fixed left-0 top-0 z-[70] flex h-[100dvh] w-[min(88vw,300px)] flex-col bg-[#0a0e17]/98 backdrop-blur-xl border-r border-white/5 lg:hidden ${open ? '' : 'pointer-events-none'}`}
         style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}
       >
         <div className="md:hidden">{drawerUserHeader}</div>
