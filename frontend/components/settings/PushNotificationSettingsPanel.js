@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { apiClient } from '../../utils/api-client';
+import { upsertAppSetting } from '../../utils/upsertAppSetting';
 import {
   DEFAULT_PUSH_NOTIFICATIONS,
   MORNING_BRIEFING_HOURS,
@@ -159,31 +160,15 @@ export default function PushNotificationSettingsPanel() {
   const save = async () => {
     setSaving(true);
     try {
-      await apiClient('/api/settings/push_notifications', {
-        method: 'PATCH',
-        body: JSON.stringify({ value: settings }),
+      await upsertAppSetting({
+        key: 'push_notifications',
+        value: settings,
+        description: 'Staff web push notification rules',
       });
       toast.success('Push notification settings saved');
     } catch (err) {
-      if (err.message?.includes('404') || err.message?.includes('not found')) {
-        try {
-          await apiClient('/api/settings/', {
-            method: 'POST',
-            body: JSON.stringify({
-              key: 'push_notifications',
-              value: settings,
-              description: 'Staff web push notification rules',
-            }),
-          });
-          toast.success('Push notification settings saved');
-        } catch (createErr) {
-          console.error(createErr);
-          toast.error('Failed to save push settings');
-        }
-      } else {
-        console.error(err);
-        toast.error('Failed to save push settings');
-      }
+      console.error(err);
+      toast.error('Failed to save push settings');
     } finally {
       setSaving(false);
     }

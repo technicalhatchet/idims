@@ -12,7 +12,7 @@ const ReactQueryDevtools = dynamic(
   () => import('@tanstack/react-query-devtools').then((mod) => mod.ReactQueryDevtools),
   { ssr: false }
 );
-import { Toaster } from 'react-hot-toast';
+import AppToaster from '../components/ui/AppToaster';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { isTechPath } from '../lib/routeAccess';
@@ -255,7 +255,7 @@ function MyApp({ Component, pageProps }) {
               <Component {...pageProps} />
             )}
           </SolomonThemeScope>
-          <Toaster position="top-right" />
+          <AppToaster />
           {process.env.NODE_ENV === 'development' && (
             <ReactQueryDevtools initialIsOpen={false} />
           )}

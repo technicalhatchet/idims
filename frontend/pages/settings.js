@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import TechDashboardLayout from '../components/layouts/TechDashboardLayout';
 import { useUIPreferences } from '../context/UIPreferencesContext';
 import { apiClient } from '../utils/api-client';
+import { upsertAppSetting } from '../utils/upsertAppSetting';
 import toast from 'react-hot-toast';
 import {
   normalizePartsSettings,
@@ -669,31 +670,15 @@ export default function Settings() {
   const saveShopHours = async () => {
     setSavingHours(true);
     try {
-      await apiClient('/api/settings/shop_hours', {
-        method: 'PATCH',
-        body: JSON.stringify({ value: shopHours }),
+      await upsertAppSetting({
+        key: 'shop_hours',
+        value: shopHours,
+        description: 'Business operating hours by day',
       });
       toast.success('Hours saved');
     } catch (err) {
-      if (err.message?.includes('404') || err.message?.includes('not found')) {
-        try {
-          await apiClient('/api/settings/', {
-            method: 'POST',
-            body: JSON.stringify({ 
-              key: 'shop_hours',
-              value: shopHours,
-              description: 'Business operating hours by day'
-            }),
-          });
-          toast.success('Hours saved');
-        } catch (createErr) {
-          console.error('Error creating shop hours:', createErr);
-          toast.error('Failed to save hours');
-        }
-      } else {
-        console.error('Error saving shop hours:', err);
-        toast.error('Failed to save hours');
-      }
+      console.error('Error saving shop hours:', err);
+      toast.error('Failed to save hours');
     } finally {
       setSavingHours(false);
     }
@@ -777,31 +762,15 @@ export default function Settings() {
   const saveZoneSettings = async () => {
     setSavingZones(true);
     try {
-      await apiClient('/api/settings/trip_zones', {
-        method: 'PATCH',
-        body: JSON.stringify({ value: zoneSettings }),
+      await upsertAppSetting({
+        key: 'trip_zones',
+        value: zoneSettings,
+        description: 'Service zone and trip charge configuration',
       });
       toast.success('Service areas saved');
     } catch (err) {
-      if (err.message?.includes('404') || err.message?.includes('not found')) {
-        try {
-          await apiClient('/api/settings/', {
-            method: 'POST',
-            body: JSON.stringify({ 
-              key: 'trip_zones',
-              value: zoneSettings,
-              description: 'Service zone and trip charge configuration'
-            }),
-          });
-          toast.success('Service areas saved');
-        } catch (createErr) {
-          console.error('Error creating zone settings:', createErr);
-          toast.error('Failed to save');
-        }
-      } else {
-        console.error('Error saving zone settings:', err);
-        toast.error('Failed to save');
-      }
+      console.error('Error saving zone settings:', err);
+      toast.error('Failed to save');
     } finally {
       setSavingZones(false);
     }
@@ -862,31 +831,15 @@ export default function Settings() {
   const saveTaxSettings = async () => {
     setSavingTax(true);
     try {
-      await apiClient('/api/settings/tax_jurisdictions', {
-        method: 'PATCH',
-        body: JSON.stringify({ value: taxSettings }),
+      await upsertAppSetting({
+        key: 'tax_jurisdictions',
+        value: taxSettings,
+        description: 'County sales tax rates and zip mappings',
       });
       toast.success('Tax settings saved');
     } catch (err) {
-      if (err.message?.includes('404') || err.message?.includes('not found')) {
-        try {
-          await apiClient('/api/settings/', {
-            method: 'POST',
-            body: JSON.stringify({
-              key: 'tax_jurisdictions',
-              value: taxSettings,
-              description: 'County sales tax rates and zip mappings',
-            }),
-          });
-          toast.success('Tax settings saved');
-        } catch (createErr) {
-          console.error('Error creating tax settings:', createErr);
-          toast.error('Failed to save tax settings');
-        }
-      } else {
-        console.error('Error saving tax settings:', err);
-        toast.error('Failed to save tax settings');
-      }
+      console.error('Error saving tax settings:', err);
+      toast.error('Failed to save tax settings');
     } finally {
       setSavingTax(false);
     }
@@ -1023,31 +976,15 @@ export default function Settings() {
   const savePartsSettings = async () => {
     setSavingParts(true);
     try {
-      await apiClient('/api/settings/parts_settings', {
-        method: 'PATCH',
-        body: JSON.stringify({ value: partsSettings }),
+      await upsertAppSetting({
+        key: 'parts_settings',
+        value: partsSettings,
+        description: 'Parts tab vendors, lookup providers, and defaults',
       });
       toast.success('Parts settings saved');
     } catch (err) {
-      if (err.message?.includes('404') || err.message?.includes('not found')) {
-        try {
-          await apiClient('/api/settings/', {
-            method: 'POST',
-            body: JSON.stringify({
-              key: 'parts_settings',
-              value: partsSettings,
-              description: 'Parts tab vendors, lookup providers, and defaults',
-            }),
-          });
-          toast.success('Parts settings saved');
-        } catch (createErr) {
-          console.error('Error creating parts settings:', createErr);
-          toast.error('Failed to save parts settings');
-        }
-      } else {
-        console.error('Error saving parts settings:', err);
-        toast.error(err.message || 'Failed to save parts settings');
-      }
+      console.error('Error saving parts settings:', err);
+      toast.error(err.message || 'Failed to save parts settings');
     } finally {
       setSavingParts(false);
     }

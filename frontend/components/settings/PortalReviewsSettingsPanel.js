@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { apiClient } from '../../utils/api-client';
+import { upsertAppSetting } from '../../utils/upsertAppSetting';
 
 const DEFAULTS = {
   enabled: false,
@@ -29,29 +30,14 @@ export default function PortalReviewsSettingsPanel() {
   const save = async () => {
     setSaving(true);
     try {
-      await apiClient('/api/settings/portal_reviews', {
-        method: 'PATCH',
-        body: JSON.stringify({ value: settings }),
+      await upsertAppSetting({
+        key: 'portal_reviews',
+        value: settings,
+        description: 'Portal Google review requests',
       });
       toast.success('Review request settings saved');
-    } catch (err) {
-      if (err.message?.includes('404')) {
-        try {
-          await apiClient('/api/settings/', {
-            method: 'POST',
-            body: JSON.stringify({
-              key: 'portal_reviews',
-              value: settings,
-              description: 'Portal Google review requests',
-            }),
-          });
-          toast.success('Review request settings saved');
-        } catch {
-          toast.error('Failed to save settings');
-        }
-      } else {
-        toast.error('Failed to save settings');
-      }
+    } catch {
+      toast.error('Failed to save settings');
     } finally {
       setSaving(false);
     }
