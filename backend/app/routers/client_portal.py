@@ -325,6 +325,11 @@ def _assign_client_role(auth0_user_id: str) -> Tuple[bool, bool, Optional[str]]:
         return False, False, str(e)
 
 
+def _auth0_profile_name_patch_supported(auth0_user_id: str) -> bool:
+    """Auth0 only allows name fields PATCH on database (auth0|) users, not social IdPs."""
+    return (auth0_user_id or "").startswith("auth0|")
+
+
 def _sync_auth0_user_name(
     auth0_user_id: str,
     first_name: str,
@@ -335,6 +340,13 @@ def _sync_auth0_user_name(
     last_name = (last_name or "").strip()
     if not first_name:
         return False, "missing first_name"
+
+    if not _auth0_profile_name_patch_supported(auth0_user_id):
+        logger.info(
+            "[LinkAccount] Skipping Auth0 name PATCH for social connection user %s",
+            auth0_user_id,
+        )
+        return True, None
 
     try:
         auth_handler = get_auth_handler()

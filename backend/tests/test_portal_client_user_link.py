@@ -428,3 +428,62 @@ async def test_portal_notifications_when_user_id_set():
     assert result["portal_linked"] is True
     assert result["total"] == 1
     assert len(result["notifications"]) == 1
+
+
+def test_sync_auth0_user_name_skips_social_connections():
+    from app.routers.client_portal import _sync_auth0_user_name
+
+    with patch("app.routers.client_portal.requests.patch") as mock_patch:
+        ok, err = _sync_auth0_user_name(
+            "google-oauth2|abc123",
+            "Jane",
+            "Doe",
+        )
+    assert ok is True
+    assert err is None
+    mock_patch.assert_not_called()
+
+
+def test_sync_auth0_user_name_patches_auth0_database_users():
+    from app.routers.client_portal import _sync_auth0_user_name
+
+    mock_response = MagicMock()
+    mock_response.ok = True
+    with patch("app.routers.client_portal.get_auth_handler") as mock_handler:
+        mock_handler.return_value.get_client_credentials_token.return_value = "mgmt-token"
+        with patch("app.routers.client_portal.requests.patch", return_value=mock_response) as mock_patch:
+            ok, err = _sync_auth0_user_name("auth0|local-user", "Jane", "Doe")
+    assert ok is True
+    assert err is None
+    mock_patch.assert_called_once()
+
+
+def test_sync_client_identity_still_updates_db_user_for_social():
+    from app.routers.client_portal import _sync_client_identity
+
+    client = Client(
+        id=uuid4(),
+        first_name="Jane",
+        last_name="Doe",
+        email="jane@example.com",
+    )
+    user = DBUser(
+        id=uuid4(),
+        auth_id="google-oauth2|social1",
+        email="jane@example.com",
+        first_name="Old",
+        last_name="Name",
+        roles=["client"],
+    )
+    db = MagicMock()
+    db.query.return_value.filter.return_value.first.return_value = user
+
+    with patch("app.routers.client_portal._sync_auth0_user_name", return_value=(True, None)) as mock_auth0:
+        ok, err = _sync_client_identity("google-oauth2|social1", client, db)
+
+    assert ok is True
+    assert err is None
+    mock_auth0.assert_called_once_with("google-oauth2|social1", "Jane", "Doe")
+    assert user.first_name == "Jane"
+    assert user.last_name == "Doe"
+    db.commit.assert_called_once()

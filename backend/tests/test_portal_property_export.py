@@ -87,3 +87,59 @@ def test_generate_appliances_summary_pdf_bytes():
     ):
         pdf = generate_appliances_summary_pdf(db, client)
     assert pdf[:4] == b"%PDF"
+
+
+def test_appliance_summary_multi_property_document_and_pdf():
+    """Covers _build_property_sections sort over multiple group keys (id: vs addr:)."""
+    client = SimpleNamespace(id=uuid4(), display_name="Jane Doe")
+    db = MagicMock()
+    prop_id = uuid4()
+    appliance_with_property = SimpleNamespace(id=uuid4())
+    appliance_service_address_only = SimpleNamespace(id=uuid4())
+
+    def fake_serialize(appliance, _db):
+        if appliance is appliance_with_property:
+            return {
+                "property": {
+                    "id": str(prop_id),
+                    "nickname": "Lake House",
+                    "address": "1 Main St, Toledo, OH",
+                },
+                "nickname": "Kitchen Washer",
+                "make": "Whirlpool",
+                "model": "WFW5620",
+                "serial": "SN1",
+                "last_service_date": None,
+            }
+        return {
+            "property": None,
+            "service_address": "99 Rental Ave, Toledo, OH",
+            "equipment_subtype": "electric_dryer",
+            "make": "Samsung",
+            "model": "DVE45",
+            "serial": "SN2",
+            "last_service_date": None,
+        }
+
+    appliances = [appliance_with_property, appliance_service_address_only]
+    with patch(
+        "app.services.portal_property_export_service._filter_appliances",
+        return_value=appliances,
+    ):
+        with patch(
+            "app.services.portal_property_export_service.appliance_svc.serialize_appliance",
+            side_effect=fake_serialize,
+        ):
+            with patch(
+                "app.services.portal_property_export_service.work_orders_for_appliance",
+                return_value=[],
+            ):
+                doc = build_appliance_summary_document(db, client)
+                pdf = generate_appliances_summary_pdf(db, client)
+
+    assert len(doc["sections"]) == 2
+    titles = {section["title"] for section in doc["sections"]}
+    assert "Lake House" in titles
+    assert "99 Rental Ave, Toledo, OH" in titles
+    assert "2 appliances across 2 properties" in doc["summary_line"]
+    assert pdf[:4] == b"%PDF"
