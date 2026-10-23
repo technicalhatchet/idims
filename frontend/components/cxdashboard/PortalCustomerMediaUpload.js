@@ -1,15 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { FaCamera, FaTimes, FaVideo } from 'react-icons/fa';
+import { FaCamera, FaPlay, FaTimes, FaVideo } from 'react-icons/fa';
 import { buildPortalDirectApiUrl, getPortalPreviewUnlockHeaders } from '../../utils/portalPreview';
+import { fetchPortalWorkOrderPhotoBlob } from '../../utils/portalPhotoFile';
 import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
+import ReceiptViewerModal from '../work_orders/ReceiptViewerModal';
 
 const ACCEPT = 'image/jpeg,image/png,image/webp,video/mp4,video/quicktime';
 const MAX_FILES = 6;
 const LIMIT_MESSAGE = 'You can add up to 6 photos or videos per repair';
+const THUMB_PX = 160;
 
-function isVideoFile(fileOrMime) {
-  const mime = typeof fileOrMime === 'string' ? fileOrMime : (fileOrMime?.type || '');
-  return mime.startsWith('video/');
+function isVideoMime(mime) {
+  return (mime || '').startsWith('video/');
 }
 
 export default function PortalCustomerMediaUpload({ workOrderId, onUploaded }) {
@@ -20,6 +22,15 @@ export default function PortalCustomerMediaUpload({ workOrderId, onUploaded }) {
   const [previews, setPreviews] = useState([]);
   const [customerItems, setCustomerItems] = useState([]);
   const [usedCount, setUsedCount] = useState(0);
+  const [thumbUrls, setThumbUrls] = useState({});
+  const [viewer, setViewer] = useState({
+    open: false,
+    loading: false,
+    error: null,
+    blobUrl: null,
+    mimeType: null,
+    filename: null,
+  });
 
   const loadMedia = useCallback(async () => {
     if (!workOrderId) return;
@@ -40,6 +51,56 @@ export default function PortalCustomerMediaUpload({ workOrderId, onUploaded }) {
     loadMedia();
   }, [loadMedia]);
 
+  useEffect(() => {
+    let cancelled = false;
+    const created = [];
+
+    (async () => {
+      if (!workOrderId || !customerItems.length) {
+        setThumbUrls({});
+        return;
+      }
+      try {
+        const token = await getPortalSessionToken();
+        const next = {};
+        for (const item of customerItems) {
+          if (isVideoMime(item.mime_type)) continue;
+          try {
+            const { blobUrl } = await fetchPortalWorkOrderPhotoBlob(
+              workOrderId,
+              item.id,
+              token,
+              { thumbnail: THUMB_PX },
+            );
+            created.push(blobUrl);
+            next[item.id] = blobUrl;
+          } catch {
+            /* skip broken thumb */
+          }
+        }
+        if (!cancelled) {
+          setThumbUrls((prev) => {
+            Object.values(prev).forEach((u) => URL.revokeObjectURL(u));
+            return next;
+          });
+        } else {
+          created.forEach((u) => URL.revokeObjectURL(u));
+        }
+      } catch {
+        if (!cancelled) {
+          setThumbUrls((prev) => {
+            Object.values(prev).forEach((u) => URL.revokeObjectURL(u));
+            return {};
+          });
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [customerItems, workOrderId]);
+
   const clearPreviews = () => {
     setPreviews((prev) => {
       prev.forEach((p) => {
@@ -56,10 +117,59 @@ export default function PortalCustomerMediaUpload({ workOrderId, onUploaded }) {
       });
       return slice.map((file) => ({
         file,
-        url: isVideoFile(file) ? null : URL.createObjectURL(file),
-        isVideo: isVideoFile(file),
+        url: isVideoMime(file.type) ? null : URL.createObjectURL(file),
+        isVideo: isVideoMime(file.type),
       }));
     });
+  };
+
+  const closeViewer = () => {
+    setViewer((prev) => {
+      if (prev.blobUrl) URL.revokeObjectURL(prev.blobUrl);
+      return {
+        open: false,
+        loading: false,
+        error: null,
+        blobUrl: null,
+        mimeType: null,
+        filename: null,
+      };
+    });
+  };
+
+  const openMedia = async (item) => {
+    setViewer((prev) => {
+      if (prev.blobUrl) URL.revokeObjectURL(prev.blobUrl);
+      return {
+        open: true,
+        loading: true,
+        error: null,
+        blobUrl: null,
+        mimeType: item.mime_type || null,
+        filename: item.description || item.filename || 'Media',
+      };
+    });
+    try {
+      const token = await getPortalSessionToken();
+      const { blobUrl, mimeType } = await fetchPortalWorkOrderPhotoBlob(
+        workOrderId,
+        item.id,
+        token,
+        { thumbnail: 0 },
+      );
+      setViewer((prev) => ({
+        ...prev,
+        loading: false,
+        blobUrl,
+        mimeType,
+      }));
+    } catch (err) {
+      setViewer((prev) => ({
+        ...prev,
+        loading: false,
+        error: err.message || 'Could not open media',
+      }));
+    }
   };
 
   const onPick = () => {
@@ -187,59 +297,84 @@ export default function PortalCustomerMediaUpload({ workOrderId, onUploaded }) {
 
       {(customerItems.length > 0 || previews.length > 0) && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '10px' }}>
-          {customerItems.map((item) => (
-            <div
-              key={item.id}
-              style={{
-                position: 'relative',
-                width: 72,
-                height: 72,
-                borderRadius: 8,
-                overflow: 'hidden',
-                border: '1px solid rgba(255,255,255,0.12)',
-                background: 'rgba(255,255,255,0.04)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              {isVideoFile(item.mime_type) ? (
-                <FaVideo style={{ color: '#9ca3af', fontSize: '1.25rem' }} />
-              ) : item.drive_web_view_link ? (
-                <img
-                  src={item.drive_web_view_link}
-                  alt=""
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-              ) : (
-                <FaCamera style={{ color: '#9ca3af', fontSize: '1.25rem' }} />
-              )}
-              <button
-                type="button"
-                aria-label="Remove"
-                disabled={removingId === item.id}
-                onClick={() => onRemove(item.id)}
+          {customerItems.map((item) => {
+            const video = isVideoMime(item.mime_type);
+            const thumb = thumbUrls[item.id];
+            return (
+              <div
+                key={item.id}
                 style={{
-                  position: 'absolute',
-                  top: 4,
-                  right: 4,
-                  width: 22,
-                  height: 22,
-                  borderRadius: 999,
-                  border: 'none',
-                  background: 'rgba(0,0,0,0.65)',
-                  color: '#fff',
+                  position: 'relative',
+                  width: 72,
+                  height: 72,
+                  borderRadius: 8,
+                  overflow: 'hidden',
+                  border: '1px solid rgba(255,255,255,0.12)',
+                  background: video ? 'rgba(0,0,0,0.55)' : 'rgba(255,255,255,0.04)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  cursor: removingId === item.id ? 'wait' : 'pointer',
-                  padding: 0,
                 }}
               >
-                <FaTimes style={{ fontSize: '10px' }} />
-              </button>
-            </div>
-          ))}
+                <button
+                  type="button"
+                  onClick={() => openMedia(item)}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    padding: 0,
+                    border: 'none',
+                    background: 'transparent',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  aria-label={video ? 'Play video' : 'View photo'}
+                >
+                  {video ? (
+                    <FaPlay style={{ color: '#e5e7eb', fontSize: '1.25rem' }} />
+                  ) : thumb ? (
+                    <img
+                      src={thumb}
+                      alt=""
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  ) : (
+                    <FaCamera style={{ color: '#9ca3af', fontSize: '1.25rem' }} />
+                  )}
+                </button>
+                <button
+                  type="button"
+                  aria-label="Remove"
+                  disabled={removingId === item.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onRemove(item.id);
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: 4,
+                    right: 4,
+                    width: 22,
+                    height: 22,
+                    borderRadius: 999,
+                    border: 'none',
+                    background: 'rgba(0,0,0,0.65)',
+                    color: '#fff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: removingId === item.id ? 'wait' : 'pointer',
+                    padding: 0,
+                    zIndex: 2,
+                  }}
+                >
+                  <FaTimes style={{ fontSize: '10px' }} />
+                </button>
+              </div>
+            );
+          })}
           {previews.map((item, i) => (
             <div
               key={`${item.file.name}-${i}`}
@@ -249,7 +384,7 @@ export default function PortalCustomerMediaUpload({ workOrderId, onUploaded }) {
                 borderRadius: 8,
                 overflow: 'hidden',
                 border: '1px solid rgba(255,255,255,0.12)',
-                background: 'rgba(255,255,255,0.04)',
+                background: item.isVideo ? 'rgba(0,0,0,0.55)' : 'rgba(255,255,255,0.04)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -271,6 +406,18 @@ export default function PortalCustomerMediaUpload({ workOrderId, onUploaded }) {
       )}
 
       {error && <p style={{ color: '#ef4444', fontSize: '0.75rem', marginTop: '0.5rem' }}>{error}</p>}
+
+      <ReceiptViewerModal
+        open={viewer.open}
+        onClose={closeViewer}
+        filename={viewer.filename}
+        blobUrl={viewer.blobUrl}
+        mimeType={viewer.mimeType}
+        loading={viewer.loading}
+        loadingLabel="Loading…"
+        error={viewer.error}
+        isMobile
+      />
     </div>
   );
 }

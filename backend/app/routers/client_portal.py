@@ -3029,6 +3029,52 @@ async def list_portal_work_order_photos(
     }
 
 
+@router.get("/portal/work-orders/{work_order_id}/photos/{photo_id}/file")
+async def download_portal_work_order_photo_file(
+    work_order_id: str,
+    photo_id: str,
+    thumbnail: int = Query(0, ge=0, le=400, description="Max width/height for image thumbnails"),
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+):
+    from fastapi.responses import Response
+
+    from app.services import work_order_photos_service as photos_svc
+
+    wo = db.query(WorkOrder).filter(
+        WorkOrder.id == work_order_id,
+        WorkOrder.client_id == client.id,
+    ).first()
+    if not wo:
+        raise HTTPException(status_code=404, detail="Work order not found")
+
+    try:
+        photo_uuid = uuid.UUID(photo_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid photo id")
+
+    try:
+        row = photos_svc.get_photo(db, photo_uuid)
+    except ValueError:
+        raise HTTPException(status_code=404, detail="Photo not found")
+
+    if row.work_order_id != wo.id:
+        raise HTTPException(status_code=404, detail="Photo not found")
+
+    try:
+        content, mime = photos_svc.read_photo_bytes(row)
+        content, mime = photos_svc.photo_bytes_for_response(
+            content,
+            mime,
+            thumbnail_max_px=thumbnail,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+    headers = {"Content-Disposition": f'inline; filename="{row.filename}"'}
+    return Response(content=content, media_type=mime, headers=headers)
+
+
 @router.post("/portal/work-orders/{work_order_id}/photos")
 async def upload_portal_work_order_photos(
     work_order_id: str,
