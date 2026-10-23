@@ -26,6 +26,7 @@ export default function ReceiptViewerModal({
 
   const isPdf = mimeType?.includes('pdf');
   const isImage = mimeType?.startsWith('image/');
+  const isVideo = mimeType?.startsWith('video/');
 
   return (
     <div className="fixed inset-0 z-[9999] flex flex-col">
@@ -72,7 +73,15 @@ export default function ReceiptViewerModal({
                 className="w-full h-[75vh] rounded bg-white"
               />
             )}
-            {!loading && !error && blobUrl && !isImage && !isPdf && (
+            {!loading && !error && blobUrl && isVideo && (
+              <video
+                src={blobUrl}
+                controls
+                playsInline
+                className="max-w-full max-h-[75vh] rounded bg-black"
+              />
+            )}
+            {!loading && !error && blobUrl && !isImage && !isPdf && !isVideo && (
               <p className="text-sm text-gray-300 p-6 text-center">
                 Preview not available for this file type.
               </p>

@@ -11,16 +11,53 @@ from uuid import uuid4
 import pytest
 from PIL import Image
 
+from app.services.google_drive_service import build_photo_filename, photo_extension_for_upload
 from app.services.work_order_photos_service import (
     CUSTOMER_MEDIA_LIMIT_MESSAGE,
     MAX_CUSTOMER_FILE_BYTES,
     MAX_CUSTOMER_FILES_PER_BATCH,
     client_owns_customer_photo,
     count_active_customer_media,
+    photo_bytes_for_response,
     remove_customer_portal_media,
     strip_image_exif,
     validate_customer_media,
 )
+
+
+def test_build_photo_filename_keeps_video_extensions():
+    name = build_photo_filename("WO1", "customer", "clip.MOV", mime_type="video/quicktime")
+    assert name.lower().endswith(".mov")
+    name_mp4 = build_photo_filename("WO1", "customer", "vid.mp4", mime_type="video/mp4")
+    assert name_mp4.lower().endswith(".mp4")
+
+
+def test_build_photo_filename_uses_mime_when_no_extension():
+    assert photo_extension_for_upload("upload", "video/mp4") == ".mp4"
+    assert photo_extension_for_upload("upload", "video/quicktime") == ".mov"
+    name = build_photo_filename("WO1", "customer", "upload", mime_type="video/quicktime")
+    assert name.endswith(".mov")
+
+
+def test_build_photo_filename_never_labels_video_as_jpg():
+    name = build_photo_filename("WO1", "customer", "wrong.jpg", mime_type="video/mp4")
+    assert name.lower().endswith(".mp4")
+    assert not name.lower().endswith(".jpg")
+
+
+def test_photo_bytes_for_response_thumbnail_smaller():
+    from io import BytesIO
+
+    from PIL import Image
+
+    img = Image.new("RGB", (400, 200), color=(0, 128, 255))
+    buf = BytesIO()
+    img.save(buf, format="JPEG")
+    full = buf.getvalue()
+    thumb, mime = photo_bytes_for_response(full, "image/jpeg", thumbnail_max_px=80)
+    assert mime == "image/jpeg"
+    out = Image.open(BytesIO(thumb))
+    assert max(out.size) <= 80
 
 
 def test_rejects_oversize():

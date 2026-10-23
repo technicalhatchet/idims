@@ -87,16 +87,58 @@ def _service_account_info():
     return None
 
 
+_PHOTO_IMAGE_EXTENSIONS = frozenset({".jpg", ".jpeg", ".png", ".webp", ".heic", ".gif"})
+_PHOTO_VIDEO_EXTENSIONS = frozenset({".mp4", ".mov", ".m4v"})
+_PHOTO_ALLOWED_EXTENSIONS = _PHOTO_IMAGE_EXTENSIONS | _PHOTO_VIDEO_EXTENSIONS
+
+_MIME_TO_PHOTO_EXT = {
+    "image/jpeg": ".jpg",
+    "image/jpg": ".jpg",
+    "image/png": ".png",
+    "image/webp": ".webp",
+    "image/heic": ".heic",
+    "image/gif": ".gif",
+    "video/mp4": ".mp4",
+    "video/quicktime": ".mov",
+    "video/x-m4v": ".m4v",
+}
+
+
+def _normalize_mime(mime_type: Optional[str]) -> Optional[str]:
+    if not mime_type:
+        return None
+    return mime_type.split(";")[0].strip().lower()
+
+
+def photo_extension_for_upload(original_filename: str, mime_type: Optional[str] = None) -> str:
+    """Pick a safe extension for new uploads (does not rename existing Drive files)."""
+    ext = Path(original_filename or "").suffix.lower()
+    mime = _normalize_mime(mime_type)
+
+    if ext in _PHOTO_ALLOWED_EXTENSIONS:
+        if mime and mime.startswith("video/") and ext in _PHOTO_IMAGE_EXTENSIONS:
+            return _MIME_TO_PHOTO_EXT.get(mime, ".mp4")
+        return ext
+
+    if mime:
+        mapped = _MIME_TO_PHOTO_EXT.get(mime)
+        if mapped:
+            return mapped
+        if mime.startswith("video/"):
+            return ".mp4"
+
+    return ".jpg"
+
+
 def build_photo_filename(
     order_number: str,
     description: str,
     original_filename: str,
     *,
     is_model_sn_tag: bool = False,
+    mime_type: Optional[str] = None,
 ) -> str:
-    ext = Path(original_filename or "photo.jpg").suffix.lower() or ".jpg"
-    if ext not in {".jpg", ".jpeg", ".png", ".webp", ".heic", ".gif"}:
-        ext = ".jpg"
+    ext = photo_extension_for_upload(original_filename, mime_type)
     label = "model-sn-tag" if is_model_sn_tag else _sanitize_filename_part(description, "photo")
     stamp = datetime.utcnow().strftime("%Y%m%d-%H%M%S")
     return f"{_sanitize_filename_part(order_number, 'WO')}_{stamp}_{label}{ext}"

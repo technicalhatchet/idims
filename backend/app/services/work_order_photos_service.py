@@ -170,6 +170,31 @@ def read_photo_bytes(row: WorkOrderPhoto) -> tuple[bytes, str]:
     return path.read_bytes(), mime
 
 
+def photo_bytes_for_response(
+    content: bytes,
+    mime: str,
+    *,
+    thumbnail_max_px: int = 0,
+) -> tuple[bytes, str]:
+    """Optionally downscale images for list thumbnails (full bytes for video)."""
+    if thumbnail_max_px <= 0 or not (mime or "").startswith("image/"):
+        return content, mime
+    try:
+        from io import BytesIO
+
+        from PIL import Image
+
+        img = Image.open(BytesIO(content))
+        img = img.convert("RGB") if img.mode not in ("RGB", "L") else img
+        img.thumbnail((thumbnail_max_px, thumbnail_max_px))
+        out = BytesIO()
+        img.save(out, format="JPEG", quality=82, optimize=True)
+        return out.getvalue(), "image/jpeg"
+    except Exception:
+        logger.warning("Thumbnail resize failed; returning full image")
+        return content, mime
+
+
 def save_photo(
     db: Session,
     *,
@@ -284,7 +309,12 @@ def save_customer_portal_media(
         raise ValueError(CUSTOMER_MEDIA_LIMIT_MESSAGE)
 
     order_number = wo.order_number or str(work_order_id)[:8]
-    filename = build_photo_filename(order_number, description or "customer", original_filename)
+    filename = build_photo_filename(
+        order_number,
+        description or "customer",
+        original_filename,
+        mime_type=mime_type,
+    )
     year = work_order_photo_year(wo)
     existing_folder_id = existing_work_order_drive_folder_id(db, work_order_id)
 

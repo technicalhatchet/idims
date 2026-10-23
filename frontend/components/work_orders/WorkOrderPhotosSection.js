@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { format } from 'date-fns';
-import { FaChevronDown, FaChevronUp, FaEye, FaTimes } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp, FaEye, FaPlay, FaTimes } from 'react-icons/fa';
 import {
   deleteWorkOrderCustomerPhoto,
   fetchWorkOrderPhotoBlob,
@@ -115,6 +115,8 @@ export default function WorkOrderPhotosSection({
     }
   };
 
+  const isVideoPhoto = (photo) => (photo.mime_type || '').startsWith('video/');
+
   const formatPhotoDate = (value) => {
     if (!value) return '';
     const dateStr = value.endsWith('Z') ? value : `${value}Z`;
@@ -185,8 +187,11 @@ export default function WorkOrderPhotosSection({
                     onClick={() => handleOpenPhoto(photo)}
                     className="min-w-0 flex-1 text-left"
                   >
-                    <p className={`text-sm truncate ${isMobile ? 'font-semibold text-cyan-300' : 'font-medium text-blue-600'}`}>
-                      {photo.description || 'Photo'}
+                    <p className={`text-sm truncate flex items-center gap-1.5 ${isMobile ? 'font-semibold text-cyan-300' : 'font-medium text-blue-600'}`}>
+                      {isVideoPhoto(photo) && (
+                        <FaPlay className="h-3 w-3 shrink-0 opacity-80" aria-hidden />
+                      )}
+                      {photo.description || (isVideoPhoto(photo) ? 'Video' : 'Photo')}
                     </p>
                     <div className={`mt-1 flex flex-wrap gap-x-3 text-xs ${isMobile ? 'text-gray-500' : 'text-gray-500'}`}>
                       <span>{photo.user_name || 'Unknown'}</span>
@@ -212,8 +217,16 @@ export default function WorkOrderPhotosSection({
                         <FaTimes className="h-3.5 w-3.5" />
                       </button>
                     )}
-                    <button type="button" onClick={() => handleOpenPhoto(photo)} aria-label="View photo">
-                      <FaEye className={`h-4 w-4 mt-0.5 ${isMobile ? 'text-gray-500' : 'text-gray-400'}`} />
+                    <button
+                      type="button"
+                      onClick={() => handleOpenPhoto(photo)}
+                      aria-label={isVideoPhoto(photo) ? 'Play video' : 'View photo'}
+                    >
+                      {isVideoPhoto(photo) ? (
+                        <FaPlay className={`h-4 w-4 mt-0.5 ${isMobile ? 'text-cyan-400' : 'text-blue-600'}`} />
+                      ) : (
+                        <FaEye className={`h-4 w-4 mt-0.5 ${isMobile ? 'text-gray-500' : 'text-gray-400'}`} />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -231,7 +244,7 @@ export default function WorkOrderPhotosSection({
         mimeType={viewer.mimeType}
         driveLink={viewer.driveLink}
         loading={viewer.loading}
-        loadingLabel="Loading photo…"
+        loadingLabel={viewer.mimeType?.startsWith('video/') ? 'Loading video…' : 'Loading photo…'}
         error={viewer.error}
         isMobile={isMobile}
       />
