@@ -38,6 +38,7 @@ def test_one_stop_diagnostic_visit_with_repair_sku_qualifies_for_discount():
         _make_service_line(service_type="repair", appointment_id=appt_id, name="Repair"),
     ]
     work_order.diagnostic_discount_amount = Decimal("50.00")
+    work_order.diagnostic_credit_mode = "full"
     work_order.tax_rate = Decimal("0")
     work_order.amount_previously_paid = Decimal("0")
     work_order.parts = []

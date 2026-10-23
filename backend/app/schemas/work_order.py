@@ -226,6 +226,7 @@ class WorkOrderResponse(WorkOrderBase):
     amount_previously_paid: Optional[float] = 0.00
     diagnostic_discount_applied: Optional[bool] = False
     diagnostic_discount_amount: Optional[float] = None
+    diagnostic_credit_mode: Optional[str] = "half"
     tax_rate: Optional[float] = 0.0775
     tax_collected: Optional[float] = 0.00
 

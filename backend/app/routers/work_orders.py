@@ -2874,6 +2874,32 @@ async def get_work_order_billing_summary(
             detail=f"Error getting billing summary: {str(e)}"
         )
 
+@router.put("/{work_order_id}/diagnostic-credit-mode")
+async def update_work_order_diagnostic_credit_mode(
+    work_order_id: uuid.UUID = Path(...),
+    body: dict = Body(..., example={"diagnostic_credit_mode": "half"}),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_staff_user),
+):
+    """Persist half (50% rounded up) vs full diagnostic credit for billing, PDFs, and portal."""
+    if not await can_access_work_order(work_order_id, current_user, db):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
+    work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == work_order_id).first()
+    if not work_order:
+        raise HTTPException(status_code=404, detail="Work order not found")
+    mode = str(body.get("diagnostic_credit_mode") or "half").lower()
+    if mode not in ("half", "full"):
+        raise HTTPException(status_code=400, detail="diagnostic_credit_mode must be 'half' or 'full'")
+    work_order.diagnostic_credit_mode = mode
+    work_order.updated_by = current_user.id
+    work_order.updated_at = datetime.utcnow()
+    db.commit()
+    return {
+        "message": "Diagnostic credit mode updated",
+        "diagnostic_credit_mode": work_order.diagnostic_credit_mode,
+    }
+
+
 @router.put("/{work_order_id}/tax-rate")
 async def update_work_order_tax_rate(
     work_order_id: uuid.UUID = Path(...),

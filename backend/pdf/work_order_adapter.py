@@ -193,7 +193,16 @@ def compute_totals(rd: dict, *, is_estimate: bool = False) -> dict:
 
     apply_discount = diagnostic_discount_applies(rd, services, for_estimate=is_estimate)
     diag_discount = float(rd.get("diagnostic_discount_amount") or 0)
-    discount = round(diag_discount, 2) if apply_discount else 0.0
+    if apply_discount and diag_discount > 0:
+        mode = str(rd.get("diagnostic_credit_mode") or "half").lower()
+        if mode == "full":
+            discount = round(diag_discount, 2)
+        else:
+            import math
+
+            discount = float(math.ceil(diag_discount / 2))
+    else:
+        discount = 0.0
     if is_estimate:
         total = round(gross_total - discount, 2) if discount else gross_total
     else:
