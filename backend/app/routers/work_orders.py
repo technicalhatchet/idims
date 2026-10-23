@@ -3253,7 +3253,11 @@ async def send_work_order_review_request(
     if not await can_access_work_order(work_order_id, current_user, db):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
 
+    from app.services.feature_flags_service import feature_context_from_roles, require_feature
     from app.services.portal_review_request_service import send_portal_review_request
+
+    roles = getattr(current_user, "roles", None) or []
+    require_feature(db, "review_requests", feature_context_from_roles(roles))
 
     result = await send_portal_review_request(db, work_order_id, force=force)
     if not result.get("sent"):

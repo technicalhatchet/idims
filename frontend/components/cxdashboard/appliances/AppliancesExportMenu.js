@@ -3,6 +3,7 @@ import { FaChevronDown } from 'react-icons/fa';
 import { getPortalSessionToken } from '../../../utils/portalFetch';
 import { buildPortalExportUrl } from '../../../utils/portalPreview';
 import { triggerBlobDownload } from '../../../utils/portalInvoicePdf';
+import { useFeature } from '../../../context/FeatureFlagsContext';
 
 const MENU_ITEMS = [
   { id: 'pdf', path: 'export.pdf', filename: 'appliance-summary.pdf', label: 'Summary (PDF)' },
@@ -16,6 +17,7 @@ const MENU_ITEMS = [
 ];
 
 export default function AppliancesExportMenu({ exportExtraQuery = {} }) {
+  const exportsEnabled = useFeature('appliance_exports');
   const [open, setOpen] = useState(false);
   const [busyId, setBusyId] = useState(null);
   const ref = useRef(null);
@@ -46,6 +48,10 @@ export default function AppliancesExportMenu({ exportExtraQuery = {} }) {
   };
 
   const menuBusy = Boolean(busyId);
+
+  if (!exportsEnabled) {
+    return null;
+  }
 
   return (
     <div ref={ref} className="relative inline-flex justify-end w-full sm:w-auto">

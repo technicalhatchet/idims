@@ -122,6 +122,10 @@ class SettingsService:
         
         # Invalidate cache
         await SettingsService.invalidate_cache()
+        if setting_data.key == "feature_flags":
+            from app.services.feature_flags_service import invalidate_feature_flags_cache
+
+            invalidate_feature_flags_cache()
         
         return {
             "key": result[0],
@@ -169,6 +173,10 @@ class SettingsService:
         
         # Invalidate cache
         await SettingsService.invalidate_cache()
+        if key == "feature_flags":
+            from app.services.feature_flags_service import invalidate_feature_flags_cache
+
+            invalidate_feature_flags_cache()
         
         return {
             "key": result[0],
@@ -261,6 +269,10 @@ class SettingsService:
             elif key == "portal_self_scheduling":
                 if not isinstance(value, dict) or "enabled" not in value:
                     raise ValueError("portal_self_scheduling must be { enabled: bool }")
+            elif key == "feature_flags":
+                from app.services.feature_flags_service import validate_feature_flags_value
+
+                validate_feature_flags_value(value)
             # Add more validations as needed
         except Exception as e:
             raise ValueError(f"Invalid value for setting '{key}': {str(e)}")

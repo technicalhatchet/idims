@@ -34,7 +34,8 @@ from app.routers import (
     inventory,
     quotes, technicians, notifications, reports, public,
     media, mobile, admin, chat, dashboard, properties, app_settings,
-    health, users, debug, services, skills, stripe, distance, dma, job_economics, push, diagnostics, logit
+    health, users, debug, services, skills, stripe, distance, dma, job_economics, push, diagnostics, logit,
+    features,
 )
 from app.core.middleware import (
     RequestLoggingMiddleware, 
@@ -737,6 +738,7 @@ app.include_router(properties.router, prefix="/api/properties", tags=["propertie
 app.include_router(public.router, prefix="/api/public", tags=["public"])
 app.include_router(push.router, prefix="/api/push", tags=["push"])
 app.include_router(app_settings.router, prefix="/api/settings", tags=["settings"])
+app.include_router(features.router, prefix="/api/features", tags=["features"])
 from app.routers import client_portal
 app.include_router(client_portal.router, prefix="/api", tags=["client-portal"])
 # Mock endpoints for clients, technicians, and services

@@ -23,6 +23,10 @@ def maybe_enqueue_review_request(
     db: Session,
     work_order_id: UUID,
 ) -> None:
+    from app.services.feature_flags_service import feature_enabled
+
+    if not feature_enabled(db, "review_requests", None):
+        return
     wo = db.query(WorkOrder).filter(WorkOrder.id == work_order_id).first()
     if not wo or not work_order_paid_and_ready(db, wo):
         return

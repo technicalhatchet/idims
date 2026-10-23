@@ -5,6 +5,7 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { UserRoleProvider } from '../context/UserRoleContext';
 import { ThemeProvider } from '../context/ThemeContext';
 import { UIPreferencesProvider } from '../context/UIPreferencesContext';
+import { FeatureFlagsProvider } from '../context/FeatureFlagsContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 
@@ -240,6 +241,7 @@ function MyApp({ Component, pageProps }) {
       <UserRoleProvider>
       <ThemeProvider>
       <UIPreferencesProvider>
+        <FeatureFlagsProvider>
         <QueryClientProvider client={queryClient}>
           <AppRouteStyles />
           <DevServiceWorkerCleanup />
@@ -260,6 +262,7 @@ function MyApp({ Component, pageProps }) {
             <ReactQueryDevtools initialIsOpen={false} />
           )}
         </QueryClientProvider>
+        </FeatureFlagsProvider>
       </UIPreferencesProvider>
       </ThemeProvider>
       </UserRoleProvider>

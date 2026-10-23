@@ -110,6 +110,32 @@ security = HTTPBearer()
 
 router = APIRouter(tags=["client-portal"])
 
+
+def _portal_feature_ctx(token_data):
+    from app.services.feature_flags_service import feature_context_from_roles
+
+    return feature_context_from_roles(getattr(token_data, "roles", None))
+
+
+def _require_portal_feature(db: Session, flag: str, token_data) -> None:
+    from app.services.feature_flags_service import require_feature
+
+    require_feature(db, flag, _portal_feature_ctx(token_data))
+
+
+def _require_customer_household_invites(
+    db: Session,
+    token_data,
+    admin_client_id: Optional[str],
+) -> None:
+    from app.services.portal_preview_guard import is_admin_preview
+
+    roles = getattr(token_data, "roles", None)
+    if is_admin_preview(roles, admin_client_id):
+        return
+    _require_portal_feature(db, "household_invites", token_data)
+
+
 WARRANTY_DAYS = 90
 WARRANTY_ELIGIBLE_STATUSES = frozenset({
     "completed",
@@ -969,6 +995,14 @@ def _link_portal_account_impl(
                 status_code=503,
                 detail="Unable to verify your account right now. Please try again shortly.",
             ) from exc
+        from app.services.feature_flags_service import (
+            SELF_SIGNUP_DISABLED_DETAIL,
+            feature_enabled,
+        )
+
+        signup_ctx = _portal_feature_ctx(token_data)
+        if not feature_enabled(db, "self_signup", signup_ctx):
+            raise HTTPException(status_code=403, detail=SELF_SIGNUP_DISABLED_DETAIL)
         try:
             client = create_self_signup_client(
                 db,
@@ -1248,8 +1282,11 @@ class PortalLeaveAccountBody(BaseModel):
 @router.get("/portal/account/invites")
 async def portal_list_account_invites(
     client: Client = Depends(get_portal_client),
+    token_data=Depends(get_token_data),
+    admin_client_id: Optional[str] = Query(None),
     db: Session = Depends(get_db),
 ):
+    _require_customer_household_invites(db, token_data, admin_client_id)
     pending = list_pending_portal_invites(db, client.id)
     return {
         "pending_invites": [serialize_pending_invite(c) for c in pending],
@@ -1266,6 +1303,7 @@ async def portal_create_account_invite(
     admin_client_id: Optional[str] = Query(None),
     _write_guard: None = Depends(require_portal_write("POST /portal/account/invites")),
 ):
+    _require_customer_household_invites(db, token_data, admin_client_id)
     display_name = (body.display_name or "").strip()
     if not display_name:
         raise HTTPException(status_code=400, detail="Name is required")
@@ -1329,6 +1367,7 @@ async def portal_resend_account_invite(
         require_portal_write("POST /portal/account/invites/{claim_id}/resend")
     ),
 ):
+    _require_customer_household_invites(db, token_data, admin_client_id)
     claim = get_pending_invite_for_client(db, client.id, claim_id)
     if not claim:
         raise HTTPException(status_code=404, detail="Invite not found")
@@ -1374,12 +1413,15 @@ async def portal_resend_account_invite(
 @router.post("/portal/account/invites/{claim_id}/cancel")
 async def portal_cancel_account_invite(
     claim_id: uuid.UUID,
+    token_data=Depends(get_token_data),
+    admin_client_id: Optional[str] = Query(None),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(
         require_portal_write("POST /portal/account/invites/{claim_id}/cancel")
     ),
 ):
+    _require_customer_household_invites(db, token_data, admin_client_id)
     claim = get_pending_invite_for_client(db, client.id, claim_id)
     if not claim:
         raise HTTPException(status_code=404, detail="Invite not found")
@@ -2417,9 +2459,11 @@ async def get_portal_appliance_suggestions(
 @router.get("/portal/appliances/export.csv")
 async def export_portal_appliances_csv(
     property_id: Optional[str] = None,
+    token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
 ):
+    _require_portal_feature(db, "appliance_exports", token_data)
     from fastapi.responses import Response
     from app.services.portal_property_export_service import appliances_csv
 
@@ -2440,9 +2484,11 @@ async def export_portal_appliances_csv(
 @router.get("/portal/appliances/repairs-export.csv")
 async def export_portal_repairs_csv(
     property_id: Optional[str] = None,
+    token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
 ):
+    _require_portal_feature(db, "appliance_exports", token_data)
     from fastapi.responses import Response
     from app.services.portal_property_export_service import repairs_csv
 
@@ -2463,9 +2509,11 @@ async def export_portal_repairs_csv(
 @router.get("/portal/appliances/export.pdf")
 async def export_portal_appliances_pdf(
     property_id: Optional[str] = None,
+    token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
 ):
+    _require_portal_feature(db, "appliance_exports", token_data)
     from fastapi.responses import Response
     from app.services.portal_property_export_service import generate_appliances_summary_pdf
 
@@ -2881,9 +2929,11 @@ class PortalEstimateDeclineBody(BaseModel):
 @router.get("/portal/work-orders/{work_order_id}/estimate-approval")
 async def get_portal_estimate_approval(
     work_order_id: str,
+    token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
 ):
+    _require_portal_feature(db, "estimate_approval", token_data)
     from app.services.portal_estimate_approval_service import get_estimate_approval_state
 
     wo = db.query(WorkOrder).filter(
@@ -2909,6 +2959,7 @@ async def approve_portal_estimate(
         require_portal_write("POST /portal/work-orders/estimate-approval/approve")
     ),
 ):
+    _require_portal_feature(db, "estimate_approval", token_data)
     from app.services.portal_estimate_approval_service import (
         EstimateApprovalError,
         record_estimate_approval,
@@ -2999,6 +3050,7 @@ async def decline_portal_estimate(
         require_portal_write("POST /portal/work-orders/estimate-approval/decline")
     ),
 ):
+    _require_portal_feature(db, "estimate_approval", token_data)
     from app.services.portal_estimate_approval_service import (
         EstimateApprovalError,
         record_estimate_approval,
@@ -3078,9 +3130,11 @@ async def decline_portal_estimate(
 @router.get("/portal/work-orders/{work_order_id}/photos")
 async def list_portal_work_order_photos(
     work_order_id: str,
+    token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
 ):
+    _require_portal_feature(db, "customer_media_uploads", token_data)
     from app.services import work_order_photos_service as photos_svc
 
     wo = db.query(WorkOrder).filter(
@@ -3103,9 +3157,11 @@ async def download_portal_work_order_photo_file(
     work_order_id: str,
     photo_id: str,
     thumbnail: int = Query(0, ge=0, le=400, description="Max width/height for image thumbnails"),
+    token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
 ):
+    _require_portal_feature(db, "customer_media_uploads", token_data)
     from fastapi.responses import Response
 
     from app.services import work_order_photos_service as photos_svc
@@ -3155,6 +3211,7 @@ async def upload_portal_work_order_photos(
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/work-orders/photos")),
 ):
+    _require_portal_feature(db, "customer_media_uploads", token_data)
     from app.services import work_order_photos_service as photos_svc
 
     if len(files) > photos_svc.MAX_CUSTOMER_FILES_PER_BATCH:
@@ -3225,11 +3282,13 @@ async def upload_portal_work_order_photos(
 async def delete_portal_work_order_photo(
     work_order_id: str,
     photo_id: str,
+    token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
     login: Optional[ClientLogin] = Depends(get_portal_client_login_for_actions),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("DELETE /portal/work-orders/photos")),
 ):
+    _require_portal_feature(db, "customer_media_uploads", token_data)
     from app.services import work_order_photos_service as photos_svc
 
     if login is None:

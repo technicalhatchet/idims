@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { apiClient } from '../../utils/api-client';
 import { upsertAppSetting } from '../../utils/upsertAppSetting';
+import { useFeature } from '../../context/FeatureFlagsContext';
 
 const DEFAULTS = {
   enabled: false,
@@ -10,6 +11,7 @@ const DEFAULTS = {
 };
 
 export default function PortalReviewsSettingsPanel() {
+  const reviewRequestsFeatureOn = useFeature('review_requests');
   const [settings, setSettings] = useState(DEFAULTS);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -48,6 +50,9 @@ export default function PortalReviewsSettingsPanel() {
   return (
     <div className="mt-8 space-y-4" style={ { borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '1.5rem' } }>
       <h3 className="text-white font-semibold">Google review requests</h3>
+      {!reviewRequestsFeatureOn ? (
+        <p className="text-amber-200/80 text-sm m-0">Review requests are turned off.</p>
+      ) : null}
       <label className="flex items-center gap-2 text-sm text-gray-300">
         <input
           type="checkbox"

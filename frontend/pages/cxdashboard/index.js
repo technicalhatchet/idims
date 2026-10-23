@@ -61,6 +61,7 @@ import EstimateApprovalSheet from '../../components/cxdashboard/EstimateApproval
 import {
   portalEstimateNeedsCustomerAction,
 } from '../../utils/portalEstimateApproval';
+import { useFeature } from '../../context/FeatureFlagsContext';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
 const CLIENT_ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -184,6 +185,7 @@ function ClientPicker({ clients, onSelect, loading }) {
 }
 
 export default function ClientDashboard() {
+  const estimateApprovalEnabled = useFeature('estimate_approval');
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
@@ -646,7 +648,9 @@ export default function ClientDashboard() {
     }
   };
 
-  const estimatesNeedingApproval = workOrders.filter(portalEstimateNeedsCustomerAction);
+  const estimatesNeedingApproval = estimateApprovalEnabled
+    ? workOrders.filter(portalEstimateNeedsCustomerAction)
+    : [];
 
   return (
     <>
@@ -749,7 +753,7 @@ export default function ClientDashboard() {
         />
       ) : null}
 
-      {approvalWo && (
+      {estimateApprovalEnabled && approvalWo && (
         <EstimateApprovalSheet
           workOrder={approvalWo}
           onClose={() => setApprovalWo(null)}

@@ -13,6 +13,7 @@ import {
 import { uploadPartsLookupLogo } from '../services/api/partsSettingsApi';
 import PortalSchedulingSettingsPanel from '../components/settings/PortalSchedulingSettingsPanel';
 import PortalReviewsSettingsPanel from '../components/settings/PortalReviewsSettingsPanel';
+import FeatureFlagsSettingsPanel from '../components/settings/FeatureFlagsSettingsPanel';
 import PushNotificationSettingsPanel from '../components/settings/PushNotificationSettingsPanel';
 
 const DAYS = [
@@ -2271,6 +2272,7 @@ export default function Settings() {
           {activeTab === 'availability' && renderAvailabilityTab()}
           {activeTab === 'client-portal' && (
             <>
+              <FeatureFlagsSettingsPanel />
               <PortalSchedulingSettingsPanel />
               <PortalReviewsSettingsPanel />
             </>

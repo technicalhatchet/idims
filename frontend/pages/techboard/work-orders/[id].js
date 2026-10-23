@@ -38,6 +38,7 @@ import PortalSchedulingApprovalBar from '../../../components/work_orders/PortalS
 import PortalDiagnosticPrepaidBadge from '../../../components/work_orders/PortalDiagnosticPrepaidBadge';
 import PortalEstimateApprovalBadge from '../../../components/work_orders/PortalEstimateApprovalBadge';
 import PortalReviewRequestBar from '../../../components/work_orders/PortalReviewRequestBar';
+import { useFeature } from '../../../context/FeatureFlagsContext';
 import WorkOrderRedoParentLink from '../../../components/work_orders/WorkOrderRedoParentLink';
 import WorkOrderCloseModal from '../../../components/work_orders/WorkOrderCloseModal';
 import WoMobileGlassSection, {
@@ -144,6 +145,8 @@ function WorkOrderDetail() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteModalError, setDeleteModalError] = useState(null);
   const { isManager, role } = useUserRole();
+  const estimateApprovalFeature = useFeature('estimate_approval');
+  const reviewRequestsFeature = useFeature('review_requests');
   const manualStatusOptions = useMemo(
     () => workOrderStatusOptionsForUser({ role, isManager }),
     [role, isManager],
@@ -232,6 +235,7 @@ function WorkOrderDetail() {
   );
 
   useEffect(() => {
+    if (!estimateApprovalFeature) return undefined;
     if (!id || workOrder?.status !== 'pending_estimate_approval') return undefined;
     const tick = () => {
       if (typeof document !== 'undefined' && document.visibilityState !== 'visible') return;
@@ -243,7 +247,7 @@ function WorkOrderDetail() {
       window.clearInterval(intervalId);
       document.removeEventListener('visibilitychange', tick);
     };
-  }, [id, workOrder?.status, refreshWorkOrderFromNetwork]);
+  }, [id, workOrder?.status, refreshWorkOrderFromNetwork, estimateApprovalFeature]);
   const woClosed = useMemo(() => isWorkOrderClosed(workOrder), [workOrder]);
   const woImmutable = useMemo(() => isWorkOrderImmutable(workOrder), [workOrder]);
   const woRedoReadOnly = useMemo(() => isWorkOrderReadOnly(workOrder), [workOrder]);
@@ -929,8 +933,12 @@ function WorkOrderDetail() {
 
         <div className="flex flex-wrap items-center gap-2 mb-2">
           <PortalDiagnosticPrepaidBadge workOrder={workOrder} />
-          <PortalEstimateApprovalBadge workOrder={workOrder} />
-          <PortalReviewRequestBar workOrder={workOrder} onUpdated={refetch} />
+          {estimateApprovalFeature ? (
+            <PortalEstimateApprovalBadge workOrder={workOrder} />
+          ) : null}
+          {reviewRequestsFeature ? (
+            <PortalReviewRequestBar workOrder={workOrder} onUpdated={refetch} />
+          ) : null}
         </div>
 
         <PortalSchedulingApprovalBar workOrder={workOrder} onUpdated={refetch} />
