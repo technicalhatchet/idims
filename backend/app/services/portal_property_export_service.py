@@ -265,6 +265,12 @@ def _build_property_sections(
     return [(headers[k][0], headers[k][1], grouped[k]) for k in ordered_keys]
 
 
+def _format_summary_count_line(property_count: int, appliance_count: int) -> str:
+    property_label = "property" if property_count == 1 else "properties"
+    appliance_label = "appliance" if appliance_count == 1 else "appliances"
+    return f"{property_count} {property_label} · {appliance_count} {appliance_label}"
+
+
 def _display_cell(value: Optional[str]) -> str:
     text = (value or "").strip()
     return text if text else _EM_DASH
@@ -322,10 +328,7 @@ def build_appliance_summary_document(
     return {
         "customer_line": customer_line,
         "prepared_label": _prepared_label_eastern(),
-        "summary_line": (
-            f"{appliance_count} appliance{'s' if appliance_count != 1 else ''} across "
-            f"{property_count} propert{'ies' if property_count != 1 else 'y'}"
-        ),
+        "summary_line": _format_summary_count_line(property_count, appliance_count),
         "sections": pdf_sections,
     }
 
