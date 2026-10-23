@@ -59,6 +59,18 @@ export function billingDisplayServices(services) {
   return (services || []).filter((service) => !isHiddenZeroTripChargeLine(service));
 }
 
+/** Line total for billing math — matches backend `_service_line_total`. */
+export function serviceLineTotal(service) {
+  if (!service) return 0;
+  const price = parseFloat(service.price);
+  if (Number.isFinite(price) && price > 0) return round2(price);
+  const totalPrice = parseFloat(service.total_price);
+  if (Number.isFinite(totalPrice) && totalPrice > 0) return round2(totalPrice);
+  const unit = parseFloat(service.unit_price || 0);
+  const qty = parseFloat(service.quantity || service.qty || 1);
+  return round2(unit * qty);
+}
+
 /** Unscheduled estimate line — no visit, not yet billable. */
 export function isUnscheduledEstimateLine(item) {
   return !item?.appointment_id && item?.billing_status === 'not_billable';
@@ -112,7 +124,7 @@ export function computeWorkOrderDueToday(workOrder, allServices, halfDiagnosticD
 
   const billableServices = (allServices || [])
     .filter((s) => s.billing_status === 'billable')
-    .reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
+    .reduce((sum, s) => sum + serviceLineTotal(s), 0);
   const billableParts = (workOrder.parts || [])
     .filter((p) => PART_DUE_STATUSES.includes(p.status))
     .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
@@ -124,7 +136,7 @@ export function computeWorkOrderDueToday(workOrder, allServices, halfDiagnosticD
     round2(billableServices + billableParts + taxOnBillableParts - previouslyPaid - dueTodayDiscount)
   );
 
-  const servicesSubtotal = (allServices || []).reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
+  const servicesSubtotal = (allServices || []).reduce((sum, s) => sum + serviceLineTotal(s), 0);
   const partsSubtotal = (workOrder.parts || []).reduce(
     (sum, p) => sum + parseFloat(p.price || 0),
     0,

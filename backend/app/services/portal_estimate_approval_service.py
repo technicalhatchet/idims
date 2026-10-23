@@ -17,7 +17,10 @@ from app.models.client_login import ClientLogin
 from app.models.estimate_approval import EstimateApproval
 from app.models.work_order import WorkOrder
 from app.services.google_drive_service import upload_photo_to_drive
-from app.services.portal_estimate_content import build_portal_estimate_snapshot
+from app.services.portal_estimate_content import (
+    build_portal_estimate_snapshot,
+    estimate_approval_content_changed,
+)
 from app.services.work_order_invoice_pdf_data import generate_work_order_estimate_pdf_v2
 from app.utils.portal_estimate import portal_estimate_meta
 
@@ -147,7 +150,9 @@ def get_estimate_approval_state(
         .first()
     )
     estimate_changed_since_approval = False
-    if latest_approved_any and latest_approved_any.estimate_content_hash != content_hash:
+    if latest_approved_any and estimate_approval_content_changed(
+        latest_approved_any.estimate_content_hash, snapshot
+    ):
         estimate_changed_since_approval = True
 
     needs_new_approval = estimate_changed_since_approval
@@ -220,7 +225,8 @@ def staff_estimate_approval_summary(db: Session, work_order: WorkOrder) -> Dict[
         .first()
     )
     changed = bool(
-        latest_approved and latest_approved.estimate_content_hash != content_hash
+        latest_approved
+        and estimate_approval_content_changed(latest_approved.estimate_content_hash, snapshot)
     )
     if not latest:
         return {
@@ -240,6 +246,9 @@ def staff_estimate_approval_summary(db: Session, work_order: WorkOrder) -> Dict[
             "estimate_content_hash": latest.estimate_content_hash,
             "signature_drive_file_id": latest.signature_drive_file_id,
             "estimate_pdf_drive_file_id": latest.estimate_pdf_drive_file_id,
+            "decision_source": getattr(latest, "decision_source", None) or "customer",
+            "staff_user_name": getattr(latest, "staff_user_name", None),
+            "staff_note": getattr(latest, "staff_note", None),
         },
     }
 
@@ -275,6 +284,10 @@ def record_estimate_approval(
     decline_reason: Optional[str],
     ip: Optional[str],
     user_agent: Optional[str],
+    decision_source: str = "customer",
+    staff_user_id: Optional[UUID] = None,
+    staff_user_name: Optional[str] = None,
+    staff_note: Optional[str] = None,
 ) -> EstimateApproval:
     snapshot = build_portal_estimate_snapshot(db, work_order)
     content_hash = snapshot["estimate_content_hash"]
@@ -284,17 +297,29 @@ def record_estimate_approval(
     pdf_drive_id = None
     order_number = work_order.order_number or str(work_order.id)[:8]
 
+    staff_on_behalf = decision_source == "staff_on_behalf"
+
     if decision == "approved":
-        if not (signer_name or "").strip():
+        if staff_on_behalf:
+            if not (staff_user_name or "").strip():
+                raise EstimateApprovalError(
+                    "staff_required",
+                    "Staff name is required for on-behalf approval.",
+                )
+        elif not (signer_name or "").strip():
             raise EstimateApprovalError("name_required", "Please enter your name.")
-        sig_bytes = _decode_signature_png(signature_png_b64 or "")
-        safe_name = re.sub(r"[^a-zA-Z0-9._-]+", "-", signer_name.strip())[:40]
-        sig_drive_id = _upload_bytes_to_drive(
-            file_bytes=sig_bytes,
-            filename=f"{order_number}_estimate-signature_{safe_name}.png",
-            mime_type="image/png",
-            order_number=order_number,
-        )
+        sig_bytes = None
+        if not staff_on_behalf:
+            sig_bytes = _decode_signature_png(signature_png_b64 or "")
+        sig_drive_id = None
+        if sig_bytes:
+            safe_name = re.sub(r"[^a-zA-Z0-9._-]+", "-", (signer_name or "").strip())[:40]
+            sig_drive_id = _upload_bytes_to_drive(
+                file_bytes=sig_bytes,
+                filename=f"{order_number}_estimate-signature_{safe_name}.png",
+                mime_type="image/png",
+                order_number=order_number,
+            )
         pdf_bytes = generate_work_order_estimate_pdf_v2(db, work_order, variant="light")
         pdf_drive_id = _upload_bytes_to_drive(
             file_bytes=pdf_bytes,
@@ -303,17 +328,25 @@ def record_estimate_approval(
             order_number=order_number,
         )
 
+    display_signer = (signer_name or "").strip() or None
+    if staff_on_behalf and decision == "approved":
+        display_signer = (staff_user_name or "").strip() or None
+
     row = EstimateApproval(
         work_order_id=work_order.id,
         client_id=client.id,
         client_login_id=login.id if login else None,
         decision=decision,
-        signer_name=(signer_name or "").strip() or None,
+        signer_name=display_signer,
         signature_drive_file_id=sig_drive_id,
         estimate_total=Decimal(str(snapshot["total"])),
         estimate_content_hash=content_hash,
         estimate_pdf_drive_file_id=pdf_drive_id,
         decline_reason=(decline_reason or "").strip() or None,
+        decision_source=decision_source,
+        staff_user_id=staff_user_id,
+        staff_user_name=(staff_user_name or "").strip() or None,
+        staff_note=(staff_note or "").strip() or None,
         ip=ip,
         user_agent=(user_agent or "")[:500] or None,
     )

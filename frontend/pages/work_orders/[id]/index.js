@@ -43,6 +43,7 @@ import {
   isUnscheduledEstimateLine,
   resolveWorkOrderTaxRate,
   round2,
+  serviceLineTotal,
   SERVICE_BILLING_STATUS_OPTIONS,
   taxablePartsSubtotal,
   isWorkOrderPaidInFullForDocuments,
@@ -93,7 +94,7 @@ function WorkOrderDetail() {
   const [isApplyingPayment, setIsApplyingPayment] = useState(false);
   const [clientWorkOrders, setClientWorkOrders] = useState([]);
   const [clientWorkOrdersLoading, setClientWorkOrdersLoading] = useState(false);
-  const [halfDiagnosticDiscount, setHalfDiagnosticDiscount] = useState(false);
+  const [halfDiagnosticDiscount, setHalfDiagnosticDiscount] = useState(true);
   const [editingServicePrice, setEditingServicePrice] = useState(null); // { id, price, unit_price, name, billing_status }
   const [editingPartPrice, setEditingPartPrice] = useState(null); // { id, price, cost }
   const [isSavingPrice, setIsSavingPrice] = useState(false);
@@ -1362,7 +1363,7 @@ function WorkOrderDetail() {
                       const taxPct = formatTaxPercent(taxRate);
 
                       // All services regardless of billing status
-                      const servicesSubtotal = (allServices || []).reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
+                      const servicesSubtotal = (allServices || []).reduce((sum, s) => sum + serviceLineTotal(s), 0);
 
                       // All parts on the work order (matches services subtotal behavior)
                       const partsSubtotal = (workOrder.parts || [])
@@ -1393,16 +1394,7 @@ function WorkOrderDetail() {
                       const totalWorkOrder = round2(grossTotal - discountAmt);
                       const previouslyPaid = round2(parseFloat(workOrder.amount_previously_paid || 0));
 
-                      // Due Today = billable services only + parts due now (with tax) - previously paid
-                      const billableServices = (allServices || [])
-                        .filter(s => s.billing_status === 'billable')
-                        .reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
-                      const billableParts = (workOrder.parts || [])
-                        .filter(p => ['phone_payment', 'upfront_50', 'installed', 'paid_not_installed'].includes(p.status))
-                        .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
-                      const taxOnBillableParts = round2(billableParts * taxRate);
-                      const dueTodayDiscount = repairCompleted ? discountAmt : 0;
-                      const dueToday = Math.max(0, round2(billableServices + billableParts + taxOnBillableParts - previouslyPaid - dueTodayDiscount));
+                      const dueToday = billingTotals.dueToday;
 
                       return (
                         <>
@@ -1469,11 +1461,11 @@ function WorkOrderDetail() {
                                   <label className="flex items-center gap-1 text-xs cursor-pointer not-italic">
                                     <input
                                       type="checkbox"
-                                      checked={halfDiagnosticDiscount}
-                                      onChange={e => setHalfDiagnosticDiscount(e.target.checked)}
+                                      checked={!halfDiagnosticDiscount}
+                                      onChange={(e) => setHalfDiagnosticDiscount(!e.target.checked)}
                                       className="rounded"
                                     />
-                                    50% only
+                                    100% discount
                                   </label>
                                 </div>
                                 <span>-${discountAmt.toFixed(2)}</span>

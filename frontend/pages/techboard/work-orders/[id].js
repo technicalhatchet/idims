@@ -14,7 +14,9 @@ import ErrorAlert from '../../../components/ui/ErrorAlert';
 import Button from '../../../components/ui/Button';
 import Modal from '../../../components/ui/Modal';
 import MobileActionSheet, { MobileActionSheetButton, MobileActionSheetGridTile } from '../../../components/ui/MobileActionSheet';
-import { useWorkOrder, useWorkOrderMutations } from '../../../hooks/useWorkOrders';
+import { useQueryClient } from '@tanstack/react-query';
+import { useWorkOrder, useWorkOrderMutations, refetchWorkOrderFromNetwork } from '../../../hooks/useWorkOrders';
+import PullToRefresh from '../../../components/ui/PullToRefresh';
 import { apiClient } from '../../../utils/api-client';
 import { useTheme } from '../../../context/ThemeContext';
 import AppointmentScheduler from '../../../components/work_orders/AppointmentScheduler';
@@ -66,6 +68,7 @@ import {
   isUnscheduledEstimateLine,
   resolveWorkOrderTaxRate,
   round2,
+  serviceLineTotal,
   SERVICE_BILLING_STATUS_OPTIONS,
   taxablePartsSubtotal,
   isWorkOrderPaidInFullForDocuments,
@@ -150,7 +153,7 @@ function WorkOrderDetail() {
   const [isApplyingPayment, setIsApplyingPayment] = useState(false);
   const [clientWorkOrders, setClientWorkOrders] = useState([]);
   const [clientWorkOrdersLoading, setClientWorkOrdersLoading] = useState(false);
-  const [halfDiagnosticDiscount, setHalfDiagnosticDiscount] = useState(false);
+  const [halfDiagnosticDiscount, setHalfDiagnosticDiscount] = useState(true);
   const [editingServicePrice, setEditingServicePrice] = useState(null); // { id, price, unit_price, name, billing_status }
   const [editingPartPrice, setEditingPartPrice] = useState(null); // { id, price, cost }
   const [isSavingPrice, setIsSavingPrice] = useState(false);
@@ -190,8 +193,28 @@ function WorkOrderDetail() {
   const { theme } = useTheme();
 
   // Fetch work order details
+  const queryClient = useQueryClient();
   const { data: workOrder, isLoading, error, refetch } = useWorkOrder(id);
   const showInitialLoader = isLoading && !workOrder;
+
+  const refreshWorkOrderFromNetwork = useCallback(async () => {
+    if (!id) return;
+    await refetchWorkOrderFromNetwork(queryClient, id);
+  }, [id, queryClient]);
+
+  useEffect(() => {
+    if (!id || workOrder?.status !== 'pending_estimate_approval') return undefined;
+    const tick = () => {
+      if (typeof document !== 'undefined' && document.visibilityState !== 'visible') return;
+      refreshWorkOrderFromNetwork();
+    };
+    const intervalId = window.setInterval(tick, 20_000);
+    document.addEventListener('visibilitychange', tick);
+    return () => {
+      window.clearInterval(intervalId);
+      document.removeEventListener('visibilitychange', tick);
+    };
+  }, [id, workOrder?.status, refreshWorkOrderFromNetwork]);
   const woClosed = useMemo(() => isWorkOrderClosed(workOrder), [workOrder]);
   const woImmutable = useMemo(() => isWorkOrderImmutable(workOrder), [workOrder]);
   const woRedoReadOnly = useMemo(() => isWorkOrderReadOnly(workOrder), [workOrder]);
@@ -650,7 +673,15 @@ function WorkOrderDetail() {
         `}</style>
       </Head>
 
-      <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
+      <PullToRefresh onRefresh={refreshWorkOrderFromNetwork}>
+      <div
+        className="min-h-screen pb-24 md:pb-8"
+        style={{
+          background: '#0A0F1E',
+          paddingTop: 'env(safe-area-inset-top, 0px)',
+          paddingBottom: 'calc(5.5rem + env(safe-area-inset-bottom, 0px))',
+        }}
+      >
       <div 
         ref={tacticalColumnRef}
         className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto" 
@@ -2171,13 +2202,12 @@ function WorkOrderDetail() {
                       // Due Today = billable services only + parts due now (with tax) - previously paid
                       const billableServices = (allServices || [])
                         .filter(s => s.billing_status === 'billable')
-                        .reduce((sum, s) => sum + parseFloat(s.price || 0), 0);
+                        .reduce((sum, s) => sum + serviceLineTotal(s), 0);
                       const billableParts = (workOrder.parts || [])
                         .filter(p => ['phone_payment', 'upfront_50', 'installed', 'paid_not_installed'].includes(p.status))
                         .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
                       const taxOnBillableParts = round2(billableParts * taxRate);
-                      const dueTodayDiscount = repairCompleted ? discountAmt : 0;
-                      const dueToday = Math.max(0, round2(billableServices + billableParts + taxOnBillableParts - previouslyPaid - dueTodayDiscount));
+                      const dueToday = billingTotals.dueToday;
 
                       return (
                         <>
@@ -2244,11 +2274,11 @@ function WorkOrderDetail() {
                                   <label className="flex items-center gap-1 text-xs cursor-pointer not-italic">
                                     <input
                                       type="checkbox"
-                                      checked={halfDiagnosticDiscount}
-                                      onChange={e => setHalfDiagnosticDiscount(e.target.checked)}
+                                      checked={!halfDiagnosticDiscount}
+                                      onChange={(e) => setHalfDiagnosticDiscount(!e.target.checked)}
                                       className="rounded"
                                     />
-                                    50% only
+                                    100% discount
                                   </label>
                                 </div>
                                 <span>-${discountAmt.toFixed(2)}</span>
@@ -2613,7 +2643,10 @@ function WorkOrderDetail() {
       {!(notesPhotoSheetOpen || notesAddSheetOpen || guidedDiagnosticsOpen) && (
       <div
         className="md:hidden fixed inset-x-0 bottom-0 z-[1188] border-t border-white/10 bg-[#0B1120]/95 backdrop-blur-md px-3 pt-2 touch-manipulation"
-        style={{ paddingBottom: 'max(10px, env(safe-area-inset-bottom))' }}
+        style={{
+          paddingBottom: 'max(10px, env(safe-area-inset-bottom))',
+          transform: 'translateZ(0)',
+        }}
         data-touch-surface
       >
         {activeTab === TABS.NOTES && !woReadOnly ? (
@@ -2845,6 +2878,7 @@ function WorkOrderDetail() {
       />
 
       </div>
+      </PullToRefresh>
     </>
   );
 }

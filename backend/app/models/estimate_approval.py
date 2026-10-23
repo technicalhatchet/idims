@@ -39,6 +39,14 @@ class EstimateApproval(Base):
     estimate_content_hash = Column(String(64), nullable=False)
     estimate_pdf_drive_file_id = Column(Text, nullable=True)
     decline_reason = Column(Text, nullable=True)
+    decision_source = Column(String(32), nullable=False, default="customer")
+    staff_user_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("users.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+    staff_user_name = Column(Text, nullable=True)
+    staff_note = Column(Text, nullable=True)
     ip = Column(Text, nullable=True)
     user_agent = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)

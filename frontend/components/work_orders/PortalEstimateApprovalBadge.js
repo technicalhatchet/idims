@@ -7,8 +7,13 @@ export default function PortalEstimateApprovalBadge({ workOrder }) {
 
   let label = null;
   let color = '#9ca3af';
+  const latest = summary.latest;
   if (badge === 'approved') {
-    label = 'Estimate approved';
+    if (latest?.decision_source === 'staff_on_behalf' && latest?.staff_user_name) {
+      label = `Approved by ${latest.staff_user_name} on behalf of customer`;
+    } else {
+      label = 'Estimate approved';
+    }
     color = '#22c55e';
   } else if (badge === 'declined') {
     label = 'Estimate declined';
@@ -23,7 +28,11 @@ export default function PortalEstimateApprovalBadge({ workOrder }) {
           style={{ background: `${color}22`, color, border: `1px solid ${color}44` }}
         >
           {label}
-          {summary.latest?.signer_name ? ` — ${summary.latest.signer_name}` : ''}
+          {badge === 'approved'
+            && latest?.decision_source !== 'staff_on_behalf'
+            && latest?.signer_name
+            ? ` — ${latest.signer_name}`
+            : ''}
         </span>
       )}
       {changed && (

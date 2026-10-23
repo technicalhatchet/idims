@@ -6,6 +6,7 @@ import {
   triggerBlobDownload,
 } from '../../utils/portalInvoicePdf';
 import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
+import { isPortalPreviewActive, isPortalPreviewUnlocked } from '../../utils/portalPreview';
 
 function SignaturePad({ onChange }) {
   const canvasRef = useRef(null);
@@ -104,25 +105,43 @@ export default function EstimateApprovalSheet({ workOrder, onClose, onDecided })
   const [declineReason, setDeclineReason] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [staffNote, setStaffNote] = useState('');
 
   const woId = workOrder?.id;
+  const staffOnBehalf = isPortalPreviewActive() && isPortalPreviewUnlocked();
+
+  const loadState = useCallback(async () => {
+    if (!woId) return;
+    setError(null);
+    try {
+      const token = await getPortalSessionToken();
+      const data = await portalFetch(`work-orders/${woId}/estimate-approval`, token);
+      setState(data);
+    } catch (err) {
+      setError(err.message || 'Could not load estimate');
+    }
+  }, [woId]);
 
   useEffect(() => {
     if (!woId) return;
-    (async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const token = await getPortalSessionToken();
-        const data = await portalFetch(`work-orders/${woId}/estimate-approval`, token);
-        setState(data);
-      } catch (err) {
-        setError(err.message || 'Could not load estimate');
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, [woId]);
+    setLoading(true);
+    loadState().finally(() => setLoading(false));
+  }, [woId, loadState]);
+
+  useEffect(() => {
+    if (!woId || workOrder?.status !== 'pending_estimate_approval') return undefined;
+    const tick = () => {
+      if (typeof document !== 'undefined' && document.visibilityState !== 'visible') return;
+      loadState();
+    };
+    const id = window.setInterval(tick, 20_000);
+    const onVis = () => tick();
+    document.addEventListener('visibilitychange', onVis);
+    return () => {
+      window.clearInterval(id);
+      document.removeEventListener('visibilitychange', onVis);
+    };
+  }, [woId, workOrder?.status, loadState]);
 
   const submitApprove = async () => {
     setSubmitting(true);
@@ -131,7 +150,11 @@ export default function EstimateApprovalSheet({ workOrder, onClose, onDecided })
       const token = await getPortalSessionToken();
       await portalFetch(`work-orders/${woId}/estimate-approval/approve`, token, {
         method: 'POST',
-        body: JSON.stringify({ signer_name: signerName, signature_png: signature }),
+        body: JSON.stringify(
+          staffOnBehalf
+            ? { staff_note: staffNote.trim() || null }
+            : { signer_name: signerName, signature_png: signature },
+        ),
       });
       onDecided?.();
       onClose?.();
@@ -149,7 +172,10 @@ export default function EstimateApprovalSheet({ workOrder, onClose, onDecided })
       const token = await getPortalSessionToken();
       await portalFetch(`work-orders/${woId}/estimate-approval/decline`, token, {
         method: 'POST',
-        body: JSON.stringify({ decline_reason: declineReason || null }),
+        body: JSON.stringify({
+          decline_reason: declineReason || null,
+          staff_note: staffOnBehalf ? staffNote.trim() || null : null,
+        }),
       });
       onDecided?.();
       onClose?.();
@@ -267,21 +293,43 @@ export default function EstimateApprovalSheet({ workOrder, onClose, onDecided })
 
             {canAct && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <label style={{ color: '#9ca3af', fontSize: '0.75rem' }}>
-                  Your name
-                  <input
-                    value={signerName}
-                    onChange={(e) => setSignerName(e.target.value)}
-                    className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white"
-                  />
-                </label>
-                <div>
-                  <p style={{ color: '#9ca3af', fontSize: '0.75rem', marginBottom: 4 }}>Sign with your finger</p>
-                  <SignaturePad onChange={setSignature} />
-                </div>
+                {staffOnBehalf ? (
+                  <p style={{ color: '#fbbf24', fontSize: '0.8125rem', margin: 0 }}>
+                    Staff on behalf of customer — no signature required.
+                  </p>
+                ) : (
+                  <>
+                    <label style={{ color: '#9ca3af', fontSize: '0.75rem' }}>
+                      Your name
+                      <input
+                        value={signerName}
+                        onChange={(e) => setSignerName(e.target.value)}
+                        className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white"
+                      />
+                    </label>
+                    <div>
+                      <p style={{ color: '#9ca3af', fontSize: '0.75rem', marginBottom: 4 }}>Sign with your finger</p>
+                      <SignaturePad onChange={setSignature} />
+                    </div>
+                  </>
+                )}
+                {staffOnBehalf && (
+                  <label style={{ color: '#9ca3af', fontSize: '0.75rem' }}>
+                    Note (optional)
+                    <textarea
+                      value={staffNote}
+                      onChange={(e) => setStaffNote(e.target.value)}
+                      rows={2}
+                      className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white"
+                    />
+                  </label>
+                )}
                 <button
                   type="button"
-                  disabled={submitting || !signerName.trim() || !signature}
+                  disabled={
+                    submitting
+                    || (!staffOnBehalf && (!signerName.trim() || !signature))
+                  }
                   onClick={submitApprove}
                   style={{
                     padding: '10px 14px',
@@ -290,7 +338,7 @@ export default function EstimateApprovalSheet({ workOrder, onClose, onDecided })
                     background: '#22d3ee',
                     color: '#0A0F1E',
                     fontWeight: 700,
-                    opacity: submitting || !signerName.trim() || !signature ? 0.5 : 1,
+                    opacity: submitting || (!staffOnBehalf && (!signerName.trim() || !signature)) ? 0.5 : 1,
                     cursor: 'pointer',
                   }}
                 >
