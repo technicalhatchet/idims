@@ -37,6 +37,25 @@ export function getWorkOrderPhotoDownloadUrl(photoId) {
   return buildApiUrl(`${BASE}/photos/${photoId}/download`);
 }
 
+export async function deleteWorkOrderCustomerPhoto(workOrderId, photoId) {
+  const headers = await getAuthHeaders();
+  const url = buildApiUrl(`${BASE}/${workOrderId}/photos/${photoId}`);
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers,
+    credentials: 'include',
+  });
+  if (!response.ok) {
+    let detail = 'Could not remove customer photo';
+    try {
+      const err = await response.json();
+      detail = err.detail || detail;
+    } catch (_) { /* ignore */ }
+    throw new Error(typeof detail === 'string' ? detail : detail);
+  }
+  return response.json().catch(() => ({ success: true }));
+}
+
 export async function fetchWorkOrderPhotoBlob(photoId) {
   const headers = await getAuthHeaders();
   const url = getWorkOrderPhotoDownloadUrl(photoId);

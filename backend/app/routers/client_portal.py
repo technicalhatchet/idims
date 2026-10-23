@@ -41,7 +41,7 @@ from app.models.client import Client
 from app.models.client_login import ClientLogin
 from app.models.user import User as DBUser
 from app.models.notification import Notification
-from app.models.work_order import WorkOrder, WorkOrderAppointment, WorkOrderService
+from app.models.work_order import WorkOrder, WorkOrderAppointment, WorkOrderPhoto, WorkOrderService
 from app.models.property import Property
 from app.models.client_appliance import ClientAppliance
 from app.utils.datetime_utils import utcnow_naive
@@ -597,6 +597,30 @@ async def get_portal_client_login(
             detail="Active portal login required",
         )
     return login
+
+
+def _resolve_portal_media_uploader_id(
+    db: Session,
+    *,
+    client: Client,
+    login: Optional[ClientLogin],
+    auth0_sub: str,
+) -> uuid.UUID:
+    """Client user for real logins; staff users.id when admin preview (login is None)."""
+    if login is not None:
+        if not client.user_id:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Your account is not fully linked yet. Please call us to add photos.",
+            )
+        return client.user_id
+    admin = db.query(DBUser).filter(DBUser.auth_id == auth0_sub).first()
+    if not admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Staff user record required for preview uploads.",
+        )
+    return admin.id
 
 
 async def get_portal_client_login_for_actions(
@@ -2997,7 +3021,12 @@ async def list_portal_work_order_photos(
     if not wo:
         raise HTTPException(status_code=404, detail="Work order not found")
     rows = photos_svc.list_photos(db, wo.id)
-    return {"items": [photos_svc.photo_to_dict(r) for r in rows]}
+    customer_count = photos_svc.count_active_customer_media(db, wo.id)
+    return {
+        "items": [photos_svc.photo_to_dict(r) for r in rows],
+        "customer_media_count": customer_count,
+        "customer_media_limit": photos_svc.MAX_CUSTOMER_FILES_PER_BATCH,
+    }
 
 
 @router.post("/portal/work-orders/{work_order_id}/photos")
@@ -3006,7 +3035,8 @@ async def upload_portal_work_order_photos(
     background_tasks: BackgroundTasks,
     files: List[UploadFile] = File(...),
     client: Client = Depends(get_portal_client),
-    login: ClientLogin = Depends(get_portal_client_login),
+    login: Optional[ClientLogin] = Depends(get_portal_client_login_for_actions),
+    token_data=Depends(get_token_data),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/work-orders/photos")),
 ):
@@ -3022,11 +3052,13 @@ async def upload_portal_work_order_photos(
     if not wo:
         raise HTTPException(status_code=404, detail="Work order not found")
 
-    if not client.user_id:
-        raise HTTPException(
-            status_code=400,
-            detail="Your account is not fully linked yet. Please call us to add photos.",
-        )
+    uploader_id = _resolve_portal_media_uploader_id(
+        db, client=client, login=login, auth0_sub=token_data.sub
+    )
+
+    existing = photos_svc.count_active_customer_media(db, wo.id)
+    if existing + len(files) > photos_svc.MAX_CUSTOMER_FILES_PER_BATCH:
+        raise HTTPException(status_code=400, detail=photos_svc.CUSTOMER_MEDIA_LIMIT_MESSAGE)
 
     saved = []
     try:
@@ -3036,7 +3068,7 @@ async def upload_portal_work_order_photos(
             row = photos_svc.save_customer_portal_media(
                 db,
                 work_order_id=wo.id,
-                uploaded_by_user_id=client.user_id,
+                uploaded_by_user_id=uploader_id,
                 client_login_id=login.id if login else None,
                 file_bytes=content,
                 original_filename=upload.filename or "upload",
@@ -3072,3 +3104,57 @@ async def upload_portal_work_order_photos(
         background_tasks.add_task(_notify_staff_media)
 
     return {"items": saved}
+
+
+@router.delete("/portal/work-orders/{work_order_id}/photos/{photo_id}")
+async def delete_portal_work_order_photo(
+    work_order_id: str,
+    photo_id: str,
+    client: Client = Depends(get_portal_client),
+    login: Optional[ClientLogin] = Depends(get_portal_client_login_for_actions),
+    db: Session = Depends(get_db),
+    _write_guard: None = Depends(require_portal_write("DELETE /portal/work-orders/photos")),
+):
+    from app.services import work_order_photos_service as photos_svc
+
+    if login is None:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Sign in as a client to remove your uploads.",
+        )
+
+    wo = db.query(WorkOrder).filter(
+        WorkOrder.id == work_order_id,
+        WorkOrder.client_id == client.id,
+    ).first()
+    if not wo:
+        raise HTTPException(status_code=404, detail="Work order not found")
+
+    try:
+        photo_uuid = uuid.UUID(photo_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid photo id")
+
+    row = (
+        db.query(WorkOrderPhoto)
+        .filter(
+            WorkOrderPhoto.id == photo_uuid,
+            WorkOrderPhoto.work_order_id == wo.id,
+        )
+        .first()
+    )
+    if not row or not photos_svc.client_owns_customer_photo(
+        row,
+        client_user_id=client.user_id,
+        client_login_id=login.id,
+    ):
+        raise HTTPException(status_code=404, detail="Photo not found")
+
+    try:
+        photos_svc.remove_customer_portal_media(db, row)
+        db.commit()
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+    return {"success": True}

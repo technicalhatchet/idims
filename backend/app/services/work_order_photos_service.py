@@ -16,6 +16,7 @@ from app.services.google_drive_service import (
     download_drive_file_bytes,
     drive_unavailable_reason,
     save_photo_locally,
+    trash_drive_file,
     upload_photo_to_drive,
 )
 
@@ -49,16 +50,22 @@ def existing_work_order_drive_folder_id(db: Session, work_order_id: UUID) -> Opt
 
 def list_photos(db: Session, work_order_id: UUID) -> List[WorkOrderPhoto]:
     return (
-        db.query(WorkOrderPhoto)
-        .options(joinedload(WorkOrderPhoto.uploader))
-        .filter(WorkOrderPhoto.work_order_id == work_order_id)
+        _active_photos_filter(
+            db.query(WorkOrderPhoto)
+            .options(joinedload(WorkOrderPhoto.uploader))
+            .filter(WorkOrderPhoto.work_order_id == work_order_id)
+        )
         .order_by(WorkOrderPhoto.created_at.desc())
         .all()
     )
 
 
 def get_photo(db: Session, photo_id: UUID) -> WorkOrderPhoto:
-    row = db.query(WorkOrderPhoto).filter(WorkOrderPhoto.id == photo_id).first()
+    row = (
+        _active_photos_filter(db.query(WorkOrderPhoto))
+        .filter(WorkOrderPhoto.id == photo_id)
+        .first()
+    )
     if not row:
         raise ValueError("Photo not found")
     return row
@@ -76,6 +83,22 @@ ALLOWED_CUSTOMER_VIDEO_TYPES = frozenset({
 })
 MAX_CUSTOMER_FILE_BYTES = 25 * 1024 * 1024
 MAX_CUSTOMER_FILES_PER_BATCH = 6
+CUSTOMER_MEDIA_LIMIT_MESSAGE = "You can add up to 6 photos or videos per repair."
+
+
+def _active_photos_filter(query):
+    return query.filter(WorkOrderPhoto.removed_at.is_(None))
+
+
+def count_active_customer_media(db: Session, work_order_id: UUID) -> int:
+    return (
+        _active_photos_filter(
+            db.query(WorkOrderPhoto).filter(
+                WorkOrderPhoto.work_order_id == work_order_id,
+                WorkOrderPhoto.source == "customer",
+            )
+        ).count()
+    )
 
 
 def strip_image_exif(file_bytes: bytes, mime_type: str) -> bytes:
@@ -84,9 +107,10 @@ def strip_image_exif(file_bytes: bytes, mime_type: str) -> bytes:
     try:
         from io import BytesIO
 
-        from PIL import Image
+        from PIL import Image, ImageOps
 
         img = Image.open(BytesIO(file_bytes))
+        img = ImageOps.exif_transpose(img)
         out = BytesIO()
         fmt = "JPEG" if mime_type in ("image/jpeg", "image/jpg") else img.format or "PNG"
         if fmt == "JPEG" and img.mode not in ("RGB", "L"):
@@ -255,16 +279,9 @@ def save_customer_portal_media(
     if not wo:
         raise ValueError("Work order not found")
 
-    existing = (
-        db.query(WorkOrderPhoto)
-        .filter(
-            WorkOrderPhoto.work_order_id == work_order_id,
-            WorkOrderPhoto.source == "customer",
-        )
-        .count()
-    )
+    existing = count_active_customer_media(db, work_order_id)
     if existing >= MAX_CUSTOMER_FILES_PER_BATCH:
-        raise ValueError("You can upload up to 6 files per work order.")
+        raise ValueError(CUSTOMER_MEDIA_LIMIT_MESSAGE)
 
     order_number = wo.order_number or str(work_order_id)[:8]
     filename = build_photo_filename(order_number, description or "customer", original_filename)
@@ -319,3 +336,36 @@ def save_customer_portal_media(
     db.add(row)
     db.flush()
     return row
+
+
+def client_owns_customer_photo(
+    row: WorkOrderPhoto,
+    *,
+    client_user_id: Optional[UUID],
+    client_login_id: Optional[UUID],
+) -> bool:
+    if row.source != "customer" or row.removed_at is not None:
+        return False
+    if client_login_id and row.client_login_id == client_login_id:
+        return True
+    if row.client_login_id is None and client_user_id and row.uploaded_by == client_user_id:
+        return True
+    return False
+
+
+def remove_customer_portal_media(db: Session, row: WorkOrderPhoto) -> None:
+    if row.source != "customer" or row.removed_at is not None:
+        raise ValueError("Photo not found")
+
+    if row.storage_backend == "drive" and row.drive_file_id:
+        trash_drive_file(row.drive_file_id)
+    elif row.local_path:
+        try:
+            path = Path(row.local_path)
+            if path.is_file():
+                path.unlink()
+        except OSError as exc:
+            logger.warning("Could not delete local photo %s: %s", row.local_path, exc)
+
+    row.removed_at = datetime.utcnow()
+    db.add(row)

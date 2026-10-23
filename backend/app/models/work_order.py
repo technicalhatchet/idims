@@ -368,6 +368,7 @@ class WorkOrderPhoto(Base):
     uploaded_by = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
     source = Column(String(20), nullable=False, default="staff")
     client_login_id = Column(UUID(as_uuid=True), ForeignKey("client_logins.id"), nullable=True)
+    removed_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     work_order = relationship("WorkOrder", back_populates="photos")

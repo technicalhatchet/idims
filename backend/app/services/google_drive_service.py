@@ -515,6 +515,24 @@ def upload_photo_to_drive(
     )
 
 
+def trash_drive_file(file_id: str) -> bool:
+    """Move a Drive file to trash (best-effort)."""
+    service = _drive_service()
+    if not service or not file_id:
+        return False
+    try:
+        service.files().update(
+            fileId=file_id,
+            body={"trashed": True},
+            supportsAllDrives=True,
+        ).execute()
+        return True
+    except Exception as exc:
+        logger.warning("Google Drive trash failed for file %s: %s", file_id, exc)
+        _set_drive_failure(f"Google Drive trash failed: {exc}")
+        return False
+
+
 def download_drive_file_bytes(file_id: str) -> Optional[bytes]:
     """Download file content from Drive by file id."""
     service = _drive_service()
