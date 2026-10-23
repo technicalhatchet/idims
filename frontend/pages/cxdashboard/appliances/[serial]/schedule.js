@@ -17,6 +17,7 @@ import PortalSquarePayment from '../../../../components/cxdashboard/PortalSquare
 import PropertyFormModal from '../../../../components/cxdashboard/PropertyFormModal';
 import { propertyPrimaryTitle } from '../../../../utils/propertyDisplay';
 import { isPortalPreviewActive, isPortalPreviewUnlocked } from '../../../../utils/portalPreview';
+import { useFeature } from '../../../../context/FeatureFlagsContext';
 
 const STEPS = ['Issue', 'Date & Time', 'Review', 'Confirmed'];
 const SUPPORT_PHONE = '(419) 740-0146';
@@ -132,6 +133,7 @@ function RequestUpdatePanel({ applianceId, orderNumber, onSuccess }) {
 export default function ScheduleAppliancePage() {
   const router = useRouter();
   const { serial } = router.query;
+  const customerMediaEnabled = useFeature('customer_media_uploads');
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -932,7 +934,7 @@ export default function ScheduleAppliancePage() {
                         Estimated total: {formatCurrency(confirmation.estimated_total)}
                       </p>
                     )}
-                    {confirmation.work_order_id && (
+                    {customerMediaEnabled && confirmation.work_order_id && (
                       <div style={{ textAlign: 'left', maxWidth: 360, margin: '0 auto 1.25rem' }}>
                         <PortalCustomerMediaUpload workOrderId={confirmation.work_order_id} />
                       </div>

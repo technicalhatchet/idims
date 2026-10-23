@@ -261,6 +261,10 @@ async def notify_staff_estimate_decision(
     signer_name: Optional[str] = None,
     decline_reason: Optional[str] = None,
 ) -> None:
+    from app.services.feature_flags_service import feature_enabled
+
+    if not feature_enabled(db, "estimate_approval", None):
+        return
     from app.services.portal_staff_notify_service import notify_staff_estimate_decision as _notify
 
     await _notify(

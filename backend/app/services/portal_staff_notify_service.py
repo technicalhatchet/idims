@@ -139,6 +139,10 @@ async def notify_staff_customer_media_upload(
     work_order: WorkOrder,
     file_count: int,
 ) -> None:
+    from app.services.feature_flags_service import feature_enabled
+
+    if not feature_enabled(db, "customer_media_uploads", None):
+        return
     order = work_order.order_number or str(work_order.id)[:8]
     noun = "file" if file_count == 1 else "files"
     message = f"Customer uploaded {file_count} {noun} on WO #{order}"

@@ -11,6 +11,7 @@ import {
 } from '../../utils/portalPreview';
 import { MARKETING_PHONE_DISPLAY } from '../../constants/marketingSiteContent';
 import { portalSignOut } from '../../components/cxdashboard/portalAuth';
+import { useFeature } from '../../context/FeatureFlagsContext';
 
 const inputClass =
   'w-full rounded-lg border border-white/10 bg-[#0D1525] px-3 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-cyan-500/50';
@@ -19,6 +20,7 @@ const SMS_CONSENT_LABEL =
   'Text me appointment updates and account links from Atomic Repair. Msg & data rates may apply. Reply STOP to opt out.';
 
 export default function SettingsPage() {
+  const householdInvitesEnabled = useFeature('household_invites');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
@@ -244,7 +246,7 @@ export default function SettingsPage() {
                 )}
               </div>
 
-              {pendingInvites.length > 0 ? (
+              {householdInvitesEnabled && pendingInvites.length > 0 ? (
                 <div>
                   <p className="text-[11px] uppercase tracking-wide text-white/45 mb-2 m-0">
                     Pending invites
@@ -290,6 +292,7 @@ export default function SettingsPage() {
                 </div>
               ) : null}
 
+              {householdInvitesEnabled ? (
               <form onSubmit={handleInviteSubmit} className="space-y-2 border-t border-white/5 pt-3">
                 <p className="text-[11px] uppercase tracking-wide text-white/45 m-0">Invite someone</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -322,6 +325,7 @@ export default function SettingsPage() {
                   {previewLocked ? 'Unlock preview to send invites' : (inviteBusy ? 'Sending…' : 'Send invite')}
                 </button>
               </form>
+              ) : null}
             </div>
             {form.company_name ? (
               <div>

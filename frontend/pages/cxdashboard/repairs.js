@@ -27,6 +27,7 @@ import {
   portalEstimateNeedsCustomerAction,
   PORTAL_ESTIMATE_APPROVAL_AMBER,
 } from '../../utils/portalEstimateApproval';
+import { useFeature } from '../../context/FeatureFlagsContext';
 
 const STATUS_STYLES = {
   completed: { label: 'Completed', bg: 'rgba(34,197,94,0.1)', color: '#22c55e', border: 'rgba(34,197,94,0.2)' },
@@ -57,16 +58,19 @@ function RepairCard({
   displayTotal,
   invoiceLookup,
   initialExpanded = false,
+  estimateApprovalEnabled = true,
+  customerMediaEnabled = true,
 }) {
   const [expanded, setExpanded] = useState(initialExpanded);
   const cardRef = useRef(null);
   const warrantyActive = !isPortalLaborWarrantyExpired(wo);
   const warrantyExpiryLabel = formatPortalLaborWarrantyExpiryLabel(wo);
   const serviceDate = wo.next_appointment?.scheduled_start || wo.created_at;
-  const needsApproval = portalEstimateNeedsCustomerAction(wo);
+  const needsApproval = estimateApprovalEnabled && portalEstimateNeedsCustomerAction(wo);
   const decisionLabel = portalEstimateDecisionCardLabel(wo);
   const estimateTotal = portalEstimateApprovalTotal(wo, invoiceLookup);
-  const hideEstimatePdfOnCard = wo.status === 'pending_estimate_approval' && wo.estimate_available;
+  const hideEstimatePdfOnCard =
+    estimateApprovalEnabled && wo.status === 'pending_estimate_approval' && wo.estimate_available;
 
   useEffect(() => {
     if (initialExpanded) {
@@ -284,7 +288,7 @@ function RepairCard({
             </div>
           )}
 
-          {!['completed', 'canceled', 'closed'].includes(wo.status) && (
+          {customerMediaEnabled && !['completed', 'canceled', 'closed'].includes(wo.status) && (
             <PortalCustomerMediaUpload workOrderId={wo.id} />
           )}
 
@@ -326,6 +330,8 @@ function RepairCard({
 }
 
 export default function RepairsPage() {
+  const estimateApprovalEnabled = useFeature('estimate_approval');
+  const customerMediaEnabled = useFeature('customer_media_uploads');
   const router = useRouter();
   const orderParam = typeof router.query.order === 'string' ? router.query.order : null;
   const workOrderIdParam = typeof router.query.work_order === 'string' ? router.query.work_order : null;
@@ -441,13 +447,15 @@ export default function RepairsPage() {
                 initialExpanded={Boolean(
                   highlightKey && (wo.order_number === highlightKey || wo.id === highlightKey),
                 )}
+                estimateApprovalEnabled={estimateApprovalEnabled}
+                customerMediaEnabled={customerMediaEnabled}
               />
             ))}
           </div>
         )}
       </div>
 
-      {approvalWo && (
+      {estimateApprovalEnabled && approvalWo && (
         <EstimateApprovalSheet
           workOrder={approvalWo}
           onClose={() => setApprovalWo(null)}

@@ -36,6 +36,10 @@ def review_request_eligibility(
     force: bool = False,
 ) -> Optional[str]:
     """Return skip reason or None if eligible."""
+    from app.services.feature_flags_service import feature_enabled
+
+    if not feature_enabled(db, "review_requests", None) and not force:
+        return "feature_disabled"
     cfg = get_portal_reviews_settings(db)
     if not cfg.get("enabled") and not force:
         return "disabled"
