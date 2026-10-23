@@ -246,7 +246,7 @@ async def record_square_work_order_payment(
     tax_amount: float,
     square_source_id: str,
     payment_idempotency_key: Optional[str] = None,
-    half_diagnostic_discount: bool = False,
+    half_diagnostic_discount: bool = False,  # noqa: ARG001 — ignored; uses diagnostic_credit_mode
     payment_notes: str = "Square online payment",
 ) -> Tuple[WorkOrderPayment, Dict[str, Any]]:
     from app.core.exceptions import ValidationException
@@ -266,9 +266,7 @@ async def record_square_work_order_payment(
     if not work_order:
         raise ValueError("Work order not found")
 
-    expected_due = float(
-        compute_balance_due(work_order, half_diagnostic_discount=half_diagnostic_discount)
-    )
+    expected_due = float(compute_balance_due(work_order))
     if expected_due < 0.01:
         raise ValidationException("Nothing is due on this work order.")
     if abs(amount - expected_due) > 0.02:

@@ -8,7 +8,6 @@ export default function WorkOrderSquarePaymentSheet({
   workOrderId,
   dueToday = 0,
   taxAmount = 0,
-  halfDiagnosticDiscount = false,
   onSuccess,
   variant = 'mobile',
 }) {
@@ -59,11 +58,10 @@ export default function WorkOrderSquarePaymentSheet({
           tax_amount: taxAmount,
           square_source_id: squareSourceId,
           payment_idempotency_key: idempotencyKey,
-          half_diagnostic_discount: halfDiagnosticDiscount,
         }),
       });
     },
-    [workOrderId, dueToday, taxAmount, halfDiagnosticDiscount],
+    [workOrderId, dueToday, taxAmount],
   );
 
   const handleWalletPayment = useCallback(

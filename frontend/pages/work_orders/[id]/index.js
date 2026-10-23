@@ -47,7 +47,11 @@ import {
   SERVICE_BILLING_STATUS_OPTIONS,
   taxablePartsSubtotal,
   isWorkOrderPaidInFullForDocuments,
+  appliedDiagnosticCreditAmount,
+  isHalfDiagnosticCreditMode,
+  persistDiagnosticCreditMode,
 } from '../../../utils/workOrderBilling';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   isWorkOrderClosed,
   isWorkOrderImmutable,
@@ -94,7 +98,6 @@ function WorkOrderDetail() {
   const [isApplyingPayment, setIsApplyingPayment] = useState(false);
   const [clientWorkOrders, setClientWorkOrders] = useState([]);
   const [clientWorkOrdersLoading, setClientWorkOrdersLoading] = useState(false);
-  const [halfDiagnosticDiscount, setHalfDiagnosticDiscount] = useState(true);
   const [editingServicePrice, setEditingServicePrice] = useState(null); // { id, price, unit_price, name, billing_status }
   const [editingPartPrice, setEditingPartPrice] = useState(null); // { id, price, cost }
   const [isSavingPrice, setIsSavingPrice] = useState(false);
@@ -131,7 +134,26 @@ function WorkOrderDetail() {
   }, [theme.mode]);
 
   // Fetch work order details
+  const queryClient = useQueryClient();
   const { data: workOrder, isLoading, error, refetch } = useWorkOrder(id);
+  const halfDiagnosticDiscount = isHalfDiagnosticCreditMode(workOrder);
+
+  const handleDiagnosticCreditModeChange = useCallback(
+    async (useFullCredit) => {
+      if (!workOrder?.id) return;
+      const mode = useFullCredit ? 'full' : 'half';
+      try {
+        await persistDiagnosticCreditMode(workOrder.id, mode);
+        queryClient.setQueryData(['workOrder', workOrder.id], (prev) =>
+          prev ? { ...prev, diagnostic_credit_mode: mode } : prev,
+        );
+        await refetch();
+      } catch (err) {
+        alert(err?.message || 'Failed to save diagnostic credit mode');
+      }
+    },
+    [workOrder?.id, queryClient, refetch],
+  );
   const showInitialLoader = isLoading && !workOrder;
   const woClosed = useMemo(() => isWorkOrderClosed(workOrder), [workOrder]);
   const woImmutable = useMemo(() => isWorkOrderImmutable(workOrder), [workOrder]);
@@ -193,8 +215,8 @@ function WorkOrderDetail() {
     [allServices],
   );
   const billingTotals = useMemo(
-    () => computeWorkOrderDueToday(workOrder, allServices, halfDiagnosticDiscount),
-    [workOrder, allServices, halfDiagnosticDiscount]
+    () => computeWorkOrderDueToday(workOrder, allServices),
+    [workOrder, allServices]
   );
   const resolvedServiceAddress = useMemo(
     () => (workOrder ? resolveWorkOrderServiceAddress(workOrder) : null),
@@ -1385,13 +1407,12 @@ function WorkOrderDetail() {
                         catalogServices: allServices,
                         workOrderServices: allServices,
                       });
-                      const discountAmt = hasRepairSku && workOrder?.diagnostic_discount_amount > 0
-                        ? (halfDiagnosticDiscount
-                            ? round2(workOrder.diagnostic_discount_amount * 0.5)
-                            : round2(workOrder.diagnostic_discount_amount))
-                        : 0;
+                      const discountAmt =
+                        hasRepairSku && workOrder?.diagnostic_discount_amount > 0
+                          ? appliedDiagnosticCreditAmount(workOrder, allServices)
+                          : 0;
 
-                      const totalWorkOrder = round2(grossTotal - discountAmt);
+                      const totalWorkOrder = round2(grossTotal - (repairCompleted ? discountAmt : 0));
                       const previouslyPaid = round2(parseFloat(workOrder.amount_previously_paid || 0));
 
                       const dueToday = billingTotals.dueToday;
@@ -1462,7 +1483,7 @@ function WorkOrderDetail() {
                                     <input
                                       type="checkbox"
                                       checked={!halfDiagnosticDiscount}
-                                      onChange={(e) => setHalfDiagnosticDiscount(!e.target.checked)}
+                                      onChange={(e) => handleDiagnosticCreditModeChange(e.target.checked)}
                                       className="rounded"
                                     />
                                     100% discount
@@ -1731,7 +1752,6 @@ function WorkOrderDetail() {
           workOrderId={workOrder?.id}
           dueToday={billingTotals.dueToday}
           taxAmount={billingTotals.taxOnBillableParts}
-          halfDiagnosticDiscount={halfDiagnosticDiscount}
           onSuccess={async () => {
             await refetch();
           }}

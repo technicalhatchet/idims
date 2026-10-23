@@ -1,3 +1,4 @@
+import math
 import os
 import uuid
 import tempfile
@@ -340,7 +341,14 @@ def _totals_block(styles, work_order: dict, elements: list, is_estimate: bool = 
 
     # Discount — show on estimate always if repair SKU exists, on invoice only if completed
     has_repair = any('repair' in (s.get('name') or '').lower() for s in services)
-    diag_discount = float(work_order.get('diagnostic_discount_amount') or 0)
+    raw_diag = float(work_order.get('diagnostic_discount_amount') or 0)
+    mode = str(work_order.get('diagnostic_credit_mode') or 'half').lower()
+    if raw_diag > 0 and mode == 'full':
+        diag_discount = raw_diag
+    elif raw_diag > 0:
+        diag_discount = float(math.ceil(raw_diag / 2))
+    else:
+        diag_discount = 0.0
     show_discount = has_repair and diag_discount > 0
     total_work_order = round(gross_total - diag_discount, 2) if show_discount else gross_total
 
