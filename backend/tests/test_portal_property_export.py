@@ -12,6 +12,7 @@ from app.services.portal_property_export_service import (
     format_date_mdy_eastern,
     generate_appliances_summary_pdf,
     repairs_csv,
+    _format_summary_count_line,
 )
 
 
@@ -25,6 +26,11 @@ def test_appliances_csv_empty():
         csv_text = appliances_csv(db, client)
     assert "property_nickname" in csv_text
     assert csv_text.strip().endswith("property_nickname,property_address,appliance,brand,model,serial,added_verified,last_service_date,warranty_status") or "property_nickname" in csv_text.splitlines()[0]
+
+
+def test_format_summary_count_line_singular_and_plural():
+    assert _format_summary_count_line(1, 1) == "1 property · 1 appliance"
+    assert _format_summary_count_line(7, 7) == "7 properties · 7 appliances"
 
 
 def test_format_date_csv_uses_yyyy_mm_dd_eastern():
@@ -141,5 +147,5 @@ def test_appliance_summary_multi_property_document_and_pdf():
     titles = {section["title"] for section in doc["sections"]}
     assert "Lake House" in titles
     assert "99 Rental Ave, Toledo, OH" in titles
-    assert "2 appliances across 2 properties" in doc["summary_line"]
+    assert doc["summary_line"] == "2 properties · 2 appliances"
     assert pdf[:4] == b"%PDF"
