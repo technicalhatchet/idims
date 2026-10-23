@@ -217,54 +217,30 @@ class WorkOrder(Base):
         self.invoice_tax = tax
         self.invoice_total = total
     
-    def calculate_due_today(self):
-        """Calculate amount due today (only billable items)"""
+    def calculate_due_today(self, *, half_diagnostic_discount: bool = False):
+        """Balance due — same as TechDeck / compute_balance_due()."""
+        from app.services.work_order_billing_helpers import compute_balance_due
+
+        return compute_balance_due(self, half_diagnostic_discount=half_diagnostic_discount)
+
+    def get_billing_status_summary(self, *, half_diagnostic_discount: bool = False):
+        """Billing summary for API display — aligned with compute_balance_due / compute_net_invoice_total."""
         from decimal import Decimal
-        
-        due_today = Decimal('0.00')
-        
-        # Add billable services
-        for item in self.service_items:
-            if (hasattr(item, 'total_price') and item.total_price is not None and 
-                item.billing_status in ['billable', 'paid']):
-                due_today += Decimal(str(item.total_price))
-        
-        # Add billable parts
-        for part in self.parts:
-            if (hasattr(part, 'price') and part.price is not None and 
-                part.status in ['completed', 'phone_payment', 'up_front']):
-                due_today += Decimal(str(part.price))
-        
-        # Apply diagnostic discount if applicable
-        if self.diagnostic_discount_applied and self.diagnostic_discount_amount:
-            due_today -= Decimal(str(self.diagnostic_discount_amount))
-        
-        return due_today
-    
-    def get_billing_status_summary(self):
-        """Get summary of billing statuses for invoice display"""
-        from decimal import Decimal
-        
-        summary = {
-            'total_work_order': Decimal('0.00'),
+
+        from app.services.work_order_billing_helpers import (
+            compute_balance_due,
+            compute_net_invoice_total,
+        )
+
+        return {
+            'total_work_order': compute_net_invoice_total(self),
             'amount_previously_paid': Decimal(str(self.amount_previously_paid or 0)),
-            'due_today': Decimal('0.00'),
-            'diagnostic_discount': Decimal(str(self.diagnostic_discount_amount or 0))
+            'due_today': compute_balance_due(
+                self,
+                half_diagnostic_discount=half_diagnostic_discount,
+            ),
+            'diagnostic_discount': Decimal(str(self.diagnostic_discount_amount or 0)),
         }
-        
-        # Calculate total work order value (all items, regardless of billing status)
-        for item in self.service_items:
-            if hasattr(item, 'total_price') and item.total_price is not None:
-                summary['total_work_order'] += Decimal(str(item.total_price))
-        
-        for part in self.parts:
-            if hasattr(part, 'price') and part.price is not None:
-                summary['total_work_order'] += Decimal(str(part.price))
-        
-        # Calculate due today
-        summary['due_today'] = self.calculate_due_today()
-        
-        return summary
 
 
 class WorkOrderService(Base):
