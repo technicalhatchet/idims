@@ -1,9 +1,8 @@
-"""CSV / print export for portal appliances (Wave 1D)."""
+"""CSV / PDF export for portal appliances (Wave 1D)."""
 
 from __future__ import annotations
 
 import csv
-import html
 import io
 import re
 from collections import defaultdict
@@ -14,7 +13,6 @@ from zoneinfo import ZoneInfo
 
 from sqlalchemy.orm import Session
 
-from app.frontend_site_urls import portal_frontend_origin
 from app.models.client import Client
 from app.models.client_appliance import ClientAppliance
 from app.models.property import Property
@@ -29,7 +27,6 @@ from app.services.work_order_billing_helpers import compute_net_invoice_total
 from app.utils.datetime_utils import utcnow_naive
 
 _EASTERN = ZoneInfo("America/New_York")
-_BRAND_CYAN = "#22d3ee"
 _EM_DASH = "—"
 
 
@@ -102,11 +99,6 @@ def _title_case_appliance_type(value: Optional[str]) -> str:
     return cleaned.title() if cleaned else _EM_DASH
 
 
-def _cell(value: Optional[str]) -> str:
-    text = (value or "").strip()
-    return html.escape(text) if text else _EM_DASH
-
-
 def _appliance_row_label(data: dict) -> str:
     nick = (data.get("nickname") or "").strip()
     if nick:
@@ -125,9 +117,9 @@ def _warranty_cell(
     appliance: ClientAppliance,
     data: dict,
 ) -> Tuple[str, str]:
-    """Return (html_text, css_class)."""
+    """Return (display_text, kind) where kind is active|expired|none."""
     if not data.get("last_service_date"):
-        return (_EM_DASH, "warranty-none")
+        return (_EM_DASH, "none")
 
     now = utcnow_naive()
     work_orders = work_orders_for_appliance(db, appliance)
@@ -140,9 +132,9 @@ def _warranty_cell(
 
     if active_expiry:
         label = format_date_mdy_eastern(active_expiry.isoformat())
-        return (f"Active until {label}", "warranty-active")
+        return (f"Active until {label}", "active")
 
-    return ("Expired", "warranty-expired")
+    return ("Expired", "expired")
 
 
 def _property_group_key(data: dict) -> str:
@@ -273,9 +265,18 @@ def _build_property_sections(
     return [(headers[k][0], headers[k][1], grouped[k]) for k in ordered_keys]
 
 
-def appliances_print_html(db: Session, client: Client, property_id: Optional[UUID] = None) -> str:
+def _display_cell(value: Optional[str]) -> str:
+    text = (value or "").strip()
+    return text if text else _EM_DASH
+
+
+def build_appliance_summary_document(
+    db: Session,
+    client: Client,
+    property_id: Optional[UUID] = None,
+) -> dict:
     appliances = _filter_appliances(db, client, property_id)
-    sections = _build_property_sections(db, appliances)
+    sections_data = _build_property_sections(db, appliances)
 
     property_ids = {_property_group_key(appliance_svc.serialize_appliance(a, db)) for a in appliances}
     property_count = len(property_ids)
@@ -293,200 +294,48 @@ def appliances_print_html(db: Session, client: Client, property_id: Optional[UUI
             addr = _strip_trailing_usa(prop.address or "")
             filter_property_line = nick or addr
 
-    customer_name = html.escape(client.display_name)
-    subtitle_parts = [customer_name]
+    subtitle_parts = [client.display_name]
     if filter_property_line:
-        subtitle_parts.append(html.escape(filter_property_line))
+        subtitle_parts.append(filter_property_line)
     customer_line = " · ".join(subtitle_parts)
 
-    logo_url = html.escape(
-        f"{portal_frontend_origin().rstrip('/')}/atomicrepair-brand/atomic-repair-horizontal-flat.png"
-    )
-    prepared = html.escape(_prepared_label_eastern())
-    phone = "(419) 740-0146"
-
-    section_html = []
-    for title, address, rows in sections:
-        body_rows = []
+    pdf_sections = []
+    for title, address, rows in sections_data:
+        pdf_rows = []
         for appliance, data in rows:
-            model = (data.get("model") or "").strip()
-            model_html = _cell(model)
-            if model != _EM_DASH and _is_staff_verified(data):
-                model_html += ' <span class="verified">✓ Verified</span>'
-
-            warranty_text, warranty_class = _warranty_cell(db, appliance, data)
-            body_rows.append(
-                "<tr>"
-                f"<td>{_cell(_appliance_row_label(data))}</td>"
-                f"<td>{_cell(data.get('make'))}</td>"
-                f"<td>{model_html}</td>"
-                f"<td>{_cell(data.get('serial'))}</td>"
-                f"<td>{format_date_mdy_eastern(data.get('last_service_date'))}</td>"
-                f'<td class="{warranty_class}">{html.escape(warranty_text)}</td>'
-                "</tr>"
+            model_raw = (data.get("model") or "").strip()
+            warranty_text, warranty_kind = _warranty_cell(db, appliance, data)
+            pdf_rows.append(
+                {
+                    "appliance": _display_cell(_appliance_row_label(data)),
+                    "brand": _display_cell(data.get("make")),
+                    "model": _display_cell(model_raw),
+                    "model_verified": bool(model_raw and _is_staff_verified(data)),
+                    "serial": _display_cell(data.get("serial")),
+                    "last_service": format_date_mdy_eastern(data.get("last_service_date")),
+                    "warranty": warranty_text,
+                    "warranty_kind": warranty_kind,
+                }
             )
+        pdf_sections.append({"title": title, "address": address, "rows": pdf_rows})
 
-        section_html.append(
-            f'<section class="property-section">'
-            f'<h2 class="property-title">{html.escape(title)}</h2>'
-            + (
-                f'<p class="property-address">{html.escape(address)}</p>'
-                if address
-                else ""
-            )
-            + "<table>"
-            "<thead><tr>"
-            "<th>Appliance</th><th>Brand</th><th>Model</th><th>Serial</th>"
-            "<th>Last service</th><th>Warranty</th>"
-            "</tr></thead><tbody>"
-            + "".join(body_rows)
-            + "</tbody></table></section>"
-        )
+    return {
+        "customer_line": customer_line,
+        "prepared_label": _prepared_label_eastern(),
+        "summary_line": (
+            f"{appliance_count} appliance{'s' if appliance_count != 1 else ''} across "
+            f"{property_count} propert{'ies' if property_count != 1 else 'y'}"
+        ),
+        "sections": pdf_sections,
+    }
 
-    return f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Appliance Summary</title>
-  <style>
-    :root {{
-      --cyan: {_BRAND_CYAN};
-      --text: #111827;
-      --muted: #6b7280;
-      --border: #e5e7eb;
-    }}
-    * {{ box-sizing: border-box; }}
-    body {{
-      margin: 0;
-      background: #fff;
-      color: var(--text);
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      font-size: 11pt;
-      line-height: 1.4;
-    }}
-    .toolbar {{
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      display: flex;
-      gap: 10px;
-      padding: 12px 16px;
-      background: #f9fafb;
-      border-bottom: 1px solid var(--border);
-    }}
-    .toolbar button {{
-      font: inherit;
-      font-size: 14px;
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
-      background: #fff;
-      cursor: pointer;
-    }}
-    .toolbar button.primary {{
-      background: var(--cyan);
-      border-color: #06b6d4;
-      color: #0f172a;
-      font-weight: 600;
-    }}
-    .doc {{
-      max-width: 8.5in;
-      margin: 0 auto;
-      padding: 16px 20px 48px;
-    }}
-    .accent-bar {{
-      height: 3px;
-      background: var(--cyan);
-      margin-bottom: 16px;
-    }}
-    .header {{
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 12px;
-    }}
-    .header img {{ height: 36px; width: auto; }}
-    h1 {{
-      margin: 12px 0 4px;
-      font-size: 22pt;
-      font-weight: 700;
-    }}
-    .customer-line {{ color: var(--muted); margin: 0 0 8px; }}
-    .summary-line {{ margin: 0 0 20px; font-size: 10pt; color: var(--muted); }}
-    .header-meta {{
-      text-align: right;
-      font-size: 10pt;
-      color: var(--muted);
-      white-space: nowrap;
-    }}
-    .header-meta strong {{ display: block; color: var(--text); font-weight: 600; }}
-    .property-section {{ margin-bottom: 22px; }}
-    .property-title {{ margin: 0 0 2px; font-size: 13pt; }}
-    .property-address {{ margin: 0 0 8px; color: var(--muted); font-size: 10pt; }}
-    table {{
-      width: 100%;
-      border-collapse: collapse;
-    }}
-    thead {{ display: table-header-group; }}
-    tr {{ break-inside: avoid; page-break-inside: avoid; }}
-    th, td {{
-      padding: 7px 6px;
-      text-align: left;
-      vertical-align: top;
-      border-bottom: 1px solid var(--border);
-      font-size: 10pt;
-    }}
-    th {{
-      font-weight: 600;
-      border-bottom: 2px solid var(--cyan);
-      color: #374151;
-    }}
-    .warranty-active {{ color: #15803d; }}
-    .warranty-expired {{ color: var(--muted); }}
-    .warranty-none {{ color: var(--muted); }}
-    .verified {{ font-size: 9pt; color: #0891b2; white-space: nowrap; }}
-    @page {{
-      size: letter;
-      margin: 0.5in;
-      @bottom-center {{
-        content: "Atomic Repair · {phone} · atomicrepair419.com · Page " counter(page) " of " counter(pages);
-        font-size: 9pt;
-        color: #6b7280;
-      }}
-    }}
-    @media print {{
-      .no-print {{ display: none !important; }}
-      .doc {{ padding: 0; max-width: none; }}
-    }}
-    @media (max-width: 480px) {{
-      .header {{ flex-direction: column; }}
-      .header-meta {{ text-align: left; white-space: normal; }}
-      th, td {{ font-size: 9pt; padding: 6px 4px; }}
-    }}
-  </style>
-</head>
-<body>
-  <div class="no-print toolbar">
-    <button type="button" class="primary" onclick="window.print()">Print / Save as PDF</button>
-    <button type="button" onclick="if (window.history.length &gt; 1) {{ window.history.back(); }} else {{ window.close(); }}">Back</button>
-  </div>
-  <div class="doc">
-    <div class="accent-bar"></div>
-    <div class="header">
-      <div>
-        <img src="{logo_url}" alt="Atomic Repair">
-        <h1>Appliance Summary</h1>
-        <p class="customer-line">{customer_line}</p>
-        <p class="summary-line">{appliance_count} appliance{"s" if appliance_count != 1 else ""} across {property_count} propert{"ies" if property_count != 1 else "y"}</p>
-      </div>
-      <div class="header-meta">
-        <strong>{prepared}</strong>
-        <span>{phone}</span>
-      </div>
-    </div>
-    {"".join(section_html) if section_html else "<p>No appliances to show.</p>"}
-  </div>
-</body>
-</html>"""
+
+def generate_appliances_summary_pdf(
+    db: Session,
+    client: Client,
+    property_id: Optional[UUID] = None,
+) -> bytes:
+    from pdf.portal_appliance_summary_template import build_appliance_summary_pdf
+
+    document = build_appliance_summary_document(db, client, property_id)
+    return build_appliance_summary_pdf(document)

@@ -7,7 +7,7 @@ def test_export_routes_registered_on_client_portal_router():
     paths = [getattr(r, "path", "") for r in client_portal.router.routes]
     assert "/portal/appliances/export.csv" in paths
     assert "/portal/appliances/repairs-export.csv" in paths
-    assert "/portal/appliances/export-print" in paths
+    assert "/portal/appliances/export.pdf" in paths
 
     export_idx = paths.index("/portal/appliances/export.csv")
     appliance_detail_idx = paths.index("/portal/appliances/{appliance_id}")

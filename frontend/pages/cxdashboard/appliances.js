@@ -22,7 +22,7 @@ import { subtypeLabel } from '../../constants/applianceEquipment';
 import PortalAwaitingFirstService from '../../components/cxdashboard/PortalAwaitingFirstService';
 import { getPortalImpersonateClientId } from '../../utils/portalPreview';
 import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
-import { buildPortalExportUrl } from '../../utils/portalPreview';
+import AppliancesExportMenu from '../../components/cxdashboard/appliances/AppliancesExportMenu';
 import {
   fetchPortalLinkDebug,
   isPortalAwaitingFirstService,
@@ -71,30 +71,6 @@ export default function AppliancesPage() {
   const exportExtraQuery =
     propertyFilter !== 'all' ? { property_id: propertyFilter } : {};
 
-  const downloadExport = async (path) => {
-    const token = await getPortalSessionToken();
-    const url = buildPortalExportUrl(path, exportExtraQuery);
-    const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
-    if (!res.ok) throw new Error('Export failed');
-    const blob = await res.blob();
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = path.includes('repairs') ? 'repair-history.csv' : 'appliances.csv';
-    a.click();
-    URL.revokeObjectURL(a.href);
-  };
-
-  const openPrintExport = async () => {
-    const token = await getPortalSessionToken();
-    const url = buildPortalExportUrl('export-print', exportExtraQuery);
-    const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
-    if (!res.ok) throw new Error('Export failed');
-    const html = await res.text();
-    const blob = new Blob([html], { type: 'text/html' });
-    const blobUrl = URL.createObjectURL(blob);
-    window.open(blobUrl, '_blank');
-    URL.revokeObjectURL(blobUrl);
-  };
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
   const [sortBy, setSortBy] = useState('property');
@@ -418,28 +394,8 @@ export default function AppliancesPage() {
         {!loading && appliances.length > 0 ? (
           <>
             <AppliancesSummaryCards summary={summary} />
-            <div className="flex flex-wrap gap-2 justify-end">
-              <button
-                type="button"
-                className="text-xs font-semibold text-cyan-300 border border-cyan-500/30 rounded-lg px-3 py-1.5"
-                onClick={() => downloadExport('export.csv')}
-              >
-                Export appliances (CSV)
-              </button>
-              <button
-                type="button"
-                className="text-xs font-semibold text-cyan-300 border border-cyan-500/30 rounded-lg px-3 py-1.5"
-                onClick={() => downloadExport('repairs-export.csv')}
-              >
-                Repair history (CSV)
-              </button>
-              <button
-                type="button"
-                className="text-xs font-semibold text-gray-300 border border-white/10 rounded-lg px-3 py-1.5"
-                onClick={openPrintExport}
-              >
-                Printable summary
-              </button>
+            <div className="flex justify-end">
+              <AppliancesExportMenu exportExtraQuery={exportExtraQuery} />
             </div>
             <AppliancesToolbar
               search={search}

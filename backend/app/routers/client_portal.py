@@ -2448,14 +2448,14 @@ async def export_portal_repairs_csv(
     )
 
 
-@router.get("/portal/appliances/export-print")
-async def export_portal_appliances_print(
+@router.get("/portal/appliances/export.pdf")
+async def export_portal_appliances_pdf(
     property_id: Optional[str] = None,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
 ):
-    from fastapi.responses import HTMLResponse
-    from app.services.portal_property_export_service import appliances_print_html
+    from fastapi.responses import Response
+    from app.services.portal_property_export_service import generate_appliances_summary_pdf
 
     prop_uuid = None
     if property_id:
@@ -2463,7 +2463,16 @@ async def export_portal_appliances_print(
             prop_uuid = uuid.UUID(property_id)
         except ValueError as exc:
             raise HTTPException(status_code=400, detail="Invalid property id") from exc
-    return HTMLResponse(appliances_print_html(db, client, prop_uuid))
+    try:
+        pdf_bytes = generate_appliances_summary_pdf(db, client, prop_uuid)
+    except Exception as exc:
+        logger.exception("[Portal] appliance summary PDF failed")
+        raise HTTPException(status_code=500, detail="Failed to generate PDF") from exc
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={"Content-Disposition": 'attachment; filename="appliance-summary.pdf"'},
+    )
 
 
 @router.post("/portal/appliances/import/skip")

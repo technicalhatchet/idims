@@ -7,9 +7,10 @@ from uuid import uuid4
 
 from app.services.portal_property_export_service import (
     appliances_csv,
-    appliances_print_html,
+    build_appliance_summary_document,
     format_date_csv,
     format_date_mdy_eastern,
+    generate_appliances_summary_pdf,
     repairs_csv,
 )
 
@@ -58,7 +59,7 @@ def test_repairs_csv_service_date_no_microseconds():
     assert "T" not in text.splitlines()[1]
 
 
-def test_appliances_print_html_structure():
+def test_appliance_summary_document_structure():
     client = SimpleNamespace(
         id=uuid4(),
         display_name="Jane Doe",
@@ -71,9 +72,18 @@ def test_appliances_print_html_structure():
         "app.services.portal_property_export_service._filter_appliances",
         return_value=[],
     ):
-        html = appliances_print_html(db, client)
-    assert "Appliance Summary" in html
-    assert "Print / Save as PDF" in html
-    assert "Jane Doe" in html
-    assert "@media print" in html
-    assert "atomicrepair419.com" in html
+        doc = build_appliance_summary_document(db, client)
+    assert "Jane Doe" in doc["customer_line"]
+    assert doc["sections"] == []
+    assert "Prepared" in doc["prepared_label"]
+
+
+def test_generate_appliances_summary_pdf_bytes():
+    client = SimpleNamespace(id=uuid4(), display_name="Jane Doe")
+    db = MagicMock()
+    with patch(
+        "app.services.portal_property_export_service._filter_appliances",
+        return_value=[],
+    ):
+        pdf = generate_appliances_summary_pdf(db, client)
+    assert pdf[:4] == b"%PDF"
