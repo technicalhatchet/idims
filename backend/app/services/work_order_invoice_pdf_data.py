@@ -389,6 +389,7 @@ def build_work_order_invoice_rd(db: Session, work_order) -> Dict[str, Any]:
 
     rd["tax_rate"] = float(work_order.tax_rate or 0.0775)
     rd["diagnostic_discount_amount"] = float(work_order.diagnostic_discount_amount or 0)
+    rd["diagnostic_credit_mode"] = getattr(work_order, "diagnostic_credit_mode", None) or "half"
     rd["amount_previously_paid"] = float(work_order.amount_previously_paid or 0)
     rd["service_location"] = work_order.service_location
 

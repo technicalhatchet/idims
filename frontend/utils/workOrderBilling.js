@@ -95,11 +95,53 @@ export function taxablePartsSubtotal(workOrder) {
     .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
 }
 
+export function resolveDiagnosticCreditMode(workOrder) {
+  const mode = String(workOrder?.diagnostic_credit_mode || 'half').toLowerCase();
+  return mode === 'full' ? 'full' : 'half';
+}
+
+export function isHalfDiagnosticCreditMode(workOrder) {
+  return resolveDiagnosticCreditMode(workOrder) === 'half';
+}
+
+/** Half credit rounds up to whole dollars ($89 -> $45). Full uses stored diagnostic amount. */
+export function diagnosticCreditDollars(diagnosticDiscountAmount, mode = 'half') {
+  const raw = parseFloat(diagnosticDiscountAmount);
+  if (!Number.isFinite(raw) || raw <= 0) return 0;
+  if (mode === 'full') return round2(raw);
+  return Math.ceil(raw / 2);
+}
+
+export function workOrderHasRepairSku(allServices) {
+  return (allServices || []).some(
+    (s) =>
+      s.name?.toLowerCase().includes('repair') ||
+      s.service_definition?.service_type === 'repair',
+  );
+}
+
+export function appliedDiagnosticCreditAmount(workOrder, allServices) {
+  if (!workOrderHasRepairSku(allServices)) return 0;
+  if (!(parseFloat(workOrder?.diagnostic_discount_amount) > 0)) return 0;
+  return diagnosticCreditDollars(
+    workOrder.diagnostic_discount_amount,
+    resolveDiagnosticCreditMode(workOrder),
+  );
+}
+
+export async function persistDiagnosticCreditMode(workOrderId, mode) {
+  const { apiClient } = await import('./api-client');
+  return apiClient(`work-orders/${workOrderId}/diagnostic-credit-mode`, {
+    method: 'PUT',
+    body: JSON.stringify({ diagnostic_credit_mode: mode }),
+  });
+}
+
 /**
  * Due today: chargeable services (billable + paid) + due parts + part tax − payments − discount.
- * Paid lines stay in the chargeable total so prepayments are not double-subtracted.
+ * Diagnostic credit uses work_orders.diagnostic_credit_mode (persisted).
  */
-export function computeWorkOrderDueToday(workOrder, allServices, halfDiagnosticDiscount = false) {
+export function computeWorkOrderDueToday(workOrder, allServices) {
   if (!workOrder) {
     return {
       dueToday: 0,
@@ -110,20 +152,14 @@ export function computeWorkOrderDueToday(workOrder, allServices, halfDiagnosticD
   }
 
   const taxRate = resolveWorkOrderTaxRate(workOrder);
-  const hasRepairSku = (allServices || []).some(
-    (s) =>
-      s.name?.toLowerCase().includes('repair') ||
-      s.service_definition?.service_type === 'repair'
-  );
+  const hasRepairSku = workOrderHasRepairSku(allServices);
   const repairCompleted = hasCompletedRepairAppointment(workOrder.appointments, {
     catalogServices: allServices,
     workOrderServices: allServices,
   });
   const discountAmt =
     hasRepairSku && workOrder?.diagnostic_discount_amount > 0
-      ? halfDiagnosticDiscount
-        ? round2(workOrder.diagnostic_discount_amount * 0.5)
-        : round2(workOrder.diagnostic_discount_amount)
+      ? appliedDiagnosticCreditAmount(workOrder, allServices)
       : 0;
 
   const chargeableServices = (allServices || [])

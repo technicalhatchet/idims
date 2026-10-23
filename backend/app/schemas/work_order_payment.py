@@ -60,4 +60,4 @@ class SquareWorkOrderPaymentRequest(BaseModel):
     tax_amount: Optional[float] = Field(0, ge=0)
     square_source_id: str = Field(..., min_length=1)
     payment_idempotency_key: Optional[str] = None
-    half_diagnostic_discount: bool = False
+    half_diagnostic_discount: bool = False  # deprecated — uses work_orders.diagnostic_credit_mode

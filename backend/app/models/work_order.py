@@ -99,6 +99,7 @@ class WorkOrder(Base):
     amount_previously_paid = Column(Numeric(10, 2), nullable=False, default=0.00)
     diagnostic_discount_applied = Column(Boolean, default=False)
     diagnostic_discount_amount = Column(Numeric(10, 2), nullable=True)
+    diagnostic_credit_mode = Column(String(8), nullable=False, default="half")
     
     # Tax tracking
     tax_rate = Column(Numeric(5, 4), nullable=False, default=0.0775)  # e.g. 0.0775 = 7.75%
@@ -217,13 +218,13 @@ class WorkOrder(Base):
         self.invoice_tax = tax
         self.invoice_total = total
     
-    def calculate_due_today(self, *, half_diagnostic_discount: bool = False):
+    def calculate_due_today(self):
         """Balance due — same as TechDeck / compute_balance_due()."""
         from app.services.work_order_billing_helpers import compute_balance_due
 
-        return compute_balance_due(self, half_diagnostic_discount=half_diagnostic_discount)
+        return compute_balance_due(self)
 
-    def get_billing_status_summary(self, *, half_diagnostic_discount: bool = False):
+    def get_billing_status_summary(self):
         """Billing summary for API display — aligned with compute_balance_due / compute_net_invoice_total."""
         from decimal import Decimal
 
@@ -235,10 +236,7 @@ class WorkOrder(Base):
         return {
             'total_work_order': compute_net_invoice_total(self),
             'amount_previously_paid': Decimal(str(self.amount_previously_paid or 0)),
-            'due_today': compute_balance_due(
-                self,
-                half_diagnostic_discount=half_diagnostic_discount,
-            ),
+            'due_today': compute_balance_due(self),
             'diagnostic_discount': Decimal(str(self.diagnostic_discount_amount or 0)),
         }
 

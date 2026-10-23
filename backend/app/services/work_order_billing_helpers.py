@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from decimal import Decimal
+from decimal import Decimal, ROUND_CEILING
 from typing import Any
 
 from app.models.work_order import WorkOrder
@@ -128,15 +128,44 @@ def has_repair_sku_on_order(work_order: WorkOrder) -> bool:
     return False
 
 
-def diagnostic_discount_amount(work_order: WorkOrder, *, half: bool = False) -> Decimal:
+DIAGNOSTIC_CREDIT_MODE_HALF = "half"
+DIAGNOSTIC_CREDIT_MODE_FULL = "full"
+
+
+def diagnostic_credit_mode(work_order: WorkOrder) -> str:
+    mode = getattr(work_order, "diagnostic_credit_mode", None) or DIAGNOSTIC_CREDIT_MODE_HALF
+    return DIAGNOSTIC_CREDIT_MODE_FULL if str(mode).lower() == DIAGNOSTIC_CREDIT_MODE_FULL else DIAGNOSTIC_CREDIT_MODE_HALF
+
+
+def is_half_diagnostic_credit(work_order: WorkOrder) -> bool:
+    return diagnostic_credit_mode(work_order) == DIAGNOSTIC_CREDIT_MODE_HALF
+
+
+def diagnostic_credit_dollars(raw_amount: Any, *, mode: str) -> Decimal:
+    """Half credit rounds up to the next whole dollar ($89 -> $45). Full uses stored amount."""
+    raw = _decimal(raw_amount)
+    if raw <= 0:
+        return Decimal("0")
+    if str(mode).lower() == DIAGNOSTIC_CREDIT_MODE_FULL:
+        return raw.quantize(Decimal("0.01"))
+    return (raw / Decimal("2")).quantize(Decimal("1"), rounding=ROUND_CEILING)
+
+
+def diagnostic_discount_amount(
+    work_order: WorkOrder,
+    *,
+    half: bool | None = None,
+) -> Decimal:
     if not has_repair_sku_on_order(work_order):
         return Decimal("0")
     raw = _decimal(work_order.diagnostic_discount_amount)
     if raw <= 0:
         return Decimal("0")
-    if half:
-        return (raw / Decimal("2")).quantize(Decimal("0.01"))
-    return raw
+    if half is None:
+        mode = diagnostic_credit_mode(work_order)
+    else:
+        mode = DIAGNOSTIC_CREDIT_MODE_HALF if half else DIAGNOSTIC_CREDIT_MODE_FULL
+    return diagnostic_credit_dollars(raw, mode=mode)
 
 
 def compute_net_invoice_total(work_order: WorkOrder) -> Decimal:
@@ -177,7 +206,7 @@ def compute_net_invoice_total(work_order: WorkOrder) -> Decimal:
 def compute_balance_due(
     work_order: WorkOrder,
     *,
-    half_diagnostic_discount: bool = False,
+    half_diagnostic_discount: bool | None = None,
 ) -> Decimal:
     """
     Remaining amount owed (due today). Matches frontend dueToday (optional 50% discount toggle).
@@ -203,10 +232,7 @@ def compute_balance_due(
 
     discount = Decimal("0")
     if has_completed_repair_appointment(work_order):
-        discount = diagnostic_discount_amount(
-            work_order,
-            half=half_diagnostic_discount,
-        )
+        discount = diagnostic_discount_amount(work_order, half=half_diagnostic_discount)
 
     due = chargeable_services + billable_parts + tax_on_billable_parts - previously_paid - discount
     return max(Decimal("0"), due).quantize(Decimal("0.01"))
@@ -215,7 +241,7 @@ def compute_balance_due(
 def compute_balance_due_legacy_billable_services_only(
     work_order: WorkOrder,
     *,
-    half_diagnostic_discount: bool = False,
+    half_diagnostic_discount: bool | None = None,
 ) -> Decimal:
     """
     Pre-2026-10 TechDeck bug: only billing_status=='billable' services in the charge total.
@@ -242,10 +268,7 @@ def compute_balance_due_legacy_billable_services_only(
 
     discount = Decimal("0")
     if has_completed_repair_appointment(work_order):
-        discount = diagnostic_discount_amount(
-            work_order,
-            half=half_diagnostic_discount,
-        )
+        discount = diagnostic_discount_amount(work_order, half=half_diagnostic_discount)
 
     due = billable_services + billable_parts + tax_on_billable_parts - previously_paid - discount
     return max(Decimal("0"), due).quantize(Decimal("0.01"))
