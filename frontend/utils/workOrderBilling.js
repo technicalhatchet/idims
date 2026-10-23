@@ -129,6 +129,43 @@ export function appliedDiagnosticCreditAmount(workOrder, allServices) {
   );
 }
 
+export function sumRecordedPayments(payments) {
+  return round2(
+    (payments || []).reduce((sum, p) => sum + parseFloat(p.amount || 0), 0),
+  );
+}
+
+/** Collapsed accordion header, e.g. "3 payments · $172.50" */
+export function recordedPaymentsSummary(payments) {
+  const items = payments || [];
+  const n = items.length;
+  if (n === 0) return 'No payments';
+  return `${n} payment${n === 1 ? '' : 's'} · $${sumRecordedPayments(items).toFixed(2)}`;
+}
+
+export function diagnosticCreditOverrideSummary(workOrder) {
+  return isHalfDiagnosticCreditMode(workOrder)
+    ? '50% diagnostic credit'
+    : '100% diagnostic credit';
+}
+
+/** Latest payment_date from recorded payments (for paid-in-full display). */
+export function latestRecordedPaymentDate(payments) {
+  let latest = null;
+  for (const p of payments || []) {
+    if (!p?.payment_date) continue;
+    const d = new Date(p.payment_date);
+    if (Number.isNaN(d.getTime())) continue;
+    if (!latest || d > latest) latest = d;
+  }
+  return latest;
+}
+
+/** Paid-in-full billing row: zero balance due and at least one recorded payment. */
+export function showPaidInFullBillingRow(dueToday, payments) {
+  return round2(dueToday) <= 0 && (payments?.length ?? 0) > 0;
+}
+
 export async function persistDiagnosticCreditMode(workOrderId, mode) {
   const { apiClient } = await import('./api-client');
   return apiClient(`work-orders/${workOrderId}/diagnostic-credit-mode`, {
