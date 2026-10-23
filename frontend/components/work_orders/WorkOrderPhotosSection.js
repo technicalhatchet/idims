@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { format } from 'date-fns';
-import { FaChevronDown, FaChevronUp, FaEye } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp, FaEye, FaTimes } from 'react-icons/fa';
 import {
+  deleteWorkOrderCustomerPhoto,
   fetchWorkOrderPhotoBlob,
   getWorkOrderPhotos,
 } from '../../services/api/workOrderPhotosApi';
@@ -24,6 +25,7 @@ export default function WorkOrderPhotosSection({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sectionOpen, setSectionOpen] = useState(false);
+  const [removingPhotoId, setRemovingPhotoId] = useState(null);
   const [viewer, setViewer] = useState({
     open: false,
     loading: false,
@@ -99,6 +101,20 @@ export default function WorkOrderPhotosSection({
     }
   };
 
+  const handleRemoveCustomerPhoto = async (photo) => {
+    if (!workOrderId || removingPhotoId) return;
+    setRemovingPhotoId(photo.id);
+    setError(null);
+    try {
+      await deleteWorkOrderCustomerPhoto(workOrderId, photo.id);
+      setLocalRefresh((k) => k + 1);
+    } catch (err) {
+      setError(err.message || 'Could not remove photo');
+    } finally {
+      setRemovingPhotoId(null);
+    }
+  };
+
   const formatPhotoDate = (value) => {
     if (!value) return '';
     const dateStr = value.endsWith('Z') ? value : `${value}Z`;
@@ -155,18 +171,20 @@ export default function WorkOrderPhotosSection({
               </p>
             )}
             {photos.map((photo) => (
-              <button
+              <div
                 key={photo.id}
-                type="button"
-                onClick={() => handleOpenPhoto(photo)}
                 className={
                   isMobile
-                    ? 'w-full text-left rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 active:bg-white/[0.06] transition-colors'
-                    : 'w-full text-left rounded-xl border border-gray-200 bg-white px-4 py-3 hover:bg-gray-50 transition'
+                    ? 'w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3'
+                    : 'w-full rounded-xl border border-gray-200 bg-white px-4 py-3'
                 }
               >
                 <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
+                  <button
+                    type="button"
+                    onClick={() => handleOpenPhoto(photo)}
+                    className="min-w-0 flex-1 text-left"
+                  >
                     <p className={`text-sm truncate ${isMobile ? 'font-semibold text-cyan-300' : 'font-medium text-blue-600'}`}>
                       {photo.description || 'Photo'}
                     </p>
@@ -177,10 +195,29 @@ export default function WorkOrderPhotosSection({
                       )}
                       <span>{formatPhotoDate(photo.created_at)}</span>
                     </div>
+                  </button>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    {photo.source === 'customer' && (
+                      <button
+                        type="button"
+                        aria-label="Remove customer upload"
+                        disabled={removingPhotoId === photo.id}
+                        onClick={() => handleRemoveCustomerPhoto(photo)}
+                        className={
+                          isMobile
+                            ? 'p-2 rounded-lg text-red-400 border border-red-500/30'
+                            : 'p-2 rounded-lg text-red-600 border border-red-200 hover:bg-red-50'
+                        }
+                      >
+                        <FaTimes className="h-3.5 w-3.5" />
+                      </button>
+                    )}
+                    <button type="button" onClick={() => handleOpenPhoto(photo)} aria-label="View photo">
+                      <FaEye className={`h-4 w-4 mt-0.5 ${isMobile ? 'text-gray-500' : 'text-gray-400'}`} />
+                    </button>
                   </div>
-                  <FaEye className={`h-4 w-4 flex-shrink-0 mt-0.5 ${isMobile ? 'text-gray-500' : 'text-gray-400'}`} />
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         )}

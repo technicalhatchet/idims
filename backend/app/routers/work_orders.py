@@ -18,7 +18,7 @@ from app.db.database import get_db
 from app.core.auth import get_auth_handler
 from app.models.work_order import WorkOrder as WorkOrderModel
 from app.models.work_order import WorkOrderAppointment
-from app.models.work_order import WorkOrderPart
+from app.models.work_order import WorkOrderPart, WorkOrderPhoto
 from app.models.user import User as UserModel
 from app.models.client import Client
 from app.models.technician import Technician
@@ -2045,6 +2045,37 @@ async def upload_work_order_photo(
         return WorkOrderPhotoResponse(**photos_svc.photo_to_dict(row))
     except ValueError as exc:
         raise HTTPException(status_code=404, detail=str(exc))
+
+
+@router.delete(
+    "/{work_order_id}/photos/{photo_id}",
+    status_code=status.HTTP_200_OK,
+)
+async def delete_work_order_customer_photo(
+    work_order_id: uuid.UUID = Path(..., description="The ID of the work order"),
+    photo_id: uuid.UUID = Path(..., description="The ID of the customer-uploaded photo"),
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_staff_user),
+):
+    can_access = await can_access_work_order(work_order_id, current_user, db)
+    if not can_access:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="You don't have permission to access this work order")
+
+    row = db.query(WorkOrderPhoto).filter(
+        WorkOrderPhoto.id == photo_id,
+        WorkOrderPhoto.work_order_id == work_order_id,
+    ).first()
+    if not row or row.source != "customer" or row.removed_at is not None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Photo not found")
+
+    try:
+        photos_svc.remove_customer_portal_media(db, row)
+        db.commit()
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc))
+
+    return {"success": True}
 
 
 @router.get("/photos/{photo_id}/download")
