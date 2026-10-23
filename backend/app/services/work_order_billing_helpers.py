@@ -25,6 +25,8 @@ PART_DUE_STATUSES = frozenset({
     "paid_not_installed",
 })
 
+CHARGEABLE_SERVICE_BILLING_STATUSES = frozenset({"billable", "paid"})
+
 REPAIR_COMPLETE_APPOINTMENT_STATUSES = frozenset({
     "completed",
     "completed_pending_payment",
@@ -179,6 +181,45 @@ def compute_balance_due(
 ) -> Decimal:
     """
     Remaining amount owed (due today). Matches frontend dueToday (optional 50% discount toggle).
+    """
+    tax_rate = _decimal(work_order.tax_rate or 0)
+
+    chargeable_services = sum(
+        (
+            _service_line_total(item)
+            for item in (work_order.service_items or [])
+            if getattr(item, "billing_status", None) in CHARGEABLE_SERVICE_BILLING_STATUSES
+        ),
+        Decimal("0"),
+    )
+
+    billable_parts = Decimal("0")
+    for part in work_order.parts or []:
+        if part.price is not None and part.status in PART_DUE_STATUSES:
+            billable_parts += _decimal(part.price)
+
+    tax_on_billable_parts = (billable_parts * tax_rate).quantize(Decimal("0.01"))
+    previously_paid = _decimal(work_order.amount_previously_paid)
+
+    discount = Decimal("0")
+    if has_completed_repair_appointment(work_order):
+        discount = diagnostic_discount_amount(
+            work_order,
+            half=half_diagnostic_discount,
+        )
+
+    due = chargeable_services + billable_parts + tax_on_billable_parts - previously_paid - discount
+    return max(Decimal("0"), due).quantize(Decimal("0.01"))
+
+
+def compute_balance_due_legacy_billable_services_only(
+    work_order: WorkOrder,
+    *,
+    half_diagnostic_discount: bool = False,
+) -> Decimal:
+    """
+    Pre-2026-10 TechDeck bug: only billing_status=='billable' services in the charge total.
+    Used for read-only audits (paid lines excluded while payments still subtracted).
     """
     tax_rate = _decimal(work_order.tax_rate or 0)
 

@@ -33,6 +33,9 @@ export function isWorkOrderPaidInFullForDocuments(workOrder, billingTotals) {
 export const PART_DUE_STATUSES = ['phone_payment', 'upfront_50', 'installed', 'paid_not_installed'];
 export const PART_NON_TAXABLE_STATUSES = ['not_installed'];
 
+/** Service lines that count toward balance due (paid diag + billable repair; not waived / estimate). */
+export const CHARGEABLE_SERVICE_BILLING_STATUSES = new Set(['billable', 'paid']);
+
 export const SERVICE_BILLING_STATUS_OPTIONS = [
   { value: 'not_billable', label: 'Not Billable' },
   { value: 'billable', label: 'Billable' },
@@ -93,7 +96,8 @@ export function taxablePartsSubtotal(workOrder) {
 }
 
 /**
- * Mirrors invoice-tab due-today math (services + billable parts + part tax − paid − discount).
+ * Due today: chargeable services (billable + paid) + due parts + part tax − payments − discount.
+ * Paid lines stay in the chargeable total so prepayments are not double-subtracted.
  */
 export function computeWorkOrderDueToday(workOrder, allServices, halfDiagnosticDiscount = false) {
   if (!workOrder) {
@@ -122,8 +126,8 @@ export function computeWorkOrderDueToday(workOrder, allServices, halfDiagnosticD
         : round2(workOrder.diagnostic_discount_amount)
       : 0;
 
-  const billableServices = (allServices || [])
-    .filter((s) => s.billing_status === 'billable')
+  const chargeableServices = (allServices || [])
+    .filter((s) => CHARGEABLE_SERVICE_BILLING_STATUSES.has(s.billing_status))
     .reduce((sum, s) => sum + serviceLineTotal(s), 0);
   const billableParts = (workOrder.parts || [])
     .filter((p) => PART_DUE_STATUSES.includes(p.status))
@@ -133,7 +137,7 @@ export function computeWorkOrderDueToday(workOrder, allServices, halfDiagnosticD
   const dueTodayDiscount = repairCompleted ? discountAmt : 0;
   const dueToday = Math.max(
     0,
-    round2(billableServices + billableParts + taxOnBillableParts - previouslyPaid - dueTodayDiscount)
+    round2(chargeableServices + billableParts + taxOnBillableParts - previouslyPaid - dueTodayDiscount)
   );
 
   const servicesSubtotal = (allServices || []).reduce((sum, s) => sum + serviceLineTotal(s), 0);
