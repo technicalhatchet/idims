@@ -257,8 +257,8 @@ def _build_property_sections(
             )
         grouped[key].append((appliance, data))
 
-    def sort_key(item: Tuple[str, List]) -> str:
-        title, subtitle = headers[item[0]]
+    def sort_key(key: str) -> str:
+        title, subtitle = headers[key]
         return f"{title} {subtitle}".lower()
 
     ordered_keys = sorted(grouped.keys(), key=sort_key)
