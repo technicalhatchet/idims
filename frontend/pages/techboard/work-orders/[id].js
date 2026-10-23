@@ -49,6 +49,7 @@ import WorkOrderMobileDetailsTab from '../../../components/work_orders/WorkOrder
 import WoMobileTextTabs from '../../../components/work_orders/WoMobileTextTabs';
 import { reopenWorkOrder, saveWorkOrderServiceLineEdits, updateServiceBillingStatus, waiveWorkOrderDiagnosticFee, deleteWorkOrderEstimateLine } from '../../../services/api/workOrdersApi';
 import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
+import WorkOrderBillingAccordion from '../../../components/work_orders/WorkOrderBillingAccordion';
 import WorkOrderSquarePaymentSheet from '../../../components/work_orders/WorkOrderSquarePaymentSheet';
 import WorkOrderDocumentPdfSheet from '../../../components/work_orders/WorkOrderDocumentPdfSheet';
 import EstimateSkuModal from '../../../components/work_orders/EstimateSkuModal';
@@ -75,6 +76,11 @@ import {
   appliedDiagnosticCreditAmount,
   isHalfDiagnosticCreditMode,
   persistDiagnosticCreditMode,
+  recordedPaymentsSummary,
+  diagnosticCreditOverrideSummary,
+  showPaidInFullBillingRow,
+  latestRecordedPaymentDate,
+  workOrderHasRepairSku,
 } from '../../../utils/workOrderBilling';
 import { formatAppointmentStatus } from '../../../utils/appointmentStatusLabels';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
@@ -168,6 +174,8 @@ function WorkOrderDetail() {
   const [showEstimateSkuModal, setShowEstimateSkuModal] = useState(false);
   const [deletingEstimateLineId, setDeletingEstimateLineId] = useState(null);
   const [fieldPayments, setFieldPayments] = useState([]);
+  const [billingPaymentsOpen, setBillingPaymentsOpen] = useState(false);
+  const [billingOverridesOpen, setBillingOverridesOpen] = useState(false);
   const [glassSectionsOpen, setGlassSectionsOpen] = useState({
     detailsWorkOrder: true,
     detailsAppointments: false,
@@ -505,6 +513,10 @@ function WorkOrderDetail() {
   const billingTotals = useMemo(
     () => computeMobileBillingTotals(workOrder, allServices),
     [workOrder, allServices]
+  );
+  const paidInFullBilling = useMemo(
+    () => showPaidInFullBillingRow(billingTotals.dueToday, fieldPayments),
+    [billingTotals.dueToday, fieldPayments],
   );
   const resolvedServiceAddress = useMemo(
     () => (workOrder ? resolveWorkOrderServiceAddress(workOrder) : null),
@@ -2228,6 +2240,7 @@ function WorkOrderDetail() {
                         .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
                       const taxOnBillableParts = round2(billableParts * taxRate);
                       const dueToday = billingTotals.dueToday;
+                      const lastPaymentDate = latestRecordedPaymentDate(fieldPayments);
 
                       return (
                         <>
@@ -2279,28 +2292,18 @@ function WorkOrderDetail() {
                               <span>${grossTotal.toFixed(2)}</span>
                             </div>
 
-                            {/* Diagnostic discount line */}
                             {hasRepairSku && workOrder?.diagnostic_discount_amount > 0 && (
-                              <div className={`flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center text-sm ${
-                                repairCompleted
-                                  ? 'text-cyan-300 md:text-blue-600 md:dark:text-blue-400 font-medium'
-                                  : 'text-gray-500 italic md:text-gray-400 md:dark:text-gray-500'
-                              }`}>
-                                <div className="flex flex-wrap items-center gap-2 min-w-0">
-                                  <span>
-                                    Diagnostic Discount ({halfDiagnosticDiscount ? '50%' : '100%'})
-                                    {!repairCompleted && ' — pending repair completion'}
-                                  </span>
-                                  <label className="flex items-center gap-1 text-xs cursor-pointer not-italic">
-                                    <input
-                                      type="checkbox"
-                                      checked={!halfDiagnosticDiscount}
-                                      onChange={(e) => handleDiagnosticCreditModeChange(e.target.checked)}
-                                      className="rounded"
-                                    />
-                                    100% discount
-                                  </label>
-                                </div>
+                              <div
+                                className={`flex justify-between items-center text-sm ${
+                                  repairCompleted
+                                    ? 'text-cyan-300 md:text-blue-600 md:dark:text-blue-400 font-medium'
+                                    : 'text-gray-500 italic md:text-gray-400 md:dark:text-gray-500'
+                                }`}
+                              >
+                                <span>
+                                  Diagnostic Discount ({halfDiagnosticDiscount ? '50%' : '100%'})
+                                  {!repairCompleted && ' — pending repair completion'}
+                                </span>
                                 <span>-${discountAmt.toFixed(2)}</span>
                               </div>
                             )}
@@ -2313,24 +2316,30 @@ function WorkOrderDetail() {
                               <span>Amount Previously Paid</span>
                               <span>-${previouslyPaid.toFixed(2)}</span>
                             </div>
-                            <div className="flex justify-between text-base font-bold text-amber-300 md:text-yellow-600 md:dark:text-yellow-400 pt-1 border-t border-white/10 md:border-gray-200 md:dark:border-gray-600">
-                              <span>Due Today</span>
-                              <span>${dueToday.toFixed(2)}</span>
-                            </div>
+                            {paidInFullBilling ? (
+                              <div className="flex justify-between items-center text-base font-bold text-emerald-400 md:text-green-600 pt-1 border-t border-white/10 md:border-gray-200 md:dark:border-gray-600">
+                                <span>✓ Paid in full</span>
+                                <span className="text-sm font-medium">
+                                  {lastPaymentDate ? format(lastPaymentDate, 'MMM d, yyyy') : ''}
+                                </span>
+                              </div>
+                            ) : (
+                              <div className="flex justify-between text-base font-bold text-amber-300 md:text-yellow-600 md:dark:text-yellow-400 pt-1 border-t border-white/10 md:border-gray-200 md:dark:border-gray-600">
+                                <span>Due Today</span>
+                                <span>${dueToday.toFixed(2)}</span>
+                              </div>
+                            )}
                           </div>
 
-                          {/* Pay / record payment */}
-                          {!woClosed && (billingTotals.dueToday > 0 || billingTotals.totalWorkOrder > billingTotals.previouslyPaid) && (
+                          {!woClosed && dueToday > 0 && (
                             <div className="mt-4 md:mt-6 md:pt-4 md:border-t md:border-gray-200 md:dark:border-gray-700">
-                              {billingTotals.dueToday > 0 ? (
-                                <>
-                                <div className="flex flex-col sm:flex-row gap-2 justify-center max-w-sm mx-auto sm:max-w-none">
+                              <div className="flex flex-col sm:flex-row gap-2 justify-center max-w-sm mx-auto sm:max-w-none">
                                 <button
                                   type="button"
                                   onClick={() => setShowSquarePayment(true)}
                                   className="flex-1 h-12 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 text-white font-semibold text-base shadow-[0_0_24px_rgba(16,185,129,0.25)] active:scale-[0.98] md:px-8 md:py-3 md:rounded-lg md:bg-green-600 md:hover:bg-green-700"
                                 >
-                                  Pay ${billingTotals.dueToday.toFixed(2)}
+                                  Pay ${dueToday.toFixed(2)}
                                 </button>
                                 <button
                                   type="button"
@@ -2343,45 +2352,62 @@ function WorkOrderDetail() {
                               <div className="text-center mt-2">
                                 <span className="text-xs text-gray-500 dark:text-gray-400">Pay Now uses Square · Record for cash, check, etc.</span>
                               </div>
-                                </>
-                              ) : (
-                                <div className="flex justify-center">
-                                  <button
-                                    type="button"
-                                    onClick={() => setShowRecordPayment(true)}
-                                    className="h-11 px-6 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-200 font-semibold text-sm"
-                                  >
-                                    Record payment
-                                  </button>
-                                </div>
-                              )}
                             </div>
                           )}
 
                           {fieldPayments.length > 0 && (
-                            <div className="mt-4 pt-4 border-t border-white/10 space-y-2">
-                              <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-500">Recorded payments</h4>
+                            <WorkOrderBillingAccordion
+                              title="Recorded payments"
+                              summary={recordedPaymentsSummary(fieldPayments)}
+                              open={billingPaymentsOpen}
+                              onToggle={() => setBillingPaymentsOpen((v) => !v)}
+                            >
                               {fieldPayments.map((p) => (
-                                <div key={p.id} className="flex justify-between text-sm text-gray-300">
+                                <div key={p.id} className="flex justify-between text-sm text-gray-300 md:text-gray-600 md:dark:text-gray-400">
                                   <span>
                                     {p.payment_method.replace(/_/g, ' ')}
+                                    {p.payment_date
+                                      ? ` · ${format(new Date(p.payment_date), 'MMM d, yyyy')}`
+                                      : ''}
                                     {p.reference_number ? ` · ${p.reference_number}` : ''}
                                   </span>
                                   <span>${Number(p.amount).toFixed(2)}</span>
                                 </div>
                               ))}
-                            </div>
+                              {!woClosed && paidInFullBilling && (
+                                <button
+                                  type="button"
+                                  onClick={() => setShowRecordPayment(true)}
+                                  className="w-full sm:w-auto h-11 px-6 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-200 font-semibold text-sm md:border-amber-600 md:text-amber-700 md:dark:text-amber-300"
+                                >
+                                  Record payment
+                                </button>
+                              )}
+                            </WorkOrderBillingAccordion>
                           )}
                         </>
                       );
                     })()}
 
-                    {/* Admin Controls */}
                     {billingEditable && (
-                      <div className="mt-6 rounded-xl border border-white/10 bg-white/[0.03] p-4 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:pt-4 md:border-t md:border-gray-200 md:dark:border-gray-700">
-                        <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3 md:text-sm md:font-medium md:normal-case md:tracking-normal md:text-gray-700 md:dark:text-gray-300">
-                          Billing Overrides
-                        </h4>
+                      <WorkOrderBillingAccordion
+                        title="Billing overrides"
+                        summary={diagnosticCreditOverrideSummary(workOrder)}
+                        open={billingOverridesOpen}
+                        onToggle={() => setBillingOverridesOpen((v) => !v)}
+                        className="md:mt-6"
+                      >
+                        {workOrderHasRepairSku(allServices) && workOrder?.diagnostic_discount_amount > 0 && (
+                          <label className="flex items-center gap-2 text-sm text-gray-300 md:text-gray-700 md:dark:text-gray-300 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              checked={!halfDiagnosticDiscount}
+                              onChange={(e) => handleDiagnosticCreditModeChange(e.target.checked)}
+                              className="rounded"
+                            />
+                            100% discount (full diagnostic credit toward repair)
+                          </label>
+                        )}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Service line</label>
@@ -2452,27 +2478,29 @@ function WorkOrderDetail() {
                             </button>
                           </div>
                         </div>
-                        <div className="mt-4">
-                          <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Apply Payment</label>
-                          <div className="flex gap-2">
-                            <input
-                              type="number"
-                              step="0.01"
-                              placeholder="Amount"
-                              value={paymentAmount}
-                              onChange={(e) => setPaymentAmount(e.target.value)}
-                              className="flex-1 px-3 py-2 border border-white/15 rounded-lg bg-[#0B1120] text-white text-sm md:border-gray-300 md:dark:border-gray-600 md:rounded-md md:bg-white md:dark:bg-gray-700 md:text-gray-900"
-                            />
-                            <button 
-                              onClick={handleApplyPayment}
-                              disabled={isApplyingPayment || !paymentAmount}
-                              className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-sm"
-                            >
-                              {isApplyingPayment ? 'Applying...' : 'Apply Payment'}
-                            </button>
+                        {!paidInFullBilling && (
+                          <div className="mt-4">
+                            <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">Apply Payment</label>
+                            <div className="flex gap-2">
+                              <input
+                                type="number"
+                                step="0.01"
+                                placeholder="Amount"
+                                value={paymentAmount}
+                                onChange={(e) => setPaymentAmount(e.target.value)}
+                                className="flex-1 px-3 py-2 border border-white/15 rounded-lg bg-[#0B1120] text-white text-sm md:border-gray-300 md:dark:border-gray-600 md:rounded-md md:bg-white md:dark:bg-gray-700 md:text-gray-900"
+                              />
+                              <button
+                                onClick={handleApplyPayment}
+                                disabled={isApplyingPayment || !paymentAmount}
+                                className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-sm"
+                              >
+                                {isApplyingPayment ? 'Applying...' : 'Apply Payment'}
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      </div>
+                        )}
+                      </WorkOrderBillingAccordion>
                     )}
                   </div>
                 ) : (
