@@ -11,6 +11,7 @@ import {
   getWorkOrderTimeline
 } from '../services/api/workOrdersApi';
 import {
+  fetchWorkOrderFresh,
   fetchWorkOrderWithCache,
   getCachedWorkOrderEnriched,
   transformWorkOrderRecord,
@@ -92,7 +93,10 @@ export function useWorkOrder(id, options = {}) {
     let cancelled = false;
     getCachedWorkOrderEnriched(id).then((cached) => {
       if (cancelled || !cached) return;
-      queryClient.setQueryData(key, (existing) => existing ?? cached);
+      queryClient.setQueryData(key, (existing) => {
+        if (existing && !existing._fromOfflineCache) return existing;
+        return { ...cached, _fromOfflineCache: true };
+      });
     });
     return () => {
       cancelled = true;
@@ -107,6 +111,14 @@ export function useWorkOrder(id, options = {}) {
     retry: (count) => !isOffline() && count < 1,
     ...options,
   });
+}
+
+/** Bypass IndexedDB placeholder and replace WO query data in one shot. */
+export async function refetchWorkOrderFromNetwork(queryClient, id) {
+  if (!id) return null;
+  const fresh = await fetchWorkOrderFresh(id);
+  queryClient.setQueryData(['workOrder', id], fresh);
+  return fresh;
 }
 
 /**

@@ -2868,12 +2868,14 @@ async def email_portal_estimate(
 
 
 class PortalEstimateApproveBody(BaseModel):
-    signer_name: str
-    signature_png: str
+    signer_name: Optional[str] = None
+    signature_png: Optional[str] = None
+    staff_note: Optional[str] = None
 
 
 class PortalEstimateDeclineBody(BaseModel):
     decline_reason: Optional[str] = None
+    staff_note: Optional[str] = None
 
 
 @router.get("/portal/work-orders/{work_order_id}/estimate-approval")
@@ -2901,6 +2903,7 @@ async def approve_portal_estimate(
     background_tasks: BackgroundTasks,
     client: Client = Depends(get_portal_client),
     login: Optional[ClientLogin] = Depends(get_portal_client_login_for_actions),
+    token_data=Depends(get_token_data),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(
         require_portal_write("POST /portal/work-orders/estimate-approval/approve")
@@ -2918,6 +2921,24 @@ async def approve_portal_estimate(
     ).first()
     if not wo:
         raise HTTPException(status_code=404, detail="Work order not found")
+
+    roles = getattr(token_data, "roles", []) or []
+    staff_on_behalf = login is None and "admin" in roles
+    staff_user_id = None
+    staff_user_name = None
+    if staff_on_behalf:
+        from app.models.user import User as DBUser
+
+        admin = db.query(DBUser).filter(DBUser.auth_id == token_data.sub).first()
+        if not admin:
+            raise HTTPException(status_code=403, detail="Staff user record required.")
+        staff_user_id = admin.id
+        staff_user_name = (
+            f"{admin.first_name or ''} {admin.last_name or ''}".strip()
+            or admin.email
+            or "Staff"
+        )
+
     try:
         row = record_estimate_approval(
             db,
@@ -2930,6 +2951,10 @@ async def approve_portal_estimate(
             decline_reason=None,
             ip=request.client.host if request.client else None,
             user_agent=request.headers.get("user-agent"),
+            decision_source="staff_on_behalf" if staff_on_behalf else "customer",
+            staff_user_id=staff_user_id,
+            staff_user_name=staff_user_name,
+            staff_note=body.staff_note,
         )
         db.commit()
     except EstimateApprovalError as exc:
@@ -2968,6 +2993,7 @@ async def decline_portal_estimate(
     background_tasks: BackgroundTasks,
     client: Client = Depends(get_portal_client),
     login: Optional[ClientLogin] = Depends(get_portal_client_login_for_actions),
+    token_data=Depends(get_token_data),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(
         require_portal_write("POST /portal/work-orders/estimate-approval/decline")
@@ -2985,6 +3011,24 @@ async def decline_portal_estimate(
     ).first()
     if not wo:
         raise HTTPException(status_code=404, detail="Work order not found")
+
+    roles = getattr(token_data, "roles", []) or []
+    staff_on_behalf = login is None and "admin" in roles
+    staff_user_id = None
+    staff_user_name = None
+    if staff_on_behalf:
+        from app.models.user import User as DBUser
+
+        admin = db.query(DBUser).filter(DBUser.auth_id == token_data.sub).first()
+        if not admin:
+            raise HTTPException(status_code=403, detail="Staff user record required.")
+        staff_user_id = admin.id
+        staff_user_name = (
+            f"{admin.first_name or ''} {admin.last_name or ''}".strip()
+            or admin.email
+            or "Staff"
+        )
+
     try:
         row = record_estimate_approval(
             db,
@@ -2997,6 +3041,10 @@ async def decline_portal_estimate(
             decline_reason=body.decline_reason,
             ip=request.client.host if request.client else None,
             user_agent=request.headers.get("user-agent"),
+            decision_source="staff_on_behalf" if staff_on_behalf else "customer",
+            staff_user_id=staff_user_id,
+            staff_user_name=staff_user_name,
+            staff_note=body.staff_note,
         )
         db.commit()
     except EstimateApprovalError as exc:

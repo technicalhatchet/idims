@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 import { FaTools, FaShieldAlt, FaChevronDown, FaChevronUp, FaFileAlt } from 'react-icons/fa';
@@ -340,24 +340,43 @@ export default function RepairsPage() {
   const [approvalWo, setApprovalWo] = useState(null);
   const [deepLinkHandled, setDeepLinkHandled] = useState(false);
 
-  useEffect(() => {
-    async function load() {
-      try {
-        const token = await getPortalSessionToken();
-        const [orders, invoices] = await Promise.all([
-          sharedPortalFetch('work-orders', token),
-          sharedPortalFetch('invoices', token),
-        ]);
-        setWorkOrders(Array.isArray(orders) ? orders : []);
-        setInvoiceLookup(buildPortalInvoiceLookup(Array.isArray(invoices) ? invoices : []));
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
+  const loadRepairs = useCallback(async (opts = {}) => {
+    const silent = Boolean(opts.silent);
+    if (!silent) setLoading(true);
+    try {
+      const token = await getPortalSessionToken();
+      const [orders, invoices] = await Promise.all([
+        sharedPortalFetch('work-orders', token),
+        sharedPortalFetch('invoices', token),
+      ]);
+      setWorkOrders(Array.isArray(orders) ? orders : []);
+      setInvoiceLookup(buildPortalInvoiceLookup(Array.isArray(invoices) ? invoices : []));
+      setError(null);
+    } catch (err) {
+      if (!silent) setError(err.message);
+    } finally {
+      if (!silent) setLoading(false);
     }
-    load();
   }, []);
+
+  useEffect(() => {
+    loadRepairs();
+  }, [loadRepairs]);
+
+  useEffect(() => {
+    const hasPending = workOrders.some((w) => w.status === 'pending_estimate_approval');
+    if (!hasPending) return undefined;
+    const tick = () => {
+      if (typeof document !== 'undefined' && document.visibilityState !== 'visible') return;
+      loadRepairs({ silent: true });
+    };
+    const id = window.setInterval(tick, 20_000);
+    document.addEventListener('visibilitychange', tick);
+    return () => {
+      window.clearInterval(id);
+      document.removeEventListener('visibilitychange', tick);
+    };
+  }, [workOrders, loadRepairs]);
 
   useEffect(() => {
     if (!router.isReady || !highlightKey || workOrders.length === 0 || deepLinkHandled) return;
@@ -432,11 +451,7 @@ export default function RepairsPage() {
         <EstimateApprovalSheet
           workOrder={approvalWo}
           onClose={() => setApprovalWo(null)}
-          onDecided={async () => {
-            const token = await getPortalSessionToken();
-            const orders = await sharedPortalFetch('work-orders', token);
-            setWorkOrders(Array.isArray(orders) ? orders : []);
-          }}
+          onDecided={() => loadRepairs({ silent: true })}
         />
       )}
 

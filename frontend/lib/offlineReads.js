@@ -91,6 +91,30 @@ export async function cacheWorkOrderBundle(workOrder) {
   }
 }
 
+/** Always load from API when online; updates IndexedDB after success. */
+export async function fetchWorkOrderFresh(id) {
+  if (isOffline()) {
+    const cached = await getCachedWorkOrderEnriched(id);
+    if (!cached) {
+      throw new Error(
+        'This work order is not cached yet. Open it once while online, then try again.'
+      );
+    }
+    return cached;
+  }
+
+  const data = await getWorkOrder(id);
+  const transformed = transformWorkOrderRecord(data);
+  if (transformed) {
+    const { _fromOfflineCache, ...clean } = transformed;
+    void cacheWorkOrderBundle(clean).catch((err) => {
+      console.warn('[fetchWorkOrderFresh] Background cache failed:', err);
+    });
+    return clean;
+  }
+  return transformed;
+}
+
 export async function fetchWorkOrderWithCache(id) {
   if (isOffline()) {
     const cached = await getCachedWorkOrderEnriched(id);
