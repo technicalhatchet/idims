@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { apiClient } from '../../utils/api-client';
+import { upsertAppSetting } from '../../utils/upsertAppSetting';
 import { useTechnicians } from '../../hooks/useTechnicians';
 import {
   AUTO_ASSIGN_STRATEGIES,
@@ -101,31 +102,15 @@ export default function PortalSchedulingSettingsPanel() {
   const save = async () => {
     setSaving(true);
     try {
-      await apiClient('/api/settings/portal_scheduling', {
-        method: 'PATCH',
-        body: JSON.stringify({ value: settings }),
+      await upsertAppSetting({
+        key: 'portal_scheduling',
+        value: settings,
+        description: 'Client portal self-scheduling configuration',
       });
       toast.success('Portal scheduling settings saved');
     } catch (err) {
-      if (err.message?.includes('404') || err.message?.includes('not found')) {
-        try {
-          await apiClient('/api/settings/', {
-            method: 'POST',
-            body: JSON.stringify({
-              key: 'portal_scheduling',
-              value: settings,
-              description: 'Client portal self-scheduling configuration',
-            }),
-          });
-          toast.success('Portal scheduling settings saved');
-        } catch (createErr) {
-          console.error(createErr);
-          toast.error('Failed to save portal settings');
-        }
-      } else {
-        console.error(err);
-        toast.error('Failed to save portal settings');
-      }
+      console.error(err);
+      toast.error('Failed to save portal settings');
     } finally {
       setSaving(false);
     }
