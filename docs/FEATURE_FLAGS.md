@@ -17,7 +17,7 @@ Portal and staff capabilities can be toggled without redeploying.
 
 ## Frontend
 
-- `FeatureFlagsProvider` in `_app.js` loads `/api/features`
+- `FeatureFlagsProvider` in `_app.js` loads `/api/features` via `buildApiUrl('features')` (same `/api` prefix rules as `apiClient`)
 - **Fail-open:** initial state and any failed/slow/malformed fetch keep all registry flags **ON**; `useFeature` returns `true` until `loaded`. Features are hidden only after a successful response that omits a flag.
 - `useFeature('flag_id')` gates UI entry points
 - Admin: Settings → **Portal features** panel (`FeatureFlagsSettingsPanel`)
