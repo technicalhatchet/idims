@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { buildApiUrl } from '../utils/api-client';
 
 /** Must match backend FEATURE_FLAG_DEFINITIONS keys. */
 export const WAVE1_FEATURE_FLAG_IDS = [
@@ -15,6 +16,14 @@ export function allWave1FeaturesEnabledSet() {
   return new Set(WAVE1_FEATURE_FLAG_IDS);
 }
 
+function warnFeaturesFetch(message, detail) {
+  if (detail !== undefined) {
+    console.warn(`[FeatureFlags] ${message}`, detail);
+  } else {
+    console.warn(`[FeatureFlags] ${message}`);
+  }
+}
+
 const FeatureFlagsContext = createContext({
   loaded: false,
   features: new Set(WAVE1_FEATURE_FLAG_IDS),
@@ -22,7 +31,10 @@ const FeatureFlagsContext = createContext({
 });
 
 async function fetchEnabledFeatures() {
-  const failOpen = () => allWave1FeaturesEnabledSet();
+  const failOpen = (message, detail) => {
+    warnFeaturesFetch(`${message}; using fail-open defaults (all flags ON).`, detail);
+    return allWave1FeaturesEnabledSet();
+  };
   try {
     let token = null;
     try {
@@ -33,19 +45,19 @@ async function fetchEnabledFeatures() {
       token = null;
     }
 
-    const base = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/').replace(/\/$/, '');
+    const url = buildApiUrl('features');
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
-    const res = await fetch(`${base}/api/features`, { headers });
+    const res = await fetch(url, { headers });
     if (!res.ok) {
-      return failOpen();
+      return failOpen(`GET /api/features failed (${res.status})`);
     }
     const data = await res.json().catch(() => null);
     if (!data || !Array.isArray(data.features)) {
-      return failOpen();
+      return failOpen('GET /api/features returned an invalid payload', data);
     }
     return new Set(data.features);
-  } catch {
-    return failOpen();
+  } catch (err) {
+    return failOpen('GET /api/features request failed', err);
   }
 }
 
@@ -57,7 +69,8 @@ export function FeatureFlagsProvider({ children }) {
     try {
       const next = await fetchEnabledFeatures();
       setFeatures(next);
-    } catch {
+    } catch (err) {
+      warnFeaturesFetch('refresh failed unexpectedly; using fail-open defaults.', err);
       setFeatures(allWave1FeaturesEnabledSet());
     } finally {
       setLoaded(true);
