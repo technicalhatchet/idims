@@ -684,7 +684,3 @@ function TodaysRoute() {
 export default TodaysRoute;
 
 TodaysRoute.getLayout = (page) => <TechDashboardLayout>{page}</TechDashboardLayout>;
-
-export async function getServerSideProps() {
-  return { props: {} };
-}

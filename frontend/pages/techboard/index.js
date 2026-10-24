@@ -14,7 +14,14 @@ import MapsNavigateButton from '../../components/ui/MapsNavigateButton';
 import { apiClient } from '../../utils/api-client';
 import { updateAppointmentStatus } from '../../lib/offlineWrites';
 import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
-import { useOfflineSchedule, useOfflineWorkOrders } from '../../hooks/useOfflineData';
+import {
+  useOfflineSchedule,
+  useOfflineWorkOrders,
+  useOfflineWorkOrdersCache,
+} from '../../hooks/useOfflineData';
+import { useQueryClient } from '@tanstack/react-query';
+import { prefetchTechdeckWorkOrdersBackground } from '../../lib/techdeckQueries';
+import TechboardPageGlow from '../../components/techboard/TechboardPageGlow';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { resolveAppointmentLocation } from '../../utils/appointment-scheduling';
 import { parseScheduleUtcMs, formatScheduleTime, appointmentStartMs } from '../../utils/schedule-time';
@@ -46,10 +53,10 @@ import {
   buildSmsUrl,
 } from '../../utils/enRouteSms';
 import { useUserRole } from '../../utils/auth0-helpers';
-import {
-  ensureWebPushSubscription,
-  reportDeployProximity,
-} from '../../utils/webPush';
+import { reportDeployProximity } from '../../utils/webPush';
+
+const DASHBOARD_WO_BOOTSTRAP = 50;
+const DASHBOARD_WO_FULL = 100;
 
 const NEXT_JOB_CONTACT_BTN_STYLE = {
   background: 'rgba(13, 21, 37, 0.25)',
@@ -826,15 +833,23 @@ export default function TechDashboardTest() {
     };
   }, [syncHudGridAlignment]);
 
+  const queryClient = useQueryClient();
   const { isOnline } = useOnlineStatus();
   const { data: scheduleData, isLoading: scheduleLoading } = useOfflineSchedule();
-  const { data: workOrdersData, isLoading: woLoading } = useOfflineWorkOrders(200);
+  const { data: workOrdersBootstrap, isLoading: woLoading } = useOfflineWorkOrders(DASHBOARD_WO_BOOTSTRAP);
+  const { data: workOrdersFull } = useOfflineWorkOrdersCache(DASHBOARD_WO_FULL);
+  const workOrdersData = useMemo(() => {
+    const fullItems = workOrdersFull?.items?.length || 0;
+    const bootItems = workOrdersBootstrap?.items?.length || 0;
+    if (fullItems > bootItems) return workOrdersFull;
+    return workOrdersBootstrap;
+  }, [workOrdersBootstrap, workOrdersFull]);
 
   useEffect(() => {
-    if (!isOnline || !user) return undefined;
-    ensureWebPushSubscription(apiClient);
+    if (!isOnline || woLoading) return undefined;
+    prefetchTechdeckWorkOrdersBackground(queryClient);
     return undefined;
-  }, [isOnline, user]);
+  }, [isOnline, woLoading, queryClient]);
 
   useEffect(() => {
     if (!isOnline || !schedule.length) return undefined;
@@ -1320,7 +1335,7 @@ export default function TechDashboardTest() {
                 bg-[size:42px_42px]"
             />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
-            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[64px] rounded-full" />
+            <TechboardPageGlow />
             <div
               className="absolute inset-0 opacity-[0.028]
                 bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"
@@ -1565,7 +1580,3 @@ function getGreeting(now = new Date()) {
 }
 
 TechDashboardTest.getLayout = (page) => <TechDashboardLayout>{page}</TechDashboardLayout>;
-
-export async function getServerSideProps() {
-  return { props: {} };
-}

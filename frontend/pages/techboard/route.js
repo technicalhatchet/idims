@@ -774,7 +774,3 @@ export default function RouteTest() {
 }
 
 RouteTest.getLayout = (page) => <TechDashboardLayout>{page}</TechDashboardLayout>;
-
-export async function getServerSideProps() {
-  return { props: {} };
-}

@@ -5,6 +5,27 @@
 
 const PUSH_SUBSCRIBED_KEY = 'idims_push_subscribed';
 
+let cachedVapidPublicKey = null;
+let vapidKeyInFlight = null;
+
+async function getVapidPublicKey(apiClient) {
+  if (cachedVapidPublicKey) return cachedVapidPublicKey;
+  if (!vapidKeyInFlight) {
+    vapidKeyInFlight = apiClient('push/vapid-public-key')
+      .then((res) => {
+        cachedVapidPublicKey = res?.publicKey || null;
+        return cachedVapidPublicKey;
+      })
+      .finally(() => {
+        vapidKeyInFlight = null;
+      });
+  }
+  return vapidKeyInFlight;
+}
+
+let ensurePushInFlight = null;
+
+
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
@@ -26,41 +47,48 @@ export function isWebPushSupported() {
 /** Subscribe this browser to push (prompts once). Idempotent. */
 export async function ensureWebPushSubscription(apiClient) {
   if (!isWebPushSupported()) return false;
+  if (ensurePushInFlight) return ensurePushInFlight;
 
-  try {
-    const { publicKey } = await apiClient('push/vapid-public-key');
-    if (!publicKey) return false;
+  ensurePushInFlight = (async () => {
+    try {
+      const publicKey = await getVapidPublicKey(apiClient);
+      if (!publicKey) return false;
 
-    if (Notification.permission === 'default') {
-      const permission = await Notification.requestPermission();
-      if (permission !== 'granted') return false;
-    } else if (Notification.permission !== 'granted') {
-      return false;
-    }
+      if (Notification.permission === 'default') {
+        const permission = await Notification.requestPermission();
+        if (permission !== 'granted') return false;
+      } else if (Notification.permission !== 'granted') {
+        return false;
+      }
 
-    const reg = await navigator.serviceWorker.ready;
-    let sub = await reg.pushManager.getSubscription();
-    if (!sub) {
-      sub = await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(publicKey),
+      const reg = await navigator.serviceWorker.ready;
+      let sub = await reg.pushManager.getSubscription();
+      if (!sub) {
+        sub = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(publicKey),
+        });
+      }
+
+      const json = sub.toJSON();
+      await apiClient('push/subscribe', {
+        method: 'POST',
+        body: JSON.stringify({
+          endpoint: json.endpoint,
+          keys: json.keys,
+        }),
       });
+      localStorage.setItem(PUSH_SUBSCRIBED_KEY, '1');
+      return true;
+    } catch (err) {
+      console.warn('Web push subscribe failed:', err);
+      return false;
+    } finally {
+      ensurePushInFlight = null;
     }
+  })();
 
-    const json = sub.toJSON();
-    await apiClient('push/subscribe', {
-      method: 'POST',
-      body: JSON.stringify({
-        endpoint: json.endpoint,
-        keys: json.keys,
-      }),
-    });
-    localStorage.setItem(PUSH_SUBSCRIBED_KEY, '1');
-    return true;
-  } catch (err) {
-    console.warn('Web push subscribe failed:', err);
-    return false;
-  }
+  return ensurePushInFlight;
 }
 
 /** One-shot GPS vs cached job coords — cheap hybrid deploy nudge. */
