@@ -709,6 +709,10 @@ def list_client_appliances(
     if active_only:
         query = query.filter(ClientAppliance.is_active.is_(True), ClientAppliance.merged_into_id.is_(None))
     appliances = query.order_by(ClientAppliance.updated_at.desc()).all()
+    from app.services.appliance_age_service import auto_decode_appliances
+
+    if auto_decode_appliances(db, appliances):
+        db.flush()
     sk = serialize_kwargs or {}
     return [serialize_appliance(a, db, **sk) for a in appliances]
 

@@ -539,9 +539,11 @@ async def list_client_appliances_staff(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Client not found")
     user = db.query(User).filter(User.id == current_user.id).first()
     sk = _staff_appliance_serialize_kwargs(db, user) if user else {}
-    return appliance_svc.list_client_appliances(
+    rows = appliance_svc.list_client_appliances(
         db, client_id, active_only=False, serialize_kwargs=sk
     )
+    db.commit()
+    return rows
 
 
 @router.post("/{client_id}/appliances")
@@ -564,7 +566,9 @@ async def create_client_appliance_staff(
         )
         db.commit()
         db.refresh(appliance)
-        return appliance_svc.serialize_appliance(appliance, db)
+        user = db.query(User).filter(User.id == current_user.id).first()
+        sk = _staff_appliance_serialize_kwargs(db, user) if user else {}
+        return appliance_svc.serialize_appliance(appliance, db, **sk)
     except ValueError as exc:
         db.rollback()
         raise HTTPException(status_code=400, detail=str(exc)) from exc
@@ -582,7 +586,9 @@ async def update_client_appliance_staff(
         appliance = appliance_svc.update_client_appliance(db, client_id, appliance_id, payload)
         db.commit()
         db.refresh(appliance)
-        return appliance_svc.serialize_appliance(appliance, db)
+        user = db.query(User).filter(User.id == current_user.id).first()
+        sk = _staff_appliance_serialize_kwargs(db, user) if user else {}
+        return appliance_svc.serialize_appliance(appliance, db, **sk)
     except ValueError as exc:
         db.rollback()
         raise HTTPException(status_code=404, detail=str(exc)) from exc
@@ -604,6 +610,43 @@ async def delete_client_appliance_staff(
         raise HTTPException(status_code=404, detail=str(exc)) from exc
 
 
+class ManufactureDateOverrideBody(BaseModel):
+    manufacture_year: int
+    manufacture_month: int
+
+
+@router.post("/{client_id}/appliances/{appliance_id}/manufacture-date")
+async def set_appliance_manufacture_date_staff(
+    client_id: uuid.UUID,
+    appliance_id: uuid.UUID,
+    payload: ManufactureDateOverrideBody,
+    current_user: AuthUser = Depends(get_admin_or_manager_user),
+    db: Session = Depends(get_db),
+):
+    from app.services.appliance_age_service import apply_staff_manufacture_override
+    from app.services.feature_flags_service import require_feature
+
+    user = db.query(User).filter(User.id == current_user.id).first()
+    from app.services.feature_flags_service import feature_context_from_roles
+
+    require_feature(db, "appliance_age", feature_context_from_roles(user.roles if user else []))
+    try:
+        appliance = appliance_svc.get_client_appliance(db, client_id, appliance_id)
+        apply_staff_manufacture_override(
+            appliance,
+            year=payload.manufacture_year,
+            month=payload.manufacture_month,
+        )
+        appliance.updated_at = datetime.utcnow()
+        db.commit()
+        db.refresh(appliance)
+        sk = _staff_appliance_serialize_kwargs(db, user) if user else {}
+        return appliance_svc.serialize_appliance(appliance, db, **sk)
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
 @router.post("/{client_id}/appliances/{appliance_id}/verify")
 async def verify_client_appliance_staff(
     client_id: uuid.UUID,
@@ -617,7 +660,9 @@ async def verify_client_appliance_staff(
         )
         db.commit()
         db.refresh(appliance)
-        return appliance_svc.serialize_appliance(appliance, db)
+        user = db.query(User).filter(User.id == current_user.id).first()
+        sk = _staff_appliance_serialize_kwargs(db, user) if user else {}
+        return appliance_svc.serialize_appliance(appliance, db, **sk)
     except ValueError as exc:
         db.rollback()
         raise HTTPException(status_code=404, detail=str(exc)) from exc
@@ -634,7 +679,9 @@ async def merge_client_appliances_staff(
         keep = appliance_svc.merge_appliances(db, client_id, payload.keep_id, payload.merge_ids)
         db.commit()
         db.refresh(keep)
-        return appliance_svc.serialize_appliance(keep, db)
+        user = db.query(User).filter(User.id == current_user.id).first()
+        sk = _staff_appliance_serialize_kwargs(db, user) if user else {}
+        return appliance_svc.serialize_appliance(keep, db, **sk)
     except ValueError as exc:
         db.rollback()
         raise HTTPException(status_code=400, detail=str(exc)) from exc

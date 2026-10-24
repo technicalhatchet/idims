@@ -12,6 +12,7 @@ import {
 import ApplianceOverflowMenu from './ApplianceOverflowMenu';
 import ApplianceScheduleButton from './ApplianceScheduleButton';
 import ApplianceSourceSubtitle from './ApplianceSourceSubtitle';
+import { ApplianceAgeChip } from '../../appliances/ApplianceAgeTile';
 
 function DetailBlock({ label, value }) {
   return (
@@ -78,7 +79,10 @@ export default function ApplianceListRow({
         </div>
 
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-white truncate leading-tight">{displayName}</p>
+          <p className="text-sm font-semibold text-white truncate leading-tight flex items-center gap-2">
+            <span className="truncate">{displayName}</span>
+            <ApplianceAgeChip applianceAge={appliance.appliance_age} />
+          </p>
           <ApplianceSourceSubtitle
             appliance={appliance}
             className="text-xs text-gray-500 truncate mt-0.5 leading-snug"

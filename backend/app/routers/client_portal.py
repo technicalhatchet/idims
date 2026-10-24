@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query, Request, B
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import desc
-from typing import List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 from datetime import datetime, timedelta
 from pydantic import BaseModel
 import logging
@@ -115,6 +115,17 @@ def _portal_feature_ctx(token_data):
     from app.services.feature_flags_service import feature_context_from_roles
 
     return feature_context_from_roles(getattr(token_data, "roles", None))
+
+
+def _portal_appliance_serialize_kwargs(db: Session, token_data) -> Dict[str, Any]:
+    from app.services.feature_flags_service import feature_enabled
+
+    ctx = _portal_feature_ctx(token_data)
+    return {
+        "include_recalls_customer": feature_enabled(db, "recall_alerts", ctx),
+        "include_appliance_age": feature_enabled(db, "appliance_age", ctx),
+        "include_parts_links": feature_enabled(db, "parts_links", ctx),
+    }
 
 
 def _require_portal_feature(db: Session, flag: str, token_data) -> None:
@@ -2428,9 +2439,13 @@ def _device_key(wo: WorkOrder) -> Optional[str]:
 async def get_portal_appliances(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    token_data=Depends(get_token_data),
 ):
     """List registered client appliances."""
-    return appliance_svc.list_client_appliances(db, client.id)
+    sk = _portal_appliance_serialize_kwargs(db, token_data)
+    rows = appliance_svc.list_client_appliances(db, client.id, serialize_kwargs=sk)
+    db.commit()
+    return rows
 
 
 @router.get("/portal/appliances/import/candidates")
@@ -2650,21 +2665,23 @@ async def get_portal_appliance_detail(
     include_history: bool = Query(True),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    token_data=Depends(get_token_data),
 ):
     """Appliance detail by registry id, or legacy serial number."""
     try:
         parsed_id = uuid.UUID(appliance_id)
         appliance = appliance_svc.get_client_appliance(db, client.id, parsed_id)
-        from app.services.feature_flags_service import FeatureContext, feature_enabled
+        from app.services.appliance_age_service import maybe_auto_decode_appliance
 
-        ctx = FeatureContext(roles=["client"])
+        if maybe_auto_decode_appliance(db, appliance):
+            db.commit()
+            db.refresh(appliance)
+        sk = _portal_appliance_serialize_kwargs(db, token_data)
         return appliance_svc.serialize_appliance(
             appliance,
             db,
             include_history=include_history,
-            include_recalls_customer=feature_enabled(db, "recall_alerts", ctx),
-            include_appliance_age=feature_enabled(db, "appliance_age", ctx),
-            include_parts_links=feature_enabled(db, "parts_links", ctx),
+            **sk,
         )
     except ValueError:
         pass
@@ -2681,16 +2698,17 @@ async def get_portal_appliance_detail(
     )
     match = next((a for a in appliance if (a.serial or "").strip().lower() == serial_lower), None)
     if match:
-        from app.services.feature_flags_service import FeatureContext, feature_enabled
+        from app.services.appliance_age_service import maybe_auto_decode_appliance
 
-        ctx = FeatureContext(roles=["client"])
+        if maybe_auto_decode_appliance(db, match):
+            db.commit()
+            db.refresh(match)
+        sk = _portal_appliance_serialize_kwargs(db, token_data)
         return appliance_svc.serialize_appliance(
             match,
             db,
             include_history=include_history,
-            include_recalls_customer=feature_enabled(db, "recall_alerts", ctx),
-            include_appliance_age=feature_enabled(db, "appliance_age", ctx),
-            include_parts_links=feature_enabled(db, "parts_links", ctx),
+            **sk,
         )
 
     work_orders_list = db.query(WorkOrder).filter(WorkOrder.client_id == client.id).all()
@@ -2748,8 +2766,15 @@ async def get_portal_appliance_by_serial(
     serial: str,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    token_data=Depends(get_token_data),
 ):
-    return await get_portal_appliance_detail(serial, client, db)
+    return await get_portal_appliance_detail(
+        serial,
+        include_history=True,
+        client=client,
+        db=db,
+        token_data=token_data,
+    )
 
 
 @router.get("/portal/work-orders/{work_order_id}/invoice.pdf")

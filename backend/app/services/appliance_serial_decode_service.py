@@ -5,16 +5,36 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from datetime import date
-from typing import List, Optional, Tuple
+from typing import List, Optional
 
 WHIRLPOOL_FAMILY = frozenset(
-    {"whirlpool", "maytag", "kitchenaid", "amana", "jennair", "jenn air", "jenn-air", "kenmore"}
+    {"whirlpool", "maytag", "kitchenaid", "amana", "jennair", "jenn air", "jenn-air"}
+)
+ELECTROLUX_FAMILY = frozenset(
+    {
+        "frigidaire",
+        "electrolux",
+        "gallery",
+        "professional",
+        "gibson",
+        "kelvinator",
+        "tappan",
+        "white-westinghouse",
+        "white westinghouse",
+        "westinghouse",
+    }
 )
 GE_FAMILY = frozenset(
     {"ge", "hotpoint", "cafe", "café", "profile", "monogram", "general electric"}
 )
 SAMSUNG_FAMILY = frozenset({"samsung"})
 LG_FAMILY = frozenset({"lg"})
+
+KENMORE_ELECTROLUX_PREFIXES = frozenset(
+    {"119", "253", "336", "417", "587", "622", "628", "719", "790", "791", "970"}
+)
+KENMORE_WHIRLPOOL_PREFIXES = frozenset({"106", "110"})
+KENMORE_LG_PREFIXES = frozenset({"795"})
 
 WHIRLPOOL_YEAR_MAP = {
     **{str(d): 2010 + d for d in range(10)},
@@ -77,6 +97,26 @@ def _norm_make(make: Optional[str]) -> str:
     return re.sub(r"\s+", " ", (make or "").strip().lower())
 
 
+def _model_prefix_digits(model: Optional[str]) -> Optional[str]:
+    digits = re.sub(r"\D", "", (model or "").strip())
+    if len(digits) < 3:
+        return None
+    return digits[:3]
+
+
+def _kenmore_route(model: Optional[str]) -> Optional[str]:
+    prefix = _model_prefix_digits(model)
+    if not prefix:
+        return None
+    if prefix in KENMORE_ELECTROLUX_PREFIXES:
+        return "electrolux"
+    if prefix in KENMORE_WHIRLPOOL_PREFIXES:
+        return "whirlpool"
+    if prefix in KENMORE_LG_PREFIXES:
+        return "lg"
+    return None
+
+
 def _pick_year(candidates: List[int], today: date, first_service: Optional[date]) -> Optional[int]:
     cap = today.year
     if first_service:
@@ -85,11 +125,14 @@ def _pick_year(candidates: List[int], today: date, first_service: Optional[date]
     return max(valid) if valid else None
 
 
+def _month_from_iso_week(year: int, week: int) -> int:
+    return date.fromisocalendar(year, week, 1).month
+
+
 def _decode_whirlpool(serial: str, today: date, first_service: Optional[date]) -> Optional[DecodeResult]:
     s = serial.strip().upper()
     if len(s) < 5:
         return None
-    # 2010+: skip 1-2 plant letters, then year code, then 2-digit week
     for skip in (1, 2):
         if len(s) <= skip + 2:
             continue
@@ -108,9 +151,31 @@ def _decode_whirlpool(serial: str, today: date, first_service: Optional[date]) -
         picked = _pick_year([year], today, first_service)
         if not picked:
             return None
-        month = min(12, max(1, (week // 4) + 1))
+        month = _month_from_iso_week(picked, week)
         return DecodeResult(picked, month, "whirlpool_2010_plus", "high")
     return None
+
+
+def _decode_electrolux(serial: str, today: date, first_service: Optional[date]) -> Optional[DecodeResult]:
+    s = re.sub(r"[^A-Z0-9]", "", serial.upper())
+    if len(s) < 5:
+        return None
+    year_digit = s[2]
+    if not year_digit.isdigit():
+        return None
+    week_part = s[3:5]
+    if not week_part.isdigit():
+        return None
+    week = int(week_part)
+    if week < 1 or week > 53:
+        return None
+    digit = int(year_digit)
+    candidates = [2000 + digit, 2010 + digit, 2020 + digit]
+    year = _pick_year(candidates, today, first_service)
+    if not year:
+        return None
+    month = _month_from_iso_week(year, week)
+    return DecodeResult(year, month, "electrolux_week_year", "medium")
 
 
 def _decode_ge(serial: str, today: date, first_service: Optional[date]) -> Optional[DecodeResult]:
@@ -170,10 +235,15 @@ def _decode_lg(serial: str, today: date, first_service: Optional[date]) -> Optio
     return DecodeResult(year, month, "lg_3digit", "medium")
 
 
+def _family_match(make: str, family: frozenset) -> bool:
+    return any(token in make for token in family)
+
+
 def decode_appliance_serial(
     make: Optional[str],
     serial: Optional[str],
     *,
+    model: Optional[str] = None,
     today: Optional[date] = None,
     first_service_date: Optional[date] = None,
 ) -> Optional[DecodeResult]:
@@ -182,12 +252,24 @@ def decode_appliance_serial(
     mk = _norm_make(make)
     today = today or date.today()
 
-    if any(m in mk for m in WHIRLPOOL_FAMILY):
+    if mk == "kenmore" or mk.startswith("kenmore "):
+        route = _kenmore_route(model)
+        if route == "electrolux":
+            return _decode_electrolux(serial, today, first_service_date)
+        if route == "whirlpool":
+            return _decode_whirlpool(serial, today, first_service_date)
+        if route == "lg":
+            return _decode_lg(serial, today, first_service_date)
+        return None
+
+    if _family_match(mk, WHIRLPOOL_FAMILY):
         return _decode_whirlpool(serial, today, first_service_date)
-    if any(m in mk for m in GE_FAMILY) or mk.startswith("ge"):
+    if _family_match(mk, ELECTROLUX_FAMILY):
+        return _decode_electrolux(serial, today, first_service_date)
+    if _family_match(mk, GE_FAMILY) or mk.startswith("ge"):
         return _decode_ge(serial, today, first_service_date)
-    if any(m in mk for m in SAMSUNG_FAMILY):
+    if _family_match(mk, SAMSUNG_FAMILY):
         return _decode_samsung(serial, today, first_service_date)
-    if any(m in mk for m in LG_FAMILY):
+    if _family_match(mk, LG_FAMILY):
         return _decode_lg(serial, today, first_service_date)
     return None

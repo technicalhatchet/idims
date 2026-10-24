@@ -28,6 +28,8 @@ import {
 } from '../../utils/workOrderPartStatuses';
 import RecallBadge from '../recalls/RecallBadge';
 import Link from 'next/link';
+import ApplianceAgeTile from '../appliances/ApplianceAgeTile';
+import { useFeature } from '../../context/FeatureFlagsContext';
 import {
   normalizePartsSettings,
   getVendorSelectOptions,
@@ -115,6 +117,8 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [linkedApplianceAge, setLinkedApplianceAge] = useState(null);
+  const applianceAgeEnabled = useFeature('appliance_age');
 
   // Parts management
   const seedParts = getWorkOrderPartsSeed(workOrder);
@@ -154,6 +158,34 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
       fetchParts({ silent: hasSeed });
     }
   }, [workOrderId]);
+
+  useEffect(() => {
+    if (!applianceAgeEnabled || !workOrder?.client_id) {
+      setLinkedApplianceAge(null);
+      return;
+    }
+    const serial = (workOrder.equipment_serial || serialNumber || '').trim().toUpperCase();
+    if (!serial) {
+      setLinkedApplianceAge(null);
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      try {
+        const list = await apiClient(`clients/${workOrder.client_id}/appliances`);
+        if (cancelled) return;
+        const match = (Array.isArray(list) ? list : []).find(
+          (a) => (a.serial || '').trim().toUpperCase() === serial,
+        );
+        setLinkedApplianceAge(match?.appliance_age || null);
+      } catch {
+        if (!cancelled) setLinkedApplianceAge(null);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [applianceAgeEnabled, workOrder?.client_id, workOrder?.equipment_serial, serialNumber]);
 
   useEffect(() => {
     const seeded = getWorkOrderPartsSeed(workOrder);
@@ -681,6 +713,10 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
               onChange={(e) => setSerialNumber(e.target.value.toUpperCase())}
               placeholder="Enter serial number"
             />
+
+            {linkedApplianceAge ? (
+              <ApplianceAgeTile applianceAge={linkedApplianceAge} variant="staff" />
+            ) : null}
             
             <TextInput 
               label="Version Number" 
