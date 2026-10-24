@@ -37,6 +37,7 @@ export default function ApplianceAgeTile({
   applianceAge,
   variant = 'portal',
   staffOverride,
+  gridTile = false,
 }) {
   if (!applianceAge) return null;
 
@@ -93,6 +94,14 @@ export default function ApplianceAgeTile({
       {staffOverride}
     </>
   );
+
+  if (isPortal && gridTile) {
+    return (
+      <div className="h-full rounded-lg bg-white/[0.04] px-3 py-2 flex flex-col">
+        {inner}
+      </div>
+    );
+  }
 
   if (isPortal) {
     return (

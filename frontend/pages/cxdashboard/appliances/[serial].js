@@ -11,13 +11,12 @@ import {
   applianceDisplayName,
   getSchedulingMissing,
   schedulingMissingLabels,
-  subtypeLabel,
 } from '../../../constants/applianceEquipment';
 import { getPortalSessionToken, portalFetch } from '../../../utils/portalFetch';
 import { applianceSourceInlineText, applianceSourceInlineTone } from '../../../constants/applianceSourceLabel';
 import RecallCustomerPanel from '../../../components/recalls/RecallCustomerPanel';
 import RecallBadge from '../../../components/recalls/RecallBadge';
-import ApplianceAgeTile from '../../../components/appliances/ApplianceAgeTile';
+import ApplianceDetailSpecGrid from '../../../components/cxdashboard/appliances/ApplianceDetailSpecGrid';
 
 const STATUS_STYLES = {
   completed: { label: 'Completed', bg: 'rgba(34,197,94,0.1)', color: '#22c55e', border: 'rgba(34,197,94,0.2)' },
@@ -216,7 +215,7 @@ export default function ApplianceDetailPage() {
   return (
     <>
       <Head><title>{displayName} | My Appliances | Atomic Repair</title></Head>
-      <div className="space-y-6">
+      <div className="space-y-3">
         <Link href="/cxdashboard/appliances" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#6b7280', fontSize: '0.875rem', textDecoration: 'none' }} className="hover:text-white">
           <FaArrowLeft style={{ fontSize: '12px' }} />
           Back to My Appliances
@@ -239,125 +238,82 @@ export default function ApplianceDetailPage() {
 
             {appliance.recalls && <RecallCustomerPanel recalls={appliance.recalls} />}
 
-            {appliance.parts_links?.parts_search_url && (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-                <a
-                  href={appliance.parts_links.parts_search_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: '#22d3ee', fontSize: '0.875rem' }}
-                >
-                  Find parts for this model
-                </a>
-                {appliance.parts_links.water_filter_search_url && (
-                  <a
-                    href={appliance.parts_links.water_filter_search_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ color: '#22d3ee', fontSize: '0.875rem' }}
-                  >
-                    Find water filter
-                  </a>
-                )}
-              </div>
-            )}
-
-            <div style={{
-              background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)',
-              borderRadius: '12px', padding: '1.5rem',
-            }}>
-              <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                <div style={{ background: 'rgba(0,212,255,0.08)', borderRadius: '12px', padding: '12px', flexShrink: 0 }}>
-                  <ApplianceIcon type={appliance.equipment_subtype || appliance.subtype || appliance.equipment_type || appliance.type} className="w-10 h-10" />
+            <div className="rounded-xl border border-white/[0.07] bg-[#0D1525] p-4 sm:p-6">
+              <div className="flex gap-3 sm:gap-4 items-start">
+                <div className="shrink-0 rounded-xl bg-cyan-500/10 p-3">
+                  <ApplianceIcon
+                    type={appliance.equipment_subtype || appliance.subtype || appliance.equipment_type || appliance.type}
+                    className="w-10 h-10"
+                  />
                 </div>
-
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.75rem', flexWrap: 'wrap' }}>
-                    <div>
-                      <h1 style={{ color: '#fff', fontSize: '1.375rem', fontWeight: '700', margin: 0, textTransform: 'capitalize', display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-                        {displayName}
-                        <RecallBadge recalls={appliance.recalls} />
-                      </h1>
-                      {(appliance.model || applianceSourceInlineText(appliance)) && (
-                        <p style={{ color: '#9ca3af', fontSize: '0.9375rem', margin: '2px 0 0' }}>
-                          {appliance.model ? `Model: ${appliance.model}` : null}
-                          {appliance.model && applianceSourceInlineText(appliance) ? ' · ' : null}
-                          {applianceSourceInlineText(appliance) ? (
-                            <span
-                              style={{
-                                color: applianceSourceInlineTone(appliance) === 'verified' ? '#67e8f9' : '#6b7280',
-                              }}
-                            >
-                              {applianceSourceInlineText(appliance)}
-                            </span>
-                          ) : null}
-                        </p>
-                      )}
-                    </div>
-                    <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexShrink: 0 }}>
-                      {appliance.warranty_active && (
-                        <span style={{
-                          display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(34,197,94,0.1)',
-                          border: '1px solid rgba(34,197,94,0.2)', borderRadius: '8px', padding: '6px 12px',
-                          color: '#22c55e', fontSize: '0.8125rem', fontWeight: '600',
-                        }}>
-                          <FaShieldAlt style={{ fontSize: '11px' }} /> Under Warranty
-                        </span>
-                      )}
-                      <button
-                        type="button"
-                        onClick={() => setShowEdit(true)}
-                        style={{
-                          display: 'inline-flex', alignItems: 'center', gap: '0.375rem',
-                          background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
-                          borderRadius: '8px', padding: '6px 12px', color: '#d1d5db', fontSize: '0.8125rem',
-                          fontWeight: '600', cursor: 'pointer',
-                        }}
-                      >
-                        <FaEdit style={{ fontSize: '12px' }} /> Edit
-                      </button>
-                    </div>
+                <div className="flex-1 min-w-0 flex flex-wrap items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <h1 className="text-white text-xl font-bold capitalize m-0 flex items-center gap-2 flex-wrap leading-tight">
+                      {displayName}
+                      <RecallBadge recalls={appliance.recalls} />
+                    </h1>
+                    {(appliance.model || applianceSourceInlineText(appliance)) && (
+                      <p className="text-gray-400 text-[0.9375rem] mt-0.5 mb-0">
+                        {appliance.model ? `Model ${appliance.model}` : null}
+                        {appliance.model && applianceSourceInlineText(appliance) ? ' · ' : null}
+                        {applianceSourceInlineText(appliance) ? (
+                          <span
+                            className={
+                              applianceSourceInlineTone(appliance) === 'verified' ? 'text-cyan-300' : 'text-gray-500'
+                            }
+                          >
+                            {applianceSourceInlineText(appliance)}
+                          </span>
+                        ) : null}
+                      </p>
+                    )}
                   </div>
-
-                  <div style={{
-                    display: 'flex', flexWrap: 'wrap', gap: '1rem', marginTop: '1rem',
-                    fontSize: '0.875rem', color: '#9ca3af',
-                  }}>
-                    <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '8px 12px' }}>
-                      <span style={{ color: '#6b7280', fontSize: '0.75rem', display: 'block' }}>Type</span>
-                      <span style={{ color: '#d1d5db' }}>
-                        {subtypeLabel(appliance.equipment_type, appliance.equipment_subtype) || '—'}
+                  <div className="flex gap-2 items-center shrink-0 flex-wrap justify-end">
+                    {appliance.warranty_active && (
+                      <span className="inline-flex items-center gap-1.5 rounded-lg border border-green-500/20 bg-green-500/10 px-3 py-1.5 text-green-500 text-xs font-semibold">
+                        <FaShieldAlt className="text-[11px]" /> Under Warranty
                       </span>
-                    </div>
-                    <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '8px 12px' }}>
-                      <span style={{ color: '#6b7280', fontSize: '0.75rem', display: 'block' }}>Make</span>
-                      <span style={{ color: '#d1d5db' }}>{appliance.make || '—'}</span>
-                    </div>
-                    <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '8px 12px' }}>
-                      <span style={{ color: '#6b7280', fontSize: '0.75rem', display: 'block' }}>Serial Number</span>
-                      <span style={{ color: '#d1d5db', fontFamily: 'monospace', fontWeight: '600' }}>{appliance.serial || '—'}</span>
-                    </div>
-                    {appliance.appliance_age ? (
-                      <ApplianceAgeTile applianceAge={appliance.appliance_age} variant="portal" />
-                    ) : null}
-                    <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '8px 12px' }}>
-                      <span style={{ color: '#6b7280', fontSize: '0.75rem', display: 'block' }}>Times Serviced</span>
-                      <span style={{ color: '#22d3ee', fontWeight: '700', fontSize: '1.125rem' }}>{appliance.service_count}</span>
-                    </div>
-                    <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '8px 12px' }}>
-                      <span style={{ color: '#6b7280', fontSize: '0.75rem', display: 'block' }}>Service Location</span>
-                      <span style={{ color: locationLine ? '#d1d5db' : '#f59e0b' }}>
-                        {locationLine
-                          ? `${locationLine}${appliance.property?.unit_number ? ` Unit ${appliance.property.unit_number}` : ''}`
-                          : 'Not set — edit to add'}
-                      </span>
-                    </div>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setShowEdit(true)}
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-white/12 bg-white/[0.06] px-3 py-1.5 text-gray-300 text-xs font-semibold cursor-pointer hover:bg-white/10"
+                    >
+                      <FaEdit className="text-xs" /> Edit
+                    </button>
                   </div>
                 </div>
               </div>
+
+              <ApplianceDetailSpecGrid appliance={appliance} locationLine={locationLine} />
+
+              {(appliance.parts_links?.parts_search_url || appliance.parts_links?.water_filter_search_url) && (
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {appliance.parts_links?.parts_search_url && (
+                    <a
+                      href={appliance.parts_links.parts_search_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center rounded-lg border border-cyan-500/35 bg-transparent px-3 py-2.5 text-sm font-semibold text-cyan-300 hover:bg-cyan-500/10 text-center"
+                    >
+                      Find parts for this model
+                    </a>
+                  )}
+                  {appliance.parts_links?.water_filter_search_url && (
+                    <a
+                      href={appliance.parts_links.water_filter_search_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center rounded-lg border border-cyan-500/35 bg-transparent px-3 py-2.5 text-sm font-semibold text-cyan-300 hover:bg-cyan-500/10 text-center"
+                    >
+                      Find water filter
+                    </a>
+                  )}
+                </div>
+              )}
 
               {profile?.self_scheduling_allowed && (
-                <div style={{ marginTop: '1.25rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                <div className="mt-4 pt-4 border-t border-white/[0.06]">
                   {appliance.active_repair ? (
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center' }}>
                       <span style={{ color: '#f59e0b', fontSize: '0.875rem', fontWeight: '600' }}>
@@ -373,11 +329,7 @@ export default function ApplianceDetailPage() {
                   ) : appliance.can_schedule ? (
                     <Link
                       href={scheduleHref}
-                      style={{
-                        display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-                        background: '#22d3ee', color: '#0a0f1a', borderRadius: '8px',
-                        padding: '0.75rem 1.25rem', fontWeight: '700', fontSize: '0.9rem', textDecoration: 'none',
-                      }}
+                      className="flex w-full items-center justify-center gap-2 rounded-lg bg-cyan-400 px-5 py-3 text-[#0a0f1a] font-bold text-sm no-underline hover:bg-cyan-300"
                     >
                       <FaCalendarPlus /> Schedule Service
                     </Link>
