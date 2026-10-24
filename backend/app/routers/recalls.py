@@ -74,6 +74,26 @@ def _to_response(match) -> RecallMatchResponse:
     )
 
 
+def _pending_recall_count(db: Session, user: User) -> int:
+    if not feature_enabled(db, "recall_alerts", _staff_ctx(user)):
+        return 0
+    from app.models.cpsc_recall import ClientApplianceRecallMatch
+
+    return (
+        db.query(ClientApplianceRecallMatch)
+        .filter(ClientApplianceRecallMatch.status == "pending")
+        .count()
+    )
+
+
+@router.get("/matches/pending-count")
+async def matches_pending_recall_count(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_admin_or_manager_user),
+):
+    return {"pending": _pending_recall_count(db, current_user)}
+
+
 @router.get("/matches", response_model=List[RecallMatchResponse])
 async def get_recall_matches(
     status: Optional[str] = Query(None, pattern="^(pending|confirmed|dismissed)$"),
@@ -140,13 +160,4 @@ async def pending_recall_count(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_admin_or_manager_user),
 ):
-    if not feature_enabled(db, "recall_alerts", _staff_ctx(current_user)):
-        return {"pending": 0}
-    from app.models.cpsc_recall import ClientApplianceRecallMatch
-
-    count = (
-        db.query(ClientApplianceRecallMatch)
-        .filter(ClientApplianceRecallMatch.status == "pending")
-        .count()
-    )
-    return {"pending": count}
+    return {"pending": _pending_recall_count(db, current_user)}

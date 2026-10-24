@@ -4,6 +4,7 @@ import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { apiClient } from '../../utils/api-client';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { notifyRecallPendingCountChanged } from '../../hooks/usePendingRecallCount';
 
 function RecallMatchesPage() {
   const router = useRouter();
@@ -40,6 +41,7 @@ function RecallMatchesPage() {
     try {
       await apiClient(`/api/recalls/matches/${id}/${action}`, { method: 'POST' });
       toast.success(action === 'confirm' ? 'Confirmed — customer notified' : 'Dismissed');
+      notifyRecallPendingCountChanged();
       load();
     } catch {
       toast.error(`Failed to ${action}`);

@@ -1,5 +1,5 @@
 // TechDashboardLayout v4 - Switchable Rail Position
-import { createContext, useContext, useState, useRef, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
@@ -17,6 +17,8 @@ import {
 } from '../../constants/techdeckBrandAssets';
 import TechDeckPwaHead from '../techdeck/TechDeckPwaHead';
 import TechDeckNotificationsBell from '../techdeck/TechDeckNotificationsBell';
+import NavCountBadge from '../navigation/NavCountBadge';
+import { usePendingRecallCount } from '../../hooks/usePendingRecallCount';
 import {
   TECH_DMA_PATH,
   TECH_HOME,
@@ -40,6 +42,21 @@ const RAIL_SLIDE_MS = 280;
 const RAIL_EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
 
 // ── Nav Icons (custom SVGs to match our aesthetic) ────────────────────────
+const RECALL_REVIEW_NAV = {
+  name: 'Recall review',
+  href: '/techboard/recall-matches',
+  color: 'cyan',
+  showRecallBadge: true,
+  icon: (
+    <>
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="12" y1="18" x2="12" y2="12" />
+      <line x1="9" y1="15" x2="15" y2="15" />
+    </>
+  ),
+};
+
 const NAV_ITEMS = [
   {
     name: 'Tech Dashboard',
@@ -114,6 +131,18 @@ export default function TechDashboardLayout({ children }) {
   const { preferences } = useUIPreferences();
   const displayName = resolveUserDisplayName({ preferences, user });
   const displayInitial = resolveUserInitial({ preferences, user });
+  const { pending: recallPending } = usePendingRecallCount();
+  const staffRole = !isLoading && user ? getUserRole(user) : null;
+  const navItems = useMemo(() => {
+    if (staffRole !== 'admin' && staffRole !== 'manager') {
+      return NAV_ITEMS;
+    }
+    const items = [...NAV_ITEMS];
+    const settingsIdx = items.findIndex((i) => i.href === '/settings');
+    const insertAt = settingsIdx >= 0 ? settingsIdx : items.length;
+    items.splice(insertAt, 0, RECALL_REVIEW_NAV);
+    return items;
+  }, [staffRole]);
   
   // Rail position from user preferences (default: 'right')
   const railPosition = preferences.railPosition || 'right';
@@ -401,7 +430,7 @@ export default function TechDashboardLayout({ children }) {
 
         {/* Nav Items */}
         <nav className="flex-1 py-2 overflow-y-auto overflow-x-hidden">
-          {NAV_ITEMS.map((item) => {
+          {navItems.map((item) => {
             const active = isActive(item.href);
             const itemColor = item.color === 'orange' ? '#FF7A00' : '#00D4FF';
             const color = active ? itemColor : 'rgba(34,211,238,0.5)';
@@ -435,6 +464,12 @@ export default function TechDashboardLayout({ children }) {
                 {/* Sweep overlay */}
                 <div className={`rail-nav-sweep ${item.color === 'orange' ? 'orange' : ''}`} />
                 <div className="flex items-center justify-center flex-shrink-0 relative z-10" style={{ width: 44, height: 44 }}>
+                  {item.showRecallBadge && recallPending > 0 && !expanded && (
+                    <NavCountBadge
+                      count={recallPending}
+                      className="absolute -top-0.5 -right-0.5 z-20"
+                    />
+                  )}
                   {item.href === '/techboard/operatives' ? (
                     <svg
                       viewBox={TECH_ICON_VIEWBOX}
@@ -480,8 +515,12 @@ export default function TechDashboardLayout({ children }) {
                   )}
                 </div>
                 {expanded && (
-                  <span className="relative z-10 text-base font-medium leading-tight whitespace-nowrap transition-all pr-1" style={{ color, textShadow: active ? (item.color === 'orange' ? '0 0 8px rgba(255,122,0,0.4)' : '0 0 8px rgba(0,212,255,0.4)') : 'none' }}>
+                  <span
+                    className="relative z-10 text-base font-medium leading-tight whitespace-nowrap transition-all pr-1 inline-flex items-center gap-2"
+                    style={{ color, textShadow: active ? (item.color === 'orange' ? '0 0 8px rgba(255,122,0,0.4)' : '0 0 8px rgba(0,212,255,0.4)') : 'none' }}
+                  >
                     {item.name}
+                    {item.showRecallBadge && <NavCountBadge count={recallPending} />}
                   </span>
                 )}
               </Link>

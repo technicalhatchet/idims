@@ -20,6 +20,8 @@ import { resolveUserInitial } from '../../utils/userDisplayName';
 import { apiClient } from '../../utils/api-client';
 import { ensureWebPushSubscription } from '../../utils/webPush';
 import { startDeployReminderHeartbeat, stopDeployReminderHeartbeat } from '../../lib/deployReminderScheduler';
+import NavCountBadge from '../navigation/NavCountBadge';
+import { usePendingRecallCount } from '../../hooks/usePendingRecallCount';
 
 
 // Configure which components to load dynamically
@@ -27,6 +29,7 @@ const displayNotifications = true;
 const displayThemeToggle = true;
 
 export default function DashboardLayout({ children }) {
+  const { pending: recallPending } = usePendingRecallCount();
   // Call hooks in the same order on every render
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -257,7 +260,12 @@ export default function DashboardLayout({ children }) {
               }`}
             >
               {item.icon}
-              {item.name}
+              <span className="flex items-center gap-2 min-w-0">
+                {item.name}
+                {item.href === '/techboard/recall-matches' && (
+                  <NavCountBadge count={recallPending} />
+                )}
+              </span>
             </Link>
           ))}
         </nav>

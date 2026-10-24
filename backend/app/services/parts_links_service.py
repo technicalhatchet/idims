@@ -43,14 +43,26 @@ def get_parts_links_settings(db: Session) -> Dict[str, str]:
     return out
 
 
+def validate_url_template(url: str, field_label: str) -> None:
+    if not isinstance(url, str) or not url.strip():
+        raise ValueError(f"{field_label} is required")
+    if "{model}" not in url:
+        raise ValueError(f"{field_label} must include {{model}} placeholder")
+    if not url.strip().lower().startswith("https://"):
+        raise ValueError(f"{field_label} must start with https://")
+
+
 def validate_parts_links_value(value: Any) -> None:
     if not isinstance(value, dict):
         raise ValueError("parts_links must be an object")
-    for key in ("model_search_url_template", "water_filter_search_url_template"):
-        if key in value and not isinstance(value[key], str):
-            raise ValueError(f"parts_links.{key} must be a string")
-        if key in value and "{model}" not in value[key]:
-            raise ValueError(f"parts_links.{key} must include {{model}} placeholder")
+    for key, label in (
+        ("model_search_url_template", "Parts search link"),
+        ("water_filter_search_url_template", "Water filter search link"),
+    ):
+        if key in value:
+            if not isinstance(value[key], str):
+                raise ValueError(f"parts_links.{key} must be a string")
+            validate_url_template(value[key], label)
 
 
 def build_parts_links_payload(
