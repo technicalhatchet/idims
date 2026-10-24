@@ -6,7 +6,8 @@ import { applianceDisplayName } from '../../constants/applianceEquipment';
 import { applianceNeedsStaffVerification } from '../../constants/applianceSourceLabel';
 import ApplianceSourceSubtitle from '../cxdashboard/appliances/ApplianceSourceSubtitle';
 import RecallBadge from '../recalls/RecallBadge';
-import ApplianceAgeTile, { ApplianceAgeChip, ManufactureDateOverrideForm } from '../appliances/ApplianceAgeTile';
+import { ApplianceAgeChip, ManufactureDateOverrideForm } from '../appliances/ApplianceAgeTile';
+import ApplianceDetailSpecGrid from '../cxdashboard/appliances/ApplianceDetailSpecGrid';
 import { useFeature } from '../../context/FeatureFlagsContext';
 
 export default function ClientAppliancesPanel({ clientId, properties = [] }) {
@@ -137,26 +138,19 @@ export default function ClientAppliancesPanel({ clientId, properties = [] }) {
                         appliance={a}
                         extraParts={[a.serial ? `S/N ${a.serial}` : null, a.property?.address]}
                       />
-                      {applianceAgeEnabled && a.appliance_age ? (
-                        <div className="mt-2 max-w-sm">
-                          <ApplianceAgeTile
-                            applianceAge={a.appliance_age}
-                            variant="staff"
-                            staffOverride={
-                              <ManufactureDateOverrideForm
-                                saving={overrideSavingId === a.id}
-                                initialYear={a.appliance_age.manufacture_year}
-                                initialMonth={a.appliance_age.manufacture_month}
-                                onSave={(body) => handleManufactureOverride(a.id, body)}
-                              />
-                            }
+                      {applianceAgeEnabled ? (
+                        <div className="mt-3">
+                          <ApplianceDetailSpecGrid
+                            appliance={a}
+                            locationLine={a.property?.address || a.service_address}
+                          />
+                          <ManufactureDateOverrideForm
+                            saving={overrideSavingId === a.id}
+                            initialYear={a.appliance_age?.manufacture_year}
+                            initialMonth={a.appliance_age?.manufacture_month}
+                            onSave={(body) => handleManufactureOverride(a.id, body)}
                           />
                         </div>
-                      ) : applianceAgeEnabled && a.serial ? (
-                        <ManufactureDateOverrideForm
-                          saving={overrideSavingId === a.id}
-                          onSave={(body) => handleManufactureOverride(a.id, body)}
-                        />
                       ) : null}
                     </div>
                     {applianceNeedsStaffVerification(a) ? (
