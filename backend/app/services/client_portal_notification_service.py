@@ -25,8 +25,23 @@ async def notify_client_portal_users(
     reference_id: Optional[UUID] = None,
     related_type: Optional[str] = None,
     meta_data: Optional[Dict[str, Any]] = None,
+    automatic_outreach: bool = False,
 ) -> List[UUID]:
     """Create one notification per active login user_id. Returns notified user ids."""
+    if automatic_outreach:
+        from app.services.customer_outreach_service import (
+            automatic_outreach_allowed,
+            log_skipped_test_mode,
+        )
+
+        if not automatic_outreach_allowed(db, client_id):
+            log_skipped_test_mode(
+                channel="portal_in_app",
+                client_id=client_id,
+                detail=title,
+            )
+            return []
+
     user_ids = active_login_user_ids(db, client_id)
     if not user_ids:
         client = db.query(Client).filter(Client.id == client_id).first()

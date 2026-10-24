@@ -14,6 +14,10 @@ def run_narrowing_batch_task():
     """Send narrowed ETA notices for tomorrow's appointments (default 5:30 PM shop time)."""
     db = SessionLocal()
     try:
+        from app.services.worker_feature_flags_service import worker_feature_enabled
+
+        if not worker_feature_enabled(db, "portal_narrowing_batch"):
+            return 0
         count = run_narrowing_batch(db)
         if count:
             logger.info("Portal narrowing batch processed %s appointment(s)", count)
@@ -30,6 +34,10 @@ def process_scheduling_deadlines_task():
     """Auto-deny pending same-day / priority requests past their cutoff."""
     db = SessionLocal()
     try:
+        from app.services.worker_feature_flags_service import worker_feature_enabled
+
+        if not worker_feature_enabled(db, "portal_scheduling_deadlines"):
+            return 0
         count = process_scheduling_deadlines(db)
         if count:
             logger.info("Auto-denied %s pending scheduling request(s)", count)

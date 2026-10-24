@@ -1581,6 +1581,25 @@ function ClientDetail() {
             </label>
             <label className="flex items-center justify-between gap-3 mb-3 p-3 rounded-md" style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <div>
+                <p className="text-sm text-white font-semibold">Test client</p>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  Receives automatic outreach while customer test mode is on
+                </p>
+              </div>
+              <input
+                type="checkbox"
+                checked={!!client.is_test_client}
+                onChange={async (e) => {
+                  try {
+                    await updateClient({ id: client.id, is_test_client: e.target.checked });
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+              />
+            </label>
+            <label className="flex items-center justify-between gap-3 mb-3 p-3 rounded-md" style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}>
+              <div>
                 <p className="text-sm text-white font-semibold">Block self-scheduling</p>
                 <p className="text-xs text-gray-500 mt-0.5">Client must call to schedule service</p>
               </div>

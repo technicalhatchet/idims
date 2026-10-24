@@ -2175,10 +2175,10 @@ async def portal_pay_all_invoices(
             payment_idempotency_key=body.payment_idempotency_key,
         )
         db.commit()
-        from app.services.portal_review_hooks import maybe_enqueue_review_request
+        from app.services.portal_review_hooks import maybe_schedule_review_request
 
         for wo_id in wo_ids:
-            maybe_enqueue_review_request(background_tasks, db, wo_id)
+            maybe_schedule_review_request(db, wo_id)
         return {"success": True, **result}
     except ValidationException as exc:
         db.rollback()
@@ -2215,9 +2215,9 @@ async def portal_pay_invoice(
             payment_idempotency_key=body.payment_idempotency_key,
         )
         db.commit()
-        from app.services.portal_review_hooks import maybe_enqueue_review_request
+        from app.services.portal_review_hooks import maybe_schedule_review_request
 
-        maybe_enqueue_review_request(background_tasks, db, wo_uuid)
+        maybe_schedule_review_request(db, wo_uuid)
         return {
             "success": True,
             "payment_number": payment.payment_number,

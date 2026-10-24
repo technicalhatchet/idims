@@ -98,6 +98,7 @@ class ClientUpdate(BaseModel):
     portal_booking_payment_waived: Optional[bool] = None
     scheduling_zone_exempt: Optional[bool] = None
     sms_consent: Optional[bool] = None
+    is_test_client: Optional[bool] = None
     
     @validator('email', pre=True)
     def empty_str_to_none(cls, v):
@@ -129,6 +130,7 @@ class ClientResponse(ClientBase):
     sms_consent: bool = False
     sms_consent_at: Optional[datetime] = None
     sms_consent_source: Optional[str] = None
+    is_test_client: bool = False
     model_config = ConfigDict(from_attributes=True)
 
 class ClientListResponse(BaseModel):

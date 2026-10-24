@@ -19,12 +19,17 @@ logger = logging.getLogger(__name__)
 
 @shared_task(name="app.background.tasks.reminders.send_appointment_reminders")
 def send_appointment_reminders():
-    """Send appointment reminders for upcoming work orders"""
+    """Legacy WO-level reminders (unscheduled; use scheduled_outreach + appointment rows)."""
     logger.info("Starting appointment reminders task")
     
     try:
         # Get database session
         db = get_db_session()
+        from app.services.worker_feature_flags_service import worker_feature_enabled
+
+        if not worker_feature_enabled(db, "appointment_reminders"):
+            db.close()
+            return 0
         
         # Current time
         now = datetime.utcnow()
@@ -55,22 +60,28 @@ def send_appointment_reminders():
                         notify_client_portal_users,
                     )
 
-                    asyncio.run(
-                        notify_client_portal_users(
-                            db,
-                            client.id,
-                            title="Appointment Reminder",
-                            message=(
-                                f"Your appointment #{work_order.order_number} is scheduled for "
-                                f"{work_order.scheduled_start.strftime('%B %d at %I:%M %p')}."
-                            ),
-                            notification_type="in_app",
-                            reference_id=work_order.id,
-                            related_type="work_order",
-                        )
-                    )
+                    from app.services.customer_outreach_service import automatic_outreach_allowed
 
-                    if client_automated_sms_allowed(client):
+                    if automatic_outreach_allowed(db, client.id):
+                        asyncio.run(
+                            notify_client_portal_users(
+                                db,
+                                client.id,
+                                title="Appointment Reminder",
+                                message=(
+                                    f"Your appointment #{work_order.order_number} is scheduled for "
+                                    f"{work_order.scheduled_start.strftime('%B %d at %I:%M %p')}."
+                                ),
+                                notification_type="in_app",
+                                reference_id=work_order.id,
+                                related_type="work_order",
+                                automatic_outreach=True,
+                            )
+                        )
+
+                    if client_automated_sms_allowed(client) and automatic_outreach_allowed(
+                        db, client.id
+                    ):
                         sms_to = client_sms_destination(client.mobile)
                         sms_message = (
                             f"Reminder: Your service is scheduled for tomorrow at "
@@ -119,63 +130,13 @@ def send_appointment_reminders():
 
 @shared_task(name="app.background.tasks.reminders.schedule_appointment_reminder")
 def schedule_appointment_reminder(work_order_id, user_id, scheduled_time, hours_before=24):
-    """Schedule a reminder for a specific appointment"""
-    logger.info(f"Scheduling reminder for work order {work_order_id}, {hours_before} hours before appointment")
-    
-    try:
-        # Convert IDs and time
-        work_order_id = uuid.UUID(work_order_id) if isinstance(work_order_id, str) else work_order_id
-        user_id = uuid.UUID(user_id) if isinstance(user_id, str) else user_id
-        
-        if isinstance(scheduled_time, str):
-            scheduled_time = datetime.fromisoformat(scheduled_time)
-        
-        # Calculate when to send the reminder
-        reminder_time = scheduled_time - timedelta(hours=hours_before)
-        
-        # If the reminder time is in the past, don't schedule it
-        if reminder_time <= datetime.utcnow():
-            logger.info(f"Reminder time {reminder_time} is in the past, not scheduling")
-            return "Reminder time in the past"
-        
-        # Get database session
-        db = get_db_session()
-        
-        # Get work order
-        work_order = db.query(WorkOrder).filter(WorkOrder.id == work_order_id).first()
-        if not work_order:
-            logger.error(f"Work order {work_order_id} not found")
-            db.close()
-            return f"Work order {work_order_id} not found"
-        
-        # Get user
-        user = db.query(User).filter(User.id == user_id).first()
-        if not user:
-            logger.error(f"User {user_id} not found")
-            db.close()
-            return f"User {user_id} not found"
-        
-        # Create a scheduled task for the reminder
-        from celery.result import AsyncResult
-        
-        # Schedule the task to run at the reminder time
-        task = send_specific_reminder.apply_async(
-            args=[str(work_order_id), str(user_id), hours_before],
-            eta=reminder_time
-        )
-        
-        logger.info(f"Scheduled reminder task {task.id} for {reminder_time}")
-        
-        # Close the session
-        db.close()
-        
-        return f"Scheduled reminder for {scheduled_time}, {hours_before} hours in advance"
-        
-    except Exception as e:
-        logger.error(f"Error scheduling appointment reminder: {str(e)}")
-        if 'db' in locals():
-            db.close()
-        raise
+    """Deprecated: per-WO ETA countdown reminders removed (use beat + appointment_reminder_sent_at)."""
+    logger.debug(
+        "schedule_appointment_reminder ignored work_order_id=%s (use appointment beat job)",
+        work_order_id,
+    )
+    return None
+
 
 @shared_task(name="app.background.tasks.reminders.send_specific_reminder")
 def send_specific_reminder(work_order_id, user_id, hours_before=24):
