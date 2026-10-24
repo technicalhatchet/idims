@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=375" />
+  <title>Wave 2 settings preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, sans-serif; background: #0B0F1A; color: #e5e7eb; }
+    .wrap { width: 375px; margin: 0 auto; padding: 16px; }
+    h3 { color: #fff; font-size: 1rem; margin: 0 0 8px; }
+    .muted { color: #6b7280; font-size: 12px; margin: 0 0 12px; line-height: 1.4; }
+    .panel { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; margin-top: 24px; }
+    label { display: block; font-size: 14px; color: #d1d5db; margin-bottom: 6px; }
+    input { width: 100%; border-radius: 8px; padding: 8px 12px; font-size: 14px; color: #fff; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); }
+    .field { margin-bottom: 16px; }
+    .test { font-size: 12px; color: #22d3ee; margin-top: 6px; display: inline-block; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .btn-primary { padding: 6px 12px; font-size: 14px; border-radius: 8px; background: rgba(34,211,238,0.15); color: #22d3ee; border: 1px solid rgba(34,211,238,0.3); }
+    .btn-ghost { padding: 6px 12px; font-size: 14px; border-radius: 8px; color: #d1d5db; border: 1px solid rgba(255,255,255,0.1); background: transparent; }
+    table { width: 100%; font-size: 11px; border-collapse: collapse; color: #d1d5db; }
+    th { color: #6b7280; text-align: left; padding: 8px 4px; border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: 600; }
+    td { padding: 8px 4px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: top; }
+    .nav-row { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #fff; padding: 12px; background: rgba(34,211,238,0.06); border-left: 3px solid #00D4FF; }
+    .badge { display: inline-flex; min-width: 18px; height: 18px; padding: 0 4px; align-items: center; justify-content: center; border-radius: 9999px; font-size: 10px; font-weight: 700; color: #fff; background: #EF4444; }
+    .add-box { border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; background: rgba(0,0,0,0.2); margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <div class="wrap" id="badge-shot">
+    <p class="muted">TechDeck / office nav — Recall review</p>
+    <div class="nav-row">
+      <span>Recall review</span>
+      <span class="badge">3</span>
+    </div>
+  </div>
+
+  <div class="wrap panel" id="parts-shot">
+    <h3>Parts links</h3>
+    <p class="muted">URL templates for customer appliance pages. Use <code style="color:#9ca3af">{model}</code> where the model number belongs.</p>
+    <div class="field">
+      <label>Parts search link</label>
+      <input value="https://www.searspartsdirect.com/search?q={model}" readonly />
+      <span class="test">Test with WRT311FZDW</span>
+    </div>
+    <div class="field">
+      <label>Water filter search link</label>
+      <input value="https://www.searspartsdirect.com/search?q={model}%20water%20filter" readonly />
+      <span class="test">Test with WRT311FZDW</span>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn-primary">Save parts links</button>
+      <button type="button" class="btn-ghost">Reset to default</button>
+    </div>
+  </div>
+
+  <div class="wrap panel" id="lifespan-shot">
+    <h3>Appliance lifespans</h3>
+    <p class="muted">Typical service life ranges shown with serial-based age on appliance pages.</p>
+    <table>
+      <thead>
+        <tr><th>Type</th><th>Subtype</th><th>Min</th><th>Max</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>appliance</td><td>refrigerator</td><td>10</td><td>18</td></tr>
+        <tr><td>appliance</td><td>washing_machine</td><td>8</td><td>12</td></tr>
+        <tr><td>appliance</td><td>dishwasher</td><td>8</td><td>12</td></tr>
+      </tbody>
+    </table>
+    <div class="add-box">
+      <p class="muted" style="margin-bottom:8px;font-weight:600;color:#9ca3af">Add row</p>
+      <div class="btn-row">
+        <button type="button" class="btn-ghost">Reset to defaults</button>
+        <button type="button" class="btn-primary">Re-check all appliance ages</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
