@@ -6,6 +6,8 @@ import { applianceDisplayName } from '../../constants/applianceEquipment';
 import { applianceNeedsStaffVerification } from '../../constants/applianceSourceLabel';
 import ApplianceSourceSubtitle from '../cxdashboard/appliances/ApplianceSourceSubtitle';
 import RecallBadge from '../recalls/RecallBadge';
+import ApplianceAgeTile, { ApplianceAgeChip, ManufactureDateOverrideForm } from '../appliances/ApplianceAgeTile';
+import { useFeature } from '../../context/FeatureFlagsContext';
 
 export default function ClientAppliancesPanel({ clientId, properties = [] }) {
   const [expanded, setExpanded] = useState(false);
@@ -15,6 +17,8 @@ export default function ClientAppliancesPanel({ clientId, properties = [] }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [verifyingId, setVerifyingId] = useState(null);
+  const [overrideSavingId, setOverrideSavingId] = useState(null);
+  const applianceAgeEnabled = useFeature('appliance_age');
 
   const loadAppliances = useCallback(async () => {
     if (!clientId) return;
@@ -32,6 +36,22 @@ export default function ClientAppliancesPanel({ clientId, properties = [] }) {
   useEffect(() => {
     if (expanded) loadAppliances();
   }, [expanded, loadAppliances]);
+
+  const handleManufactureOverride = async (applianceId, body) => {
+    setOverrideSavingId(applianceId);
+    setError(null);
+    try {
+      await apiClient(`clients/${clientId}/appliances/${applianceId}/manufacture-date`, {
+        method: 'POST',
+        body: JSON.stringify(body),
+      });
+      await loadAppliances();
+    } catch (err) {
+      setError(err.message || 'Failed to save manufacture date');
+    } finally {
+      setOverrideSavingId(null);
+    }
+  };
 
   const handleVerify = async (applianceId) => {
     setVerifyingId(applianceId);
@@ -111,11 +131,33 @@ export default function ClientAppliancesPanel({ clientId, properties = [] }) {
                       <p className="text-white text-sm font-semibold capitalize flex items-center gap-2 flex-wrap">
                         {applianceDisplayName(a)}
                         <RecallBadge recalls={a.recalls} staffView />
+                        <ApplianceAgeChip applianceAge={a.appliance_age} />
                       </p>
                       <ApplianceSourceSubtitle
                         appliance={a}
                         extraParts={[a.serial ? `S/N ${a.serial}` : null, a.property?.address]}
                       />
+                      {applianceAgeEnabled && a.appliance_age ? (
+                        <div className="mt-2 max-w-sm">
+                          <ApplianceAgeTile
+                            applianceAge={a.appliance_age}
+                            variant="staff"
+                            staffOverride={
+                              <ManufactureDateOverrideForm
+                                saving={overrideSavingId === a.id}
+                                initialYear={a.appliance_age.manufacture_year}
+                                initialMonth={a.appliance_age.manufacture_month}
+                                onSave={(body) => handleManufactureOverride(a.id, body)}
+                              />
+                            }
+                          />
+                        </div>
+                      ) : applianceAgeEnabled && a.serial ? (
+                        <ManufactureDateOverrideForm
+                          saving={overrideSavingId === a.id}
+                          onSave={(body) => handleManufactureOverride(a.id, body)}
+                        />
+                      ) : null}
                     </div>
                     {applianceNeedsStaffVerification(a) ? (
                       <button

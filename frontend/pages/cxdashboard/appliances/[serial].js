@@ -17,6 +17,7 @@ import { getPortalSessionToken, portalFetch } from '../../../utils/portalFetch';
 import { applianceSourceInlineText, applianceSourceInlineTone } from '../../../constants/applianceSourceLabel';
 import RecallCustomerPanel from '../../../components/recalls/RecallCustomerPanel';
 import RecallBadge from '../../../components/recalls/RecallBadge';
+import ApplianceAgeTile from '../../../components/appliances/ApplianceAgeTile';
 
 const STATUS_STYLES = {
   completed: { label: 'Completed', bg: 'rgba(34,197,94,0.1)', color: '#22c55e', border: 'rgba(34,197,94,0.2)' },
@@ -238,13 +239,6 @@ export default function ApplianceDetailPage() {
 
             {appliance.recalls && <RecallCustomerPanel recalls={appliance.recalls} />}
 
-            {appliance.appliance_age?.display_line && (
-              <p style={{ color: '#9ca3af', fontSize: '0.875rem', margin: 0 }}>
-                {appliance.appliance_age.display_line}
-                {appliance.appliance_age.lifespan_line ? ` · ${appliance.appliance_age.lifespan_line}` : ''}
-              </p>
-            )}
-
             {appliance.parts_links?.parts_search_url && (
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 <a
@@ -343,6 +337,9 @@ export default function ApplianceDetailPage() {
                       <span style={{ color: '#6b7280', fontSize: '0.75rem', display: 'block' }}>Serial Number</span>
                       <span style={{ color: '#d1d5db', fontFamily: 'monospace', fontWeight: '600' }}>{appliance.serial || '—'}</span>
                     </div>
+                    {appliance.appliance_age ? (
+                      <ApplianceAgeTile applianceAge={appliance.appliance_age} variant="portal" />
+                    ) : null}
                     <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '8px 12px' }}>
                       <span style={{ color: '#6b7280', fontSize: '0.75rem', display: 'block' }}>Times Serviced</span>
                       <span style={{ color: '#22d3ee', fontWeight: '700', fontSize: '1.125rem' }}>{appliance.service_count}</span>

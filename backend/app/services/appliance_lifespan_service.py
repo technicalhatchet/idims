@@ -173,6 +173,8 @@ def redecode_all_appliance_ages(db: Session) -> Dict[str, int]:
     )
     changed = 0
     for appliance in appliances:
+        if appliance.manufacture_decode_rule == "staff_override":
+            continue
         before = _decode_tuple(appliance)
         apply_serial_decode(db, appliance)
         if _decode_tuple(appliance) != before:
