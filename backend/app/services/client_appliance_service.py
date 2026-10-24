@@ -572,6 +572,10 @@ def serialize_appliance(
     db: Session,
     *,
     include_history: bool = False,
+    include_recalls_staff: bool = False,
+    include_recalls_customer: bool = False,
+    include_appliance_age: bool = False,
+    include_parts_links: bool = False,
 ) -> Dict[str, Any]:
     work_orders = work_orders_for_appliance(db, appliance)
     prop = resolve_property_for_appliance(db, appliance, work_orders)
@@ -664,6 +668,33 @@ def serialize_appliance(
             })
         payload["history"] = history
 
+    if include_recalls_staff or include_recalls_customer:
+        from app.services.cpsc_recall_present_service import recalls_for_appliance_payload
+
+        payload["recalls"] = recalls_for_appliance_payload(
+            db,
+            appliance.id,
+            customer_view=include_recalls_customer and not include_recalls_staff,
+        )
+
+    if include_appliance_age:
+        from app.services.appliance_age_service import age_display_payload
+
+        age = age_display_payload(db, appliance)
+        if age:
+            payload["appliance_age"] = age
+
+    if include_parts_links:
+        from app.services.parts_links_service import build_parts_links_payload
+
+        links = build_parts_links_payload(
+            db,
+            model=appliance.model,
+            equipment_subtype=appliance.equipment_subtype,
+        )
+        if links:
+            payload["parts_links"] = links
+
     return payload
 
 
@@ -731,6 +762,7 @@ def create_client_appliance(
     db.add(appliance)
     db.flush()
     link_work_orders_to_appliance(db, appliance, work_order_ids)
+    _post_save_appliance_hooks(db, appliance)
     return appliance
 
 
@@ -755,7 +787,23 @@ def update_client_appliance(
     for field, value in updates.items():
         setattr(appliance, field, value)
     appliance.updated_at = datetime.utcnow()
+    _post_save_appliance_hooks(db, appliance)
     return appliance
+
+
+def _post_save_appliance_hooks(db: Session, appliance: ClientAppliance) -> None:
+    from app.services.feature_flags_service import feature_enabled_for_system
+
+    try:
+        from app.services.appliance_age_service import apply_serial_decode
+
+        apply_serial_decode(db, appliance)
+    except Exception:
+        pass
+    if feature_enabled_for_system(db, "recall_alerts") and appliance.model:
+        from app.services.cpsc_recall_sync_service import match_single_appliance
+
+        match_single_appliance(db, appliance.id)
 
 
 def soft_delete_client_appliance(db: Session, client_id: UUID, appliance_id: UUID) -> None:

@@ -48,14 +48,24 @@ class ClientAppliance(Base):
         ForeignKey("client_appliances.id", ondelete="SET NULL"),
         nullable=True,
     )
+    manufacture_year = Column(Integer, nullable=True)
+    manufacture_month = Column(Integer, nullable=True)
+    manufacture_decode_rule = Column(String(40), nullable=True)
+    manufacture_decode_confidence = Column(String(10), nullable=True)
+    manufacture_decoded_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     verified_by_user = relationship("User", foreign_keys=[verified_by_user_id])
     client = relationship("Client", back_populates="appliances")
     property_ref = relationship("Property", back_populates="appliances")
     merged_into = relationship("ClientAppliance", remote_side=[id], foreign_keys=[merged_into_id])
     work_orders = relationship("WorkOrder", back_populates="appliance", foreign_keys="WorkOrder.appliance_id")
+    recall_matches = relationship(
+        "ClientApplianceRecallMatch",
+        back_populates="appliance",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self):
         label = self.nickname or self.make or self.equipment_subtype or self.equipment_type

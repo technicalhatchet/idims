@@ -2655,8 +2655,16 @@ async def get_portal_appliance_detail(
     try:
         parsed_id = uuid.UUID(appliance_id)
         appliance = appliance_svc.get_client_appliance(db, client.id, parsed_id)
+        from app.services.feature_flags_service import FeatureContext, feature_enabled
+
+        ctx = FeatureContext(roles=["client"])
         return appliance_svc.serialize_appliance(
-            appliance, db, include_history=include_history
+            appliance,
+            db,
+            include_history=include_history,
+            include_recalls_customer=feature_enabled(db, "recall_alerts", ctx),
+            include_appliance_age=feature_enabled(db, "appliance_age", ctx),
+            include_parts_links=feature_enabled(db, "parts_links", ctx),
         )
     except ValueError:
         pass
@@ -2673,8 +2681,16 @@ async def get_portal_appliance_detail(
     )
     match = next((a for a in appliance if (a.serial or "").strip().lower() == serial_lower), None)
     if match:
+        from app.services.feature_flags_service import FeatureContext, feature_enabled
+
+        ctx = FeatureContext(roles=["client"])
         return appliance_svc.serialize_appliance(
-            match, db, include_history=include_history
+            match,
+            db,
+            include_history=include_history,
+            include_recalls_customer=feature_enabled(db, "recall_alerts", ctx),
+            include_appliance_age=feature_enabled(db, "appliance_age", ctx),
+            include_parts_links=feature_enabled(db, "parts_links", ctx),
         )
 
     work_orders_list = db.query(WorkOrder).filter(WorkOrder.client_id == client.id).all()

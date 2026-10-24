@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { apiClient } from '../../utils/api-client';
 import { upsertAppSetting } from '../../utils/upsertAppSetting';
-import { WAVE1_FEATURE_FLAG_IDS } from '../../context/FeatureFlagsContext';
+import { ALL_FEATURE_FLAG_IDS } from '../../context/FeatureFlagsContext';
 import { useFeatureFlags } from '../../context/FeatureFlagsContext';
 
 function defaultFlagsFromConfig(config) {
   const flags = config?.flags || {};
   const out = {};
-  for (const id of WAVE1_FEATURE_FLAG_IDS) {
+  for (const id of ALL_FEATURE_FLAG_IDS) {
     const row = flags[id] || {};
     out[id] = {
       enabled: row.enabled !== false,
@@ -32,7 +32,7 @@ export default function FeatureFlagsSettingsPanel() {
         setFlags(defaultFlagsFromConfig(data));
       } catch {
         const fallback = {};
-        for (const id of WAVE1_FEATURE_FLAG_IDS) {
+        for (const id of ALL_FEATURE_FLAG_IDS) {
           fallback[id] = { enabled: true, admin_only: false, description: '' };
         }
         setFlags(fallback);
@@ -46,7 +46,7 @@ export default function FeatureFlagsSettingsPanel() {
     setSaving(true);
     try {
       const value = {};
-      for (const id of WAVE1_FEATURE_FLAG_IDS) {
+      for (const id of ALL_FEATURE_FLAG_IDS) {
         const row = flags[id] || {};
         value[id] = {
           enabled: Boolean(row.enabled),
@@ -82,7 +82,7 @@ export default function FeatureFlagsSettingsPanel() {
         while staff can still use it when signed in.
       </p>
       <ul className="space-y-4 m-0 p-0 list-none">
-        {WAVE1_FEATURE_FLAG_IDS.map((id) => {
+        {ALL_FEATURE_FLAG_IDS.map((id) => {
           const row = flags[id] || { enabled: true, admin_only: false, description: '' };
           return (
             <li

@@ -63,6 +63,10 @@ def setup_background_tasks() -> Celery:
                 "task": "app.background.tasks.portal_scheduling.process_scheduling_deadlines",
                 "schedule": crontab(minute="*/15"),
             },
+            "sync-cpsc-recalls-daily": {
+                "task": "app.background.tasks.recalls.sync_cpsc_recalls_daily",
+                "schedule": crontab(hour=6, minute=0),
+            },
         },
     )
 

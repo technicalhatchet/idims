@@ -29,6 +29,15 @@ FEATURE_FLAG_DEFINITIONS: Dict[str, str] = {
     "appliance_exports": "Portal appliance CSV/PDF exports",
     "household_invites": "Customer-initiated household portal invites (settings)",
     "self_signup": "Open portal sign-up for new households (no invite)",
+    "recall_alerts": "CPSC recall matching, staff confirmation, customer alerts",
+    "appliance_age": "Serial-based manufacture date and typical lifespan hints",
+    "parts_links": "Customer parts search links on appliance views",
+}
+
+WAVE2_FEATURE_DEFAULTS: Dict[str, Dict[str, Any]] = {
+    "recall_alerts": {"enabled": True, "admin_only": True},
+    "appliance_age": {"enabled": True, "admin_only": True},
+    "parts_links": {"enabled": True, "admin_only": True},
 }
 
 ALL_FEATURE_FLAG_IDS: Set[str] = set(FEATURE_FLAG_DEFINITIONS.keys())
@@ -54,10 +63,13 @@ def invalidate_feature_flags_cache() -> None:
 
 
 def default_feature_flags() -> Dict[str, Dict[str, Any]]:
-    return {
-        flag_id: {"enabled": True, "admin_only": False}
-        for flag_id in FEATURE_FLAG_DEFINITIONS
-    }
+    out: Dict[str, Dict[str, Any]] = {}
+    for flag_id in FEATURE_FLAG_DEFINITIONS:
+        if flag_id in WAVE2_FEATURE_DEFAULTS:
+            out[flag_id] = dict(WAVE2_FEATURE_DEFAULTS[flag_id])
+        else:
+            out[flag_id] = {"enabled": True, "admin_only": False}
+    return out
 
 
 def _deep_merge(base: Dict[str, Any], patch: Dict[str, Any]) -> Dict[str, Any]:
@@ -107,6 +119,14 @@ def feature_context_from_roles(roles: Any) -> FeatureContext:
     if isinstance(roles, (list, tuple, set)):
         return FeatureContext(roles=[str(r) for r in roles])
     return FeatureContext(roles=[str(roles)])
+
+
+def feature_enabled_for_system(db: Session, flag: str) -> bool:
+    """Background jobs: honor enabled only (ignore admin_only)."""
+    if flag not in ALL_FEATURE_FLAG_IDS:
+        return False
+    cfg = get_feature_flags_cached(db).get(flag) or {}
+    return bool(cfg.get("enabled", True))
 
 
 def feature_enabled(

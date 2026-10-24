@@ -11,6 +11,14 @@ export const WAVE1_FEATURE_FLAG_IDS = [
   'self_signup',
 ];
 
+export const WAVE2_FEATURE_FLAG_IDS = [
+  'recall_alerts',
+  'appliance_age',
+  'parts_links',
+];
+
+export const ALL_FEATURE_FLAG_IDS = [...WAVE1_FEATURE_FLAG_IDS, ...WAVE2_FEATURE_FLAG_IDS];
+
 /** Fail-open: every registry flag ON (matches backend default_feature_flags). */
 export function allWave1FeaturesEnabledSet() {
   return new Set(WAVE1_FEATURE_FLAG_IDS);
@@ -96,7 +104,7 @@ export function FeatureFlagsProvider({ children }) {
  */
 export function useFeature(flagId) {
   const { features, loaded } = useContext(FeatureFlagsContext);
-  if (!loaded || !WAVE1_FEATURE_FLAG_IDS.includes(flagId)) {
+  if (!loaded || !ALL_FEATURE_FLAG_IDS.includes(flagId)) {
     return true;
   }
   return features.has(flagId);
