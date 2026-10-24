@@ -517,6 +517,17 @@ async def send_portal_invite(
     return {"success": True, "message": f"Invite sent to {client.email}", "claim_id": str(claim.id)}
 
 
+def _staff_appliance_serialize_kwargs(db: Session, user: User) -> Dict[str, Any]:
+    from app.services.feature_flags_service import feature_context_from_roles, feature_enabled
+
+    ctx = feature_context_from_roles(user.roles)
+    return {
+        "include_recalls_staff": feature_enabled(db, "recall_alerts", ctx),
+        "include_appliance_age": feature_enabled(db, "appliance_age", ctx),
+        "include_parts_links": feature_enabled(db, "parts_links", ctx),
+    }
+
+
 @router.get("/{client_id}/appliances")
 async def list_client_appliances_staff(
     client_id: uuid.UUID,
@@ -526,7 +537,11 @@ async def list_client_appliances_staff(
     client = db.query(Client).filter(Client.id == client_id).first()
     if not client:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Client not found")
-    return appliance_svc.list_client_appliances(db, client_id, active_only=False)
+    user = db.query(User).filter(User.id == current_user.id).first()
+    sk = _staff_appliance_serialize_kwargs(db, user) if user else {}
+    return appliance_svc.list_client_appliances(
+        db, client_id, active_only=False, serialize_kwargs=sk
+    )
 
 
 @router.post("/{client_id}/appliances")

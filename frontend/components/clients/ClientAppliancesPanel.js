@@ -5,6 +5,7 @@ import ApplianceFormModal from '../cxdashboard/ApplianceFormModal';
 import { applianceDisplayName } from '../../constants/applianceEquipment';
 import { applianceNeedsStaffVerification } from '../../constants/applianceSourceLabel';
 import ApplianceSourceSubtitle from '../cxdashboard/appliances/ApplianceSourceSubtitle';
+import RecallBadge from '../recalls/RecallBadge';
 
 export default function ClientAppliancesPanel({ clientId, properties = [] }) {
   const [expanded, setExpanded] = useState(false);
@@ -107,7 +108,10 @@ export default function ClientAppliancesPanel({ clientId, properties = [] }) {
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <p className="text-white text-sm font-semibold capitalize">{applianceDisplayName(a)}</p>
+                      <p className="text-white text-sm font-semibold capitalize flex items-center gap-2 flex-wrap">
+                        {applianceDisplayName(a)}
+                        <RecallBadge recalls={a.recalls} staffView />
+                      </p>
                       <ApplianceSourceSubtitle
                         appliance={a}
                         extraParts={[a.serial ? `S/N ${a.serial}` : null, a.property?.address]}

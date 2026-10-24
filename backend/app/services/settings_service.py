@@ -297,6 +297,10 @@ class SettingsService:
                 from app.services.worker_feature_flags_service import validate_worker_feature_flags_value
 
                 validate_worker_feature_flags_value(value)
+            elif key == "parts_links":
+                from app.services.parts_links_service import validate_parts_links_value
+
+                validate_parts_links_value(value)
             elif key == "customer_outreach_test_mode":
                 from app.services.customer_outreach_service import (
                     validate_customer_outreach_test_mode_value,

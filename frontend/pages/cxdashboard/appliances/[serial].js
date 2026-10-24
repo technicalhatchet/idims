@@ -15,6 +15,8 @@ import {
 } from '../../../constants/applianceEquipment';
 import { getPortalSessionToken, portalFetch } from '../../../utils/portalFetch';
 import { applianceSourceInlineText, applianceSourceInlineTone } from '../../../constants/applianceSourceLabel';
+import RecallCustomerPanel from '../../../components/recalls/RecallCustomerPanel';
+import RecallBadge from '../../../components/recalls/RecallBadge';
 
 const STATUS_STYLES = {
   completed: { label: 'Completed', bg: 'rgba(34,197,94,0.1)', color: '#22c55e', border: 'rgba(34,197,94,0.2)' },
@@ -234,6 +236,38 @@ export default function ApplianceDetailPage() {
               </div>
             )}
 
+            {appliance.recalls && <RecallCustomerPanel recalls={appliance.recalls} />}
+
+            {appliance.appliance_age?.display_line && (
+              <p style={{ color: '#9ca3af', fontSize: '0.875rem', margin: 0 }}>
+                {appliance.appliance_age.display_line}
+                {appliance.appliance_age.lifespan_line ? ` · ${appliance.appliance_age.lifespan_line}` : ''}
+              </p>
+            )}
+
+            {appliance.parts_links?.parts_search_url && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                <a
+                  href={appliance.parts_links.parts_search_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: '#22d3ee', fontSize: '0.875rem' }}
+                >
+                  Find parts for this model
+                </a>
+                {appliance.parts_links.water_filter_search_url && (
+                  <a
+                    href={appliance.parts_links.water_filter_search_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: '#22d3ee', fontSize: '0.875rem' }}
+                  >
+                    Find water filter
+                  </a>
+                )}
+              </div>
+            )}
+
             <div style={{
               background: '#0D1525', border: '1px solid rgba(255,255,255,0.07)',
               borderRadius: '12px', padding: '1.5rem',
@@ -246,8 +280,9 @@ export default function ApplianceDetailPage() {
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.75rem', flexWrap: 'wrap' }}>
                     <div>
-                      <h1 style={{ color: '#fff', fontSize: '1.375rem', fontWeight: '700', margin: 0, textTransform: 'capitalize' }}>
+                      <h1 style={{ color: '#fff', fontSize: '1.375rem', fontWeight: '700', margin: 0, textTransform: 'capitalize', display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
                         {displayName}
+                        <RecallBadge recalls={appliance.recalls} />
                       </h1>
                       {(appliance.model || applianceSourceInlineText(appliance)) && (
                         <p style={{ color: '#9ca3af', fontSize: '0.9375rem', margin: '2px 0 0' }}>

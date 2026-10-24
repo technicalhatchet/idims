@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { apiClient } from '../../utils/api-client';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 
 function RecallMatchesPage() {
+  const router = useRouter();
   const [rows, setRows] = useState([]);
   const [filter, setFilter] = useState('pending');
   const [loading, setLoading] = useState(true);
@@ -22,6 +24,13 @@ function RecallMatchesPage() {
       setLoading(false);
     }
   }, [filter]);
+
+  useEffect(() => {
+    const status = router.query?.status;
+    if (status === 'pending' || status === 'confirmed' || status === 'dismissed') {
+      setFilter(status);
+    }
+  }, [router.query?.status]);
 
   useEffect(() => {
     load();
