@@ -826,6 +826,19 @@ async def get_work_order(
         if work_order.review_requested_at:
             response_dict["review_requested_at"] = work_order.review_requested_at.isoformat()
 
+        response_dict["equipment_recalls"] = None
+        if work_order.appliance_id:
+            from app.services.feature_flags_service import feature_context_from_roles, feature_enabled
+            from app.services.cpsc_recall_present_service import recalls_for_appliance_payload
+
+            ctx = feature_context_from_roles(current_user.roles)
+            if feature_enabled(db, "recall_alerts", ctx):
+                response_dict["equipment_recalls"] = recalls_for_appliance_payload(
+                    db,
+                    work_order.appliance_id,
+                    customer_view=False,
+                )
+
         # Convert any remaining UUID objects to strings for JSON serialization
         for key, value in response_dict.items():
             if isinstance(value, uuid.UUID):

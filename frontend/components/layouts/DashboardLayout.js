@@ -169,6 +169,12 @@ export default function DashboardLayout({ children }) {
         roles: ['admin', 'manager'],
       },
       {
+        name: 'Recall review',
+        href: '/techboard/recall-matches',
+        icon: <FaClipboardList className="mr-3 h-5 w-5" />,
+        roles: ['admin', 'manager'],
+      },
+      {
         name: 'Technicians',
         href: '/technicians',
         icon: <FaWrench className="mr-3" />,

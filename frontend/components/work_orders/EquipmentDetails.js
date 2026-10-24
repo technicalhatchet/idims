@@ -26,6 +26,8 @@ import {
   PART_STATUSES,
   getPartTrackingFieldMeta,
 } from '../../utils/workOrderPartStatuses';
+import RecallBadge from '../recalls/RecallBadge';
+import Link from 'next/link';
 import {
   normalizePartsSettings,
   getVendorSelectOptions,
@@ -620,8 +622,20 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
     );
   }
 
+  const equipmentRecalls = workOrder?.equipment_recalls;
+
   return (
     <div className="space-y-6">
+      {equipmentRecalls && (equipmentRecalls.pending_count > 0 || (equipmentRecalls.confirmed_recalls || []).length > 0) && (
+        <div className="flex flex-wrap items-center gap-3 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3">
+          <RecallBadge recalls={equipmentRecalls} staffView />
+          {equipmentRecalls.pending_count > 0 && (
+            <Link href="/techboard/recall-matches?status=pending" className="text-sm text-amber-200 hover:text-amber-100 underline">
+              Review {equipmentRecalls.pending_count} unconfirmed match{equipmentRecalls.pending_count === 1 ? '' : 'es'}
+            </Link>
+          )}
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-1">
           <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Equipment Information</h3>
