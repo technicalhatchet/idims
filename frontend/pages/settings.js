@@ -18,6 +18,8 @@ import PushNotificationSettingsPanel from '../components/settings/PushNotificati
 import CustomerOutreachTestModeBanner from '../components/settings/CustomerOutreachTestModeBanner';
 import CustomerOutreachSettingsPanel from '../components/settings/CustomerOutreachSettingsPanel';
 import WorkerFeatureFlagsSettingsPanel from '../components/settings/WorkerFeatureFlagsSettingsPanel';
+import PartsLinksSettingsPanel from '../components/settings/PartsLinksSettingsPanel';
+import ApplianceLifespansSettingsPanel from '../components/settings/ApplianceLifespansSettingsPanel';
 
 const DAYS = [
   { key: 'monday', label: 'Monday' },
@@ -2280,6 +2282,8 @@ export default function Settings() {
               <FeatureFlagsSettingsPanel />
               <PortalSchedulingSettingsPanel />
               <PortalReviewsSettingsPanel />
+              <PartsLinksSettingsPanel />
+              <ApplianceLifespansSettingsPanel />
             </>
           )}
           {activeTab === 'notifications' && (

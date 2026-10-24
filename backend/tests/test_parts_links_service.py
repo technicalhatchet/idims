@@ -13,6 +13,15 @@ def test_validate_parts_links_requires_model_placeholder():
         raise AssertionError("expected ValueError")
 
 
+def test_validate_parts_links_requires_https():
+    try:
+        pls.validate_url_template("http://example.com?q={model}", "Parts search link")
+    except ValueError as exc:
+        assert "https" in str(exc).lower()
+    else:
+        raise AssertionError("expected ValueError")
+
+
 def test_build_parts_links_substitutes_model(monkeypatch):
     class _Db:
         pass

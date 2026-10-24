@@ -740,8 +740,14 @@ app.include_router(push.router, prefix="/api/push", tags=["push"])
 app.include_router(app_settings.router, prefix="/api/settings", tags=["settings"])
 app.include_router(features.router, prefix="/api/features", tags=["features"])
 from app.routers import recalls as recalls_router
+from app.routers import appliance_lifespans as appliance_lifespans_router
 
 app.include_router(recalls_router.router, prefix="/api/recalls", tags=["recalls"])
+app.include_router(
+    appliance_lifespans_router.router,
+    prefix="/api/appliance-lifespans",
+    tags=["appliance-lifespans"],
+)
 from app.routers import client_portal
 app.include_router(client_portal.router, prefix="/api", tags=["client-portal"])
 # Mock endpoints for clients, technicians, and services
