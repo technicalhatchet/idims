@@ -63,6 +63,19 @@ async def _notify_client_scheduling_decision(
     reason: str = "",
     settings: dict,
 ) -> None:
+    from app.services.customer_outreach_service import (
+        automatic_outreach_allowed,
+        log_skipped_test_mode,
+    )
+
+    if not automatic_outreach_allowed(db, client.id):
+        log_skipped_test_mode(
+            channel="scheduling_decision",
+            client_id=client.id,
+            detail="approved" if approved else "denied",
+        )
+        return
+
     comms = settings.get("comms") or {}
     order_label = work_order.order_number or str(work_order.id)[:8]
 

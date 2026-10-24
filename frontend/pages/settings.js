@@ -15,6 +15,9 @@ import PortalSchedulingSettingsPanel from '../components/settings/PortalScheduli
 import PortalReviewsSettingsPanel from '../components/settings/PortalReviewsSettingsPanel';
 import FeatureFlagsSettingsPanel from '../components/settings/FeatureFlagsSettingsPanel';
 import PushNotificationSettingsPanel from '../components/settings/PushNotificationSettingsPanel';
+import CustomerOutreachTestModeBanner from '../components/settings/CustomerOutreachTestModeBanner';
+import CustomerOutreachSettingsPanel from '../components/settings/CustomerOutreachSettingsPanel';
+import WorkerFeatureFlagsSettingsPanel from '../components/settings/WorkerFeatureFlagsSettingsPanel';
 
 const DAYS = [
   { key: 'monday', label: 'Monday' },
@@ -2266,6 +2269,8 @@ export default function Settings() {
           ))}
         </div>
 
+        <CustomerOutreachTestModeBanner />
+
         {/* Tab Content */}
         <div className="space-y-6">
           {activeTab === 'interface' && renderInterfaceTab()}
@@ -2277,7 +2282,13 @@ export default function Settings() {
               <PortalReviewsSettingsPanel />
             </>
           )}
-          {activeTab === 'notifications' && <PushNotificationSettingsPanel />}
+          {activeTab === 'notifications' && (
+            <>
+              <CustomerOutreachSettingsPanel />
+              <WorkerFeatureFlagsSettingsPanel />
+              <PushNotificationSettingsPanel />
+            </>
+          )}
           {activeTab === 'service-areas' && renderServiceAreasTab()}
           {activeTab === 'tax' && renderTaxTab()}
           {activeTab === 'parts' && renderPartsTab()}

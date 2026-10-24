@@ -66,6 +66,18 @@ async def _notify_client_narrowing(
     send_sms: bool,
     send_email: bool,
 ) -> None:
+    from app.services.customer_outreach_service import (
+        automatic_outreach_allowed,
+        log_skipped_test_mode,
+    )
+
+    if not automatic_outreach_allowed(db, client.id):
+        log_skipped_test_mode(
+            channel="eta_narrowing",
+            client_id=client.id,
+        )
+        return
+
     sms_to = client_sms_destination(client.mobile) if client_automated_sms_allowed(client) else None
     if send_sms and sms_to:
         try:

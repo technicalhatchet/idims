@@ -126,6 +126,16 @@ class SettingsService:
             from app.services.feature_flags_service import invalidate_feature_flags_cache
 
             invalidate_feature_flags_cache()
+        elif setting_data.key == "worker_feature_flags":
+            from app.services.worker_feature_flags_service import invalidate_worker_feature_flags_cache
+
+            invalidate_worker_feature_flags_cache()
+        elif setting_data.key == "customer_outreach_test_mode":
+            from app.services.customer_outreach_service import (
+                invalidate_customer_outreach_test_mode_cache,
+            )
+
+            invalidate_customer_outreach_test_mode_cache()
         
         return {
             "key": result[0],
@@ -177,6 +187,16 @@ class SettingsService:
             from app.services.feature_flags_service import invalidate_feature_flags_cache
 
             invalidate_feature_flags_cache()
+        elif key == "worker_feature_flags":
+            from app.services.worker_feature_flags_service import invalidate_worker_feature_flags_cache
+
+            invalidate_worker_feature_flags_cache()
+        elif key == "customer_outreach_test_mode":
+            from app.services.customer_outreach_service import (
+                invalidate_customer_outreach_test_mode_cache,
+            )
+
+            invalidate_customer_outreach_test_mode_cache()
         
         return {
             "key": result[0],
@@ -273,6 +293,16 @@ class SettingsService:
                 from app.services.feature_flags_service import validate_feature_flags_value
 
                 validate_feature_flags_value(value)
+            elif key == "worker_feature_flags":
+                from app.services.worker_feature_flags_service import validate_worker_feature_flags_value
+
+                validate_worker_feature_flags_value(value)
+            elif key == "customer_outreach_test_mode":
+                from app.services.customer_outreach_service import (
+                    validate_customer_outreach_test_mode_value,
+                )
+
+                validate_customer_outreach_test_mode_value(value)
             # Add more validations as needed
         except Exception as e:
             raise ValueError(f"Invalid value for setting '{key}': {str(e)}")

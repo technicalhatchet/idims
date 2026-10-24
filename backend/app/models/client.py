@@ -48,6 +48,7 @@ class Client(Base):
         index=True,
     )
     merged_at = Column(DateTime, nullable=True)
+    is_test_client = Column(Boolean, nullable=False, default=False)
 
     # Relationships
     user = relationship("User", foreign_keys=[user_id], back_populates="client")

@@ -65,6 +65,7 @@ async def notify_client_part_status_change(
                 "part_status": new_status,
                 "work_order_number": order_num,
             },
+            automatic_outreach=True,
         )
     except Exception as exc:
         logger.error(

@@ -34,11 +34,12 @@ def review_request_eligibility(
     work_order: WorkOrder,
     *,
     force: bool = False,
+    automatic: bool = False,
 ) -> Optional[str]:
     """Return skip reason or None if eligible."""
     from app.services.feature_flags_service import feature_enabled
 
-    if not feature_enabled(db, "review_requests", None) and not force:
+    if not automatic and not feature_enabled(db, "review_requests", None) and not force:
         return "feature_disabled"
     cfg = get_portal_reviews_settings(db)
     if not cfg.get("enabled") and not force:
@@ -86,12 +87,13 @@ async def send_portal_review_request(
     work_order_id: UUID,
     *,
     force: bool = False,
+    automatic: bool = False,
 ) -> Dict[str, Any]:
     wo = db.query(WorkOrder).filter(WorkOrder.id == work_order_id).first()
     if not wo:
         return {"sent": False, "reason": "not_found"}
 
-    skip = review_request_eligibility(db, wo, force=force)
+    skip = review_request_eligibility(db, wo, force=force, automatic=automatic)
     if skip:
         return {"sent": False, "reason": skip}
 
@@ -100,6 +102,20 @@ async def send_portal_review_request(
     client = wo.client or db.query(Client).filter(Client.id == wo.client_id).first()
     order = wo.order_number or str(wo.id)[:8]
     name = (client.first_name or client.display_name or "there").strip()
+
+    if automatic and not force:
+        from app.services.customer_outreach_service import (
+            automatic_outreach_allowed,
+            log_skipped_test_mode,
+        )
+
+        if not automatic_outreach_allowed(db, wo.client_id):
+            log_skipped_test_mode(
+                channel="review_request",
+                client_id=wo.client_id,
+                detail=f"work_order_id={wo.id}",
+            )
+            return {"sent": False, "reason": "test_mode"}
 
     email_ok = await _send_review_email(
         to_email=client.email,
@@ -119,6 +135,7 @@ async def send_portal_review_request(
             reference_id=wo.id,
             related_type="work_order",
             meta_data={"action_url": review_url},
+            automatic_outreach=automatic and not force,
         )
     except Exception:
         logger.exception("Portal in-app review notification failed for WO %s", order)

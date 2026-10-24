@@ -861,25 +861,6 @@ class WorkOrderService:
                     )
                     
                     await NotificationService.create_notification(db, tech_notification, send_immediately=True)
-                    
-                    # Schedule reminders if work order is scheduled
-                    if work_order.scheduled_start:
-                        from app.background.tasks.reminders import schedule_appointment_reminder
-                        
-                        # Schedule reminders for 24 hours and 1 hour before appointment
-                        schedule_appointment_reminder.delay(
-                            work_order_id=str(work_order.id),
-                            user_id=str(technician.user_id),
-                            scheduled_time=work_order.scheduled_start.isoformat(),
-                            hours_before=24
-                        )
-                        
-                        schedule_appointment_reminder.delay(
-                            work_order_id=str(work_order.id),
-                            user_id=str(technician.user_id),
-                            scheduled_time=work_order.scheduled_start.isoformat(),
-                            hours_before=1
-                        )
 
         except Exception as e:
             # Log error but don't fail the work order creation

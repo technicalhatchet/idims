@@ -112,6 +112,7 @@ class WorkOrder(Base):
     parent_work_order_id = Column(UUID(as_uuid=True), ForeignKey("work_orders.id", ondelete="SET NULL"), nullable=True)
     is_redo = Column(Boolean, nullable=False, default=False)
     review_requested_at = Column(DateTime, nullable=True)
+    review_due_at = Column(DateTime, nullable=True)
     redo_source_appointment_id = Column(
         UUID(as_uuid=True),
         ForeignKey("work_order_appointments.id", ondelete="SET NULL"),
@@ -445,6 +446,7 @@ class WorkOrderAppointment(Base):
     client_eta_narrowed_at = Column(DateTime, nullable=True)
     client_eta_start = Column(DateTime, nullable=True)
     client_eta_end = Column(DateTime, nullable=True)
+    appointment_reminder_sent_at = Column(DateTime, nullable=True)
     notes = Column(Text, nullable=True)  # Notes for this appointment
     
     mileage = relationship("AppointmentMileage", back_populates="appointment", uselist=False, cascade="all, delete-orphan")

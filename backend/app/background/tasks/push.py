@@ -14,6 +14,10 @@ def process_deploy_reminders():
     logger.debug("Processing due deploy reminders")
     db = SessionLocal()
     try:
+        from app.services.worker_feature_flags_service import worker_feature_enabled
+
+        if not worker_feature_enabled(db, "deploy_reminders"):
+            return 0
         sent = process_due_deploy_reminders(db)
         if sent:
             logger.info("Sent %s deploy reminder push(es)", sent)
@@ -29,10 +33,13 @@ def process_deploy_reminders():
 def send_morning_schedule_summaries_task():
     """Daily morning push: job count + first appointment time for subscribed staff."""
     from app.services.web_push_service import send_morning_schedule_summaries
+    from app.services.worker_feature_flags_service import worker_feature_enabled
 
     logger.info("Sending morning schedule summary pushes")
     db = SessionLocal()
     try:
+        if not worker_feature_enabled(db, "morning_summaries"):
+            return 0
         sent = send_morning_schedule_summaries(db)
         if sent:
             logger.info("Sent morning schedule summary to %s user(s)", sent)

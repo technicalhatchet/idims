@@ -3210,9 +3210,9 @@ async def record_work_order_payment_endpoint(
         db.commit()
         db.refresh(payment)
 
-        from app.services.portal_review_hooks import maybe_enqueue_review_request
+        from app.services.portal_review_hooks import maybe_schedule_review_request
 
-        maybe_enqueue_review_request(background_tasks, db, work_order_id)
+        maybe_schedule_review_request(db, work_order_id)
 
         recorder_name = f"{current_user.first_name} {current_user.last_name}".strip()
         return WorkOrderPaymentResponse(
