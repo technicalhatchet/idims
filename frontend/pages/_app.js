@@ -6,8 +6,9 @@ import { UserRoleProvider } from '../context/UserRoleContext';
 import { ThemeProvider } from '../context/ThemeContext';
 import { UIPreferencesProvider } from '../context/UIPreferencesContext';
 import { FeatureFlagsProvider } from '../context/FeatureFlagsContext';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
+import { getAppQueryClient } from '../lib/queryClient';
 
 const ReactQueryDevtools = dynamic(
   () => import('@tanstack/react-query-devtools').then((mod) => mod.ReactQueryDevtools),
@@ -19,13 +20,35 @@ import { useRouter } from 'next/router';
 import { isTechPath } from '../lib/routeAccess';
 import { isTechDeckPrefetchRoute, isSolomonPrefetchRoute } from '../lib/offlineCache';
 import { prefetchSolomonShell } from '../lib/solomonPrefetch';
-import SolomonDiyEnrollment from '../components/solomon/SolomonDiyEnrollment';
-import SolomonThemeScope from '../components/solomon/SolomonThemeScope';
 import AppRouteStyles from '../components/AppRouteStyles';
 
 const SyncBanner = dynamic(() => import('../components/ui/SyncBanner'), {
   ssr: false,
 });
+
+const SolomonDiyEnrollment = dynamic(
+  () => import('../components/solomon/SolomonDiyEnrollment'),
+  { ssr: false }
+);
+
+const SolomonThemeScope = dynamic(
+  () => import('../components/solomon/SolomonThemeScope'),
+  { ssr: false }
+);
+
+function RouteScopedSolomonShell({ children }) {
+  const router = useRouter();
+  const onSolomon = router.pathname.startsWith('/solomon');
+  if (!onSolomon) {
+    return children;
+  }
+  return (
+    <>
+      <SolomonDiyEnrollment />
+      <SolomonThemeScope>{children}</SolomonThemeScope>
+    </>
+  );
+}
 
 function TechDeckSyncBanner() {
   const router = useRouter();
@@ -37,23 +60,12 @@ function TechDeckSyncBanner() {
   return <SyncBanner />;
 }
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: 1,
-    },
-  },
-});
-
 // One-time migration: drop SW configs that cached/intercepted Railway API.
-// After reload, next-pwa registers the fixed SW (static assets + app shell only).
 const SW_MIGRATION_KEY = 'idims_pwa_v3_migrated';
 const SW_MIGRATION_LOCK_KEY = 'idims_pwa_v3_migrating';
 const DEV_SW_CLEANED_KEY = 'idims_dev_sw_cleaned';
 const DEV_SW_CLEANUP_LOCK_KEY = 'idims_dev_sw_cleaning';
 
-/** Production SW + CacheFirst on /_next/static breaks local HMR (hot-update 404 reload loop). */
 function DevServiceWorkerCleanup() {
   useEffect(() => {
     if (process.env.NODE_ENV !== 'development') return;
@@ -142,7 +154,6 @@ function ServiceWorkerMigration() {
   return null;
 }
 
-// Client-only — TechDeck offline prefetch (techboard + field WO routes)
 function ClientOnlyPrefetch() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -166,7 +177,6 @@ function ClientOnlyPrefetch() {
       });
     };
 
-    // Defer prefetch so page queries finish first; avoid flooding Railway on load
     const timeoutId = setTimeout(startPrefetch, 10000);
 
     const interval = setInterval(() => {
@@ -197,7 +207,6 @@ function ClientOnlyPrefetch() {
   return null;
 }
 
-// Warm Solomon routes + _next/data while online so offline navigation works in the PWA
 function ClientOnlySolomonPrefetch() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -223,8 +232,6 @@ function ClientOnlySolomonPrefetch() {
 }
 
 function MyApp({ Component, pageProps }) {
-  const { user } = pageProps;
-
   return (
     <>
       <style jsx global>{`
@@ -237,36 +244,35 @@ function MyApp({ Component, pageProps }) {
         }
       `}</style>
       <div className={`${inter.variable} font-sans`}>
-    <UserProvider>
-      <UserRoleProvider>
-      <ThemeProvider>
-      <UIPreferencesProvider>
-        <FeatureFlagsProvider>
-        <QueryClientProvider client={queryClient}>
-          <AppRouteStyles />
-          <DevServiceWorkerCleanup />
-          <ServiceWorkerMigration />
-          <TechDeckSyncBanner />
-          <ClientOnlyPrefetch />
-          <ClientOnlySolomonPrefetch />
-          <SolomonDiyEnrollment />
-          <SolomonThemeScope>
-            {Component.getLayout ? (
-              Component.getLayout(<Component {...pageProps} />)
-            ) : (
-              <Component {...pageProps} />
-            )}
-          </SolomonThemeScope>
-          <AppToaster />
-          {process.env.NODE_ENV === 'development' && (
-            <ReactQueryDevtools initialIsOpen={false} />
-          )}
-        </QueryClientProvider>
-        </FeatureFlagsProvider>
-      </UIPreferencesProvider>
-      </ThemeProvider>
-      </UserRoleProvider>
-    </UserProvider>
+        <UserProvider>
+          <UserRoleProvider>
+            <QueryClientProvider client={getAppQueryClient()}>
+              <FeatureFlagsProvider>
+                <ThemeProvider>
+                  <UIPreferencesProvider>
+                    <AppRouteStyles />
+                    <DevServiceWorkerCleanup />
+                    <ServiceWorkerMigration />
+                    <TechDeckSyncBanner />
+                    <ClientOnlyPrefetch />
+                    <ClientOnlySolomonPrefetch />
+                    <RouteScopedSolomonShell>
+                      {Component.getLayout ? (
+                        Component.getLayout(<Component {...pageProps} />)
+                      ) : (
+                        <Component {...pageProps} />
+                      )}
+                    </RouteScopedSolomonShell>
+                    <AppToaster />
+                    {process.env.NODE_ENV === 'development' && (
+                      <ReactQueryDevtools initialIsOpen={false} />
+                    )}
+                  </UIPreferencesProvider>
+                </ThemeProvider>
+              </FeatureFlagsProvider>
+            </QueryClientProvider>
+          </UserRoleProvider>
+        </UserProvider>
       </div>
     </>
   );

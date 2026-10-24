@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '../../utils/api-client';
+import { techdeckQueryKeys, fetchTechdeckNotifications } from '../../lib/techdeckQueries';
 
 function formatWhen(iso) {
   if (!iso) return '';
@@ -27,9 +29,15 @@ export default function TechDeckNotificationsBell({
   const router = useRouter();
   const rootRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [items, setItems] = useState([]);
-  const [unreadCount, setUnreadCount] = useState(0);
+  const queryClient = useQueryClient();
+  const { data, isFetching, refetch } = useQuery({
+    queryKey: techdeckQueryKeys.notifications(),
+    queryFn: fetchTechdeckNotifications,
+    staleTime: 60 * 1000,
+  });
+  const items = data?.notifications ?? [];
+  const unreadCount = data?.unreadCount ?? 0;
+  const loading = isFetching && !data;
 
   const setOpenSafe = useCallback(
     (next) => {
@@ -39,27 +47,9 @@ export default function TechDeckNotificationsBell({
     [onOpenChange]
   );
 
-  const loadNotifications = useCallback(async () => {
-    setLoading(true);
-    try {
-      const data = await apiClient('/notifications/notifications?limit=20');
-      const list = data?.notifications || [];
-      setItems(list);
-      setUnreadCount(
-        typeof data?.unread_count === 'number'
-          ? data.unread_count
-          : list.filter((n) => !n.is_read).length
-      );
-    } catch (err) {
-      console.error('[TechDeckNotificationsBell] fetch failed:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
-    loadNotifications();
-  }, [loadNotifications]);
+    if (open) refetch();
+  }, [open, refetch]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -76,10 +66,17 @@ export default function TechDeckNotificationsBell({
     if (!notification?.id || notification.is_read) return;
     try {
       await apiClient(`/notifications/notifications/${notification.id}/read`, { method: 'PUT' });
-      setItems((prev) =>
-        prev.map((n) => (n.id === notification.id ? { ...n, is_read: true } : n))
-      );
-      setUnreadCount((c) => Math.max(0, c - 1));
+      queryClient.setQueryData(techdeckQueryKeys.notifications(), (prev) => {
+        if (!prev) return prev;
+        const notifications = prev.notifications.map((n) =>
+          n.id === notification.id ? { ...n, is_read: true } : n
+        );
+        const unread =
+          typeof prev.unreadCount === 'number'
+            ? Math.max(0, prev.unreadCount - 1)
+            : notifications.filter((n) => !n.is_read).length;
+        return { notifications, unreadCount: unread };
+      });
     } catch (err) {
       console.error('[TechDeckNotificationsBell] mark read failed:', err);
     }
@@ -96,8 +93,13 @@ export default function TechDeckNotificationsBell({
   const markAllRead = async () => {
     try {
       await apiClient('/notifications/notifications/read-all', { method: 'PUT' });
-      setItems((prev) => prev.map((n) => ({ ...n, is_read: true })));
-      setUnreadCount(0);
+      queryClient.setQueryData(techdeckQueryKeys.notifications(), (prev) => {
+        if (!prev) return prev;
+        return {
+          notifications: prev.notifications.map((n) => ({ ...n, is_read: true })),
+          unreadCount: 0,
+        };
+      });
     } catch (err) {
       console.error('[TechDeckNotificationsBell] mark all read failed:', err);
     }
@@ -112,7 +114,7 @@ export default function TechDeckNotificationsBell({
         onClick={() => {
           const next = !open;
           setOpenSafe(next);
-          if (next) loadNotifications();
+          if (next) refetch();
         }}
         className="relative w-10 h-10 flex items-center justify-center rounded-lg transition-all hover:bg-white/5"
         style={{

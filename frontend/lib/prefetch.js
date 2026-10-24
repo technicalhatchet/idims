@@ -5,6 +5,12 @@
  */
 
 import { apiClient } from '../utils/api-client';
+import { getAppQueryClient } from './queryClient';
+import {
+  fetchTechdeckScheduleCombined,
+  fetchTechdeckWorkOrdersPage,
+  techdeckQueryKeys,
+} from './techdeckQueries';
 import {
   WorkOrderStore,
   AppointmentStore,
@@ -90,10 +96,12 @@ export async function prefetchAll(options = {}) {
       appointments = await ScheduleStore.getAll();
     } else {
       onProgress?.('Fetching schedule...');
-      const schedData = await apiClient(
-        `scheduling/schedule/combined?start_date=${todayStr}&end_date=${nextWeekStr}&view_type=day`
-      );
-      appointments = schedData?.appointments || schedData?.schedule || schedData?.data || [];
+      const qc = getAppQueryClient();
+      appointments = await qc.fetchQuery({
+        queryKey: techdeckQueryKeys.schedule(),
+        queryFn: fetchTechdeckScheduleCombined,
+        staleTime: SCHEDULE_CACHE_FRESH_MS,
+      });
     }
 
     const apptItems = appointments.map((a) => ({
@@ -114,12 +122,13 @@ export async function prefetchAll(options = {}) {
       workOrders = await WorkOrderStore.getAll();
     } else {
       onProgress?.('Fetching work orders...');
-      const woData = await apiClient('work-orders?page=1&limit=200');
+      const qc = getAppQueryClient();
+      const woData = await qc.fetchQuery({
+        queryKey: techdeckQueryKeys.workOrders(100),
+        queryFn: () => fetchTechdeckWorkOrdersPage(100),
+        staleTime: WORK_ORDERS_CACHE_FRESH_MS,
+      });
       workOrders = woData?.items || [];
-      if (workOrders.length) {
-        await WorkOrderStore.putAll(workOrders);
-      }
-      await MetaStore.set('lastWorkOrdersFetch', Date.now());
     }
 
     const todayWOIds = apptItems
@@ -245,24 +254,29 @@ export async function prefetchScheduleOnly() {
   const nextWeekStr = format(addDays(today, 7), 'yyyy-MM-dd');
 
   try {
-    const schedData = await apiClient(
-      `scheduling/schedule/combined?start_date=${todayStr}&end_date=${nextWeekStr}&view_type=day`
-    );
-    const appointments = schedData?.appointments || schedData?.schedule || schedData?.data || [];
-    const apptItems = appointments.map((a) => ({
+    const qc = getAppQueryClient();
+    const appointments = await qc.fetchQuery({
+      queryKey: techdeckQueryKeys.schedule(),
+      queryFn: fetchTechdeckScheduleCombined,
+      staleTime: SCHEDULE_CACHE_FRESH_MS,
+    });
+    const apptItems = (appointments || []).map((a) => ({
       ...a,
       id: a.id || `${a.work_order_id}-${a.scheduled_start || a.start}`,
       date: (a.scheduled_start || a.start || '').substring(0, 10),
     }));
-    await AppointmentStore.putAll(apptItems);
-    await ScheduleStore.putAll(apptItems);
-    await MetaStore.set('lastScheduleFetch', Date.now());
+    if (apptItems.length) {
+      await AppointmentStore.putAll(apptItems);
+      await ScheduleStore.putAll(apptItems);
+    }
 
-    // Refresh work order statuses
-    const woData = await apiClient('work-orders?page=1&limit=200');
-    if (woData?.items) {
+    const woData = await qc.fetchQuery({
+      queryKey: techdeckQueryKeys.workOrders(100),
+      queryFn: () => fetchTechdeckWorkOrdersPage(100),
+      staleTime: WORK_ORDERS_CACHE_FRESH_MS,
+    });
+    if (woData?.items?.length) {
       await WorkOrderStore.putAll(woData.items);
-      await MetaStore.set('lastWorkOrdersFetch', Date.now());
     }
   } catch (err) {
     console.error('[Prefetch] Schedule refresh error:', err);

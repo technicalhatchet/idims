@@ -1,5 +1,6 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { buildApiUrl } from '../utils/api-client';
+import { createContext, useCallback, useContext, useMemo } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { techdeckQueryKeys, fetchTechdeckFeatureFlags } from '../lib/techdeckQueries';
 
 /** Must match backend FEATURE_FLAG_DEFINITIONS keys. */
 export const WAVE1_FEATURE_FLAG_IDS = [
@@ -21,7 +22,7 @@ export const ALL_FEATURE_FLAG_IDS = [...WAVE1_FEATURE_FLAG_IDS, ...WAVE2_FEATURE
 
 /** Fail-open: every registry flag ON (matches backend default_feature_flags). */
 export function allWave1FeaturesEnabledSet() {
-  return new Set(WAVE1_FEATURE_FLAG_IDS);
+  return new Set(ALL_FEATURE_FLAG_IDS);
 }
 
 function warnFeaturesFetch(message, detail) {
@@ -34,60 +35,33 @@ function warnFeaturesFetch(message, detail) {
 
 const FeatureFlagsContext = createContext({
   loaded: false,
-  features: new Set(WAVE1_FEATURE_FLAG_IDS),
+  features: allWave1FeaturesEnabledSet(),
   refresh: async () => {},
 });
 
-async function fetchEnabledFeatures() {
-  const failOpen = (message, detail) => {
-    warnFeaturesFetch(`${message}; using fail-open defaults (all flags ON).`, detail);
-    return allWave1FeaturesEnabledSet();
-  };
-  try {
-    let token = null;
-    try {
-      const sessionRes = await fetch('/api/auth/session');
-      const session = await sessionRes.json();
-      token = session?.accessToken || null;
-    } catch {
-      token = null;
-    }
-
-    const url = buildApiUrl('features');
-    const headers = token ? { Authorization: `Bearer ${token}` } : {};
-    const res = await fetch(url, { headers });
-    if (!res.ok) {
-      return failOpen(`GET /api/features failed (${res.status})`);
-    }
-    const data = await res.json().catch(() => null);
-    if (!data || !Array.isArray(data.features)) {
-      return failOpen('GET /api/features returned an invalid payload', data);
-    }
-    return new Set(data.features);
-  } catch (err) {
-    return failOpen('GET /api/features request failed', err);
-  }
-}
+const FEATURES_STALE_MS = 5 * 60 * 1000;
 
 export function FeatureFlagsProvider({ children }) {
-  const [loaded, setLoaded] = useState(false);
-  const [features, setFeatures] = useState(() => allWave1FeaturesEnabledSet());
+  const queryClient = useQueryClient();
+  const query = useQuery({
+    queryKey: techdeckQueryKeys.features(),
+    queryFn: async () => {
+      try {
+        return await fetchTechdeckFeatureFlags();
+      } catch (err) {
+        warnFeaturesFetch('GET /api/features failed; using fail-open defaults.', err);
+        return allWave1FeaturesEnabledSet();
+      }
+    },
+    staleTime: FEATURES_STALE_MS,
+  });
+
+  const features = query.data ?? allWave1FeaturesEnabledSet();
+  const loaded = query.isFetched;
 
   const refresh = useCallback(async () => {
-    try {
-      const next = await fetchEnabledFeatures();
-      setFeatures(next);
-    } catch (err) {
-      warnFeaturesFetch('refresh failed unexpectedly; using fail-open defaults.', err);
-      setFeatures(allWave1FeaturesEnabledSet());
-    } finally {
-      setLoaded(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
+    await queryClient.invalidateQueries({ queryKey: techdeckQueryKeys.features() });
+  }, [queryClient]);
 
   const value = useMemo(() => ({ loaded, features, refresh }), [loaded, features, refresh]);
 

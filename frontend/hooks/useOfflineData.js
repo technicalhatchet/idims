@@ -1,281 +1,125 @@
 /**
- * useOfflineData — reads from IndexedDB when offline, API when online
- * Drop-in for apiClient calls on critical pages
+ * useOfflineData — IndexedDB + API via shared react-query fetchers
  */
 
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useOnlineStatus } from './useOnlineStatus';
 import { isOffline } from '../lib/offlineMutations';
-import { MetaStore, WorkOrderStore, AppointmentStore, ScheduleStore } from '../lib/db';
+import { WorkOrderStore, ClientStore, PropertyStore } from '../lib/db';
+import { apiClient } from '../utils/api-client';
 import {
   SCHEDULE_CACHE_FRESH_MS,
   WORK_ORDERS_CACHE_FRESH_MS,
-  isMetaFresh,
 } from '../lib/offlineCache';
-import { apiClient } from '../utils/api-client';
-import { format, isToday, addDays } from 'date-fns';
+import {
+  techdeckQueryKeys,
+  fetchTechdeckScheduleCombined,
+  fetchTechdeckWorkOrdersPage,
+} from '../lib/techdeckQueries';
 
-/**
- * useOfflineSchedule — returns today's + upcoming appointments
- * Falls back to IndexedDB when offline
- */
 export function useOfflineSchedule() {
   const { isOnline } = useOnlineStatus();
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [source, setSource] = useState('network');
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function load() {
-      setIsLoading(true);
-
-      const cached = await ScheduleStore.getAll();
-      if (!cancelled && cached.length) {
-        setData(cached);
-        setIsLoading(false);
-        setSource('cache');
-      }
-
-      if (!isOffline()) {
-        const scheduleFresh = await isMetaFresh('lastScheduleFetch', SCHEDULE_CACHE_FRESH_MS);
-        if (scheduleFresh && cached.length) {
-          if (!cancelled) {
-            setIsLoading(false);
-            setSource('cache');
-          }
-          return;
-        }
-
-        try {
-          const today = new Date();
-          const todayStr = format(today, 'yyyy-MM-dd');
-          const nextWeekStr = format(addDays(today, 7), 'yyyy-MM-dd');
-          const schedData = await apiClient(
-            `scheduling/schedule/combined?start_date=${todayStr}&end_date=${nextWeekStr}&view_type=day`
-          );
-          const appts = schedData?.appointments || schedData?.schedule || schedData?.data || [];
-          const list = Array.isArray(appts) ? appts : [];
-          const apptItems = list.map((a) => ({
-            ...a,
-            id: a.id || `${a.work_order_id}-${a.scheduled_start || a.start}`,
-            date: (a.scheduled_start || a.start || '').substring(0, 10),
-          }));
-          if (apptItems.length) {
-            await AppointmentStore.putAll(apptItems);
-            await ScheduleStore.putAll(apptItems);
-            await MetaStore.set('lastScheduleFetch', Date.now());
-          }
-          if (!cancelled) {
-            setData(list);
-            setSource('network');
-          }
-        } catch (err) {
-          console.warn('[useOfflineSchedule] Network failed, falling back to IndexedDB:', err);
-          if (!cancelled && !cached.length) {
-            setData(cached);
-            setSource('cache');
-          }
-        }
-      } else if (!cancelled && !cached.length) {
-        setData(cached);
-        setSource('cache');
-      }
-
-      if (!cancelled) setIsLoading(false);
-    }
-
-    load();
-    return () => { cancelled = true; };
-  }, [isOnline]);
-
-  return { data, isLoading, source };
+  const query = useQuery({
+    queryKey: techdeckQueryKeys.schedule(),
+    queryFn: fetchTechdeckScheduleCombined,
+    staleTime: SCHEDULE_CACHE_FRESH_MS,
+    enabled: isOnline || isOffline(),
+  });
+  return {
+    data: query.data ?? [],
+    isLoading: query.isLoading,
+    source: query.isFetching ? 'network' : 'cache',
+  };
 }
 
-/**
- * useOfflineWorkOrders — returns all work orders
- * Falls back to IndexedDB when offline
- */
-export function useOfflineWorkOrders(limit = 200) {
+export function useOfflineWorkOrders(limit = 100) {
   const { isOnline } = useOnlineStatus();
-  const [data, setData] = useState({ items: [], total: 0 });
-  const [isLoading, setIsLoading] = useState(true);
-  const [source, setSource] = useState('network');
+  const query = useQuery({
+    queryKey: techdeckQueryKeys.workOrders(limit),
+    queryFn: () => fetchTechdeckWorkOrdersPage(limit),
+    staleTime: WORK_ORDERS_CACHE_FRESH_MS,
+    enabled: isOnline || isOffline(),
+  });
+  return {
+    data: query.data ?? { items: [], total: 0 },
+    isLoading: query.isLoading,
+    source: query.isFetching ? 'network' : 'cache',
+  };
+}
 
-  useEffect(() => {
-    let cancelled = false;
-
-    async function load() {
-      setIsLoading(true);
-
-      const cached = await WorkOrderStore.getAll();
-      if (!cancelled && cached.length) {
-        setData({ items: cached, total: cached.length });
-        setIsLoading(false);
-        setSource('cache');
-      }
-
-      if (!isOffline()) {
-        const workOrdersFresh = await isMetaFresh('lastWorkOrdersFetch', WORK_ORDERS_CACHE_FRESH_MS);
-        if (workOrdersFresh && cached.length) {
-          if (!cancelled) {
-            setIsLoading(false);
-            setSource('cache');
-          }
-          return;
-        }
-
-        try {
-          const result = await apiClient(`work-orders?page=1&limit=${limit}`);
-          const payload = result || { items: [], total: 0 };
-          if (payload.items?.length) {
-            await WorkOrderStore.putAll(payload.items);
-            await MetaStore.set('lastWorkOrdersFetch', Date.now());
-          }
-          if (!cancelled) {
-            setData(payload);
-            setSource('network');
-          }
-        } catch (err) {
-          console.warn('[useOfflineWorkOrders] Network failed, falling back to IndexedDB:', err);
-          if (!cancelled && !cached.length) {
-            setData({ items: cached, total: cached.length });
-            setSource('cache');
-          }
-        }
-      } else if (!cancelled && !cached.length) {
-        setData({ items: cached, total: cached.length });
-        setSource('cache');
-      }
-
-      if (!cancelled) setIsLoading(false);
-    }
-
-    load();
-    return () => { cancelled = true; };
-  }, [isOnline, limit]);
-
-  return { data, isLoading, source };
+export function useOfflineWorkOrdersCache(limit = 100) {
+  return useQuery({
+    queryKey: techdeckQueryKeys.workOrders(limit),
+    queryFn: () => fetchTechdeckWorkOrdersPage(limit),
+    enabled: false,
+    staleTime: WORK_ORDERS_CACHE_FRESH_MS,
+  });
 }
 
 /**
  * useOfflineWorkOrder — returns a single work order by ID
- * Falls back to IndexedDB when offline
  */
 export function useOfflineWorkOrder(id) {
   const { isOnline } = useOnlineStatus();
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [source, setSource] = useState('network');
-
-  useEffect(() => {
-    if (!id) return;
-
-    async function load() {
-      setIsLoading(true);
-
+  const query = useQuery({
+    queryKey: ['techdeck', 'workOrder', id],
+    queryFn: async () => {
       if (!isOffline()) {
         try {
           const result = await apiClient(`work-orders/${id}`);
-          setData(result);
-          setSource('network');
-          // Update cache
           if (result) WorkOrderStore.put(result);
+          return result;
         } catch (err) {
           console.warn('[useOfflineWorkOrder] Network failed, falling back to IndexedDB:', err);
-          const cached = await WorkOrderStore.get(id);
-          setData(cached);
-          setSource('cache');
+          return WorkOrderStore.get(id);
         }
-      } else {
-        const cached = await WorkOrderStore.get(id);
-        setData(cached);
-        setSource('cache');
       }
-
-      setIsLoading(false);
-    }
-
-    load();
-  }, [id, isOnline]);
-
-  return { data, isLoading, source };
+      return WorkOrderStore.get(id);
+    },
+    enabled: Boolean(id),
+  });
+  return { data: query.data ?? null, isLoading: query.isLoading, source: 'network' };
 }
 
-/**
- * useOfflineClient — returns a single client by ID
- * Falls back to IndexedDB when offline
- */
 export function useOfflineClient(id) {
   const { isOnline } = useOnlineStatus();
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (!id) return;
-
-    async function load() {
-      setIsLoading(true);
-
+  const query = useQuery({
+    queryKey: ['techdeck', 'client', id],
+    queryFn: async () => {
       if (!isOffline()) {
         try {
           const result = await apiClient(`clients/${id}`);
-          setData(result);
           if (result) ClientStore.put(result);
-        } catch (err) {
-          const cached = await ClientStore.get(id);
-          setData(cached);
+          return result;
+        } catch {
+          return ClientStore.get(id);
         }
-      } else {
-        const cached = await ClientStore.get(id);
-        setData(cached);
       }
-
-      setIsLoading(false);
-    }
-
-    load();
-  }, [id, isOnline]);
-
-  return { data, isLoading };
+      return ClientStore.get(id);
+    },
+    enabled: Boolean(id),
+  });
+  return { data: query.data ?? null, isLoading: query.isLoading };
 }
 
-/**
- * useOfflineProperties — returns all properties for a client
- * Falls back to IndexedDB when offline
- */
 export function useOfflineProperties(clientId) {
   const { isOnline } = useOnlineStatus();
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (!clientId) return;
-
-    async function load() {
-      setIsLoading(true);
-
+  const query = useQuery({
+    queryKey: ['techdeck', 'properties', clientId],
+    queryFn: async () => {
       if (!isOffline()) {
         try {
           const result = await apiClient(`properties/client/${clientId}`);
           const props = Array.isArray(result) ? result : [];
-          setData(props);
           if (props.length) PropertyStore.putAll(props);
-        } catch (err) {
-          const cached = await PropertyStore.getByClient(clientId);
-          setData(cached);
+          return props;
+        } catch {
+          return PropertyStore.getByClient(clientId);
         }
-      } else {
-        const cached = await PropertyStore.getByClient(clientId);
-        setData(cached);
       }
-
-      setIsLoading(false);
-    }
-
-    load();
-  }, [clientId, isOnline]);
-
-  return { data, isLoading };
+      return PropertyStore.getByClient(clientId);
+    },
+    enabled: Boolean(clientId),
+  });
+  return { data: query.data ?? [], isLoading: query.isLoading };
 }
