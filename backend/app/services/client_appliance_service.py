@@ -698,12 +698,19 @@ def serialize_appliance(
     return payload
 
 
-def list_client_appliances(db: Session, client_id: UUID, *, active_only: bool = True) -> List[Dict[str, Any]]:
+def list_client_appliances(
+    db: Session,
+    client_id: UUID,
+    *,
+    active_only: bool = True,
+    serialize_kwargs: Optional[Dict[str, Any]] = None,
+) -> List[Dict[str, Any]]:
     query = db.query(ClientAppliance).filter(ClientAppliance.client_id == client_id)
     if active_only:
         query = query.filter(ClientAppliance.is_active.is_(True), ClientAppliance.merged_into_id.is_(None))
     appliances = query.order_by(ClientAppliance.updated_at.desc()).all()
-    return [serialize_appliance(a, db) for a in appliances]
+    sk = serialize_kwargs or {}
+    return [serialize_appliance(a, db, **sk) for a in appliances]
 
 
 def get_client_appliance(db: Session, client_id: UUID, appliance_id: UUID) -> ClientAppliance:
@@ -794,12 +801,10 @@ def update_client_appliance(
 def _post_save_appliance_hooks(db: Session, appliance: ClientAppliance) -> None:
     from app.services.feature_flags_service import feature_enabled_for_system
 
-    try:
+    if feature_enabled_for_system(db, "appliance_age"):
         from app.services.appliance_age_service import apply_serial_decode
 
         apply_serial_decode(db, appliance)
-    except Exception:
-        pass
     if feature_enabled_for_system(db, "recall_alerts") and appliance.model:
         from app.services.cpsc_recall_sync_service import match_single_appliance
 
