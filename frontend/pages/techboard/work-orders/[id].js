@@ -7,6 +7,12 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt, FaCamera, FaLock, FaArrowLeft, FaPlus, FaWrench, FaCalendarPlus, FaStickyNote } from 'react-icons/fa';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
+import TechboardPageGlow from '../../../components/techboard/TechboardPageGlow';
+import {
+  FrostedCardContent,
+  LiveRepaintMoney,
+  LiveRepaintValue,
+} from '../../../components/techboard/frostedCardRepaint';
 import StatusBadge from '../../../components/ui/StatusBadge';
 import MapsAddressLink from '../../../components/ui/MapsAddressLink';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
@@ -733,7 +739,7 @@ function WorkOrderDetail() {
                 bg-[size:42px_42px]"
             />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
-            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[64px] rounded-full" />
+            <TechboardPageGlow />
             <div
               className="absolute inset-0 opacity-[0.028]
                 bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"
@@ -961,6 +967,7 @@ function WorkOrderDetail() {
           style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }}
           data-hud-card
         >
+        <FrostedCardContent className="min-w-0">
 
         {/* Desktop tabs */}
         <div className="hidden md:block border-b border-gray-200 dark:border-gray-700 mb-6">
@@ -1729,7 +1736,9 @@ function WorkOrderDetail() {
                                         onChange={e => setEditingServicePrice(prev => ({ ...prev, price: e.target.value }))}
                                       />
                                     ) : (
-                                      <p className="text-sm font-medium text-cyan-300 mt-0.5">${item.price ? item.price.toFixed(2) : '0.00'}</p>
+                                      <p className="text-sm font-medium text-cyan-300 mt-0.5">
+                                        <LiveRepaintMoney amount={item.price ? parseFloat(item.price) : 0} />
+                                      </p>
                                     )}
                                   </div>
                                 </div>
@@ -2048,7 +2057,9 @@ function WorkOrderDetail() {
                                         onChange={e => setEditingPartPrice(prev => ({ ...prev, price: e.target.value }))}
                                       />
                                     ) : (
-                                      <p className="text-lg font-semibold text-cyan-300 mt-0.5">${price.toFixed(2)}</p>
+                                      <p className="text-lg font-semibold text-cyan-300 mt-0.5">
+                                        <LiveRepaintMoney amount={price} />
+                                      </p>
                                     )}
                                     {isPartial && upfrontCollected > 0 && (
                                       <p className="text-xs text-gray-500 mt-0.5">${upfrontCollected.toFixed(2)} collected</p>
@@ -2281,23 +2292,23 @@ function WorkOrderDetail() {
 
                             <div className="flex justify-between text-sm text-gray-400 md:text-gray-600 md:dark:text-gray-400">
                               <span>Services Subtotal</span>
-                              <span>${servicesSubtotal.toFixed(2)}</span>
+                              <LiveRepaintMoney amount={servicesSubtotal} />
                             </div>
                             <div className="flex justify-between text-sm text-gray-400 md:text-gray-600 md:dark:text-gray-400">
                               <span>Parts Subtotal</span>
-                              <span>${partsSubtotal.toFixed(2)}</span>
+                              <LiveRepaintMoney amount={partsSubtotal} />
                             </div>
                             <div className="flex justify-between text-sm font-medium text-gray-200 md:text-gray-700 md:dark:text-gray-300 pt-1 border-t border-white/10 md:border-gray-200 md:dark:border-gray-700">
                               <span>Subtotal</span>
-                              <span>${subtotal.toFixed(2)}</span>
+                              <LiveRepaintMoney amount={subtotal} />
                             </div>
                             <div className="flex justify-between text-sm text-gray-400 md:text-gray-600 md:dark:text-gray-400">
                               <span>Sales Tax ({taxPct}% on parts)</span>
-                              <span>${taxOnParts.toFixed(2)}</span>
+                              <LiveRepaintMoney amount={taxOnParts} />
                             </div>
                             <div className="flex justify-between text-sm font-medium text-gray-200 md:text-gray-700 md:dark:text-gray-300 pt-1 border-t border-white/10 md:border-gray-200 md:dark:border-gray-700">
                               <span>Gross Total</span>
-                              <span>${grossTotal.toFixed(2)}</span>
+                              <LiveRepaintMoney amount={grossTotal} />
                             </div>
 
                             {hasRepairSku && workOrder?.diagnostic_discount_amount > 0 && (
@@ -2312,17 +2323,17 @@ function WorkOrderDetail() {
                                   Diagnostic Discount ({halfDiagnosticDiscount ? '50%' : '100%'})
                                   {!repairCompleted && ' — pending repair completion'}
                                 </span>
-                                <span>-${discountAmt.toFixed(2)}</span>
+                                <LiveRepaintMoney amount={discountAmt} negative />
                               </div>
                             )}
 
                             <div className="flex justify-between text-base font-bold text-white md:text-gray-900 md:dark:text-gray-50 pt-1 border-t border-white/10 md:border-gray-200 md:dark:border-gray-600">
                               <span>Total Work Order</span>
-                              <span>${totalWorkOrder.toFixed(2)}</span>
+                              <LiveRepaintMoney amount={totalWorkOrder} />
                             </div>
                             <div className="flex justify-between text-sm text-gray-400 md:text-gray-600 md:dark:text-gray-400">
                               <span>Amount Previously Paid</span>
-                              <span>-${previouslyPaid.toFixed(2)}</span>
+                              <LiveRepaintMoney amount={previouslyPaid} negative />
                             </div>
                             {paidInFullBilling ? (
                               <div className="flex justify-between items-center text-base font-bold text-emerald-400 md:text-green-600 pt-1 border-t border-white/10 md:border-gray-200 md:dark:border-gray-600">
@@ -2334,7 +2345,7 @@ function WorkOrderDetail() {
                             ) : (
                               <div className="flex justify-between text-base font-bold text-amber-300 md:text-yellow-600 md:dark:text-yellow-400 pt-1 border-t border-white/10 md:border-gray-200 md:dark:border-gray-600">
                                 <span>Due Today</span>
-                                <span>${dueToday.toFixed(2)}</span>
+                                <LiveRepaintMoney amount={dueToday} />
                               </div>
                             )}
                           </div>
@@ -2347,7 +2358,7 @@ function WorkOrderDetail() {
                                   onClick={() => setShowSquarePayment(true)}
                                   className="flex-1 h-12 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 text-white font-semibold text-base shadow-[0_0_24px_rgba(16,185,129,0.25)] active:scale-[0.98] md:px-8 md:py-3 md:rounded-lg md:bg-green-600 md:hover:bg-green-700"
                                 >
-                                  Pay ${dueToday.toFixed(2)}
+                                  <LiveRepaintValue value={dueToday}>Pay ${dueToday.toFixed(2)}</LiveRepaintValue>
                                 </button>
                                 <button
                                   type="button"
@@ -2379,7 +2390,7 @@ function WorkOrderDetail() {
                                       : ''}
                                     {p.reference_number ? ` · ${p.reference_number}` : ''}
                                   </span>
-                                  <span>${Number(p.amount).toFixed(2)}</span>
+                                  <LiveRepaintMoney amount={Number(p.amount)} />
                                 </div>
                               ))}
                               {!woClosed && paidInFullBilling && (
@@ -2687,6 +2698,7 @@ function WorkOrderDetail() {
           </div>
         </MobileActionSheet>
 
+        </FrostedCardContent>
         </div>
         {/* End content card container */}
         </>

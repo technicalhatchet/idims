@@ -214,6 +214,10 @@ export default function TechDashboardLayout({ children }) {
           touch-action: manipulation;
           -webkit-tap-highlight-color: transparent;
         }
+        .tech-frosted-card-content {
+          transform: translateZ(0);
+          -webkit-transform: translateZ(0);
+        }
         .hud-grid-content {
           pointer-events: none;
         }

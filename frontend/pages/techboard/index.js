@@ -17,11 +17,19 @@ import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
 import {
   useOfflineSchedule,
   useOfflineWorkOrders,
-  useOfflineWorkOrdersCache,
 } from '../../hooks/useOfflineData';
-import { useQueryClient } from '@tanstack/react-query';
-import { prefetchTechdeckWorkOrdersBackground } from '../../lib/techdeckQueries';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  prefetchTechdeckWorkOrdersBackground,
+  fetchTechdeckDashboardStats,
+  techdeckQueryKeys,
+} from '../../lib/techdeckQueries';
 import TechboardPageGlow from '../../components/techboard/TechboardPageGlow';
+import {
+  FrostedCardBackdrop,
+  FrostedCardContent,
+  LiveRepaintValue,
+} from '../../components/techboard/frostedCardRepaint';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { resolveAppointmentLocation } from '../../utils/appointment-scheduling';
 import { parseScheduleUtcMs, formatScheduleTime, appointmentStartMs } from '../../utils/schedule-time';
@@ -56,7 +64,6 @@ import { useUserRole } from '../../utils/auth0-helpers';
 import { reportDeployProximity } from '../../utils/webPush';
 
 const DASHBOARD_WO_BOOTSTRAP = 50;
-const DASHBOARD_WO_FULL = 100;
 
 const NEXT_JOB_CONTACT_BTN_STYLE = {
   background: 'rgba(13, 21, 37, 0.25)',
@@ -120,7 +127,7 @@ function ApplianceIcon({ equipmentType, equipmentSubtype, size = 'md' }) {
 function DurationStatValue({ text }) {
   const tokens = String(text || '').split(' ').filter(Boolean);
   return (
-    <p className="text-white leading-tight">
+    <p key={text || 'duration-empty'} className="text-white leading-tight">
       {tokens.map((token, i) => {
         const isUnit = token === 'min' || token === 'hr';
         return (
@@ -141,8 +148,18 @@ function DurationStatValue({ text }) {
   );
 }
 
+function StatValueSkeleton() {
+  return (
+    <div
+      className="h-8 w-12 rounded-md bg-white/10 animate-pulse"
+      aria-hidden
+      data-testid="stat-value-skeleton"
+    />
+  );
+}
+
 // ── Stat Card with Glass Effect + Sweep Animation ─────────────────────────
-function StatCard({ icon, label, value, valueNode, sub, subColor = '#22D3EE', borderColor = 'rgba(34,211,238,0.3)', sweepColor = 'cyan', href }) {
+function StatCard({ icon, label, value, valueNode, sub, subColor = '#22D3EE', borderColor = 'rgba(34,211,238,0.3)', sweepColor = 'cyan', href, loading = false }) {
   const [sweeping, setSweeping] = useState(false);
   const { push: sweepPush } = useSweepNavigate(600);
 
@@ -167,41 +184,42 @@ function StatCard({ icon, label, value, valueNode, sub, subColor = '#22D3EE', bo
       data-sweep-color={sweepColor}
       data-techboard-card
     >
-      <div className="flex items-center gap-3 p-4 rounded-lg h-full relative overflow-hidden"
-        style={{ 
-          border: `1px solid ${borderColor}`,
-        }}
+      <div
+        className="rounded-lg h-full relative overflow-hidden"
+        style={{ border: `1px solid ${borderColor}` }}
       >
+        <FrostedCardBackdrop style={{ background: 'rgba(13, 21, 37, 0.001)' }} />
         <div
-          className="pointer-events-none absolute inset-0 rounded-[inherit] z-0"
+          className="tech-sweep-overlay"
           style={{
-            background: 'rgba(13, 21, 37, 0.001)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
+            background: sweeping
+              ? `linear-gradient(120deg, transparent 0%, ${colors.sweep} 50%, transparent 100%)`
+              : undefined,
           }}
-          aria-hidden
         />
-        {/* Sweep overlay - color matched */}
-        <div 
-          className="tech-sweep-overlay" 
-          style={{ 
-            background: sweeping 
-              ? `linear-gradient(120deg, transparent 0%, ${colors.sweep} 50%, transparent 100%)` 
-              : undefined 
-          }} 
-        />
-        
-        <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 relative z-10 tech-icon-wrap" style={{ background: '#080C14' }}>
-          {icon}
-        </div>
-        <div className="flex-1 min-w-0 relative z-10">
-          <p className="text-xs text-gray-400 mb-0.5">{label}</p>
-          {valueNode ?? <p className="text-2xl font-bold text-white">{value}</p>}
-          {sub && <p className="text-xs mt-0.5" style={{ color: subColor }}>{sub}</p>}
-        </div>
-        <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0 text-gray-600 relative z-10" style={{ stroke: 'currentColor', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-          <polyline points="9 18 15 12 9 6"/>
-        </svg>
+        <FrostedCardContent className="flex items-center gap-3 p-4 h-full">
+          <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 tech-icon-wrap" style={{ background: '#080C14' }}>
+            {icon}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs text-gray-400 mb-0.5">{label}</p>
+            {loading
+              ? <StatValueSkeleton />
+              : (valueNode ?? (
+                <p className="text-2xl font-bold text-white">
+                  <LiveRepaintValue value={value} />
+                </p>
+              ))}
+            {sub && !loading && (
+              <p className="text-xs mt-0.5" style={{ color: subColor }}>
+                <LiveRepaintValue value={sub}>{sub}</LiveRepaintValue>
+              </p>
+            )}
+          </div>
+          <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0 text-gray-600" style={{ stroke: 'currentColor', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </FrostedCardContent>
       </div>
     </div>
   );
@@ -214,9 +232,6 @@ function normalizeWorkOrderStatus(status) {
     .replace(/\s+/g, '_');
   return n === 'cancelled' ? 'canceled' : n;
 }
-
-/** Work-order statuses that mean the job is waiting on parts (list API rarely includes nested `parts[]`). */
-const WO_PARTS_HOLD_STATUSES = new Set(['waiting_on_parts', 'parts_on_order']);
 
 /** Appointments fully done for today — omit from "next job" card. */
 function isAppointmentDoneStatus(status) {
@@ -248,10 +263,10 @@ function pickNextJobToday(sortedTodayAppts) {
 }
 
 // ── Critical Mass Card with Glass Effect + Sweep Animation ───────────────
-function CriticalMassCard({ count }) {
+function CriticalMassCard({ count, loading = false }) {
   const [sweeping, setSweeping] = useState(false);
   const { push: sweepPush } = useSweepNavigate(600);
-  const isActive = count > 0;
+  const isActive = !loading && count > 0;
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -267,59 +282,69 @@ function CriticalMassCard({ count }) {
       data-techboard-card
     >
       <div
-        className="relative flex items-center gap-4 p-4 rounded-lg overflow-hidden"
-        style={{ 
-          background: 'rgba(13, 21, 37, 0.25)', 
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
+        className="relative rounded-lg overflow-hidden"
+        style={{
           border: isActive ? '1px solid rgba(251,146,60,0.6)' : '1px solid rgba(255,255,255,0.07)',
         }}
       >
-        {/* Sweep overlay */}
-        <div 
-          className="tech-sweep-overlay" 
-          style={{ 
-            background: sweeping 
-              ? `linear-gradient(120deg, transparent 0%, ${isActive ? 'rgba(251, 146, 60, 0.4)' : 'rgba(0, 212, 255, 0.4)'} 50%, transparent 100%)` 
-              : undefined 
-          }} 
+        <FrostedCardBackdrop />
+        <div
+          className="tech-sweep-overlay"
+          style={{
+            background: sweeping
+              ? `linear-gradient(120deg, transparent 0%, ${isActive ? 'rgba(251, 146, 60, 0.4)' : 'rgba(0, 212, 255, 0.4)'} 50%, transparent 100%)`
+              : undefined,
+          }}
         />
-        
         {isActive && (
-          <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 0%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 0% 100%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 100%, rgba(251,146,60,0.1) 0%, transparent 60%)' }} />
+          <div className="pointer-events-none absolute inset-0 rounded-lg z-[1]" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 0%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 0% 100%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 100%, rgba(251,146,60,0.1) 0%, transparent 60%)' }} />
         )}
-        <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 relative z-10 tech-icon-wrap" style={{ background: '#080C14' }}>
-          <svg viewBox="0 0 24 24" className="w-7 h-7" style={{
-            stroke: isActive ? '#FB923C' : '#374151',
-            strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round',
-            filter: isActive ? 'drop-shadow(0 0 6px rgba(251,146,60,0.8))' : 'none'
-          }}>
-            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-            <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-          </svg>
-        </div>
-        <div className="flex-1 min-w-0 relative z-10">
-          <p className="text-sm font-bold" style={{ color: isActive ? '#FB923C' : '#6B7280', textShadow: isActive ? '0 0 8px rgba(251,146,60,0.5)' : 'none' }}>
-            Critical Mass
-          </p>
-          <p className="text-xs mt-0.5" style={{ color: isActive ? '#9CA3AF' : '#4B5563' }}>
-            {isActive
-              ? `${count} order${count > 1 ? 's' : ''} past scheduled date — needs attention`
-              : 'All clear — no overdue orders'}
-          </p>
-        </div>
-        <div className="flex-shrink-0 relative z-10">
-          <p className="text-2xl font-bold" style={{ color: isActive ? '#FB923C' : '#374151' }}>
-            {count}
-          </p>
-        </div>
+        <FrostedCardContent className="flex items-center gap-4 p-4">
+          <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 tech-icon-wrap" style={{ background: '#080C14' }}>
+            <svg viewBox="0 0 24 24" className="w-7 h-7" style={{
+              stroke: isActive ? '#FB923C' : '#374151',
+              strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round',
+              filter: isActive ? 'drop-shadow(0 0 6px rgba(251,146,60,0.8))' : 'none',
+            }}>
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold" style={{ color: isActive ? '#FB923C' : '#6B7280', textShadow: isActive ? '0 0 8px rgba(251,146,60,0.5)' : 'none' }}>
+              Critical Mass
+            </p>
+            <p className="text-xs mt-0.5" style={{ color: isActive ? '#9CA3AF' : '#4B5563' }}>
+              {loading
+                ? 'Loading overdue count…'
+                : (
+                  <LiveRepaintValue
+                    value={isActive ? count : 'clear'}
+                  >
+                    {isActive
+                      ? `${count} order${count > 1 ? 's' : ''} past scheduled date — needs attention`
+                      : 'All clear — no overdue orders'}
+                  </LiveRepaintValue>
+                )}
+            </p>
+          </div>
+          <div className="flex-shrink-0">
+            {loading
+              ? <StatValueSkeleton />
+              : (
+                <p className="text-2xl font-bold" style={{ color: isActive ? '#FB923C' : '#374151' }}>
+                  <LiveRepaintValue value={count} />
+                </p>
+              )}
+          </div>
+        </FrostedCardContent>
       </div>
     </div>
   );
 }
 
 // ── Master Ops List (admin) — sweep + navigate to full ops list ─────────────
-function MasterOpsListCard({ total, today }) {
+function MasterOpsListCard({ total, today, loading = false }) {
   const [sweeping, setSweeping] = useState(false);
   const { push: sweepPush } = useSweepNavigate(600);
 
@@ -340,13 +365,9 @@ function MasterOpsListCard({ total, today }) {
     >
       <div
         className="relative rounded-lg overflow-hidden"
-        style={{
-          background: 'rgba(13, 21, 37, 0.25)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          border: '1px solid rgba(34,211,238,0.35)',
-        }}
+        style={{ border: '1px solid rgba(34,211,238,0.35)' }}
       >
+        <FrostedCardBackdrop />
         <div
           className="tech-sweep-overlay"
           style={{
@@ -355,7 +376,7 @@ function MasterOpsListCard({ total, today }) {
               : undefined,
           }}
         />
-        <div className="relative z-10 p-4">
+        <FrostedCardContent className="p-4">
           <div className="flex justify-between items-center mb-3">
             <h2 className="text-base font-bold text-white">Master Ops List</h2>
             <span className="text-xs text-cyan-400 flex items-center gap-1">
@@ -366,13 +387,19 @@ function MasterOpsListCard({ total, today }) {
             </span>
           </div>
           <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-4">
-            <p className="text-2xl font-bold text-white">{total}</p>
+            {loading ? <StatValueSkeleton /> : (
+              <p className="text-2xl font-bold text-white">
+                <LiveRepaintValue value={total} />
+              </p>
+            )}
             <p className="text-xs text-gray-400 mt-1">open work orders · tap for full ops board</p>
-            {today > 0 && (
-              <p className="text-xs text-cyan-400/80 mt-1">+{today} scheduled today</p>
+            {!loading && today > 0 && (
+              <p className="text-xs text-cyan-400/80 mt-1">
+                <LiveRepaintValue value={today}>+{today} scheduled today</LiveRepaintValue>
+              </p>
             )}
           </div>
-        </div>
+        </FrostedCardContent>
       </div>
     </div>
   );
@@ -781,14 +808,6 @@ export default function TechDashboardTest() {
   const { isAdmin } = useUserRole();
   const gridTapLayerRef = useHudGridDoubleTapRail();
   const [schedule, setSchedule] = useState([]);
-  const [workOrderStats, setWorkOrderStats] = useState({
-    total: 0,
-    today: 0,
-    completed_today: 0,
-    partsWaiting: 0,
-    pendingScheduling: 0,
-  });
-  const [isLoading, setIsLoading] = useState(true);
   const [routeDrive, setRouteDrive] = useState({
     totalSeconds: 0,
     hasEstimate: false,
@@ -835,21 +854,36 @@ export default function TechDashboardTest() {
 
   const queryClient = useQueryClient();
   const { isOnline } = useOnlineStatus();
-  const { data: scheduleData, isLoading: scheduleLoading } = useOfflineSchedule();
-  const { data: workOrdersBootstrap, isLoading: woLoading } = useOfflineWorkOrders(DASHBOARD_WO_BOOTSTRAP);
-  const { data: workOrdersFull } = useOfflineWorkOrdersCache(DASHBOARD_WO_FULL);
-  const workOrdersData = useMemo(() => {
-    const fullItems = workOrdersFull?.items?.length || 0;
-    const bootItems = workOrdersBootstrap?.items?.length || 0;
-    if (fullItems > bootItems) return workOrdersFull;
-    return workOrdersBootstrap;
-  }, [workOrdersBootstrap, workOrdersFull]);
+  const { data: scheduleData } = useOfflineSchedule();
+  useOfflineWorkOrders(DASHBOARD_WO_BOOTSTRAP);
+
+  const dashboardStatsKey = useMemo(() => {
+    const now = new Date();
+    return techdeckQueryKeys.dashboardStats(format(now, 'yyyy-MM-dd'), now.getTimezoneOffset());
+  }, []);
+  const { data: dashboardStatsRaw } = useQuery({
+    queryKey: dashboardStatsKey,
+    queryFn: fetchTechdeckDashboardStats,
+    staleTime: 30_000,
+  });
+  const statsReady = dashboardStatsRaw != null;
+  const workOrderStats = useMemo(
+    () => ({
+      total: dashboardStatsRaw?.total ?? 0,
+      today: dashboardStatsRaw?.today ?? 0,
+      completed_today: dashboardStatsRaw?.completed_today ?? 0,
+      partsWaiting: dashboardStatsRaw?.parts_waiting ?? 0,
+      criticalMass: dashboardStatsRaw?.critical_mass ?? 0,
+      pendingScheduling: dashboardStatsRaw?.pending_scheduling ?? 0,
+    }),
+    [dashboardStatsRaw]
+  );
 
   useEffect(() => {
-    if (!isOnline || woLoading) return undefined;
+    if (!isOnline) return undefined;
     prefetchTechdeckWorkOrdersBackground(queryClient);
     return undefined;
-  }, [isOnline, woLoading, queryClient]);
+  }, [isOnline, queryClient]);
 
   useEffect(() => {
     if (!isOnline || !schedule.length) return undefined;
@@ -892,49 +926,6 @@ export default function TechDashboardTest() {
       equipment_model: a.equipment_model || '',
     })));
   }, [scheduleData]);
-
-  useEffect(() => {
-    const allItems = workOrdersData?.items || [];
-    const todayItems = allItems.filter(w => {
-      if (!w.scheduled_start) return false;
-      const ms = parseScheduleUtcMs(w.scheduled_start);
-      if (!Number.isFinite(ms)) return false;
-      return isToday(new Date(ms));
-    });
-    const partsWaiting = allItems.filter((w) => {
-      const st = normalizeWorkOrderStatus(w.status);
-      if (WO_PARTS_HOLD_STATUSES.has(st)) return true;
-      return Array.isArray(w.parts) && w.parts.some((p) => ['ordered', 'needed'].includes(p.status));
-    }).length;
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    yesterday.setHours(23, 59, 59, 999);
-    const criticalMass = allItems.filter(w => {
-      if (!['scheduled', 'pending', 'en_route'].includes(w.status)) return false;
-      if (!w.scheduled_start) return false;
-      const ms = parseScheduleUtcMs(w.scheduled_start);
-      if (!Number.isFinite(ms)) return false;
-      return new Date(ms) <= yesterday;
-    }).length;
-    const pendingScheduling = allItems.filter((w) => {
-      const st = normalizeWorkOrderStatus(w.status);
-      if (st !== 'pending') return false;
-      if (w.scheduled_start) return false;
-      if (Array.isArray(w.appointments) && w.appointments.some((a) => a.scheduled_start)) {
-        return false;
-      }
-      return true;
-    }).length;
-    setWorkOrderStats({
-      total: workOrdersData?.total || 0,
-      today: todayItems.length,
-      completed_today: todayItems.filter(w => w.status === 'completed').length,
-      partsWaiting,
-      criticalMass,
-      pendingScheduling,
-    });
-    if (!scheduleLoading && !woLoading) setIsLoading(false);
-  }, [workOrdersData, scheduleLoading, woLoading]);
 
   const todayAppts = useMemo(
     () =>
@@ -1429,13 +1420,15 @@ export default function TechDashboardTest() {
             </div>
           )}
 
-          {workOrderStats.pendingScheduling > 0 && (
+          {statsReady && workOrderStats.pendingScheduling > 0 && (
             <Link
               href={techWorkOrdersNeedsSchedulingUrl()}
               className="mb-3 flex items-center justify-between rounded-lg px-4 py-3 border border-orange-500/40 bg-orange-500/10 active:scale-[0.99] transition-transform"
             >
               <span className="text-sm font-semibold text-orange-200">
-                {workOrderStats.pendingScheduling} need scheduling
+                <LiveRepaintValue value={workOrderStats.pendingScheduling}>
+                  {workOrderStats.pendingScheduling} need scheduling
+                </LiveRepaintValue>
               </span>
               <span className="text-xs text-orange-300/80">View pending WOs →</span>
             </Link>
@@ -1446,6 +1439,7 @@ export default function TechDashboardTest() {
             <StatCard
               label="Jobs Completed"
               value={workOrderStats.completed_today}
+              loading={!statsReady}
               sub={`${todayAppts.length} scheduled today`}
               borderColor="rgba(34,211,238,0.25)"
               href={TECH_MISSION_QUEUE_PATH}
@@ -1470,6 +1464,7 @@ export default function TechDashboardTest() {
             <StatCard
               label="Parts Waiting"
               value={workOrderStats.partsWaiting}
+              loading={!statsReady}
               sub={workOrderStats.partsWaiting > 0 ? 'orders on hold' : 'all parts in'}
               subColor={workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE'}
               borderColor={workOrderStats.partsWaiting > 0 ? 'rgba(255,122,0,0.4)' : 'rgba(34,211,238,0.2)'}
@@ -1498,7 +1493,7 @@ export default function TechDashboardTest() {
           </div>
 
           {/* ── CRITICAL MASS ── */}
-          <CriticalMassCard count={workOrderStats.criticalMass} />
+          <CriticalMassCard count={workOrderStats.criticalMass} loading={!statsReady} />
 
           {/* ── TODAY'S JOBS ── */}
           <div className="rounded-lg p-4 mb-4" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }} data-techboard-card>
@@ -1523,7 +1518,11 @@ export default function TechDashboardTest() {
 
           {/* ── MASTER OPS LIST (admin only) ── */}
           {isAdmin && (
-            <MasterOpsListCard total={workOrderStats.total} today={workOrderStats.today} />
+            <MasterOpsListCard
+              total={workOrderStats.total}
+              today={workOrderStats.today}
+              loading={!statsReady}
+            />
           )}
         </div>
       </div>
