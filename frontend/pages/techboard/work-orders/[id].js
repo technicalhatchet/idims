@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt, FaCamera, FaLock, FaArrowLeft, FaPlus, FaWrench, FaCalendarPlus, FaStickyNote } from 'react-icons/fa';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
-import TechboardPageGlow from '../../../components/techboard/TechboardPageGlow';
 import {
   FrostedCardContent,
   LiveRepaintMoney,
@@ -739,7 +738,7 @@ function WorkOrderDetail() {
                 bg-[size:42px_42px]"
             />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
-            <TechboardPageGlow />
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[64px] rounded-full" />
             <div
               className="absolute inset-0 opacity-[0.028]
                 bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"
