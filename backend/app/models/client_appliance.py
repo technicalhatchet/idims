@@ -66,6 +66,11 @@ class ClientAppliance(Base):
         back_populates="appliance",
         cascade="all, delete-orphan",
     )
+    maintenance_tasks = relationship(
+        "ClientApplianceMaintenanceTask",
+        back_populates="appliance",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self):
         label = self.nickname or self.make or self.equipment_subtype or self.equipment_type

@@ -9,6 +9,7 @@ import {
   FaMapMarkerAlt,
   FaShieldAlt,
   FaTools,
+  FaWrench,
 } from 'react-icons/fa';
 import PropertyFormModal from '../../components/cxdashboard/PropertyFormModal';
 import { isPortalPreviewActive, isPortalPreviewUnlocked } from '../../utils/portalPreview';
@@ -186,6 +187,8 @@ function ClientPicker({ clients, onSelect, loading }) {
 
 export default function ClientDashboard() {
   const estimateApprovalEnabled = useFeature('estimate_approval');
+  const maintenanceRemindersEnabled = useFeature('maintenance_reminders');
+  const [maintenanceDueCount, setMaintenanceDueCount] = useState(0);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
@@ -446,14 +449,18 @@ export default function ClientDashboard() {
     setLoading(true);
     setError(null);
     try {
-      const [prof, appts, wos, invs, props] = await Promise.all([
+      const [prof, appts, wos, invs, props, maintenanceSummary] = await Promise.all([
         portalFetch('me', token, clientId),
         portalFetch('appointments?upcoming_only=true', token, clientId),
         portalFetch('work-orders', token, clientId),
         portalFetch('invoices', token, clientId),
         portalFetch('properties', token, clientId).catch(() => []),
+        maintenanceRemindersEnabled
+          ? portalFetch('maintenance/summary', token, clientId).catch(() => ({ count: 0 }))
+          : Promise.resolve({ count: 0 }),
       ]);
       setProfile(prof);
+      setMaintenanceDueCount(maintenanceSummary?.count || 0);
       setProperties(Array.isArray(props) ? props : []);
       if (prof?.first_name) {
         sessionStorage.setItem('portal_client_name', `${prof.first_name} ${prof.last_name}`);
@@ -553,6 +560,16 @@ export default function ClientDashboard() {
     icon: FaShieldAlt,
       href: '/cxdashboard/warranty',
     },
+    ...(maintenanceRemindersEnabled && maintenanceDueCount > 0
+      ? [{
+        title: 'Maintenance due',
+        value: String(maintenanceDueCount),
+        subtitle: 'Within 2 weeks',
+        icon: FaWrench,
+        href: '/cxdashboard/appliances',
+        highlight: true,
+      }]
+      : []),
   ] : [];
 
   const nextAppointment = appointments[0];

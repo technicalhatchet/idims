@@ -20,6 +20,7 @@ import CustomerOutreachSettingsPanel from '../components/settings/CustomerOutrea
 import WorkerFeatureFlagsSettingsPanel from '../components/settings/WorkerFeatureFlagsSettingsPanel';
 import PartsLinksSettingsPanel from '../components/settings/PartsLinksSettingsPanel';
 import ApplianceLifespansSettingsPanel from '../components/settings/ApplianceLifespansSettingsPanel';
+import MaintenanceTasksSettingsPanel from '../components/settings/MaintenanceTasksSettingsPanel';
 
 const DAYS = [
   { key: 'monday', label: 'Monday' },
@@ -2284,6 +2285,7 @@ export default function Settings() {
               <PortalReviewsSettingsPanel />
               <PartsLinksSettingsPanel />
               <ApplianceLifespansSettingsPanel />
+              <MaintenanceTasksSettingsPanel />
             </>
           )}
           {activeTab === 'notifications' && (

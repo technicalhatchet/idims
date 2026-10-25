@@ -17,6 +17,7 @@ import { applianceSourceInlineText, applianceSourceInlineTone } from '../../../c
 import RecallCustomerPanel from '../../../components/recalls/RecallCustomerPanel';
 import RecallBadge from '../../../components/recalls/RecallBadge';
 import ApplianceDetailSpecGrid from '../../../components/cxdashboard/appliances/ApplianceDetailSpecGrid';
+import MaintenanceTasksPanel from '../../../components/cxdashboard/appliances/MaintenanceTasksPanel';
 
 const STATUS_STYLES = {
   completed: { label: 'Completed', bg: 'rgba(34,197,94,0.1)', color: '#22c55e', border: 'rgba(34,197,94,0.2)' },
@@ -286,6 +287,13 @@ export default function ApplianceDetailPage() {
               </div>
 
               <ApplianceDetailSpecGrid appliance={appliance} locationLine={locationLine} />
+
+              {appliance.id && !appliance.legacy_serial_view && (
+                <div className="mt-4 pt-4 border-t border-white/[0.06]">
+                  <h2 className="text-white text-sm font-semibold mb-2">Maintenance</h2>
+                  <MaintenanceTasksPanel applianceId={appliance.id} applianceSerial={serial} />
+                </div>
+              )}
 
               {(appliance.parts_links?.parts_search_url || appliance.parts_links?.water_filter_search_url) && (
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">

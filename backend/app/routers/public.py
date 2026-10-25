@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, Request, Query
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field, model_validator
 from typing import Optional, Literal
@@ -729,3 +729,47 @@ async def create_booking(
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Booking failed: {str(e)}")
+
+
+@router.get("/maintenance-email/unsubscribe")
+async def maintenance_email_unsubscribe_preview(
+    token: str = Query(...),
+    db: Session = Depends(get_db),
+):
+    """Validate token only — never opts out on GET (email scanners)."""
+    from app.services.maintenance_unsubscribe_token import verify_maintenance_unsubscribe_token
+
+    client_id = verify_maintenance_unsubscribe_token(token)
+    if not client_id:
+        raise HTTPException(status_code=400, detail="Invalid or expired unsubscribe link")
+    client = db.query(Client).filter(Client.id == client_id).first()
+    if not client:
+        raise HTTPException(status_code=404, detail="Client not found")
+    return {
+        "valid": True,
+        "already_opted_out": bool(client.maintenance_emails_opt_out),
+    }
+
+
+@router.post("/maintenance-email/unsubscribe")
+async def maintenance_email_unsubscribe_confirm(
+    request: Request,
+    token: str = Query(...),
+    db: Session = Depends(get_db),
+):
+    from app.services.maintenance_service import set_maintenance_email_opt_out
+    from app.services.maintenance_unsubscribe_token import verify_maintenance_unsubscribe_token
+
+    client_id = verify_maintenance_unsubscribe_token(token)
+    if not client_id:
+        raise HTTPException(status_code=400, detail="Invalid or expired unsubscribe link")
+    # RFC 8058 one-click POST may send form body List-Unsubscribe=One-Click
+    try:
+        body = await request.body()
+        if body and b"List-Unsubscribe" not in body and request.headers.get("content-type", "").startswith("application/json"):
+            pass
+    except Exception:
+        pass
+    set_maintenance_email_opt_out(db, client_id, True)
+    db.commit()
+    return {"success": True, "opted_out": True}

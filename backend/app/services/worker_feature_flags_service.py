@@ -23,6 +23,7 @@ WORKER_FLAG_DEFINITIONS: Dict[str, str] = {
     "portal_narrowing_batch": "Customer ETA narrowing SMS/email batch",
     "portal_scheduling_deadlines": "Auto-deny stale portal scheduling requests + customer notices",
     "delayed_review_requests": "Customer review requests after payment (review_due_at + beat)",
+    "maintenance_reminder_emails": "Monthly-cap maintenance summary emails for due items",
 }
 
 ALL_WORKER_FLAG_IDS = set(WORKER_FLAG_DEFINITIONS.keys())

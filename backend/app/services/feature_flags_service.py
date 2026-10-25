@@ -32,12 +32,14 @@ FEATURE_FLAG_DEFINITIONS: Dict[str, str] = {
     "recall_alerts": "CPSC recall matching, staff confirmation, customer alerts",
     "appliance_age": "Serial-based manufacture date and typical lifespan hints",
     "parts_links": "Customer parts search links on appliance views",
+    "maintenance_reminders": "Appliance maintenance schedules, portal reminders, and summary emails",
 }
 
 WAVE2_FEATURE_DEFAULTS: Dict[str, Dict[str, Any]] = {
     "recall_alerts": {"enabled": True, "admin_only": True},
     "appliance_age": {"enabled": True, "admin_only": True},
     "parts_links": {"enabled": True, "admin_only": True},
+    "maintenance_reminders": {"enabled": True, "admin_only": True},
 }
 
 ALL_FEATURE_FLAG_IDS: Set[str] = set(FEATURE_FLAG_DEFINITIONS.keys())

@@ -125,6 +125,7 @@ def _portal_appliance_serialize_kwargs(db: Session, token_data) -> Dict[str, Any
         "include_recalls_customer": feature_enabled(db, "recall_alerts", ctx),
         "include_appliance_age": feature_enabled(db, "appliance_age", ctx),
         "include_parts_links": feature_enabled(db, "parts_links", ctx),
+        "include_maintenance_reminders": feature_enabled(db, "maintenance_reminders", ctx),
     }
 
 
@@ -2758,6 +2759,136 @@ async def get_portal_appliance_detail(
         "warranty_active": any(_warranty_is_active(w, db, now) for w in matching),
         "history": history,
     }
+
+
+def _portal_maintenance_appliance(db: Session, client: Client, appliance_id: str):
+    try:
+        parsed_id = uuid.UUID(appliance_id)
+        return appliance_svc.get_client_appliance(db, client.id, parsed_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail="Appliance not found") from exc
+
+
+@router.get("/portal/maintenance/summary")
+async def get_portal_maintenance_summary(
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    token_data=Depends(get_token_data),
+):
+    _require_portal_feature(db, "maintenance_reminders", token_data)
+    from app.services.maintenance_service import household_due_summary
+
+    return household_due_summary(db, client.id)
+
+
+@router.get("/portal/maintenance/email-preference")
+async def get_portal_maintenance_email_preference(
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    token_data=Depends(get_token_data),
+):
+    _require_portal_feature(db, "maintenance_reminders", token_data)
+    return {"opt_out": bool(client.maintenance_emails_opt_out)}
+
+
+class MaintenanceEmailPreferenceBody(BaseModel):
+    opt_out: bool
+
+
+@router.patch("/portal/maintenance/email-preference")
+async def patch_portal_maintenance_email_preference(
+    body: MaintenanceEmailPreferenceBody,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    token_data=Depends(get_token_data),
+    _write_guard: None = Depends(require_portal_write("PATCH /portal/maintenance/email-preference")),
+):
+    _require_portal_feature(db, "maintenance_reminders", token_data)
+    from app.services.maintenance_service import set_maintenance_email_opt_out
+
+    set_maintenance_email_opt_out(db, client.id, body.opt_out)
+    db.commit()
+    return {"opt_out": bool(client.maintenance_emails_opt_out)}
+
+
+@router.get("/portal/appliances/{appliance_id}/maintenance")
+async def get_portal_appliance_maintenance(
+    appliance_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    token_data=Depends(get_token_data),
+):
+    _require_portal_feature(db, "maintenance_reminders", token_data)
+    from app.services.maintenance_service import list_appliance_maintenance
+
+    appliance = _portal_maintenance_appliance(db, client, appliance_id)
+    return {"tasks": list_appliance_maintenance(db, appliance)}
+
+
+@router.post("/portal/appliances/{appliance_id}/maintenance/{task_row_id}/done")
+async def post_portal_maintenance_done(
+    appliance_id: str,
+    task_row_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    token_data=Depends(get_token_data),
+    _write_guard: None = Depends(require_portal_write("POST /portal/appliances/maintenance/done")),
+):
+    _require_portal_feature(db, "maintenance_reminders", token_data)
+    from app.services.maintenance_service import mark_task_done
+
+    appliance = _portal_maintenance_appliance(db, client, appliance_id)
+    try:
+        row = mark_task_done(db, appliance, uuid.UUID(task_row_id))
+        db.commit()
+        return row
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.post("/portal/appliances/{appliance_id}/maintenance/{task_row_id}/snooze")
+async def post_portal_maintenance_snooze(
+    appliance_id: str,
+    task_row_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    token_data=Depends(get_token_data),
+    _write_guard: None = Depends(require_portal_write("POST /portal/appliances/maintenance/snooze")),
+):
+    _require_portal_feature(db, "maintenance_reminders", token_data)
+    from app.services.maintenance_service import snooze_task
+
+    appliance = _portal_maintenance_appliance(db, client, appliance_id)
+    try:
+        row = snooze_task(db, appliance, uuid.UUID(task_row_id))
+        db.commit()
+        return row
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.post("/portal/appliances/{appliance_id}/maintenance/{task_row_id}/disable")
+async def post_portal_maintenance_disable(
+    appliance_id: str,
+    task_row_id: str,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    token_data=Depends(get_token_data),
+    _write_guard: None = Depends(require_portal_write("POST /portal/appliances/maintenance/disable")),
+):
+    _require_portal_feature(db, "maintenance_reminders", token_data)
+    from app.services.maintenance_service import disable_task
+
+    appliance = _portal_maintenance_appliance(db, client, appliance_id)
+    try:
+        row = disable_task(db, appliance, uuid.UUID(task_row_id))
+        db.commit()
+        return row
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
 
 
 # Legacy route alias
