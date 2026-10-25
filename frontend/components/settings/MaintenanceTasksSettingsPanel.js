@@ -34,6 +34,7 @@ export default function MaintenanceTasksSettingsPanel() {
   const [loading, setLoading] = useState(true);
   const [savingId, setSavingId] = useState(null);
   const [adding, setAdding] = useState(false);
+  const [materializing, setMaterializing] = useState(false);
   const [newRow, setNewRow] = useState({ ...EMPTY_ROW });
 
   const load = useCallback(async () => {
@@ -147,6 +148,23 @@ export default function MaintenanceTasksSettingsPanel() {
     }
   };
 
+  const materializeAll = async () => {
+    setMaterializing(true);
+    try {
+      const res = await apiClient('/api/maintenance/materialize-all', { method: 'POST' });
+      const appliances = res?.appliances ?? 0;
+      const created = res?.tasks_created ?? 0;
+      toast.success(`Applied to ${appliances} appliance${appliances === 1 ? '' : 's'}; ${created} task${created === 1 ? '' : 's'} created`);
+      await load();
+    } catch (e) {
+      toast.error(e?.message || 'Apply to all failed');
+    } finally {
+      setMaterializing(false);
+    }
+  };
+
+  const kindLabel = (kind) => (kind === 'service' ? 'Bookable service' : 'DIY');
+
   const renderRowFields = (row, setRow) => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
       <label className="text-sm text-gray-300">
@@ -243,20 +261,53 @@ export default function MaintenanceTasksSettingsPanel() {
           <h3 className="text-lg font-semibold text-white">Maintenance tasks</h3>
           <p className="text-sm text-gray-400">Catalog of DIY and bookable maintenance reminders by appliance type.</p>
         </div>
-        <button
-          type="button"
-          onClick={resetDefaults}
-          className="text-sm text-orange-400 hover:text-orange-300"
-        >
-          Reset defaults
-        </button>
+        <div className="flex flex-wrap gap-3">
+          <button
+            type="button"
+            disabled={materializing}
+            onClick={materializeAll}
+            className="text-sm text-cyan-400 hover:text-cyan-300 disabled:opacity-50"
+          >
+            {materializing ? 'Applying…' : 'Apply to all appliances'}
+          </button>
+          <button
+            type="button"
+            onClick={resetDefaults}
+            className="text-sm text-orange-400 hover:text-orange-300"
+          >
+            Reset defaults
+          </button>
+        </div>
       </div>
       {loading ? (
         <p className="text-gray-400 text-sm">Loading…</p>
       ) : (
         <div className="space-y-4">
-          {rows.map((row) => (
+          {rows.map((row) => {
+            const matchCount = row.matching_appliance_count ?? 0;
+            return (
             <div key={row.id} className="border border-gray-700 rounded p-3 space-y-2">
+              <div className="flex flex-wrap items-center gap-2 justify-between">
+                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-300">
+                  <span>{row.interval_months} mo</span>
+                  <span className="text-gray-600">·</span>
+                  <span>{kindLabel(row.kind)}</span>
+                  <span className="text-gray-600">·</span>
+                  <span>Applies to {matchCount} appliance{matchCount === 1 ? '' : 's'}</span>
+                </div>
+                <span
+                  className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                    row.enabled
+                      ? 'bg-green-500/15 text-green-400 border border-green-500/30'
+                      : 'bg-gray-700/50 text-gray-400 border border-gray-600'
+                  }`}
+                >
+                  {row.enabled ? 'Active' : 'Inactive'}
+                </span>
+              </div>
+              {matchCount === 0 ? (
+                <p className="text-xs text-gray-500 m-0">No matching appliances</p>
+              ) : null}
               {renderRowFields(row, (next) => setRows((prev) => prev.map((r) => (r.id === row.id ? next : r))))}
               <div className="flex flex-wrap gap-2 items-center">
                 <label className="text-sm text-gray-300 flex items-center gap-2">
@@ -280,7 +331,8 @@ export default function MaintenanceTasksSettingsPanel() {
                 </button>
               </div>
             </div>
-          ))}
+            );
+          })}
           <div className="border border-dashed border-gray-600 rounded p-3 space-y-2">
             <p className="text-sm text-gray-400">Add task</p>
             {renderRowFields(newRow, setNewRow)}

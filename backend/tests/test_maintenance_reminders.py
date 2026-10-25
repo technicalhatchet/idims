@@ -7,6 +7,7 @@ from app.services.feature_flags_service import default_feature_flags
 from app.services.maintenance_service import (
     DUE_SOON_DAYS,
     add_months,
+    appliance_matches_task_definition,
     client_email_allowed_this_month,
     is_actionable_due,
 )
@@ -55,6 +56,41 @@ def test_materialize_anchor_never_overdue_on_day_one():
 
 def test_due_soon_window_constant():
     assert DUE_SOON_DAYS == 14
+
+
+def test_dryer_family_matches_electric_dryer():
+    defn = SimpleNamespace(
+        equipment_type="appliance",
+        equipment_subtype="dryer",
+        name="Clean dryer vent",
+        parts_search_term=None,
+    )
+    appliance = SimpleNamespace(equipment_type="appliance", equipment_subtype="electric_dryer")
+    assert appliance_matches_task_definition(defn, appliance) is True
+
+
+def test_water_filter_not_on_standalone_freezer():
+    defn = SimpleNamespace(
+        equipment_type="appliance",
+        equipment_subtype="refrigerator",
+        name="Replace water filter",
+        parts_search_term="water filter",
+    )
+    fridge = SimpleNamespace(equipment_type="appliance", equipment_subtype="side_by_side_fridge")
+    freezer = SimpleNamespace(equipment_type="appliance", equipment_subtype="chest_freezer")
+    assert appliance_matches_task_definition(defn, fridge) is True
+    assert appliance_matches_task_definition(defn, freezer) is False
+
+
+def test_subtype_matching_case_insensitive():
+    defn = SimpleNamespace(
+        equipment_type="Appliance",
+        equipment_subtype="Dryer",
+        name="Vent",
+        parts_search_term=None,
+    )
+    appliance = SimpleNamespace(equipment_type=" appliance ", equipment_subtype=" GAS_DRYER ")
+    assert appliance_matches_task_definition(defn, appliance) is True
 
 
 def test_snoozed_task_not_actionable():

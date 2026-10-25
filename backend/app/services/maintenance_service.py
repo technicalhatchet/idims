@@ -14,10 +14,89 @@ from app.models.client import Client
 from app.models.client_appliance import ClientAppliance
 from app.models.maintenance_task import ClientApplianceMaintenanceTask, MaintenanceTaskDefinition
 from app.models.work_order import WorkOrder
-from app.services.parts_links_service import get_parts_links_settings
+from app.services.parts_links_service import REFRIGERATOR_SUBTYPES, get_parts_links_settings
 
 DUE_SOON_DAYS = 14
 SNOOZE_MONTHS = 1
+
+
+def _norm_subtype(value: Optional[str]) -> str:
+    return (value or "").strip().lower()
+
+
+def _norm_equipment_type(value: Optional[str]) -> str:
+    return (value or "").strip().lower()
+
+
+_FREEZER_SUBTYPES = frozenset({"freezer", "chest_freezer", "upright_freezer"})
+_FRIDGE_FAMILY_EXTRA = frozenset(
+    {
+        "top_freezer_fridge",
+        "bottom_freezer_fridge",
+    }
+)
+# In-door / dispenser water filters — fridge configurations only (not standalone freezers).
+FRIDGE_WATER_FILTER_SUBTYPES = frozenset(
+    _norm_subtype(s)
+    for s in (set(REFRIGERATOR_SUBTYPES) - _FREEZER_SUBTYPES) | _FRIDGE_FAMILY_EXTRA
+)
+
+MAINTENANCE_SUBTYPE_FAMILIES: Dict[str, frozenset] = {
+    "refrigerator": frozenset(
+        _norm_subtype(s)
+        for s in (
+            set(REFRIGERATOR_SUBTYPES)
+            | _FRIDGE_FAMILY_EXTRA
+            | _FREEZER_SUBTYPES
+        )
+    ),
+    "dryer": frozenset(
+        _norm_subtype(s)
+        for s in (
+            "dryer",
+            "electric_dryer",
+            "gas_dryer",
+            "stacked_dryer",
+        )
+    ),
+    "washing_machine": frozenset(
+        _norm_subtype(s)
+        for s in (
+            "washing_machine",
+            "washer",
+            "front_load_washer",
+            "top_load_washer",
+            "aio_laundry",
+        )
+    ),
+    "dishwasher": frozenset({_norm_subtype("dishwasher")}),
+    "range_hood": frozenset(_norm_subtype(s) for s in ("range_hood", "hood")),
+}
+
+
+def _is_water_filter_task(defn: MaintenanceTaskDefinition) -> bool:
+    term = (defn.parts_search_term or "").strip().lower()
+    name = (defn.name or "").strip().lower()
+    return term == "water filter" or "water filter" in name
+
+
+def appliance_matches_task_definition(defn: MaintenanceTaskDefinition, appliance: ClientAppliance) -> bool:
+    if _norm_equipment_type(defn.equipment_type) != _norm_equipment_type(appliance.equipment_type):
+        return False
+    if not defn.equipment_subtype:
+        return True
+    family_key = _norm_subtype(defn.equipment_subtype)
+    app_sub = _norm_subtype(appliance.equipment_subtype)
+    if not app_sub:
+        return False
+    family = MAINTENANCE_SUBTYPE_FAMILIES.get(family_key)
+    if family:
+        if app_sub not in family:
+            return False
+        if _is_water_filter_task(defn) and app_sub not in FRIDGE_WATER_FILTER_SUBTYPES:
+            return False
+        return True
+    return family_key == app_sub
 
 DEFAULT_DEFINITION_ROWS: List[Dict[str, Any]] = [
     {
@@ -94,11 +173,7 @@ def add_months(start: date, months: int) -> date:
 def definition_matches_appliance(defn: MaintenanceTaskDefinition, appliance: ClientAppliance) -> bool:
     if not defn.enabled:
         return False
-    if (defn.equipment_type or "").strip() != (appliance.equipment_type or "").strip():
-        return False
-    if defn.equipment_subtype:
-        return (defn.equipment_subtype or "").strip() == (appliance.equipment_subtype or "").strip()
-    return True
+    return appliance_matches_task_definition(defn, appliance)
 
 
 def matching_definitions(db: Session, appliance: ClientAppliance) -> List[MaintenanceTaskDefinition]:
@@ -330,8 +405,20 @@ def disable_task(db: Session, appliance: ClientAppliance, task_row_id: UUID) -> 
     return serialize_task_row(db, row, appliance)
 
 
-def serialize_definition(defn: MaintenanceTaskDefinition) -> Dict[str, Any]:
-    return {
+def _active_appliances_query(db: Session):
+    return db.query(ClientAppliance).filter(
+        ClientAppliance.is_active.is_(True),
+        ClientAppliance.merged_into_id.is_(None),
+    )
+
+
+def count_appliances_for_definition(db: Session, defn: MaintenanceTaskDefinition) -> int:
+    appliances = _active_appliances_query(db).all()
+    return sum(1 for a in appliances if appliance_matches_task_definition(defn, a))
+
+
+def serialize_definition(defn: MaintenanceTaskDefinition, *, matching_appliance_count: Optional[int] = None) -> Dict[str, Any]:
+    payload = {
         "id": str(defn.id),
         "equipment_type": defn.equipment_type,
         "equipment_subtype": defn.equipment_subtype,
@@ -344,6 +431,9 @@ def serialize_definition(defn: MaintenanceTaskDefinition) -> Dict[str, Any]:
         "enabled": defn.enabled,
         "sort_order": defn.sort_order,
     }
+    if matching_appliance_count is not None:
+        payload["matching_appliance_count"] = matching_appliance_count
+    return payload
 
 
 def list_task_definitions(db: Session) -> List[Dict[str, Any]]:
@@ -352,7 +442,20 @@ def list_task_definitions(db: Session) -> List[Dict[str, Any]]:
         .order_by(MaintenanceTaskDefinition.sort_order, MaintenanceTaskDefinition.name)
         .all()
     )
-    return [serialize_definition(r) for r in rows]
+    appliances = _active_appliances_query(db).all()
+    out: List[Dict[str, Any]] = []
+    for row in rows:
+        count = sum(1 for a in appliances if appliance_matches_task_definition(row, a))
+        out.append(serialize_definition(row, matching_appliance_count=count))
+    return out
+
+
+def materialize_all_appliances(db: Session) -> Dict[str, int]:
+    appliances = _active_appliances_query(db).all()
+    tasks_created = 0
+    for appliance in appliances:
+        tasks_created += materialize_missing_tasks(db, appliance, anchor_date=date.today())
+    return {"appliances": len(appliances), "tasks_created": tasks_created}
 
 
 def validate_definition_payload(payload: Dict[str, Any], *, exclude_id: Optional[UUID] = None) -> None:
