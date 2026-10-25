@@ -49,6 +49,8 @@ class Client(Base):
     )
     merged_at = Column(DateTime, nullable=True)
     is_test_client = Column(Boolean, nullable=False, default=False)
+    maintenance_emails_opt_out = Column(Boolean, nullable=False, default=False)
+    last_maintenance_email_at = Column(DateTime, nullable=True)
 
     # Relationships
     user = relationship("User", foreign_keys=[user_id], back_populates="client")

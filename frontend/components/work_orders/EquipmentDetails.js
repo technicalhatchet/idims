@@ -118,7 +118,9 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [linkedApplianceAge, setLinkedApplianceAge] = useState(null);
+  const [linkedMaintenanceDue, setLinkedMaintenanceDue] = useState([]);
   const applianceAgeEnabled = useFeature('appliance_age');
+  const maintenanceRemindersEnabled = useFeature('maintenance_reminders');
 
   // Parts management
   const seedParts = getWorkOrderPartsSeed(workOrder);
@@ -160,8 +162,9 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
   }, [workOrderId]);
 
   useEffect(() => {
-    if (!applianceAgeEnabled || !workOrder?.client_id) {
+    if ((!applianceAgeEnabled && !maintenanceRemindersEnabled) || !workOrder?.client_id) {
       setLinkedApplianceAge(null);
+      setLinkedMaintenanceDue([]);
       return;
     }
     const serial = (workOrder.equipment_serial || serialNumber || '').trim().toUpperCase();
@@ -178,14 +181,28 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
           (a) => (a.serial || '').trim().toUpperCase() === serial,
         );
         setLinkedApplianceAge(match?.appliance_age || null);
+        if (maintenanceRemindersEnabled && match?.id) {
+          try {
+            const m = await apiClient(`clients/${workOrder.client_id}/appliances/${match.id}/maintenance`);
+            const due = (m?.tasks || []).filter((t) => t.status === 'due_now' || t.status === 'due_soon');
+            if (!cancelled) setLinkedMaintenanceDue(due);
+          } catch {
+            if (!cancelled) setLinkedMaintenanceDue([]);
+          }
+        } else if (!cancelled) {
+          setLinkedMaintenanceDue([]);
+        }
       } catch {
-        if (!cancelled) setLinkedApplianceAge(null);
+        if (!cancelled) {
+          setLinkedApplianceAge(null);
+          setLinkedMaintenanceDue([]);
+        }
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, [applianceAgeEnabled, workOrder?.client_id, workOrder?.equipment_serial, serialNumber]);
+  }, [applianceAgeEnabled, maintenanceRemindersEnabled, workOrder?.client_id, workOrder?.equipment_serial, serialNumber]);
 
   useEffect(() => {
     const seeded = getWorkOrderPartsSeed(workOrder);
@@ -714,6 +731,16 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
               placeholder="Enter serial number"
             />
 
+            {linkedMaintenanceDue.length > 0 && (
+              <div className="rounded-lg border border-violet-500/25 bg-violet-500/5 p-3 text-sm text-violet-200">
+                <p className="font-semibold text-violet-100 mb-1">Maintenance due</p>
+                <ul className="list-disc pl-4 space-y-0.5 text-violet-200/90">
+                  {linkedMaintenanceDue.map((t) => (
+                    <li key={t.id}>{t.name}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {linkedApplianceAge ? (
               <ApplianceAgeTile applianceAge={linkedApplianceAge} variant="staff" />
             ) : null}

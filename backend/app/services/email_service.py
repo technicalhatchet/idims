@@ -32,6 +32,7 @@ class EmailService:
         from_email: Optional[str] = None,
         reply_to: Optional[str] = None,
         attachments: Optional[List[Dict[str, Any]]] = None,
+        extra_headers: Optional[Dict[str, str]] = None,
         timeout: float = 10.0,
     ) -> bool:
         """Send HTML email via Resend HTTP API."""
@@ -50,6 +51,8 @@ class EmailService:
         }
         if reply_to:
             payload["reply_to"] = reply_to
+        if extra_headers:
+            payload["headers"] = dict(extra_headers)
         if attachments:
             resend_attachments = []
             for item in attachments:

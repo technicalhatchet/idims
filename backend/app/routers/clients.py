@@ -525,6 +525,7 @@ def _staff_appliance_serialize_kwargs(db: Session, user: User) -> Dict[str, Any]
         "include_recalls_staff": feature_enabled(db, "recall_alerts", ctx),
         "include_appliance_age": feature_enabled(db, "appliance_age", ctx),
         "include_parts_links": feature_enabled(db, "parts_links", ctx),
+        "include_maintenance_reminders": feature_enabled(db, "maintenance_reminders", ctx),
     }
 
 
@@ -645,6 +646,55 @@ async def set_appliance_manufacture_date_staff(
     except ValueError as exc:
         db.rollback()
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.get("/{client_id}/appliances/{appliance_id}/maintenance")
+async def get_client_appliance_maintenance_staff(
+    client_id: uuid.UUID,
+    appliance_id: uuid.UUID,
+    current_user: AuthUser = Depends(get_admin_or_manager_user),
+    db: Session = Depends(get_db),
+):
+    from app.services.feature_flags_service import feature_context_from_roles, feature_enabled, require_feature
+    from app.services.maintenance_service import list_appliance_maintenance
+
+    user = db.query(User).filter(User.id == current_user.id).first()
+    ctx = feature_context_from_roles(user.roles if user else [])
+    require_feature(db, "maintenance_reminders", ctx)
+    try:
+        appliance = appliance_svc.get_client_appliance(db, client_id, appliance_id)
+        return {"tasks": list_appliance_maintenance(db, appliance)}
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+class StaffMaintenanceDoneBody(BaseModel):
+    done_at: Optional[datetime] = None
+
+
+@router.post("/{client_id}/appliances/{appliance_id}/maintenance/{task_row_id}/done")
+async def post_client_appliance_maintenance_done_staff(
+    client_id: uuid.UUID,
+    appliance_id: uuid.UUID,
+    task_row_id: uuid.UUID,
+    body: StaffMaintenanceDoneBody,
+    current_user: AuthUser = Depends(get_admin_or_manager_user),
+    db: Session = Depends(get_db),
+):
+    from app.services.feature_flags_service import feature_context_from_roles, require_feature
+    from app.services.maintenance_service import mark_task_done
+
+    user = db.query(User).filter(User.id == current_user.id).first()
+    ctx = feature_context_from_roles(user.roles if user else [])
+    require_feature(db, "maintenance_reminders", ctx)
+    try:
+        appliance = appliance_svc.get_client_appliance(db, client_id, appliance_id)
+        row = mark_task_done(db, appliance, task_row_id, done_at=body.done_at)
+        db.commit()
+        return row
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
 
 
 @router.post("/{client_id}/appliances/{appliance_id}/verify")

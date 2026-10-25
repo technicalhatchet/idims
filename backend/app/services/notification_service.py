@@ -27,7 +27,8 @@ class NotificationService:
         content: str,
         from_email: Optional[str] = None,
         reply_to: Optional[str] = None,
-        attachments: Optional[List[Dict[str, Any]]] = None
+        attachments: Optional[List[Dict[str, Any]]] = None,
+        extra_headers: Optional[Dict[str, str]] = None,
     ) -> bool:
         """Send an email using the configured provider"""
         if not to_email or not subject or not content:
@@ -59,6 +60,7 @@ class NotificationService:
                     from_email=from_email,
                     reply_to=reply_to,
                     attachments=attachments,
+                    extra_headers=extra_headers,
                 )
             else:
                 logger.error(f"Unsupported email provider: {provider}")

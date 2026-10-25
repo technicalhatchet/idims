@@ -99,6 +99,9 @@ export function applianceTypeLabel(appliance) {
 
 export function isMaintenanceDue(appliance) {
   if (appliance?.active_repair) return false;
+  if (typeof appliance?.maintenance_due_soon_count === 'number') {
+    return appliance.maintenance_due_soon_count > 0;
+  }
   if (!appliance?.last_service_date) return false;
   try {
     const last = parseISO(appliance.last_service_date);

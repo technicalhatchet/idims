@@ -576,6 +576,7 @@ def serialize_appliance(
     include_recalls_customer: bool = False,
     include_appliance_age: bool = False,
     include_parts_links: bool = False,
+    include_maintenance_reminders: bool = False,
 ) -> Dict[str, Any]:
     work_orders = work_orders_for_appliance(db, appliance)
     prop = resolve_property_for_appliance(db, appliance, work_orders)
@@ -695,6 +696,11 @@ def serialize_appliance(
         if links:
             payload["parts_links"] = links
 
+    if include_maintenance_reminders:
+        from app.services.maintenance_service import count_due_soon_for_appliance
+
+        payload["maintenance_due_soon_count"] = count_due_soon_for_appliance(db, appliance)
+
     return payload
 
 
@@ -813,6 +819,10 @@ def _post_save_appliance_hooks(db: Session, appliance: ClientAppliance) -> None:
         from app.services.cpsc_recall_sync_service import match_single_appliance
 
         match_single_appliance(db, appliance.id)
+    if feature_enabled_for_system(db, "maintenance_reminders"):
+        from app.services.maintenance_service import materialize_on_appliance_created
+
+        materialize_on_appliance_created(db, appliance)
 
 
 def soft_delete_client_appliance(db: Session, client_id: UUID, appliance_id: UUID) -> None:

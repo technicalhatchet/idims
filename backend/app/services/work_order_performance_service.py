@@ -1,8 +1,11 @@
 """Work order performance metrics — field timing, adherence, and outcome signals."""
 from __future__ import annotations
 
+import logging
 import uuid
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 from typing import Any, Dict, List, Optional
 
 from sqlalchemy import and_, or_
@@ -539,6 +542,12 @@ def handle_work_order_status_timing(
     if new_status in WO_COMPLETED_STATUSES and previous_status not in WO_COMPLETED_STATUSES:
         record_time_to_close(db, work_order=work_order, user_id=user_id, ended_at=work_order.actual_end or now)
         refresh_work_order_derived_metrics(db, work_order.id, user_id)
+        try:
+            from app.services.maintenance_service import maybe_complete_from_work_order
+
+            maybe_complete_from_work_order(db, work_order)
+        except Exception:
+            logger.exception("Maintenance WO completion hook failed wo=%s", work_order.id)
 
 
 def _metric_row_dict(m: WorkOrderPerformanceMetric) -> Dict[str, Any]:

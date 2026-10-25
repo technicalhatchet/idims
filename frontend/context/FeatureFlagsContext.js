@@ -16,6 +16,7 @@ export const WAVE2_FEATURE_FLAG_IDS = [
   'recall_alerts',
   'appliance_age',
   'parts_links',
+  'maintenance_reminders',
 ];
 
 export const ALL_FEATURE_FLAG_IDS = [...WAVE1_FEATURE_FLAG_IDS, ...WAVE2_FEATURE_FLAG_IDS];

@@ -67,6 +67,10 @@ def setup_background_tasks() -> Celery:
                 "task": "app.background.tasks.recalls.sync_cpsc_recalls_daily",
                 "schedule": crontab(hour=6, minute=0),
             },
+            "maintenance-reminder-emails-daily": {
+                "task": "app.background.tasks.maintenance_reminders.send_maintenance_reminder_summaries",
+                "schedule": crontab(hour=14, minute=0),
+            },
         },
     )
 
