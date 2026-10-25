@@ -20,6 +20,7 @@ import {
   TECH_ROUTE_PATH,
   techWorkOrderNewPath,
 } from '../../lib/techRoutes';
+import { matchesPartsWaitingStatCriteria } from '../../utils/workOrderPartsWaiting';
 
 // ── Appliance Icons (same as work orders test) ────────────────────────────
 const APPLIANCE_ICONS = {
@@ -121,9 +122,6 @@ function normalizeWorkOrderStatus(status) {
     .replace(/\s+/g, '_');
   return n === 'cancelled' ? 'canceled' : n;
 }
-
-/** Work-order statuses that mean the job is waiting on parts (list API rarely includes nested `parts[]`). */
-const WO_PARTS_HOLD_STATUSES = new Set(['waiting_on_parts', 'parts_on_order']);
 
 /** Appointments fully done for today — omit from "next job" card. */
 function isAppointmentDoneStatus(status) {
@@ -474,14 +472,7 @@ export default function TechDashboardTest() {
           if (!Number.isFinite(ms)) return false;
           return isToday(new Date(ms));
         });
-        const partsWaiting = allItems.filter((w) => {
-          const st = normalizeWorkOrderStatus(w.status);
-          if (WO_PARTS_HOLD_STATUSES.has(st)) return true;
-          return (
-            Array.isArray(w.parts) &&
-            w.parts.some((p) => ['ordered', 'needed'].includes(p.status))
-          );
-        }).length;
+        const partsWaiting = allItems.filter((w) => matchesPartsWaitingStatCriteria(w)).length;
 
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
