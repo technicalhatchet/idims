@@ -5,17 +5,22 @@ from __future__ import annotations
 from datetime import date, datetime, timedelta
 from typing import Any, Dict
 
-from sqlalchemy import and_, exists, func, or_
+from sqlalchemy import and_, exists, func
 from sqlalchemy.orm import Session
 
 from app.constants.appointment_status import APPOINTMENT_STATUS_CANCELED
-from app.models.work_order import WorkOrder, WorkOrderAppointment, WorkOrderPart
+from app.models.work_order import WorkOrder, WorkOrderAppointment
 
 PARTS_HOLD_STATUSES = ("waiting_on_parts", "parts_on_order")
 OPEN_OVERDUE_STATUSES = ("scheduled", "pending", "en_route")
-PART_LINE_HOLD = ("ordered", "needed")
 # Finished jobs — do not count toward parts waiting even if a part line was never updated.
-PARTS_WAITING_EXCLUDED_STATUSES = frozenset({"completed", "canceled", "closed", "refunded"})
+PARTS_WAITING_EXCLUDED_STATUSES = frozenset({
+    "completed",
+    "completed_pending_payment",
+    "canceled",
+    "closed",
+    "refunded",
+})
 
 
 def work_order_eligible_for_parts_waiting(*, is_closed: bool, status: str) -> bool:
@@ -60,23 +65,13 @@ def get_techdeck_dashboard_stats(
         or 0
     )
 
-    parts_status_match = WorkOrder.status.in_(PARTS_HOLD_STATUSES)
-    parts_line_match = exists().where(
-        and_(
-            WorkOrderPart.work_order_id == WorkOrder.id,
-            WorkOrderPart.status.in_(PART_LINE_HOLD),
-        )
-    )
+    # "Orders on hold" — WO status only (not stray ordered/needed lines on active/scheduled jobs).
     parts_waiting_open = and_(
         WorkOrder.is_closed.is_(False),
         ~WorkOrder.status.in_(tuple(PARTS_WAITING_EXCLUDED_STATUSES)),
+        WorkOrder.status.in_(PARTS_HOLD_STATUSES),
     )
-    parts_waiting = (
-        db.query(func.count(WorkOrder.id))
-        .filter(parts_waiting_open, or_(parts_status_match, parts_line_match))
-        .scalar()
-        or 0
-    )
+    parts_waiting = db.query(func.count(WorkOrder.id)).filter(parts_waiting_open).scalar() or 0
 
     critical_mass = (
         db.query(func.count(WorkOrder.id))
