@@ -12,6 +12,7 @@ import { useWorkOrders } from '../../hooks/useWorkOrders';
 import { techWorkOrderDetailPath } from '../../lib/techRoutes';
 import { apiClient } from '../../utils/api-client';
 import { getUserRole } from '../../utils/auth0-helpers';
+import { matchesPartsWaitingStatCriteria } from '../../utils/workOrderPartsWaiting';
 
 /** Fractal noise overlay (matches techboard tactical shell) */
 const TACTICAL_NOISE_BG =
@@ -36,27 +37,6 @@ function hudGridShiftForTitleplate(dx, dy, step) {
     x: -positiveMod(dx, step),
     y: -positiveMod(dy, step),
   };
-}
-
-/** Same work-order statuses as techboard Parts Waiting stat (+ parts lines). */
-const WO_PARTS_HOLD_STATUSES = new Set(['waiting_on_parts', 'parts_on_order']);
-
-function normalizeWorkOrderStatus(status) {
-  return String(status || '')
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '_');
-}
-
-/** Matches `partsWaiting` on /techboard: WO status holds, or nested parts ordered/needed. */
-function matchesPartsWaitingStatCriteria(wo) {
-  const st = normalizeWorkOrderStatus(wo.status);
-  if (st === 'completed') return false;
-  if (WO_PARTS_HOLD_STATUSES.has(st)) return true;
-  return (
-    Array.isArray(wo.parts) &&
-    wo.parts.some((p) => ['ordered', 'needed'].includes(p.status))
-  );
 }
 
 function clientLabel(wo) {

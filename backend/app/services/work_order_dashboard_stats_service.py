@@ -14,6 +14,17 @@ from app.models.work_order import WorkOrder, WorkOrderAppointment, WorkOrderPart
 PARTS_HOLD_STATUSES = ("waiting_on_parts", "parts_on_order")
 OPEN_OVERDUE_STATUSES = ("scheduled", "pending", "en_route")
 PART_LINE_HOLD = ("ordered", "needed")
+# Finished jobs — do not count toward parts waiting even if a part line was never updated.
+PARTS_WAITING_EXCLUDED_STATUSES = frozenset({"completed", "canceled", "closed", "refunded"})
+
+
+def work_order_eligible_for_parts_waiting(*, is_closed: bool, status: str) -> bool:
+    if is_closed:
+        return False
+    st = (status or "").strip().lower()
+    if st == "cancelled":
+        st = "canceled"
+    return st not in PARTS_WAITING_EXCLUDED_STATUSES
 
 
 def _local_day_bounds(local_date: date, tz_offset_minutes: int) -> tuple[datetime, datetime]:
@@ -56,9 +67,13 @@ def get_techdeck_dashboard_stats(
             WorkOrderPart.status.in_(PART_LINE_HOLD),
         )
     )
+    parts_waiting_open = and_(
+        WorkOrder.is_closed.is_(False),
+        ~WorkOrder.status.in_(tuple(PARTS_WAITING_EXCLUDED_STATUSES)),
+    )
     parts_waiting = (
         db.query(func.count(WorkOrder.id))
-        .filter(or_(parts_status_match, parts_line_match))
+        .filter(parts_waiting_open, or_(parts_status_match, parts_line_match))
         .scalar()
         or 0
     )
