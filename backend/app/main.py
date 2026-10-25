@@ -35,7 +35,7 @@ from app.routers import (
     quotes, technicians, notifications, reports, public,
     media, mobile, admin, chat, dashboard, properties, app_settings,
     health, users, debug, services, skills, stripe, distance, dma, job_economics, push, diagnostics, logit,
-    features,
+    features, techdeck,
 )
 from app.core.middleware import (
     RequestLoggingMiddleware, 
@@ -706,6 +706,7 @@ async def api_work_order_detail(
 app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 app.include_router(clients.router, prefix="/api/clients", tags=["clients"])
 app.include_router(technicians.router, prefix="/api/technicians", tags=["technicians"])
+app.include_router(techdeck.router, prefix="/api/techdeck", tags=["techdeck"])
 app.include_router(work_orders.router, prefix="/api/work-orders", tags=["work_orders"])
 app.include_router(dma.router, prefix="/api/dma", tags=["dma"])
 app.include_router(diagnostics.router, prefix="/api/diagnostics", tags=["diagnostics"])

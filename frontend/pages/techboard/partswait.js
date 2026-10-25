@@ -6,7 +6,6 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { format } from 'date-fns';
 import StatusBadge from '../../components/ui/StatusBadge';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
-import TechboardPageGlow from '../../components/techboard/TechboardPageGlow';
 import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import ApplianceIcon from '../../components/ui/ApplianceIcon';
 import { useWorkOrders } from '../../hooks/useWorkOrders';
@@ -404,7 +403,7 @@ export default function PartsWaitingPage() {
               bg-[size:42px_42px]"
             />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
-            <TechboardPageGlow />
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[64px] rounded-full" />
             <div
               className="absolute inset-0 opacity-[0.028]
               bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"

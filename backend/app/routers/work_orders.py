@@ -502,33 +502,6 @@ async def get_diagnostic_last_measurements(
     )
 
 
-@router.get("/work-orders/dashboard-stats", response_model=Dict[str, Any])
-async def get_work_orders_dashboard_stats(
-    local_date: str = Query(..., description="Local calendar date (YYYY-MM-DD)"),
-    tz_offset: int = Query(
-        ...,
-        description="JavaScript Date.getTimezoneOffset() for the browser",
-    ),
-    db: Session = Depends(get_db),
-    current_user: UserModel = Depends(get_staff_user),
-):
-    """Aggregated TechDeck home counts (not derived from paginated list)."""
-    try:
-        parsed_date = py_date.fromisoformat(local_date)
-    except ValueError as exc:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="Invalid local_date; use YYYY-MM-DD",
-        ) from exc
-    from app.services.work_order_dashboard_stats_service import get_techdeck_dashboard_stats
-
-    return get_techdeck_dashboard_stats(
-        db,
-        local_date=parsed_date,
-        tz_offset_minutes=tz_offset,
-    )
-
-
 @router.get("/work-orders/{work_order_id}", response_model=Dict[str, Any])
 async def get_work_order(
     work_order_id: uuid.UUID = Path(..., description="The ID of the work order to retrieve"),

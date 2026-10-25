@@ -29,7 +29,7 @@ export async function fetchTechdeckDashboardStats() {
   const localDate = format(new Date(), 'yyyy-MM-dd');
   const tzOffset = new Date().getTimezoneOffset();
   return apiClient(
-    `work-orders/dashboard-stats?local_date=${encodeURIComponent(localDate)}&tz_offset=${tzOffset}`
+    `techdeck/dashboard-stats?local_date=${encodeURIComponent(localDate)}&tz_offset=${tzOffset}`
   );
 }
 

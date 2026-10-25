@@ -24,7 +24,6 @@ import {
   fetchTechdeckDashboardStats,
   techdeckQueryKeys,
 } from '../../lib/techdeckQueries';
-import TechboardPageGlow from '../../components/techboard/TechboardPageGlow';
 import {
   FrostedCardBackdrop,
   FrostedCardContent,
@@ -158,8 +157,28 @@ function StatValueSkeleton() {
   );
 }
 
+function StatValueUnavailable({ onRetry }) {
+  return (
+    <div className="flex flex-col gap-0.5">
+      <span className="text-2xl font-bold text-white tabular-nums">—</span>
+      {onRetry ? (
+        <button
+          type="button"
+          className="text-[10px] font-medium text-cyan-400/90 underline text-left w-fit"
+          onClick={(e) => {
+            e.stopPropagation();
+            onRetry();
+          }}
+        >
+          Retry
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
 // ── Stat Card with Glass Effect + Sweep Animation ─────────────────────────
-function StatCard({ icon, label, value, valueNode, sub, subColor = '#22D3EE', borderColor = 'rgba(34,211,238,0.3)', sweepColor = 'cyan', href, loading = false }) {
+function StatCard({ icon, label, value, valueNode, sub, subColor = '#22D3EE', borderColor = 'rgba(34,211,238,0.3)', sweepColor = 'cyan', href, loading = false, failed = false, onRetry }) {
   const [sweeping, setSweeping] = useState(false);
   const { push: sweepPush } = useSweepNavigate(600);
 
@@ -203,14 +222,16 @@ function StatCard({ icon, label, value, valueNode, sub, subColor = '#22D3EE', bo
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs text-gray-400 mb-0.5">{label}</p>
-            {loading
-              ? <StatValueSkeleton />
-              : (valueNode ?? (
-                <p className="text-2xl font-bold text-white">
-                  <LiveRepaintValue value={value} />
-                </p>
-              ))}
-            {sub && !loading && (
+            {failed
+              ? <StatValueUnavailable onRetry={onRetry} />
+              : loading
+                ? <StatValueSkeleton />
+                : (valueNode ?? (
+                  <p className="text-2xl font-bold text-white">
+                    <LiveRepaintValue value={value} />
+                  </p>
+                ))}
+            {sub && !loading && !failed && (
               <p className="text-xs mt-0.5" style={{ color: subColor }}>
                 <LiveRepaintValue value={sub}>{sub}</LiveRepaintValue>
               </p>
@@ -263,7 +284,7 @@ function pickNextJobToday(sortedTodayAppts) {
 }
 
 // ── Critical Mass Card with Glass Effect + Sweep Animation ───────────────
-function CriticalMassCard({ count, loading = false }) {
+function CriticalMassCard({ count, loading = false, failed = false, onRetry }) {
   const [sweeping, setSweeping] = useState(false);
   const { push: sweepPush } = useSweepNavigate(600);
   const isActive = !loading && count > 0;
@@ -329,13 +350,15 @@ function CriticalMassCard({ count, loading = false }) {
             </p>
           </div>
           <div className="flex-shrink-0">
-            {loading
-              ? <StatValueSkeleton />
-              : (
-                <p className="text-2xl font-bold" style={{ color: isActive ? '#FB923C' : '#374151' }}>
-                  <LiveRepaintValue value={count} />
-                </p>
-              )}
+            {failed
+              ? <StatValueUnavailable onRetry={onRetry} />
+              : loading
+                ? <StatValueSkeleton />
+                : (
+                  <p className="text-2xl font-bold" style={{ color: isActive ? '#FB923C' : '#374151' }}>
+                    <LiveRepaintValue value={count} />
+                  </p>
+                )}
           </div>
         </FrostedCardContent>
       </div>
@@ -344,7 +367,7 @@ function CriticalMassCard({ count, loading = false }) {
 }
 
 // ── Master Ops List (admin) — sweep + navigate to full ops list ─────────────
-function MasterOpsListCard({ total, today, loading = false }) {
+function MasterOpsListCard({ total, today, loading = false, failed = false, onRetry }) {
   const [sweeping, setSweeping] = useState(false);
   const { push: sweepPush } = useSweepNavigate(600);
 
@@ -387,13 +410,17 @@ function MasterOpsListCard({ total, today, loading = false }) {
             </span>
           </div>
           <div className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-4">
-            {loading ? <StatValueSkeleton /> : (
-              <p className="text-2xl font-bold text-white">
-                <LiveRepaintValue value={total} />
-              </p>
-            )}
+            {failed
+              ? <StatValueUnavailable onRetry={onRetry} />
+              : loading
+                ? <StatValueSkeleton />
+                : (
+                  <p className="text-2xl font-bold text-white">
+                    <LiveRepaintValue value={total} />
+                  </p>
+                )}
             <p className="text-xs text-gray-400 mt-1">open work orders · tap for full ops board</p>
-            {!loading && today > 0 && (
+            {!loading && !failed && today > 0 && (
               <p className="text-xs text-cyan-400/80 mt-1">
                 <LiveRepaintValue value={today}>+{today} scheduled today</LiveRepaintValue>
               </p>
@@ -861,12 +888,26 @@ export default function TechDashboardTest() {
     const now = new Date();
     return techdeckQueryKeys.dashboardStats(format(now, 'yyyy-MM-dd'), now.getTimezoneOffset());
   }, []);
-  const { data: dashboardStatsRaw } = useQuery({
+  const {
+    data: dashboardStatsRaw,
+    isPending: statsPending,
+    isError: statsFailed,
+    error: statsFetchError,
+    refetch: refetchDashboardStats,
+  } = useQuery({
     queryKey: dashboardStatsKey,
     queryFn: fetchTechdeckDashboardStats,
     staleTime: 30_000,
+    retry: 1,
   });
   const statsReady = dashboardStatsRaw != null;
+  const statsLoading = statsPending && !statsFailed;
+
+  useEffect(() => {
+    if (statsFailed && statsFetchError) {
+      console.error('[TechDeck] dashboard-stats failed', statsFetchError);
+    }
+  }, [statsFailed, statsFetchError]);
   const workOrderStats = useMemo(
     () => ({
       total: dashboardStatsRaw?.total ?? 0,
@@ -1326,7 +1367,7 @@ export default function TechDashboardTest() {
                 bg-[size:42px_42px]"
             />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,.13),transparent_48%)]" />
-            <TechboardPageGlow />
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[min(560px,120%)] h-[220px] bg-cyan-400/[0.085] blur-[64px] rounded-full" />
             <div
               className="absolute inset-0 opacity-[0.028]
                 bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,.1),rgba(255,255,255,.1)_1px,transparent_1px,transparent_14px)]"
@@ -1439,7 +1480,9 @@ export default function TechDashboardTest() {
             <StatCard
               label="Jobs Completed"
               value={workOrderStats.completed_today}
-              loading={!statsReady}
+              loading={statsLoading}
+              failed={statsFailed}
+              onRetry={refetchDashboardStats}
               sub={`${todayAppts.length} scheduled today`}
               borderColor="rgba(34,211,238,0.25)"
               href={TECH_MISSION_QUEUE_PATH}
@@ -1464,7 +1507,9 @@ export default function TechDashboardTest() {
             <StatCard
               label="Parts Waiting"
               value={workOrderStats.partsWaiting}
-              loading={!statsReady}
+              loading={statsLoading}
+              failed={statsFailed}
+              onRetry={refetchDashboardStats}
               sub={workOrderStats.partsWaiting > 0 ? 'orders on hold' : 'all parts in'}
               subColor={workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE'}
               borderColor={workOrderStats.partsWaiting > 0 ? 'rgba(255,122,0,0.4)' : 'rgba(34,211,238,0.2)'}
@@ -1493,7 +1538,12 @@ export default function TechDashboardTest() {
           </div>
 
           {/* ── CRITICAL MASS ── */}
-          <CriticalMassCard count={workOrderStats.criticalMass} loading={!statsReady} />
+          <CriticalMassCard
+            count={workOrderStats.criticalMass}
+            loading={statsLoading}
+            failed={statsFailed}
+            onRetry={refetchDashboardStats}
+          />
 
           {/* ── TODAY'S JOBS ── */}
           <div className="rounded-lg p-4 mb-4" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.07)' }} data-techboard-card>
@@ -1521,7 +1571,9 @@ export default function TechDashboardTest() {
             <MasterOpsListCard
               total={workOrderStats.total}
               today={workOrderStats.today}
-              loading={!statsReady}
+              loading={statsLoading}
+              failed={statsFailed}
+              onRetry={refetchDashboardStats}
             />
           )}
         </div>
