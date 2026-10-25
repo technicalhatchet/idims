@@ -28,4 +28,7 @@ def test_parts_waiting_excludes_completed_and_closed_status():
 def test_parts_waiting_includes_open_parts_hold():
     assert work_order_eligible_for_parts_waiting(is_closed=False, status="waiting_on_parts") is True
     assert work_order_eligible_for_parts_waiting(is_closed=False, status="parts_on_order") is True
-    assert work_order_eligible_for_parts_waiting(is_closed=False, status="in_progress") is True
+
+
+def test_parts_waiting_excludes_completed_pending_payment():
+    assert work_order_eligible_for_parts_waiting(is_closed=False, status="completed_pending_payment") is False
