@@ -749,12 +749,18 @@ app.include_router(
     prefix="/api/appliance-lifespans",
     tags=["appliance-lifespans"],
 )
+from app.routers import maintenance as maintenance_router
 from app.routers import maintenance_tasks as maintenance_tasks_router
 
 app.include_router(
     maintenance_tasks_router.router,
     prefix="/api/maintenance-tasks",
     tags=["maintenance-tasks"],
+)
+app.include_router(
+    maintenance_router.router,
+    prefix="/api/maintenance",
+    tags=["maintenance"],
 )
 from app.routers import client_portal
 app.include_router(client_portal.router, prefix="/api", tags=["client-portal"])

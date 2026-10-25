@@ -11,16 +11,17 @@ import {
   isValidPartsLogoPath,
 } from '../utils/partsSettings';
 import { uploadPartsLookupLogo } from '../services/api/partsSettingsApi';
-import PortalSchedulingSettingsPanel from '../components/settings/PortalSchedulingSettingsPanel';
-import PortalReviewsSettingsPanel from '../components/settings/PortalReviewsSettingsPanel';
-import FeatureFlagsSettingsPanel from '../components/settings/FeatureFlagsSettingsPanel';
 import PushNotificationSettingsPanel from '../components/settings/PushNotificationSettingsPanel';
 import CustomerOutreachTestModeBanner from '../components/settings/CustomerOutreachTestModeBanner';
 import CustomerOutreachSettingsPanel from '../components/settings/CustomerOutreachSettingsPanel';
 import WorkerFeatureFlagsSettingsPanel from '../components/settings/WorkerFeatureFlagsSettingsPanel';
-import PartsLinksSettingsPanel from '../components/settings/PartsLinksSettingsPanel';
-import ApplianceLifespansSettingsPanel from '../components/settings/ApplianceLifespansSettingsPanel';
-import MaintenanceTasksSettingsPanel from '../components/settings/MaintenanceTasksSettingsPanel';
+import ClientPortalSettingsAccordions from '../components/settings/ClientPortalSettingsAccordions';
+import {
+  SettingsAccordion,
+  SettingsAccordionProvider,
+  SettingsAccordionToolbar,
+  SETTINGS_TAB_SECTIONS,
+} from '../components/settings/SettingsAccordion';
 
 const DAYS = [
   { key: 'monday', label: 'Monday' },
@@ -999,9 +1000,13 @@ export default function Settings() {
 
   // Render tab content
   const renderInterfaceTab = () => (
-    <div className="space-y-5">
-      <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
-        <h2 className="text-lg font-semibold text-white mb-1">Display name</h2>
+    <div className="space-y-4">
+      <SettingsAccordion
+        sectionId="display-name"
+        title="Display name"
+        summary="Profile menu label; blank uses your Auth0 account name"
+      >
+      <section className="p-5">
         <p className="text-xs text-gray-500 mb-4">
           Shown in the profile menu and greetings. Leave blank to use your Auth0 account name.
         </p>
@@ -1024,12 +1029,14 @@ export default function Settings() {
           </button>
         </div>
       </section>
+      </SettingsAccordion>
 
-    <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
-      <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-        <TabIcon type="layout" className="w-5 h-5 stroke-cyan-400" />
-        Navigation Rail Position
-      </h2>
+    <SettingsAccordion
+      sectionId="nav-rail"
+      title="Navigation rail position"
+      summary="Choose left or right side for the TechDeck menu"
+    >
+    <section className="p-5">
       <p className="text-xs text-gray-500 mb-4">Choose which side of the screen the navigation menu appears on</p>
       
       <div className="flex gap-3">
@@ -1082,11 +1089,13 @@ export default function Settings() {
         </p>
       )}
     </section>
+    </SettingsAccordion>
     </div>
   );
 
   const renderAvailabilityTab = () => (
-    <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
+    <SettingsAccordion sectionId="shop-hours" title="Shop hours" summary="Regular and evening availability windows">
+    <section className="p-5">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-white flex items-center gap-2">
           <TabIcon type="calendar" className="w-5 h-5 stroke-cyan-400" />
@@ -1173,12 +1182,13 @@ export default function Settings() {
         </div>
       )}
     </section>
+    </SettingsAccordion>
   );
 
   const renderServiceAreasTab = () => (
-    <div className="space-y-6">
-      {/* Zone Definitions */}
-      <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
+    <div className="space-y-4">
+      <SettingsAccordion sectionId="service-zones" title="Service zones" summary="Zip codes, trip charges, and zone colors">
+      <section className="p-5">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-white flex items-center gap-2">
             <TabIcon type="map" className="w-5 h-5 stroke-cyan-400" />
@@ -1287,9 +1297,10 @@ export default function Settings() {
           </div>
         )}
       </section>
+      </SettingsAccordion>
 
-      {/* Drive Time Fallback */}
-      <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
+      <SettingsAccordion sectionId="drive-time-pricing" title="Drive time pricing" summary="Fallback trip charges by drive time from shop">
+      <section className="p-5">
         <h3 className="text-md font-semibold text-white mb-3 flex items-center gap-2">
           <svg viewBox="0 0 24 24" width="18" height="18" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
             <circle cx="12" cy="12" r="10" />
@@ -1346,12 +1357,13 @@ export default function Settings() {
           })}
         </div>
       </section>
+      </SettingsAccordion>
     </div>
   );
 
   const renderTaxTab = () => (
-    <div className="space-y-6">
-      <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
+    <SettingsAccordion sectionId="tax-settings" title="County tax rates" summary="Ohio county sales tax table for invoices">
+      <section className="p-5">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-white flex items-center gap-2">
             <TabIcon type="tax" className="w-5 h-5 stroke-cyan-400" />
@@ -1451,7 +1463,7 @@ export default function Settings() {
           </div>
         )}
       </section>
-    </div>
+    </SettingsAccordion>
   );
 
   const renderPartsTab = () => {
@@ -1515,8 +1527,9 @@ export default function Settings() {
     };
 
     return (
-      <div className="space-y-6">
-        <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
+      <div className="space-y-4">
+        <SettingsAccordion sectionId="parts-settings" title="Parts settings" summary="Warranty defaults and markup behavior">
+        <section className="p-5">
           <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
             <h2 className="text-lg font-semibold text-white flex items-center gap-2">
               <TabIcon type="parts" className="w-5 h-5 stroke-cyan-400" />
@@ -1593,10 +1606,12 @@ export default function Settings() {
             </div>
           )}
         </section>
+        </SettingsAccordion>
 
         {!loadingParts && (
           <>
-            <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <SettingsAccordion sectionId="parts-lookup" title="Lookup providers" summary="Logo tiles and URL templates for parts search">
+            <section className="p-5">
               <h3 className="text-md font-semibold text-white mb-2">Lookup providers</h3>
               <p className="text-xs text-gray-500 mb-4">
                 Logo tiles on the Model/Parts tab. Upload a logo or use a path under
@@ -1726,8 +1741,10 @@ export default function Settings() {
                 </div>
               </div>
             </section>
+            </SettingsAccordion>
 
-            <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
+            <SettingsAccordion sectionId="parts-vendors" title="Part vendors" summary="Vendor dropdown options when adding WO parts">
+            <section className="p-5">
               <h3 className="text-md font-semibold text-white mb-2">Part vendors</h3>
               <p className="text-xs text-gray-500 mb-4">
                 Options in the vendor dropdown when adding parts. &quot;Other&quot; must remain in the list.
@@ -1804,6 +1821,7 @@ export default function Settings() {
                 </button>
               </div>
             </section>
+            </SettingsAccordion>
           </>
         )}
       </div>
@@ -2089,9 +2107,10 @@ export default function Settings() {
     };
 
     return (
-      <div className="space-y-6">
+      <div className="space-y-4">
         {renderSkuModal()}
-        <section className="rounded-xl p-5" style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}>
+        <SettingsAccordion sectionId="price-book-skus" title="Price book" summary="Diagnostic and repair SKU catalog">
+        <section className="p-5">
           <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
             <h2 className="text-lg font-semibold text-white flex items-center gap-2">
               <TabIcon type="price" className="w-5 h-5 stroke-cyan-400" />
@@ -2241,9 +2260,12 @@ export default function Settings() {
             </div>
           )}
         </section>
+        </SettingsAccordion>
       </div>
     );
   };
+
+  const accordionSectionIds = SETTINGS_TAB_SECTIONS[activeTab] || [];
 
   return (
     <div className="min-h-screen p-4 sm:p-6" style={{ background: '#0B0F1A' }}>
@@ -2275,31 +2297,31 @@ export default function Settings() {
         <CustomerOutreachTestModeBanner />
 
         {/* Tab Content */}
-        <div className="space-y-6">
-          {activeTab === 'interface' && renderInterfaceTab()}
-          {activeTab === 'availability' && renderAvailabilityTab()}
-          {activeTab === 'client-portal' && (
-            <>
-              <FeatureFlagsSettingsPanel />
-              <PortalSchedulingSettingsPanel />
-              <PortalReviewsSettingsPanel />
-              <PartsLinksSettingsPanel />
-              <ApplianceLifespansSettingsPanel />
-              <MaintenanceTasksSettingsPanel />
-            </>
-          )}
-          {activeTab === 'notifications' && (
-            <>
-              <CustomerOutreachSettingsPanel />
-              <WorkerFeatureFlagsSettingsPanel />
-              <PushNotificationSettingsPanel />
-            </>
-          )}
-          {activeTab === 'service-areas' && renderServiceAreasTab()}
-          {activeTab === 'tax' && renderTaxTab()}
-          {activeTab === 'parts' && renderPartsTab()}
-          {activeTab === 'price-book' && renderPriceBookTab()}
-        </div>
+        <SettingsAccordionProvider tabId={activeTab} sectionIds={accordionSectionIds}>
+          {accordionSectionIds.length > 0 ? <SettingsAccordionToolbar /> : null}
+          <div className="space-y-4">
+            {activeTab === 'interface' && renderInterfaceTab()}
+            {activeTab === 'availability' && renderAvailabilityTab()}
+            {activeTab === 'client-portal' && <ClientPortalSettingsAccordions />}
+            {activeTab === 'notifications' && (
+              <div className="space-y-4">
+                <SettingsAccordion sectionId="customer-outreach" title="Customer outreach" summary="Test mode and automatic outreach gating">
+                  <CustomerOutreachSettingsPanel />
+                </SettingsAccordion>
+                <SettingsAccordion sectionId="worker-flags" title="Worker jobs" summary="Celery beat tasks and background email flags">
+                  <WorkerFeatureFlagsSettingsPanel />
+                </SettingsAccordion>
+                <SettingsAccordion sectionId="push-notifications" title="Push notifications" summary="Staff deploy and schedule push settings">
+                  <PushNotificationSettingsPanel />
+                </SettingsAccordion>
+              </div>
+            )}
+            {activeTab === 'service-areas' && renderServiceAreasTab()}
+            {activeTab === 'tax' && renderTaxTab()}
+            {activeTab === 'parts' && renderPartsTab()}
+            {activeTab === 'price-book' && renderPriceBookTab()}
+          </div>
+        </SettingsAccordionProvider>
       </div>
     </div>
   );

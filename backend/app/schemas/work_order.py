@@ -241,6 +241,7 @@ class WorkOrderResponse(WorkOrderBase):
 
     service_tier: Optional[str] = None
     portal_scheduling_meta: Optional[Dict[str, Any]] = None
+    appliance_id: Optional[UUID] = None
 
     # Service items
     service_items: List[WorkOrderServiceResponse] = []

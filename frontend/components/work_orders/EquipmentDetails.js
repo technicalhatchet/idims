@@ -30,6 +30,32 @@ import RecallBadge from '../recalls/RecallBadge';
 import Link from 'next/link';
 import ApplianceAgeTile from '../appliances/ApplianceAgeTile';
 import { useFeature } from '../../context/FeatureFlagsContext';
+import { format, parseISO } from 'date-fns';
+
+const MAINTENANCE_STATUS_LABEL = {
+  due_now: { text: 'Due now', className: 'text-orange-400' },
+  due_soon: { text: 'Due soon', className: 'text-violet-400' },
+  ok: { text: 'OK', className: 'text-gray-400' },
+  snoozed: { text: 'Snoozed', className: 'text-gray-500' },
+  disabled: { text: 'Off', className: 'text-gray-600' },
+};
+
+const MAINTENANCE_STATUS_SORT = { due_now: 0, due_soon: 1, ok: 2, snoozed: 3, disabled: 4 };
+
+function resolveRegistryAppliance(appliances, workOrder, serialFallback) {
+  const list = Array.isArray(appliances) ? appliances : [];
+  const linkedId = workOrder?.appliance_id;
+  if (linkedId) {
+    const byId = list.find((a) => a.id === linkedId);
+    if (byId) return byId;
+  }
+  const serial = (workOrder?.equipment_serial || serialFallback || '').trim().toUpperCase();
+  if (serial) {
+    const bySerial = list.find((a) => (a.serial || '').trim().toUpperCase() === serial);
+    if (bySerial) return bySerial;
+  }
+  return null;
+}
 import {
   normalizePartsSettings,
   getVendorSelectOptions,
@@ -118,7 +144,9 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [linkedApplianceAge, setLinkedApplianceAge] = useState(null);
-  const [linkedMaintenanceDue, setLinkedMaintenanceDue] = useState([]);
+  const [linkedApplianceId, setLinkedApplianceId] = useState(null);
+  const [linkedMaintenanceTasks, setLinkedMaintenanceTasks] = useState([]);
+  const [maintenanceBusyId, setMaintenanceBusyId] = useState(null);
   const applianceAgeEnabled = useFeature('appliance_age');
   const maintenanceRemindersEnabled = useFeature('maintenance_reminders');
 
@@ -161,15 +189,39 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
     }
   }, [workOrderId]);
 
+  const loadLinkedMaintenance = async (clientId, applianceId) => {
+    if (!maintenanceRemindersEnabled || !clientId || !applianceId) {
+      setLinkedMaintenanceTasks([]);
+      return;
+    }
+    try {
+      const m = await apiClient(`clients/${clientId}/appliances/${applianceId}/maintenance`);
+      const tasks = Array.isArray(m?.tasks) ? [...m.tasks] : [];
+      tasks.sort((a, b) => {
+        const ra = MAINTENANCE_STATUS_SORT[a.status] ?? 9;
+        const rb = MAINTENANCE_STATUS_SORT[b.status] ?? 9;
+        if (ra !== rb) return ra - rb;
+        return (a.name || '').localeCompare(b.name || '');
+      });
+      setLinkedMaintenanceTasks(tasks);
+    } catch {
+      setLinkedMaintenanceTasks([]);
+    }
+  };
+
   useEffect(() => {
     if ((!applianceAgeEnabled && !maintenanceRemindersEnabled) || !workOrder?.client_id) {
       setLinkedApplianceAge(null);
-      setLinkedMaintenanceDue([]);
+      setLinkedApplianceId(null);
+      setLinkedMaintenanceTasks([]);
       return;
     }
-    const serial = (workOrder.equipment_serial || serialNumber || '').trim().toUpperCase();
-    if (!serial) {
+    const hasLinkHint = Boolean(workOrder?.appliance_id)
+      || Boolean((workOrder?.equipment_serial || serialNumber || '').trim());
+    if (!hasLinkHint) {
       setLinkedApplianceAge(null);
+      setLinkedApplianceId(null);
+      setLinkedMaintenanceTasks([]);
       return;
     }
     let cancelled = false;
@@ -177,32 +229,49 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
       try {
         const list = await apiClient(`clients/${workOrder.client_id}/appliances`);
         if (cancelled) return;
-        const match = (Array.isArray(list) ? list : []).find(
-          (a) => (a.serial || '').trim().toUpperCase() === serial,
-        );
+        const match = resolveRegistryAppliance(list, workOrder, serialNumber);
         setLinkedApplianceAge(match?.appliance_age || null);
-        if (maintenanceRemindersEnabled && match?.id) {
-          try {
-            const m = await apiClient(`clients/${workOrder.client_id}/appliances/${match.id}/maintenance`);
-            const due = (m?.tasks || []).filter((t) => t.status === 'due_now' || t.status === 'due_soon');
-            if (!cancelled) setLinkedMaintenanceDue(due);
-          } catch {
-            if (!cancelled) setLinkedMaintenanceDue([]);
-          }
+        setLinkedApplianceId(match?.id || null);
+        if (match?.id) {
+          await loadLinkedMaintenance(workOrder.client_id, match.id);
         } else if (!cancelled) {
-          setLinkedMaintenanceDue([]);
+          setLinkedMaintenanceTasks([]);
         }
       } catch {
         if (!cancelled) {
           setLinkedApplianceAge(null);
-          setLinkedMaintenanceDue([]);
+          setLinkedApplianceId(null);
+          setLinkedMaintenanceTasks([]);
         }
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, [applianceAgeEnabled, maintenanceRemindersEnabled, workOrder?.client_id, workOrder?.equipment_serial, serialNumber]);
+  }, [
+    applianceAgeEnabled,
+    maintenanceRemindersEnabled,
+    workOrder?.client_id,
+    workOrder?.appliance_id,
+    workOrder?.equipment_serial,
+    serialNumber,
+  ]);
+
+  const markMaintenanceDone = async (taskId) => {
+    if (!workOrder?.client_id || !linkedApplianceId) return;
+    setMaintenanceBusyId(taskId);
+    try {
+      await apiClient(
+        `clients/${workOrder.client_id}/appliances/${linkedApplianceId}/maintenance/${taskId}/done`,
+        { method: 'POST' },
+      );
+      await loadLinkedMaintenance(workOrder.client_id, linkedApplianceId);
+    } catch (e) {
+      setError(e?.message || 'Could not mark maintenance done');
+    } finally {
+      setMaintenanceBusyId(null);
+    }
+  };
 
   useEffect(() => {
     const seeded = getWorkOrderPartsSeed(workOrder);
@@ -731,14 +800,58 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
               placeholder="Enter serial number"
             />
 
-            {linkedMaintenanceDue.length > 0 && (
-              <div className="rounded-lg border border-violet-500/25 bg-violet-500/5 p-3 text-sm text-violet-200">
-                <p className="font-semibold text-violet-100 mb-1">Maintenance due</p>
-                <ul className="list-disc pl-4 space-y-0.5 text-violet-200/90">
-                  {linkedMaintenanceDue.map((t) => (
-                    <li key={t.id}>{t.name}</li>
-                  ))}
-                </ul>
+            {maintenanceRemindersEnabled && workOrder?.client_id && (
+              <div className="rounded-lg border border-white/10 bg-gray-900/40 p-3 text-sm">
+                <p className="font-semibold text-white mb-2">Maintenance</p>
+                {!linkedApplianceId ? (
+                  <p className="text-xs text-gray-500 m-0">
+                    Not linked to a client appliance — maintenance unavailable.
+                  </p>
+                ) : linkedMaintenanceTasks.length === 0 ? (
+                  <p className="text-xs text-gray-500 m-0">No maintenance tasks for this appliance type.</p>
+                ) : (
+                  <ul className="space-y-2 m-0 p-0 list-none">
+                    {linkedMaintenanceTasks.map((t) => {
+                      const st = MAINTENANCE_STATUS_LABEL[t.status] || MAINTENANCE_STATUS_LABEL.ok;
+                      const dueHighlight = t.status === 'due_now' || t.status === 'due_soon';
+                      const nextDue = t.next_due_at
+                        ? format(parseISO(t.next_due_at), 'MMM d, yyyy')
+                        : '—';
+                      const lastDone = t.last_done_at
+                        ? format(parseISO(t.last_done_at), 'MMM d, yyyy')
+                        : null;
+                      return (
+                        <li
+                          key={t.id}
+                          className={`rounded-md border p-2 ${
+                            dueHighlight
+                              ? 'border-violet-500/35 bg-violet-500/10'
+                              : 'border-white/5 bg-black/20'
+                          }`}
+                        >
+                          <div className="flex flex-wrap items-start justify-between gap-2">
+                            <span className="font-medium text-gray-100">{t.name}</span>
+                            <span className={`text-xs font-semibold ${st.className}`}>{st.text}</span>
+                          </div>
+                          <p className="text-xs text-gray-500 mt-1 mb-0">
+                            Next due {nextDue}
+                            {lastDone ? ` · Last done ${lastDone}` : ''}
+                          </p>
+                          {!t.disabled && t.status !== 'disabled' && (
+                            <button
+                              type="button"
+                              disabled={maintenanceBusyId === t.id}
+                              onClick={() => markMaintenanceDone(t.id)}
+                              className="mt-2 text-xs px-2 py-1 rounded bg-green-600/20 text-green-400 border border-green-600/30 disabled:opacity-50"
+                            >
+                              Mark done
+                            </button>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
               </div>
             )}
             {linkedApplianceAge ? (
