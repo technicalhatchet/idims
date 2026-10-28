@@ -212,7 +212,7 @@ function TabIcon({ type, className }) {
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState('interface');
-  const { preferences, setRailPosition, setDisplayName } = useUIPreferences();
+  const { preferences, setRailPosition, setRailStyle, setDisplayName } = useUIPreferences();
   
   // UI saving state
   const [saving, setSaving] = useState(false);
@@ -650,6 +650,12 @@ export default function Settings() {
     setSaving(false);
   };
 
+  const handleRailStyleChange = async (style) => {
+    setSaving(true);
+    await setRailStyle(style);
+    setSaving(false);
+  };
+
   const handleDisplayNameSave = async () => {
     setSavingDisplayName(true);
     try {
@@ -1033,8 +1039,8 @@ export default function Settings() {
 
     <SettingsAccordion
       sectionId="nav-rail"
-      title="Navigation rail position"
-      summary="Choose left or right side for the TechDeck menu"
+      title="Navigation rail"
+      summary="Choose the side and style of the TechDeck menu"
     >
     <section className="p-5">
       <p className="text-xs text-gray-500 mb-4">Choose which side of the screen the navigation menu appears on</p>
@@ -1079,6 +1085,50 @@ export default function Settings() {
         </button>
       </div>
       
+      {/* Rail style (right side only for now) */}
+      <p className="text-xs text-gray-500 mt-6 mb-3">Rail style{preferences.railPosition === 'left' ? ' — Laser Slice is available on the right side only' : ''}</p>
+      <div className="flex gap-3">
+        {[
+          { id: 'classic', label: 'Classic' },
+          { id: 'laser', label: 'Laser Slice', beta: true },
+        ].map((opt) => {
+          const selected = (preferences.railStyle || 'classic') === opt.id;
+          const disabled = saving || (opt.id === 'laser' && preferences.railPosition === 'left');
+          return (
+            <button
+              key={opt.id}
+              type="button"
+              onClick={() => handleRailStyleChange(opt.id)}
+              disabled={disabled}
+              aria-pressed={selected}
+              className={`flex-1 relative rounded-lg p-4 transition-all ${selected ? 'ring-2 ring-cyan-400' : 'hover:bg-white/5'} ${disabled && !selected ? 'opacity-40' : ''}`}
+              style={{ background: selected ? 'rgba(34, 211, 238, 0.1)' : 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)' }}
+            >
+              <div className="w-full h-20 rounded-md mb-3 relative overflow-hidden" style={{ background: '#0B0F1A' }}>
+                {opt.id === 'classic' ? (
+                  <div className="absolute right-0 top-2 bottom-2 w-5" style={{ background: '#111827', borderLeft: '1px solid rgba(34,211,238,0.5)' }} />
+                ) : (
+                  <svg className="absolute right-0 top-0" width="28" height="80" viewBox="0 0 28 80" aria-hidden="true">
+                    <path d="M28 4 C28 10 6 12 6 22 Q2 40 6 58 C6 68 28 70 28 76 Z" fill="#0E2232" />
+                    <path d="M28 4 C28 10 6 12 6 22 Q2 40 6 58 C6 68 28 70 28 76" fill="none" stroke="#E6FFFF" strokeWidth="1.2" style={{ filter: 'drop-shadow(0 0 3px #22D3EE)' }} />
+                    <rect x="9" y="35" width="17" height="9" rx="2.5" fill="#22D3EE" />
+                  </svg>
+                )}
+              </div>
+              <div className="flex items-center justify-between">
+                <span className={`text-sm font-medium ${selected ? 'text-cyan-400' : 'text-gray-400'}`}>
+                  {opt.label}
+                  {opt.beta && <span className="ml-2 rounded px-1.5 py-0.5 text-[10px] font-semibold tracking-wider text-orange-300" style={{ background: 'rgba(255,138,31,0.15)' }}>BETA</span>}
+                </span>
+                {selected && (
+                  <svg viewBox="0 0 24 24" width="18" height="18" style={{ stroke: '#22D3EE', strokeWidth: 2, fill: 'none' }}><polyline points="20 6 9 17 4 12" /></svg>
+                )}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
       {saving && (
         <p className="text-xs text-cyan-400 mt-2 flex items-center gap-2">
           <svg className="animate-spin h-3 w-3" viewBox="0 0 24 24">

@@ -10,6 +10,7 @@ import { startDeployReminderHeartbeat, stopDeployReminderHeartbeat } from '../..
 import { useUIPreferences } from '../../context/UIPreferencesContext';
 import { resolveUserDisplayName, resolveUserInitial } from '../../utils/userDisplayName';
 import TechIconRail from '../navigation/TechIconRail';
+import LaserSliceRail from '../navigation/LaserSliceRail';
 import {
   TECHDECK_BRAND_VERSION,
   TECHDECK_LOCKUP_COLLAPSED_SRC,
@@ -122,6 +123,12 @@ export function useTechDashboardRail() {
 
 export default function TechDashboardLayout({ children }) {
   const [railOpen, setRailOpen] = useState(false);
+  // Rail style lives in localStorage, which the server can't see. Render the classic rail until
+  // after hydration so server and client HTML match, then swap to Laser Slice if chosen.
+  const [hasMounted, setHasMounted] = useState(false);
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
   const [expanded, setExpanded] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [sweepingItem, setSweepingItem] = useState(null);
@@ -562,12 +569,17 @@ export default function TechDashboardLayout({ children }) {
       </div>)}
 
       {/* ── RIGHT-SIDE ICON RAIL (New) ── */}
-      {isRailOnRight && (
+      {isRailOnRight && (hasMounted && preferences.railStyle === 'laser' ? (
+        <LaserSliceRail
+          isOpen={railOpen}
+          onClose={() => setRailOpen(false)}
+        />
+      ) : (
         <TechIconRail 
           isOpen={railOpen} 
           onClose={() => setRailOpen(false)} 
         />
-      )}
+      ))}
 
       {/* ── PAGE CONTENT ── */}
       <main style={{ 

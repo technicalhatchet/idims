@@ -32,6 +32,7 @@ router = APIRouter()
 class UIPreferences(BaseModel):
     """Schema for UI preferences"""
     railPosition: Optional[str] = None  # 'left' | 'right'
+    railStyle: Optional[str] = None  # 'classic' | 'laser'
     solomonInterfaceStyle: Optional[str] = None  # 'signature' | 'professional'
     displayName: Optional[str] = None
 
@@ -120,6 +121,8 @@ async def update_user_settings(
             # Update only provided fields
             if update_data.ui_preferences.railPosition is not None:
                 ui_prefs['railPosition'] = update_data.ui_preferences.railPosition
+            if update_data.ui_preferences.railStyle is not None:
+                ui_prefs['railStyle'] = 'laser' if update_data.ui_preferences.railStyle == 'laser' else 'classic'
             if update_data.ui_preferences.solomonInterfaceStyle is not None:
                 ui_prefs['solomonInterfaceStyle'] = update_data.ui_preferences.solomonInterfaceStyle
             if update_data.ui_preferences.displayName is not None:

@@ -38,7 +38,7 @@ const ACCENT_ORANGE = '#FF7A1A';
 const RAIL_BG = '#0B0F1A';
 const RAIL_BG_LIGHTER = '#111827';
 
-const NAV_ITEMS = [
+export const NAV_ITEMS = [
   {
     id: 'settings',
     name: 'Settings',
