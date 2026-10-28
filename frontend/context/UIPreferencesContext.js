@@ -4,6 +4,7 @@ import { getUserSettings, updateUserSettings } from '../services/api/settingsApi
 
 const DEFAULT_PREFERENCES = {
   railPosition: 'right', // 'left' | 'right'
+  railStyle: 'classic', // 'classic' | 'laser' (laser = LaserSliceRail, right side only)
   displayName: '',
 };
 
@@ -14,6 +15,7 @@ function readCachedPreferences() {
 
   return {
     railPosition: localStorage.getItem('ui_railPosition') || 'right',
+    railStyle: localStorage.getItem('ui_railStyle') === 'laser' ? 'laser' : 'classic',
     displayName: localStorage.getItem('ui_displayName') ?? '',
   };
 }
@@ -58,6 +60,9 @@ export function UIPreferencesProvider({ children }) {
             if (dbPrefs.railPosition != null) {
               next.railPosition = dbPrefs.railPosition || 'right';
             }
+            if (dbPrefs.railStyle != null) {
+              next.railStyle = dbPrefs.railStyle === 'laser' ? 'laser' : 'classic';
+            }
             if (Object.prototype.hasOwnProperty.call(dbPrefs, 'displayName')) {
               next.displayName = String(dbPrefs.displayName || '').trim();
             }
@@ -67,6 +72,9 @@ export function UIPreferencesProvider({ children }) {
           if (typeof window !== 'undefined') {
             if (dbPrefs.railPosition != null) {
               localStorage.setItem('ui_railPosition', dbPrefs.railPosition || 'right');
+            }
+            if (dbPrefs.railStyle != null) {
+              localStorage.setItem('ui_railStyle', dbPrefs.railStyle === 'laser' ? 'laser' : 'classic');
             }
             if (Object.prototype.hasOwnProperty.call(dbPrefs, 'displayName')) {
               localStorage.setItem('ui_displayName', String(dbPrefs.displayName || '').trim());
@@ -117,6 +125,34 @@ export function UIPreferencesProvider({ children }) {
     [user],
   );
 
+  const setRailStyle = useCallback(
+    async (style) => {
+      const newStyle = style === 'laser' ? 'laser' : 'classic';
+
+      setPreferences((prev) => ({
+        ...prev,
+        railStyle: newStyle,
+      }));
+
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('ui_railStyle', newStyle);
+      }
+
+      if (!user) return;
+
+      try {
+        await updateUserSettings({
+          ui_preferences: {
+            railStyle: newStyle,
+          },
+        });
+      } catch (error) {
+        // localStorage already has the value
+      }
+    },
+    [user],
+  );
+
   const setDisplayName = useCallback(
     async (name) => {
       const trimmed = String(name || '').trim();
@@ -150,6 +186,7 @@ export function UIPreferencesProvider({ children }) {
       value={{
         preferences,
         setRailPosition,
+        setRailStyle,
         setDisplayName,
         isLoading,
       }}
