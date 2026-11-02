@@ -2,6 +2,15 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { apiClient } from '../../utils/api-client';
 import { upsertAppSetting } from '../../utils/upsertAppSetting';
+import {
+  NestedSettingsAccordionGroup,
+  SettingsAccordion,
+} from './SettingsAccordion';
+
+const OUTREACH_NESTED = {
+  groupId: 'notifications::customer-outreach-inner',
+  sections: ['customer-outreach-email'],
+};
 
 export default function CustomerOutreachSettingsPanel() {
   const [testMode, setTestMode] = useState(true);
@@ -52,19 +61,32 @@ export default function CustomerOutreachSettingsPanel() {
       className="space-y-3"
       style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '1.5rem' }}
     >
-      <h3 className="text-white font-semibold">Customer outreach safety</h3>
-      <p className="text-gray-500 text-xs m-0">
-        When test mode is on, worker-driven customer contact only reaches clients with{' '}
-        <strong className="text-gray-400">Test client</strong> checked on their profile.
-      </p>
-      <label className="flex items-center gap-2 text-sm text-gray-300">
-        <input
-          type="checkbox"
-          checked={testMode}
-          onChange={(e) => setTestMode(e.target.checked)}
-        />
-        Customer outreach test mode (recommended until launch)
-      </label>
+      <NestedSettingsAccordionGroup
+        groupId={OUTREACH_NESTED.groupId}
+        sectionIds={OUTREACH_NESTED.sections}
+      >
+        <SettingsAccordion
+          nested
+          sectionId="customer-outreach-email"
+          title="Notifications / email safety"
+          summary="Gate automatic customer outreach to test clients only"
+        >
+          <div className="p-4 pt-0 space-y-3">
+            <p className="text-gray-500 text-xs m-0">
+              When test mode is on, worker-driven customer contact only reaches clients with{' '}
+              <strong className="text-gray-400">Test client</strong> checked on their profile.
+            </p>
+            <label className="flex items-center gap-2 text-sm text-gray-300">
+              <input
+                type="checkbox"
+                checked={testMode}
+                onChange={(e) => setTestMode(e.target.checked)}
+              />
+              Customer outreach test mode (recommended until launch)
+            </label>
+          </div>
+        </SettingsAccordion>
+      </NestedSettingsAccordionGroup>
       <button
         type="button"
         onClick={save}

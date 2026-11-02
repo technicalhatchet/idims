@@ -3,14 +3,16 @@
 from __future__ import annotations
 
 import logging
+from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, List, Optional, Tuple
+from typing import Any, List, Literal, Optional, Tuple
 from uuid import UUID
 
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.models.client import Client
+from app.models.client_login_property_access import ClientLoginPropertyAccess
 from app.models.client_login import (
     ADDED_VIA_EMAIL_MATCH,
     ADDED_VIA_INVITE,
@@ -19,8 +21,10 @@ from app.models.client_login import (
     ClientLogin,
 )
 from app.models.client_portal_claim import ClientPortalClaim
+from app.models.property import Property
 from app.models.user import User as DBUser
 from app.services.portal_account_linking import normalize_email
+from app.services.portal_preview_guard import is_admin_preview
 from app.utils.datetime_utils import utcnow_naive
 
 logger = logging.getLogger(__name__)
@@ -35,6 +39,127 @@ class PortalLoginError(Exception):
         self.code = code
         self.message = message
         super().__init__(message)
+
+
+PortalRole = Literal["owner", "tenant"]
+
+
+@dataclass
+class PortalScope:
+    client: Client
+    login: Optional[ClientLogin]
+    role: PortalRole
+    property_ids: Optional[List[UUID]]
+    is_admin_preview: bool
+
+    @property
+    def is_tenant(self) -> bool:
+        return self.role == "tenant" and not self.is_admin_preview
+
+    @property
+    def is_owner(self) -> bool:
+        return not self.is_tenant
+
+
+def _portal_feature_ctx(token_data: Any):
+    from app.services.feature_flags_service import feature_context_from_roles
+
+    return feature_context_from_roles(getattr(token_data, "roles", None))
+
+
+def _tenant_property_ids_for_login(db: Session, login: ClientLogin) -> List[UUID]:
+    rows = (
+        db.query(ClientLoginPropertyAccess.property_id)
+        .filter(ClientLoginPropertyAccess.client_login_id == login.id)
+        .all()
+    )
+    return [row[0] for row in rows if row[0]]
+
+
+def get_portal_scope(
+    db: Session,
+    token_data: Any,
+    *,
+    admin_client_id: Optional[UUID] = None,
+) -> PortalScope:
+    """Resolve portal client + tenant property scope (Wave 3)."""
+    roles = getattr(token_data, "roles", []) or []
+    is_admin = "admin" in roles
+    is_client = "client" in roles
+    admin_preview = is_admin_preview(roles, str(admin_client_id) if admin_client_id else None)
+
+    if admin_preview and admin_client_id:
+        client = db.query(Client).filter(Client.id == admin_client_id).first()
+        if not client or client.merged_into_client_id is not None:
+            raise PortalLoginError("not_linked", "Client not found")
+        return PortalScope(
+            client=client,
+            login=None,
+            role="owner",
+            property_ids=None,
+            is_admin_preview=True,
+        )
+
+    if is_admin and not admin_client_id:
+        raise PortalLoginError(
+            "admin_no_client",
+            "Admin must specify admin_client_id to preview portal",
+        )
+
+    if is_client:
+        auth0_user_id = token_data.sub
+        login = get_active_login_for_sub(db, auth0_user_id)
+        if not login:
+            revoked = (
+                db.query(ClientLogin)
+                .filter(
+                    ClientLogin.auth0_user_id == auth0_user_id,
+                    ClientLogin.revoked_at.isnot(None),
+                )
+                .first()
+            )
+            if revoked:
+                raise PortalLoginError("revoked", PORTAL_ACCESS_REVOKED_MESSAGE)
+            raise PortalLoginError(
+                "not_linked",
+                "No client record found for this account.",
+            )
+
+        client = db.query(Client).filter(Client.id == login.client_id).first()
+        if not client or client.merged_into_client_id is not None:
+            raise PortalLoginError(
+                "not_linked",
+                "No client record found for this account.",
+            )
+
+        from app.services.feature_flags_service import feature_enabled
+
+        ctx = _portal_feature_ctx(token_data)
+        if not feature_enabled(db, "tenant_access", ctx):
+            return PortalScope(
+                client=client,
+                login=login,
+                role="owner",
+                property_ids=None,
+                is_admin_preview=False,
+            )
+
+        role_raw = (getattr(login, "role", None) or "owner").strip().lower()
+        role: PortalRole = "tenant" if role_raw == "tenant" else "owner"
+        if role == "tenant":
+            property_ids = _tenant_property_ids_for_login(db, login)
+        else:
+            property_ids = None
+
+        return PortalScope(
+            client=client,
+            login=login,
+            role=role,
+            property_ids=property_ids,
+            is_admin_preview=False,
+        )
+
+    raise PortalLoginError("forbidden", "Client portal access required")
 
 
 def _naive_dt(dt: Optional[datetime]) -> Optional[datetime]:
@@ -220,6 +345,8 @@ def ensure_client_login(
                 "other_client",
                 "This login is already linked to another client account.",
             )
+        if claim:
+            apply_portal_login_scope_from_claim(db, existing, claim)
         return existing, False
 
     revoked = get_revoked_login_for_sub_client(db, auth0_sub, client.id)
@@ -233,6 +360,8 @@ def ensure_client_login(
             if invited_phone:
                 revoked.invited_phone = str(invited_phone).strip() or None
             revoked.added_via = added_via
+            if claim:
+                apply_portal_login_scope_from_claim(db, revoked, claim)
             db.flush()
             logger.info(
                 "Reactivated client_login id=%s client_id=%s sub=%s",
@@ -253,6 +382,8 @@ def ensure_client_login(
     )
     db.add(login)
     db.flush()
+    if claim:
+        apply_portal_login_scope_from_claim(db, login, claim)
     logger.info(
         "Created client_login id=%s client_id=%s sub=%s via=%s",
         login.id,
@@ -281,6 +412,53 @@ def person_fields_from_claim(claim: Optional[ClientPortalClaim]) -> dict:
         "invited_email": getattr(claim, "invited_email", None),
         "invited_phone": getattr(claim, "invited_phone", None),
     }
+
+
+def _tenant_scope_from_claim_metadata(
+    claim: Optional[ClientPortalClaim],
+) -> Tuple[PortalRole, Optional[UUID]]:
+    if not claim:
+        return "owner", None
+    meta = getattr(claim, "claim_metadata", None) or {}
+    if not isinstance(meta, dict):
+        return "owner", None
+    role_raw = str(meta.get("role") or "owner").strip().lower()
+    if role_raw != "tenant":
+        return "owner", None
+    raw_pid = meta.get("property_id")
+    if not raw_pid:
+        return "tenant", None
+    try:
+        return "tenant", UUID(str(raw_pid))
+    except (ValueError, TypeError):
+        return "tenant", None
+
+
+def apply_portal_login_scope_from_claim(
+    db: Session,
+    login: ClientLogin,
+    claim: Optional[ClientPortalClaim],
+) -> None:
+    """Apply owner/tenant role + property access row from invite metadata."""
+    role, property_id = _tenant_scope_from_claim_metadata(claim)
+    login.role = role
+    db.query(ClientLoginPropertyAccess).filter(
+        ClientLoginPropertyAccess.client_login_id == login.id
+    ).delete(synchronize_session=False)
+    if role == "tenant" and property_id:
+        prop = (
+            db.query(Property)
+            .filter(Property.id == property_id, Property.client_id == login.client_id)
+            .first()
+        )
+        if prop:
+            db.add(
+                ClientLoginPropertyAccess(
+                    client_login_id=login.id,
+                    property_id=property_id,
+                )
+            )
+    db.flush()
 
 
 def find_open_claim_by_invited_email(

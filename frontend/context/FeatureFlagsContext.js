@@ -19,7 +19,16 @@ export const WAVE2_FEATURE_FLAG_IDS = [
   'maintenance_reminders',
 ];
 
-export const ALL_FEATURE_FLAG_IDS = [...WAVE1_FEATURE_FLAG_IDS, ...WAVE2_FEATURE_FLAG_IDS];
+export const WAVE3_FEATURE_FLAG_IDS = [
+  'tenant_access',
+  'estimate_auto_approve',
+];
+
+export const ALL_FEATURE_FLAG_IDS = [
+  ...WAVE1_FEATURE_FLAG_IDS,
+  ...WAVE2_FEATURE_FLAG_IDS,
+  ...WAVE3_FEATURE_FLAG_IDS,
+];
 
 /** Fail-open: every registry flag ON (matches backend default_feature_flags). */
 export function allWave1FeaturesEnabledSet() {

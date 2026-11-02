@@ -97,7 +97,15 @@ export function SettingsAccordionToolbar() {
   );
 }
 
-export function SettingsAccordion({ sectionId, title, summary, children }) {
+export function NestedSettingsAccordionGroup({ groupId, sectionIds, children }) {
+  return (
+    <SettingsAccordionProvider tabId={groupId} sectionIds={sectionIds}>
+      <div className="space-y-3 p-4">{children}</div>
+    </SettingsAccordionProvider>
+  );
+}
+
+export function SettingsAccordion({ sectionId, title, summary, children, nested = false }) {
   const ctx = useContext(SettingsAccordionContext);
   const open = ctx ? ctx.isOpen(sectionId) : false;
   const onToggle = () => ctx?.toggle(sectionId);
@@ -105,16 +113,19 @@ export function SettingsAccordion({ sectionId, title, summary, children }) {
   return (
     <div
       className="rounded-xl overflow-hidden"
-      style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.07)' }}
+      style={{
+        background: nested ? '#0f172a' : '#111827',
+        border: `1px solid rgba(255,255,255,${nested ? '0.05' : '0.07'})`,
+      }}
     >
       <button
         type="button"
         onClick={onToggle}
-        className="w-full flex items-start justify-between gap-3 p-4 text-left hover:bg-white/[0.02] transition-colors"
+        className={`w-full flex items-start justify-between gap-3 text-left hover:bg-white/[0.02] transition-colors ${nested ? 'p-3' : 'p-4'}`}
         aria-expanded={open}
       >
         <div className="min-w-0">
-          <h2 className="text-lg font-semibold text-white m-0">{title}</h2>
+          <h2 className={`font-semibold text-white m-0 ${nested ? 'text-sm' : 'text-lg'}`}>{title}</h2>
           {summary ? <p className="text-xs text-gray-500 mt-1 mb-0">{summary}</p> : null}
         </div>
         <span className="text-gray-500 shrink-0 mt-1">

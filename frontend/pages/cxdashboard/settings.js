@@ -12,6 +12,11 @@ import {
 import { MARKETING_PHONE_DISPLAY } from '../../constants/marketingSiteContent';
 import { portalSignOut } from '../../components/cxdashboard/portalAuth';
 import { useFeature } from '../../context/FeatureFlagsContext';
+import { usePortalAccess } from '../../context/PortalAccessContext';
+import {
+  formatAutoApproveLimit,
+  parseAutoApproveLimitInput,
+} from '../../utils/estimateAutoApproveLimit';
 
 const inputClass =
   'w-full rounded-lg border border-white/10 bg-[#0D1525] px-3 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-cyan-500/50';
@@ -21,7 +26,13 @@ const SMS_CONSENT_LABEL =
 
 export default function SettingsPage() {
   const householdInvitesEnabled = useFeature('household_invites');
+  const autoApproveEnabled = useFeature('estimate_auto_approve');
+  const { isOwner, isTenant, refresh: refreshPortalAccess } = usePortalAccess();
   const [loading, setLoading] = useState(true);
+  const [autoApproveDraft, setAutoApproveDraft] = useState('');
+  const [autoApproveSaving, setAutoApproveSaving] = useState(false);
+  const [autoApproveSaved, setAutoApproveSaved] = useState(false);
+  const [autoApproveError, setAutoApproveError] = useState(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [saved, setSaved] = useState(false);
@@ -66,6 +77,19 @@ export default function SettingsPage() {
         } catch {
           setPendingInvites([]);
           setActiveLoginCount(0);
+        }
+        if (autoApproveEnabled && !me?.portal_access?.is_tenant) {
+          try {
+            const settings = await portalFetch('account/auto-approve-settings', token);
+            const limit = settings?.estimate_auto_approve_limit;
+            setAutoApproveDraft(limit != null ? formatAutoApproveLimit(limit) : '');
+          } catch {
+            setAutoApproveDraft(
+              me?.estimate_auto_approve_limit != null
+                ? formatAutoApproveLimit(me.estimate_auto_approve_limit)
+                : '',
+            );
+          }
         }
         setForm({
           first_name: me.first_name || '',
@@ -171,6 +195,37 @@ export default function SettingsPage() {
       return new Date(iso).toLocaleString();
     } catch {
       return iso;
+    }
+  }
+
+  async function handleSaveAutoApprove(e) {
+    e.preventDefault();
+    if (!autoApproveEnabled || !isOwner) return;
+    setAutoApproveSaving(true);
+    setAutoApproveError(null);
+    setAutoApproveSaved(false);
+    try {
+      const parsed = parseAutoApproveLimitInput(autoApproveDraft);
+      if (parsed === undefined) {
+        setAutoApproveError('Enter a valid dollar amount or leave blank to always ask.');
+        return;
+      }
+      const token = await getPortalSessionToken();
+      const updated = await portalFetch('account/auto-approve-settings', token, {
+        method: 'PUT',
+        body: JSON.stringify({ estimate_auto_approve_limit: parsed }),
+      });
+      setAutoApproveDraft(
+        updated?.estimate_auto_approve_limit != null
+          ? formatAutoApproveLimit(updated.estimate_auto_approve_limit)
+          : '',
+      );
+      setAutoApproveSaved(true);
+      await refreshPortalAccess();
+    } catch (err) {
+      setAutoApproveError(err.message);
+    } finally {
+      setAutoApproveSaving(false);
     }
   }
 
@@ -429,6 +484,46 @@ export default function SettingsPage() {
             </button>
           </form>
         )}
+
+        {!loading && autoApproveEnabled && isOwner && !isTenant ? (
+          <form
+            onSubmit={handleSaveAutoApprove}
+            className="rounded-xl border border-white/[0.07] bg-[#0D1525] p-4 sm:p-5 space-y-3 max-w-xl"
+          >
+            <div>
+              <h2 className="text-white text-base font-semibold m-0">Estimate auto-approve</h2>
+              <p className="text-white/45 text-sm mt-1 mb-0">
+                Account default for repair estimates. Individual properties can override this on My Properties.
+              </p>
+            </div>
+            <label className="block text-sm text-white/80">
+              Auto-approve repairs up to $
+              <input
+                type="text"
+                inputMode="decimal"
+                className={`${inputClass} inline-block w-28 mx-1 align-middle`}
+                placeholder="blank = always ask"
+                value={autoApproveDraft}
+                onChange={(e) => {
+                  setAutoApproveSaved(false);
+                  setAutoApproveDraft(e.target.value);
+                }}
+                disabled={previewMode}
+              />
+            </label>
+            {autoApproveError ? <p className="text-red-400 text-sm m-0">{autoApproveError}</p> : null}
+            {autoApproveSaved ? (
+              <p className="text-emerald-400 text-sm m-0">Saved.</p>
+            ) : null}
+            <button
+              type="submit"
+              disabled={autoApproveSaving || previewMode}
+              className="text-sm px-3 py-2 rounded-lg bg-cyan-500 text-[#0a0f1a] font-bold disabled:opacity-60"
+            >
+              {autoApproveSaving ? 'Saving…' : 'Save auto-approve default'}
+            </button>
+          </form>
+        ) : null}
 
         {!loading && !isPortalPreviewActive() ? (
           <div className="rounded-xl border border-white/[0.07] bg-[#0D1525] p-4 sm:p-5 space-y-3 max-w-xl">

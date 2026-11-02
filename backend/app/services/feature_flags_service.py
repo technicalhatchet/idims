@@ -33,6 +33,8 @@ FEATURE_FLAG_DEFINITIONS: Dict[str, str] = {
     "appliance_age": "Serial-based manufacture date and typical lifespan hints",
     "parts_links": "Customer parts search links on appliance views",
     "maintenance_reminders": "Appliance maintenance schedules, portal reminders, and summary emails",
+    "tenant_access": "Property-scoped tenant portal logins and invites",
+    "estimate_auto_approve": "Auto-approve repair estimates under client/property dollar limits",
 }
 
 WAVE2_FEATURE_DEFAULTS: Dict[str, Dict[str, Any]] = {
@@ -40,6 +42,11 @@ WAVE2_FEATURE_DEFAULTS: Dict[str, Dict[str, Any]] = {
     "appliance_age": {"enabled": True, "admin_only": True},
     "parts_links": {"enabled": True, "admin_only": True},
     "maintenance_reminders": {"enabled": True, "admin_only": True},
+}
+
+WAVE3_FEATURE_DEFAULTS: Dict[str, Dict[str, Any]] = {
+    "tenant_access": {"enabled": True, "admin_only": True},
+    "estimate_auto_approve": {"enabled": True, "admin_only": True},
 }
 
 ALL_FEATURE_FLAG_IDS: Set[str] = set(FEATURE_FLAG_DEFINITIONS.keys())
@@ -67,7 +74,9 @@ def invalidate_feature_flags_cache() -> None:
 def default_feature_flags() -> Dict[str, Dict[str, Any]]:
     out: Dict[str, Dict[str, Any]] = {}
     for flag_id in FEATURE_FLAG_DEFINITIONS:
-        if flag_id in WAVE2_FEATURE_DEFAULTS:
+        if flag_id in WAVE3_FEATURE_DEFAULTS:
+            out[flag_id] = dict(WAVE3_FEATURE_DEFAULTS[flag_id])
+        elif flag_id in WAVE2_FEATURE_DEFAULTS:
             out[flag_id] = dict(WAVE2_FEATURE_DEFAULTS[flag_id])
         else:
             out[flag_id] = {"enabled": True, "admin_only": False}

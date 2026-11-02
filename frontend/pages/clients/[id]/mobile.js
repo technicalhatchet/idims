@@ -25,6 +25,8 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { useUserRole } from '../../../context/UserRoleContext';
 import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
 import ClientAppliancesPanel from '../../../components/clients/ClientAppliancesPanel';
+import AutoApproveLimitField from '../../../components/clients/AutoApproveLimitField';
+import { useFeature } from '../../../context/FeatureFlagsContext';
 import { techWorkOrderDetailPath, techWorkOrderNewPath } from '../../../lib/techRoutes';
 import {
   buildPortalInviteSmsBody,
@@ -56,9 +58,19 @@ const emptyPropertyForm = {
   tenant_name: '',
   tenant_phone: '',
   tenant_email: '',
+  estimate_auto_approve_limit: null,
 };
 
-function PropertyForm({ propertyForm, setPropertyForm, propertyError, savingProperty, editingProperty, onSave, onCancel }) {
+function PropertyForm({
+  propertyForm,
+  setPropertyForm,
+  propertyError,
+  savingProperty,
+  editingProperty,
+  onSave,
+  onCancel,
+  autoApproveEnabled = false,
+}) {
   return (
     <div 
       className="rounded-lg p-4 mb-4"
@@ -223,6 +235,17 @@ function PropertyForm({ propertyForm, setPropertyForm, propertyError, savingProp
                 />
               </div>
             </div>
+            {autoApproveEnabled ? (
+              <div className="mt-3">
+                <AutoApproveLimitField
+                  label="Auto-approve repairs up to ($)"
+                  hint="Property override; blank uses client default or always ask."
+                  value={propertyForm.estimate_auto_approve_limit}
+                  onChange={(v) => setPropertyForm((p) => ({ ...p, estimate_auto_approve_limit: v }))}
+                  inputClassName="w-full px-3 py-2.5 rounded-md text-white text-sm"
+                />
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
@@ -262,6 +285,7 @@ function ClientDetail() {
   const { id } = router.query;
   const { user } = useUser();
   const { isAdmin } = useUserRole();
+  const autoApproveEnabled = useFeature('estimate_auto_approve');
   const [mergeWarnings, setMergeWarnings] = useState([]);
   const [detailsExpanded, setDetailsExpanded] = useState(true);
   const [propertiesExpanded, setPropertiesExpanded] = useState(false);
@@ -463,6 +487,7 @@ function ClientDetail() {
       tenant_name: property.tenant_name || '',
       tenant_phone: property.tenant_phone || '',
       tenant_email: property.tenant_email || '',
+      estimate_auto_approve_limit: property.estimate_auto_approve_limit ?? null,
     });
     setShowAddProperty(true);
     setPropertyError(null);
@@ -916,6 +941,7 @@ function ClientDetail() {
                     editingProperty={editingProperty}
                     onSave={handleSaveProperty}
                     onCancel={handleCancelProperty}
+                    autoApproveEnabled={autoApproveEnabled}
                   />
                 )}
 
@@ -1579,6 +1605,23 @@ function ClientDetail() {
                 }}
               />
             </label>
+            {autoApproveEnabled ? (
+              <div className="mb-3 p-3 rounded-md" style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <AutoApproveLimitField
+                  label="Account default auto-approve limit ($)"
+                  hint="Repairs at or under this amount can auto-approve in the portal. Blank = always ask."
+                  value={client.estimate_auto_approve_limit}
+                  onChange={async (v) => {
+                    try {
+                      await updateClient({ id: client.id, estimate_auto_approve_limit: v });
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+                  inputClassName="w-full px-3 py-2 rounded-md text-white text-sm"
+                />
+              </div>
+            ) : null}
             <label className="flex items-center justify-between gap-3 mb-3 p-3 rounded-md" style={{ background: 'rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <div>
                 <p className="text-sm text-white font-semibold">Test client</p>

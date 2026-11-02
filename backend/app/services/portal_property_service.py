@@ -147,6 +147,9 @@ def _apply_write_fields(prop: Property, data: Dict[str, Any]) -> None:
             prop.__setattr__(field, (val.strip() if isinstance(val, str) and val else None))
     if "tenant_phone" in data:
         prop.tenant_phone = normalize_phone_field(data.get("tenant_phone"))
+    if "estimate_auto_approve_limit" in data:
+        val = data.get("estimate_auto_approve_limit")
+        prop.estimate_auto_approve_limit = None if val is None else val
 
 
 def create_portal_property(
@@ -278,6 +281,11 @@ def serialize_portal_property_list_item(
         "tenant_name": prop.tenant_name,
         "tenant_phone": prop.tenant_phone,
         "tenant_email": prop.tenant_email,
+        "estimate_auto_approve_limit": (
+            float(prop.estimate_auto_approve_limit)
+            if getattr(prop, "estimate_auto_approve_limit", None) is not None
+            else None
+        ),
         "has_service_history": has_history,
         "appliance_count": appliance_count,
         "address_editable": not has_history,

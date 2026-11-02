@@ -101,6 +101,21 @@ from app.services.portal_property_service import (
     serialize_portal_property_list_item,
     update_portal_property,
 )
+from app.services.portal_login_service import PortalScope
+from app.services.portal_scope_service import (
+    assert_property_in_scope,
+    filter_appliance_query,
+    filter_property_query,
+    filter_work_order_query,
+    load_appliance_for_scope,
+    load_property_for_scope,
+    load_work_order_for_scope,
+    maybe_strip_work_order_payload,
+    notification_visible_for_scope,
+    portal_scope_dependency,
+    require_owner,
+    tenant_blocks_billing,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -115,6 +130,14 @@ def _portal_feature_ctx(token_data):
     from app.services.feature_flags_service import feature_context_from_roles
 
     return feature_context_from_roles(getattr(token_data, "roles", None))
+
+
+def _portal_feature_ctx_from_scope(scope: PortalScope):
+    if scope.is_admin_preview:
+        from app.services.feature_flags_service import FeatureContext
+
+        return FeatureContext(roles=["admin"])
+    return FeatureContext(roles=["client"])
 
 
 def _portal_appliance_serialize_kwargs(db: Session, token_data) -> Dict[str, Any]:
@@ -307,14 +330,14 @@ def require_portal_write(route: str, payment: bool = False):
         request: Request,
         token_data=Depends(get_token_data),
         admin_client_id: Optional[str] = Query(None),
-        client: Client = Depends(get_portal_client),
+        scope: PortalScope = Depends(portal_scope_dependency),
     ) -> None:
         assert_portal_write_allowed(
             request=request,
             token_roles=getattr(token_data, "roles", None),
             admin_sub=token_data.sub,
             admin_client_id=admin_client_id,
-            client_id=client.id,
+            client_id=scope.client.id,
             route=route,
             block_payment=payment,
         )
@@ -571,55 +594,9 @@ def _finalize_link_account_response(
 
 
 async def get_portal_client(
-    token_data=Depends(get_token_data),
-    db: Session = Depends(get_db),
-    admin_client_id: Optional[str] = Query(None),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ) -> Client:
-    roles = getattr(token_data, 'roles', []) or []
-    is_admin = 'admin' in roles
-    is_client = 'client' in roles
-
-    parsed_admin_client_id = None
-    if admin_client_id:
-        try:
-            parsed_admin_client_id = uuid.UUID(admin_client_id)
-        except ValueError:
-            raise HTTPException(status_code=400, detail="Invalid admin_client_id")
-
-    # Admin impersonating a client
-    if is_admin and parsed_admin_client_id:
-        client = db.query(Client).filter(Client.id == parsed_admin_client_id).first()
-        if not client:
-            raise HTTPException(status_code=404, detail="Client not found")
-        return client
-
-    # Admin with no client selected — can't use portal endpoints directly
-    if is_admin and not parsed_admin_client_id:
-        raise HTTPException(
-            status_code=400,
-            detail="Admin must specify admin_client_id to preview portal"
-        )
-
-    # Regular client user — active client_logins row (email linking is POST /portal/link-account)
-    if is_client:
-        auth0_user_id = token_data.sub
-        try:
-            return resolve_portal_client(db, auth0_user_id)
-        except PortalLoginError as exc:
-            if exc.code == "revoked":
-                raise HTTPException(
-                    status_code=status.HTTP_403_FORBIDDEN,
-                    detail=exc.message,
-                )
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="No client record found for this account. Please contact support.",
-            )
-
-    raise HTTPException(
-        status_code=status.HTTP_403_FORBIDDEN,
-        detail="Client portal access required"
-    )
+    return scope.client
 
 
 async def get_portal_client_login(
@@ -1277,8 +1254,10 @@ async def complete_portal_signup(
 async def portal_account_members(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     """Display names of everyone with active portal access (household visibility)."""
+    require_owner(scope)
     return {"members": portal_member_display_names(db, client.id)}
 
 
@@ -1297,7 +1276,9 @@ async def portal_list_account_invites(
     token_data=Depends(get_token_data),
     admin_client_id: Optional[str] = Query(None),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
+    require_owner(scope)
     _require_customer_household_invites(db, token_data, admin_client_id)
     pending = list_pending_portal_invites(db, client.id)
     return {
@@ -1314,7 +1295,9 @@ async def portal_create_account_invite(
     db: Session = Depends(get_db),
     admin_client_id: Optional[str] = Query(None),
     _write_guard: None = Depends(require_portal_write("POST /portal/account/invites")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
+    require_owner(scope)
     _require_customer_household_invites(db, token_data, admin_client_id)
     display_name = (body.display_name or "").strip()
     if not display_name:
@@ -1378,7 +1361,9 @@ async def portal_resend_account_invite(
     _write_guard: None = Depends(
         require_portal_write("POST /portal/account/invites/{claim_id}/resend")
     ),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
+    require_owner(scope)
     _require_customer_household_invites(db, token_data, admin_client_id)
     claim = get_pending_invite_for_client(db, client.id, claim_id)
     if not claim:
@@ -1432,7 +1417,9 @@ async def portal_cancel_account_invite(
     _write_guard: None = Depends(
         require_portal_write("POST /portal/account/invites/{claim_id}/cancel")
     ),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
+    require_owner(scope)
     _require_customer_household_invites(db, token_data, admin_client_id)
     claim = get_pending_invite_for_client(db, client.id, claim_id)
     if not claim:
@@ -1450,6 +1437,7 @@ async def portal_leave_account(
     login: ClientLogin = Depends(get_portal_client_login),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/account/leave")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     active_count = count_active_logins(db, client.id)
     if active_count <= 1 and not body.confirm_last_member:
@@ -1485,6 +1473,7 @@ async def portal_admin_preview_unlock(
     admin_client_id: str = Query(..., description="Client UUID being previewed"),
     token_data=Depends(get_token_data),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     roles = getattr(token_data, "roles", []) or []
     if "admin" not in roles:
@@ -1510,6 +1499,7 @@ async def portal_admin_preview_unlock(
 async def get_portal_scheduling_config_for_client(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     """Read-only scheduling config for the client portal (no payment secrets)."""
     from app.services.portal_scheduling_settings_service import get_portal_scheduling_settings
@@ -1543,28 +1533,44 @@ async def get_portal_scheduling_config_for_client(
 @router.get("/portal/me")
 async def get_portal_profile(
     client: Client = Depends(get_portal_client),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     now = datetime.utcnow()
 
-    work_orders_list = db.query(WorkOrder).filter(
-        WorkOrder.client_id == client.id
+    work_orders_list = filter_work_order_query(
+        db.query(WorkOrder), scope
     ).all()
 
     active = [w for w in work_orders_list if _work_order_status(w) not in ("completed", "cancelled", "closed")]
     warranty_active_count = sum(1 for w in work_orders_list if _warranty_is_active(w, db, now))
 
-    upcoming_appts = db.query(WorkOrderAppointment).join(
-        WorkOrder, WorkOrderAppointment.work_order_id == WorkOrder.id
-    ).filter(
-        WorkOrder.client_id == client.id,
-        WorkOrderAppointment.scheduled_start > now,
-        WorkOrderAppointment.status.notin_(["canceled", "reschedule"])
-    ).order_by(WorkOrderAppointment.scheduled_start).all()
+    upcoming_appts = (
+        filter_work_order_query(
+            db.query(WorkOrderAppointment).join(
+                WorkOrder, WorkOrderAppointment.work_order_id == WorkOrder.id
+            ),
+            scope,
+        )
+        .filter(
+            WorkOrderAppointment.scheduled_start > now,
+            WorkOrderAppointment.status.notin_(["canceled", "reschedule"]),
+        )
+        .order_by(WorkOrderAppointment.scheduled_start)
+        .all()
+    )
 
-    properties_list = db.query(Property).filter(
-        Property.client_id == client.id
-    ).all()
+    properties_list = filter_property_query(db.query(Property), scope).all()
+
+    portal_access = {
+        "role": scope.role if not scope.is_admin_preview else "owner",
+        "is_tenant": scope.is_tenant,
+        "property_ids": [str(pid) for pid in scope.property_ids] if scope.property_ids else None,
+    }
+    if scope.is_tenant and scope.property_ids and len(scope.property_ids) == 1:
+        only_prop = db.query(Property).filter(Property.id == scope.property_ids[0]).first()
+        if only_prop:
+            portal_access["property_label"] = only_prop.nickname or only_prop.address
 
     return {
         "id": str(client.id),
@@ -1587,7 +1593,13 @@ async def get_portal_profile(
             "total_work_orders": len(work_orders_list),
             "warranty_active": warranty_active_count,
             "property_count": len(properties_list),
-        }
+        },
+        "portal_access": portal_access,
+        "estimate_auto_approve_limit": (
+            float(client.estimate_auto_approve_limit)
+            if getattr(client, "estimate_auto_approve_limit", None) is not None
+            else None
+        ),
     }
 
 
@@ -1605,6 +1617,7 @@ async def update_portal_profile(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("PUT /portal/me")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     """Clients can update contact name and phone. Email stays read-only (Auth0 login)."""
     updates = body.model_dump(exclude_unset=True)
@@ -1711,6 +1724,7 @@ async def list_portal_notifications(
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
     admin_client_id: Optional[str] = Query(None),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     """In-app notifications for the portal client (supports admin preview via admin_client_id)."""
     roles = getattr(token_data, "roles", []) or []
@@ -1739,14 +1753,13 @@ async def list_portal_notifications(
 
     skip = (page - 1) * limit
     base_query = db.query(Notification).filter(Notification.user_id == notification_user_id)
-    total = base_query.count()
-    notifications = (
-        base_query.order_by(Notification.created_at.desc())
-        .offset(skip)
-        .limit(limit)
-        .all()
-    )
-    unread_count = base_query.filter(Notification.is_read == False).count()
+    all_notifications = base_query.order_by(Notification.created_at.desc()).all()
+    visible = [
+        n for n in all_notifications if notification_visible_for_scope(db, scope, n)
+    ]
+    total = len(visible)
+    notifications = visible[skip : skip + limit]
+    unread_count = sum(1 for n in visible if not n.is_read)
 
     return {
         "total": total,
@@ -1765,6 +1778,7 @@ async def mark_portal_notification_read(
     token_data=Depends(get_token_data),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("PUT /portal/notifications/read")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     notification_user_id = _portal_notification_user_id(db, token_data, client)
     if not notification_user_id:
@@ -1781,6 +1795,8 @@ async def mark_portal_notification_read(
     ).first()
     if not notification:
         raise HTTPException(status_code=404, detail="Notification not found")
+    if not notification_visible_for_scope(db, scope, notification):
+        raise HTTPException(status_code=404, detail="Notification not found")
 
     notification.mark_as_read()
     db.commit()
@@ -1792,14 +1808,16 @@ async def mark_portal_notification_read(
 async def get_portal_appointments(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
-    upcoming_only: bool = False
+    upcoming_only: bool = False,
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     now = datetime.utcnow()
 
-    query = db.query(WorkOrderAppointment).join(
-        WorkOrder, WorkOrderAppointment.work_order_id == WorkOrder.id
-    ).filter(
-        WorkOrder.client_id == client.id
+    query = filter_work_order_query(
+        db.query(WorkOrderAppointment).join(
+            WorkOrder, WorkOrderAppointment.work_order_id == WorkOrder.id
+        ),
+        scope,
     )
 
     if upcoming_only:
@@ -1840,23 +1858,29 @@ async def get_portal_work_orders(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     status: Optional[str] = None,
-    property_id: Optional[str] = None
+    property_id: Optional[str] = None,
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     from app.services.work_order_billing_helpers import compute_net_invoice_total
 
-    query = (
+    query = filter_work_order_query(
         db.query(WorkOrder)
         .options(
             joinedload(WorkOrder.service_items).joinedload(WorkOrderService.service),
             joinedload(WorkOrder.parts),
             joinedload(WorkOrder.appointments),
-        )
-        .filter(WorkOrder.client_id == client.id)
+        ),
+        scope,
     )
     if status:
         query = query.filter(WorkOrder.status == status)
     if property_id:
-        query = query.filter(WorkOrder.property_id == property_id)
+        try:
+            prop_uuid = uuid.UUID(property_id)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail="Invalid property id") from exc
+        assert_property_in_scope(db, scope, prop_uuid)
+        query = query.filter(WorkOrder.property_id == prop_uuid)
 
     work_orders_list = query.order_by(desc(WorkOrder.created_at)).all()
 
@@ -1870,7 +1894,7 @@ async def get_portal_work_orders(
         warranty_expires = _warranty_expires_at(wo, db)
         warranty_expires_iso = warranty_expires.isoformat() if warranty_expires else None
 
-        result.append({
+        row = {
             "id": str(wo.id),
             "order_number": wo.order_number,
             "status": _work_order_status(wo),
@@ -1907,7 +1931,8 @@ async def get_portal_work_orders(
             ],
             **_estimate_fields(wo, db),
             "estimate_approval": _portal_estimate_approval_summary(wo, db),
-        })
+        }
+        result.append(maybe_strip_work_order_payload(scope, row))
     return result
 
 
@@ -1915,15 +1940,14 @@ async def get_portal_work_orders(
 async def get_portal_work_order_detail(
     work_order_id: str,
     client: Client = Depends(get_portal_client),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
-    wo = db.query(WorkOrder).filter(
-        WorkOrder.id == work_order_id,
-        WorkOrder.client_id == client.id
-    ).first()
-
-    if not wo:
-        raise HTTPException(status_code=404, detail="Work order not found")
+    try:
+        wo_uuid = uuid.UUID(work_order_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid work order id") from exc
+    wo = load_work_order_for_scope(db, scope, wo_uuid)
 
     prop = db.query(Property).filter(Property.id == wo.property_id).first() if wo.property_id else None
     appointments = db.query(WorkOrderAppointment).filter(
@@ -1934,7 +1958,7 @@ async def get_portal_work_order_detail(
     warranty_expires_iso = warranty_expires.isoformat() if warranty_expires else None
     warranty_active_flag = _warranty_is_active(wo, db)
 
-    return {
+    payload = {
         "id": str(wo.id),
         "order_number": wo.order_number,
         "status": wo.status,
@@ -1986,20 +2010,75 @@ async def get_portal_work_order_detail(
         **_estimate_fields(wo, db),
         "estimate_approval": _portal_estimate_approval_summary(wo, db),
     }
+    return maybe_strip_work_order_payload(scope, payload)
 
 
 def _raise_portal_property_error(exc: PortalPropertyError) -> None:
     raise HTTPException(status_code=exc.status_code, detail=exc.message)
 
 
+def _scoped_schedule_appliance_id(
+    db: Session,
+    scope: PortalScope,
+    appliance_id: str,
+) -> uuid.UUID:
+    try:
+        parsed = uuid.UUID(appliance_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid appliance id") from exc
+    load_appliance_for_scope(db, scope, parsed)
+    return parsed
+
+
+def _portal_maintenance_appliance_scoped(
+    db: Session,
+    scope: PortalScope,
+    appliance_id: str,
+) -> ClientAppliance:
+    try:
+        parsed_id = uuid.UUID(appliance_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail="Appliance not found") from exc
+    return load_appliance_for_scope(db, scope, parsed_id)
+
+
+def _load_portal_work_order_route(
+    db: Session,
+    scope: PortalScope,
+    work_order_id: str,
+) -> WorkOrder:
+    try:
+        wo_uuid = uuid.UUID(work_order_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid work order id") from exc
+    return load_work_order_for_scope(db, scope, wo_uuid)
+
+
+def _filter_appliance_rows_for_scope(scope: PortalScope, rows: List[dict]) -> List[dict]:
+    if not scope.is_tenant or scope.property_ids is None:
+        return rows
+    allowed = set(scope.property_ids)
+    filtered: List[dict] = []
+    for row in rows:
+        prop_raw = row.get("property_id")
+        if not prop_raw:
+            continue
+        try:
+            prop_id = uuid.UUID(str(prop_raw))
+        except ValueError:
+            continue
+        if prop_id in allowed:
+            filtered.append(row)
+    return filtered
+
+
 @router.get("/portal/properties")
 async def get_portal_properties(
     client: Client = Depends(get_portal_client),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
-    properties_list = db.query(Property).filter(
-        Property.client_id == client.id
-    ).all()
+    properties_list = filter_property_query(db.query(Property), scope).all()
 
     now = datetime.utcnow()
     return [
@@ -2019,7 +2098,9 @@ async def create_portal_property_route(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/properties")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
+    require_owner(scope)
     try:
         prop = create_portal_property(db, client, body)
         db.commit()
@@ -2039,7 +2120,10 @@ async def update_portal_property_route(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("PUT /portal/properties")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
+    require_owner(scope)
+    load_property_for_scope(db, scope, property_id)
     try:
         prop = update_portal_property(db, client, property_id, body)
         db.commit()
@@ -2058,7 +2142,10 @@ async def delete_portal_property_route(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("DELETE /portal/properties")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
+    require_owner(scope)
+    load_property_for_scope(db, scope, property_id)
     try:
         delete_portal_property(db, client.id, property_id)
         db.commit()
@@ -2068,26 +2155,170 @@ async def delete_portal_property_route(
         _raise_portal_property_error(exc)
 
 
+class PortalTenantInviteRequest(BaseModel):
+    invited_email: Optional[str] = None
+    invited_phone: Optional[str] = None
+    display_name: Optional[str] = None
+
+
+class PortalAutoApproveSettings(BaseModel):
+    estimate_auto_approve_limit: Optional[float] = None
+
+
+@router.get("/portal/properties/{property_id}/tenant-access")
+async def get_portal_property_tenant_access(
+    property_id: uuid.UUID,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
+):
+    from app.services.feature_flags_service import feature_enabled
+    from app.services.portal_tenant_access_service import list_property_tenant_access
+
+    require_owner(scope)
+    load_property_for_scope(db, scope, property_id)
+    if not feature_enabled(db, "tenant_access", _portal_feature_ctx_from_scope(scope)):
+        raise HTTPException(status_code=404, detail="Not found")
+    try:
+        return list_property_tenant_access(db, client=client, property_id=property_id)
+    except PortalMemberInviteError as exc:
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.post("/portal/properties/{property_id}/tenant-access/invite")
+async def invite_portal_property_tenant(
+    property_id: uuid.UUID,
+    body: PortalTenantInviteRequest,
+    token_data=Depends(get_token_data),
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    login: ClientLogin = Depends(get_portal_client_login),
+    admin_client_id: Optional[str] = Query(None),
+    _write_guard: None = Depends(require_portal_write("POST /portal/properties/tenant-access/invite")),
+    scope: PortalScope = Depends(portal_scope_dependency),
+):
+    from app.services.feature_flags_service import feature_enabled
+    from app.services.portal_tenant_access_service import create_property_tenant_invite
+
+    _require_portal_feature(db, "tenant_access", token_data)
+    require_owner(scope)
+    load_property_for_scope(db, scope, property_id)
+    if not feature_enabled(db, "tenant_access", _portal_feature_ctx(token_data)):
+        raise HTTPException(status_code=404, detail="Not found")
+    actor = resolve_portal_invite_actor(
+        db,
+        token_sub=token_data.sub,
+        token_roles=getattr(token_data, "roles", None),
+        admin_client_id=admin_client_id,
+        client=client,
+    )
+    try:
+        payload = await create_property_tenant_invite(
+            db,
+            client=client,
+            property_id=property_id,
+            invited_email=body.invited_email or "",
+            invited_phone=body.invited_phone,
+            display_name=body.display_name,
+            actor=actor,
+        )
+        db.commit()
+        return payload
+    except PortalMemberInviteError as exc:
+        db.rollback()
+        raise HTTPException(status_code=exc.status_code, detail=exc.message) from exc
+
+
+@router.post("/portal/account/members/{login_id}/revoke")
+async def portal_revoke_member_login(
+    login_id: uuid.UUID,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
+    _write_guard: None = Depends(require_portal_write("POST /portal/account/members/revoke")),
+):
+    require_owner(scope)
+    row = (
+        db.query(ClientLogin)
+        .filter(ClientLogin.id == login_id, ClientLogin.client_id == client.id)
+        .first()
+    )
+    if not row:
+        raise HTTPException(status_code=404, detail="Not found")
+    revoke_client_login(db, row.id)
+    db.commit()
+    return {"success": True}
+
+
+@router.get("/portal/account/auto-approve-settings")
+async def get_portal_auto_approve_settings(
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
+):
+    from app.services.feature_flags_service import feature_enabled
+
+    require_owner(scope)
+    if not feature_enabled(db, "estimate_auto_approve", _portal_feature_ctx_from_scope(scope)):
+        raise HTTPException(status_code=404, detail="Not found")
+    return {
+        "estimate_auto_approve_limit": (
+            float(client.estimate_auto_approve_limit)
+            if client.estimate_auto_approve_limit is not None
+            else None
+        ),
+    }
+
+
+@router.put("/portal/account/auto-approve-settings")
+async def update_portal_auto_approve_settings(
+    body: PortalAutoApproveSettings,
+    client: Client = Depends(get_portal_client),
+    db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
+    _write_guard: None = Depends(require_portal_write("PUT /portal/account/auto-approve-settings")),
+):
+    from app.services.feature_flags_service import feature_enabled
+
+    require_owner(scope)
+    if not feature_enabled(db, "estimate_auto_approve", _portal_feature_ctx_from_scope(scope)):
+        raise HTTPException(status_code=404, detail="Not found")
+    if body.estimate_auto_approve_limit is None:
+        client.estimate_auto_approve_limit = None
+    else:
+        if body.estimate_auto_approve_limit < 0:
+            raise HTTPException(status_code=422, detail="Limit must be zero or greater.")
+        client.estimate_auto_approve_limit = body.estimate_auto_approve_limit
+    db.commit()
+    return {
+        "estimate_auto_approve_limit": (
+            float(client.estimate_auto_approve_limit)
+            if client.estimate_auto_approve_limit is not None
+            else None
+        ),
+    }
+
+
 @router.get("/portal/invoices")
 async def get_portal_invoices(
     client: Client = Depends(get_portal_client),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
+    require_owner(scope)
     from app.services.work_order_billing_helpers import compute_balance_due, compute_net_invoice_total
     from app.services.portal_booking_payment_service import work_order_has_portal_prepayment
     from app.services.portal_square_payment_service import square_credentials_configured
 
-    work_orders_list = (
+    work_orders_list = filter_work_order_query(
         db.query(WorkOrder)
         .options(
             joinedload(WorkOrder.service_items).joinedload(WorkOrderService.service),
             joinedload(WorkOrder.parts),
             joinedload(WorkOrder.appointments),
-        )
-        .filter(WorkOrder.client_id == client.id)
-        .order_by(desc(WorkOrder.created_at))
-        .all()
-    )
+        ),
+        scope,
+    ).order_by(desc(WorkOrder.created_at)).all()
 
     pay_online = square_credentials_configured(db)
     result = []
@@ -2148,7 +2379,9 @@ async def portal_pay_all_invoices(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/invoices/pay-all", payment=True)),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
+    require_owner(scope)
     from app.services.work_order_billing_helpers import compute_balance_due
     from app.services.portal_square_payment_service import square_credentials_configured
     from app.services.work_order_payment_service import record_portal_bulk_square_payment
@@ -2163,15 +2396,16 @@ async def portal_pay_all_invoices(
         wo_ids: List[uuid.UUID] = []
         for raw_id in body.work_order_ids:
             try:
-                wo_ids.append(uuid.UUID(raw_id))
+                parsed = uuid.UUID(raw_id)
             except ValueError as exc:
                 raise HTTPException(status_code=400, detail="Invalid work order id") from exc
+            load_work_order_for_scope(db, scope, parsed)
+            wo_ids.append(parsed)
     else:
-        work_orders = (
-            db.query(WorkOrder)
-            .filter(WorkOrder.client_id == client.id)
-            .all()
-        )
+        work_orders = filter_work_order_query(
+            db.query(WorkOrder),
+            scope,
+        ).all()
         wo_ids = [
             wo.id
             for wo in work_orders
@@ -2209,13 +2443,16 @@ async def portal_pay_invoice(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/work-orders/pay-invoice", payment=True)),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
+    require_owner(scope)
     from app.services.work_order_payment_service import record_portal_invoice_square_payment
 
     try:
         wo_uuid = uuid.UUID(work_order_id)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail="Invalid work order id") from exc
+    load_work_order_for_scope(db, scope, wo_uuid)
 
     try:
         payment, completion = await record_portal_invoice_square_payment(
@@ -2279,10 +2516,12 @@ async def portal_schedule_status(
     appliance_id: str,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     try:
+        parsed_id = _scoped_schedule_appliance_id(db, scope, appliance_id)
         return schedule_svc.get_scheduling_status(
-            db, client, uuid.UUID(appliance_id)
+            db, client, parsed_id
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail="Invalid appliance id") from exc
@@ -2295,10 +2534,12 @@ async def portal_schedule_prep(
     appliance_id: str,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     """Estimate + availability in one request (faster portal scheduling)."""
     try:
-        return schedule_svc.get_schedule_prep(db, client, uuid.UUID(appliance_id))
+        parsed_id = _scoped_schedule_appliance_id(db, scope, appliance_id)
+        return schedule_svc.get_schedule_prep(db, client, parsed_id)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail="Invalid appliance id") from exc
     except ValidationException as exc:
@@ -2310,9 +2551,11 @@ async def portal_schedule_availability(
     appliance_id: str,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     try:
-        return schedule_svc.get_availability(db, client, uuid.UUID(appliance_id))
+        parsed_id = _scoped_schedule_appliance_id(db, scope, appliance_id)
+        return schedule_svc.get_availability(db, client, parsed_id)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail="Invalid appliance id") from exc
     except ValidationException as exc:
@@ -2324,9 +2567,11 @@ async def portal_schedule_estimate(
     appliance_id: str,
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     try:
-        return schedule_svc.get_estimate(db, client, uuid.UUID(appliance_id))
+        parsed_id = _scoped_schedule_appliance_id(db, scope, appliance_id)
+        return schedule_svc.get_estimate(db, client, parsed_id)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail="Invalid appliance id") from exc
     except ValidationException as exc:
@@ -2339,15 +2584,17 @@ async def portal_schedule_confirm(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/schedule/confirm")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     try:
         from datetime import date as date_type
 
         scheduled = date_type.fromisoformat(payload.scheduled_date)
+        appliance_uuid = _scoped_schedule_appliance_id(db, scope, payload.appliance_id)
         result = await schedule_svc.confirm_schedule(
             db,
             client,
-            appliance_id=uuid.UUID(payload.appliance_id),
+            appliance_id=appliance_uuid,
             scheduled_date=scheduled,
             time_window=payload.time_window,
             symptoms=payload.symptoms or [],
@@ -2374,6 +2621,7 @@ async def portal_schedule_request(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/schedule/request")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     """Same-day or priority scheduling request — pending staff approval."""
     from datetime import date as date_type
@@ -2381,10 +2629,11 @@ async def portal_schedule_request(
 
     try:
         scheduled = date_type.fromisoformat(payload.scheduled_date)
+        appliance_uuid = _scoped_schedule_appliance_id(db, scope, payload.appliance_id)
         return await request_schedule(
             db,
             client,
-            appliance_id=uuid.UUID(payload.appliance_id),
+            appliance_id=appliance_uuid,
             scheduled_date=scheduled,
             time_window=payload.time_window,
             symptoms=payload.symptoms or [],
@@ -2411,12 +2660,14 @@ async def portal_schedule_request_update(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/schedule/request-update")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     try:
+        appliance_uuid = _scoped_schedule_appliance_id(db, scope, payload.appliance_id)
         result = schedule_svc.request_update_on_appliance(
             db,
             client,
-            uuid.UUID(payload.appliance_id),
+            appliance_uuid,
             payload.message,
         )
         return result
@@ -2441,18 +2692,20 @@ async def get_portal_appliances(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     token_data=Depends(get_token_data),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     """List registered client appliances."""
     sk = _portal_appliance_serialize_kwargs(db, token_data)
     rows = appliance_svc.list_client_appliances(db, client.id, serialize_kwargs=sk)
     db.commit()
-    return rows
+    return _filter_appliance_rows_for_scope(scope, rows)
 
 
 @router.get("/portal/appliances/import/candidates")
 async def get_portal_appliance_import_candidates(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     if client.appliances_import_completed and appliance_svc.client_has_saved_appliances(db, client.id):
         return {"completed": True, "candidates": []}
@@ -2466,6 +2719,7 @@ async def get_portal_appliance_import_candidates(
 async def get_portal_appliance_suggestions(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     """Net-new appliances from service history (post-onboarding)."""
     candidates = appliance_svc.build_import_suggestions(db, client.id)
@@ -2478,6 +2732,7 @@ async def export_portal_appliances_csv(
     token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "appliance_exports", token_data)
     from fastapi.responses import Response
@@ -2489,6 +2744,7 @@ async def export_portal_appliances_csv(
             prop_uuid = uuid.UUID(property_id)
         except ValueError as exc:
             raise HTTPException(status_code=400, detail="Invalid property id") from exc
+        assert_property_in_scope(db, scope, prop_uuid)
     body = appliances_csv(db, client, prop_uuid)
     return Response(
         content=body,
@@ -2503,6 +2759,7 @@ async def export_portal_repairs_csv(
     token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "appliance_exports", token_data)
     from fastapi.responses import Response
@@ -2514,6 +2771,7 @@ async def export_portal_repairs_csv(
             prop_uuid = uuid.UUID(property_id)
         except ValueError as exc:
             raise HTTPException(status_code=400, detail="Invalid property id") from exc
+        assert_property_in_scope(db, scope, prop_uuid)
     body = repairs_csv(db, client, prop_uuid)
     return Response(
         content=body,
@@ -2528,6 +2786,7 @@ async def export_portal_appliances_pdf(
     token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "appliance_exports", token_data)
     from fastapi.responses import Response
@@ -2539,6 +2798,7 @@ async def export_portal_appliances_pdf(
             prop_uuid = uuid.UUID(property_id)
         except ValueError as exc:
             raise HTTPException(status_code=400, detail="Invalid property id") from exc
+        assert_property_in_scope(db, scope, prop_uuid)
     try:
         pdf_bytes = generate_appliances_summary_pdf(db, client, prop_uuid)
     except Exception as exc:
@@ -2556,6 +2816,7 @@ async def skip_portal_appliance_import(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/appliances/import/skip")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     client.appliances_import_completed = True
     client.updated_at = datetime.utcnow()
@@ -2569,6 +2830,7 @@ async def confirm_portal_appliance_import(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/appliances/import/confirm")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     try:
         created = appliance_svc.confirm_import(db, client, payload)
@@ -2594,7 +2856,11 @@ async def merge_portal_appliances(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/appliances/merge")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
+    load_appliance_for_scope(db, scope, payload.keep_id)
+    for merge_id in payload.merge_ids:
+        load_appliance_for_scope(db, scope, merge_id)
     try:
         keep = appliance_svc.merge_appliances(db, client.id, payload.keep_id, payload.merge_ids)
         db.commit()
@@ -2611,7 +2877,10 @@ async def create_portal_appliance(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/appliances")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
+    if payload.property_id:
+        assert_property_in_scope(db, scope, payload.property_id)
     try:
         appliance = appliance_svc.create_client_appliance(db, client.id, payload, source="portal")
         db.commit()
@@ -2630,10 +2899,15 @@ async def update_portal_appliance(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("PUT /portal/appliances")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
+    parsed_id = uuid.UUID(appliance_id)
+    load_appliance_for_scope(db, scope, parsed_id)
+    if payload.property_id:
+        assert_property_in_scope(db, scope, payload.property_id)
     try:
         appliance = appliance_svc.update_client_appliance(
-            db, client.id, uuid.UUID(appliance_id), payload
+            db, client.id, parsed_id, payload
         )
         db.commit()
         db.refresh(appliance)
@@ -2650,9 +2924,12 @@ async def delete_portal_appliance(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("DELETE /portal/appliances")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
+    parsed_id = uuid.UUID(appliance_id)
+    load_appliance_for_scope(db, scope, parsed_id)
     try:
-        appliance_svc.soft_delete_client_appliance(db, client.id, uuid.UUID(appliance_id))
+        appliance_svc.soft_delete_client_appliance(db, client.id, parsed_id)
         db.commit()
         return {"success": True}
     except ValueError as exc:
@@ -2667,36 +2944,38 @@ async def get_portal_appliance_detail(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     token_data=Depends(get_token_data),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     """Appliance detail by registry id, or legacy serial number."""
     try:
         parsed_id = uuid.UUID(appliance_id)
-        appliance = appliance_svc.get_client_appliance(db, client.id, parsed_id)
+        appliance = load_appliance_for_scope(db, scope, parsed_id)
         from app.services.appliance_age_service import maybe_auto_decode_appliance
 
         if maybe_auto_decode_appliance(db, appliance):
             db.commit()
             db.refresh(appliance)
         sk = _portal_appliance_serialize_kwargs(db, token_data)
-        return appliance_svc.serialize_appliance(
+        payload = appliance_svc.serialize_appliance(
             appliance,
             db,
             include_history=include_history,
             **sk,
         )
+        return maybe_strip_work_order_payload(scope, payload) if isinstance(payload, dict) else payload
     except ValueError:
         pass
 
     serial_lower = appliance_id.strip().lower()
-    appliance = (
+    appliance = filter_appliance_query(
         db.query(ClientAppliance)
         .filter(
             ClientAppliance.client_id == client.id,
             ClientAppliance.is_active.is_(True),
             ClientAppliance.merged_into_id.is_(None),
-        )
-        .all()
-    )
+        ),
+        scope,
+    ).all()
     match = next((a for a in appliance if (a.serial or "").strip().lower() == serial_lower), None)
     if match:
         from app.services.appliance_age_service import maybe_auto_decode_appliance
@@ -2712,7 +2991,7 @@ async def get_portal_appliance_detail(
             **sk,
         )
 
-    work_orders_list = db.query(WorkOrder).filter(WorkOrder.client_id == client.id).all()
+    work_orders_list = filter_work_order_query(db.query(WorkOrder), scope).all()
     matching = [w for w in work_orders_list if _device_key(w) == serial_lower]
     if not matching:
         raise HTTPException(status_code=404, detail="Appliance not found")
@@ -2724,7 +3003,7 @@ async def get_portal_appliance_detail(
     history = []
     for wo in sorted(matching, key=lambda w: w.created_at or datetime.min, reverse=True):
         warranty_expires = _warranty_expires_at(wo, db)
-        history.append({
+        history.append(maybe_strip_work_order_payload(scope, {
             "id": str(wo.id),
             "order_number": wo.order_number,
             "status": _work_order_status(wo),
@@ -2738,9 +3017,9 @@ async def get_portal_appliance_detail(
                 {"name": p.description, "part_number": p.number, "status": p.status}
                 for p in (wo.parts or [])
             ],
-        })
+        }))
 
-    return {
+    legacy_payload = {
         "id": serial_lower,
         "legacy_serial_view": True,
         "serial": latest.equipment_serial,
@@ -2759,6 +3038,7 @@ async def get_portal_appliance_detail(
         "warranty_active": any(_warranty_is_active(w, db, now) for w in matching),
         "history": history,
     }
+    return maybe_strip_work_order_payload(scope, legacy_payload)
 
 
 def _portal_maintenance_appliance(db: Session, client: Client, appliance_id: str):
@@ -2774,11 +3054,26 @@ async def get_portal_maintenance_summary(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     token_data=Depends(get_token_data),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "maintenance_reminders", token_data)
     from app.services.maintenance_service import household_due_summary
 
-    return household_due_summary(db, client.id)
+    summary = household_due_summary(db, client.id)
+    if not scope.is_tenant:
+        return summary
+    filtered_items = []
+    for item in summary.get("items") or []:
+        try:
+            load_appliance_for_scope(db, scope, uuid.UUID(item["appliance_id"]))
+        except HTTPException:
+            continue
+        filtered_items.append(item)
+    return {
+        **summary,
+        "items": filtered_items,
+        "count": len(filtered_items),
+    }
 
 
 @router.get("/portal/maintenance/email-preference")
@@ -2786,6 +3081,7 @@ async def get_portal_maintenance_email_preference(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     token_data=Depends(get_token_data),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "maintenance_reminders", token_data)
     return {"opt_out": bool(client.maintenance_emails_opt_out)}
@@ -2802,6 +3098,7 @@ async def patch_portal_maintenance_email_preference(
     db: Session = Depends(get_db),
     token_data=Depends(get_token_data),
     _write_guard: None = Depends(require_portal_write("PATCH /portal/maintenance/email-preference")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "maintenance_reminders", token_data)
     from app.services.maintenance_service import set_maintenance_email_opt_out
@@ -2817,11 +3114,12 @@ async def get_portal_appliance_maintenance(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     token_data=Depends(get_token_data),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "maintenance_reminders", token_data)
     from app.services.maintenance_service import list_appliance_maintenance
 
-    appliance = _portal_maintenance_appliance(db, client, appliance_id)
+    appliance = _portal_maintenance_appliance_scoped(db, scope, appliance_id)
     return {"tasks": list_appliance_maintenance(db, appliance)}
 
 
@@ -2833,11 +3131,12 @@ async def post_portal_maintenance_done(
     db: Session = Depends(get_db),
     token_data=Depends(get_token_data),
     _write_guard: None = Depends(require_portal_write("POST /portal/appliances/maintenance/done")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "maintenance_reminders", token_data)
     from app.services.maintenance_service import mark_task_done
 
-    appliance = _portal_maintenance_appliance(db, client, appliance_id)
+    appliance = _portal_maintenance_appliance_scoped(db, scope, appliance_id)
     try:
         row = mark_task_done(db, appliance, uuid.UUID(task_row_id))
         db.commit()
@@ -2855,11 +3154,12 @@ async def post_portal_maintenance_snooze(
     db: Session = Depends(get_db),
     token_data=Depends(get_token_data),
     _write_guard: None = Depends(require_portal_write("POST /portal/appliances/maintenance/snooze")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "maintenance_reminders", token_data)
     from app.services.maintenance_service import snooze_task
 
-    appliance = _portal_maintenance_appliance(db, client, appliance_id)
+    appliance = _portal_maintenance_appliance_scoped(db, scope, appliance_id)
     try:
         row = snooze_task(db, appliance, uuid.UUID(task_row_id))
         db.commit()
@@ -2877,11 +3177,12 @@ async def post_portal_maintenance_disable(
     db: Session = Depends(get_db),
     token_data=Depends(get_token_data),
     _write_guard: None = Depends(require_portal_write("POST /portal/appliances/maintenance/disable")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "maintenance_reminders", token_data)
     from app.services.maintenance_service import disable_task
 
-    appliance = _portal_maintenance_appliance(db, client, appliance_id)
+    appliance = _portal_maintenance_appliance_scoped(db, scope, appliance_id)
     try:
         row = disable_task(db, appliance, uuid.UUID(task_row_id))
         db.commit()
@@ -2898,10 +3199,12 @@ async def get_portal_appliance_by_serial(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     token_data=Depends(get_token_data),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     return await get_portal_appliance_detail(
         serial,
         include_history=True,
+        scope=scope,
         client=client,
         db=db,
         token_data=token_data,
@@ -2914,18 +3217,15 @@ async def get_portal_invoice_pdf(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     variant: str = Query("light", pattern="^(dark|light)$"),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     """Client invoice PDF (v2 layout, full billable lines — no staff document options)."""
     from fastapi.responses import StreamingResponse
     from io import BytesIO
     from app.services.work_order_invoice_pdf_data import generate_work_order_invoice_pdf_v2
 
-    wo = db.query(WorkOrder).filter(
-        WorkOrder.id == work_order_id,
-        WorkOrder.client_id == client.id
-    ).first()
-    if not wo:
-        raise HTTPException(status_code=404, detail="Work order not found")
+    require_owner(scope)
+    wo = _load_portal_work_order_route(db, scope, work_order_id)
 
     try:
         pdf_bytes = generate_work_order_invoice_pdf_v2(
@@ -2954,6 +3254,7 @@ async def email_portal_invoice(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/work-orders/email-invoice")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     """Email the client a light PDF copy of their invoice (v2 layout, full billable lines)."""
     from app.services.email_service import EmailService
@@ -2962,12 +3263,8 @@ async def email_portal_invoice(
     if not client.email:
         raise HTTPException(status_code=400, detail="No email address on file for this account")
 
-    wo = db.query(WorkOrder).filter(
-        WorkOrder.id == work_order_id,
-        WorkOrder.client_id == client.id,
-    ).first()
-    if not wo:
-        raise HTTPException(status_code=404, detail="Work order not found")
+    require_owner(scope)
+    wo = _load_portal_work_order_route(db, scope, work_order_id)
 
     try:
         pdf_bytes = generate_work_order_invoice_pdf_v2(
@@ -3001,18 +3298,15 @@ async def get_portal_estimate_pdf(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     variant: str = Query("light", pattern="^(dark|light)$"),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     """Client estimate PDF (v2, valid 30 days after completed diagnostic)."""
     from fastapi.responses import StreamingResponse
     from io import BytesIO
     from app.services.work_order_invoice_pdf_data import generate_work_order_estimate_pdf_v2
 
-    wo = db.query(WorkOrder).filter(
-        WorkOrder.id == work_order_id,
-        WorkOrder.client_id == client.id,
-    ).first()
-    if not wo:
-        raise HTTPException(status_code=404, detail="Work order not found")
+    require_owner(scope)
+    wo = _load_portal_work_order_route(db, scope, work_order_id)
 
     _require_portal_estimate(wo, db)
 
@@ -3043,6 +3337,7 @@ async def email_portal_estimate(
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/work-orders/email-estimate")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     """Email the client a light PDF copy of their estimate (30-day window after diagnostic)."""
     from app.services.email_service import EmailService
@@ -3051,12 +3346,8 @@ async def email_portal_estimate(
     if not client.email:
         raise HTTPException(status_code=400, detail="No email address on file for this account")
 
-    wo = db.query(WorkOrder).filter(
-        WorkOrder.id == work_order_id,
-        WorkOrder.client_id == client.id,
-    ).first()
-    if not wo:
-        raise HTTPException(status_code=404, detail="Work order not found")
+    require_owner(scope)
+    wo = _load_portal_work_order_route(db, scope, work_order_id)
 
     _require_portal_estimate(wo, db)
 
@@ -3104,16 +3395,13 @@ async def get_portal_estimate_approval(
     token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "estimate_approval", token_data)
     from app.services.portal_estimate_approval_service import get_estimate_approval_state
 
-    wo = db.query(WorkOrder).filter(
-        WorkOrder.id == work_order_id,
-        WorkOrder.client_id == client.id,
-    ).first()
-    if not wo:
-        raise HTTPException(status_code=404, detail="Work order not found")
+    require_owner(scope)
+    wo = _load_portal_work_order_route(db, scope, work_order_id)
     return get_estimate_approval_state(db, wo)
 
 
@@ -3130,6 +3418,7 @@ async def approve_portal_estimate(
     _write_guard: None = Depends(
         require_portal_write("POST /portal/work-orders/estimate-approval/approve")
     ),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "estimate_approval", token_data)
     from app.services.portal_estimate_approval_service import (
@@ -3138,12 +3427,8 @@ async def approve_portal_estimate(
         notify_staff_estimate_decision,
     )
 
-    wo = db.query(WorkOrder).filter(
-        WorkOrder.id == work_order_id,
-        WorkOrder.client_id == client.id,
-    ).first()
-    if not wo:
-        raise HTTPException(status_code=404, detail="Work order not found")
+    require_owner(scope)
+    wo = _load_portal_work_order_route(db, scope, work_order_id)
 
     roles = getattr(token_data, "roles", []) or []
     staff_on_behalf = login is None and "admin" in roles
@@ -3221,6 +3506,7 @@ async def decline_portal_estimate(
     _write_guard: None = Depends(
         require_portal_write("POST /portal/work-orders/estimate-approval/decline")
     ),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "estimate_approval", token_data)
     from app.services.portal_estimate_approval_service import (
@@ -3229,12 +3515,8 @@ async def decline_portal_estimate(
         notify_staff_estimate_decision,
     )
 
-    wo = db.query(WorkOrder).filter(
-        WorkOrder.id == work_order_id,
-        WorkOrder.client_id == client.id,
-    ).first()
-    if not wo:
-        raise HTTPException(status_code=404, detail="Work order not found")
+    require_owner(scope)
+    wo = _load_portal_work_order_route(db, scope, work_order_id)
 
     roles = getattr(token_data, "roles", []) or []
     staff_on_behalf = login is None and "admin" in roles
@@ -3305,16 +3587,12 @@ async def list_portal_work_order_photos(
     token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "customer_media_uploads", token_data)
     from app.services import work_order_photos_service as photos_svc
 
-    wo = db.query(WorkOrder).filter(
-        WorkOrder.id == work_order_id,
-        WorkOrder.client_id == client.id,
-    ).first()
-    if not wo:
-        raise HTTPException(status_code=404, detail="Work order not found")
+    wo = _load_portal_work_order_route(db, scope, work_order_id)
     rows = photos_svc.list_photos(db, wo.id)
     customer_count = photos_svc.count_active_customer_media(db, wo.id)
     return {
@@ -3332,18 +3610,14 @@ async def download_portal_work_order_photo_file(
     token_data=Depends(get_token_data),
     client: Client = Depends(get_portal_client),
     db: Session = Depends(get_db),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "customer_media_uploads", token_data)
     from fastapi.responses import Response
 
     from app.services import work_order_photos_service as photos_svc
 
-    wo = db.query(WorkOrder).filter(
-        WorkOrder.id == work_order_id,
-        WorkOrder.client_id == client.id,
-    ).first()
-    if not wo:
-        raise HTTPException(status_code=404, detail="Work order not found")
+    wo = _load_portal_work_order_route(db, scope, work_order_id)
 
     try:
         photo_uuid = uuid.UUID(photo_id)
@@ -3382,6 +3656,7 @@ async def upload_portal_work_order_photos(
     token_data=Depends(get_token_data),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("POST /portal/work-orders/photos")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "customer_media_uploads", token_data)
     from app.services import work_order_photos_service as photos_svc
@@ -3389,12 +3664,7 @@ async def upload_portal_work_order_photos(
     if len(files) > photos_svc.MAX_CUSTOMER_FILES_PER_BATCH:
         raise HTTPException(status_code=400, detail="You can upload up to 6 files at a time.")
 
-    wo = db.query(WorkOrder).filter(
-        WorkOrder.id == work_order_id,
-        WorkOrder.client_id == client.id,
-    ).first()
-    if not wo:
-        raise HTTPException(status_code=404, detail="Work order not found")
+    wo = _load_portal_work_order_route(db, scope, work_order_id)
 
     uploader_id = _resolve_portal_media_uploader_id(
         db, client=client, login=login, auth0_sub=token_data.sub
@@ -3459,6 +3729,7 @@ async def delete_portal_work_order_photo(
     login: Optional[ClientLogin] = Depends(get_portal_client_login_for_actions),
     db: Session = Depends(get_db),
     _write_guard: None = Depends(require_portal_write("DELETE /portal/work-orders/photos")),
+    scope: PortalScope = Depends(portal_scope_dependency),
 ):
     _require_portal_feature(db, "customer_media_uploads", token_data)
     from app.services import work_order_photos_service as photos_svc
@@ -3469,12 +3740,7 @@ async def delete_portal_work_order_photo(
             detail="Sign in as a client to remove your uploads.",
         )
 
-    wo = db.query(WorkOrder).filter(
-        WorkOrder.id == work_order_id,
-        WorkOrder.client_id == client.id,
-    ).first()
-    if not wo:
-        raise HTTPException(status_code=404, detail="Work order not found")
+    wo = _load_portal_work_order_route(db, scope, work_order_id)
 
     try:
         photo_uuid = uuid.UUID(photo_id)

@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { FaFileInvoiceDollar } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
+import { useFeature } from '../../context/FeatureFlagsContext';
+import { usePortalAccess } from '../../context/PortalAccessContext';
 import InvoicePdfModal from '../../components/cxdashboard/InvoicePdfModal';
 import PortalInvoicePayModal from '../../components/cxdashboard/PortalInvoicePayModal';
 import PortalInvoicePayAllModal from '../../components/cxdashboard/PortalInvoicePayAllModal';
@@ -18,6 +21,16 @@ import { MARKETING_PHONE_DISPLAY } from '../../constants/marketingSiteContent';
 import { portalFetch } from '../../utils/portalFetch';
 
 export default function InvoicesPage() {
+  const router = useRouter();
+  const tenantAccessEnabled = useFeature('tenant_access');
+  const { isTenant, loaded: portalAccessLoaded } = usePortalAccess();
+
+  useEffect(() => {
+    if (portalAccessLoaded && tenantAccessEnabled && isTenant) {
+      router.replace('/cxdashboard');
+    }
+  }, [portalAccessLoaded, tenantAccessEnabled, isTenant, router]);
+
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

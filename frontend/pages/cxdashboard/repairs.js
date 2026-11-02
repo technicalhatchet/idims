@@ -28,6 +28,7 @@ import {
   PORTAL_ESTIMATE_APPROVAL_AMBER,
 } from '../../utils/portalEstimateApproval';
 import { useFeature } from '../../context/FeatureFlagsContext';
+import { usePortalAccess } from '../../context/PortalAccessContext';
 
 const STATUS_STYLES = {
   completed: { label: 'Completed', bg: 'rgba(34,197,94,0.1)', color: '#22c55e', border: 'rgba(34,197,94,0.2)' },
@@ -60,14 +61,15 @@ function RepairCard({
   initialExpanded = false,
   estimateApprovalEnabled = true,
   customerMediaEnabled = true,
+  hideBillingUi = false,
 }) {
   const [expanded, setExpanded] = useState(initialExpanded);
   const cardRef = useRef(null);
   const warrantyActive = !isPortalLaborWarrantyExpired(wo);
   const warrantyExpiryLabel = formatPortalLaborWarrantyExpiryLabel(wo);
   const serviceDate = wo.next_appointment?.scheduled_start || wo.created_at;
-  const needsApproval = estimateApprovalEnabled && portalEstimateNeedsCustomerAction(wo);
-  const decisionLabel = portalEstimateDecisionCardLabel(wo);
+  const needsApproval = !hideBillingUi && estimateApprovalEnabled && portalEstimateNeedsCustomerAction(wo);
+  const decisionLabel = hideBillingUi ? null : portalEstimateDecisionCardLabel(wo);
   const estimateTotal = portalEstimateApprovalTotal(wo, invoiceLookup);
   const hideEstimatePdfOnCard =
     estimateApprovalEnabled && wo.status === 'pending_estimate_approval' && wo.estimate_available;
@@ -149,7 +151,7 @@ function RepairCard({
               </div>
             </div>
 
-            {!needsApproval && displayTotal != null && (
+            {!hideBillingUi && !needsApproval && displayTotal != null && (
               <p style={{ color: '#22d3ee', fontWeight: '700', fontSize: '1rem', margin: '0.5rem 0 0' }}>
                 {formatPortalCurrency(displayTotal)}
               </p>
@@ -265,7 +267,7 @@ function RepairCard({
             </div>
           )}
 
-          {onViewInvoice && (
+          {!hideBillingUi && onViewInvoice && (
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); onViewInvoice(wo); }}
@@ -301,7 +303,7 @@ function RepairCard({
             </p>
           )}
 
-          {wo.estimate_available && !hideEstimatePdfOnCard && (
+          {!hideBillingUi && wo.estimate_available && !hideEstimatePdfOnCard && (
             <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.75rem' }}>
               <button
                 type="button"
@@ -331,6 +333,9 @@ function RepairCard({
 
 export default function RepairsPage() {
   const estimateApprovalEnabled = useFeature('estimate_approval');
+  const tenantAccessEnabled = useFeature('tenant_access');
+  const { isTenant } = usePortalAccess();
+  const hideBillingUi = tenantAccessEnabled && isTenant;
   const customerMediaEnabled = useFeature('customer_media_uploads');
   const router = useRouter();
   const orderParam = typeof router.query.order === 'string' ? router.query.order : null;
@@ -351,19 +356,21 @@ export default function RepairsPage() {
     if (!silent) setLoading(true);
     try {
       const token = await getPortalSessionToken();
-      const [orders, invoices] = await Promise.all([
-        sharedPortalFetch('work-orders', token),
-        sharedPortalFetch('invoices', token),
-      ]);
+      const orders = await sharedPortalFetch('work-orders', token);
       setWorkOrders(Array.isArray(orders) ? orders : []);
-      setInvoiceLookup(buildPortalInvoiceLookup(Array.isArray(invoices) ? invoices : []));
+      if (hideBillingUi) {
+        setInvoiceLookup(new Map());
+      } else {
+        const invoices = await sharedPortalFetch('invoices', token).catch(() => []);
+        setInvoiceLookup(buildPortalInvoiceLookup(Array.isArray(invoices) ? invoices : []));
+      }
       setError(null);
     } catch (err) {
       if (!silent) setError(err.message);
     } finally {
       if (!silent) setLoading(false);
     }
-  }, []);
+  }, [hideBillingUi]);
 
   useEffect(() => {
     loadRepairs();
@@ -439,8 +446,8 @@ export default function RepairsPage() {
                 displayTotal={getPortalWorkOrderDisplayTotal(wo, invoiceLookup)}
                 invoiceLookup={invoiceLookup}
                 onViewEstimate={setViewerEstimate}
-                onReviewEstimate={setApprovalWo}
-                onViewInvoice={(order) => {
+                onReviewEstimate={hideBillingUi ? undefined : setApprovalWo}
+                onViewInvoice={hideBillingUi ? undefined : (order) => {
                   const inv = invoiceLookup.get(order.id) || invoiceLookup.get(order.order_number);
                   if (inv) setViewerInvoice(inv);
                 }}
@@ -449,13 +456,14 @@ export default function RepairsPage() {
                 )}
                 estimateApprovalEnabled={estimateApprovalEnabled}
                 customerMediaEnabled={customerMediaEnabled}
+                hideBillingUi={hideBillingUi}
               />
             ))}
           </div>
         )}
       </div>
 
-      {estimateApprovalEnabled && approvalWo && (
+      {estimateApprovalEnabled && !hideBillingUi && approvalWo && (
         <EstimateApprovalSheet
           workOrder={approvalWo}
           onClose={() => setApprovalWo(null)}

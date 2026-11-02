@@ -10,6 +10,15 @@ import {
   SCHEDULING_WINDOW_LABELS,
 } from '../../utils/portalSchedulingSettings';
 import { formatTechnicianLabel } from '../../utils/technicianDisplay';
+import {
+  NestedSettingsAccordionGroup,
+  SettingsAccordion,
+} from './SettingsAccordion';
+
+const SCHEDULING_NESTED = {
+  groupId: 'client-portal::portal-scheduling-inner',
+  sections: ['portal-scheduling-core', 'portal-scheduling-billing'],
+};
 
 const inputClass = 'px-2 py-1.5 text-sm rounded border border-gray-600 bg-gray-800 text-white focus:border-cyan-500 focus:outline-none w-full';
 const sectionClass = 'rounded-xl p-5';
@@ -140,6 +149,17 @@ export default function PortalSchedulingSettingsPanel() {
         </button>
       </div>
 
+      <NestedSettingsAccordionGroup
+        groupId={SCHEDULING_NESTED.groupId}
+        sectionIds={SCHEDULING_NESTED.sections}
+      >
+      <SettingsAccordion
+        nested
+        sectionId="portal-scheduling-core"
+        title="Scheduling & notifications"
+        summary="Windows, auto-assign, priority tier, and customer comms"
+      >
+      <div className="space-y-6 p-4 pt-0">
       <section className={sectionClass} style={sectionStyle}>
         <h3 className="text-white font-semibold mb-3">General</h3>
         <Toggle
@@ -294,6 +314,15 @@ export default function PortalSchedulingSettingsPanel() {
         </div>
       </section>
 
+      </div>
+      </SettingsAccordion>
+      <SettingsAccordion
+        nested
+        sectionId="portal-scheduling-billing"
+        title="Billing / Square"
+        summary="Booking payment requirements and Square credentials"
+      >
+      <div className="p-4 pt-0">
       <section className={sectionClass} style={sectionStyle}>
         <h3 className="text-white font-semibold mb-1">Payment (Square)</h3>
         <p className="text-xs text-gray-500 mb-4">
@@ -338,6 +367,9 @@ export default function PortalSchedulingSettingsPanel() {
           </div>
         </div>
       </section>
+      </div>
+      </SettingsAccordion>
+      </NestedSettingsAccordionGroup>
     </div>
   );
 }

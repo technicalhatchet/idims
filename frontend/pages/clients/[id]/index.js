@@ -16,6 +16,8 @@ import { useWorkOrders } from '../../../hooks/useWorkOrders';
 import { withPageAuthRequired } from '../../../utils/auth0-helpers';
 import { apiClient } from '../../../utils/api-client';
 import { clientPhoneDisplayLines, formatPhoneNumber, preferDialPhone } from '../../../utils/formatters';
+import AutoApproveLimitField from '../../../components/clients/AutoApproveLimitField';
+import { useFeature } from '../../../context/FeatureFlagsContext';
 
 const PROPERTY_TYPES = [
   { value: 'residential', label: 'Residential' },
@@ -34,9 +36,19 @@ const emptyPropertyForm = {
   tenant_name: '',
   tenant_phone: '',
   tenant_email: '',
+  estimate_auto_approve_limit: null,
 };
 
-function PropertyForm({ propertyForm, setPropertyForm, propertyError, savingProperty, editingProperty, onSave, onCancel }) {
+function PropertyForm({
+  propertyForm,
+  setPropertyForm,
+  propertyError,
+  savingProperty,
+  editingProperty,
+  onSave,
+  onCancel,
+  autoApproveEnabled = false,
+}) {
   return (
     <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-5 mb-4">
       <div className="flex justify-between items-center mb-4">
@@ -90,6 +102,16 @@ function PropertyForm({ propertyForm, setPropertyForm, propertyError, savingProp
           <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Email</label>
           <input type="text" value={propertyForm.tenant_email} onChange={e => setPropertyForm(p => ({ ...p, tenant_email: e.target.value }))} placeholder="tenant@email.com" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
         </div>
+        {autoApproveEnabled ? (
+          <div className="md:col-span-2">
+            <AutoApproveLimitField
+              label="Auto-approve repairs up to ($)"
+              hint="Property override; blank uses client default or always ask."
+              value={propertyForm.estimate_auto_approve_limit}
+              onChange={(v) => setPropertyForm((p) => ({ ...p, estimate_auto_approve_limit: v }))}
+            />
+          </div>
+        ) : null}
       </div>
       <div className="flex gap-2 mt-4">
         <button type="button" onClick={onSave} disabled={savingProperty} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 text-sm font-medium">
@@ -106,6 +128,7 @@ function PropertyForm({ propertyForm, setPropertyForm, propertyError, savingProp
 function ClientDetail() {
   const router = useRouter();
   const { id } = router.query;
+  const autoApproveEnabled = useFeature('estimate_auto_approve');
   const [activeTab, setActiveTab] = useState('details');
   const [emailSending, setEmailSending] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
@@ -121,7 +144,7 @@ function ClientDetail() {
   const [editingProperty, setEditingProperty] = useState(null);
 
   const { data: client, isLoading: clientLoading, error: clientError } = useClient(id);
-  const { sendRegistrationEmail } = useClientMutations();
+  const { sendRegistrationEmail, updateClient } = useClientMutations();
   const { data: workOrdersData, isLoading: workOrdersLoading, error: workOrdersError } =
     useWorkOrders({ client_id: id, page: 1, limit: 5 });
 
@@ -192,6 +215,7 @@ function ClientDetail() {
       tenant_name: property.tenant_name || '',
       tenant_phone: property.tenant_phone || '',
       tenant_email: property.tenant_email || '',
+      estimate_auto_approve_limit: property.estimate_auto_approve_limit ?? null,
     });
     setShowAddProperty(true);
     setPropertyError(null);
@@ -357,6 +381,23 @@ function ClientDetail() {
                   {client?.notes && <div className="col-span-2"><p className="font-medium">Notes</p><p className="whitespace-pre-line">{client.notes}</p></div>}
                 </div>
               </div>
+              {autoApproveEnabled ? (
+                <div className="max-w-md">
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Estimate auto-approve</h3>
+                  <AutoApproveLimitField
+                    label="Account default limit ($)"
+                    hint="Blank = always ask owner before repairs proceed."
+                    value={client?.estimate_auto_approve_limit}
+                    onChange={async (v) => {
+                      try {
+                        await updateClient({ id: client.id, estimate_auto_approve_limit: v });
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    }}
+                  />
+                </div>
+              ) : null}
             </div>
           )}
 
@@ -380,6 +421,7 @@ function ClientDetail() {
                   editingProperty={editingProperty}
                   onSave={handleSaveProperty}
                   onCancel={handleCancelProperty}
+                  autoApproveEnabled={autoApproveEnabled}
                 />
               )}
 

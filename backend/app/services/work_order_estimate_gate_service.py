@@ -89,13 +89,18 @@ def maybe_promote_pending_estimate_approval(
     current = activity._status_val(work_order.status)
     if current == "pending_estimate_approval":
         return False
-    return apply_work_order_status_change(
+    promoted = apply_work_order_status_change(
         db,
         work_order,
         "pending_estimate_approval",
         user_id,
         notes=note,
     )
+    if promoted:
+        from app.services.estimate_auto_approve_service import try_auto_approve_pending_estimate
+
+        try_auto_approve_pending_estimate(db, work_order)
+    return promoted
 
 
 def resolve_completion_status_after_visit(

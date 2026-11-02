@@ -1,8 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { FaHome, FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import DashboardLayout from '../../components/cxdashboard/DashboardLayout';
 import PropertyFormModal, { propertyToForm } from '../../components/cxdashboard/PropertyFormModal';
+import PropertyTenantAccessCard from '../../components/cxdashboard/PropertyTenantAccessCard';
+import PropertyAutoApproveField from '../../components/cxdashboard/PropertyAutoApproveField';
+import { usePortalAccess } from '../../context/PortalAccessContext';
+import { useFeature } from '../../context/FeatureFlagsContext';
 import { getPortalSessionToken, portalFetch } from '../../utils/portalFetch';
 import {
   isPortalPreviewActive,
@@ -14,7 +19,7 @@ import {
   propertySecondaryLine,
 } from '../../utils/propertyDisplay';
 
-function PropertyCard({ property, onEdit, onDelete, readOnly }) {
+function PropertyCard({ property, onEdit, onDelete, readOnly, canManage }) {
   const subtitle = propertySecondaryLine(property);
   return (
     <div className="rounded-xl border border-white/[0.07] bg-[#0D1525] p-4 flex gap-3">
@@ -40,6 +45,7 @@ function PropertyCard({ property, onEdit, onDelete, readOnly }) {
         </div>
       </div>
       <div className="flex flex-col gap-2 shrink-0">
+        {canManage ? (
         <button
           type="button"
           onClick={() => onEdit(property)}
@@ -48,7 +54,8 @@ function PropertyCard({ property, onEdit, onDelete, readOnly }) {
         >
           <FaEdit />
         </button>
-        {!readOnly && property.stats?.total_repairs === 0 && !property.appliance_count ? (
+        ) : null}
+        {canManage && !readOnly && property.stats?.total_repairs === 0 && !property.appliance_count ? (
           <button
             type="button"
             onClick={() => onDelete(property)}
@@ -64,14 +71,25 @@ function PropertyCard({ property, onEdit, onDelete, readOnly }) {
 }
 
 export default function PortalPropertiesPage() {
+  const router = useRouter();
+  const tenantAccessEnabled = useFeature('tenant_access');
+  const autoApproveEnabled = useFeature('estimate_auto_approve');
+  const { isTenant, isOwner, estimateAutoApproveLimit, loaded: portalAccessLoaded } = usePortalAccess();
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAdd, setShowAdd] = useState(false);
   const [editing, setEditing] = useState(null);
+  const [propertyAutoApproveLimit, setPropertyAutoApproveLimit] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
   const previewLocked = isPortalPreviewActive() && !isPortalPreviewUnlocked();
+
+  useEffect(() => {
+    if (portalAccessLoaded && isTenant) {
+      router.replace('/cxdashboard');
+    }
+  }, [portalAccessLoaded, isTenant, router]);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -91,15 +109,27 @@ export default function PortalPropertiesPage() {
     load();
   }, [load]);
 
+  const openEdit = (prop) => {
+    setShowAdd(false);
+    setEditing(prop);
+    setPropertyAutoApproveLimit(
+      prop?.estimate_auto_approve_limit != null ? prop.estimate_auto_approve_limit : null,
+    );
+  };
+
   const handleSave = async (payload) => {
     setSubmitting(true);
     setError(null);
     try {
       const token = await getPortalSessionToken();
+      const body =
+        autoApproveEnabled && editing?.id
+          ? { ...payload, estimate_auto_approve_limit: propertyAutoApproveLimit }
+          : payload;
       if (editing?.id) {
         await portalFetch(`properties/${editing.id}`, token, {
           method: 'PUT',
-          body: JSON.stringify(payload),
+          body: JSON.stringify(body),
         });
       } else {
         await portalFetch('properties', token, {
@@ -146,10 +176,12 @@ export default function PortalPropertiesPage() {
               Service addresses on your account. Scheduling and invoices always use the street address below.
             </p>
           </div>
+          {isOwner ? (
           <button
             type="button"
             onClick={() => {
               setEditing(null);
+              setPropertyAutoApproveLimit(null);
               setShowAdd(true);
             }}
             disabled={previewLocked}
@@ -157,6 +189,7 @@ export default function PortalPropertiesPage() {
           >
             <FaPlus /> Add property
           </button>
+          ) : null}
         </div>
 
         {error ? (
@@ -193,15 +226,29 @@ export default function PortalPropertiesPage() {
                 key={p.id}
                 property={p}
                 readOnly={previewLocked}
-                onEdit={(prop) => {
-                  setShowAdd(false);
-                  setEditing(prop);
-                }}
+                canManage={isOwner}
+                onEdit={openEdit}
                 onDelete={handleDelete}
               />
             ))}
           </div>
         )}
+
+        {editing && isOwner && tenantAccessEnabled ? (
+          <PropertyTenantAccessCard
+            propertyId={editing.id}
+            propertyTenantFields={editing}
+          />
+        ) : null}
+
+        {editing && isOwner && autoApproveEnabled ? (
+          <PropertyAutoApproveField
+            value={propertyAutoApproveLimit}
+            onChange={setPropertyAutoApproveLimit}
+            disabled={previewLocked}
+            accountDefaultLimit={estimateAutoApproveLimit}
+          />
+        ) : null}
       </div>
 
       {modalOpen ? (

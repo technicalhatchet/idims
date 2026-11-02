@@ -5,7 +5,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, ForeignKey, Text
+from sqlalchemy import Column, DateTime, ForeignKey, Text, text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
@@ -35,6 +35,12 @@ class ClientLogin(Base):
     added_via = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     revoked_at = Column(DateTime, nullable=True)
+    role = Column(Text, nullable=False, server_default=text("'owner'"))
 
     client = relationship("Client", back_populates="portal_logins")
+    property_access_rows = relationship(
+        "ClientLoginPropertyAccess",
+        back_populates="login",
+        cascade="all, delete-orphan",
+    )
     user = relationship("User", foreign_keys=[user_id])
