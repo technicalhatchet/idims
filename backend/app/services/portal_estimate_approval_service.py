@@ -234,8 +234,11 @@ def staff_estimate_approval_summary(db: Session, work_order: WorkOrder) -> Dict[
             "estimate_changed_since_approval": changed,
             "latest": None,
         }
+    badge = latest.decision
+    if latest.decision == "approved" and getattr(latest, "decision_source", None) == "auto":
+        badge = "auto_approved"
     return {
-        "badge": latest.decision,
+        "badge": badge,
         "estimate_changed_since_approval": changed,
         "latest": {
             "decision": latest.decision,
@@ -302,6 +305,7 @@ def record_estimate_approval(
     order_number = work_order.order_number or str(work_order.id)[:8]
 
     staff_on_behalf = decision_source == "staff_on_behalf"
+    auto_approved = decision_source == "auto"
 
     if decision == "approved":
         if staff_on_behalf:
@@ -310,10 +314,12 @@ def record_estimate_approval(
                     "staff_required",
                     "Staff name is required for on-behalf approval.",
                 )
+        elif auto_approved:
+            pass
         elif not (signer_name or "").strip():
             raise EstimateApprovalError("name_required", "Please enter your name.")
         sig_bytes = None
-        if not staff_on_behalf:
+        if not staff_on_behalf and not auto_approved:
             sig_bytes = _decode_signature_png(signature_png_b64 or "")
         sig_drive_id = None
         if sig_bytes:

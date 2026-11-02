@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Text, ForeignKey, DateTime
+from sqlalchemy import Column, String, Text, ForeignKey, DateTime, Numeric
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from datetime import datetime
@@ -21,6 +21,7 @@ class Property(Base):
     tenant_name = Column(String(255), nullable=True)
     tenant_phone = Column(String(50), nullable=True)
     tenant_email = Column(String(255), nullable=True)
+    estimate_auto_approve_limit = Column(Numeric(10, 2), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     

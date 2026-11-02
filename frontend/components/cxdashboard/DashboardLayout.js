@@ -16,8 +16,54 @@ import {
   clearPortalPreviewSession,
 } from '../../utils/portalPreview';
 import { resolvePortalDisplayUser } from '../../utils/portalDisplayUser';
+import { PortalAccessProvider, usePortalAccess } from '../../context/PortalAccessContext';
 
 const PORTAL_SHELL = '#0B0F1A';
+
+function DashboardLayoutInner({
+  children,
+  title,
+  displayUser,
+  sidebarOpen,
+  setSidebarOpen,
+  workOrdersForAlerts,
+  exitPreview,
+  router,
+}) {
+  const { portalAccess, isTenant } = usePortalAccess();
+  const headerTitle =
+    isTenant && portalAccess?.property_label
+      ? `Tenant · ${portalAccess.property_label}`
+      : title;
+
+  return (
+    <div className="min-h-screen bg-[#0B0F1A]">
+      <Sidebar
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        user={displayUser}
+        isTenant={isTenant}
+      />
+      <div className="min-h-screen flex flex-col lg:ml-64">
+        {isPortalPreviewActive() ? (
+          <PortalPreviewBanner onExit={exitPreview} />
+        ) : null}
+        <Topbar
+          title={headerTitle}
+          user={displayUser}
+          workOrders={workOrdersForAlerts}
+          onMenuClick={() => setSidebarOpen(true)}
+          isTenant={isTenant}
+          propertyLabel={portalAccess?.property_label}
+        />
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-[max(1rem,env(safe-area-inset-bottom))]">
+          <PortalWelcome user={displayUser} />
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}
 
 export default function DashboardLayout({ children, title = 'Client Portal', user: userProp }) {
   const { user: auth0User } = useUser();
@@ -178,28 +224,19 @@ export default function DashboardLayout({ children, title = 'Client Portal', use
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       </Head>
 
-      <div className="min-h-screen bg-[#0B0F1A]">
-        <Sidebar
-          open={sidebarOpen}
-          onClose={() => setSidebarOpen(false)}
-          user={displayUser}
-        />
-        <div className="min-h-screen flex flex-col lg:ml-64">
-          {isPortalPreviewActive() ? (
-            <PortalPreviewBanner onExit={exitPreview} />
-          ) : null}
-          <Topbar
-            title={title}
-            user={displayUser}
-            workOrders={workOrdersForAlerts}
-            onMenuClick={() => setSidebarOpen(true)}
-          />
-          <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-[max(1rem,env(safe-area-inset-bottom))]">
-            <PortalWelcome user={displayUser} />
-            {children}
-          </main>
-        </div>
-      </div>
+      <PortalAccessProvider>
+        <DashboardLayoutInner
+          title={title}
+          displayUser={displayUser}
+          sidebarOpen={sidebarOpen}
+          setSidebarOpen={setSidebarOpen}
+          workOrdersForAlerts={workOrdersForAlerts}
+          exitPreview={exitPreview}
+          router={router}
+        >
+          {children}
+        </DashboardLayoutInner>
+      </PortalAccessProvider>
     </>
   );
 }

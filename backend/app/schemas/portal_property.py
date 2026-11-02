@@ -17,6 +17,7 @@ class PortalPropertyWrite(BaseModel):
     tenant_name: Optional[str] = None
     tenant_phone: Optional[str] = None
     tenant_email: Optional[str] = None
+    estimate_auto_approve_limit: Optional[float] = None
 
 
 class PortalPropertyUpdate(PortalPropertyWrite):

@@ -16,20 +16,27 @@ const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: FaHome, href: '/cxdashboard' },
   { id: 'appointments', label: 'My Appointments', icon: FaCalendarAlt, href: '/cxdashboard/appointments' },
   { id: 'repairs', label: 'My Repairs', icon: FaTools, href: '/cxdashboard/repairs' },
-  { id: 'invoices', label: 'Invoices & Payments', icon: FaFileInvoiceDollar, href: '/cxdashboard/invoices' },
+  { id: 'invoices', label: 'Invoices & Payments', icon: FaFileInvoiceDollar, href: '/cxdashboard/invoices', hideForTenant: true },
   { id: 'documents', label: 'Documents', icon: FaFolder, href: '/cxdashboard/documents' },
   { id: 'warranty', label: 'Warranty', icon: FaShieldAlt, href: '/cxdashboard/warranty' },
   { id: 'messages', label: 'Messages', icon: FaEnvelope, href: '/cxdashboard/messages' },
   { id: 'appliances', label: 'My Appliances', icon: FaBoxOpen, href: '/cxdashboard/appliances' },
-  { id: 'properties', label: 'My Properties', icon: FaMapMarkerAlt, href: '/cxdashboard/properties' },
+  { id: 'properties', label: 'My Properties', icon: FaMapMarkerAlt, href: '/cxdashboard/properties', hideForTenant: true },
   { id: 'settings', label: 'Account Settings', icon: FaCog, href: '/cxdashboard/settings' },
 ];
 
-const DRAWER_NAV_ITEMS = NAV_ITEMS.filter((item) => item.id !== 'settings');
+function visibleNavItems(isTenant) {
+  if (!isTenant) return NAV_ITEMS;
+  return NAV_ITEMS.filter((item) => !item.hideForTenant);
+}
 
-export default function Sidebar({ open = false, onClose, user }) {
+const drawerNavItems = (isTenant) =>
+  visibleNavItems(isTenant).filter((item) => item.id !== 'settings');
+
+export default function Sidebar({ open = false, onClose, user, isTenant = false }) {
   const router = useRouter();
   const currentPath = router.pathname;
+  const navItems = visibleNavItems(isTenant);
   const displayName = user?.name || 'Guest';
   const email = user?.email || '';
 
@@ -196,7 +203,7 @@ export default function Sidebar({ open = false, onClose, user }) {
             <FaTimes className="w-4 h-4" />
           </button>
         </div>
-        {navList(DRAWER_NAV_ITEMS)}
+        {navList(drawerNavItems(isTenant))}
         {helpCard}
         <div className="mt-auto">{drawerAccountFooter}</div>
       </motion.aside>
@@ -204,7 +211,7 @@ export default function Sidebar({ open = false, onClose, user }) {
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex fixed left-0 top-0 z-50 h-screen w-64 flex-col bg-[#0a0e17]/95 backdrop-blur-xl border-r border-white/5">
         {desktopHeader}
-        {navList(NAV_ITEMS)}
+        {navList(navItems)}
         {helpCard}
       </aside>
     </>

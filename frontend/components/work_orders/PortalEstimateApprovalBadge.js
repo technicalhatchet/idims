@@ -1,3 +1,5 @@
+import { effectiveAutoApproveLimitForWorkOrder, formatAutoApproveLimit } from '../../utils/estimateAutoApproveLimit';
+
 export default function PortalEstimateApprovalBadge({ workOrder }) {
   const summary = workOrder?.estimate_approval;
   if (!summary?.badge && !summary?.estimate_changed_since_approval) return null;
@@ -8,7 +10,17 @@ export default function PortalEstimateApprovalBadge({ workOrder }) {
   let label = null;
   let color = '#9ca3af';
   const latest = summary.latest;
-  if (badge === 'approved') {
+  const autoSource =
+    badge === 'auto_approved'
+    || (badge === 'approved' && latest?.decision_source === 'auto');
+  if (autoSource) {
+    const limit = effectiveAutoApproveLimitForWorkOrder(workOrder);
+    label =
+      limit != null
+        ? `Auto-approved (limit $${formatAutoApproveLimit(limit)})`
+        : 'Auto-approved';
+    color = '#22c55e';
+  } else if (badge === 'approved') {
     if (latest?.decision_source === 'staff_on_behalf' && latest?.staff_user_name) {
       label = `Approved by ${latest.staff_user_name} on behalf of customer`;
     } else {

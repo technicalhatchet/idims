@@ -557,6 +557,11 @@ async def get_work_order(
                 "phone": client.phone,
                 "mobile": client.mobile,
                 "email": client.email,
+                "estimate_auto_approve_limit": (
+                    float(client.estimate_auto_approve_limit)
+                    if getattr(client, "estimate_auto_approve_limit", None) is not None
+                    else None
+                ),
             }
             
             properties = client.properties or []
@@ -572,6 +577,11 @@ async def get_work_order(
                     "tenant_name": p.tenant_name,
                     "tenant_phone": p.tenant_phone,
                     "tenant_email": p.tenant_email,
+                    "estimate_auto_approve_limit": (
+                        float(p.estimate_auto_approve_limit)
+                        if getattr(p, "estimate_auto_approve_limit", None) is not None
+                        else None
+                    ),
                 }
                 for p in properties
             ]
@@ -590,6 +600,11 @@ async def get_work_order(
                         "tenant_name": matched.tenant_name,
                         "tenant_phone": matched.tenant_phone,
                         "tenant_email": matched.tenant_email,
+                        "estimate_auto_approve_limit": (
+                            float(matched.estimate_auto_approve_limit)
+                            if getattr(matched, "estimate_auto_approve_limit", None) is not None
+                            else None
+                        ),
                     }
                     existing_loc = response_dict.get("service_location") or {}
                     if not (isinstance(existing_loc, dict) and existing_loc.get("address")):

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, ForeignKey, Boolean, DateTime, Text, Enum, Float
+from sqlalchemy import Column, String, Integer, ForeignKey, Boolean, DateTime, Text, Enum, Float, Numeric
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 from sqlalchemy.orm import relationship
 from datetime import datetime
@@ -51,6 +51,7 @@ class Client(Base):
     is_test_client = Column(Boolean, nullable=False, default=False)
     maintenance_emails_opt_out = Column(Boolean, nullable=False, default=False)
     last_maintenance_email_at = Column(DateTime, nullable=True)
+    estimate_auto_approve_limit = Column(Numeric(10, 2), nullable=True)
 
     # Relationships
     user = relationship("User", foreign_keys=[user_id], back_populates="client")

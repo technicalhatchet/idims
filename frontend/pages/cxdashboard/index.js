@@ -63,6 +63,7 @@ import {
   portalEstimateNeedsCustomerAction,
 } from '../../utils/portalEstimateApproval';
 import { useFeature } from '../../context/FeatureFlagsContext';
+import { usePortalAccess } from '../../context/PortalAccessContext';
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL || 'http://localhost:8000';
 const CLIENT_ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -187,6 +188,9 @@ function ClientPicker({ clients, onSelect, loading }) {
 
 export default function ClientDashboard() {
   const estimateApprovalEnabled = useFeature('estimate_approval');
+  const tenantAccessEnabled = useFeature('tenant_access');
+  const { isTenant, isOwner } = usePortalAccess();
+  const hideOwnerBillingUi = tenantAccessEnabled && isTenant;
   const maintenanceRemindersEnabled = useFeature('maintenance_reminders');
   const [maintenanceDueCount, setMaintenanceDueCount] = useState(0);
   const router = useRouter();
@@ -449,12 +453,17 @@ export default function ClientDashboard() {
     setLoading(true);
     setError(null);
     try {
-      const [prof, appts, wos, invs, props, maintenanceSummary] = await Promise.all([
-        portalFetch('me', token, clientId),
+      const prof = await portalFetch('me', token, clientId);
+      const tenantViewer = tenantAccessEnabled && prof?.portal_access?.is_tenant;
+      const [appts, wos, invs, props, maintenanceSummary] = await Promise.all([
         portalFetch('appointments?upcoming_only=true', token, clientId),
         portalFetch('work-orders', token, clientId),
-        portalFetch('invoices', token, clientId),
-        portalFetch('properties', token, clientId).catch(() => []),
+        tenantViewer
+          ? Promise.resolve([])
+          : portalFetch('invoices', token, clientId).catch(() => []),
+        tenantViewer
+          ? Promise.resolve([])
+          : portalFetch('properties', token, clientId).catch(() => []),
         maintenanceRemindersEnabled
           ? portalFetch('maintenance/summary', token, clientId).catch(() => ({ count: 0 }))
           : Promise.resolve({ count: 0 }),
@@ -544,7 +553,9 @@ export default function ClientDashboard() {
     href: '/cxdashboard/repairs',
       highlight: profile.stats?.active_repairs > 0,
   },
-  {
+  ...(hideOwnerBillingUi
+    ? []
+    : [{
     title: 'Total Invoices',
       value: String(invoices.length),
       subtitle: outstandingInvoiceCount > 0
@@ -552,7 +563,7 @@ export default function ClientDashboard() {
         : `${paidInvoiceCount} Paid`,
     icon: FaFileInvoiceDollar,
       href: '/cxdashboard/invoices',
-  },
+  }]),
   {
     title: 'Warranty Coverage',
       value: String(warrantyActiveCount),
@@ -665,9 +676,10 @@ export default function ClientDashboard() {
     }
   };
 
-  const estimatesNeedingApproval = estimateApprovalEnabled
-    ? workOrders.filter(portalEstimateNeedsCustomerAction)
-    : [];
+  const estimatesNeedingApproval =
+    estimateApprovalEnabled && !hideOwnerBillingUi
+      ? workOrders.filter(portalEstimateNeedsCustomerAction)
+      : [];
 
   return (
     <>
@@ -689,7 +701,7 @@ export default function ClientDashboard() {
 
         <PartsUpdateCallout workOrders={workOrders} />
 
-        {!loading && properties.length === 0 ? (
+        {!loading && isOwner && properties.length === 0 ? (
           <div className="rounded-2xl border border-cyan-500/25 bg-cyan-500/10 p-4 md:p-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             <div className="flex gap-3 min-w-0">
               <div className="w-11 h-11 rounded-xl bg-cyan-500/15 text-cyan-400 flex items-center justify-center shrink-0">
@@ -741,6 +753,7 @@ export default function ClientDashboard() {
               ? <RepairStatus repair={repairCardData} />
               : <div className="p-4 md:p-6 rounded-2xl bg-white/5 border border-white/10 text-center text-gray-400 text-sm">No active repairs</div>
             }
+            {!hideOwnerBillingUi ? (
             <InvoiceList
               invoices={invoiceListData}
               portalToken={accessToken}
@@ -750,6 +763,7 @@ export default function ClientDashboard() {
                 setInvoices(Array.isArray(invs) ? invs : []);
               }}
             />
+            ) : null}
           </div>
         </div>
 

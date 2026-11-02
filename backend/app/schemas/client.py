@@ -99,7 +99,8 @@ class ClientUpdate(BaseModel):
     scheduling_zone_exempt: Optional[bool] = None
     sms_consent: Optional[bool] = None
     is_test_client: Optional[bool] = None
-    
+    estimate_auto_approve_limit: Optional[float] = None
+
     @validator('email', pre=True)
     def empty_str_to_none(cls, v):
         if v == '':
@@ -131,6 +132,7 @@ class ClientResponse(ClientBase):
     sms_consent_at: Optional[datetime] = None
     sms_consent_source: Optional[str] = None
     is_test_client: bool = False
+    estimate_auto_approve_limit: Optional[float] = None
     model_config = ConfigDict(from_attributes=True)
 
 class ClientListResponse(BaseModel):

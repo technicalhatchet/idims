@@ -2,8 +2,72 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { apiClient } from '../../utils/api-client';
 import { upsertAppSetting } from '../../utils/upsertAppSetting';
-import { ALL_FEATURE_FLAG_IDS } from '../../context/FeatureFlagsContext';
-import { useFeatureFlags } from '../../context/FeatureFlagsContext';
+import {
+  ALL_FEATURE_FLAG_IDS,
+  WAVE1_FEATURE_FLAG_IDS,
+  WAVE2_FEATURE_FLAG_IDS,
+  WAVE3_FEATURE_FLAG_IDS,
+  useFeatureFlags,
+} from '../../context/FeatureFlagsContext';
+import {
+  NestedSettingsAccordionGroup,
+  SettingsAccordion,
+} from './SettingsAccordion';
+
+const FLAG_NESTED = {
+  groupId: 'client-portal::portal-feature-flags-inner',
+  sections: ['portal-flags-wave1', 'portal-flags-wave2', 'portal-flags-wave3'],
+};
+
+function FlagList({ ids, flags, setFlags }) {
+  return (
+    <ul className="space-y-4 m-0 p-0 list-none">
+      {ids.map((id) => {
+        const row = flags[id] || { enabled: true, admin_only: false, description: '' };
+        return (
+          <li
+            key={id}
+            className="rounded-lg border border-gray-700/80 bg-gray-900/40 p-3 space-y-2"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-sm font-mono text-cyan-300/90">{id}</span>
+              <label className="flex items-center gap-2 text-sm text-gray-300">
+                <input
+                  type="checkbox"
+                  checked={Boolean(row.enabled)}
+                  onChange={(e) =>
+                    setFlags((prev) => ({
+                      ...prev,
+                      [id]: { ...row, enabled: e.target.checked },
+                    }))
+                  }
+                />
+                Enabled
+              </label>
+            </div>
+            {row.description ? (
+              <p className="text-xs text-gray-500 m-0">{row.description}</p>
+            ) : null}
+            <label className="flex items-center gap-2 text-xs text-gray-400">
+              <input
+                type="checkbox"
+                checked={Boolean(row.admin_only)}
+                disabled={!row.enabled}
+                onChange={(e) =>
+                  setFlags((prev) => ({
+                    ...prev,
+                    [id]: { ...row, admin_only: e.target.checked },
+                  }))
+                }
+              />
+              Admins only (hide from customers)
+            </label>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
 
 function defaultFlagsFromConfig(config) {
   const flags = config?.flags || {};
@@ -81,51 +145,41 @@ export default function FeatureFlagsSettingsPanel() {
         Turn Wave 1 customer-facing capabilities on or off. Admins-only hides a flag from customers
         while staff can still use it when signed in.
       </p>
-      <ul className="space-y-4 m-0 p-0 list-none">
-        {ALL_FEATURE_FLAG_IDS.map((id) => {
-          const row = flags[id] || { enabled: true, admin_only: false, description: '' };
-          return (
-            <li
-              key={id}
-              className="rounded-lg border border-gray-700/80 bg-gray-900/40 p-3 space-y-2"
-            >
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="text-sm font-mono text-cyan-300/90">{id}</span>
-                <label className="flex items-center gap-2 text-sm text-gray-300">
-                  <input
-                    type="checkbox"
-                    checked={Boolean(row.enabled)}
-                    onChange={(e) =>
-                      setFlags((prev) => ({
-                        ...prev,
-                        [id]: { ...row, enabled: e.target.checked },
-                      }))
-                    }
-                  />
-                  Enabled
-                </label>
-              </div>
-              {row.description ? (
-                <p className="text-xs text-gray-500 m-0">{row.description}</p>
-              ) : null}
-              <label className="flex items-center gap-2 text-xs text-gray-400">
-                <input
-                  type="checkbox"
-                  checked={Boolean(row.admin_only)}
-                  disabled={!row.enabled}
-                  onChange={(e) =>
-                    setFlags((prev) => ({
-                      ...prev,
-                      [id]: { ...row, admin_only: e.target.checked },
-                    }))
-                  }
-                />
-                Admins only (hide from customers)
-              </label>
-            </li>
-          );
-        })}
-      </ul>
+      <NestedSettingsAccordionGroup
+        groupId={FLAG_NESTED.groupId}
+        sectionIds={FLAG_NESTED.sections}
+      >
+        <SettingsAccordion
+          nested
+          sectionId="portal-flags-wave1"
+          title="Wave 1 — core portal"
+          summary="Estimates, reviews, media, exports, invites, signup"
+        >
+          <div className="p-4 pt-0">
+            <FlagList ids={WAVE1_FEATURE_FLAG_IDS} flags={flags} setFlags={setFlags} />
+          </div>
+        </SettingsAccordion>
+        <SettingsAccordion
+          nested
+          sectionId="portal-flags-wave2"
+          title="Wave 2 — appliance data"
+          summary="Recalls, appliance age, parts links, maintenance reminders"
+        >
+          <div className="p-4 pt-0">
+            <FlagList ids={WAVE2_FEATURE_FLAG_IDS} flags={flags} setFlags={setFlags} />
+          </div>
+        </SettingsAccordion>
+        <SettingsAccordion
+          nested
+          sectionId="portal-flags-wave3"
+          title="Wave 3 — tenants & auto-approve"
+          summary="Tenant property scope and estimate auto-approve limits"
+        >
+          <div className="p-4 pt-0">
+            <FlagList ids={WAVE3_FEATURE_FLAG_IDS} flags={flags} setFlags={setFlags} />
+          </div>
+        </SettingsAccordion>
+      </NestedSettingsAccordionGroup>
       <button
         type="button"
         onClick={save}

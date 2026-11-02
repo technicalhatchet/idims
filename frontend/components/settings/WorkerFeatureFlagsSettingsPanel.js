@@ -2,6 +2,15 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { apiClient } from '../../utils/api-client';
 import { upsertAppSetting } from '../../utils/upsertAppSetting';
+import {
+  NestedSettingsAccordionGroup,
+  SettingsAccordion,
+} from './SettingsAccordion';
+
+const WORKER_NESTED = {
+  groupId: 'notifications::worker-flags-inner',
+  sections: ['worker-flags-automation'],
+};
 
 const WORKER_FLAGS = [
   { id: 'deploy_reminders', label: 'Deploy reminders (staff push)' },
@@ -68,28 +77,41 @@ export default function WorkerFeatureFlagsSettingsPanel() {
       className="space-y-3"
       style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '1.5rem' }}
     >
-      <h3 className="text-white font-semibold">Background worker jobs</h3>
-      <p className="text-gray-500 text-xs m-0">
-        All default off on Railway until you enable them here. Beat still runs; each task exits
-        quietly when its flag is off.
-      </p>
-      <ul className="space-y-2 m-0 p-0 list-none">
-        {WORKER_FLAGS.map(({ id, label }) => (
-          <li key={id}>
-            <label className="flex items-center gap-2 text-sm text-gray-300">
-              <input
-                type="checkbox"
-                checked={Boolean(flags[id])}
-                onChange={(e) =>
-                  setFlags((prev) => ({ ...prev, [id]: e.target.checked }))
-                }
-              />
-              <span className="font-mono text-xs text-cyan-300/80">{id}</span>
-              <span className="text-gray-400">— {label}</span>
-            </label>
-          </li>
-        ))}
-      </ul>
+      <NestedSettingsAccordionGroup
+        groupId={WORKER_NESTED.groupId}
+        sectionIds={WORKER_NESTED.sections}
+      >
+        <SettingsAccordion
+          nested
+          sectionId="worker-flags-automation"
+          title="Worker / automation"
+          summary="Celery beat tasks and background customer email jobs"
+        >
+          <div className="p-4 pt-0 space-y-3">
+            <p className="text-gray-500 text-xs m-0">
+              All default off on Railway until you enable them here. Beat still runs; each task exits
+              quietly when its flag is off.
+            </p>
+            <ul className="space-y-2 m-0 p-0 list-none">
+              {WORKER_FLAGS.map(({ id, label }) => (
+                <li key={id}>
+                  <label className="flex items-center gap-2 text-sm text-gray-300">
+                    <input
+                      type="checkbox"
+                      checked={Boolean(flags[id])}
+                      onChange={(e) =>
+                        setFlags((prev) => ({ ...prev, [id]: e.target.checked }))
+                      }
+                    />
+                    <span className="font-mono text-xs text-cyan-300/80">{id}</span>
+                    <span className="text-gray-400">— {label}</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </SettingsAccordion>
+      </NestedSettingsAccordionGroup>
       <button
         type="button"
         onClick={save}
