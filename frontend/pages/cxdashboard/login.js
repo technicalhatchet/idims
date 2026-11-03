@@ -9,7 +9,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import ClientPwaHead from '../../components/cxdashboard/ClientPwaHead';
 import AtomicLogo from '../../components/ui/AtomicLogo';
-import { portalSignInUrl, portalSignUpUrl } from '../../utils/portalAuthUrls';
+import { portalSignInUrl, portalSignUpUrl, portalSignInDifferentAccountUrl } from '../../utils/portalAuthUrls';
 
 const PORTAL_SHELL = '#0B0F1A';
 
@@ -36,6 +36,10 @@ export default function PortalLogin() {
 
   const handleSignIn = () => {
     window.location.href = portalSignInUrl(returnPath);
+  };
+
+  const handleDifferentGoogleAccount = () => {
+    window.location.href = portalSignInDifferentAccountUrl(returnPath);
   };
 
   const handleSignUp = () => {
@@ -89,10 +93,29 @@ export default function PortalLogin() {
               fontWeight: '700',
               fontSize: '1rem',
               cursor: 'pointer',
-              marginBottom: '0.75rem',
+              marginBottom: '0.5rem',
             }}
           >
             Sign in
+          </button>
+
+          <button
+            type="button"
+            onClick={handleDifferentGoogleAccount}
+            style={{
+              width: '100%',
+              padding: '0.625rem',
+              background: 'transparent',
+              color: '#9ca3af',
+              border: 'none',
+              fontWeight: '500',
+              fontSize: '0.8rem',
+              cursor: 'pointer',
+              marginBottom: '0.75rem',
+              textDecoration: 'underline',
+            }}
+          >
+            Use a different Google account
           </button>
 
           <button

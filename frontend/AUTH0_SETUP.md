@@ -95,3 +95,30 @@ function (user, context, callback) {
       callback(err);
     });
 } 
+
+## Google account picker (multiple Gmail accounts)
+
+IDIMS uses **Auth0 Universal Login** via `@auth0/nextjs-auth0`, not Auth0 Lock. To show Google’s “Choose an account” screen, pass OpenID `prompt=select_account` on `/api/auth/login`.
+
+**App behavior (code):**
+
+- Customer portal sign-in URLs include `prompt=select_account` by default (`frontend/utils/portalAuthUrls.js`).
+- Any login can force the picker: `/api/auth/login?prompt=select_account&returnTo=/cxdashboard`
+- Direct Google + picker: `/api/auth/login?connection=google-oauth2&prompt=select_account&returnTo=...`
+- Portal sign-out clears **only the Auth0/app session** by default (Google stays signed in in the browser).
+- Use **`prompt=select_account` on the next login** to pick a different Google account without signing out of Google globally.
+- Optional **`federated=1` on `/api/auth/logout`** only if you intentionally want IdP logout too (signs out of Google for that flow — usually not needed for multi-account testing).
+
+**If Universal Login still skips the picker** (Auth0 sometimes does not forward `prompt` to Google on the hosted login page), set Google connection **upstream_params** in the Auth0 Dashboard (Authentication → Social → Google → Advanced) or via Management API:
+
+```json
+{
+  "options": {
+    "upstream_params": {
+      "prompt": { "value": "select_account" }
+    }
+  }
+}
+```
+
+Staff testing: `/api/auth/login?prompt=select_account&returnTo=/techboard`
