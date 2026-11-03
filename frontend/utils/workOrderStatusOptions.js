@@ -1,4 +1,7 @@
-/** Work order statuses available in manual status-update UI (value → label). */
+/**
+ * Work order statuses available in manual status-update UI (value → label).
+ * Must match backend work_order_status_enum. "Failed" is a visit status (shown as APR), not a job status.
+ */
 export const WORK_ORDER_STATUS_OPTIONS = [
   { value: 'pending', label: 'Pending' },
   { value: 'scheduled', label: 'Scheduled' },
@@ -14,7 +17,6 @@ export const WORK_ORDER_STATUS_OPTIONS = [
   { value: 'reschedule', label: 'Reschedule' },
   { value: 'need_to_contact', label: 'Need to Contact' },
   { value: 'unreachable', label: 'Unreachable' },
-  { value: 'failed', label: 'Failed' },
   { value: 'recall', label: 'Recall / Warranty Return' },
   { value: 'redo', label: 'Redo' },
   { value: 'refunded', label: 'Refunded' },

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
-  LASER_BAR_HEIGHT,
+  LASER_BAR_BUTTON_TOP,
+  LASER_BAR_HEIGHT_CSS,
   LASER_IDLE_TILE,
   LaserBarStyles,
   LaserFin,
@@ -47,7 +48,7 @@ export default function TechboardLaserDock({ slots = [], tag = null }) {
     <div
       className={`lb-root fixed bottom-0 left-0 right-0 max-w-lg mx-auto${boot ? ' lb-boot' : ''}`}
       style={{
-        height: `calc(${LASER_BAR_HEIGHT}px + env(safe-area-inset-bottom, 0px))`,
+        height: LASER_BAR_HEIGHT_CSS,
         zIndex: 40,
         // Hidden for the first frame until we know whether to play the boot.
         visibility: ready ? 'visible' : 'hidden',
@@ -73,7 +74,7 @@ export default function TechboardLaserDock({ slots = [], tag = null }) {
         <div
           style={{
             position: 'absolute',
-            top: 32,
+            top: LASER_BAR_BUTTON_TOP,
             left: 'max(12px, 11%)',
             right: 'max(12px, 11%)',
             height: 44,

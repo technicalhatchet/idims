@@ -28,7 +28,7 @@ test('visit flow: scheduled → en route → on site steps', () => {
   assert.equal(bar(wo('scheduled')).primary.id, 'start_route');
   assert.equal(bar(wo('scheduled')).reads, 'visit');
   assert.equal(bar(wo('en_route')).primary.id, 'arrived');
-  assert.equal(bar(wo('in_progress')).primary.id, 'equipment');
+  assert.equal(bar(wo('in_progress')).primary.id, 'scan_plate');
   const captured = { equipment_model: 'WFW5620HW', equipment_serial: 'C12345678' };
   assert.equal(bar(wo('in_progress', captured)).primary.id, 'diagnose');
   const diag = [{ note: '[Diagnostic Results]\nsummary', appointment_id: 'v' }];

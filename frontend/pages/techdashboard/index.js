@@ -7,6 +7,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { useUIPreferences } from '../../context/UIPreferencesContext';
 import { resolveUserFirstName } from '../../utils/userDisplayName';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
+import { useClaimBottomDock } from '../../components/layouts/bottomDock';
 import StatusBadge from '../../components/ui/StatusBadge';
 import { apiClient } from '../../utils/api-client';
 import { getEquipmentIconKey } from '../../utils/equipment-icon-key';
@@ -417,6 +418,7 @@ function EnRouteButton({ workOrderId, appointmentId, onSuccess }) {
 
 // ── Main Page ─────────────────────────────────────────────────────────────
 export default function TechDashboardTest() {
+  useClaimBottomDock('custom'); // has its own bottom buttons
   const { user } = useUser();
   const { preferences } = useUIPreferences();
   const [schedule, setSchedule] = useState([]);

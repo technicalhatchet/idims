@@ -1,5 +1,6 @@
 import {
-  LASER_BAR_HEIGHT,
+  LASER_BAR_BUTTON_TOP,
+  LASER_BAR_HEIGHT_CSS,
   LaserBarStyles,
   LaserFin,
   LaserIcon,
@@ -42,7 +43,7 @@ export default function WorkOrderActionBar({
   return (
     <div
       className="lb-root md:hidden fixed inset-x-0 bottom-0 z-[1188]"
-      style={{ height: `calc(${LASER_BAR_HEIGHT}px + env(safe-area-inset-bottom, 0px))`, transform: 'translateZ(0)' }}
+      style={{ height: LASER_BAR_HEIGHT_CSS, transform: 'translateZ(0)' }}
       data-touch-surface
     >
       <LaserBarStyles />
@@ -52,7 +53,7 @@ export default function WorkOrderActionBar({
         <div
           style={{
             position: 'absolute',
-            top: 32,
+            top: LASER_BAR_BUTTON_TOP,
             left: 'max(12px, 11%)',
             right: 'max(12px, 11%)',
             height: 44,

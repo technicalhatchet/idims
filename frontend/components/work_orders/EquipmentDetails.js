@@ -125,7 +125,7 @@ const MANUFACTURERS = [
   { value: 'Other', label: 'Other' }
 ];
 
-export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, onUpdate, variant = 'desktop', readOnly = false }, ref) {
+export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, onUpdate, variant = 'desktop', readOnly = false, onScanPlate = null }, ref) {
   const isMobile = variant === 'mobile';
   const structuralReadOnly = readOnly || isWorkOrderClosed(workOrder);
   const [openSection, setOpenSection] = useState(null);
@@ -685,6 +685,7 @@ export default forwardRef(function EquipmentDetails({ workOrderId, workOrder, on
     return (
       <EquipmentDetailsMobile
         workOrderId={workOrderId}
+        onScanPlate={structuralReadOnly ? null : onScanPlate}
         openSection={openSection}
         toggleMobileSection={toggleMobileSection}
         equipmentSummary={equipmentSummary}

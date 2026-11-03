@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useCallback, useLayoutEffect, useMemo } fr
 import { getSession } from '@auth0/nextjs-auth0';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt, FaCamera, FaLock, FaArrowLeft, FaPlus, FaWrench, FaCalendarPlus, FaStickyNote } from 'react-icons/fa';
@@ -48,7 +49,9 @@ import WorkOrderRedoParentLink from '../../../components/work_orders/WorkOrderRe
 import WorkOrderCloseModal from '../../../components/work_orders/WorkOrderCloseModal';
 import WorkOrderActionBar from '../../../components/work_orders/WorkOrderActionBar';
 import WorkOrderPaySheet from '../../../components/work_orders/WorkOrderPaySheet';
-import { useLaserTag } from '../../../components/navigation/LaserBarParts';
+import { uploadWorkOrderPhoto } from '../../../services/api/workOrderPhotosApi';
+import { LASER_BAR_SCROLL_PAD_CSS, useLaserTag } from '../../../components/navigation/LaserBarParts';
+import { useClaimBottomDock } from '../../../components/layouts/bottomDock';
 import { pickDriverVisit, resolveWorkOrderActionBar } from '../../../utils/workOrderActionBar';
 import { NOTE_TYPES } from '../../../constants/workOrderNoteTypes';
 import { fetchWorkOrderNotes, updateAppointmentStatus as updateAppointmentStatusOffline } from '../../../lib/offlineWrites';
@@ -106,6 +109,9 @@ import { useWorkOrderMountedTabs } from '../../../hooks/useWorkOrderMountedTabs'
 import { useExpenseCategories, useExpenseVendors } from '../../../hooks/useJobEconomicsReferenceData';
 import { usePrefetchDmaSuggestions } from '../../../hooks/useDmaSuggestions';
 
+// Camera + barcode/OCR engines only download when the scanner is opened.
+const PlateScanner = dynamic(() => import('../../../components/scanner/PlateScanner'), { ssr: false });
+
 // Tabs for the detail page
 const TABS = {
   DETAILS: 'details',
@@ -151,6 +157,7 @@ function hudGridShiftForTitleplate(dx, dy, step) {
 }
 
 function WorkOrderDetail() {
+  useClaimBottomDock('custom'); // draws its own status-driven bar
   const router = useRouter();
   const { id } = router.query;
   const { user } = useUser();
@@ -640,6 +647,7 @@ function WorkOrderDetail() {
   // ── Status-driven bottom bar ──────────────────────────────────────────
   const [wrapUpOpen, setWrapUpOpen] = useState(false);
   const [paySheetOpen, setPaySheetOpen] = useState(false);
+  const [scannerOpen, setScannerOpen] = useState(false);
   const [barBusy, setBarBusy] = useState(false);
   const [barTag, flashBarTag] = useLaserTag();
   const barVisit = useMemo(() => pickDriverVisit(workOrder?.appointments), [workOrder?.appointments]);
@@ -721,6 +729,9 @@ function WorkOrderDetail() {
         return runAfterTabMount(TABS.NOTES, () => setNotesPhotoSheetOpen(true));
       case 'add_part':
         return runAfterTabMount(TABS.MODEL, () => equipmentDetailsRef.current?.openAddPartForm?.());
+      case 'scan_plate':
+        setScannerOpen(true);
+        return undefined;
       case 'equipment':
       case 'order_parts':
         return runAfterTabMount(TABS.MODEL, () => {});
@@ -763,6 +774,29 @@ function WorkOrderDetail() {
         return undefined;
     }
   }, [actionBar, setVisitStatusFromBar, barClientPhone, workOrder, runAfterTabMount, openNoteWithType, updateWorkOrderStatus, flashBarTag, refreshWorkOrderFromNetwork]);
+
+  const handlePlateScanned = useCallback(async ({ model, serial, photo }) => {
+    if (!workOrder?.id) return;
+    const body = {};
+    if (model) body.equipment_model = model;
+    if (serial) body.equipment_serial = serial;
+    try {
+      if (Object.keys(body).length) {
+        await apiClient(`work-orders/${workOrder.id}/equipment`, { method: 'PUT', body: JSON.stringify(body) });
+        queryClient.setQueryData(['workOrder', workOrder.id], (prev) => (prev ? { ...prev, ...body } : prev));
+      }
+      setScannerOpen(false);
+      flashBarTag(model && serial ? 'PLATE // LOCKED IN' : 'PLATE // SAVED');
+      if (photo) {
+        // Plate photo is a bonus; a failed upload shouldn't undo the save.
+        const file = new File([photo], `rating-plate-${Date.now()}.jpg`, { type: 'image/jpeg' });
+        uploadWorkOrderPhoto(workOrder.id, file, { description: 'Rating plate (scanned)', isModelSnTag: true }).catch(() => {});
+      }
+      if (typeof navigator === 'undefined' || navigator.onLine) await refreshWorkOrderFromNetwork();
+    } catch (err) {
+      alert(err?.message || 'Could not save the model and serial');
+    }
+  }, [workOrder?.id, queryClient, flashBarTag, refreshWorkOrderFromNetwork]);
 
   const handleWrapUpOutcome = useCallback((status, tagText) => {
     setWrapUpOpen(false);
@@ -860,7 +894,7 @@ function WorkOrderDetail() {
         style={{
           background: '#0A0F1E',
           paddingTop: 'env(safe-area-inset-top, 0px)',
-          paddingBottom: 'calc(6.75rem + env(safe-area-inset-bottom, 0px))',
+          paddingBottom: LASER_BAR_SCROLL_PAD_CSS,
         }}
       >
       <div 
@@ -1492,6 +1526,7 @@ function WorkOrderDetail() {
                   workOrder={workOrder}
                   onUpdate={refetch}
                   variant="mobile"
+                  onScanPlate={() => setScannerOpen(true)}
                 />
               </div>
           </WorkOrderTabPanel>
@@ -2910,6 +2945,17 @@ function WorkOrderDetail() {
           />
         )
       )}
+
+      {scannerOpen ? (
+      <PlateScanner
+        open={scannerOpen}
+        onClose={() => setScannerOpen(false)}
+        onSave={handlePlateScanned}
+        make={workOrder?.equipment_make || ''}
+        initialModel={workOrder?.equipment_model || ''}
+        initialSerial={workOrder?.equipment_serial || ''}
+      />
+      ) : null}
 
       <WorkOrderPaySheet
         open={paySheetOpen}

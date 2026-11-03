@@ -54,6 +54,7 @@ import {
 import { isTravelApiAllowed, openGoogleMapsDestination } from '../../utils/google-maps-service';
 import TechboardLaserDock from '../../components/techboard/TechboardLaserDock';
 import { useLaserTag } from '../../components/navigation/LaserBarParts';
+import { useClaimBottomDock } from '../../components/layouts/bottomDock';
 
 const ROUTE_DRIVE_DEBOUNCE_MS = 500;
 import {
@@ -832,6 +833,7 @@ function DeployButton({ workOrderId, appointmentId, onSuccess }) {
 
 // ── Main Page ─────────────────────────────────────────────────────────────
 export default function TechDashboardTest() {
+  useClaimBottomDock('custom'); // laser dock below
   const { user } = useUser();
   const { preferences } = useUIPreferences();
   const { isAdmin } = useUserRole();
