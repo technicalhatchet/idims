@@ -6,7 +6,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt, FaCamera, FaLock, FaArrowLeft, FaPlus, FaWrench, FaCalendarPlus, FaStickyNote } from 'react-icons/fa';
+import { FaEdit, FaPrint, FaEllipsisH, FaExclamationTriangle, FaCalendarAlt, FaClipboardList, FaToolbox, FaUserAlt, FaFileInvoiceDollar, FaChevronDown, FaChevronUp, FaReceipt, FaCamera, FaLock, FaArrowLeft, FaPlus, FaWrench, FaCalendarPlus, FaStickyNote, FaTrash } from 'react-icons/fa';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
 import {
   FrostedCardContent,
@@ -50,7 +50,7 @@ import WorkOrderCloseModal from '../../../components/work_orders/WorkOrderCloseM
 import WorkOrderActionBar from '../../../components/work_orders/WorkOrderActionBar';
 import WorkOrderPaySheet from '../../../components/work_orders/WorkOrderPaySheet';
 import { uploadWorkOrderPhoto } from '../../../services/api/workOrderPhotosApi';
-import { LASER_BAR_SCROLL_PAD_CSS, useLaserTag } from '../../../components/navigation/LaserBarParts';
+import { LASER_BAR_SCROLL_PAD_CSS, laserTileStyle, useLaserTag } from '../../../components/navigation/LaserBarParts';
 import { useClaimBottomDock } from '../../../components/layouts/bottomDock';
 import { pickDriverVisit, resolveWorkOrderActionBar } from '../../../utils/workOrderActionBar';
 import { NOTE_TYPES } from '../../../constants/workOrderNoteTypes';
@@ -63,6 +63,7 @@ import WoMobileGlassSection, {
 } from '../../../components/work_orders/WoMobileGlassSection';
 import WorkOrderMobileDetailsTab from '../../../components/work_orders/WorkOrderMobileDetailsTab';
 import WoMobileTextTabs from '../../../components/work_orders/WoMobileTextTabs';
+import WorkOrderStatusSheet from '../../../components/work_orders/WorkOrderStatusSheet';
 import { reopenWorkOrder, saveWorkOrderServiceLineEdits, updateServiceBillingStatus, waiveWorkOrderDiagnosticFee, deleteWorkOrderEstimateLine } from '../../../services/api/workOrdersApi';
 import RecordPaymentSheet from '../../../components/work_orders/RecordPaymentSheet';
 import WorkOrderBillingAccordion from '../../../components/work_orders/WorkOrderBillingAccordion';
@@ -171,6 +172,7 @@ function WorkOrderDetail() {
     [role, isManager],
   );
   const [showStatusModal, setShowStatusModal] = useState(false);
+  const [showStatusSheet, setShowStatusSheet] = useState(false);
   const [newStatus, setNewStatus] = useState('');
   const [statusNotes, setStatusNotes] = useState('');
   const [activeTab, setActiveTab] = useState(
@@ -817,7 +819,9 @@ function WorkOrderDetail() {
         notes: statusNotes
       });
       setShowStatusModal(false);
+      setShowStatusSheet(false);
       setStatusNotes('');
+      setNewStatus('');
       if (navigator.onLine) {
         refetch();
       }
@@ -2775,6 +2779,8 @@ function WorkOrderDetail() {
             setDeleteModalError(null);
           }}
           title="Delete work order?"
+          kicker="CONFIRM // DESTRUCTIVE"
+          tone="danger"
           zIndex={20100}
         >
           <p className="text-sm text-gray-300 mb-4 leading-relaxed">
@@ -2790,8 +2796,10 @@ function WorkOrderDetail() {
               type="button"
               onClick={handleDelete}
               disabled={isMutating}
-              className="flex w-full min-h-[56px] items-center justify-center rounded-xl bg-red-600 text-lg font-semibold text-white touch-manipulation active:scale-[0.99] disabled:opacity-60"
+              className="flex w-full min-h-[56px] items-center justify-center gap-2 rounded-xl text-sm font-extrabold uppercase tracking-[0.06em] touch-manipulation active:scale-[0.99] disabled:opacity-60"
+              style={laserTileStyle('red')}
             >
+              <FaTrash className="shrink-0" aria-hidden="true" />
               {isMutating ? 'Deleting…' : 'Delete work order'}
             </button>
             <button
@@ -2800,7 +2808,8 @@ function WorkOrderDetail() {
                 setShowDeleteModal(false);
                 setDeleteModalError(null);
               }}
-              className="flex w-full min-h-[52px] items-center justify-center rounded-xl border border-white/15 text-base font-medium text-gray-300 touch-manipulation active:bg-white/5"
+              className="flex w-full min-h-[52px] items-center justify-center rounded-xl text-base font-semibold text-gray-300 touch-manipulation active:bg-white/5"
+              style={{ border: '1px solid rgba(255, 255, 255, 0.16)', background: 'rgba(13, 22, 38, 0.7)' }}
             >
               Cancel
             </button>
@@ -2811,9 +2820,10 @@ function WorkOrderDetail() {
           open={mobileMoreOpen}
           onClose={() => setMobileMoreOpen(false)}
           title="Work order actions"
+          kicker={workOrder?.order_number ? `WO #${workOrder.order_number} // ACTIONS` : 'WORK ORDER // ACTIONS'}
           zIndex={20050}
         >
-          <div className="space-y-2">
+          <div className="lsheet-stagger space-y-2">
             {!woReadOnly && (
               <MobileActionSheetButton
                 href={techWorkOrderEditPath(id)}
@@ -2845,7 +2855,9 @@ function WorkOrderDetail() {
                 onClick={() => {
                   setMobileMoreOpen(false);
                   setDeleteModalError(null);
-                  setShowStatusModal(true);
+                  setNewStatus('');
+                  setStatusNotes('');
+                  setShowStatusSheet(true);
                 }}
               >
                 <FaExclamationTriangle className="opacity-70 shrink-0" /> Update status
@@ -2870,6 +2882,20 @@ function WorkOrderDetail() {
             )}
           </div>
         </MobileActionSheet>
+
+        <WorkOrderStatusSheet
+          open={showStatusSheet}
+          onClose={() => setShowStatusSheet(false)}
+          orderNumber={workOrder?.order_number}
+          currentStatus={workOrder?.status}
+          options={manualStatusOptions}
+          value={newStatus}
+          onChange={setNewStatus}
+          notes={statusNotes}
+          onNotesChange={setStatusNotes}
+          onSubmit={handleStatusUpdate}
+          busy={isMutating}
+        />
 
         </FrostedCardContent>
         </div>

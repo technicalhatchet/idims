@@ -105,7 +105,7 @@ export default function WorkOrderPaySheet({
         : null;
 
   return (
-    <MobileActionSheet open={open} onClose={onClose} title="Collect payment" zIndex={20060}>
+    <MobileActionSheet open={open} onClose={onClose} title="Collect payment" kicker="WORK ORDER // PAYMENT" zIndex={20060}>
       <div className="mb-4 flex items-end justify-between rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3">
         <div>
           <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-gray-400">Due today</div>
