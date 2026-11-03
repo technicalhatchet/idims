@@ -21,9 +21,9 @@ def test_work_order_allows_payment_driven_completion_cpp_wo():
     assert work_order_allows_payment_driven_completion(wo) is True
 
 
-def test_work_order_allows_payment_driven_completion_phone_payment_visit():
+def test_phone_payment_prepay_does_not_auto_complete_job():
     wo = SimpleNamespace(status="in_progress", appointments=[_appt("phone_payment")])
-    assert work_order_allows_payment_driven_completion(wo) is True
+    assert work_order_allows_payment_driven_completion(wo) is False
 
 
 def test_work_order_allows_payment_driven_completion_blocks_scheduled_only():

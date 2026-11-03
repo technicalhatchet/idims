@@ -19,7 +19,7 @@ import ErrorAlert from '../../../components/ui/ErrorAlert';
 import Button from '../../../components/ui/Button';
 import Modal from '../../../components/ui/Modal';
 import MobileActionSheet, { MobileActionSheetButton, MobileActionSheetGridTile } from '../../../components/ui/MobileActionSheet';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useWorkOrder, useWorkOrderMutations, refetchWorkOrderFromNetwork } from '../../../hooks/useWorkOrders';
 import PullToRefresh from '../../../components/ui/PullToRefresh';
 import { apiClient } from '../../../utils/api-client';
@@ -46,6 +46,13 @@ import PortalReviewRequestBar from '../../../components/work_orders/PortalReview
 import { useFeature } from '../../../context/FeatureFlagsContext';
 import WorkOrderRedoParentLink from '../../../components/work_orders/WorkOrderRedoParentLink';
 import WorkOrderCloseModal from '../../../components/work_orders/WorkOrderCloseModal';
+import WorkOrderActionBar from '../../../components/work_orders/WorkOrderActionBar';
+import WorkOrderPaySheet from '../../../components/work_orders/WorkOrderPaySheet';
+import { useLaserTag } from '../../../components/navigation/LaserBarParts';
+import { pickDriverVisit, resolveWorkOrderActionBar } from '../../../utils/workOrderActionBar';
+import { NOTE_TYPES } from '../../../constants/workOrderNoteTypes';
+import { fetchWorkOrderNotes, updateAppointmentStatus as updateAppointmentStatusOffline } from '../../../lib/offlineWrites';
+import { openGoogleMapsDestination } from '../../../utils/google-maps-service';
 import WoMobileGlassSection, {
   WO_MOBILE_FIELD_LABEL,
   WO_MOBILE_FIELD_VALUE,
@@ -630,6 +637,138 @@ function WorkOrderDetail() {
     }
   };
   
+  // ── Status-driven bottom bar ──────────────────────────────────────────
+  const [wrapUpOpen, setWrapUpOpen] = useState(false);
+  const [paySheetOpen, setPaySheetOpen] = useState(false);
+  const [barBusy, setBarBusy] = useState(false);
+  const [barTag, flashBarTag] = useLaserTag();
+  const barVisit = useMemo(() => pickDriverVisit(workOrder?.appointments), [workOrder?.appointments]);
+  const barNeedsNotes = Boolean(
+    id
+      && barVisit
+      && String(barVisit.status || '').toLowerCase() === 'in_progress'
+      && String(workOrder?.equipment_model || '').trim()
+      && String(workOrder?.equipment_serial || '').trim(),
+  );
+  const { data: barNotes, refetch: refetchBarNotes } = useQuery({
+    queryKey: ['woActionBarNotes', id],
+    queryFn: () => fetchWorkOrderNotes(id),
+    enabled: barNeedsNotes,
+    staleTime: 15_000,
+  });
+  // A diagnostic may have just been saved — re-check when the note sheets close.
+  useEffect(() => {
+    if (barNeedsNotes && !guidedDiagnosticsOpen && !notesAddSheetOpen) refetchBarNotes();
+  }, [barNeedsNotes, guidedDiagnosticsOpen, notesAddSheetOpen, refetchBarNotes]);
+
+  const actionBar = useMemo(
+    () => resolveWorkOrderActionBar({
+      workOrder,
+      notes: barNeedsNotes ? (barNotes ?? null) : null,
+      dueToday: billingTotals?.dueToday ?? 0,
+      readOnly: woReadOnly,
+      canClose: showCloseAction,
+    }),
+    [workOrder, barNeedsNotes, barNotes, billingTotals?.dueToday, woReadOnly, showCloseAction],
+  );
+
+  const setVisitStatusFromBar = useCallback(async (visit, status, tagText) => {
+    if (!visit?.id || !workOrder?.id) return;
+    setBarBusy(true);
+    try {
+      await updateAppointmentStatusOffline({ appointmentId: visit.id, status });
+      queryClient.setQueryData(['workOrder', workOrder.id], (prev) => (prev ? {
+        ...prev,
+        appointments: (prev.appointments || []).map((a) => (a.id === visit.id ? { ...a, status } : a)),
+      } : prev));
+      if (tagText) flashBarTag(tagText);
+      if (typeof navigator === 'undefined' || navigator.onLine) await refreshWorkOrderFromNetwork();
+    } catch (err) {
+      alert(err?.message || 'Could not update the visit status');
+    } finally {
+      setBarBusy(false);
+    }
+  }, [workOrder?.id, queryClient, flashBarTag, refreshWorkOrderFromNetwork]);
+
+  const barClientPhone = workOrder?.client?.mobile || workOrder?.client?.phone || workOrder?.property?.tenant_phone || '';
+
+  const handleBarAction = useCallback(async (actionId) => {
+    const visit = actionBar.visit;
+    switch (actionId) {
+      case 'start_route':
+        return setVisitStatusFromBar(visit, 'en_route', 'VISIT // EN ROUTE');
+      case 'arrived':
+      case 'start_work':
+        return setVisitStatusFromBar(visit, 'in_progress', 'VISIT // IN PROGRESS');
+      case 'call':
+      case 'text':
+        if (!barClientPhone) {
+          alert('No phone number on file for this client.');
+          return undefined;
+        }
+        window.location.href = `${actionId === 'text' ? 'sms' : 'tel'}:${barClientPhone}`;
+        return undefined;
+      case 'navigate': {
+        const address = resolveWorkOrderServiceAddress(workOrder);
+        if (!address) {
+          alert('No service address on this work order.');
+          return undefined;
+        }
+        openGoogleMapsDestination(address);
+        return undefined;
+      }
+      case 'photo':
+        return runAfterTabMount(TABS.NOTES, () => setNotesPhotoSheetOpen(true));
+      case 'add_part':
+        return runAfterTabMount(TABS.MODEL, () => equipmentDetailsRef.current?.openAddPartForm?.());
+      case 'equipment':
+      case 'order_parts':
+        return runAfterTabMount(TABS.MODEL, () => {});
+      case 'diagnose':
+        return openNoteWithType(NOTE_TYPES.DIAGNOSTIC_RESULTS);
+      case 'wrap_up':
+        setWrapUpOpen(true);
+        return undefined;
+      case 'schedule':
+        return runAfterTabMount(TABS.APPOINTMENTS, () => appointmentSchedulerRef.current?.scheduleNewVisit?.());
+      case 'view_visit':
+        return runAfterTabMount(TABS.APPOINTMENTS, () => {});
+      case 'estimate':
+        return runAfterTabMount(TABS.INVOICES, () => {});
+      case 'parts_in':
+        setBarBusy(true);
+        try {
+          await updateWorkOrderStatus({ id: workOrder.id, status: 'parts_received', notes: 'Parts received' });
+          flashBarTag('JOB // PARTS RECEIVED');
+          if (typeof navigator === 'undefined' || navigator.onLine) await refreshWorkOrderFromNetwork();
+        } catch (err) {
+          // Error is shown by the mutation hook
+        } finally {
+          setBarBusy(false);
+        }
+        return undefined;
+      case 'payment':
+        setPaySheetOpen(true);
+        return undefined;
+      case 'record_payment':
+        setShowRecordPayment(true);
+        return undefined;
+      case 'close':
+        setShowCloseModal(true);
+        return undefined;
+      case 'summary':
+        setShowDocumentPdf(true);
+        return undefined;
+      default:
+        return undefined;
+    }
+  }, [actionBar, setVisitStatusFromBar, barClientPhone, workOrder, runAfterTabMount, openNoteWithType, updateWorkOrderStatus, flashBarTag, refreshWorkOrderFromNetwork]);
+
+  const handleWrapUpOutcome = useCallback((status, tagText) => {
+    setWrapUpOpen(false);
+    setVisitStatusFromBar(actionBar.visit, status, tagText);
+  }, [actionBar.visit, setVisitStatusFromBar]);
+
   // Handle status update
   const handleStatusUpdate = async () => {
     try {
@@ -717,11 +856,11 @@ function WorkOrderDetail() {
 
       <PullToRefresh onRefresh={refreshWorkOrderFromNetwork}>
       <div
-        className="min-h-screen pb-24 md:pb-8"
+        className="min-h-screen pb-28 md:pb-8"
         style={{
           background: '#0A0F1E',
           paddingTop: 'env(safe-area-inset-top, 0px)',
-          paddingBottom: 'calc(5.5rem + env(safe-area-inset-bottom, 0px))',
+          paddingBottom: 'calc(6.75rem + env(safe-area-inset-bottom, 0px))',
         }}
       >
       <div 
@@ -2707,7 +2846,9 @@ function WorkOrderDetail() {
       </div>
 
       {/* Mobile bottom dock — hidden while note/photo sheets are open */}
+      {/* Notes tab keeps its note-focused dock; every other tab gets the status-driven laser bar. */}
       {!(notesPhotoSheetOpen || notesAddSheetOpen || guidedDiagnosticsOpen) && (
+        activeTab === TABS.NOTES && !woReadOnly ? (
       <div
         className="md:hidden fixed inset-x-0 bottom-0 z-[1188] border-t border-white/10 bg-[#0B1120]/95 backdrop-blur-md px-3 pt-2 touch-manipulation"
         style={{
@@ -2716,7 +2857,6 @@ function WorkOrderDetail() {
         }}
         data-touch-surface
       >
-        {activeTab === TABS.NOTES && !woReadOnly ? (
           <div
             className={`grid gap-2 items-center ${
               showCloseAction ? 'grid-cols-[4.75rem_1fr_2.75rem_4.75rem]' : 'grid-cols-[4.75rem_1fr_2.75rem]'
@@ -2751,46 +2891,70 @@ function WorkOrderDetail() {
               <button
                 type="button"
                 onClick={() => setShowCloseModal(true)}
-                className="h-10 w-full rounded-xl border border-emerald-500/40 bg-emerald-600/90 text-[11px] font-semibold uppercase tracking-wide text-white active:scale-[0.98]"
+                className="h-10 w-full rounded-xl border border-red-300/60 bg-gradient-to-b from-red-400 to-red-700 text-[11px] font-bold uppercase tracking-wide text-white shadow-[0_0_18px_rgba(239,68,68,0.55)] active:scale-[0.98]"
               >
                 Close
               </button>
             ) : null}
           </div>
-        ) : (
-        <div className="grid grid-cols-[4.75rem_1fr_4.75rem] gap-2 items-center">
-          <button
-            type="button"
-            onClick={handleMobileDockBack}
-            className="h-10 w-full rounded-xl border border-white/15 text-[11px] font-semibold uppercase tracking-wide text-gray-300 flex items-center justify-center gap-1 active:scale-[0.98]"
-            aria-label="Back"
-          >
-            <FaArrowLeft className="h-3.5 w-3.5 shrink-0" />
-            Back
-          </button>
-          <button
-            type="button"
-            onClick={() => setMobileAddSheetOpen(true)}
-            className="h-10 w-full rounded-xl bg-gradient-to-br from-cyan-600 to-cyan-700 text-white shadow-[0_0_20px_rgba(34,211,238,0.25)] flex items-center justify-center active:scale-[0.98]"
-            aria-label="Add"
-          >
-            <FaPlus className="h-5 w-5" />
-          </button>
-          {showCloseAction ? (
-            <button
-              type="button"
-              onClick={() => setShowCloseModal(true)}
-              className="h-10 w-full rounded-xl border border-emerald-500/40 bg-emerald-600/90 text-[11px] font-semibold uppercase tracking-wide text-white active:scale-[0.98]"
-            >
-              Close
-            </button>
-          ) : (
-            <div className="h-10 w-full" aria-hidden />
-          )}
-        </div>
-        )}
       </div>
+        ) : (
+          <WorkOrderActionBar
+            bar={actionBar}
+            busy={barBusy}
+            tag={barTag}
+            addDisabled={woReadOnly}
+            onBack={handleMobileDockBack}
+            onAdd={() => setMobileAddSheetOpen(true)}
+            onAction={handleBarAction}
+          />
+        )
       )}
+
+      <WorkOrderPaySheet
+        open={paySheetOpen}
+        onClose={() => setPaySheetOpen(false)}
+        workOrderId={workOrder?.id}
+        orderNumber={workOrder?.order_number}
+        dueToday={billingTotals?.dueToday ?? 0}
+        clientPhone={barClientPhone}
+        onEnterCard={() => {
+          setPaySheetOpen(false);
+          setShowSquarePayment(true);
+        }}
+        onRecordPayment={() => {
+          setPaySheetOpen(false);
+          setShowRecordPayment(true);
+        }}
+        onRefreshBalance={refreshWorkOrderFromNetwork}
+        onNotice={flashBarTag}
+      />
+
+      <MobileActionSheet
+        open={wrapUpOpen}
+        onClose={() => setWrapUpOpen(false)}
+        title="Wrap up — how did this visit end?"
+        zIndex={20060}
+      >
+        <div className="flex flex-col gap-2.5">
+          <MobileActionSheetButton
+            variant="primary"
+            onClick={() => handleWrapUpOutcome('completed_pending_payment', 'VISIT // DONE — PENDING PAYMENT')}
+          >
+            Done — Pending Payment
+          </MobileActionSheetButton>
+          <MobileActionSheetButton
+            onClick={() => handleWrapUpOutcome('failed', 'VISIT // APR — PARTS REQUIRED')}
+          >
+            APR — Additional Parts Required
+          </MobileActionSheetButton>
+          <MobileActionSheetButton
+            onClick={() => handleWrapUpOutcome('reschedule', 'VISIT // RESCHEDULE')}
+          >
+            Reschedule
+          </MobileActionSheetButton>
+        </div>
+      </MobileActionSheet>
 
       <MobileActionSheet
         open={mobileAddSheetOpen}
@@ -2865,6 +3029,21 @@ function WorkOrderDetail() {
             }}
           />
         </div>
+        {showCloseAction && actionBar.primary.id !== 'close' ? (
+          <div className="mt-3">
+            <MobileActionSheetButton
+              variant="danger"
+              disabled={lifecycleBusy}
+              onClick={() => {
+                setMobileAddSheetOpen(false);
+                setShowCloseModal(true);
+              }}
+            >
+              <FaLock aria-hidden />
+              Close job
+            </MobileActionSheetButton>
+          </div>
+        ) : null}
       </MobileActionSheet>
 
       <EstimateSkuModal

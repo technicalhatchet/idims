@@ -47,6 +47,9 @@ export default function StatusBadge({ status, variant = 'default' }) {
       case 'parts_on_order':
       case 'parts on order':
         return 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400';
+      case 'parts_received':
+      case 'parts received':
+        return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400';
       case 'reschedule':
         return 'bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-400';
       case 'need_to_contact':

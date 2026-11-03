@@ -51,7 +51,9 @@ import {
   buildNextJobDriveSignature,
   formatDriveDuration,
 } from '../../utils/routeDriveTime';
-import { isTravelApiAllowed } from '../../utils/google-maps-service';
+import { isTravelApiAllowed, openGoogleMapsDestination } from '../../utils/google-maps-service';
+import TechboardLaserDock from '../../components/techboard/TechboardLaserDock';
+import { useLaserTag } from '../../components/navigation/LaserBarParts';
 
 const ROUTE_DRIVE_DEBOUNCE_MS = 500;
 import {
@@ -1000,6 +1002,103 @@ export default function TechDashboardTest() {
 
   const nextJob = pickNextJobToday(todayAppts);
 
+  // ── Bottom dock: changes with where the day is at ──────────────────────
+  const router = useRouter();
+  const [dockTag, flashDockTag] = useLaserTag();
+  const activeJob = useMemo(
+    () => todayAppts.find((a) => ['in_progress', 'en_route', 'phone_payment'].includes(normalizeWorkOrderStatus(a.status))) || null,
+    [todayAppts],
+  );
+  const dockSlots = useMemo(() => {
+    const phoneOf = (a) => a?.client_phone || a?.client_mobile || a?.tenant_phone || '';
+    const callSlot = (a) => ({
+      key: 'call',
+      label: 'Call',
+      icon: 'call',
+      tone: 'cyan',
+      disabled: !phoneOf(a),
+      onPress: () => { window.location.href = `tel:${phoneOf(a)}`; },
+    });
+    const newWoSlot = () => ({
+      key: 'new-wo',
+      label: 'New WO',
+      icon: 'plus',
+      tone: 'cyan',
+      onPress: () => router.push(techWorkOrderNewPath()),
+    });
+
+    if (activeJob) {
+      return [
+        callSlot(activeJob),
+        {
+          key: 'active-job',
+          label: 'Active Job',
+          icon: 'wrench',
+          tone: 'cyan',
+          onPress: () => router.push(techWorkOrderDetailPath(activeJob.work_order_id)),
+        },
+        {
+          key: 'navigate',
+          label: 'Navigate',
+          icon: 'route',
+          tone: 'cyan',
+          disabled: !activeJob.service_address,
+          onPress: () => openGoogleMapsDestination(activeJob.service_address),
+        },
+      ];
+    }
+
+    if (nextJob) {
+      const canStartRoute = normalizeWorkOrderStatus(nextJob.status) === 'scheduled';
+      return [
+        callSlot(nextJob),
+        canStartRoute
+          ? {
+            key: 'start-route',
+            label: 'Start Route',
+            icon: 'route',
+            tone: 'cyan',
+            onPress: async () => {
+              try {
+                await updateAppointmentStatus({ appointmentId: nextJob.id, status: 'en_route' });
+                setSchedule((prev) => prev.map((a) => (a.id === nextJob.id ? { ...a, status: 'en_route' } : a)));
+                flashDockTag('VISIT // EN ROUTE');
+              } catch (e) {
+                alert('Failed to update appointment status: ' + e.message);
+              }
+            },
+          }
+          : {
+            key: 'next-job',
+            label: 'Next Job',
+            icon: 'calendar',
+            tone: 'cyan',
+            onPress: () => router.push(techWorkOrderDetailPath(nextJob.work_order_id)),
+          },
+        newWoSlot(),
+      ];
+    }
+
+    return [
+      {
+        key: 'critical-mass',
+        label: 'Late',
+        icon: 'alert',
+        tone: 'orange',
+        badge: workOrderStats.criticalMass || null,
+        onPress: () => router.push(TECH_MASS_PATH),
+      },
+      newWoSlot(),
+      {
+        key: 'queue',
+        label: 'Queue',
+        icon: 'queue',
+        tone: 'cyan',
+        onPress: () => router.push(TECH_MISSION_QUEUE_PATH),
+      },
+    ];
+  }, [activeJob, nextJob, workOrderStats.criticalMass, router, flashDockTag]);
+
   const nextJobDriveSignature = useMemo(
     () => buildNextJobDriveSignature(routeSignature, nextJob),
     [routeSignature, nextJob]
@@ -1353,7 +1452,7 @@ export default function TechDashboardTest() {
         `}</style>
       </Head>
 
-      <div className="min-h-screen pb-24" style={{ background: '#0A0F1E' }}>
+      <div className="min-h-screen pb-28" style={{ background: '#0A0F1E' }}>
         <div
           ref={tacticalColumnRef}
           className="hud-tactical-column relative px-4 pt-0 pb-5 max-w-lg mx-auto min-h-screen"
@@ -1579,45 +1678,8 @@ export default function TechDashboardTest() {
         </div>
       </div>
 
-        {/* ── BOTTOM ACTION BUTTONS ── */}
-        <div className="fixed bottom-0 left-0 right-0 px-4 pb-4 pt-3 max-w-lg mx-auto" style={{ background: '#0A0F1E', borderTop: '1px solid rgba(255,255,255,0.07)', zIndex: 40 }}>
-          <div className="grid grid-cols-3 gap-2">
-            {/* New Work Order */}
-            <Link href={techWorkOrderNewPath()} className="relative flex flex-col items-center justify-center gap-1 py-3 rounded-lg text-xs font-medium text-white overflow-hidden active:scale-95 transition-transform" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(34,211,238,0.5)', boxShadow: '0 0 10px rgba(0,212,255,0.15)' }}>
-              <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(0,212,255,0.12) 0%, transparent 55%)' }} />
-              <svg viewBox="0 0 24 24" className="relative z-10 w-5 h-5" style={{ stroke: '#00D4FF', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 5px rgba(0,212,255,0.9))' }}><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              <span className="relative z-10" style={{ textShadow: '0 0 8px rgba(0,212,255,0.6)' }}>New WO</span>
-            </Link>
-
-            {/* Scan Model/Serial */}
-            <button className="relative flex flex-col items-center justify-center gap-1 py-3 rounded-lg text-xs font-medium text-white overflow-hidden active:scale-95 transition-transform" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,122,0,0.5)', boxShadow: '0 0 10px rgba(255,122,0,0.15)' }}>
-              <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(255,122,0,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(255,122,0,0.12) 0%, transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(255,122,0,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(255,122,0,0.12) 0%, transparent 55%)' }} />
-              <svg viewBox="0 0 24 24" className="relative z-10 w-5 h-5" style={{ stroke: '#FF7A00', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 5px rgba(255,122,0,0.9))' }}>
-                <path d="M3 9V6a1 1 0 0 1 1-1h3M3 15v3a1 1 0 0 0 1 1h3M21 9V6a1 1 0 0 0-1-1h-3M21 15v3a1 1 0 0 1-1 1h-3"/>
-                <line x1="7" y1="12" x2="7" y2="12"/><line x1="10" y1="8" x2="10" y2="16"/><line x1="13" y1="10" x2="13" y2="14"/><line x1="16" y1="12" x2="16" y2="12"/>
-              </svg>
-              <span className="relative z-10" style={{ textShadow: '0 0 8px rgba(255,122,0,0.6)' }}>Scan</span>
-            </button>
-
-            {/* Call Next Client */}
-            {nextJob?.client_phone ? (
-              <a href={`tel:${nextJob.client_phone}`} className="relative flex flex-col items-center justify-center gap-1 py-3 rounded-lg text-xs font-medium text-white overflow-hidden active:scale-95 transition-transform" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(34,211,238,0.5)', boxShadow: '0 0 10px rgba(0,212,255,0.15)' }}>
-                <div className="absolute inset-0 rounded-lg" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 0%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(0,212,255,0.12) 0%, transparent 55%), radial-gradient(ellipse at 100% 100%, rgba(0,212,255,0.12) 0%, transparent 55%)' }} />
-                <svg viewBox="0 0 24 24" className="relative z-10 w-5 h-5" style={{ stroke: '#00D4FF', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', filter: 'drop-shadow(0 0 5px rgba(0,212,255,0.9))' }}>
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-                <span className="relative z-10" style={{ textShadow: '0 0 8px rgba(0,212,255,0.6)' }}>Call Next</span>
-              </a>
-            ) : (
-              <button disabled className="flex flex-col items-center justify-center gap-1 py-3 rounded-lg text-xs font-medium text-gray-600" style={{ background: 'rgba(13, 21, 37, 0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.05)' }}>
-                <svg viewBox="0 0 24 24" className="w-5 h-5" style={{ stroke: '#4B5563', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-                </svg>
-                Call Next
-              </button>
-            )}
-          </div>
-        </div>
+        {/* ── BOTTOM ACTION DOCK (laser) ── */}
+        <TechboardLaserDock slots={dockSlots} tag={dockTag} />
       </div>
     </>
   );

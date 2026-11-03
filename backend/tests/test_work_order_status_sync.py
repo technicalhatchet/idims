@@ -24,7 +24,7 @@ from app.services.work_order_status_sync_service import (
         ("unreachable", "unreachable"),
         ("completed", "completed_pending_payment"),
         ("completed_pending_payment", "completed_pending_payment"),
-        ("phone_payment", "completed_pending_payment"),
+        ("phone_payment", None),  # prepay: job status stays put
         ("scheduled", None),
     ],
 )
@@ -198,7 +198,7 @@ def test_sync_completion_after_billing(mock_apply, _mock_promote):
     return_value=False,
 )
 @patch("app.services.work_order_status_sync_service.apply_work_order_status_change")
-def test_sync_phone_payment_to_completed_pending_payment(mock_apply, _mock_promote):
+def test_sync_phone_payment_prepay_leaves_work_order_status(mock_apply, _mock_promote):
     mock_apply.return_value = True
     work_order = MagicMock()
     work_order.status = "in_progress"
@@ -216,5 +216,14 @@ def test_sync_phone_payment_to_completed_pending_payment(mock_apply, _mock_promo
         after_billing=True,
     )
 
-    assert result is True
-    assert mock_apply.call_args[0][2] == "completed_pending_payment"
+    assert result is False
+    mock_apply.assert_not_called()
+
+
+def test_scheduled_visit_promotes_parts_received_work_order():
+    work_order = MagicMock()
+    work_order.status = "parts_received"
+    assert (
+        resolve_work_order_status_for_appointment("scheduled", work_order=work_order)
+        == "scheduled"
+    )

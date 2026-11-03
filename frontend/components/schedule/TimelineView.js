@@ -242,6 +242,8 @@ const TimelineView = ({ appointments, date, onEventClick, viewType, isLoading, s
         return '#f97316'; // orange-500
       case 'parts_on_order':
         return '#d97706'; // amber-600
+      case 'parts_received':
+        return '#059669'; // emerald-600
       case 'reschedule':
         return '#0d9488'; // teal-600
       case 'need_to_contact':
@@ -385,6 +387,7 @@ const renderEventContent = (eventInfo) => {
       case 'on_hold':
         return '⏸️';
       case 'parts_on_order':
+      case 'parts_received':
         return '📦';
       case 'reschedule':
         return '📅';
@@ -520,6 +523,7 @@ const EventTooltipContent = ({ extendedProps }) => {
       case 'on_hold':
         return '⏸️';
       case 'parts_on_order':
+      case 'parts_received':
         return '📦';
       case 'reschedule':
         return '📅';

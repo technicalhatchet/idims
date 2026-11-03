@@ -34,7 +34,8 @@ COMPLETION_APPOINTMENT_STATUSES = frozenset({
 PHASE2_DIRECT_APPOINTMENT_TO_WO: Dict[str, str] = {
     "completed": "completed_pending_payment",
     "completed_pending_payment": "completed_pending_payment",
-    "phone_payment": "completed_pending_payment",
+    # ``phone_payment`` is a prepay (e.g. diagnostic) collected before service is done,
+    # so it deliberately does NOT move the work order to completed_pending_payment.
 }
 
 # Office / terminal WO statuses — do not overwrite from a field visit update
@@ -50,20 +51,22 @@ WO_STATUSES_SKIP_APPOINTMENT_SYNC = frozenset({
 WO_STATUSES_PROMOTE_TO_SCHEDULED = frozenset({
     "pending",
     "reschedule",
+    "parts_received",  # return visit booked once parts are in
 })
 
-# Phase 3: manual work order status → appointment updates (office / dispatch)
+# Phase 3: manual work order status → appointment updates (office / dispatch).
+# Only "the planned visit isn't happening" signals push down to visits. Field progress
+# (en route / in progress) is driven from the visit itself, never from the job.
 WO_STATUSES_SYNC_TO_APPOINTMENTS = frozenset({
     "reschedule",
     "canceled",
-    "en_route",
-    "in_progress",
 })
 
 # Parts / contact queue statuses intentionally do not change visits (office-only signal).
 WO_STATUSES_LEAVE_APPOINTMENTS_UNCHANGED = frozenset({
     "waiting_on_parts",
     "parts_on_order",
+    "parts_received",
     "need_to_contact",
 })
 
@@ -77,12 +80,6 @@ APPOINTMENT_TERMINAL_STATUSES = frozenset({
 
 # When a work order is canceled, also cancel active field visits (even if not "future").
 WO_CANCEL_ACTIVE_VISIT_STATUSES = frozenset({"en_route", "in_progress"})
-
-FIELD_APPOINTMENT_TARGET_BY_WO = {
-    "en_route": "en_route",
-    "in_progress": "in_progress",
-}
-
 
 def _calendar_day_bounds_utc(day: datetime) -> tuple[datetime, datetime]:
     d = day.date()
@@ -274,24 +271,6 @@ def sync_appointments_from_work_order_status(
                 updated += 1
         return updated
 
-    if new_wo in FIELD_APPOINTMENT_TARGET_BY_WO:
-        driver = _pick_driver_appointment_today(appointments, now=now)
-        if not driver:
-            return 0
-        target_status = FIELD_APPOINTMENT_TARGET_BY_WO[new_wo]
-        if activity._status_val(driver.status) in APPOINTMENT_TERMINAL_STATUSES:
-            return 0
-        if _apply_appointment_status_change(
-            db,
-            driver,
-            target_status,
-            user_id,
-            work_order_id=work_order.id,
-            sync_note=f"Status synced from work order {new_wo}",
-        ):
-            updated += 1
-        return updated
-
     return updated
 
 
@@ -367,8 +346,6 @@ def _build_sync_note(appt_label: str, target_wo_status: str) -> str:
         return "Status synced from appointment APR → waiting on parts"
     if appt_label in ("completed", "completed_pending_payment") and target_wo_status == "completed_pending_payment":
         return "Status synced from appointment visit complete → completed pending payment"
-    if appt_label == "phone_payment":
-        return "Status synced from appointment phone payment → completed pending payment"
     if appt_label == "scheduled" and target_wo_status == "scheduled":
         return "Status synced from appointment scheduled → work order scheduled"
     return f"Status synced from appointment ({appt_label} → {target_wo_status})"
