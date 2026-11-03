@@ -30,10 +30,12 @@ def test_close_blocked_when_visit_still_scheduled():
     assert all_appointments_close_eligible(wo) is False
 
 
-def test_close_blocked_when_visit_apr_failed():
+def test_earlier_apr_visit_does_not_block_close():
+    # An APR ("failed") visit followed by a completed return visit must not trap the job
+    # open. Close still separately requires the job completed, paid and an outcome logged.
     wo = MagicMock()
-    wo.appointments = [_appt("completed"), _appt("failed")]
-    assert all_appointments_close_eligible(wo) is False
+    wo.appointments = [_appt("failed"), _appt("completed")]
+    assert all_appointments_close_eligible(wo) is True
 
 
 def test_close_blocked_when_visit_completed_pending_payment():

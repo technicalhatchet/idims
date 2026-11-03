@@ -6,7 +6,15 @@ import { useCallback, useEffect, useRef, useState } from 'react';
  * Matches the Laser Slice rail's look.
  */
 
-export const LASER_BAR_HEIGHT = 98;
+/**
+ * Bar height. The buttons sit 30px down and are 44px tall; below them we only add
+ * what keeps them clear of the home indicator (safe area minus 8px, min 8px) instead of
+ * stacking the full safe area under the bar.
+ */
+export const LASER_BAR_HEIGHT_CSS = 'calc(74px + max(8px, env(safe-area-inset-bottom, 0px) - 8px))';
+export const LASER_BAR_BUTTON_TOP = 30;
+/** Bottom padding for scrolling content so nothing hides behind the bar. */
+export const LASER_BAR_SCROLL_PAD_CSS = 'calc(86px + max(8px, env(safe-area-inset-bottom, 0px) - 8px))';
 
 // One combined path per icon so they render from a single <path d>.
 const ICON_PATHS = {
@@ -218,7 +226,7 @@ export function LaserTag({ text, tone = 'cyan' }) {
         position: 'absolute',
         left: 0,
         right: 0,
-        bottom: `calc(${LASER_BAR_HEIGHT + 6}px + env(safe-area-inset-bottom, 0px))`,
+        bottom: `calc(${LASER_BAR_HEIGHT_CSS} + 6px)`,
         display: 'flex',
         justifyContent: 'center',
         pointerEvents: 'none',

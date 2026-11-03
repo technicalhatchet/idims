@@ -14,6 +14,7 @@ import {
   revokePortalLogin,
 } from '../../../services/api/clientsApi';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
+import TechMobileBackDock from '../../../components/layouts/TechMobileBackDock';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import StatusBadge from '../../../components/ui/StatusBadge';
@@ -1746,6 +1747,17 @@ function ClientDetail() {
           </div>
         </div>
       </div>
+
+      <TechMobileBackDock
+        fallbackHref="/techboard/assets"
+        primary={{ label: 'New WO', icon: 'plus', href: techWorkOrderNewPath({ client_id: id }) }}
+        secondary={{
+          label: client?.phone ? `Call ${displayName || 'client'}` : 'No phone on file',
+          icon: 'call',
+          disabled: !client?.phone,
+          onPress: () => { window.location.href = `tel:${client.phone}`; },
+        }}
+      />
     </>
   );
 }

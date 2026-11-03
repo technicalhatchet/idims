@@ -107,6 +107,7 @@ function MobileAccordionSection({ id, title, summary, isOpen, onToggle, children
 
 export default function EquipmentDetailsMobile({
   workOrderId,
+  onScanPlate = null,
   openSection,
   toggleMobileSection,
   equipmentSummary,
@@ -260,6 +261,16 @@ export default function EquipmentDetailsMobile({
           options={MANUFACTURERS}
           required={!manufacturer}
         />
+        {onScanPlate ? (
+          <button
+            type="button"
+            onClick={onScanPlate}
+            className="w-full min-h-[44px] rounded-xl border border-cyan-400/50 bg-cyan-500/10 text-cyan-200 text-sm font-semibold flex items-center justify-center gap-2 active:scale-[0.99] transition-transform"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M8 8v8M11 8v8M13.5 8v8M16 8v8" /></svg>
+            Scan rating plate
+          </button>
+        ) : null}
         <TextInput
           label="Model Number"
           value={modelNumber}

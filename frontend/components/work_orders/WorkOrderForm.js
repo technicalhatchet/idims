@@ -1,4 +1,5 @@
 import { useForm } from '../../hooks/useForm';
+import { useClaimBottomDock } from '../layouts/bottomDock';
 import { TextInput, SelectInput, TextareaInput, Checkbox, Button } from '../ui/FormElements';
 import Select from 'react-select';
 import { FaSave, FaTimes, FaTrash, FaUserPlus } from 'react-icons/fa';
@@ -150,6 +151,7 @@ function MobileSection({ title, children, isMobile }) {
 }
 
 export default function WorkOrderForm({ initialData, isEdit = false, onUpdateSuccess, variant = 'desktop', cancelHref }) {
+  useClaimBottomDock('custom', variant === 'mobile'); // mobile form has its own action bar
   const router = useRouter();
   const isMobile = variant === 'mobile';
   const [clients, setClients] = useState([]);

@@ -91,7 +91,7 @@ const A = {
   arrived: { id: 'arrived', label: 'Arrived', tone: 'cyan', icon: 'pin' },
   prepay: { id: 'payment', label: 'Prepay', tone: 'orange', icon: 'card' },
   startWork: { id: 'start_work', label: 'Start Work', tone: 'cyan', icon: 'wrench' },
-  addModel: { id: 'equipment', label: 'Add Model', tone: 'cyan', icon: 'scan' },
+  addModel: { id: 'scan_plate', label: 'Scan Plate', tone: 'cyan', icon: 'scan' },
   diagnose: { id: 'diagnose', label: 'Diagnose', tone: 'cyan', icon: 'search' },
   wrapUp: { id: 'wrap_up', label: 'Wrap Up', tone: 'cyan', icon: 'flag' },
   callAgain: { id: 'call', label: 'Call Again', tone: 'cyan', icon: 'call' },

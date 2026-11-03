@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
+import TechMobileBackDock from '../../components/layouts/TechMobileBackDock';
 import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import { useClients } from '../../services/api/clientsApi';
 
@@ -427,6 +428,7 @@ export default function AssetsPage() {
           </div>
         </div>
       </div>
+      <TechMobileBackDock primary={{ label: 'New Client', icon: 'plus', href: '/clients/mobile_new' }} />
     </>
   );
 }

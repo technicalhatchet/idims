@@ -11,6 +11,9 @@ import { useUIPreferences } from '../../context/UIPreferencesContext';
 import { resolveUserDisplayName, resolveUserInitial } from '../../utils/userDisplayName';
 import TechIconRail from '../navigation/TechIconRail';
 import LaserSliceRail from '../navigation/LaserSliceRail';
+import LaserNavDock from '../navigation/LaserNavDock';
+import { LASER_BAR_SCROLL_PAD_CSS } from '../navigation/LaserBarParts';
+import { BottomDockContext } from './bottomDock';
 import {
   TECHDECK_BRAND_VERSION,
   TECHDECK_LOCKUP_COLLAPSED_SRC,
@@ -212,8 +215,18 @@ export default function TechDashboardLayout({ children }) {
     setExpanded(false);
   }, []);
 
+  // Bottom bar: pages may claim it (see ./bottomDock). Unclaimed pages get a Back-only bar.
+  const [dockClaims, setDockClaims] = useState({ custom: 0, standard: 0 });
+  const bottomDock = useMemo(() => ({
+    claim: (kind) => setDockClaims((c) => ({ ...c, [kind]: (c[kind] || 0) + 1 })),
+    release: (kind) => setDockClaims((c) => ({ ...c, [kind]: Math.max(0, (c[kind] || 0) - 1) })),
+  }), []);
+  const showDefaultDock = dockClaims.custom === 0 && dockClaims.standard === 0;
+  const reserveDockSpace = dockClaims.custom === 0;
+
   return (
     <TechDashboardRailContext.Provider value={{ openRail }}>
+    <BottomDockContext.Provider value={bottomDock}>
     <TechDeckPwaHead manifestHref={pwaManifestHref} />
     <div className="min-h-screen" style={{ background: '#0A0F1E' }}>
       <style>{`
@@ -582,12 +595,24 @@ export default function TechDashboardLayout({ children }) {
       ))}
 
       {/* ── PAGE CONTENT ── */}
-      <main style={{ 
-        paddingTop: 'calc(72px + env(safe-area-inset-top, 0px))',
-      }}>
+      <style>{`
+        @media (max-width: 767px) {
+          .td-dock-space { padding-bottom: ${LASER_BAR_SCROLL_PAD_CSS}; }
+        }
+      `}</style>
+      <main
+        className={reserveDockSpace ? 'td-dock-space' : undefined}
+        style={{
+          paddingTop: 'calc(72px + env(safe-area-inset-top, 0px))',
+        }}
+      >
         {children}
       </main>
+
+      {/* ── DEFAULT BOTTOM BAR (pages without their own) ── */}
+      {showDefaultDock ? <LaserNavDock idPrefix="default-dock" /> : null}
     </div>
+    </BottomDockContext.Provider>
     </TechDashboardRailContext.Provider>
   );
 }
