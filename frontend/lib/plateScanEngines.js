@@ -5,38 +5,9 @@
  *  - Text: Tesseract, loaded lazily from /vendor/tesseract (self-hosted, see
  *    scripts/copy-scanner-assets.mjs) so it works offline once cached.
  */
-import {
-  BarcodeFormat,
-  BinaryBitmap,
-  DecodeHintType,
-  HybridBinarizer,
-  MultiFormatReader,
-  RGBLuminanceSource,
-} from '@zxing/library';
-
-const ZXING_FORMATS = [
-  BarcodeFormat.CODE_128,
-  BarcodeFormat.CODE_39,
-  BarcodeFormat.CODE_93,
-  BarcodeFormat.CODABAR,
-  BarcodeFormat.ITF,
-  BarcodeFormat.EAN_13,
-  BarcodeFormat.UPC_A,
-  BarcodeFormat.QR_CODE,
-  BarcodeFormat.DATA_MATRIX,
-];
 const NATIVE_FORMATS = ['code_128', 'code_39', 'code_93', 'codabar', 'itf', 'ean_13', 'upc_a', 'qr_code', 'data_matrix'];
 
-function toLuminance(ctx, x, y, w, h) {
-  const { data } = ctx.getImageData(x, y, w, h);
-  const lum = new Uint8ClampedArray(w * h);
-  for (let i = 0, j = 0; i < data.length; i += 4, j += 1) {
-    lum[j] = (data[i] * 299 + data[i + 1] * 587 + data[i + 2] * 114) / 1000;
-  }
-  return lum;
-}
-
-/** @returns {{ decode(canvas: HTMLCanvasElement): Promise<{ text: string, box?: {x,y,w,h} }[]>, kind: string }} */
+/** @returns {{ decode(canvas: HTMLCanvasElement): Promise<{ text: string, box?: {x,y,w,h} }[]>, close(): void, kind: string }} */
 export async function createBarcodeEngine() {
   if (typeof window !== 'undefined' && 'BarcodeDetector' in window) {
     try {
@@ -55,6 +26,7 @@ export async function createBarcodeEngine() {
                 box: b.boundingBox && { x: b.boundingBox.x, y: b.boundingBox.y, w: b.boundingBox.width, h: b.boundingBox.height },
               }));
           },
+          close() {},
         };
       }
     } catch {
@@ -62,48 +34,64 @@ export async function createBarcodeEngine() {
     }
   }
 
-  const reader = new MultiFormatReader();
-  const hints = new Map();
-  hints.set(DecodeHintType.POSSIBLE_FORMATS, ZXING_FORMATS);
-  hints.set(DecodeHintType.TRY_HARDER, true);
-  reader.setHints(hints);
+  return createZxingEngine();
+}
 
-  const tryRegion = (ctx, x, y, w, h) => {
-    try {
-      const source = new RGBLuminanceSource(toLuminance(ctx, x, y, w, h), w, h);
-      const result = reader.decodeWithState(new BinaryBitmap(new HybridBinarizer(source)));
-      const pts = result.getResultPoints() || [];
-      const xs = pts.map((p) => p.getX());
-      const ys = pts.map((p) => p.getY());
-      const box = pts.length
-        ? { x: x + Math.min(...xs), y: y + Math.min(...ys), w: Math.max(4, Math.max(...xs) - Math.min(...xs)), h: Math.max(1, Math.max(...ys) - Math.min(...ys)) }
-        : undefined;
-      return { text: result.getText(), box };
-    } catch {
-      return null; // NotFoundException etc. — nothing in this region
-    } finally {
-      reader.reset();
+/**
+ * ZXing runs in a Web Worker so its decode passes (tens to hundreds of ms on a phone)
+ * never block the main thread, which is what keeps the scan bar and HUD animating.
+ */
+function createZxingEngine() {
+  let worker = null;
+  try {
+    worker = new Worker(new URL('./plateBarcode.worker.js', import.meta.url));
+  } catch {
+    worker = null;
+  }
+  if (!worker) {
+    // No worker support: decode inline (old behaviour).
+    return {
+      kind: 'zxing',
+      async decode(canvas) {
+        const { decodeBarcodes } = await import('./plateBarcodeCore');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        return decodeBarcodes(img.data, canvas.width, canvas.height);
+      },
+      close() {},
+    };
+  }
+  let seq = 0;
+  const waiting = new Map();
+  worker.onmessage = (e) => {
+    const { id, found } = e.data || {};
+    const done = waiting.get(id);
+    if (done) {
+      waiting.delete(id);
+      done(found || []);
     }
   };
-
+  worker.onerror = () => {
+    waiting.forEach((done) => done([]));
+    waiting.clear();
+  };
   return {
     kind: 'zxing',
-    async decode(canvas) {
+    decode(canvas) {
       const ctx = canvas.getContext('2d', { willReadFrequently: true });
-      const { width: w, height: h } = canvas;
-      // ZXing finds one code per pass. Plates often carry two (model + serial),
-      // so also scan overlapping horizontal strips; busy plates (text, borders) confuse
-      // a full-frame pass, while a strip around one barcode reads cleanly.
-      const regions = [[0, 0, w, h]];
-      const band = Math.round(h * 0.34);
-      const step = Math.round(h * 0.17);
-      for (let y = 0; y + band <= h + 1; y += step) regions.push([0, y, w, Math.min(band, h - y)]);
-      const out = [];
-      for (const r of regions) {
-        const hit = tryRegion(ctx, ...r);
-        if (hit && !out.some((o) => o.text === hit.text)) out.push(hit);
-      }
-      return out;
+      const { width, height } = canvas;
+      const img = ctx.getImageData(0, 0, width, height);
+      seq += 1;
+      const id = seq;
+      return new Promise((resolve) => {
+        waiting.set(id, resolve);
+        worker.postMessage({ id, buffer: img.data.buffer, width, height }, [img.data.buffer]);
+      });
+    },
+    close() {
+      worker.terminate();
+      waiting.forEach((done) => done([]));
+      waiting.clear();
     },
   };
 }
@@ -111,7 +99,7 @@ export async function createBarcodeEngine() {
 /**
  * Lazily creates the Tesseract worker.
  * @param {(p: number) => void} onProgress  0..1 while the engine/model download
- * @returns {Promise<{ read(canvas: HTMLCanvasElement): Promise<string>, close(): Promise<void> }>}
+ * @returns {Promise<{ read(canvas: HTMLCanvasElement): Promise<{ text: string, confidence: number }>, close(): Promise<void> }>}
  */
 export async function createOcrEngine(onProgress) {
   const { createWorker, PSM } = await import('tesseract.js');
@@ -131,9 +119,10 @@ export async function createOcrEngine(onProgress) {
   });
   onProgress?.(1);
   return {
+    /** @returns {Promise<{ text: string, confidence: number }>} confidence 0..100 */
     async read(canvas) {
       const { data } = await worker.recognize(canvas);
-      return data?.text || '';
+      return { text: data?.text || '', confidence: Number(data?.confidence) || 0 };
     },
     async close() {
       await worker.terminate();
@@ -144,8 +133,10 @@ export async function createOcrEngine(onProgress) {
 /**
  * Copy the guide-box region of the video into a canvas, sized for decoding.
  * For OCR the image is also grayscaled and contrast-stretched.
+ * rotate: 0, 90 (clockwise) or -90 — turns a sideways plate upright for the readers.
+ * maxWidth applies to the long side of the plate text (the source height when rotated).
  */
-export function grabRegion(video, rect, canvas, { maxWidth = 1100, enhance = false } = {}) {
+export function grabRegion(video, rect, canvas, { maxWidth = 1100, enhance = false, rotate = 0 } = {}) {
   const vw = video.videoWidth;
   const vh = video.videoHeight;
   if (!vw || !vh) return null;
@@ -153,11 +144,22 @@ export function grabRegion(video, rect, canvas, { maxWidth = 1100, enhance = fal
   const sy = Math.max(0, Math.round(rect.y * vh));
   const sw = Math.min(vw - sx, Math.round(rect.w * vw));
   const sh = Math.min(vh - sy, Math.round(rect.h * vh));
-  const scale = Math.min(1, maxWidth / sw);
-  canvas.width = Math.round(sw * scale);
-  canvas.height = Math.round(sh * scale);
+  const turned = rotate === 90 || rotate === -90;
+  const scale = Math.min(1, maxWidth / (turned ? sh : sw));
+  const dw = Math.round(sw * scale);
+  const dh = Math.round(sh * scale);
+  canvas.width = turned ? dh : dw;
+  canvas.height = turned ? dw : dh;
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
-  ctx.drawImage(video, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  if (turned) {
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate((rotate * Math.PI) / 180);
+    ctx.drawImage(video, sx, sy, sw, sh, -dw / 2, -dh / 2, dw, dh);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+  } else {
+    ctx.drawImage(video, sx, sy, sw, sh, 0, 0, dw, dh);
+  }
   if (enhance) {
     const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const d = img.data;

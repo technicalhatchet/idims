@@ -8,6 +8,31 @@ const MONO = "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace";
 const BARCODE_EVERY_MS = 140;
 const OCR_EVERY_MS = 700;
 const SCRAMBLE = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
+const VERTICAL_KEY = 'td_plate_scan_vertical';
+
+function readVerticalPref() {
+  try {
+    return window.localStorage.getItem(VERTICAL_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Map a box from a rotated decode canvas back to the upright guide box.
+ * rotate -90 (counter-clockwise): canvas (x, y) came from source (H - y, x), H = canvas.height.
+ * rotate  90 (clockwise):         canvas (x, y) came from source (y, W - x), W = canvas.width.
+ */
+function unrotateBox(b, rotate, canvas) {
+  if (rotate === -90) return { x: canvas.height - b.y - b.h, y: b.x, w: b.h, h: b.w };
+  if (rotate === 90) return { x: b.y, y: canvas.width - b.x - b.w, w: b.h, h: b.w };
+  return b;
+}
+
+/** Size of the guide region in source pixels (undoing any rotation). */
+function sourceSize(canvas, rotate) {
+  return rotate ? { w: canvas.height, h: canvas.width } : { w: canvas.width, h: canvas.height };
+}
 
 /** Characters "decode" into place whenever the value changes. */
 function ScrambleText({ value, placeholder }) {
@@ -126,6 +151,10 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
   const sessionRef = useRef(0); // bumps on every start/stop; stale async work checks it and bails
   const mountedRef = useRef(true);
   const photoPromiseRef = useRef(null);
+  const barcodeRef = useRef(null);
+  const verticalRef = useRef(false);
+  // Which way sideways text runs isn't known up front: try both until one reads well.
+  const ocrTurnRef = useRef({ dir: -90, settled: false });
 
   const [phase, setPhase] = useState('starting'); // starting | scanning | confirm | error
   const [error, setError] = useState(null);
@@ -139,6 +168,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
   const [flash, setFlash] = useState(0);
   const [saving, setSaving] = useState(false);
   const [hint, setHint] = useState(null);
+  const [vertical, setVertical] = useState(false);
   const scanStartRef = useRef(0);
 
   const publish = useCallback((justLocked = []) => {
@@ -188,6 +218,8 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
     runningRef.current = false;
     streamRef.current?.getTracks().forEach((t) => t.stop());
     streamRef.current = null;
+    barcodeRef.current?.close?.();
+    barcodeRef.current = null;
   }, []);
 
   // Start camera + engines.
@@ -201,6 +233,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
     setHits([]);
     trackerRef.current = new PlateReadTracker({ make });
     setFields(trackerRef.current.snapshot());
+    ocrTurnRef.current = { dir: -90, settled: false };
 
     if (typeof window !== 'undefined' && !window.isSecureContext) {
       setError({ title: 'Camera needs a secure connection', detail: 'Open TechDeck over https (or the deployed site) to use the scanner. You can still type the numbers in.' });
@@ -249,27 +282,41 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
 
     // Barcode loop (fast).
     const barcode = await createBarcodeEngine();
-    if (stale()) return;
+    if (stale()) {
+      barcode.close?.();
+      return;
+    }
+    barcodeRef.current = barcode;
     setBarcodeKind(barcode.kind);
     (async function loop() {
       while (alive()) {
         const v = videoRef.current;
         const box = boxRef.current;
         const rect = v && box ? guideToVideoRect(v, box) : null;
-        const canvas = rect && grabRegion(v, rect, canvasBarRef.current, { maxWidth: 1800 });
+        // Vertical mode: turn the strip upright so 1D barcodes read along the strips.
+        const rotate = verticalRef.current ? -90 : 0;
+        const canvas = rect && grabRegion(v, rect, canvasBarRef.current, { maxWidth: 1800, rotate });
         const began = performance.now();
         if (canvas) {
           try {
             const found = await barcode.decode(canvas);
             if (found.length && alive()) {
-              const bw = box.clientWidth / canvas.width;
-              const bh = box.clientHeight / canvas.height;
+              const src = sourceSize(canvas, rotate);
+              const bw = box.clientWidth / src.w;
+              const bh = box.clientHeight / src.h;
               // 1D readers report a scan line, so grow it into a target box around the code.
               setHits(found.filter((f) => f.box).map((f, i) => {
-                const w = f.box.w * bw;
-                const h = Math.max(f.box.h * bh, w * 0.28);
-                const cy = (f.box.y + f.box.h / 2) * bh;
-                return { id: `${Date.now()}-${i}`, x: f.box.x * bw, y: cy - h / 2, w, h };
+                const b = unrotateBox(f.box, rotate, canvas);
+                if (rotate) {
+                  const h = b.h * bh;
+                  const w = Math.max(b.w * bw, h * 0.28);
+                  const cx = (b.x + b.w / 2) * bw;
+                  return { id: `${Date.now()}-${i}`, x: cx - w / 2, y: b.y * bh, w, h };
+                }
+                const w = b.w * bw;
+                const h = Math.max(b.h * bh, w * 0.28);
+                const cy = (b.y + b.h / 2) * bh;
+                return { id: `${Date.now()}-${i}`, x: b.x * bw, y: cy - h / 2, w, h };
               }));
               let locked = [];
               for (const f of found) locked = locked.concat(trackerRef.current.addBarcode(f.text));
@@ -313,11 +360,19 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
         const v = videoRef.current;
         const box = boxRef.current;
         const rect = v && box ? guideToVideoRect(v, box) : null;
-        const canvas = rect && grabRegion(v, rect, canvasOcrRef.current, { maxWidth: 1000, enhance: true });
+        const turn = ocrTurnRef.current;
+        const rotate = verticalRef.current ? turn.dir : 0;
+        const canvas = rect && grabRegion(v, rect, canvasOcrRef.current, { maxWidth: rotate ? 1400 : 1000, enhance: true, rotate });
         if (canvas) {
           try {
-            const text = await ocrRef.current.read(canvas);
+            const { text, confidence } = await ocrRef.current.read(canvas);
             if (!alive()) return;
+            if (rotate && !turn.settled) {
+              // Upright text reads with real confidence; sideways text is noise. Keep the
+              // direction that reads well, otherwise flip and try the other way.
+              if (confidence >= 40 && /[A-Z0-9]{5,}/.test(text)) turn.settled = true;
+              else turn.dir = -turn.dir;
+            }
             const locked = trackerRef.current.addOcr(text);
             const snap = publish(locked);
             // Text is visible but no barcode has locked after a few seconds: coach the user.
@@ -340,6 +395,8 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
     if (!open) return undefined;
     setPhoto(null);
     photoPromiseRef.current = null;
+    verticalRef.current = readVerticalPref();
+    setVertical(verticalRef.current);
     setDraft({ model: initialModel, serial: initialSerial });
     start();
     return () => stopCamera();
@@ -375,6 +432,22 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
     } catch { /* ignore */ }
   };
 
+  const toggleVertical = () => {
+    const next = !verticalRef.current;
+    verticalRef.current = next;
+    setVertical(next);
+    try { window.localStorage.setItem(VERTICAL_KEY, next ? '1' : '0'); } catch { /* private mode */ }
+    // Reads from the old orientation are noise now: start the fields over.
+    if (trackerRef.current) {
+      trackerRef.current = new PlateReadTracker({ make });
+      ocrTurnRef.current = { dir: -90, settled: false };
+      setFields(trackerRef.current.snapshot());
+      setHits([]);
+      setHint(null);
+      scanStartRef.current = Date.now();
+    }
+  };
+
   const rescan = () => {
     stopCamera();
     start();
@@ -406,7 +479,8 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
   return createPortal(
     <div className="ps-root" role="dialog" aria-modal="true" aria-label="Scan rating plate" style={{ position: 'fixed', inset: 0, zIndex: 30000, background: '#020509', color: '#E6EEF3', overflow: 'hidden', touchAction: 'none' }}>
       <style>{`
-        @keyframes ps-sweep { 0% { top: 0% } 100% { top: 100% } }
+        @keyframes ps-sweep { 0% { transform: translate3d(0, 0, 0) } 100% { transform: translate3d(0, 100%, 0) } }
+        @keyframes ps-sweep-x { 0% { transform: translate3d(0, 0, 0) } 100% { transform: translate3d(100%, 0, 0) } }
         @keyframes ps-blink { 0%, 49% { opacity: 1 } 50%, 100% { opacity: 0.35 } }
         @keyframes ps-pulse { 0%, 100% { opacity: 0.55 } 50% { opacity: 1 } }
         @keyframes ps-hit { 0% { opacity: 0; transform: scale(1.25) } 25% { opacity: 1; transform: scale(1) } 100% { opacity: 0; transform: scale(1) } }
@@ -414,9 +488,10 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
         @keyframes ps-lock-pop { 0% { transform: scale(0.97) } 40% { transform: scale(1.02) } 100% { transform: scale(1) } }
         @keyframes ps-panel-in { 0% { transform: translateY(40px); opacity: 0 } 100% { transform: translateY(0); opacity: 1 } }
         @keyframes ps-boot { 0% { clip-path: inset(50% 0 50% 0) } 100% { clip-path: inset(0 0 0 0) } }
-        .ps-blink { animation: ps-blink 1s steps(1) infinite; }
+        .ps-blink { animation: ps-blink 1s steps(1) infinite; will-change: opacity; }
         .ps-lock-pop { animation: ps-lock-pop .35s cubic-bezier(.2,.9,.3,1.2); }
-        .ps-sweep { animation: ps-sweep 1.6s cubic-bezier(.45,.05,.55,.95) infinite alternate; }
+        .ps-sweep { animation: ps-sweep 1.6s cubic-bezier(.45,.05,.55,.95) infinite alternate; will-change: transform; }
+        .ps-sweep.ps-x { animation-name: ps-sweep-x; }
         .ps-sweep.ps-fast { animation-duration: 0.9s; }
         .ps-boot { animation: ps-boot .45s cubic-bezier(.2,.9,.25,1) both; }
         .ps-btn:focus-visible { outline: 2px solid #A5F3FC; outline-offset: 3px; }
@@ -436,7 +511,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
       <canvas ref={canvasOcrRef} style={{ display: 'none' }} />
 
       {/* Top HUD */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: 'calc(env(safe-area-inset-top, 0px) + 12px) 16px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'linear-gradient(180deg, rgba(2,5,9,0.85), rgba(2,5,9,0))' }}>
+      <div style={{ position: 'absolute', zIndex: 2, top: 0, left: 0, right: 0, padding: 'calc(env(safe-area-inset-top, 0px) + 12px) 16px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'linear-gradient(180deg, rgba(2,5,9,0.85), rgba(2,5,9,0))' }}>
         <div>
           <div style={{ fontFamily: MONO, fontSize: 11, fontWeight: 800, letterSpacing: '0.22em', color: '#67E8F9', display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ width: 7, height: 7, borderRadius: 4, background: scanning ? '#F87171' : '#64748B', boxShadow: scanning ? '0 0 8px #F87171' : 'none' }} className={scanning ? 'ps-blink' : ''} />
@@ -450,13 +525,29 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
             ) : ocrStatus.ready ? (
               <span style={{ color: '#34D399' }}>●</span>
             ) : (
-              <span style={{ color: '#FBBF24', animation: 'ps-pulse 1s infinite' }}>{ocrStatus.progress > 0.02 ? `${Math.round(ocrStatus.progress * 100)}%` : '…'}</span>
+              <span style={{ color: '#FBBF24', animation: 'ps-pulse 1s infinite', willChange: 'opacity' }}>{ocrStatus.progress > 0.02 ? `${Math.round(ocrStatus.progress * 100)}%` : '…'}</span>
             )}
           </div>
         </div>
+        <div style={{ display: 'flex', gap: 8 }}>
+        <button
+          type="button"
+          className="ps-btn"
+          aria-label="Vertical tag mode"
+          aria-pressed={vertical}
+          onClick={toggleVertical}
+          style={{ height: 44, padding: '0 12px', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 7, fontFamily: MONO, fontSize: 10, fontWeight: 800, letterSpacing: '0.14em', transition: 'all .25s', ...(vertical ? { background: 'rgba(34,211,238,0.18)', border: '1px solid rgba(103,232,249,0.85)', color: '#A5F3FC', boxShadow: '0 0 14px rgba(34,211,238,0.35)' } : { background: 'rgba(13,22,38,0.8)', border: '1px solid rgba(255,255,255,0.16)', color: '#94A3B8' }) }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <rect x="8" y="3" width="8" height="18" rx="2" />
+            <path d="M11 7v10" />
+          </svg>
+          VERT
+        </button>
         <button type="button" className="ps-btn" aria-label="Close scanner" onClick={close} style={{ width: 44, height: 44, borderRadius: 12, display: 'grid', placeItems: 'center', background: 'rgba(13,22,38,0.8)', border: '1px solid rgba(255,255,255,0.16)', color: '#CBD5E1' }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
         </button>
+        </div>
       </div>
 
       {/* Guide box */}
@@ -464,14 +555,14 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
         ref={boxRef}
         style={{
           position: 'absolute',
-          left: '7%',
-          right: '7%',
-          top: '22%',
-          aspectRatio: '1.55 / 1',
+          ...(vertical
+            // Tall, narrow box for tags that run up the side of a tub or door.
+            ? { left: '22%', right: '22%', top: 'calc(env(safe-area-inset-top, 0px) + 92px)', bottom: 'calc(env(safe-area-inset-bottom, 0px) + 236px)' }
+            : { left: '7%', right: '7%', top: '22%', aspectRatio: '1.55 / 1' }),
           borderRadius: 14,
+          transition: 'opacity .25s',
           boxShadow: '0 0 0 100vmax rgba(2,6,12,0.62)',
           opacity: phase === 'confirm' ? 0 : 1,
-          transition: 'opacity .25s',
         }}
       >
         {/* faint HUD grid */}
@@ -511,10 +602,22 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
         {/* THE scan bar */}
         {scanning && !bothLocked ? (
           <div aria-hidden="true" style={{ position: 'absolute', inset: 0, overflow: 'hidden', borderRadius: 14 }}>
-            <div className={`ps-sweep${anyValue ? ' ps-fast' : ''}`} style={{ position: 'absolute', left: 0, right: 0, height: 0 }}>
-              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 64, background: 'linear-gradient(180deg, rgba(34,211,238,0) 0%, rgba(34,211,238,0.10) 60%, rgba(103,232,249,0.32) 100%)' }} />
-              <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 64, background: 'linear-gradient(0deg, rgba(34,211,238,0) 0%, rgba(34,211,238,0.10) 60%, rgba(103,232,249,0.32) 100%)' }} />
-              <div style={{ position: 'absolute', left: -4, right: -4, top: -1.5, height: 3, borderRadius: 2, background: 'linear-gradient(90deg, rgba(240,255,255,0), #F0FFFF 12%, #FFFFFF 50%, #F0FFFF 88%, rgba(240,255,255,0))', boxShadow: '0 0 8px #A5F3FC, 0 0 18px #22D3EE, 0 0 36px #22D3EE' }} />
+            {/* The wrapper fills the box and slides by its own size, so the sweep is a
+                pure transform the GPU runs even while the readers keep the CPU busy. */}
+            <div className={`ps-sweep${vertical ? ' ps-x' : ''}${anyValue ? ' ps-fast' : ''}`} style={{ position: 'absolute', inset: 0 }}>
+              {vertical ? (
+                <>
+                  <div style={{ position: 'absolute', top: 0, bottom: 0, right: '100%', width: 56, background: 'linear-gradient(90deg, rgba(34,211,238,0) 0%, rgba(34,211,238,0.10) 60%, rgba(103,232,249,0.32) 100%)' }} />
+                  <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: 56, background: 'linear-gradient(270deg, rgba(34,211,238,0) 0%, rgba(34,211,238,0.10) 60%, rgba(103,232,249,0.32) 100%)' }} />
+                  <div style={{ position: 'absolute', top: -4, bottom: -4, left: -1.5, width: 3, borderRadius: 2, background: 'linear-gradient(180deg, rgba(240,255,255,0), #F0FFFF 12%, #FFFFFF 50%, #F0FFFF 88%, rgba(240,255,255,0))', boxShadow: '0 0 8px #A5F3FC, 0 0 18px #22D3EE, 0 0 36px #22D3EE' }} />
+                </>
+              ) : (
+                <>
+                  <div style={{ position: 'absolute', left: 0, right: 0, bottom: '100%', height: 64, background: 'linear-gradient(180deg, rgba(34,211,238,0) 0%, rgba(34,211,238,0.10) 60%, rgba(103,232,249,0.32) 100%)' }} />
+                  <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 64, background: 'linear-gradient(0deg, rgba(34,211,238,0) 0%, rgba(34,211,238,0.10) 60%, rgba(103,232,249,0.32) 100%)' }} />
+                  <div style={{ position: 'absolute', left: -4, right: -4, top: -1.5, height: 3, borderRadius: 2, background: 'linear-gradient(90deg, rgba(240,255,255,0), #F0FFFF 12%, #FFFFFF 50%, #F0FFFF 88%, rgba(240,255,255,0))', boxShadow: '0 0 8px #A5F3FC, 0 0 18px #22D3EE, 0 0 36px #22D3EE' }} />
+                </>
+              )}
             </div>
           </div>
         ) : null}
@@ -528,7 +631,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
         {flash ? <span key={flash} aria-hidden="true" style={{ position: 'absolute', inset: 0, borderRadius: 14, background: 'rgba(110,231,183,0.35)', animation: 'ps-flash .45s ease-out both' }} /> : null}
 
         <div style={{ position: 'absolute', left: 0, right: 0, bottom: -28, textAlign: 'center', fontFamily: MONO, fontSize: 10, letterSpacing: '0.18em', color: bothLocked ? '#6EE7B7' : '#8FB3C4' }}>
-          {phase === 'starting' ? 'STARTING CAMERA…' : bothLocked ? 'LOCKED' : (hint || 'LINE UP THE RATING PLATE').toUpperCase()}
+          {phase === 'starting' ? 'STARTING CAMERA…' : bothLocked ? 'LOCKED' : (hint || (vertical ? 'LINE UP THE TAG' : 'LINE UP THE RATING PLATE')).toUpperCase()}
         </div>
       </div>
 
