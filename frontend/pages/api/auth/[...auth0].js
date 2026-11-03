@@ -1,5 +1,6 @@
 import { resolveAuth0BaseUrl } from '../../../lib/resolveAuth0BaseUrl';
 import { auth0ForRequest } from '../../../lib/requestAuth0';
+import { loginAuthorizationParamsFromRequest } from '../../../lib/authLoginAuthorizationParams';
 
 const DOMAIN = process.env.AUTH0_ISSUER_BASE_URL;
 const MGMT_CLIENT_ID = process.env.AUTH0_MGMT_CLIENT_ID;
@@ -121,17 +122,8 @@ function normalizeReturnTo(returnTo) {
 function authHandlersFor(auth0) {
   return {
     login: auth0.handleLogin((req) => {
-      const authorizationParams = {
-        scope: 'openid profile email offline_access',
-      };
-      if (req.query.login_hint) {
-        authorizationParams.login_hint = String(req.query.login_hint);
-      }
-      if (req.query.screen_hint) {
-        authorizationParams.screen_hint = String(req.query.screen_hint);
-      }
       return {
-        authorizationParams,
+        authorizationParams: loginAuthorizationParamsFromRequest(req),
         returnTo: normalizeReturnTo(req.query.returnTo || '/auth-router'),
       };
     }),
@@ -168,14 +160,25 @@ function authHandlersFor(auth0) {
             <h1 class="error">Login error</h1>
             <p>${safeMessage}</p>
             <p><small>Code: ${error.code || 'n/a'}</small></p>
-            <a href="/api/auth/login?returnTo=/cxdashboard" class="button">Try again</a>
+            <a href="/api/auth/login?returnTo=${encodeURIComponent('/cxdashboard')}&amp;prompt=select_account" class="button">Try again (choose Google account)</a>
           </body>
         </html>
       `);
       },
     }),
 
-    logout: auth0.handleLogout(),
+    logout: auth0.handleLogout((req) => {
+      const returnTo = normalizeReturnTo(req.query.returnTo || '/');
+      const federated =
+        req.query.federated === '1' || req.query.federated === 'true';
+      if (federated) {
+        return {
+          returnTo,
+          logoutParams: { federated: '' },
+        };
+      }
+      return { returnTo };
+    }),
   };
 }
 
