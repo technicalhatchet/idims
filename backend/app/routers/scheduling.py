@@ -155,6 +155,7 @@ async def get_schedule(
                         "in_progress",
                         "completed",
                         "parts_on_order",
+                        "parts_received",
                         "reschedule",
                         "need_to_contact",
                         "redo",

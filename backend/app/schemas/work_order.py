@@ -171,7 +171,7 @@ class WorkOrderUpdate(BaseModel):
                 v = "canceled"
             allowed_statuses = ["pending", "scheduled", "en_route", "waiting_on_parts", "in_progress", "on_hold",
                               "completed", "completed_pending_payment", "pending_estimate_approval",
-                              "canceled", "parts_on_order", "reschedule", "need_to_contact",
+                              "canceled", "parts_on_order", "parts_received", "reschedule", "need_to_contact",
                               "unreachable", "recall", "redo", "refunded", "closed"]
             if v not in allowed_statuses:
                 raise ValueError(f"Status must be one of {allowed_statuses}")
@@ -284,7 +284,7 @@ class WorkOrderStatusUpdate(BaseModel):
             v = "canceled"
         allowed_statuses = ["pending", "scheduled", "en_route", "waiting_on_parts", "in_progress", "on_hold",
                           "completed", "completed_pending_payment", "pending_estimate_approval",
-                          "canceled", "parts_on_order", "reschedule", "need_to_contact",
+                          "canceled", "parts_on_order", "parts_received", "reschedule", "need_to_contact",
                           "unreachable", "recall", "redo"]
         if v not in allowed_statuses:
             raise ValueError(f"Status must be one of {allowed_statuses}")

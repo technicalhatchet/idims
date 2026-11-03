@@ -46,6 +46,7 @@ OPEN_REPAIR_STATUSES = frozenset({
     "in_progress",
     "on_hold",
     "parts_on_order",
+    "parts_received",
     "reschedule",
     "need_to_contact",
     "unreachable",

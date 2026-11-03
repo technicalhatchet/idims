@@ -43,6 +43,7 @@ WORK_ORDER_STATUS_LABELS = {
     "pending_estimate_approval": "Pending Estimate Approval",
     "canceled": "Canceled",
     "parts_on_order": "Parts on Order",
+    "parts_received": "Parts Received",
     "reschedule": "Reschedule",
     "need_to_contact": "Need to Contact",
     "unreachable": "Unreachable",

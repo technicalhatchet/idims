@@ -24,6 +24,7 @@ const STATUS_FILTER_OPTIONS = [
   { value: 'en_route', label: 'En route' },
   { value: 'in_progress', label: 'In progress' },
   { value: 'waiting_on_parts', label: 'Waiting on parts' },
+  { value: 'parts_received', label: 'Parts received' },
   { value: 'completed', label: 'Completed' },
   { value: 'need_to_contact', label: 'Need to contact' },
 ];

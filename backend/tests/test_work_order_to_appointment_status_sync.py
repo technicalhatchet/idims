@@ -138,7 +138,7 @@ def test_wo_waiting_on_parts_leaves_visits_alone(mock_apply, mock_load):
     "app.services.work_order_status_sync_service._active_appointments_for_work_order"
 )
 @patch("app.services.work_order_status_sync_service._apply_appointment_status_change")
-def test_wo_en_route_syncs_todays_driver_visit(mock_apply, mock_load):
+def test_wo_en_route_no_longer_pushes_to_visits(mock_apply, mock_load):
     mock_apply.return_value = True
     now = datetime.utcnow()
     today = _appt(uuid.uuid4(), now.replace(hour=14, minute=0, second=0, microsecond=0))
@@ -157,7 +157,30 @@ def test_wo_en_route_syncs_todays_driver_visit(mock_apply, mock_load):
         new_work_order_status="en_route",
     )
 
-    assert count == 1
-    mock_apply.assert_called_once()
-    assert mock_apply.call_args[0][1] is today
-    assert mock_apply.call_args[0][2] == "en_route"
+    # Field progress is driven from the visit, never pushed down from the job.
+    assert count == 0
+    mock_apply.assert_not_called()
+
+
+@pytest.mark.parametrize("new_status", ["in_progress", "parts_received"])
+@patch(
+    "app.services.work_order_status_sync_service._active_appointments_for_work_order"
+)
+@patch("app.services.work_order_status_sync_service._apply_appointment_status_change")
+def test_wo_field_and_parts_statuses_leave_visits_alone(mock_apply, mock_load, new_status):
+    mock_load.return_value = [_appt(uuid.uuid4(), datetime.utcnow())]
+
+    wo = MagicMock()
+    wo.id = uuid.uuid4()
+    wo.is_closed = False
+
+    count = sync_appointments_from_work_order_status(
+        MagicMock(),
+        wo,
+        uuid.uuid4(),
+        previous_work_order_status="scheduled",
+        new_work_order_status=new_status,
+    )
+
+    assert count == 0
+    mock_apply.assert_not_called()

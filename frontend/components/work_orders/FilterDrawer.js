@@ -76,6 +76,7 @@ export default function FilterDrawer({ isOpen, onClose, filters, onFilterChange 
                       { value: 'scheduled', label: 'Scheduled' },
                       { value: 'in_progress', label: 'In Progress' },
                       { value: 'parts_on_order', label: 'Part(s) On Order' },
+                      { value: 'parts_received', label: 'Parts Received' },
                       { value: 'reschedule', label: 'Reschedule' },
                       { value: 'need_to_contact', label: 'Need to Contact' },
                       { value: 'on_hold', label: 'On Hold' },

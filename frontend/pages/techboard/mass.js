@@ -636,6 +636,9 @@ export default function CriticalMassPage() {
                     <option value="waiting_on_parts" className="bg-[#111827] text-white">
                       Waiting on parts
                     </option>
+                    <option value="parts_received" className="bg-[#111827] text-white">
+                      Parts received
+                    </option>
                     <option value="on_hold" className="bg-[#111827] text-white">
                       On hold
                     </option>

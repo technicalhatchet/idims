@@ -10,7 +10,7 @@ export const WORK_ORDER_STATUS_OPTIONS = [
   { value: 'completed_pending_payment', label: 'Completed — Pending Payment' },
   { value: 'pending_estimate_approval', label: 'Pending Estimate Approval' },
   { value: 'canceled', label: 'Canceled' },
-  { value: 'parts_on_order', label: 'Parts on Order' },
+  { value: 'parts_received', label: 'Parts Received' },
   { value: 'reschedule', label: 'Reschedule' },
   { value: 'need_to_contact', label: 'Need to Contact' },
   { value: 'unreachable', label: 'Unreachable' },

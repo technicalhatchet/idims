@@ -14,9 +14,11 @@ from app.models.work_order import (
 )
 logger = logging.getLogger(__name__)
 
-# Keep in sync with work_order_billing_helpers.PAYMENT_READY_APPOINTMENT_STATUSES
+# Visit statuses that mean "the work is done, payment closes the job".
+# ``phone_payment`` is deliberately NOT here: it's a prepay (e.g. diagnostic) taken
+# before service, so paying it must not auto-complete the job. It still makes the
+# visit's lines billable via work_order_billing_helpers.PAYMENT_READY_APPOINTMENT_STATUSES.
 _PAYMENT_READY_APPOINTMENT_STATUSES = frozenset({
-    "phone_payment",
     "completed",
     "completed_pending_payment",
 })

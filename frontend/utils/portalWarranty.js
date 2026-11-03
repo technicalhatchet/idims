@@ -71,6 +71,7 @@ const OPEN_WO_STATUSES = new Set([
   'in_progress',
   'waiting_on_parts',
   'parts_on_order',
+  'parts_received',
   'on_hold',
   'completed_pending_payment',
 ]);
