@@ -122,6 +122,10 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
   const streamRef = useRef(null);
   const runningRef = useRef(false);
   const ocrRef = useRef(null);
+  const ocrPromiseRef = useRef(null); // one text engine per scanner, even across rescans
+  const sessionRef = useRef(0); // bumps on every start/stop; stale async work checks it and bails
+  const mountedRef = useRef(true);
+  const photoPromiseRef = useRef(null);
 
   const [phase, setPhase] = useState('starting'); // starting | scanning | confirm | error
   const [error, setError] = useState(null);
@@ -147,15 +151,25 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
     return snap;
   }, []);
 
+  // Returns a promise for the JPEG so Save can wait for it (toBlob is async).
   const capturePhoto = useCallback(() => {
     const v = videoRef.current;
-    if (!v?.videoWidth) return;
+    if (!v?.videoWidth) {
+      photoPromiseRef.current = Promise.resolve(null);
+      return photoPromiseRef.current;
+    }
     const c = document.createElement('canvas');
     const scale = Math.min(1, 1600 / v.videoWidth);
     c.width = Math.round(v.videoWidth * scale);
     c.height = Math.round(v.videoHeight * scale);
     c.getContext('2d').drawImage(v, 0, 0, c.width, c.height);
-    c.toBlob((b) => b && setPhoto(b), 'image/jpeg', 0.85);
+    photoPromiseRef.current = new Promise((resolve) => {
+      c.toBlob((b) => {
+        if (b) setPhoto(b);
+        resolve(b || null);
+      }, 'image/jpeg', 0.85);
+    });
+    return photoPromiseRef.current;
   }, []);
 
   const goConfirm = useCallback(() => {
@@ -170,6 +184,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
   }, [capturePhoto, initialModel, initialSerial]);
 
   const stopCamera = useCallback(() => {
+    sessionRef.current += 1; // anything still starting up for the old session will stop itself
     runningRef.current = false;
     streamRef.current?.getTracks().forEach((t) => t.stop());
     streamRef.current = null;
@@ -177,6 +192,10 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
 
   // Start camera + engines.
   const start = useCallback(async () => {
+    sessionRef.current += 1;
+    const session = sessionRef.current;
+    const stale = () => sessionRef.current !== session || !mountedRef.current;
+    const alive = () => runningRef.current && !stale();
     setPhase('starting');
     setError(null);
     setHits([]);
@@ -199,8 +218,13 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
         // Ask for the most pixels the camera has in either orientation; small text needs them.
         video: { facingMode: { ideal: 'environment' }, width: { ideal: 3840 }, height: { ideal: 3840 } },
       });
-      streamRef.current = stream;
+      // Closed (or rescanned) while the permission prompt was up: release this camera.
       const v = videoRef.current;
+      if (stale() || !v) {
+        stream.getTracks().forEach((t) => t.stop());
+        return;
+      }
+      streamRef.current = stream;
       v.srcObject = stream;
       await v.play().catch(() => {});
       const track = stream.getVideoTracks()[0];
@@ -208,6 +232,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
       setTorch({ supported: Boolean(caps.torch), on: false });
       try { await track.applyConstraints({ advanced: [{ focusMode: 'continuous' }] }); } catch { /* optional */ }
     } catch (e) {
+      if (stale()) return;
       const denied = e?.name === 'NotAllowedError' || e?.name === 'SecurityError';
       setError({
         title: denied ? 'Camera permission is off' : 'Couldn’t start the camera',
@@ -224,9 +249,10 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
 
     // Barcode loop (fast).
     const barcode = await createBarcodeEngine();
+    if (stale()) return;
     setBarcodeKind(barcode.kind);
     (async function loop() {
-      while (runningRef.current) {
+      while (alive()) {
         const v = videoRef.current;
         const box = boxRef.current;
         const rect = v && box ? guideToVideoRect(v, box) : null;
@@ -235,7 +261,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
         if (canvas) {
           try {
             const found = await barcode.decode(canvas);
-            if (found.length && runningRef.current) {
+            if (found.length && alive()) {
               const bw = box.clientWidth / canvas.width;
               const bh = box.clientHeight / canvas.height;
               // 1D readers report a scan line, so grow it into a target box around the code.
@@ -249,7 +275,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
               for (const f of found) locked = locked.concat(trackerRef.current.addBarcode(f.text));
               const snap = publish(locked);
               if (snap.done) {
-                setTimeout(() => runningRef.current && goConfirm(), 650);
+                setTimeout(() => alive() && goConfirm(), 650);
                 return;
               }
             }
@@ -265,15 +291,25 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
     // OCR loop (slower), starts once the text engine has loaded.
     (async function ocrLoop() {
       try {
-        if (!ocrRef.current) {
-          ocrRef.current = await createOcrEngine((p) => setOcrStatus((s) => ({ ...s, progress: p })));
+        if (!ocrPromiseRef.current) {
+          ocrPromiseRef.current = createOcrEngine((p) => {
+            if (mountedRef.current) setOcrStatus((s) => ({ ...s, progress: p }));
+          });
         }
+        const pending = ocrPromiseRef.current;
+        const engine = await pending;
+        // Unmounted (or replaced) while loading: the cleanup that dropped this promise
+        // closes the engine, so never adopt it here.
+        if (!mountedRef.current || ocrPromiseRef.current !== pending) return;
+        ocrRef.current = engine;
+        if (stale()) return;
         setOcrStatus({ ready: true, progress: 1, failed: false });
       } catch {
-        setOcrStatus({ ready: false, progress: 0, failed: true });
+        ocrPromiseRef.current = null; // allow a retry on the next scan
+        if (!stale()) setOcrStatus({ ready: false, progress: 0, failed: true });
         return;
       }
-      while (runningRef.current) {
+      while (alive()) {
         const v = videoRef.current;
         const box = boxRef.current;
         const rect = v && box ? guideToVideoRect(v, box) : null;
@@ -281,7 +317,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
         if (canvas) {
           try {
             const text = await ocrRef.current.read(canvas);
-            if (!runningRef.current) return;
+            if (!alive()) return;
             const locked = trackerRef.current.addOcr(text);
             const snap = publish(locked);
             // Text is visible but no barcode has locked after a few seconds: coach the user.
@@ -290,7 +326,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
               setHint('Barcode? Move closer so it fills the box');
             }
             if (snap.done) {
-              setTimeout(() => runningRef.current && goConfirm(), 650);
+              setTimeout(() => alive() && goConfirm(), 650);
               return;
             }
           } catch { /* keep scanning */ }
@@ -303,16 +339,24 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
   useEffect(() => {
     if (!open) return undefined;
     setPhoto(null);
+    photoPromiseRef.current = null;
     setDraft({ model: initialModel, serial: initialSerial });
     start();
     return () => stopCamera();
   }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Release the text engine when the scanner is unmounted.
-  useEffect(() => () => {
-    stopCamera();
-    ocrRef.current?.close?.();
-    ocrRef.current = null;
+  // On unmount: stop the camera and close the text engine — including one that is
+  // still loading (it is closed as soon as it finishes).
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      stopCamera();
+      const pending = ocrPromiseRef.current;
+      ocrPromiseRef.current = null;
+      ocrRef.current = null;
+      if (pending) pending.then((engine) => engine?.close?.()).catch(() => {});
+    };
   }, [stopCamera]);
 
   // Barcode markers fade out on their own.
@@ -344,7 +388,9 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
   const save = async () => {
     setSaving(true);
     try {
-      await onSave?.({ model: draft.model.trim().toUpperCase(), serial: draft.serial.trim().toUpperCase(), photo });
+      // The plate photo is encoded asynchronously; wait for it so it isn't dropped.
+      const plate = photo || (photoPromiseRef.current ? await photoPromiseRef.current : null);
+      await onSave?.({ model: draft.model.trim().toUpperCase(), serial: draft.serial.trim().toUpperCase(), photo: plate });
       stopCamera();
     } finally {
       setSaving(false);
