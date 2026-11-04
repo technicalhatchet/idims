@@ -30,6 +30,16 @@ export default function WoMobileTextTabs({ items, activeId, onSelect, className 
   const prevIndex = useRef(-1);
   const [beam, setBeam] = useState({ left: 0, right: 0, ready: false, dir: 1 });
   const [spark, setSpark] = useState({ n: 0, x: 0 });
+  const [edges, setEdges] = useState({ left: false, right: false });
+
+  // Fade whichever edge has more tabs hidden behind it.
+  const updateEdges = useCallback(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+    const left = nav.scrollLeft > 4;
+    const right = nav.scrollLeft < nav.scrollWidth - nav.clientWidth - 4;
+    setEdges((e) => (e.left === left && e.right === right ? e : { left, right }));
+  }, []);
 
   const activeIndex = items.findIndex((t) => t.id === activeId);
 
@@ -69,14 +79,13 @@ export default function WoMobileTextTabs({ items, activeId, onSelect, className 
     const pos = measure();
     if (pos) setSpark((s) => ({ n: s.n + 1, x: dir > 0 ? pos.left + pos.width : pos.left }));
 
+    // Center the picked tab so its neighbours on both sides are visible.
     const nav = navRef.current;
     const el = tabRefs.current[activeId];
     if (nav && el) {
-      const pad = 24;
-      const start = el.offsetLeft - pad;
-      const end = el.offsetLeft + el.offsetWidth + pad - nav.clientWidth;
-      if (nav.scrollLeft > start) nav.scrollTo({ left: Math.max(0, start), behavior: 'smooth' });
-      else if (nav.scrollLeft < end) nav.scrollTo({ left: end, behavior: 'smooth' });
+      const max = nav.scrollWidth - nav.clientWidth;
+      const target = Math.max(0, Math.min(max, el.offsetLeft + el.offsetWidth / 2 - nav.clientWidth / 2));
+      if (Math.abs(target - nav.scrollLeft) > 2) nav.scrollTo({ left: target, behavior: 'smooth' });
     }
   }, [activeId, activeIndex, measure]);
 
@@ -86,14 +95,21 @@ export default function WoMobileTextTabs({ items, activeId, onSelect, className 
     if (!track) return undefined;
     const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => measure()) : null;
     ro?.observe(track);
-    const onResize = () => measure();
+    const nav = navRef.current;
+    nav?.addEventListener('scroll', updateEdges, { passive: true });
+    const onResize = () => {
+      measure();
+      updateEdges();
+    };
     window.addEventListener('resize', onResize);
+    updateEdges();
     document.fonts?.ready?.then(() => measure()).catch(() => {});
     return () => {
       ro?.disconnect();
       window.removeEventListener('resize', onResize);
+      nav?.removeEventListener('scroll', updateEdges);
     };
-  }, [measure, items]);
+  }, [measure, updateEdges, items]);
 
   // Leading edge first, tail 70ms behind.
   const leadRight = beam.dir > 0;
@@ -101,12 +117,17 @@ export default function WoMobileTextTabs({ items, activeId, onSelect, className 
     ? `left .34s ${EASE} ${leadRight ? '.07s' : '0s'}, right .34s ${EASE} ${leadRight ? '0s' : '.07s'}`
     : 'none';
 
+  const mask = edges.left || edges.right
+    ? `linear-gradient(90deg, ${edges.left ? 'transparent 0, #000 28px' : '#000 0'}, ${edges.right ? '#000 calc(100% - 28px), transparent 100%' : '#000 100%'})`
+    : 'none';
+
   return (
     <div className={`wotab-root relative min-h-[52px] flex items-end ${className}`}>
       <style>{TABS_CSS}</style>
       <nav
         ref={navRef}
-        className="relative w-full overflow-x-auto overflow-y-hidden overscroll-x-contain touch-pan-x [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        className="relative w-full overflow-x-auto overflow-y-hidden overscroll-x-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        style={{ WebkitMaskImage: mask, maskImage: mask, touchAction: 'pan-x pan-y' }}
         aria-label="Work order sections"
       >
         <div ref={trackRef} className="relative flex w-max min-h-[48px] items-center gap-7 pb-1">

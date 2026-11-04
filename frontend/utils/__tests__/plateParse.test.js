@@ -72,3 +72,47 @@ test('tracker: a labeled OCR read that fits the pattern locks on the first pass'
   const t = new PlateReadTracker();
   assert.deepEqual(t.addOcr('MODEL NO. WFW5620HW0\nSERIAL NO. C34512045').sort(), ['model', 'serial']);
 });
+
+test('fridge tag: S/N value on the line after a blank line', () => {
+  const r = parseOcrText('MODEL GX2FHDXVB03\n\nS/N\n\nKY5191257\n');
+  assert.equal(r.model, 'GX2FHDXVB03');
+  assert.equal(r.serial, 'KY5191257');
+});
+
+test('"SERVICE" and fine-print "SERIAL NO" do not hide the real S/N (read as SIN)', () => {
+  const text = 'FOR PARTS AND\n\nSERVICE GIVE\n\nMODEL NO AND\n\nSERIAL NO\n\nWWW WHIRLPOOL COM\n\nMODEL GX2FHDXVB03\n\nSIN\n\nKY5191257\n\nUSE ICE MAKER ACCESSORY KIT IC13B';
+  const r = parseOcrText(text);
+  assert.equal(r.model, 'GX2FHDXVB03');
+  assert.equal(r.serial, 'KY5191257');
+});
+
+test('labels need a word break: SERIALNO still works, MODERN / SINK are not labels', () => {
+  assert.equal(parseOcrText('SERIALNO C34512045').serial, 'C34512045');
+  assert.equal(parseOcrText('MODERN KITCHEN SINK 12345').model, null);
+  assert.equal(parseOcrText('MODERN KITCHEN SINK 12345').serial, null);
+  assert.equal(parseOcrText('S/N\nMODEL ABC12345').serial, null); // never steal the next label's value
+});
+
+test('findLabelWords picks MODEL / S/N labels, biggest first', async () => {
+  const { findLabelWords } = await import('../plateParse.js');
+  const box = (h) => ({ x0: 0, y0: 0, x1: 10, y1: h });
+  const words = [
+    { text: 'SERIAL', bbox: box(11) }, // fine print
+    { text: 'MODEL', bbox: box(11) },
+    { text: 'MODEL', bbox: box(19) },
+    { text: 'GX2FHDXVB03', bbox: box(19) },
+    { text: 'S/N', bbox: box(18) },
+    { text: 'SIN:', bbox: box(17) },
+    { text: 'SERVICE', bbox: box(11) },
+    { text: 'SINK', bbox: box(20) },
+  ];
+  const r = findLabelWords(words);
+  assert.deepEqual(r.model.map((w) => w.bbox.y1), [19, 11]);
+  assert.deepEqual(r.serial.map((w) => w.text), ['S/N', 'SIN:', 'SERIAL']);
+});
+
+test('O before the trailing revision digits is a zero; other letter Os are kept', () => {
+  assert.equal(parseOcrText('MODEL GX2FHDXVBO3').model, 'GX2FHDXVB03');
+  assert.equal(parseOcrText('MODEL WOS51EC0HS').model, 'WOS51EC0HS');
+  assert.equal(parseOcrText('MODEL WFW5620HWO').model, 'WFW5620HWO'); // trailing O with no digit after: unchanged
+});

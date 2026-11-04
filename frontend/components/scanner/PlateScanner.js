@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { LaserIcon, laserTileStyle } from '../navigation/LaserBarParts';
-import { createBarcodeEngine, createOcrEngine, grabRegion } from '../../lib/plateScanEngines';
-import { PlateReadTracker } from '../../utils/plateParse';
+import { createBarcodeEngine, createOcrEngine, fitCanvas, grabRegion, zoomLine } from '../../lib/plateScanEngines';
+import { findLabelWords, PlateReadTracker } from '../../utils/plateParse';
 
 const MONO = "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace";
 const BARCODE_EVERY_MS = 140;
 const OCR_EVERY_MS = 700;
+const FULL_GRAB_MAX = 2800; // cap the full-resolution grab (memory on older phones)
 const SCRAMBLE = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
 const VERTICAL_KEY = 'td_plate_scan_vertical';
 
@@ -143,6 +144,8 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
   const boxRef = useRef(null);
   const canvasBarRef = useRef(null);
   const canvasOcrRef = useRef(null);
+  const canvasFullRef = useRef(null); // full-resolution grab of the guide box (for the second look)
+  const canvasLineRef = useRef(null); // one zoomed label line
   const trackerRef = useRef(null);
   const streamRef = useRef(null);
   const runningRef = useRef(false);
@@ -362,10 +365,13 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
         const rect = v && box ? guideToVideoRect(v, box) : null;
         const turn = ocrTurnRef.current;
         const rotate = verticalRef.current ? turn.dir : 0;
-        const canvas = rect && grabRegion(v, rect, canvasOcrRef.current, { maxWidth: rotate ? 1400 : 1000, enhance: true, rotate });
+        // One grab at full camera resolution; the reading copy is shrunk from that same frame
+        // so label boxes found in it line up with the sharp original.
+        const full = rect && grabRegion(v, rect, canvasFullRef.current, { maxWidth: FULL_GRAB_MAX, rotate, readable: false });
+        const canvas = full && fitCanvas(full, canvasOcrRef.current, { maxWidth: rotate ? 1400 : 1000, enhance: true });
         if (canvas) {
           try {
-            const { text, confidence } = await ocrRef.current.read(canvas);
+            const { text, confidence, words } = await ocrRef.current.read(canvas);
             if (!alive()) return;
             if (rotate && !turn.settled) {
               // Upright text reads with real confidence; sideways text is noise. Keep the
@@ -373,12 +379,29 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
               if (confidence >= 40 && /[A-Z0-9]{5,}/.test(text)) turn.settled = true;
               else turn.dir = -turn.dir;
             }
-            const locked = trackerRef.current.addOcr(text);
-            const snap = publish(locked);
-            // Text is visible but no barcode has locked after a few seconds: coach the user.
+            let snap = publish(trackerRef.current.addOcr(text));
+
+            // Second look: small or spaced-out values (fridge S/N tags) misread in the full
+            // pass. Zoom on the line next to each still-open field's label and read just that.
+            const labels = findLabelWords(words);
+            for (const kind of ['model', 'serial']) {
+              if (snap.done || snap[kind].locked) continue;
+              for (const label of labels[kind].slice(0, 2)) {
+                const line = zoomLine(full, canvas, label.bbox, canvasLineRef.current);
+                if (!line) continue;
+                const r = await ocrRef.current.readLine(line);
+                if (!alive()) return;
+                if (r.confidence < 40) continue;
+                const before = snap[kind].value;
+                snap = publish(trackerRef.current.addOcr(`${kind === 'serial' ? 'S/N' : 'MODEL'} ${r.text}`));
+                if (snap[kind].locked || snap[kind].value !== before) break;
+              }
+            }
+
+            // Coach the user when nothing has locked from a barcode after a few seconds.
             const anyBarcode = snap.model.source === 'barcode' || snap.serial.source === 'barcode';
             if (!anyBarcode && Date.now() - scanStartRef.current > 3500 && /\S{4,}/.test(text)) {
-              setHint('Barcode? Move closer so it fills the box');
+              setHint(labels.model.length || labels.serial.length ? 'Reading the tag… hold steady' : 'Barcode? Move closer so it fills the box');
             }
             if (snap.done) {
               setTimeout(() => alive() && goConfirm(), 650);
@@ -495,6 +518,24 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
         .ps-sweep.ps-fast { animation-duration: 0.9s; }
         .ps-boot { animation: ps-boot .45s cubic-bezier(.2,.9,.25,1) both; }
         .ps-btn:focus-visible { outline: 2px solid #A5F3FC; outline-offset: 3px; }
+        /* Guide box + readouts. Portrait: box up top, readouts along the bottom. */
+        .ps-guide { position: absolute; left: 7%; right: 7%; top: 22%; aspect-ratio: 1.55 / 1; }
+        /* Tall, narrow box for tags that run up the side of a tub or door. */
+        .ps-guide.is-vert { left: 22%; right: 22%; top: calc(env(safe-area-inset-top, 0px) + 92px); bottom: calc(env(safe-area-inset-bottom, 0px) + 236px); aspect-ratio: auto; }
+        .ps-panel { position: absolute; left: 16px; right: 16px; bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); display: flex; flex-direction: column; gap: 8px; }
+        /* Phone on its side: box on the left sized to the short screen, readouts in a column on the right. */
+        @media (orientation: landscape) and (max-height: 600px) {
+          .ps-guide, .ps-guide.is-vert {
+            left: calc(env(safe-area-inset-left, 0px) + 20px); right: auto; bottom: auto;
+            top: 74px; height: calc(100% - 74px - 40px - env(safe-area-inset-bottom, 0px));
+            aspect-ratio: 1.55 / 1; max-width: calc(100% - 380px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+          }
+          .ps-guide.is-vert { aspect-ratio: 1 / 2.2; }
+          .ps-panel {
+            left: auto; right: calc(env(safe-area-inset-right, 0px) + 16px); width: 320px;
+            top: 74px; bottom: calc(env(safe-area-inset-bottom, 0px) + 12px); justify-content: flex-end;
+          }
+        }
         @media (prefers-reduced-motion: reduce) { .ps-root * { animation-duration: 1ms !important; animation-iteration-count: 1 !important; } }
       `}</style>
 
@@ -509,6 +550,8 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
       />
       <canvas ref={canvasBarRef} style={{ display: 'none' }} />
       <canvas ref={canvasOcrRef} style={{ display: 'none' }} />
+      <canvas ref={canvasFullRef} style={{ display: 'none' }} />
+      <canvas ref={canvasLineRef} style={{ display: 'none' }} />
 
       {/* Top HUD */}
       <div style={{ position: 'absolute', zIndex: 2, top: 0, left: 0, right: 0, padding: 'calc(env(safe-area-inset-top, 0px) + 12px) 16px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'linear-gradient(180deg, rgba(2,5,9,0.85), rgba(2,5,9,0))' }}>
@@ -553,12 +596,8 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
       {/* Guide box */}
       <div
         ref={boxRef}
+        className={`ps-guide${vertical ? ' is-vert' : ''}`}
         style={{
-          position: 'absolute',
-          ...(vertical
-            // Tall, narrow box for tags that run up the side of a tub or door.
-            ? { left: '22%', right: '22%', top: 'calc(env(safe-area-inset-top, 0px) + 92px)', bottom: 'calc(env(safe-area-inset-bottom, 0px) + 236px)' }
-            : { left: '7%', right: '7%', top: '22%', aspectRatio: '1.55 / 1' }),
           borderRadius: 14,
           transition: 'opacity .25s',
           boxShadow: '0 0 0 100vmax rgba(2,6,12,0.62)',
@@ -637,7 +676,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
 
       {/* Readouts + controls */}
       {phase !== 'confirm' && phase !== 'error' ? (
-        <div style={{ position: 'absolute', left: 16, right: 16, bottom: 'calc(env(safe-area-inset-bottom, 0px) + 16px)', display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <div className="ps-panel">
           <Readout label="MODEL" field={fields.model} />
           <Readout label="SERIAL" field={fields.serial} />
           <div style={{ display: 'grid', gridTemplateColumns: torch.supported ? '44px 1fr 1fr' : '1fr 1fr', gap: 8, marginTop: 6 }}>
