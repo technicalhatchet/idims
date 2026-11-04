@@ -8,8 +8,8 @@ import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
 import { getDmaCodes, getDmaTags, listDmaRepairRecords, searchDmaRepairs } from '../../services/api/dmaApi';
 import { formatDmaEquipment } from '../../constants/dmaEquipmentOptions';
-import { codeLabel, codeOptions, DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES } from '../../constants/dmaCodes';
-import { DmaTagPills } from '../../components/dma/DmaTagPicker';
+import { codeOptions, DMA_PROBLEM_CODES, DMA_RESOLUTION_CODES } from '../../constants/dmaCodes';
+import DmaDossierCard from '../../components/dma/DmaDossierCard';
 import { groupTagsByCategory } from '../../constants/dmaTagCategories';
 import { useUserRole } from '../../context/UserRoleContext';
 import { techWorkOrderDetailPath } from '../../lib/techRoutes';
@@ -53,6 +53,12 @@ function DmaSearchPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [pendingReviewCount, setPendingReviewCount] = useState(null);
+  // One dossier open at a time; a new search folds everything.
+  const [openKey, setOpenKey] = useState(null);
+
+  useEffect(() => {
+    setOpenKey(null);
+  }, [results]);
 
   useEffect(() => {
     getDmaCodes()
@@ -362,40 +368,22 @@ function DmaSearchPage() {
               </div>
             ) : (
               <ul className="space-y-3">
-                {results.items.map((item) => (
-                  <li key={`${item.source_type}-${item.id}`}>
-                    <Link
-                      href={resultHref(item)}
-                      className="block rounded-xl border border-white/10 bg-[#0D1525] p-4 hover:border-cyan-500/30 transition-colors"
-                    >
-                      <div className="flex justify-between items-start gap-2 mb-2 flex-wrap">
-                        <SourceBadge item={item} />
-                        {!item.repair_successful && (
-                          <span className="text-[10px] uppercase tracking-wide text-orange-400">Unsuccessful</span>
-                        )}
-                      </div>
-                      <p className="text-sm font-medium text-white">{formatDmaEquipment(item)}</p>
-                      {item.error_code_text && (
-                        <p className="text-xs text-orange-300 mt-1">Code: {item.error_code_text}</p>
-                      )}
-                      <p className="text-sm text-gray-200 mt-2">{item.confirmed_fix}</p>
-                      <div className="mt-2">
-                        <DmaTagPills tags={item.tags} />
-                      </div>
-                      <div className="flex flex-wrap gap-2 mt-2 text-[11px] text-gray-500">
-                        {item.problem_code && (
-                          <span>{codeLabel(problemOptions, item.problem_code)}</span>
-                        )}
-                        {item.resolution_code && (
-                          <span>→ {codeLabel(resolutionOptions, item.resolution_code)}</span>
-                        )}
-                      </div>
-                      {item.replaced_parts && (
-                        <p className="text-xs text-gray-500 mt-1">Parts: {item.replaced_parts}</p>
-                      )}
-                    </Link>
-                  </li>
-                ))}
+                {results.items.map((item) => {
+                  const key = `${item.source_type}-${item.id}`;
+                  return (
+                    <li key={key}>
+                      <DmaDossierCard
+                        item={item}
+                        href={resultHref(item)}
+                        open={openKey === key}
+                        onToggle={() => setOpenKey((k) => (k === key ? null : key))}
+                        sourceBadge={<SourceBadge item={item} />}
+                        problemOptions={problemOptions}
+                        resolutionOptions={resolutionOptions}
+                      />
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </div>
