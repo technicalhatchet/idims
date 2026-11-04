@@ -53,6 +53,8 @@ import {
 } from '../../utils/routeDriveTime';
 import { isTravelApiAllowed, openGoogleMapsDestination } from '../../utils/google-maps-service';
 import TechboardLaserDock from '../../components/techboard/TechboardLaserDock';
+import CriticalMassCard from '../../components/techboard/CriticalMassCard';
+import { StatValueSkeleton, StatValueUnavailable } from '../../components/techboard/StatValue';
 import { useLaserTag } from '../../components/navigation/LaserBarParts';
 import { useClaimBottomDock } from '../../components/layouts/bottomDock';
 
@@ -147,36 +149,6 @@ function DurationStatValue({ text }) {
         );
       })}
     </p>
-  );
-}
-
-function StatValueSkeleton() {
-  return (
-    <div
-      className="h-8 w-12 rounded-md bg-white/10 animate-pulse"
-      aria-hidden
-      data-testid="stat-value-skeleton"
-    />
-  );
-}
-
-function StatValueUnavailable({ onRetry }) {
-  return (
-    <div className="flex flex-col gap-0.5">
-      <span className="text-2xl font-bold text-white tabular-nums">—</span>
-      {onRetry ? (
-        <button
-          type="button"
-          className="text-[10px] font-medium text-cyan-400/90 underline text-left w-fit"
-          onClick={(e) => {
-            e.stopPropagation();
-            onRetry();
-          }}
-        >
-          Retry
-        </button>
-      ) : null}
-    </div>
   );
 }
 
@@ -284,89 +256,6 @@ function pickNextJobToday(sortedTodayAppts) {
   const working = incomplete.find((a) => isActivelyDeployedStatus(a.status));
   if (working) return working;
   return incomplete[0] ?? null;
-}
-
-// ── Critical Mass Card with Glass Effect + Sweep Animation ───────────────
-function CriticalMassCard({ count, loading = false, failed = false, onRetry }) {
-  const [sweeping, setSweeping] = useState(false);
-  const { push: sweepPush } = useSweepNavigate(600);
-  const isActive = !loading && count > 0;
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    sweepPush(TECH_MASS_PATH, { onSweepStart: () => setSweeping(true) });
-  };
-
-  return (
-    <div
-      className={`tech-glass-card tech-hover-lift mb-4 ${sweeping ? 'tech-sweep-active' : ''} ${isActive ? 'tech-breathing-pulse' : ''}`}
-      onClick={handleClick}
-      style={{ cursor: 'pointer' }}
-      data-sweep-color={isActive ? 'orange' : 'cyan'}
-      data-techboard-card
-    >
-      <div
-        className="relative rounded-lg overflow-hidden"
-        style={{
-          border: isActive ? '1px solid rgba(251,146,60,0.6)' : '1px solid rgba(255,255,255,0.07)',
-        }}
-      >
-        <FrostedCardBackdrop />
-        <div
-          className="tech-sweep-overlay"
-          style={{
-            background: sweeping
-              ? `linear-gradient(120deg, transparent 0%, ${isActive ? 'rgba(251, 146, 60, 0.4)' : 'rgba(0, 212, 255, 0.4)'} 50%, transparent 100%)`
-              : undefined,
-          }}
-        />
-        {isActive && (
-          <div className="pointer-events-none absolute inset-0 rounded-lg z-[1]" style={{ background: 'radial-gradient(ellipse at 0% 0%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 0%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 0% 100%, rgba(251,146,60,0.1) 0%, transparent 60%), radial-gradient(ellipse at 100% 100%, rgba(251,146,60,0.1) 0%, transparent 60%)' }} />
-        )}
-        <FrostedCardContent className="flex items-center gap-4 p-4">
-          <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 tech-icon-wrap" style={{ background: '#080C14' }}>
-            <svg viewBox="0 0 24 24" className="w-7 h-7" style={{
-              stroke: isActive ? '#FB923C' : '#374151',
-              strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round',
-              filter: isActive ? 'drop-shadow(0 0 6px rgba(251,146,60,0.8))' : 'none',
-            }}>
-              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-              <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-            </svg>
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-bold" style={{ color: isActive ? '#FB923C' : '#6B7280', textShadow: isActive ? '0 0 8px rgba(251,146,60,0.5)' : 'none' }}>
-              Critical Mass
-            </p>
-            <p className="text-xs mt-0.5" style={{ color: isActive ? '#9CA3AF' : '#4B5563' }}>
-              {loading
-                ? 'Loading overdue count…'
-                : (
-                  <LiveRepaintValue
-                    value={isActive ? count : 'clear'}
-                  >
-                    {isActive
-                      ? `${count} order${count > 1 ? 's' : ''} past scheduled date — needs attention`
-                      : 'All clear — no overdue orders'}
-                  </LiveRepaintValue>
-                )}
-            </p>
-          </div>
-          <div className="flex-shrink-0">
-            {failed
-              ? <StatValueUnavailable onRetry={onRetry} />
-              : loading
-                ? <StatValueSkeleton />
-                : (
-                  <p className="text-2xl font-bold" style={{ color: isActive ? '#FB923C' : '#374151' }}>
-                    <LiveRepaintValue value={count} />
-                  </p>
-                )}
-          </div>
-        </FrostedCardContent>
-      </div>
-    </div>
-  );
 }
 
 // ── Master Ops List (admin) — sweep + navigate to full ops list ─────────────
@@ -1364,6 +1253,12 @@ export default function TechDashboardTest() {
             100% { transform: translateX(100%); opacity: 0; }
           }
           
+          /* Critical Mass card: press seam + "ALL CLEAR" flash */
+          @keyframes cm-card-seam { 0% { left: -6px; opacity: 1 } 80% { opacity: 1 } 100% { left: calc(100% + 2px); opacity: 0 } }
+          @keyframes cm-card-clear { 0% { opacity: 0; transform: translateY(4px) } 20%, 80% { opacity: 1; transform: translateY(0) } 100% { opacity: 0 } }
+          .cm-card-seam { position: absolute; top: 0; bottom: 0; width: 3px; background: #fff; box-shadow: 0 0 8px #fff, 0 0 18px #FB923C; pointer-events: none; animation: cm-card-seam .3s cubic-bezier(.5,0,.3,1) both; }
+          .cm-card-clear { position: absolute; right: 16px; top: 8px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 9px; font-weight: 700; letter-spacing: .18em; color: #34D399; pointer-events: none; animation: cm-card-clear 1.4s ease both; }
+
           /* Breathing pulse for Critical Mass */
           .tech-breathing-pulse > div {
             animation: tech-breathe 2.5s ease-in-out infinite;
