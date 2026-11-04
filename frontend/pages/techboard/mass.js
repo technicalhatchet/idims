@@ -3,14 +3,9 @@ import { useState, useEffect, useMemo, useCallback, useLayoutEffect, useRef } fr
 import Head from 'next/head';
 import Link from 'next/link';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import {
-  format,
-  startOfDay,
-  isBefore,
-  parseISO,
-  differenceInCalendarDays,
-} from 'date-fns';
+import { format } from 'date-fns';
 import StatusBadge from '../../components/ui/StatusBadge';
+import { daysOverdue, isCriticalMass, parseScheduled } from '../../utils/criticalMass';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
 import { useHudGridDoubleTapRail } from '../../hooks/useHudGridDoubleTapRail';
 import ApplianceIcon from '../../components/ui/ApplianceIcon';
@@ -44,24 +39,8 @@ function hudGridShiftForTitleplate(dx, dy, step) {
   };
 }
 
-/** Work orders considered finished for this queue */
-const TERMINAL_STATUSES = new Set(['completed']);
-
-function parseScheduled(wo) {
-  if (!wo.scheduled_start) return null;
-  const s = String(wo.scheduled_start).trim();
-  if (!s) return null;
-  const hasZone = s.endsWith('Z') || /[+-]\d{2}:?\d{2}$/.test(s);
-  const d = parseISO(hasZone ? s : `${s}Z`);
-  return d && !Number.isNaN(d.getTime()) ? d : null;
-}
-
-/** Strictly before today's calendar date (local) — “the next day” after the booked day */
-function isScheduledOnPriorDay(wo) {
-  const d = parseScheduled(wo);
-  if (!d) return false;
-  return isBefore(startOfDay(d), startOfDay(new Date()));
-}
+// Critical Mass = missed visits: still Pending / Scheduled / En Route with a visit date before
+// today. Shared with the dashboard card and panel (utils/criticalMass.js) so all three agree.
 
 function clientLabel(wo) {
   return (
@@ -70,12 +49,6 @@ function clientLabel(wo) {
     `${wo.client?.first_name || ''} ${wo.client?.last_name || ''}`.trim() ||
     'No client'
   );
-}
-
-function daysOverdue(wo) {
-  const d = parseScheduled(wo);
-  if (!d) return 0;
-  return Math.max(0, differenceInCalendarDays(startOfDay(new Date()), startOfDay(d)));
 }
 
 function techIdKey(wo) {
@@ -228,8 +201,7 @@ export default function CriticalMassPage() {
   const criticalRaw = useMemo(() => {
     const items = data?.items || [];
     return items.filter((wo) => {
-      if (TERMINAL_STATUSES.has(wo.status)) return false;
-      return isScheduledOnPriorDay(wo);
+      return isCriticalMass(wo);
     });
   }, [data]);
 
@@ -619,7 +591,7 @@ export default function CriticalMassPage() {
                     }}
                   >
                     <option value="" className="bg-[#111827] text-white">
-                      Any open
+                      Any missed visit
                     </option>
                     <option value="pending" className="bg-[#111827] text-white">
                       Pending
@@ -629,24 +601,6 @@ export default function CriticalMassPage() {
                     </option>
                     <option value="en_route" className="bg-[#111827] text-white">
                       En route
-                    </option>
-                    <option value="in_progress" className="bg-[#111827] text-white">
-                      In progress
-                    </option>
-                    <option value="waiting_on_parts" className="bg-[#111827] text-white">
-                      Waiting on parts
-                    </option>
-                    <option value="parts_received" className="bg-[#111827] text-white">
-                      Parts received
-                    </option>
-                    <option value="on_hold" className="bg-[#111827] text-white">
-                      On hold
-                    </option>
-                    <option
-                      value="completed_pending_payment"
-                      className="bg-[#111827] text-white"
-                    >
-                      Done — payment
                     </option>
                   </select>
                   <svg
