@@ -96,6 +96,9 @@ function createZxingEngine() {
   };
 }
 
+const BOX_WHITELIST = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-/.:# ';
+const LINE_WHITELIST = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-';
+
 /**
  * Lazily creates the Tesseract worker.
  * @param {(p: number) => void} onProgress  0..1 while the engine/model download
@@ -114,15 +117,36 @@ export async function createOcrEngine(onProgress) {
   });
   await worker.setParameters({
     tessedit_pageseg_mode: PSM.SPARSE_TEXT,
-    tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-/.:# ',
+    tessedit_char_whitelist: BOX_WHITELIST,
     preserve_interword_spaces: '1',
   });
   onProgress?.(1);
   return {
-    /** @returns {Promise<{ text: string, confidence: number }>} confidence 0..100 */
+    /**
+     * Full read of the guide box.
+     * @returns {Promise<{ text: string, confidence: number, words: { text: string, bbox: {x0,y0,x1,y1} }[] }>}
+     */
     async read(canvas) {
-      const { data } = await worker.recognize(canvas);
-      return { text: data?.text || '', confidence: Number(data?.confidence) || 0 };
+      const { data } = await worker.recognize(canvas, {}, { blocks: true });
+      const words = [];
+      (data?.blocks || []).forEach((b) => b.paragraphs?.forEach((p) => p.lines?.forEach((l) => l.words?.forEach((w) => {
+        if (w?.text && w.bbox) words.push({ text: w.text, bbox: w.bbox });
+      }))));
+      return { text: data?.text || '', confidence: Number(data?.confidence) || 0, words };
+    },
+    /**
+     * Read one zoomed line (the "second look" next to a MODEL / S/N label).
+     * Single-line mode with letters, digits and dashes only reads spaced-out plate fonts far
+     * better than the sparse full-box pass.
+     */
+    async readLine(canvas) {
+      await worker.setParameters({ tessedit_pageseg_mode: PSM.SINGLE_LINE, tessedit_char_whitelist: LINE_WHITELIST });
+      try {
+        const { data } = await worker.recognize(canvas);
+        return { text: data?.text || '', confidence: Number(data?.confidence) || 0 };
+      } finally {
+        await worker.setParameters({ tessedit_pageseg_mode: PSM.SPARSE_TEXT, tessedit_char_whitelist: BOX_WHITELIST });
+      }
     },
     async close() {
       await worker.terminate();
@@ -135,8 +159,9 @@ export async function createOcrEngine(onProgress) {
  * For OCR the image is also grayscaled and contrast-stretched.
  * rotate: 0, 90 (clockwise) or -90 — turns a sideways plate upright for the readers.
  * maxWidth applies to the long side of the plate text (the source height when rotated).
+ * readable: false for a canvas only ever drawn from (never getImageData), so it stays GPU-backed.
  */
-export function grabRegion(video, rect, canvas, { maxWidth = 1100, enhance = false, rotate = 0 } = {}) {
+export function grabRegion(video, rect, canvas, { maxWidth = 1100, enhance = false, rotate = 0, readable = true } = {}) {
   const vw = video.videoWidth;
   const vh = video.videoHeight;
   if (!vw || !vh) return null;
@@ -150,7 +175,9 @@ export function grabRegion(video, rect, canvas, { maxWidth = 1100, enhance = fal
   const dh = Math.round(sh * scale);
   canvas.width = turned ? dh : dw;
   canvas.height = turned ? dw : dh;
-  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  // Only canvases we read pixels from need the CPU-backed mode; the full-resolution grab
+  // stays on the GPU so copying a 4K frame doesn't stall the page.
+  const ctx = canvas.getContext('2d', readable ? { willReadFrequently: true } : undefined);
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   if (turned) {
     ctx.translate(canvas.width / 2, canvas.height / 2);
@@ -160,25 +187,73 @@ export function grabRegion(video, rect, canvas, { maxWidth = 1100, enhance = fal
   } else {
     ctx.drawImage(video, sx, sy, sw, sh, 0, 0, dw, dh);
   }
-  if (enhance) {
-    const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const d = img.data;
-    let lo = 255;
-    let hi = 0;
-    for (let i = 0; i < d.length; i += 4) {
-      const g = (d[i] * 299 + d[i + 1] * 587 + d[i + 2] * 114) / 1000;
-      d[i] = g;
-      if (g < lo) lo = g;
-      if (g > hi) hi = g;
-    }
-    const span = Math.max(1, hi - lo);
-    for (let i = 0; i < d.length; i += 4) {
-      const v = ((d[i] - lo) / span) * 255;
-      d[i] = v;
-      d[i + 1] = v;
-      d[i + 2] = v;
-    }
-    ctx.putImageData(img, 0, 0);
+  if (enhance) stretchContrast(ctx, canvas.width, canvas.height);
+  return canvas;
+}
+
+/** Grayscale + stretch the contrast to the full range (in place). */
+function stretchContrast(ctx, width, height) {
+  const img = ctx.getImageData(0, 0, width, height);
+  const d = img.data;
+  let lo = 255;
+  let hi = 0;
+  for (let i = 0; i < d.length; i += 4) {
+    const g = (d[i] * 299 + d[i + 1] * 587 + d[i + 2] * 114) / 1000;
+    d[i] = g;
+    if (g < lo) lo = g;
+    if (g > hi) hi = g;
   }
+  const span = Math.max(1, hi - lo);
+  for (let i = 0; i < d.length; i += 4) {
+    const v = ((d[i] - lo) / span) * 255;
+    d[i] = v;
+    d[i + 1] = v;
+    d[i + 2] = v;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+/**
+ * Shrink a full-resolution grab into the reading canvas (same frame, so word boxes found
+ * in the small copy line up with the sharp original).
+ */
+export function fitCanvas(src, canvas, { maxWidth = 1000, enhance = false } = {}) {
+  if (!src?.width || !src?.height) return null;
+  const scale = Math.min(1, maxWidth / src.width);
+  canvas.width = Math.max(1, Math.round(src.width * scale));
+  canvas.height = Math.max(1, Math.round(src.height * scale));
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.drawImage(src, 0, 0, canvas.width, canvas.height);
+  if (enhance) stretchContrast(ctx, canvas.width, canvas.height);
+  return canvas;
+}
+
+const LINE_TEXT_PX = 32; // Tesseract reads best with text about this tall
+const LINE_PAD_PX = 24; // and a white margin around it
+
+/**
+ * The "second look": crop the line just right of a label word (box in reading-canvas
+ * pixels) out of the sharp full-resolution grab, scale it so the text is ~32 px tall, pad
+ * it with white and boost contrast.
+ */
+export function zoomLine(full, readCanvas, bbox, canvas) {
+  if (!full?.width || !readCanvas?.width || !bbox) return null;
+  const k = full.width / readCanvas.width;
+  const h = Math.max(6, (bbox.y1 - bbox.y0) * k);
+  const left = Math.round(bbox.x1 * k + h * 0.4);
+  const top = Math.max(0, Math.round(bbox.y0 * k - h * 0.45));
+  const width = Math.min(full.width - left, Math.round(h * 16));
+  const height = Math.min(full.height - top, Math.round(h * 1.9));
+  if (width < h * 2 || height < h) return null;
+  const s = Math.min(3, LINE_TEXT_PX / h);
+  canvas.width = Math.round(width * s) + LINE_PAD_PX * 2;
+  canvas.height = Math.round(height * s) + LINE_PAD_PX * 2;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(full, left, top, width, height, LINE_PAD_PX, LINE_PAD_PX, Math.round(width * s), Math.round(height * s));
+  stretchContrast(ctx, canvas.width, canvas.height);
   return canvas;
 }

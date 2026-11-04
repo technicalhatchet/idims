@@ -104,6 +104,7 @@ import { useTechDashboardRail } from '../../../components/layouts/TechDashboardL
 import { useUserRole } from '../../../utils/auth0-helpers';
 import { isWorkOrderClosed, isWorkOrderImmutable, isWorkOrderReadOnly, canEditWorkOrderBilling, canShowCloseOrderAction, canReopenWorkOrder } from '../../../utils/workOrderPermissions';
 import { workOrderStatusOptionsForUser } from '../../../utils/workOrderStatusOptions';
+import { attachRailDoubleTap } from '../../../utils/railDoubleTap';
 import { usePrefetchTechnicians } from '../../../hooks/usePrefetchTechnicians';
 import useCurrentTechnicianId from '../../../hooks/useCurrentTechnicianId';
 import { useWorkOrderMountedTabs } from '../../../hooks/useWorkOrderMountedTabs';
@@ -395,40 +396,9 @@ function WorkOrderDetail() {
   useEffect(() => {
     if (showInitialLoader || error || !tacticalColumnRef.current || !openRail) return;
     
-    const layer = tacticalColumnRef.current;
-    const lastTap = { t: 0, x: 0, y: 0 };
-    
-    const tryOpenRail = (x, y) => {
-      const now = Date.now();
-      const dt = now - lastTap.t;
-      const dist = Math.hypot(x - lastTap.x, y - lastTap.y);
-      if (lastTap.t && dt < 350 && dist < 48) {
-        openRail();
-        lastTap.t = 0;
-        return true;
-      }
-      lastTap.t = now;
-      lastTap.x = x;
-      lastTap.y = y;
-      return false;
-    };
-    
-    const onTouch = (e) => {
-      if (e.touches.length === 1) {
-        const { clientX, clientY } = e.touches[0];
-        if (tryOpenRail(clientX, clientY)) e.preventDefault();
-      }
-    };
-    
-    const onDblClick = () => openRail();
-    
-    layer.addEventListener('touchstart', onTouch, { passive: false });
-    layer.addEventListener('dblclick', onDblClick);
-    
-    return () => {
-      layer.removeEventListener('touchstart', onTouch);
-      layer.removeEventListener('dblclick', onDblClick);
-    };
+    // Swipe-safe: only real taps on empty background count, and touches are never blocked,
+    // so the tab row and the page scroll freely.
+    return attachRailDoubleTap(tacticalColumnRef.current, openRail);
   }, [showInitialLoader, error, openRail]);
 
   const syncHudGridAlignment = useCallback(() => {
