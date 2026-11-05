@@ -166,6 +166,8 @@ export function LaserBarStyles() {
       .lb-laser, .lb-spark, .lb-scan { opacity: 0; }
       .lb-tile:active { filter: brightness(1.08); }
       .lb-tile:focus-visible { outline: 2px solid #A5F3FC; outline-offset: 3px; }
+      .lb-slice:focus-visible { outline: 2px solid #A5F3FC; outline-offset: -5px; border-radius: 10px; }
+      .lb-slice:active .lb-slice-c { filter: brightness(1.12); }
       @media (prefers-reduced-motion: reduce) {
         .lb-root *, .lb-root *::before, .lb-root *::after {
           animation-duration: 1ms !important;

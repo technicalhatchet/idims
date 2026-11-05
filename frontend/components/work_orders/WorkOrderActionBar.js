@@ -1,25 +1,13 @@
 import {
-  LASER_BAR_BUTTON_TOP,
   LASER_BAR_HEIGHT_CSS,
   LaserBarStyles,
-  LaserFin,
-  LaserIcon,
-  LaserSeam,
   LaserTag,
-  laserTileStyle,
   usePressThenRun,
 } from '../navigation/LaserBarParts';
+import LaserFillBar from '../navigation/LaserFillBar';
 
-const ICON_TILE = {
-  height: 44,
-  borderRadius: 12,
-  display: 'grid',
-  placeItems: 'center',
-  border: '1px solid rgba(34, 211, 238, 0.4)',
-  background: 'rgba(13, 22, 38, 0.9)',
-  color: '#8FE6F3',
-  touchAction: 'manipulation',
-};
+/** Back | status-driven primary | contextual secondary | + (fractions of the width). */
+const WO_DIVIDERS = [0.23, 0.665, 0.835];
 
 /**
  * Work order bottom bar: Back | status-driven primary | contextual secondary | +.
@@ -38,7 +26,53 @@ export default function WorkOrderActionBar({
   const primary = bar?.primary;
   const secondary = bar?.secondary;
   const primaryDisabled = busy || !primary || primary.tone === 'off';
-  const primaryPressed = pressedKey === 'primary';
+
+  const slices = [
+    {
+      key: 'back',
+      role: 'back',
+      icon: 'back',
+      label: 'Back',
+      ariaLabel: 'Back',
+      onPress: onBack,
+    },
+    {
+      key: 'primary',
+      role: 'primary',
+      tone: primary?.tone || 'off',
+      icon: primary?.icon || 'lock',
+      label: primary ? (busy ? 'Saving…' : primary.label) : '',
+      ariaLabel: primary ? (busy ? 'Saving…' : primary.label) : 'No action',
+      contentKey: primary ? `${primary.id}-${primary.label}` : 'none',
+      disabled: primaryDisabled,
+      busy,
+      pressed: pressedKey === 'primary',
+      onPress: () => press('primary', () => onAction?.(primary.id, 'primary')),
+    },
+    {
+      key: 'secondary',
+      role: 'side',
+      tone: 'cyan',
+      icon: secondary?.icon || 'plus',
+      showLabel: false,
+      label: secondary?.label || 'More',
+      ariaLabel: secondary?.label || 'More',
+      disabled: !secondary,
+      style: secondary ? undefined : { visibility: 'hidden' },
+      onPress: () => secondary && onAction?.(secondary.id, 'secondary'),
+    },
+    {
+      key: 'add',
+      role: 'side',
+      tone: 'cyan',
+      icon: 'plus',
+      showLabel: false,
+      label: 'Add',
+      ariaLabel: 'Add to work order',
+      disabled: addDisabled,
+      onPress: onAdd,
+    },
+  ];
 
   return (
     <div
@@ -49,85 +83,7 @@ export default function WorkOrderActionBar({
       <LaserBarStyles />
       <LaserTag text={tag?.text} tone={tag?.tone} />
       <nav aria-label="Work order actions" style={{ position: 'absolute', inset: 0 }}>
-        <LaserFin idPrefix="wo-bar" />
-        <div
-          style={{
-            position: 'absolute',
-            top: LASER_BAR_BUTTON_TOP,
-            left: 'max(12px, 11%)',
-            right: 'max(12px, 11%)',
-            height: 44,
-            display: 'grid',
-            gridTemplateColumns: '44px minmax(0, 1fr) 44px 44px',
-            gap: 8,
-          }}
-        >
-          <button
-            type="button"
-            className="lb-tile"
-            onClick={onBack}
-            aria-label="Back"
-            style={{ ...ICON_TILE, border: '1px solid rgba(255, 255, 255, 0.16)', color: '#B8C7D6' }}
-          >
-            <LaserIcon name="back" strokeWidth={2} />
-          </button>
-
-          <button
-            type="button"
-            className="lb-tile"
-            disabled={primaryDisabled}
-            aria-busy={busy || undefined}
-            onClick={() => press('primary', () => onAction?.(primary.id, 'primary'))}
-            style={{
-              position: 'relative',
-              overflow: 'hidden',
-              height: 44,
-              borderRadius: 12,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 12,
-              fontWeight: 700,
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              touchAction: 'manipulation',
-              cursor: primaryDisabled ? 'default' : 'pointer',
-              opacity: busy ? 0.75 : 1,
-              transition: 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s, background 0.3s, color 0.25s, opacity 0.2s',
-              ...laserTileStyle(primary?.tone, { pressed: primaryPressed }),
-            }}
-          >
-            {primary ? (
-              <span key={`${primary.id}-${primary.label}`} className="lb-pop" style={{ display: 'flex', alignItems: 'center', gap: 7, whiteSpace: 'nowrap' }}>
-                <LaserIcon name={primary.icon} size={16} strokeWidth={2.1} />
-                {busy ? 'Saving…' : primary.label}
-              </span>
-            ) : null}
-            {primaryPressed ? <LaserSeam tone={primary?.tone} /> : null}
-          </button>
-
-          <button
-            type="button"
-            className="lb-tile"
-            aria-label={secondary?.label || 'More'}
-            disabled={!secondary}
-            onClick={() => secondary && onAction?.(secondary.id, 'secondary')}
-            style={ICON_TILE}
-          >
-            {secondary ? <LaserIcon name={secondary.icon} /> : null}
-          </button>
-
-          <button
-            type="button"
-            className="lb-tile"
-            aria-label="Add to work order"
-            disabled={addDisabled}
-            onClick={onAdd}
-            style={{ ...ICON_TILE, opacity: addDisabled ? 0.45 : 1 }}
-          >
-            <LaserIcon name="plus" strokeWidth={2.2} />
-          </button>
-        </div>
+        <LaserFillBar idPrefix="wo-bar" slices={slices} dividers={WO_DIVIDERS} />
       </nav>
     </div>
   );
