@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { LaserIcon, laserTileStyle } from '../navigation/LaserBarParts';
 import { createBarcodeEngine, createOcrEngine, fitCanvas, grabRegion, zoomLine } from '../../lib/plateScanEngines';
 import { findLabelWords, PlateReadTracker } from '../../utils/plateParse';
+import { loadPhoto, photoBlob, readSnap } from '../../lib/plateSnapRead';
 
 const MONO = "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace";
 const BARCODE_EVERY_MS = 140;
@@ -10,14 +11,30 @@ const OCR_EVERY_MS = 700;
 const FULL_GRAB_MAX = 2800; // cap the full-resolution grab (memory on older phones)
 const SCRAMBLE = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
 const VERTICAL_KEY = 'td_plate_scan_vertical';
+// Live text reading on the camera feed. Off by default: it's what heats the phone, and
+// Snap tag reads text far better from a real photo. Kept for comparing on real tags.
+const LIVE_TEXT_KEY = 'td_plate_scan_live_text';
 
-function readVerticalPref() {
+function readPref(key) {
   try {
-    return window.localStorage.getItem(VERTICAL_KEY) === '1';
+    return window.localStorage.getItem(key) === '1';
   } catch {
     return false;
   }
 }
+
+function writePref(key, on) {
+  try { window.localStorage.setItem(key, on ? '1' : '0'); } catch { /* private mode */ }
+}
+
+const SNAP_STAGES = {
+  loading: 'OPENING PHOTO',
+  engine: 'LOADING TEXT READER',
+  barcode: 'LOOKING FOR BARCODES',
+  text: 'READING THE TAG',
+  lines: 'ZOOMING IN ON MODEL / SERIAL',
+  turn: 'TRYING IT SIDEWAYS',
+};
 
 /**
  * Map a box from a rotated decode canvas back to the upright guide box.
@@ -134,8 +151,11 @@ function guideToVideoRect(video, box) {
 }
 
 /**
- * Full-screen rating-plate scanner. Barcode and text readers run together on the live
- * camera; whichever reads a field first (barcode wins ties) locks it.
+ * Full-screen rating-plate scanner.
+ *  - Live view: barcodes are read off the camera feed and lock as soon as they're seen.
+ *    Live text reading can be switched on (LIVE TEXT in the header); it's off by default.
+ *  - Snap tag: opens the iPhone's own camera; the photo is swept and read for barcodes and
+ *    text (lib/plateSnapRead), then goes to the confirm panel.
  *
  * onSave({ model, serial, photo }) — photo is a JPEG Blob of the plate (or null).
  */
@@ -156,6 +176,11 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
   const photoPromiseRef = useRef(null);
   const barcodeRef = useRef(null);
   const verticalRef = useRef(false);
+  const liveTextRef = useRef(false);
+  const snapInputRef = useRef(null);
+  const snapWaitRef = useRef(false); // native camera is open; restart live view if they cancel
+  const snapRunRef = useRef(0); // bumps per photo so a stale read can't land
+  const ocrLoopRef = useRef(0); // only the newest live-text loop keeps running
   // Which way sideways text runs isn't known up front: try both until one reads well.
   const ocrTurnRef = useRef({ dir: -90, settled: false });
 
@@ -173,6 +198,8 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
   const [hint, setHint] = useState(null);
   const [vertical, setVertical] = useState(false);
   const scanStartRef = useRef(0);
+  const [liveText, setLiveText] = useState(false);
+  const [snap, setSnap] = useState(null); // { url, stage } while a Snap photo is shown
 
   const publish = useCallback((justLocked = []) => {
     const snap = trackerRef.current.snapshot();
@@ -224,6 +251,93 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
     barcodeRef.current?.close?.();
     barcodeRef.current = null;
   }, []);
+
+  // Text engine (Tesseract), loaded once and shared by live text and Snap tag.
+  // Resolves to the engine, or null if it failed to load.
+  const loadOcr = useCallback(async () => {
+    try {
+      if (!ocrPromiseRef.current) {
+        setOcrStatus((s) => ({ ...s, failed: false }));
+        ocrPromiseRef.current = createOcrEngine((p) => {
+          if (mountedRef.current) setOcrStatus((s) => ({ ...s, progress: p }));
+        });
+      }
+      const pending = ocrPromiseRef.current;
+      const engine = await pending;
+      // Unmounted (or replaced) while loading: the cleanup that dropped this promise
+      // closes the engine, so never adopt it here.
+      if (!mountedRef.current || ocrPromiseRef.current !== pending) return null;
+      ocrRef.current = engine;
+      setOcrStatus({ ready: true, progress: 1, failed: false });
+      return engine;
+    } catch {
+      ocrPromiseRef.current = null; // allow a retry next time
+      if (mountedRef.current) setOcrStatus({ ready: false, progress: 0, failed: true });
+      return null;
+    }
+  }, []);
+
+  // Live text reading (off by default: it is what heats the phone). Runs until the camera
+  // stops, the session changes, or LIVE TEXT is switched off.
+  const runOcrLoop = useCallback(async (session) => {
+    ocrLoopRef.current += 1;
+    const loop = ocrLoopRef.current;
+    const alive = () => runningRef.current && liveTextRef.current && ocrLoopRef.current === loop && sessionRef.current === session && mountedRef.current;
+    if (!(await loadOcr()) || !alive()) return;
+    while (alive()) {
+      const v = videoRef.current;
+      const box = boxRef.current;
+      const rect = v && box ? guideToVideoRect(v, box) : null;
+      const turn = ocrTurnRef.current;
+      const rotate = verticalRef.current ? turn.dir : 0;
+      // One grab at full camera resolution; the reading copy is shrunk from that same frame
+      // so label boxes found in it line up with the sharp original.
+      const full = rect && grabRegion(v, rect, canvasFullRef.current, { maxWidth: FULL_GRAB_MAX, rotate, readable: false });
+      const canvas = full && fitCanvas(full, canvasOcrRef.current, { maxWidth: rotate ? 1400 : 1000, enhance: true });
+      if (canvas) {
+        try {
+          const { text, confidence, words } = await ocrRef.current.read(canvas);
+          if (!alive()) return;
+          if (rotate && !turn.settled) {
+            // Upright text reads with real confidence; sideways text is noise. Keep the
+            // direction that reads well, otherwise flip and try the other way.
+            if (confidence >= 40 && /[A-Z0-9]{5,}/.test(text)) turn.settled = true;
+            else turn.dir = -turn.dir;
+          }
+          let snap = publish(trackerRef.current.addOcr(text));
+
+          // Second look (counts double toward a lock): small or spaced-out values (fridge S/N tags) misread in the full
+          // pass. Zoom on the line next to each still-open field's label and read just that.
+          const labels = findLabelWords(words);
+          for (const kind of ['model', 'serial']) {
+            if (snap.done || snap[kind].locked) continue;
+            for (const label of labels[kind].slice(0, 2)) {
+              const line = zoomLine(full, canvas, label.bbox, canvasLineRef.current);
+              if (!line) continue;
+              const r = await ocrRef.current.readLine(line);
+              if (!alive()) return;
+              if (r.confidence < 40) continue;
+              const before = snap[kind].value;
+              snap = publish(trackerRef.current.addOcr(`${kind === 'serial' ? 'S/N' : 'MODEL'} ${r.text}`, { weight: 2 }));
+              if (snap[kind].locked || snap[kind].value !== before) break;
+            }
+          }
+
+          // Coach the user when nothing has locked from a barcode after a few seconds.
+          const anyBarcode = snap.model.source === 'barcode' || snap.serial.source === 'barcode';
+          if (!anyBarcode && Date.now() - scanStartRef.current > 3500 && /\S{4,}/.test(text)) {
+            setHint(labels.model.length || labels.serial.length ? 'Reading the tag… hold steady' : 'Barcode? Move closer so it fills the box');
+          }
+          if (snap.done) {
+            setTimeout(() => alive() && goConfirm(), 650);
+            return;
+          }
+        } catch { /* keep scanning */ }
+      }
+      await new Promise((r) => setTimeout(r, OCR_EVERY_MS));
+    }
+  }, [loadOcr, publish, goConfirm]);
+
 
   // Start camera + engines.
   const start = useCallback(async () => {
@@ -331,6 +445,10 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
             }
           } catch { /* keep scanning */ }
         }
+        if (!liveTextRef.current && alive() && Date.now() - scanStartRef.current > 4000) {
+          const s = trackerRef.current.snapshot();
+          if (!s.model.value && !s.serial.value) setHint('No barcode? Tap Snap tag');
+        }
         // Pace by how long a pass took so the phone's main thread (and the text
         // reader) always gets breathing room on slower devices.
         const spent = performance.now() - began;
@@ -338,87 +456,18 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
       }
     }());
 
-    // OCR loop (slower), starts once the text engine has loaded.
-    (async function ocrLoop() {
-      try {
-        if (!ocrPromiseRef.current) {
-          ocrPromiseRef.current = createOcrEngine((p) => {
-            if (mountedRef.current) setOcrStatus((s) => ({ ...s, progress: p }));
-          });
-        }
-        const pending = ocrPromiseRef.current;
-        const engine = await pending;
-        // Unmounted (or replaced) while loading: the cleanup that dropped this promise
-        // closes the engine, so never adopt it here.
-        if (!mountedRef.current || ocrPromiseRef.current !== pending) return;
-        ocrRef.current = engine;
-        if (stale()) return;
-        setOcrStatus({ ready: true, progress: 1, failed: false });
-      } catch {
-        ocrPromiseRef.current = null; // allow a retry on the next scan
-        if (!stale()) setOcrStatus({ ready: false, progress: 0, failed: true });
-        return;
-      }
-      while (alive()) {
-        const v = videoRef.current;
-        const box = boxRef.current;
-        const rect = v && box ? guideToVideoRect(v, box) : null;
-        const turn = ocrTurnRef.current;
-        const rotate = verticalRef.current ? turn.dir : 0;
-        // One grab at full camera resolution; the reading copy is shrunk from that same frame
-        // so label boxes found in it line up with the sharp original.
-        const full = rect && grabRegion(v, rect, canvasFullRef.current, { maxWidth: FULL_GRAB_MAX, rotate, readable: false });
-        const canvas = full && fitCanvas(full, canvasOcrRef.current, { maxWidth: rotate ? 1400 : 1000, enhance: true });
-        if (canvas) {
-          try {
-            const { text, confidence, words } = await ocrRef.current.read(canvas);
-            if (!alive()) return;
-            if (rotate && !turn.settled) {
-              // Upright text reads with real confidence; sideways text is noise. Keep the
-              // direction that reads well, otherwise flip and try the other way.
-              if (confidence >= 40 && /[A-Z0-9]{5,}/.test(text)) turn.settled = true;
-              else turn.dir = -turn.dir;
-            }
-            let snap = publish(trackerRef.current.addOcr(text));
-
-            // Second look (counts double toward a lock): small or spaced-out values (fridge S/N tags) misread in the full
-            // pass. Zoom on the line next to each still-open field's label and read just that.
-            const labels = findLabelWords(words);
-            for (const kind of ['model', 'serial']) {
-              if (snap.done || snap[kind].locked) continue;
-              for (const label of labels[kind].slice(0, 2)) {
-                const line = zoomLine(full, canvas, label.bbox, canvasLineRef.current);
-                if (!line) continue;
-                const r = await ocrRef.current.readLine(line);
-                if (!alive()) return;
-                if (r.confidence < 40) continue;
-                const before = snap[kind].value;
-                snap = publish(trackerRef.current.addOcr(`${kind === 'serial' ? 'S/N' : 'MODEL'} ${r.text}`, { weight: 2 }));
-                if (snap[kind].locked || snap[kind].value !== before) break;
-              }
-            }
-
-            // Coach the user when nothing has locked from a barcode after a few seconds.
-            const anyBarcode = snap.model.source === 'barcode' || snap.serial.source === 'barcode';
-            if (!anyBarcode && Date.now() - scanStartRef.current > 3500 && /\S{4,}/.test(text)) {
-              setHint(labels.model.length || labels.serial.length ? 'Reading the tag… hold steady' : 'Barcode? Move closer so it fills the box');
-            }
-            if (snap.done) {
-              setTimeout(() => alive() && goConfirm(), 650);
-              return;
-            }
-          } catch { /* keep scanning */ }
-        }
-        await new Promise((r) => setTimeout(r, OCR_EVERY_MS));
-      }
-    }());
-  }, [make, publish, goConfirm]);
+    // Live text reading (if switched on) runs beside the barcode loop.
+    if (liveTextRef.current) runOcrLoop(session);
+  }, [make, publish, goConfirm, runOcrLoop]);
 
   useEffect(() => {
     if (!open) return undefined;
     setPhoto(null);
     photoPromiseRef.current = null;
-    verticalRef.current = readVerticalPref();
+    verticalRef.current = readPref(VERTICAL_KEY);
+    liveTextRef.current = readPref(LIVE_TEXT_KEY);
+    setLiveText(liveTextRef.current);
+    setSnap(null);
     setVertical(verticalRef.current);
     setDraft({ model: initialModel, serial: initialSerial });
     start();
@@ -459,7 +508,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
     const next = !verticalRef.current;
     verticalRef.current = next;
     setVertical(next);
-    try { window.localStorage.setItem(VERTICAL_KEY, next ? '1' : '0'); } catch { /* private mode */ }
+    writePref(VERTICAL_KEY, next);
     // Reads from the old orientation are noise now: start the fields over.
     if (trackerRef.current) {
       trackerRef.current = new PlateReadTracker({ make });
@@ -471,12 +520,136 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
     }
   };
 
+  const toggleLiveText = () => {
+    const next = !liveTextRef.current;
+    liveTextRef.current = next;
+    setLiveText(next);
+    writePref(LIVE_TEXT_KEY, next);
+    setHint(null);
+    if (next && runningRef.current) runOcrLoop(sessionRef.current);
+  };
+
+  // Snap tag: hand off to the iPhone's own camera. No camera permission is involved (to the
+  // browser it's a photo upload), and the photo is far sharper than a live video frame.
+  const openSnap = () => {
+    const input = snapInputRef.current;
+    if (!input) return;
+    snapRunRef.current += 1;
+    stopCamera(); // the iPhone camera takes the camera over anyway; this also cools things off
+    setSnap(null);
+    snapWaitRef.current = true;
+    loadOcr(); // warm up the text reader while the photo is being taken
+    input.value = '';
+    input.click();
+  };
+
+  const onSnapFile = async (e) => {
+    const file = e.target.files?.[0];
+    snapWaitRef.current = false;
+    if (!file) {
+      start();
+      return;
+    }
+    stopCamera(); // a cancel fallback may have restarted the live view meanwhile
+    snapRunRef.current += 1;
+    const run = snapRunRef.current;
+    const live = () => run === snapRunRef.current && mountedRef.current;
+    // Fields the live view already locked from a barcode carry over (they're exact).
+    const prior = trackerRef.current?.snapshot();
+    const seed = prior ? ['model', 'serial'].filter((k) => prior[k].locked && prior[k].source === 'barcode').map((k) => `${k === 'model' ? 'MODEL' : 'SN'} ${prior[k].value}`) : [];
+    setSnap({ url: URL.createObjectURL(file), stage: 'loading' });
+    setPhase('reading');
+    setHint(null);
+    setHits([]);
+    setPhoto(null);
+    trackerRef.current = new PlateReadTracker({ make });
+    setFields(trackerRef.current.snapshot());
+    let barcode = null;
+    try {
+      const picture = await loadPhoto(file);
+      if (!live()) return;
+      photoPromiseRef.current = photoBlob(picture).then((b) => {
+        if (b && live()) setPhoto(b);
+        return b;
+      });
+      barcode = await createBarcodeEngine();
+      if (!ocrRef.current) setSnap((s) => s && { ...s, stage: 'engine' });
+      const ocr = await loadOcr();
+      if (!live()) return;
+      const { tracker } = await readSnap(picture, {
+        barcode,
+        ocr,
+        make,
+        vertical: verticalRef.current,
+        seed,
+        onStage: (stage) => live() && setSnap((s) => s && { ...s, stage }),
+        onUpdate: (snapshot) => live() && setFields(snapshot),
+        cancelled: () => !live(),
+      });
+      if (!live()) return;
+      trackerRef.current = tracker;
+      const result = tracker.snapshot();
+      setFields(result);
+      setDraft({
+        model: result.model.value || initialModel || '',
+        serial: result.serial.value || initialSerial || '',
+      });
+      if (result.model.value || result.serial.value) {
+        setFlash((n) => n + 1);
+        try { navigator.vibrate?.(35); } catch { /* not supported */ }
+      }
+      setPhase('confirm');
+    } catch (err) {
+      if (!live()) return;
+      setError({ title: 'Couldn’t read that photo', detail: err?.message || 'Try another photo, or type the numbers in.' });
+      setPhase('error');
+    } finally {
+      barcode?.close?.();
+    }
+  };
+
+  // Cancelled out of the iPhone camera: bring the live view back. Safari fires "cancel" on
+  // the input; older versions don't, so returning to the page without a photo counts too.
+  useEffect(() => {
+    if (!open) return undefined;
+    const input = snapInputRef.current;
+    const resume = () => {
+      if (!snapWaitRef.current || !mountedRef.current) return;
+      snapWaitRef.current = false;
+      start();
+    };
+    let timer = null;
+    const later = () => {
+      clearTimeout(timer);
+      timer = setTimeout(resume, 3000); // fallback only; "change" lands well before this when a photo was taken
+    };
+    const onVisible = () => document.visibilityState === 'visible' && later();
+    input?.addEventListener('cancel', resume);
+    window.addEventListener('focus', later);
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      clearTimeout(timer);
+      input?.removeEventListener('cancel', resume);
+      window.removeEventListener('focus', later);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, [open, start]);
+
+  // Free the Snap photo when it's replaced or the scanner closes.
+  useEffect(() => () => {
+    if (snap?.url) URL.revokeObjectURL(snap.url);
+  }, [snap?.url]);
+
   const rescan = () => {
+    snapRunRef.current += 1;
+    setSnap(null);
     stopCamera();
     start();
   };
 
   const close = () => {
+    snapRunRef.current += 1;
+    snapWaitRef.current = false;
     stopCamera();
     onClose?.();
   };
@@ -548,6 +721,15 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
         className="ps-boot"
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: phase === 'confirm' ? 'blur(6px) brightness(0.45)' : 'none', transition: 'filter .3s' }}
       />
+      {/* Snap tag photo, shown while it's read and behind the confirm panel */}
+      {snap ? (
+        <img
+          src={snap.url}
+          alt="Photo of the tag"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', background: '#020509', filter: phase === 'confirm' ? 'blur(6px) brightness(0.45)' : 'brightness(0.85)', transition: 'filter .3s' }}
+        />
+      ) : null}
+      <input ref={snapInputRef} type="file" accept="image/*" capture="environment" onChange={onSnapFile} style={{ display: 'none' }} tabIndex={-1} aria-hidden="true" />
       <canvas ref={canvasBarRef} style={{ display: 'none' }} />
       <canvas ref={canvasOcrRef} style={{ display: 'none' }} />
       <canvas ref={canvasFullRef} style={{ display: 'none' }} />
@@ -558,18 +740,30 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
         <div>
           <div style={{ fontFamily: MONO, fontSize: 11, fontWeight: 800, letterSpacing: '0.22em', color: '#67E8F9', display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ width: 7, height: 7, borderRadius: 4, background: scanning ? '#F87171' : '#64748B', boxShadow: scanning ? '0 0 8px #F87171' : 'none' }} className={scanning ? 'ps-blink' : ''} />
-            PLATE SCAN {scanning ? '// LIVE' : ''}
+            PLATE SCAN {scanning ? '// LIVE' : phase === 'reading' ? '// PHOTO' : ''}
           </div>
-          <div style={{ marginTop: 4, fontFamily: MONO, fontSize: 9, letterSpacing: '0.14em', color: '#5B7083' }}>
-            BARCODE <span style={{ color: barcodeKind ? '#34D399' : '#64748B' }}>●</span>
-            {'  '}TEXT{' '}
-            {ocrStatus.failed ? (
-              <span style={{ color: '#F87171' }}>OFF</span>
-            ) : ocrStatus.ready ? (
-              <span style={{ color: '#34D399' }}>●</span>
-            ) : (
-              <span style={{ color: '#FBBF24', animation: 'ps-pulse 1s infinite', willChange: 'opacity' }}>{ocrStatus.progress > 0.02 ? `${Math.round(ocrStatus.progress * 100)}%` : '…'}</span>
-            )}
+          <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', gap: 6, fontFamily: MONO, fontSize: 9, letterSpacing: '0.14em', color: '#5B7083' }}>
+            <span>BARCODE <span style={{ color: barcodeKind ? '#34D399' : '#64748B' }}>●</span></span>
+            {/* Live text on/off. Off by default; Snap tag reads text from a photo instead. */}
+            <button
+              type="button"
+              className="ps-btn"
+              aria-pressed={liveText}
+              aria-label="Live text reading"
+              onClick={toggleLiveText}
+              style={{ margin: '-8px 0', padding: '8px 8px', borderRadius: 7, fontFamily: MONO, fontSize: 9, letterSpacing: '0.14em', border: `1px solid ${liveText ? 'rgba(103,232,249,0.6)' : 'rgba(148,163,184,0.25)'}`, background: liveText ? 'rgba(34,211,238,0.12)' : 'transparent', color: liveText ? '#A5F3FC' : '#5B7083' }}
+            >
+              LIVE TEXT{' '}
+              {!liveText ? (
+                <span style={{ color: '#64748B' }}>OFF</span>
+              ) : ocrStatus.failed ? (
+                <span style={{ color: '#F87171' }}>FAILED</span>
+              ) : ocrStatus.ready ? (
+                <span style={{ color: '#34D399' }}>●</span>
+              ) : (
+                <span style={{ color: '#FBBF24', animation: 'ps-pulse 1s infinite', willChange: 'opacity' }}>{ocrStatus.progress > 0.02 ? `${Math.round(ocrStatus.progress * 100)}%` : '…'}</span>
+              )}
+            </button>
           </div>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
@@ -601,7 +795,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
           borderRadius: 14,
           transition: 'opacity .25s',
           boxShadow: '0 0 0 100vmax rgba(2,6,12,0.62)',
-          opacity: phase === 'confirm' ? 0 : 1,
+          opacity: phase === 'confirm' || phase === 'reading' ? 0 : 1,
         }}
       >
         {/* faint HUD grid */}
@@ -675,11 +869,11 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
       </div>
 
       {/* Readouts + controls */}
-      {phase !== 'confirm' && phase !== 'error' ? (
+      {phase !== 'confirm' && phase !== 'error' && phase !== 'reading' ? (
         <div className="ps-panel">
           <Readout label="MODEL" field={fields.model} />
           <Readout label="SERIAL" field={fields.serial} />
-          <div style={{ display: 'grid', gridTemplateColumns: torch.supported ? '44px 1fr 1fr' : '1fr 1fr', gap: 8, marginTop: 6 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: torch.supported ? '44px 1fr 1.15fr 1.15fr' : '1fr 1.15fr 1.15fr', gap: 8, marginTop: 6 }}>
             {torch.supported ? (
               <button type="button" className="ps-btn" aria-label={torch.on ? 'Turn light off' : 'Turn light on'} aria-pressed={torch.on} onClick={toggleTorch} style={{ height: 48, borderRadius: 12, display: 'grid', placeItems: 'center', border: '1px solid rgba(251,191,36,0.5)', background: torch.on ? '#FBBF24' : 'rgba(13,22,38,0.85)', color: torch.on ? '#1A1000' : '#FBBF24' }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 2h6l-1 7h4l-8 13 2-9H8z" /></svg>
@@ -688,11 +882,40 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
             <button type="button" className="ps-btn" onClick={goConfirm} style={{ height: 48, borderRadius: 12, border: '1px solid rgba(255,255,255,0.16)', background: 'rgba(13,22,38,0.85)', color: '#CBD5E1', fontSize: 13, fontWeight: 600 }}>
               Type it
             </button>
+            <button type="button" className="ps-btn" onClick={openSnap} style={{ height: 48, borderRadius: 12, fontSize: 13, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all .25s', ...(anyValue ? { border: '1px solid rgba(103,232,249,0.45)', background: 'rgba(13,22,38,0.85)', color: '#A5F3FC' } : laserTileStyle('cyan')) }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>
+              Snap tag
+            </button>
             <button type="button" className="ps-btn" disabled={!anyValue} onClick={goConfirm} style={{ height: 48, borderRadius: 12, fontSize: 13, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all .25s', ...laserTileStyle(anyValue ? 'cyan' : 'off') }}>
               <LaserIcon name="scan" size={16} strokeWidth={2.1} /> Use these
             </button>
           </div>
         </div>
+      ) : null}
+
+      {/* Reading a Snap photo: the scan bar sweeps the photo while the readers run */}
+      {phase === 'reading' && snap ? (
+        <>
+          <div aria-hidden="true" style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+            <div className="ps-sweep" style={{ position: 'absolute', inset: 0 }}>
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: '100%', height: 90, background: 'linear-gradient(180deg, rgba(34,211,238,0) 0%, rgba(34,211,238,0.10) 60%, rgba(103,232,249,0.32) 100%)' }} />
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 90, background: 'linear-gradient(0deg, rgba(34,211,238,0) 0%, rgba(34,211,238,0.10) 60%, rgba(103,232,249,0.32) 100%)' }} />
+              <div style={{ position: 'absolute', left: -4, right: -4, top: -1.5, height: 3, borderRadius: 2, background: 'linear-gradient(90deg, rgba(240,255,255,0), #F0FFFF 12%, #FFFFFF 50%, #F0FFFF 88%, rgba(240,255,255,0))', boxShadow: '0 0 8px #A5F3FC, 0 0 18px #22D3EE, 0 0 36px #22D3EE' }} />
+            </div>
+          </div>
+          {flash ? <span key={flash} aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'rgba(110,231,183,0.25)', animation: 'ps-flash .45s ease-out both', pointerEvents: 'none' }} /> : null}
+          <div className="ps-panel">
+            <div style={{ textAlign: 'center', fontFamily: MONO, fontSize: 10, letterSpacing: '0.18em', color: '#8FB3C4', marginBottom: 4 }} className="ps-blink">
+              {SNAP_STAGES[snap.stage] || 'READING'}
+              {snap.stage === 'engine' && ocrStatus.progress > 0.02 && ocrStatus.progress < 1 ? ` ${Math.round(ocrStatus.progress * 100)}%` : '…'}
+            </div>
+            <Readout label="MODEL" field={fields.model} />
+            <Readout label="SERIAL" field={fields.serial} />
+            <button type="button" className="ps-btn" onClick={rescan} style={{ height: 48, marginTop: 6, borderRadius: 12, border: '1px solid rgba(255,255,255,0.16)', background: 'rgba(13,22,38,0.85)', color: '#CBD5E1', fontSize: 13, fontWeight: 600 }}>
+              Cancel
+            </button>
+          </div>
+        </>
       ) : null}
 
       {/* Error state */}
@@ -703,7 +926,9 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
           <div style={{ marginTop: 4, fontSize: 13, color: '#94A3B8' }}>{error.detail}</div>
           <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
             <button type="button" className="ps-btn" onClick={rescan} style={{ flex: 1, height: 46, borderRadius: 12, border: '1px solid rgba(255,255,255,0.16)', background: 'transparent', color: '#CBD5E1', fontWeight: 600 }}>Try again</button>
-            <button type="button" className="ps-btn" onClick={() => setPhase('confirm')} style={{ flex: 1, height: 46, borderRadius: 12, fontWeight: 800, ...laserTileStyle('cyan') }}>Type it</button>
+            {/* Snap tag never asks for camera permission, so it works even when the live camera can't. */}
+            <button type="button" className="ps-btn" onClick={openSnap} style={{ flex: 1, height: 46, borderRadius: 12, fontWeight: 800, ...laserTileStyle('cyan') }}>Snap tag</button>
+            <button type="button" className="ps-btn" onClick={() => setPhase('confirm')} style={{ flex: 1, height: 46, borderRadius: 12, border: '1px solid rgba(255,255,255,0.16)', background: 'transparent', color: '#CBD5E1', fontWeight: 600 }}>Type it</button>
           </div>
         </div>
       ) : null}
@@ -743,8 +968,9 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
             </label>
           ))}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 8, marginTop: 16 }}>
-            <button type="button" className="ps-btn" onClick={rescan} style={{ height: 48, borderRadius: 12, border: '1px solid rgba(255,255,255,0.16)', background: 'transparent', color: '#CBD5E1', fontWeight: 600 }}>
-              Rescan
+            {/* After a Snap, Retake opens the camera again; backing out of it returns to the live view. */}
+            <button type="button" className="ps-btn" onClick={snap ? openSnap : rescan} style={{ height: 48, borderRadius: 12, border: '1px solid rgba(255,255,255,0.16)', background: 'transparent', color: '#CBD5E1', fontWeight: 600 }}>
+              {snap ? 'Retake' : 'Rescan'}
             </button>
             <button type="button" className="ps-btn" disabled={saving || (!draft.model.trim() && !draft.serial.trim())} onClick={save} style={{ height: 48, borderRadius: 12, fontSize: 13, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', ...laserTileStyle(saving || (!draft.model.trim() && !draft.serial.trim()) ? 'off' : 'cyan') }}>
               {saving ? 'Saving…' : 'Save to job'}
