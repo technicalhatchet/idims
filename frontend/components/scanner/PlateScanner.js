@@ -381,7 +381,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
             }
             let snap = publish(trackerRef.current.addOcr(text));
 
-            // Second look: small or spaced-out values (fridge S/N tags) misread in the full
+            // Second look (counts double toward a lock): small or spaced-out values (fridge S/N tags) misread in the full
             // pass. Zoom on the line next to each still-open field's label and read just that.
             const labels = findLabelWords(words);
             for (const kind of ['model', 'serial']) {
@@ -393,7 +393,7 @@ export default function PlateScanner({ open, onClose, onSave, make = '', initial
                 if (!alive()) return;
                 if (r.confidence < 40) continue;
                 const before = snap[kind].value;
-                snap = publish(trackerRef.current.addOcr(`${kind === 'serial' ? 'S/N' : 'MODEL'} ${r.text}`));
+                snap = publish(trackerRef.current.addOcr(`${kind === 'serial' ? 'S/N' : 'MODEL'} ${r.text}`, { weight: 2 }));
                 if (snap[kind].locked || snap[kind].value !== before) break;
               }
             }
