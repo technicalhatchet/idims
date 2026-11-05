@@ -1,30 +1,15 @@
 import { useRouter } from 'next/router';
 import {
-  LASER_BAR_BUTTON_TOP,
   LASER_BAR_HEIGHT_CSS,
   LaserBarStyles,
-  LaserFin,
-  LaserIcon,
-  LaserSeam,
-  laserTileStyle,
   usePressThenRun,
 } from './LaserBarParts';
-
-const ICON_TILE = {
-  height: 44,
-  borderRadius: 12,
-  display: 'grid',
-  placeItems: 'center',
-  border: '1px solid rgba(34, 211, 238, 0.4)',
-  background: 'rgba(13, 22, 38, 0.9)',
-  color: '#8FE6F3',
-  touchAction: 'manipulation',
-};
+import LaserFillBar from './LaserFillBar';
 
 /**
  * The standard TechDeck mobile bottom bar (laser fin), for pages without a custom bar.
  *   Back only:            [ ← BACK ]
- *   With a main action:   [←] [ PRIMARY ] [secondary?]
+ *   With a main action:   [ BACK / PRIMARY / secondary? ] as slices filling the fin
  *
  * primary / secondary: { label, icon, tone?, href?, onPress?, disabled? }
  */
@@ -46,8 +31,33 @@ export default function LaserNavDock({ fallbackHref = '/techboard', primary = nu
     else action.onPress?.();
   };
 
-  const backOnly = !primary;
-  const columns = backOnly ? 'minmax(0, 1fr)' : secondary ? '44px minmax(0, 1fr) 44px' : '44px minmax(0, 1fr)';
+  const slices = [
+    { key: 'back', role: 'back', icon: 'back', label: 'Back', ariaLabel: 'Back', onPress: goBack },
+  ];
+  if (primary) {
+    slices.push({
+      key: 'primary',
+      role: 'primary',
+      tone: primary.disabled ? 'off' : primary.tone || 'cyan',
+      icon: primary.icon || 'plus',
+      label: primary.label,
+      disabled: primary.disabled,
+      pressed: pressedKey === 'primary',
+      onPress: () => press('primary', () => run(primary)),
+    });
+    if (secondary) {
+      slices.push({
+        key: 'secondary',
+        role: 'side',
+        tone: 'cyan',
+        icon: secondary.icon,
+        label: secondary.label,
+        disabled: secondary.disabled,
+        onPress: () => run(secondary),
+      });
+    }
+  }
+  const dividers = !primary ? [] : secondary ? [0.25, 0.75] : [0.27];
 
   return (
     <div
@@ -57,82 +67,7 @@ export default function LaserNavDock({ fallbackHref = '/techboard', primary = nu
     >
       <LaserBarStyles />
       <nav aria-label="Page actions" style={{ position: 'absolute', inset: 0 }}>
-        <LaserFin idPrefix={idPrefix} />
-        <div
-          style={{
-            position: 'absolute',
-            top: LASER_BAR_BUTTON_TOP,
-            left: 'max(12px, 11%)',
-            right: 'max(12px, 11%)',
-            height: 44,
-            display: 'grid',
-            gridTemplateColumns: columns,
-            gap: 8,
-            justifyItems: backOnly ? 'center' : 'stretch',
-          }}
-        >
-          <button
-            type="button"
-            className="lb-tile"
-            onClick={goBack}
-            aria-label="Back"
-            style={{
-              ...ICON_TILE,
-              border: '1px solid rgba(255, 255, 255, 0.16)',
-              color: '#B8C7D6',
-              ...(backOnly
-                ? { width: 'min(100%, 220px)', display: 'flex', gap: 8, alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em' }
-                : {}),
-            }}
-          >
-            <LaserIcon name="back" strokeWidth={2} />
-            {backOnly ? 'BACK' : null}
-          </button>
-
-          {primary ? (
-            <button
-              type="button"
-              className="lb-tile"
-              disabled={primary.disabled}
-              onClick={() => press('primary', () => run(primary))}
-              style={{
-                position: 'relative',
-                overflow: 'hidden',
-                height: 44,
-                borderRadius: 12,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 7,
-                fontSize: 12,
-                fontWeight: 700,
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                whiteSpace: 'nowrap',
-                touchAction: 'manipulation',
-                transition: 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s',
-                ...laserTileStyle(primary.disabled ? 'off' : primary.tone || 'cyan', { pressed: pressedKey === 'primary' }),
-              }}
-            >
-              <LaserIcon name={primary.icon || 'plus'} size={16} strokeWidth={2.1} />
-              {primary.label}
-              {pressedKey === 'primary' ? <LaserSeam tone={primary.tone || 'cyan'} /> : null}
-            </button>
-          ) : null}
-
-          {primary && secondary ? (
-            <button
-              type="button"
-              className="lb-tile"
-              aria-label={secondary.label}
-              disabled={secondary.disabled}
-              onClick={() => run(secondary)}
-              style={{ ...ICON_TILE, opacity: secondary.disabled ? 0.45 : 1 }}
-            >
-              <LaserIcon name={secondary.icon} />
-            </button>
-          ) : null}
-        </div>
+        <LaserFillBar idPrefix={idPrefix} slices={slices} dividers={dividers} />
       </nav>
     </div>
   );
