@@ -19,6 +19,7 @@ from app.services.diagnostic_booking_service import (
     estimate_trip_charge,
     is_address_serviceable,
 )
+from app.utils.status_helpers import CANCELED_STATUSES
 from app.utils.us_phone import normalize_phone_field
 
 ALLOWED_PROPERTY_TYPES = frozenset({"residential", "rental", "commercial"})
@@ -253,7 +254,7 @@ def serialize_portal_property_list_item(
         .order_by(WorkOrder.created_at.desc())
         .all()
     )
-    terminal = frozenset({"completed", "cancelled", "closed"})
+    terminal = frozenset({"completed", "closed"}) | CANCELED_STATUSES
     active_wo = [w for w in work_orders_list if _work_order_status(w) not in terminal]
     if warranty_is_active:
         warranty_active = any(warranty_is_active(w, db, now) for w in work_orders_list)

@@ -33,7 +33,7 @@ COMPANY = {
     "address1": "641 Barclay Drive",
     "address2": "Toledo, OH 43609",
     "phone": "(419) 740-0146",
-    "email": "service@atomicrepair.com",
+    "email": "service@atomicrepair419.com",
 }
 
 PART_STATUS_LABELS = {

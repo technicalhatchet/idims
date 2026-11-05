@@ -55,6 +55,7 @@ class WorkOrder(Base):
     symptoms = Column(JSONB, nullable=True)  # List of reported symptoms
     service_tier = Column(String(20), nullable=True)  # standard | priority | emergency
     portal_scheduling_meta = Column(JSONB, nullable=True)
+    pay_token = Column(String(64), unique=True, nullable=True)  # public pay link /pay/{token}
     
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)

@@ -55,6 +55,7 @@ from app.schemas.client_appliance import (
 from app.services import client_appliance_service as appliance_svc
 from app.services import portal_schedule_service as schedule_svc
 from app.core.exceptions import ValidationException
+from app.utils.status_helpers import is_canceled_status
 from app.services.portal_account_linking import (
     EMAIL_VERIFICATION_REQUIRED_MESSAGE,
     STAFF_PORTAL_ACCOUNT_FORBIDDEN,
@@ -1542,7 +1543,10 @@ async def get_portal_profile(
         db.query(WorkOrder), scope
     ).all()
 
-    active = [w for w in work_orders_list if _work_order_status(w) not in ("completed", "cancelled", "closed")]
+    active = [
+        w for w in work_orders_list
+        if _work_order_status(w) not in ("completed", "closed") and not is_canceled_status(_work_order_status(w))
+    ]
     warranty_active_count = sum(1 for w in work_orders_list if _warranty_is_active(w, db, now))
 
     upcoming_appts = (

@@ -19,6 +19,7 @@ from app.services.work_order_completion_service import try_auto_complete_after_p
 from app.models.work_order_payment import WorkOrderPayment
 from app.models.user import User
 from app.schemas.work_order_payment import RecordWorkOrderPaymentRequest
+from app.utils.status_helpers import is_canceled_status
 
 logger = logging.getLogger(__name__)
 
@@ -340,18 +341,13 @@ async def record_portal_invoice_square_payment(
     if not work_order:
         raise ValueError("Work order not found")
 
-    status_val = (
-        work_order.status.value
-        if hasattr(work_order.status, "value")
-        else str(work_order.status or "")
-    ).lower()
-    if status_val == "cancelled":
+    if is_canceled_status(work_order.status):
         raise ValidationException("This invoice cannot be paid online.")
 
     recorder_id = work_order.updated_by or work_order.created_by
     if not recorder_id:
         raise ValidationException(
-            "Online payment is temporarily unavailable. Please call (419) 794-1689."
+            "Online payment is temporarily unavailable. Please call (419) 740-0146."
         )
 
     from app.services.work_order_billing_helpers import compute_tax_on_billable_parts_due
@@ -423,12 +419,7 @@ async def record_portal_bulk_square_payment(
 
     payable: List[Tuple[WorkOrder, float, float]] = []
     for work_order in work_orders:
-        status_val = (
-            work_order.status.value
-            if hasattr(work_order.status, "value")
-            else str(work_order.status or "")
-        ).lower()
-        if status_val == "cancelled":
+        if is_canceled_status(work_order.status):
             continue
         balance = float(compute_balance_due(work_order))
         if balance < 1.0:
@@ -466,7 +457,7 @@ async def record_portal_bulk_square_payment(
         recorder_id = work_order.updated_by or work_order.created_by
         if not recorder_id:
             raise ValidationException(
-                "Online payment is temporarily unavailable. Please call (419) 794-1689."
+                "Online payment is temporarily unavailable. Please call (419) 740-0146."
             )
         subtotal = max(0.0, float(amount) - float(tax_amount or 0))
         payment = WorkOrderPayment(

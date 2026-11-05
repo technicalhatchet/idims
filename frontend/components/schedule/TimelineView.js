@@ -236,6 +236,7 @@ const TimelineView = ({ appointments, date, onEventClick, viewType, isLoading, s
         return '#22c55e'; // green-500
       case 'in_progress':
         return '#3b82f6'; // blue-500
+      case 'canceled':
       case 'cancelled':
         return '#ef4444'; // red-500
       case 'on_hold':
@@ -382,6 +383,7 @@ const renderEventContent = (eventInfo) => {
         return '✅';
       case 'in_progress':
         return '🔧';
+      case 'canceled':
       case 'cancelled':
         return '❌';
       case 'on_hold':
@@ -518,6 +520,7 @@ const EventTooltipContent = ({ extendedProps }) => {
         return '✅';
       case 'in_progress':
         return '🔧';
+      case 'canceled':
       case 'cancelled':
         return '❌';
       case 'on_hold':

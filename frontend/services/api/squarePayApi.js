@@ -7,12 +7,14 @@
  *
  *   NEXT_PUBLIC_SQUARE_PAY_LINKS_ENABLED=true   → QR, text link, copy link, email invoice (plan §4–5)
  *   NEXT_PUBLIC_SQUARE_TAP_TO_PAY_ENABLED=true  → Tap to Pay hand-off to the Square app (plan §6)
+ *   NEXT_PUBLIC_SQUARE_EMAIL_INVOICE_ENABLED=true → "Email invoice" tile (needs its backend first)
  */
 import { apiClient } from '../../utils/api-client';
 
 export const SQUARE_PAY_FEATURES = {
   payLinks: process.env.NEXT_PUBLIC_SQUARE_PAY_LINKS_ENABLED === 'true',
   tapToPay: process.env.NEXT_PUBLIC_SQUARE_TAP_TO_PAY_ENABLED === 'true',
+  emailInvoice: process.env.NEXT_PUBLIC_SQUARE_EMAIL_INVOICE_ENABLED === 'true',
 };
 
 /**

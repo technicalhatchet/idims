@@ -64,10 +64,10 @@ export const SQUARE_CARD_STYLE_ON_DARK_PAGE = {
   },
 };
 
-/** Optional true-dark attempt — only used when preferDarkCardFields is set. */
+/** Dark fields + light text — used when preferDarkCardFields is set (shell goes dark too). */
 export const SQUARE_CARD_STYLE_DARK = {
   '.input-container': {
-    borderColor: '#2d4a52',
+    borderColor: '#1F3A44',
     borderRadius: '8px',
   },
   '.input-container.is-focus': {
@@ -83,17 +83,17 @@ export const SQUARE_CARD_STYLE_DARK = {
     color: '#9ca3af',
   },
   input: {
-    backgroundColor: '#2d2d2d',
-    color: '#ffffff',
+    backgroundColor: '#080C14',
+    color: '#F3F4F6',
     fontSize: '16px',
   },
   'input.is-focus': {
-    backgroundColor: '#2d2d2d',
-    color: '#ffffff',
+    backgroundColor: '#080C14',
+    color: '#FFFFFF',
     fontSize: '16px',
   },
   'input::placeholder': {
-    color: '#9ca3af',
+    color: '#6B7280',
   },
   'input.is-error': {
     color: '#f87171',
