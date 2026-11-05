@@ -70,7 +70,7 @@ const PortalSquarePayment = forwardRef(function PortalSquarePayment(
     disabled = false,
     /** 'dark' = dark page chrome with readable light card fields; 'light' = light page */
     theme = 'dark',
-    /** When true, attempt Square’s true dark inputs (#2d2d2d). Default false — more reliable contrast. */
+    /** When true: dark shell + dark card fields with light text. Default false (light fields). */
     preferDarkCardFields = false,
   },
   ref,
@@ -92,8 +92,13 @@ const PortalSquarePayment = forwardRef(function PortalSquarePayment(
     if (preferDarkCardFields) return SQUARE_CARD_STYLE_DARK;
     return SQUARE_CARD_STYLE_ON_DARK_PAGE;
   })();
-  const shellBg = theme === 'light' ? '#ffffff' : '#f3f4f6';
-  const shellBorder = theme === 'light' ? '1px solid #e5e7eb' : '1px solid #9ca3af';
+  const darkFields = theme !== 'light' && preferDarkCardFields;
+  const shellBg = theme === 'light' ? '#ffffff' : darkFields ? '#080C14' : '#f3f4f6';
+  const shellBorder = theme === 'light'
+    ? '1px solid #e5e7eb'
+    : darkFields
+      ? '1px solid #1F3A44'
+      : '1px solid #9ca3af';
 
   useEffect(() => {
     onErrorRef.current = onError;

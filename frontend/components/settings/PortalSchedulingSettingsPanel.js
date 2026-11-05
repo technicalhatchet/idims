@@ -366,6 +366,16 @@ export default function PortalSchedulingSettingsPanel() {
             </select>
           </div>
         </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-4 border-t border-white/5">
+          <NumberField
+            label="Pay link: days to show a paid invoice"
+            hint="After a job is paid in full, its pay link shows the invoice for this many days, then only “Paid — thank you.” 0 hides details as soon as it's paid."
+            min={0}
+            max={365}
+            value={settings.payment.pay_link_paid_visible_days ?? 7}
+            onChange={(v) => patch('payment.pay_link_paid_visible_days', Number.isFinite(v) ? Math.max(0, Math.min(365, Math.round(v))) : 7)}
+          />
+        </div>
       </section>
       </div>
       </SettingsAccordion>

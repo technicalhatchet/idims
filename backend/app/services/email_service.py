@@ -175,7 +175,7 @@ class EmailService:
           <h2 style="color:#fff;margin:0 0 1rem;">Your Atomic Repair Invoice</h2>
           <p style="color:#9ca3af;">Hi {safe_name},</p>
           <p style="color:#9ca3af;">Attached is invoice <strong style="color:#22d3ee;">#{order_number}</strong> for your recent service.</p>
-          <p style="color:#6b7280;font-size:0.875rem;">Questions? Reply to this email or call (419) 794-1689.</p>
+          <p style="color:#6b7280;font-size:0.875rem;">Questions? Reply to this email or call (419) 740-0146.</p>
           <p style="color:#6b7280;font-size:0.75rem;margin-top:1.5rem;">Thank you for choosing Atomic Repair.</p>
         </div>
         """
@@ -209,7 +209,7 @@ class EmailService:
           <h2 style="color:#fff;margin:0 0 1rem;">Your Atomic Repair {doc_label}</h2>
           <p style="color:#9ca3af;">Hi {safe_name},</p>
           <p style="color:#9ca3af;">Attached is {doc_lower} <strong style="color:#22d3ee;">#{order_number}</strong> for your recent service.</p>
-          <p style="color:#6b7280;font-size:0.875rem;">Questions? Reply to this email or call (419) 794-1689.</p>
+          <p style="color:#6b7280;font-size:0.875rem;">Questions? Reply to this email or call (419) 740-0146.</p>
           <p style="color:#6b7280;font-size:0.75rem;margin-top:1.5rem;">Thank you for choosing Atomic Repair.</p>
         </div>
         """

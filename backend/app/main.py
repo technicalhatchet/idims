@@ -764,6 +764,9 @@ app.include_router(
 )
 from app.routers import client_portal
 app.include_router(client_portal.router, prefix="/api", tags=["client-portal"])
+from app.routers import pay_links
+app.include_router(pay_links.public_router, prefix="/api/public/pay", tags=["pay-links"])
+app.include_router(pay_links.staff_router, prefix="/api/work-orders", tags=["pay-links"])
 # Mock endpoints for clients, technicians, and services
 # NOTE: These mock endpoints have been replaced with real database-backed endpoints in the router files.
 # The include_router() calls above now handle these endpoints.

@@ -152,7 +152,7 @@ export default function WorkOrderPaySheet({
         <MobileActionSheetGridTile
           label={publishing ? 'Sending…' : 'Email invoice'}
           icon={<FaEnvelope aria-hidden />}
-          disabled={paid || publishing || !SQUARE_PAY_FEATURES.payLinks}
+          disabled={paid || publishing || !SQUARE_PAY_FEATURES.emailInvoice}
           onClick={emailInvoice}
         />
         <MobileActionSheetGridTile

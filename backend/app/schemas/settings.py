@@ -348,6 +348,12 @@ class PortalPaymentSettings(BaseModel):
     square_location_id: str = ""
     square_access_token: str = Field("", description="Server-side only — never expose to portal clients")
     square_environment: str = Field("sandbox", description="sandbox | production")
+    pay_link_paid_visible_days: int = Field(
+        7,
+        ge=0,
+        le=365,
+        description="Days a paid-in-full pay link keeps showing invoice details before it only shows 'Paid'",
+    )
 
     @validator("square_environment")
     def validate_env(cls, v):

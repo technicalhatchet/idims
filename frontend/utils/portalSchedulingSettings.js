@@ -38,6 +38,7 @@ export const DEFAULT_PORTAL_SCHEDULING = {
     square_location_id: '',
     square_access_token: '',
     square_environment: 'sandbox',
+    pay_link_paid_visible_days: 7,
   },
   booking: {
     min_days_out: 1,

@@ -155,7 +155,7 @@ class Settings(BaseModel):
     VAPID_PUBLIC_KEY: str = Field(default_factory=lambda: os.getenv("VAPID_PUBLIC_KEY", ""))
     VAPID_PRIVATE_KEY: str = Field(default_factory=lambda: os.getenv("VAPID_PRIVATE_KEY", ""))
     VAPID_SUBJECT: str = Field(
-        default_factory=lambda: os.getenv("VAPID_SUBJECT", "mailto:service@atomicrepair.com")
+        default_factory=lambda: os.getenv("VAPID_SUBJECT", "mailto:service@atomicrepair419.com")
     )
     SHOP_TIMEZONE: str = Field(default_factory=lambda: os.getenv("SHOP_TIMEZONE", "America/Detroit"))
     MORNING_BRIEFING_HOUR: int = Field(
