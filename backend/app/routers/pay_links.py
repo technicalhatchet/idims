@@ -26,6 +26,11 @@ public_router = APIRouter()
 staff_router = APIRouter()
 
 
+class TapToPayCallbackRequest(BaseModel):
+    state: str
+    transaction_id: Optional[str] = None
+
+
 class PayLinkChargeRequest(BaseModel):
     amount: float
     square_source_id: str
@@ -36,6 +41,34 @@ def _private_headers(response: Response) -> None:
     response.headers["Cache-Control"] = "no-store"
     response.headers["Referrer-Policy"] = "no-referrer"
     response.headers["X-Robots-Tag"] = "noindex, nofollow"
+
+
+@public_router.post("/tap-callback")
+async def tap_to_pay_callback(
+    body: TapToPayCallbackRequest,
+    request: Request,
+    response: Response,
+    db: Session = Depends(get_db),
+):
+    """Square POS hand-back (opened in Safari on iPhone). The signed state authorizes it."""
+    from app.services.tap_to_pay_service import record_tap_to_pay_result
+
+    limits.check_page_view(request)
+    _private_headers(response)
+    try:
+        result = await record_tap_to_pay_result(db, state=body.state, transaction_id=body.transaction_id or "")
+        db.commit()
+        return result
+    except ValidationException as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except Exception as exc:
+        db.rollback()
+        logger.error("[Tap to Pay callback] %s", exc)
+        raise HTTPException(status_code=500, detail="Couldn't record the payment. Check Square and record it by hand.") from exc
 
 
 @public_router.get("/{pay_token}")
@@ -106,6 +139,25 @@ async def charge_pay_link(
         "receipt_url": square.get("receipt_url"),
         "work_order_completed": completion.get("work_order_completed", False),
     }
+
+
+@staff_router.post("/{work_order_id}/tap-to-pay")
+async def start_work_order_tap_to_pay(
+    work_order_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_staff_user),
+):
+    """Pay sheet → Tap to Pay: everything the browser needs to open the Square app."""
+    from app.services.tap_to_pay_service import start_tap_to_pay
+
+    try:
+        return start_tap_to_pay(db, work_order_id, current_user.id)
+    except ValidationException as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    finally:
+        db.rollback()  # start never writes; calculate_totals() may touch the row
 
 
 @staff_router.get("/{work_order_id}/pay-link")
