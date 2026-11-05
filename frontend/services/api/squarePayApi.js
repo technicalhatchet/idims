@@ -7,7 +7,7 @@
  *
  *   NEXT_PUBLIC_SQUARE_PAY_LINKS_ENABLED=true   → QR, text link, copy link, email invoice (plan §4–5)
  *   NEXT_PUBLIC_SQUARE_TAP_TO_PAY_ENABLED=true  → Tap to Pay hand-off to the Square app (plan §6)
- *   NEXT_PUBLIC_SQUARE_EMAIL_INVOICE_ENABLED=true → "Email invoice" tile (needs its backend first)
+ *   NEXT_PUBLIC_SQUARE_EMAIL_INVOICE_ENABLED=true → "Email invoice" tile (PDF + pay link via Resend)
  */
 import { apiClient } from '../../utils/api-client';
 
@@ -42,12 +42,12 @@ export async function fetchWorkOrderPayLink(workOrderId) {
 }
 
 /**
- * "Email invoice": create + publish the Square invoice that mirrors this job (plan §3–4).
- * Expected backend (plan step 2): POST work-orders/{id}/square/publish
+ * "Email invoice": invoice PDF + "Pay online" button to the job's pay link, via Resend.
+ * Backend: POST work-orders/{id}/email-invoice → { email, pay_url, amount_due }
  */
-export async function publishWorkOrderSquareInvoice(workOrderId) {
-  if (!SQUARE_PAY_FEATURES.payLinks) throw new Error('Square invoices are not set up yet.');
-  return apiClient(`work-orders/${workOrderId}/square/publish`, { method: 'POST' });
+export async function emailWorkOrderInvoice(workOrderId) {
+  if (!SQUARE_PAY_FEATURES.emailInvoice) throw new Error('Email invoice is not turned on.');
+  return apiClient(`work-orders/${workOrderId}/email-invoice`, { method: 'POST' });
 }
 
 /** 'android' | 'ios' — which Square POS hand-off format this device needs. */
