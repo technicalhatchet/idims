@@ -132,8 +132,18 @@ async def charge_pay_link(
         logger.warning("[Pay link charge] review hook failed: %s", exc)
 
     square = completion.get("square") or {}
+    from app.services.pay_link_emails import send_payment_receipt
+
+    receipt_emailed = await send_payment_receipt(
+        db,
+        work_order,
+        amount=float(payment.amount),
+        receipt_url=square.get("receipt_url"),
+        pay_url=svc.pay_url_for_token(pay_token),
+    )
     return {
         "success": True,
+        "receipt_emailed": receipt_emailed,
         "payment_number": payment.payment_number,
         "amount": float(payment.amount),
         "receipt_url": square.get("receipt_url"),
@@ -158,6 +168,30 @@ async def start_work_order_tap_to_pay(
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     finally:
         db.rollback()  # start never writes; calculate_totals() may touch the row
+
+
+@staff_router.post("/{work_order_id}/email-invoice")
+async def email_work_order_invoice(
+    work_order_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_staff_user),
+):
+    """Pay sheet → Email invoice: PDF attached + "Pay online" button to the job's pay link."""
+    from app.services.pay_link_emails import send_invoice_with_pay_link
+
+    work_order = svc.load_work_order_for_billing(db, work_order_id)
+    if not work_order:
+        raise HTTPException(status_code=404, detail="Work order not found")
+    try:
+        result = await send_invoice_with_pay_link(db, work_order)
+        db.commit()  # keeps a newly created pay token
+        return {"success": True, **result}
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        db.rollback()
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
 
 
 @staff_router.get("/{work_order_id}/pay-link")

@@ -41,6 +41,7 @@ logger = logging.getLogger(__name__)
 _PURPOSE = "tap_to_pay"
 STATE_TTL_SECONDS = 2 * 3600
 TAP_TO_PAY_NOTES = "Tap to Pay — Square POS"
+POS_NOTE_PREFIX = "Atomic Repair WO #"
 SQUARE_API_VERSION = "2024-08-21"
 
 
@@ -159,12 +160,23 @@ def start_tap_to_pay(db: Session, work_order_id: uuid.UUID, user_id: uuid.UUID) 
         "location_id": cfg["location_id"],
         "amount_cents": cents,
         "currency": "USD",
-        "note": f"Atomic Repair WO #{order_no}"[:500],
+        "note": f"{POS_NOTE_PREFIX}{order_no}"[:500],
         "state": make_state(work_order.id, cents, user_id),
         "callback_url": callback_url(),
         "work_order_id": str(work_order.id),
         "order_number": order_no,
     }
+
+
+def order_number_from_note(note: Optional[str]) -> Optional[str]:
+    """The POS note we send ("Atomic Repair WO #CT-001234") → "CT-001234"."""
+    note = note or ""
+    idx = note.find(POS_NOTE_PREFIX)
+    if idx < 0:
+        return None
+    rest = note[idx + len(POS_NOTE_PREFIX):].strip()
+    token = rest.split()[0] if rest else ""
+    return token.strip(".,;") or None
 
 
 # ---------- callback ----------
@@ -199,8 +211,6 @@ def _result(work_order: WorkOrder, payment: WorkOrderPayment, *, already: bool, 
 
 async def record_tap_to_pay_result(db: Session, *, state: str, transaction_id: str) -> Dict[str, Any]:
     from app.services.portal_square_payment_service import get_square_config
-    from app.services.work_order_billing_helpers import compute_tax_on_billable_parts_due
-    from app.services.work_order_payment_service import _generate_payment_number, apply_payment_to_work_order
 
     payload = read_state(state)
     transaction_id = (transaction_id or "").strip()
@@ -224,38 +234,66 @@ async def record_tap_to_pay_result(db: Session, *, state: str, transaction_id: s
     if not payment_id:
         raise ValidationException("Square has no card payment on that transaction.")
 
-    # Lock the work order row so a double-loaded callback can't record twice.
+    payment = (await _square_get(cfg, f"/v2/payments/{payment_id}")).get("payment") or {}
+    payment.setdefault("id", payment_id)
+    recorder_id = uuid.UUID(payload["u"]) if payload.get("u") else None
+    return record_square_payment(
+        db,
+        work_order,
+        payment,
+        cfg=cfg,
+        notes=TAP_TO_PAY_NOTES,
+        expected_cents=int(payload.get("c") or 0),
+        recorder_id=recorder_id,
+    )
+
+
+def record_square_payment(
+    db: Session,
+    work_order: WorkOrder,
+    payment: Dict[str, Any],
+    *,
+    cfg: Dict[str, Any],
+    notes: str,
+    expected_cents: Optional[int] = None,
+    recorder_id: Optional[uuid.UUID] = None,
+) -> Dict[str, Any]:
+    """Record a COMPLETED Square payment on a work order exactly once (callback + webhook share this)."""
+    from app.services.work_order_billing_helpers import compute_tax_on_billable_parts_due
+    from app.services.work_order_payment_service import _generate_payment_number, apply_payment_to_work_order
+
+    payment_id = payment.get("id")
+    if not payment_id:
+        raise ValidationException("Square didn't return a payment id.")
+    if (payment.get("status") or "").upper() != "COMPLETED":
+        raise ValidationException(f"Square shows this payment as {payment.get('status') or 'unknown'}, not completed.")
+    if cfg.get("location_id") and payment.get("location_id") and payment["location_id"] != cfg["location_id"]:
+        raise ValidationException("That Square payment belongs to a different location.")
+
+    # Lock the work order row so a callback and the webhook (or a reload) can't both record it.
     db.query(WorkOrder.id).filter(WorkOrder.id == work_order.id).with_for_update().first()
     existing = _existing_payment(db, work_order.id, payment_id)
     if existing:
         return _result(work_order, existing, already=True)
-
-    payment = (await _square_get(cfg, f"/v2/payments/{payment_id}")).get("payment") or {}
-    if (payment.get("status") or "").upper() != "COMPLETED":
-        raise ValidationException(f"Square shows this payment as {payment.get('status') or 'unknown'}, not completed.")
-    if cfg["location_id"] and payment.get("location_id") and payment["location_id"] != cfg["location_id"]:
-        raise ValidationException("That Square payment belongs to a different location.")
 
     total_cents = int(((payment.get("total_money") or payment.get("amount_money") or {}).get("amount")) or 0)
     tip_cents = int(((payment.get("tip_money") or {}).get("amount")) or 0)
     if total_cents <= 0:
         raise ValidationException("Square reported a $0 payment.")
 
-    expected = int(payload.get("c") or 0)
-    notes = TAP_TO_PAY_NOTES
     warning = None
-    if total_cents - tip_cents != expected:
+    if expected_cents is not None and total_cents - tip_cents != expected_cents:
         warning = (
-            f"Square charged ${(total_cents - tip_cents) / 100:.2f} but the job showed ${expected / 100:.2f}. "
+            f"Square charged ${(total_cents - tip_cents) / 100:.2f} but the job showed ${expected_cents / 100:.2f}. "
             "The actual amount was recorded — check the balance."
         )
-        notes += f" (expected ${expected / 100:.2f})"
+        notes += f" (expected ${expected_cents / 100:.2f})"
     if tip_cents:
         notes += f" (includes ${tip_cents / 100:.2f} tip)"
 
     amount = float(Decimal(total_cents) / 100)
     tax_amount = float(compute_tax_on_billable_parts_due(work_order))
-    recorder_id = uuid.UUID(payload["u"]) if payload.get("u") else (work_order.updated_by or work_order.created_by)
+    recorder_id = recorder_id or work_order.updated_by or work_order.created_by
 
     record = WorkOrderPayment(
         work_order_id=work_order.id,

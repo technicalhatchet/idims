@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FaQrcode, FaSms, FaWifi, FaEnvelope, FaLink, FaCreditCard, FaMoneyBillWave, FaCheckCircle } from 'react-icons/fa';
+import QRCode from 'qrcode';
 import MobileActionSheet, { MobileActionSheetButton, MobileActionSheetGridTile } from '../ui/MobileActionSheet';
 import {
   SQUARE_PAY_FEATURES,
   buildPayLinkSmsUrl,
   fetchWorkOrderPayLink,
-  publishWorkOrderSquareInvoice,
+  emailWorkOrderInvoice,
   startTapToPay,
 } from '../../services/api/squarePayApi';
 
@@ -40,6 +41,7 @@ export default function WorkOrderPaySheet({
   const [publishing, setPublishing] = useState(false);
   const [showQr, setShowQr] = useState(false);
   const [tapStarting, setTapStarting] = useState(false);
+  const [qrDataUrl, setQrDataUrl] = useState(null);
   const refreshRef = useRef(onRefreshBalance);
   refreshRef.current = onRefreshBalance;
 
@@ -66,6 +68,21 @@ export default function WorkOrderPaySheet({
   useEffect(() => {
     if (!open) setShowQr(false);
   }, [open]);
+
+  // Black-on-white QR with a quiet zone (stays white in dark mode so phone cameras read it).
+  useEffect(() => {
+    if (!showQr || !payLink?.payUrl) return undefined;
+    let cancelled = false;
+    QRCode.toDataURL(payLink.payUrl, {
+      errorCorrectionLevel: 'M',
+      margin: 4,
+      width: 640,
+      color: { dark: '#000000', light: '#ffffff' },
+    })
+      .then((url) => { if (!cancelled) setQrDataUrl(url); })
+      .catch(() => { if (!cancelled) setQrDataUrl(null); });
+    return () => { cancelled = true; };
+  }, [showQr, payLink?.payUrl]);
 
   // Coming back from the Square app (or its callback tab): refresh so "Paid" shows.
   useEffect(() => {
@@ -103,10 +120,10 @@ export default function WorkOrderPaySheet({
   const emailInvoice = useCallback(async () => {
     setPublishing(true);
     try {
-      await publishWorkOrderSquareInvoice(workOrderId);
-      onNotice?.('INVOICE // EMAILED');
+      const res = await emailWorkOrderInvoice(workOrderId);
+      onNotice?.(`INVOICE // EMAILED${res?.email ? ` TO ${String(res.email).toUpperCase()}` : ''}`);
     } catch (err) {
-      alert(err?.message || 'Could not send the Square invoice');
+      alert(err?.message || 'Could not email the invoice');
     } finally {
       setPublishing(false);
     }
@@ -137,12 +154,16 @@ export default function WorkOrderPaySheet({
       </div>
 
       {showQr && payLink?.payUrl ? (
-        // QR rendering lands with plan step 4 (add the `qrcode` package; black on white with
-        // a quiet zone, white even in dark mode, total under it).
-        <div className="mb-4 rounded-xl bg-white p-6 text-center text-black">
-          <p className="text-sm font-semibold">QR code coming with pay links</p>
-          <p className="mt-1 break-all text-xs">{payLink.payUrl}</p>
-          <p className="mt-3 text-lg font-bold">{formatMoney(dueToday)}</p>
+        <div className="mb-4 rounded-xl bg-white p-4 text-center text-black">
+          {qrDataUrl ? (
+            <img src={qrDataUrl} alt="Pay link QR code" className="mx-auto aspect-square w-full max-w-[300px]" />
+          ) : (
+            <div className="mx-auto flex aspect-square w-full max-w-[300px] items-center justify-center text-sm text-gray-500">
+              Making QR…
+            </div>
+          )}
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-600">Scan to pay</p>
+          <p className="mt-1 text-2xl font-bold">{formatMoney(dueToday)}</p>
         </div>
       ) : null}
 
