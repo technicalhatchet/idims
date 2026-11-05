@@ -236,7 +236,8 @@ export default function LaserFillBar({ idPrefix, slices = [], dividers = [], chi
         const box = sliceBox(bounds[i], i, count, W);
         const fg = isHot ? HOT_TEXT[primaryHot] : SIDE_TEXT[sideKey(s)];
         const showLabel = s.showLabel !== false && Boolean(s.label);
-        const row = isHot || single;
+        // Icon above the label on every slice (the main button too); only a lone Back sits in a row.
+        const row = single;
         const ariaLabel = s.ariaLabel || (s.badge != null && s.badge !== 0 ? `${s.label} (${s.badge})` : s.label);
         return (
           <button
@@ -249,12 +250,12 @@ export default function LaserFillBar({ idPrefix, slices = [], dividers = [], chi
             onClick={s.onPress}
             style={{
               position: 'absolute',
-              top: isHot ? 26 : 20,
+              top: 20,
               bottom: 0,
               left: box.left,
               width: box.width,
-              // Nudged down so the label sits in the middle of what you see of the slice.
-              paddingTop: 8,
+              // Centers the stack in what you see of the slice; the main button sits 1px higher than the sides.
+              paddingTop: isHot ? 3 : 5,
               paddingBottom: HOME_PAD_CSS,
               display: 'flex',
               alignItems: 'center',

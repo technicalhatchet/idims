@@ -57,7 +57,8 @@ export default function LaserNavDock({ fallbackHref = '/techboard', primary = nu
       });
     }
   }
-  const dividers = !primary ? [] : secondary ? [0.25, 0.75] : [0.27];
+  // Even thirds with a third button, like the work order and Techboard bars.
+  const dividers = !primary ? [] : secondary ? [0.323, 0.677] : [0.27];
 
   return (
     <div
