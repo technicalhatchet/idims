@@ -12,6 +12,12 @@ import {
 
 const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
+/**
+ * How far the icon + label sit below the top of each slice. The one knob for
+ * "labels too high / too low": +2 moves every label down about 1px.
+ */
+const LABEL_DROP_PX = 8;
+
 /** Space kept clear of the home indicator under the button content. */
 const HOME_PAD_CSS = 'max(8px, env(safe-area-inset-bottom, 0px) - 8px)';
 
@@ -255,7 +261,7 @@ export default function LaserFillBar({ idPrefix, slices = [], dividers = [], chi
               left: box.left,
               width: box.width,
               // Centers the stack in what you see of the slice; the main button sits 1px higher than the sides.
-              paddingTop: isHot ? 3 : 5,
+              paddingTop: (isHot ? -1 : 1) + LABEL_DROP_PX,
               paddingBottom: HOME_PAD_CSS,
               display: 'flex',
               alignItems: 'center',
