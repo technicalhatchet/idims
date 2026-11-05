@@ -6,11 +6,12 @@ import {
 } from '../navigation/LaserBarParts';
 import LaserFillBar from '../navigation/LaserFillBar';
 
-/** Back | status-driven primary | contextual secondary | + (fractions of the width). */
-const WO_DIVIDERS = [0.23, 0.665, 0.835];
+/** Back | status-driven primary | + as even thirds (fractions of the width). */
+const WO_DIVIDERS = [0.323, 0.677];
 
 /**
- * Work order bottom bar: Back | status-driven primary | contextual secondary | +.
+ * Work order bottom bar: Back | status-driven primary | +.
+ * (The resolver still returns a contextual `secondary`; the bar no longer shows it.)
  * `bar` comes from utils/workOrderActionBar.resolveWorkOrderActionBar.
  */
 export default function WorkOrderActionBar({
@@ -24,7 +25,6 @@ export default function WorkOrderActionBar({
 }) {
   const [pressedKey, press] = usePressThenRun(300);
   const primary = bar?.primary;
-  const secondary = bar?.secondary;
   const primaryDisabled = busy || !primary || primary.tone === 'off';
 
   const slices = [
@@ -50,23 +50,10 @@ export default function WorkOrderActionBar({
       onPress: () => press('primary', () => onAction?.(primary.id, 'primary')),
     },
     {
-      key: 'secondary',
-      role: 'side',
-      tone: 'cyan',
-      icon: secondary?.icon || 'plus',
-      showLabel: false,
-      label: secondary?.label || 'More',
-      ariaLabel: secondary?.label || 'More',
-      disabled: !secondary,
-      style: secondary ? undefined : { visibility: 'hidden' },
-      onPress: () => secondary && onAction?.(secondary.id, 'secondary'),
-    },
-    {
       key: 'add',
       role: 'side',
       tone: 'cyan',
       icon: 'plus',
-      showLabel: false,
       label: 'Add',
       ariaLabel: 'Add to work order',
       disabled: addDisabled,
