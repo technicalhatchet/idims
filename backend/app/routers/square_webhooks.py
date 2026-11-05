@@ -1,4 +1,7 @@
-"""Square webhooks: safety net for Tap to Pay.
+"""Square webhooks: safety net for Tap to Pay, and refunds.
+
+Refunds: refund.created / refund.updated with status COMPLETED add a negative payment
+on the work order(s) that recorded that Square payment (any card path), once per refund.
 
 Square calls POST /api/webhooks/square for payment.created / payment.updated. When a
 COMPLETED payment carries our POS note ("Atomic Repair WO #…") and isn't recorded yet,
@@ -33,7 +36,9 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
-HANDLED_EVENTS = {"payment.created", "payment.updated"}
+PAYMENT_EVENTS = {"payment.created", "payment.updated"}
+REFUND_EVENTS = {"refund.created", "refund.updated"}
+HANDLED_EVENTS = PAYMENT_EVENTS | REFUND_EVENTS
 
 
 def _signature_ok(raw_body: bytes, signature: str) -> bool:
@@ -57,6 +62,39 @@ def _first_time_seen(db: Session, event_id: str, event_type: str) -> bool:
     return row is not None
 
 
+def _handle_refund(db: Session, event_id: str, event_type: str, event: dict):
+    from app.services.payment_refund_service import record_processor_refund
+    from app.services.portal_square_payment_service import get_square_config
+
+    refund = ((event.get("data") or {}).get("object") or {}).get("refund") or {}
+    if (refund.get("status") or "").upper() != "COMPLETED":
+        return {"ok": True, "ignored": f"refund status {refund.get('status')}"}
+
+    try:
+        cfg = get_square_config(db)
+        if cfg.get("location_id") and refund.get("location_id") and refund["location_id"] != cfg["location_id"]:
+            return {"ok": True, "ignored": "other location"}
+        if not _first_time_seen(db, event_id, event_type):
+            db.rollback()
+            return {"ok": True, "duplicate": True}
+
+        result = record_processor_refund(
+            db,
+            processor_payment_id=str(refund.get("payment_id") or ""),
+            refund_id=str(refund.get("id") or ""),
+            refund_cents=int(((refund.get("amount_money") or {}).get("amount")) or 0),
+            processor_label="Square",
+        )
+        db.commit()
+        if result.get("recorded"):
+            logger.info("[Square webhook] refund %s applied: %s", refund.get("id"), result.get("applied"))
+        return {"ok": True, **{k: v for k, v in result.items() if k in ("recorded", "reason", "unapplied")}}
+    except Exception as exc:
+        db.rollback()
+        logger.error("[Square webhook] refund %s failed: %s", event_id, exc)
+        raise HTTPException(status_code=500, detail="Webhook processing failed")
+
+
 @router.post("/square")
 async def square_webhook(request: Request, db: Session = Depends(get_db)):
     raw = await request.body()
@@ -73,6 +111,9 @@ async def square_webhook(request: Request, db: Session = Depends(get_db)):
     event_id = str(event.get("event_id") or "")
     if event_type not in HANDLED_EVENTS or not event_id:
         return {"ok": True, "ignored": event_type or "unknown"}
+
+    if event_type in REFUND_EVENTS:
+        return _handle_refund(db, event_id, event_type, event)
 
     payment = ((event.get("data") or {}).get("object") or {}).get("payment") or {}
     if (payment.get("status") or "").upper() != "COMPLETED":
