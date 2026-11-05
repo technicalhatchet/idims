@@ -71,7 +71,7 @@ const PortalSquarePayment = forwardRef(function PortalSquarePayment(
     /** 'dark' = dark page chrome with readable light card fields; 'light' = light page */
     theme = 'dark',
     /** When true: dark shell + dark card fields with light text. Default false (light fields). */
-    preferDarkCardFields = false,
+    preferDarkCardFields = true,
   },
   ref,
 ) {
