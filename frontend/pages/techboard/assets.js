@@ -140,6 +140,8 @@ export default function AssetsPage() {
     limit: 100,
     search,
     status,
+    // Server sorts A–Z too, so the first 100 are the first 100 alphabetically.
+    ...(sort === 'az' ? { sort: 'name' } : {}),
   });
 
   const filteredClients = useMemo(() => {
@@ -319,7 +321,7 @@ export default function AssetsPage() {
               aria-label="Search clients"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search clients..."
+              placeholder="Search name, phone, email"
               className="w-full rounded-lg px-3 py-2.5 mb-3 text-sm text-white placeholder:text-gray-500 outline-none focus:ring-1 focus:ring-cyan-400/45 bg-[rgba(13,21,37,0.25)]"
               style={{ border: '1px solid rgba(255,255,255,0.12)' }}
               data-hud-card

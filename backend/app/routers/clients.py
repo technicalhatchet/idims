@@ -169,7 +169,7 @@ async def get_admin_dependency(request: Request = None):
 @router.get("", response_model=ClientListResponse)
 @router.get("/", response_model=ClientListResponse, include_in_schema=False)
 async def list_clients(
-    search: Optional[str] = Query(None, description="Search term for client name or email"),
+    search: Optional[str] = Query(None, description="Search term for client name, email or phone"),
     status: Optional[str] = Query(None, description="Filter by status"),
     portal_signup_incomplete: bool = Query(
         False,
@@ -177,6 +177,7 @@ async def list_clients(
     ),
     page: int = Query(1, ge=1, description="Page number"),
     limit: int = Query(10, ge=1, le=100, description="Items per page"),
+    sort: Optional[str] = Query(None, description='"name" for A–Z by the shown name; default newest first'),
     current_user: AuthUser = Depends(get_staff_user),
     db: Session = Depends(get_db)
 ):
@@ -193,6 +194,7 @@ async def list_clients(
             portal_signup_incomplete=portal_signup_incomplete,
             skip=skip,
             limit=limit,
+            sort=sort,
         )
         return {
             "total": result["total"],
