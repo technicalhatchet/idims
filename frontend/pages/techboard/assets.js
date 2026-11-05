@@ -27,95 +27,72 @@ function hudGridShiftForTitleplate(dx, dy, step) {
   };
 }
 
+/** Name shown on the card (and used for A–Z): company, else first + last. */
+function clientDisplayName(client) {
+  const company = (client?.company_name || '').trim();
+  if (company) return company;
+  return [client?.first_name, client?.last_name].filter(Boolean).join(' ').trim() || 'Unnamed client';
+}
+
+const STATUS_ACCENT = { active: '#22D3EE', lead: '#FB923C', inactive: '#334155' };
+const STATUS_TAG = {
+  lead: { text: 'Lead', bg: 'rgba(251, 146, 60, 0.15)', fg: '#FB923C' },
+  inactive: { text: 'Inactive', bg: 'rgba(148, 163, 184, 0.15)', fg: '#94A3B8' },
+};
+
+const FILTER_CHIPS = [
+  { value: '', label: 'All' },
+  { value: 'active', label: 'Active' },
+  { value: 'lead', label: 'Leads' },
+  { value: 'inactive', label: 'Inactive' },
+];
+
 function ClientCard({ client }) {
-  const displayName = client.company_name || `${client.first_name} ${client.last_name}`;
-  const isCompany = Boolean(client.company_name);
-  const contactName = isCompany ? `${client.first_name} ${client.last_name}` : null;
+  const displayName = clientDisplayName(client);
+  const contactName = client.company_name
+    ? [client.first_name, client.last_name].filter(Boolean).join(' ')
+    : '';
+  const phone = client.mobile || client.phone;
+  const tag = STATUS_TAG[client.status];
 
   return (
     <Link
       href={`/clients/${client.id}/mobile`}
-      className="block rounded-lg p-4 transition-all active:opacity-90"
+      className="relative block overflow-hidden rounded-xl py-3 pl-3.5 pr-9 transition-all active:opacity-90"
       style={{
-        background: 'rgba(13, 21, 37, 0.25)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(34,211,238,0.25)',
+        background: 'rgba(13, 21, 37, 0.55)',
+        border: '1px solid rgba(34, 211, 238, 0.18)',
       }}
     >
-      <div className="flex items-start gap-3">
-        {/* Icon */}
-        <div
-          className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center"
-          style={{ background: '#080C14', border: '1px solid rgba(255,255,255,0.1)' }}
-        >
-          {isCompany ? (
-            <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-              <rect x="4" y="2" width="16" height="20" rx="2" />
-              <line x1="9" y1="7" x2="15" y2="7" />
-              <line x1="9" y1="11" x2="15" y2="11" />
-              <line x1="9" y1="15" x2="15" y2="15" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" className="w-6 h-6" style={{ stroke: '#22D3EE', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-          )}
-        </div>
+      {/* Status accent */}
+      <span
+        aria-hidden
+        className="absolute left-0 top-2.5 bottom-2.5 w-[3px] rounded-r"
+        style={{ background: STATUS_ACCENT[client.status] || '#475569' }}
+      />
 
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-          <div className="flex justify-between items-start mb-1">
-            <p className="text-base font-bold text-white truncate">{displayName}</p>
-            <span
-              className="ml-2 px-2 py-0.5 text-[10px] uppercase tracking-wide font-medium rounded-full flex-shrink-0"
-              style={{
-                background: client.status === 'active'
-                  ? 'rgba(34, 211, 238, 0.15)'
-                  : client.status === 'inactive'
-                  ? 'rgba(239, 68, 68, 0.15)'
-                  : 'rgba(251, 146, 60, 0.15)',
-                color: client.status === 'active'
-                  ? '#22D3EE'
-                  : client.status === 'inactive'
-                  ? '#EF4444'
-                  : '#FB923C',
-              }}
-            >
-              {client.status || 'Unknown'}
-            </span>
-          </div>
-
-          {contactName && (
-            <p className="text-sm text-gray-400 mb-1">{contactName}</p>
-          )}
-
-          <div className="space-y-0.5">
-            {client.email && (
-              <div className="flex items-center gap-1.5">
-                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" style={{ stroke: '#9CA3AF', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                  <polyline points="22,6 12,13 2,6" />
-                </svg>
-                <p className="text-xs text-gray-400 truncate">{client.email}</p>
-              </div>
-            )}
-
-            {(client.mobile || client.phone) && (
-              <div className="flex items-center gap-1.5">
-                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 flex-shrink-0" style={{ stroke: '#9CA3AF', strokeWidth: 1.75, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4A2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-                </svg>
-                <p className="text-xs text-gray-400 truncate">{client.mobile || client.phone}</p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Chevron */}
-        <div className="flex-shrink-0 text-gray-600 text-xl">›</div>
+      <div className="flex min-w-0 items-center gap-2">
+        <p className="truncate text-base font-bold text-white">{displayName}</p>
+        {tag ? (
+          <span
+            className="flex-shrink-0 rounded-full px-[7px] py-[2px] text-[9px] font-extrabold uppercase tracking-[0.1em]"
+            style={{ background: tag.bg, color: tag.fg }}
+          >
+            {tag.text}
+          </span>
+        ) : null}
       </div>
+
+      {contactName ? <p className="mt-0.5 truncate text-xs text-[#8FA3B8]">{contactName}</p> : null}
+
+      {phone || client.email ? (
+        <div className="mt-1.5 flex min-w-0 gap-3.5 text-[13px] text-[#9FB0C2]">
+          {phone ? <span className="flex-shrink-0 whitespace-nowrap text-[#A5F3FC]">{phone}</span> : null}
+          {client.email ? <span className="min-w-0 truncate">{client.email}</span> : null}
+        </div>
+      ) : null}
+
+      <span aria-hidden className="absolute right-3 top-1/2 -translate-y-1/2 text-xl text-[#3E5168]">›</span>
     </Link>
   );
 }
@@ -125,6 +102,8 @@ export default function AssetsPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
+  const [sort, setSort] = useState('az');
+  const searchRef = useRef(null);
 
   const gridTapLayerRef = useHudGridDoubleTapRail();
   const tacticalColumnRef = useRef(null);
@@ -164,8 +143,20 @@ export default function AssetsPage() {
   });
 
   const filteredClients = useMemo(() => {
-    return data?.items || [];
-  }, [data]);
+    const items = data?.items || [];
+    // The server returns newest first; A–Z sorts by the name on the card.
+    if (sort !== 'az') return items;
+    return [...items].sort((a, b) =>
+      clientDisplayName(a).localeCompare(clientDisplayName(b), undefined, { sensitivity: 'base' }));
+  }, [data, sort]);
+
+  const focusSearch = useCallback(() => {
+    const el = searchRef.current;
+    if (!el) return;
+    // Focus inside the tap so iOS opens the keyboard, then bring the box into view.
+    el.focus({ preventScroll: true });
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, []);
 
   return (
     <>
@@ -323,7 +314,9 @@ export default function AssetsPage() {
 
             {/* Search */}
             <input
+              ref={searchRef}
               type="search"
+              aria-label="Search clients"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search clients..."
@@ -332,68 +325,42 @@ export default function AssetsPage() {
               data-hud-card
             />
 
-            {/* Status Filter */}
-            <div className="mb-3">
-              <div className="relative" data-hud-card>
-                <select
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
-                  className="w-full cursor-pointer rounded-lg border border-cyan-400/25 py-2 pl-3 pr-8 text-sm font-medium text-cyan-400/95 outline-none focus:ring-1 focus:ring-cyan-400/35 bg-transparent"
-                  style={{
-                    WebkitAppearance: 'none',
-                    MozAppearance: 'none',
-                    appearance: 'none',
-                  }}
-                >
-                  <option value="" className="bg-[#111827] text-white">
-                    All Clients
-                  </option>
-                  <option value="active" className="bg-[#111827] text-white">
-                    Active
-                  </option>
-                  <option value="inactive" className="bg-[#111827] text-white">
-                    Inactive
-                  </option>
-                  <option value="lead" className="bg-[#111827] text-white">
-                    Lead
-                  </option>
-                </select>
-                <svg
-                  viewBox="0 0 24 24"
-                  className="pointer-events-none absolute right-2 top-1/2 h-3 w-3 -translate-y-1/2"
-                  style={{
-                    stroke: '#22D3EE',
-                    strokeWidth: 2.5,
-                    fill: 'none',
-                    strokeLinecap: 'round',
-                    strokeLinejoin: 'round',
-                  }}
-                  aria-hidden
-                >
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
+            {/* Status chips + sort */}
+            <div className="mb-3 flex items-center gap-1.5" data-hud-card>
+              <div role="group" aria-label="Filter by status" className="flex min-w-0 flex-1 gap-1.5">
+                {FILTER_CHIPS.map((chip) => {
+                  const on = status === chip.value;
+                  return (
+                    <button
+                      key={chip.value || 'all'}
+                      type="button"
+                      aria-pressed={on}
+                      onClick={() => setStatus(chip.value)}
+                      className="h-[34px] whitespace-nowrap rounded-full px-[11px] text-xs font-bold transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-200"
+                      style={
+                        on
+                          ? { background: '#22D3EE', color: '#03161C', border: '1px solid #A5F3FC' }
+                          : { background: 'rgba(13, 22, 38, 0.8)', color: '#A5F3FC', border: '1px solid #1F3B55' }
+                      }
+                    >
+                      {chip.label}
+                    </button>
+                  );
+                })}
               </div>
+              <button
+                type="button"
+                onClick={() => setSort((v) => (v === 'az' ? 'new' : 'az'))}
+                aria-label={sort === 'az' ? 'Sorted A to Z. Switch to newest first' : 'Sorted newest first. Switch to A to Z'}
+                className="flex h-[34px] flex-shrink-0 items-center gap-1 whitespace-nowrap rounded-[10px] px-2.5 font-mono text-[11px] font-bold tracking-[0.06em] text-cyan-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-200"
+                style={{ background: 'rgba(13, 22, 38, 0.8)', border: '1px solid #1F3B55' }}
+              >
+                <svg viewBox="0 0 24 24" className="h-[13px] w-[13px]" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4" />
+                </svg>
+                {sort === 'az' ? 'A–Z' : 'NEWEST'}
+              </button>
             </div>
-
-            {/* New Client Button */}
-            <Link
-              href="/clients/mobile_new"
-              className="w-full flex items-center justify-center gap-2 py-3 mb-3 rounded-lg text-sm font-bold uppercase tracking-wide transition-all active:opacity-70"
-              style={{
-                background: 'linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(34, 211, 238, 0.15))',
-                border: '1px solid rgba(34, 211, 238, 0.4)',
-                color: '#22D3EE',
-                boxShadow: '0 0 15px rgba(34, 211, 238, 0.2)',
-              }}
-              data-hud-card
-            >
-              <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="8" x2="12" y2="16" />
-                <line x1="8" y1="12" x2="16" y2="12" />
-              </svg>
-              New Client
-            </Link>
 
             {/* Client List */}
             <div
@@ -419,16 +386,32 @@ export default function AssetsPage() {
                 </p>
               ) : (
                 <div className="space-y-2">
-                  {filteredClients.map((client) => (
-                    <ClientCard key={client.id} client={client} />
-                  ))}
+                  {filteredClients.map((client, i) => {
+                    const letter = clientDisplayName(client).charAt(0).toUpperCase();
+                    const prev = i > 0 ? clientDisplayName(filteredClients[i - 1]).charAt(0).toUpperCase() : null;
+                    const showLetter = sort === 'az' && letter !== prev;
+                    return (
+                      <div key={client.id}>
+                        {showLetter ? (
+                          <div className={`mb-1.5 flex items-center gap-2.5 px-0.5 ${i > 0 ? 'mt-3' : ''}`}>
+                            <span className="assets-hud-orbitron text-[13px] font-extrabold text-cyan-400">{letter}</span>
+                            <span className="h-px flex-1 bg-gradient-to-r from-cyan-400/45 to-transparent" />
+                          </div>
+                        ) : null}
+                        <ClientCard client={client} />
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
           </div>
         </div>
       </div>
-      <TechMobileBackDock primary={{ label: 'New Client', icon: 'plus', href: '/clients/mobile_new' }} />
+      <TechMobileBackDock
+        primary={{ label: 'New Client', icon: 'plus', href: '/clients/mobile_new' }}
+        secondary={{ label: 'Search', icon: 'search', onPress: focusSearch }}
+      />
     </>
   );
 }
