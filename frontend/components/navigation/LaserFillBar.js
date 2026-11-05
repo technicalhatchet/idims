@@ -253,6 +253,8 @@ export default function LaserFillBar({ idPrefix, slices = [], dividers = [], chi
               bottom: 0,
               left: box.left,
               width: box.width,
+              // Nudged down so the label sits in the middle of what you see of the slice.
+              paddingTop: 8,
               paddingBottom: HOME_PAD_CSS,
               display: 'flex',
               alignItems: 'center',
