@@ -1,5 +1,5 @@
 /**
- * Square pay-link client — SCAFFOLD ONLY.
+ * Square pay-link + Tap to Pay client.
  *
  * Spec: Claude project doc "claude/square-payments-plan.md" (IDIMS uses Square, not Stripe).
  * Nothing here calls the network until the matching backend exists and the feature
@@ -50,16 +50,66 @@ export async function publishWorkOrderSquareInvoice(workOrderId) {
   return apiClient(`work-orders/${workOrderId}/square/publish`, { method: 'POST' });
 }
 
+/** 'android' | 'ios' — which Square POS hand-off format this device needs. */
+export function tapToPayPlatform() {
+  if (typeof navigator === 'undefined') return 'ios';
+  return /android/i.test(navigator.userAgent) ? 'android' : 'ios';
+}
+
 /**
- * Tap to Pay hand-off URL for the Square Point of Sale app (plan §6).
- * Deliberately unimplemented: the exact POS API parameter names must be checked against
- * Square's current "Point of Sale API — Web" docs, then proven with a $1 test, before coding.
- * Returns null so the button stays disabled.
+ * Build the Square Point of Sale API (web) URL from the backend's start response.
+ * Fields per Square's "Mobile Web technical reference": iOS URL scheme + JSON (version 1.3),
+ * Android intent extras. The amount and signed `state` always come from the backend.
  */
-// eslint-disable-next-line no-unused-vars
-export function buildTapToPayUrl({ workOrderId, amountCents, platform }) {
-  if (!SQUARE_PAY_FEATURES.tapToPay) return null;
-  return null; // TODO(square plan step 5)
+export function buildPosUrl(start, platform = tapToPayPlatform()) {
+  if (!start) return null;
+  if (platform === 'android') {
+    const enc = encodeURIComponent;
+    const extras = [
+      'action=com.squareup.pos.action.CHARGE',
+      'package=com.squareup',
+      `S.com.squareup.pos.WEB_CALLBACK_URI=${enc(start.callback_url)}`,
+      `S.com.squareup.pos.CLIENT_ID=${enc(start.application_id)}`,
+      'S.com.squareup.pos.API_VERSION=v2.0',
+      `i.com.squareup.pos.TOTAL_AMOUNT=${start.amount_cents}`,
+      `S.com.squareup.pos.CURRENCY_CODE=${enc(start.currency || 'USD')}`,
+      'S.com.squareup.pos.TENDER_TYPES=com.squareup.pos.TENDER_CARD',
+      `S.com.squareup.pos.LOCATION_ID=${enc(start.location_id)}`,
+      `S.com.squareup.pos.NOTE=${enc(start.note)}`,
+      `S.com.squareup.pos.REQUEST_METADATA=${enc(start.state)}`,
+      'l.com.squareup.pos.AUTO_RETURN_TIMEOUT_MS=3200',
+    ];
+    return `intent:#Intent;${extras.join(';')};end`;
+  }
+  const data = {
+    amount_money: { amount: String(start.amount_cents), currency_code: start.currency || 'USD' },
+    callback_url: start.callback_url,
+    client_id: start.application_id,
+    version: '1.3',
+    location_id: start.location_id,
+    notes: start.note,
+    state: start.state,
+    options: {
+      supported_tender_types: ['CREDIT_CARD'],
+      // IDIMS totals already include tax — don't let the Square app add its default fees.
+      clear_default_fees: true,
+      auto_return: true,
+    },
+  };
+  return `square-commerce-v1://payment/create?data=${encodeURIComponent(JSON.stringify(data))}`;
+}
+
+/**
+ * Tap to Pay: ask the backend for the job's balance + signed state, then open the Square app.
+ * Expected backend: POST work-orders/{id}/tap-to-pay
+ */
+export async function startTapToPay(workOrderId) {
+  if (!SQUARE_PAY_FEATURES.tapToPay) throw new Error('Tap to Pay is not turned on.');
+  const start = await apiClient(`work-orders/${workOrderId}/tap-to-pay`, { method: 'POST' });
+  const url = buildPosUrl(start);
+  if (!url) throw new Error('Could not build the Square hand-off.');
+  window.location.href = url;
+  return start;
 }
 
 /** Pre-filled text to the customer from the tech's own Messages app (no Twilio). */

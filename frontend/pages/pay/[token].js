@@ -475,17 +475,37 @@ export default function PayInvoicePage() {
                     background: `linear-gradient(135deg, ${CARD_BG} 60%, #0B2233)`,
                   }}
                 >
-                  {/* Same block logo as the PDF header: logo, phone and email are baked in. */}
-                  <Image
-                    src="/arblockdetailupdate.png"
-                    alt="Atomic Repair · (419) 740-0146 · service@atomicrepair419.com"
-                    width={0}
-                    height={0}
-                    sizes="(min-width: 640px) 380px, 90vw"
-                    priority
-                    className="h-auto w-full sm:w-[380px]"
-                  />
-                  <div className="sm:text-right">
+                  <div className="flex flex-col items-center sm:items-start">
+                    {/* Phone: stacked logo (taller, readable). Desktop: flanking logo. Vercel serves resized WebP. */}
+                    <Image
+                      src="/ar%20logo%20update/layout-2-stacked-right.png"
+                      alt="Atomic Repair"
+                      width={3555}
+                      height={1560}
+                      sizes="85vw"
+                      priority
+                      className="h-auto w-[85%] max-w-[320px] sm:hidden"
+                    />
+                    <Image
+                      src="/ar%20logo%20update/layout-1-flanking.png"
+                      alt="Atomic Repair"
+                      width={6748}
+                      height={1560}
+                      sizes="420px"
+                      priority
+                      className="hidden h-auto w-[420px] sm:block"
+                    />
+                    <div className="mt-1 text-center text-xs text-gray-300 sm:text-left">
+                      <a href={`tel:${(company.phone || '').replace(/[^0-9]/g, '')}`} className="hover:underline">
+                        {company.phone}
+                      </a>
+                      <span className="mx-1.5 text-gray-600">·</span>
+                      <a href={`mailto:${company.email}`} className="break-all hover:underline">
+                        {company.email}
+                      </a>
+                    </div>
+                  </div>
+                  <div className="text-center sm:text-right">
                     <div className="text-[11px] font-bold uppercase tracking-[0.24em]" style={{ color: CYAN }}>
                       Invoice
                     </div>

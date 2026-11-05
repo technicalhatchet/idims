@@ -4,9 +4,9 @@ import MobileActionSheet, { MobileActionSheetButton, MobileActionSheetGridTile }
 import {
   SQUARE_PAY_FEATURES,
   buildPayLinkSmsUrl,
-  buildTapToPayUrl,
   fetchWorkOrderPayLink,
   publishWorkOrderSquareInvoice,
+  startTapToPay,
 } from '../../services/api/squarePayApi';
 
 const POLL_MS = 3000;
@@ -39,6 +39,7 @@ export default function WorkOrderPaySheet({
   const [linkLoading, setLinkLoading] = useState(false);
   const [publishing, setPublishing] = useState(false);
   const [showQr, setShowQr] = useState(false);
+  const [tapStarting, setTapStarting] = useState(false);
   const refreshRef = useRef(onRefreshBalance);
   refreshRef.current = onRefreshBalance;
 
@@ -66,11 +67,26 @@ export default function WorkOrderPaySheet({
     if (!open) setShowQr(false);
   }, [open]);
 
-  const tapUrl = buildTapToPayUrl({
-    workOrderId,
-    amountCents: Math.round(Number(dueToday) * 100),
-    platform: typeof navigator !== 'undefined' && /android/i.test(navigator.userAgent) ? 'android' : 'ios',
-  });
+  // Coming back from the Square app (or its callback tab): refresh so "Paid" shows.
+  useEffect(() => {
+    if (!open) return undefined;
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') refreshRef.current?.();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
+  }, [open]);
+
+  const tapToPay = useCallback(async () => {
+    setTapStarting(true);
+    try {
+      await startTapToPay(workOrderId);
+    } catch (err) {
+      alert(err?.message || 'Could not start Tap to Pay');
+    } finally {
+      setTapStarting(false);
+    }
+  }, [workOrderId]);
   const smsUrl = buildPayLinkSmsUrl({ phone: clientPhone, orderNumber, amountDue: dueToday, payUrl: payLink?.payUrl });
   const linkReady = Boolean(payLink?.payUrl) && !paid;
 
@@ -144,10 +160,10 @@ export default function WorkOrderPaySheet({
           onClick={() => { if (smsUrl) window.location.href = smsUrl; }}
         />
         <MobileActionSheetGridTile
-          label="Tap to Pay"
+          label={tapStarting ? 'Opening…' : 'Tap to Pay'}
           icon={<FaWifi aria-hidden style={{ transform: 'rotate(90deg)' }} />}
-          disabled={paid || !tapUrl}
-          onClick={() => { if (tapUrl) window.location.href = tapUrl; }}
+          disabled={paid || tapStarting || !SQUARE_PAY_FEATURES.tapToPay}
+          onClick={tapToPay}
         />
         <MobileActionSheetGridTile
           label={publishing ? 'Sending…' : 'Email invoice'}
