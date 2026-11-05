@@ -1,9 +1,11 @@
+from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import SQLAlchemyError
 from typing import Optional, Dict, List, Any
 from datetime import datetime
 import uuid
 import logging
+import re
 
 from app.models.client import Client
 from app.services.portal_signup_service import (
@@ -21,6 +23,21 @@ from app.utils.us_phone import normalize_phone_field
 
 logger = logging.getLogger(__name__)
 
+
+def client_search_digits(search: Optional[str]) -> Optional[str]:
+    """Digits to match against phone numbers, or None.
+
+    Only when the search looks like a phone number (3+ digits, and nothing but
+    digits, spaces and phone punctuation), so "Unit 4B" doesn't match phones.
+    """
+    if not search:
+        return None
+    text = search.strip()
+    if not re.fullmatch(r"[\d\s().+\-]+", text):
+        return None
+    digits = re.sub(r"\D", "", text)
+    return digits if len(digits) >= 3 else None
+
 class ClientService:
     """Service for handling client operations"""
     
@@ -31,9 +48,15 @@ class ClientService:
         status: Optional[str] = None,
         portal_signup_incomplete: bool = False,
         skip: int = 0, 
-        limit: int = 100
+        limit: int = 100,
+        sort: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """Get clients with filtering and pagination"""
+        """Get clients with filtering and pagination.
+
+        Search matches name, company, email and phone/mobile (phone by digits, so
+        "419 515" finds "+14195153394"). sort="name" orders A–Z by the name shown
+        on the card (company, else first + last); anything else is newest first.
+        """
         # Use joinedload to eagerly load the user relationship
         query = (
             db.query(Client)
@@ -44,12 +67,22 @@ class ClientService:
         # Apply filters
         if search:
             search_term = f"%{search}%"
-            query = query.filter(
+            matches = (
                 (Client.first_name.ilike(search_term)) |
                 (Client.last_name.ilike(search_term)) |
                 (Client.company_name.ilike(search_term)) |
-                (Client.email.ilike(search_term))
+                (Client.email.ilike(search_term)) |
+                (func.concat(Client.first_name, ' ', Client.last_name).ilike(search_term))
             )
+            digits = client_search_digits(search)
+            if digits:
+                digit_term = f"%{digits}%"
+                matches = matches | (
+                    func.regexp_replace(func.coalesce(Client.phone, ''), '[^0-9]', '', 'g').like(digit_term)
+                ) | (
+                    func.regexp_replace(func.coalesce(Client.mobile, ''), '[^0-9]', '', 'g').like(digit_term)
+                )
+            query = query.filter(matches)
         
         if status:
             query = query.filter(Client.status == status)
@@ -66,7 +99,14 @@ class ClientService:
         total = query.count()
         
         # Apply pagination
-        query = query.order_by(Client.created_at.desc())
+        if sort == "name":
+            display_name = func.lower(func.coalesce(
+                func.nullif(func.trim(Client.company_name), ''),
+                func.trim(func.concat(Client.first_name, ' ', Client.last_name)),
+            ))
+            query = query.order_by(display_name.asc(), Client.created_at.desc())
+        else:
+            query = query.order_by(Client.created_at.desc())
         clients = query.offset(skip).limit(limit).all()
         
         return {
