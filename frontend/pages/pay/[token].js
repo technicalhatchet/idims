@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import PortalSquarePayment from '../../components/cxdashboard/PortalSquarePayment';
 
@@ -474,14 +475,16 @@ export default function PayInvoicePage() {
                     background: `linear-gradient(135deg, ${CARD_BG} 60%, #0B2233)`,
                   }}
                 >
-                  <div className="flex items-center gap-3">
-                    <img src="/arpano.png" alt="" className="h-11 w-auto" />
-                    <div>
-                      <div className="text-lg font-bold tracking-wide text-white">{company.name || 'Atomic Repair'}</div>
-                      <div className="text-xs text-gray-400">{company.phone}</div>
-                      <div className="text-xs text-gray-400">{company.email}</div>
-                    </div>
-                  </div>
+                  {/* Same block logo as the PDF header: logo, phone and email are baked in. */}
+                  <Image
+                    src="/arblockdetailupdate.png"
+                    alt="Atomic Repair · (419) 740-0146 · service@atomicrepair419.com"
+                    width={0}
+                    height={0}
+                    sizes="(min-width: 640px) 380px, 90vw"
+                    priority
+                    className="h-auto w-full sm:w-[380px]"
+                  />
                   <div className="sm:text-right">
                     <div className="text-[11px] font-bold uppercase tracking-[0.24em]" style={{ color: CYAN }}>
                       Invoice
