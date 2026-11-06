@@ -46,7 +46,18 @@ def _collapse_ws(value: str) -> str:
 
 
 def normalized_address_key(address: str, unit: Optional[str]) -> tuple[str, str]:
-    return (_collapse_ws(address).lower(), _collapse_ws(unit or "").lower())
+    """
+    Comparison key for property address matching.
+
+    Strips trailing US country, drops commas/periods, collapses whitespace,
+    lowercases. Does not mutate stored address text.
+    """
+    from app.utils.address_format import strip_trailing_country
+
+    street = strip_trailing_country(address or "")
+    street = re.sub(r"[,.]", "", street)
+    street = _collapse_ws(street).lower()
+    return (street, _collapse_ws(unit or "").lower())
 
 
 def normalize_nickname(value: Optional[str]) -> Optional[str]:
