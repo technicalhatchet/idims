@@ -17,6 +17,28 @@ _US_COUNTRY_ALIASES = frozenset({
 # Reverse of format_property_address trailing ", Unit X" / ", unit X"
 _UNIT_SUFFIX_RE = re.compile(r",\s*(unit\s+.+)\s*$", re.IGNORECASE)
 
+# Trailing country tokens (case-insensitive) after a comma
+_TRAILING_COUNTRY_RE = re.compile(
+    r",\s*(?:"
+    r"united states of america|"
+    r"united states|"
+    r"u\.s\.a\.?|"
+    r"u\.s\.?|"
+    r"usa|"
+    r"us"
+    r")\s*$",
+    re.IGNORECASE,
+)
+
+
+def strip_trailing_country(address: Optional[str]) -> str:
+    """Remove a trailing US country suffix; keep the rest as typed."""
+    raw = (address or "").strip()
+    if not raw:
+        return ""
+    stripped = _TRAILING_COUNTRY_RE.sub("", raw).strip()
+    return stripped.rstrip(",").strip()
+
 
 def format_client_address(addr: Optional[Dict[str, Any]]) -> Optional[str]:
     if not addr or not isinstance(addr, dict):
@@ -56,11 +78,11 @@ def parse_formatted_service_address(
     """
     Split a service-location line into (street, unit) for property matching.
 
+    Strips a trailing US country (", USA" / ", US" / ", United States") before
+    returning the street (storage form: typed address minus country).
     Reverses format_property_address: trailing ", Unit 4" → unit "4".
-    Client mailing lines from format_client_address have no unit suffix and
-    are returned unchanged as the street with unit=None.
     """
-    raw = (formatted or "").strip()
+    raw = strip_trailing_country(formatted)
     if not raw:
         return "", None
     match = _UNIT_SUFFIX_RE.search(raw)

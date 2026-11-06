@@ -13,7 +13,7 @@ from app.services.portal_property_service import (
     _collapse_ws,
     find_duplicate_property,
 )
-from app.utils.address_format import parse_formatted_service_address
+from app.utils.address_format import parse_formatted_service_address, strip_trailing_country
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +49,7 @@ def extract_service_address_parts(
         return "", None
 
     if explicit_unit:
-        return _collapse_ws(address), _collapse_ws(explicit_unit)
+        return _collapse_ws(strip_trailing_country(address)), _collapse_ws(explicit_unit)
 
     street, unit = parse_formatted_service_address(address)
     return _collapse_ws(street), (_collapse_ws(unit) if unit else None)

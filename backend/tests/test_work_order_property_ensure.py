@@ -8,6 +8,7 @@ from uuid import uuid4
 
 import pytest
 
+from app.services.portal_property_service import normalized_address_key
 from app.services.work_order_property_service import (
     ensure_client_property_for_service_address,
     extract_service_address_parts,
@@ -17,8 +18,73 @@ from app.utils.address_format import (
     format_client_address,
     format_property_address,
     parse_formatted_service_address,
+    strip_trailing_country,
 )
 from scripts.backfill_work_order_properties import plan_client_backfill
+
+
+def test_strip_trailing_country_variants():
+    assert (
+        strip_trailing_country("928 W Wayne, Maumee, OH, 43537, USA")
+        == "928 W Wayne, Maumee, OH, 43537"
+    )
+    assert strip_trailing_country("1 Main St, US") == "1 Main St"
+    assert (
+        strip_trailing_country("1 Main St, United States") == "1 Main St"
+    )
+
+
+def test_normalized_key_ignores_usa_and_punctuation():
+    a = "928 W Wayne, Maumee, OH, 43537"
+    b = "928 W Wayne, Maumee, OH, 43537, USA"
+    assert normalized_address_key(a, None) == normalized_address_key(b, None)
+
+    dotted = "2478 Franklin Ave. Toledo, OH 43620"
+    comma = "2478 Franklin Ave, Toledo, OH 43620"
+    assert normalized_address_key(dotted, None) == normalized_address_key(comma, None)
+
+
+def test_parse_strips_country_for_storage():
+    street, unit = parse_formatted_service_address(
+        "928 W Wayne, Maumee, OH, 43537, USA"
+    )
+    assert street == "928 W Wayne, Maumee, OH, 43537"
+    assert unit is None
+
+
+def test_ensure_matches_existing_property_without_usa():
+    """WO address with USA links to property stored without USA — no twin."""
+    cid = uuid4()
+    existing = SimpleNamespace(
+        id=uuid4(),
+        client_id=cid,
+        address="928 W Wayne, Maumee, OH, 43537",
+        unit_number=None,
+    )
+    db = MagicMock()
+    db.query.return_value.filter.return_value.all.return_value = [existing]
+
+    prop = ensure_client_property_for_service_address(
+        db,
+        cid,
+        {"address": "928 W Wayne, Maumee, OH, 43537, USA"},
+    )
+    assert prop is existing
+    db.add.assert_not_called()
+
+
+def test_ensure_stores_address_without_country():
+    cid = uuid4()
+    db = MagicMock()
+    db.query.return_value.filter.return_value.all.return_value = []
+
+    prop = ensure_client_property_for_service_address(
+        db,
+        cid,
+        {"address": "928 W Wayne, Maumee, OH, 43537, USA"},
+    )
+    assert prop.address == "928 W Wayne, Maumee, OH, 43537"
+    db.add.assert_called_once()
 
 
 def test_parse_unit_suffix_from_format_property_address():
