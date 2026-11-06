@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import PortalSquarePayment from '../../components/cxdashboard/PortalSquarePayment';
 
@@ -476,25 +475,30 @@ export default function PayInvoicePage() {
                   }}
                 >
                   <div className="flex flex-col items-center sm:items-start">
-                    {/* Phone: stacked logo (taller, readable). Desktop: flanking logo. Vercel serves resized WebP. */}
-                    <Image
-                      src="/ar%20logo%20update/layout-2-stacked-right.png"
-                      alt="Atomic Repair"
-                      width={3555}
-                      height={1560}
-                      sizes="85vw"
-                      priority
-                      className="h-auto w-[85%] max-w-[320px] sm:hidden"
-                    />
-                    <Image
-                      src="/ar%20logo%20update/layout-1-flanking.png"
-                      alt="Atomic Repair"
-                      width={6748}
-                      height={1560}
-                      sizes="420px"
-                      priority
-                      className="hidden h-auto w-[420px] sm:block"
-                    />
+                    {/* Phone: stacked logo. Desktop: flanking logo. Pre-sized WebP with PNG fallback in
+                        public/brand/ — no spaces in the path and no image optimizer in the way. */}
+                    <picture className="block w-[85%] max-w-[320px] sm:hidden">
+                      <source srcSet="/brand/pay-logo-stacked.webp" type="image/webp" />
+                      <img
+                        src="/brand/pay-logo-stacked.png"
+                        alt="Atomic Repair"
+                        width={960}
+                        height={421}
+                        fetchpriority="high"
+                        className="block h-auto w-full"
+                      />
+                    </picture>
+                    <picture className="hidden w-[420px] sm:block">
+                      <source srcSet="/brand/pay-logo-flanking.webp" type="image/webp" />
+                      <img
+                        src="/brand/pay-logo-flanking.png"
+                        alt="Atomic Repair"
+                        width={1260}
+                        height={291}
+                        fetchpriority="high"
+                        className="block h-auto w-full"
+                      />
+                    </picture>
                     <div className="mt-1 text-center text-xs text-gray-300 sm:text-left">
                       <a href={`tel:${(company.phone || '').replace(/[^0-9]/g, '')}`} className="hover:underline">
                         {company.phone}
