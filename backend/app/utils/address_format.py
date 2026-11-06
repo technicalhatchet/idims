@@ -14,8 +14,17 @@ _US_COUNTRY_ALIASES = frozenset({
     "united states of america",
 })
 
-# Reverse of format_property_address trailing ", Unit X" / ", unit X"
-_UNIT_SUFFIX_RE = re.compile(r",\s*(unit\s+.+)\s*$", re.IGNORECASE)
+# Inline unit clause: ", Unit 109," / "/ unit 109" / ", Apt 2B" / ", #3" / ", Ste 4"
+# Captures only the unit token — city/state/zip stay in the street.
+_UNIT_CLAUSE_RE = re.compile(
+    r"(?:,\s*|\s*/\s*)"
+    r"(?:"
+    r"(?:unit|apt\.?|apartment|ste\.?|suite)\s+([A-Za-z0-9-]+)"
+    r"|#\s*([A-Za-z0-9-]+)"
+    r")"
+    r"(?=\s*[,/]|$)",
+    re.IGNORECASE,
+)
 
 # Trailing country tokens (case-insensitive) after a comma
 _TRAILING_COUNTRY_RE = re.compile(
@@ -29,6 +38,10 @@ _TRAILING_COUNTRY_RE = re.compile(
     r")\s*$",
     re.IGNORECASE,
 )
+
+
+def _collapse_ws_local(value: str) -> str:
+    return re.sub(r"\s+", " ", (value or "").strip())
 
 
 def strip_trailing_country(address: Optional[str]) -> str:
@@ -80,16 +93,20 @@ def parse_formatted_service_address(
 
     Strips a trailing US country (", USA" / ", US" / ", United States") before
     returning the street (storage form: typed address minus country).
-    Reverses format_property_address: trailing ", Unit 4" → unit "4".
+
+    Unit is only the token after Unit/Apt/#/Ste (e.g. "109"), not city/state/zip.
+    "3040 Byrnwyck W, Unit 109, Maumee, OH, 43537" →
+      street "3040 Byrnwyck W, Maumee, OH, 43537", unit "109".
     """
     raw = strip_trailing_country(formatted)
     if not raw:
         return "", None
-    match = _UNIT_SUFFIX_RE.search(raw)
+    match = _UNIT_CLAUSE_RE.search(raw)
     if not match:
         return raw, None
-    street = raw[: match.start()].strip()
-    unit_token = match.group(1).strip()
-    # Strip leading "unit " so stored unit_number round-trips with format_property_address
-    unit_number = re.sub(r"^unit\s+", "", unit_token, flags=re.IGNORECASE).strip() or None
+    unit_number = (match.group(1) or match.group(2) or "").strip() or None
+    street = f"{raw[: match.start()]}{raw[match.end():]}"
+    street = re.sub(r"\s*,\s*,\s*", ", ", street)
+    street = re.sub(r"^\s*,\s*|\s*,\s*$", "", street)
+    street = _collapse_ws_local(street)
     return street or raw, unit_number
