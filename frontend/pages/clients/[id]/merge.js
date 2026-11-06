@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { FaArrowLeft, FaExchangeAlt } from 'react-icons/fa';
 import TechDashboardLayout from '../../../components/layouts/TechDashboardLayout';
+import TechboardHudDoubleTapShell from '../../../components/layouts/TechboardHudDoubleTapShell';
 import LoadingSpinner from '../../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../../components/ui/ErrorAlert';
 import { withPageAuthRequired } from '../../../utils/auth0-helpers';
@@ -137,7 +138,9 @@ function ClientMergePage() {
   if (roleLoading || anchorLoading) {
     return (
       <TechDashboardLayout>
-        <LoadingSpinner />
+        <TechboardHudDoubleTapShell contentClassName="py-10 flex justify-center pb-24">
+          <LoadingSpinner />
+        </TechboardHudDoubleTapShell>
       </TechDashboardLayout>
     );
   }
@@ -145,9 +148,9 @@ function ClientMergePage() {
   if (!isAdmin) {
     return (
       <TechDashboardLayout>
-        <div className="p-4">
+        <TechboardHudDoubleTapShell contentClassName="p-4 pb-24">
           <ErrorAlert message="Admin access required to merge clients." />
-        </div>
+        </TechboardHudDoubleTapShell>
       </TechDashboardLayout>
     );
   }
@@ -157,7 +160,7 @@ function ClientMergePage() {
       <Head>
         <title>Merge duplicate client</title>
       </Head>
-      <div className="px-4 pb-8" style={{ paddingTop: 'calc(64px + env(safe-area-inset-top) + 1rem)' }}>
+      <TechboardHudDoubleTapShell contentClassName="px-4 pb-8 pt-4">
         <div className="flex items-center gap-3 mb-4">
           <Link href={`/clients/${routeClientId}/mobile`} className="text-cyan-400 p-2">
             <FaArrowLeft />
@@ -332,7 +335,7 @@ function ClientMergePage() {
             </button>
           </div>
         )}
-      </div>
+      </TechboardHudDoubleTapShell>
     </TechDashboardLayout>
   );
 }

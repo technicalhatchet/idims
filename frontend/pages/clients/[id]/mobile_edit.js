@@ -11,7 +11,7 @@ import { useClient, useClientMutations } from '../../../hooks/useClients';
 import { useAuthRedirect } from '../../../hooks/useAuthRedirect';
 import { withPageAuthRequired } from '../../../utils/auth0-helpers';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
+import { useHudGridDoubleTapRail } from '../../../hooks/useHudGridDoubleTapRail';
 
 function EditClient() {
   const router = useRouter();
@@ -25,58 +25,7 @@ function EditClient() {
   const { data: client, isLoading: clientLoading, error: clientError } = useClient(id);
   
   const tacticalColumnRef = useRef(null);
-  const { openRail } = useTechDashboardRail() || {};
-
-  // Attach double-tap listener
-  useEffect(() => {
-    if (clientLoading || clientError || !tacticalColumnRef.current || !openRail) return;
-
-    const layer = tacticalColumnRef.current;
-    const lastTap = { t: 0, x: 0, y: 0 };
-
-    const tryOpenRail = (x, y, event) => {
-      const now = Date.now();
-      const dt = now - lastTap.t;
-      const dist = Math.hypot(x - lastTap.x, y - lastTap.y);
-      if (lastTap.t && dt < 350 && dist < 48) {
-        if (event) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        openRail();
-        lastTap.t = 0;
-        return true;
-      }
-      lastTap.t = now;
-      lastTap.x = x;
-      lastTap.y = y;
-      return false;
-    };
-
-    const onTouch = (e) => {
-      if (e.touches.length === 1) {
-        const t = e.touches[0];
-        if (tryOpenRail(t.clientX, t.clientY, e)) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      }
-    };
-
-    const onDblClick = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      openRail();
-    };
-
-    layer.addEventListener('touchstart', onTouch, { passive: false });
-    layer.addEventListener('dblclick', onDblClick);
-
-    return () => {
-      layer.removeEventListener('touchstart', onTouch);
-      layer.removeEventListener('dblclick', onDblClick);
-    };
-  }, [clientLoading, clientError, openRail]);
+  const gridTapLayerRef = useHudGridDoubleTapRail();
   
   // Client mutations
   const { updateClient, deleteClient } = useClientMutations();
@@ -260,6 +209,7 @@ function EditClient() {
         >
           
           <div className="edit-tactical-scan" />
+          <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
 
           <div 
             className="fixed top-0 left-0 right-0 z-20 edit-hud-titleplate-grid"

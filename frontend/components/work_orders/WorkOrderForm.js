@@ -244,8 +244,16 @@ const [loadingProperties, setLoadingProperties] = useState(false);
 const [selectedPropertyId, setSelectedPropertyId] = useState('');
 const [showNewPropertyForm, setShowNewPropertyForm] = useState(false);
 const [newPropertyData, setNewPropertyData] = useState({
-  address: '', unit_number: '', property_type: 'residential', gate_code: '', access_instructions: ''
+  address: '',
+  unit_number: '',
+  property_type: 'residential',
+  gate_code: '',
+  access_instructions: '',
+  tenant_name: '',
+  tenant_phone: '',
+  tenant_email: '',
 });
+const [showNewPropertyTenant, setShowNewPropertyTenant] = useState(false);
 const [newPropertySaving, setNewPropertySaving] = useState(false);
 const [newPropertyError, setNewPropertyError] = useState(null);
 
@@ -1064,7 +1072,17 @@ const handleCreateProperty = async () => {
     setClientProperties(prev => [...prev, created]);
     handlePropertySelect(created.id);
     setShowNewPropertyForm(false);
-    setNewPropertyData({ address: '', unit_number: '', property_type: 'residential', gate_code: '', access_instructions: '' });
+    setShowNewPropertyTenant(false);
+    setNewPropertyData({
+      address: '',
+      unit_number: '',
+      property_type: 'residential',
+      gate_code: '',
+      access_instructions: '',
+      tenant_name: '',
+      tenant_phone: '',
+      tenant_email: '',
+    });
   } catch (err) {
     setNewPropertyError(err.message || 'Failed to create property');
   } finally {
@@ -1445,7 +1463,24 @@ const handleCreateProperty = async () => {
               {errors.property_id && (
                 <p className={`text-sm ${isMobile ? 'text-red-400' : 'text-red-600'}`}>{errors.property_id}</p>
               )}
-              <button type="button" onClick={() => setShowNewPropertyForm(true)} className={`text-sm flex items-center gap-1 ${isMobile ? 'text-cyan-400 hover:text-cyan-300' : 'text-blue-600 hover:text-blue-700 dark:text-blue-400'}`}>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowNewPropertyForm(true);
+                  setShowNewPropertyTenant(false);
+                  setNewPropertyData({
+                    address: '',
+                    unit_number: '',
+                    property_type: 'residential',
+                    gate_code: '',
+                    access_instructions: '',
+                    tenant_name: '',
+                    tenant_phone: '',
+                    tenant_email: '',
+                  });
+                }}
+                className={`text-sm flex items-center gap-1 ${isMobile ? 'text-cyan-400 hover:text-cyan-300' : 'text-blue-600 hover:text-blue-700 dark:text-blue-400'}`}
+              >
                 <FaUserPlus className="w-3 h-3" /> Add new property for this client
               </button>
             </div>
@@ -1458,7 +1493,15 @@ const handleCreateProperty = async () => {
               {newPropertyError && <p className="text-sm text-red-600 dark:text-red-400">{newPropertyError}</p>}
               <input type="text" placeholder="Address *" value={newPropertyData.address} onChange={e => setNewPropertyData(p => ({ ...p, address: e.target.value }))} className={`w-full px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white'}`} />
               <input type="text" placeholder="Unit number (optional)" value={newPropertyData.unit_number} onChange={e => setNewPropertyData(p => ({ ...p, unit_number: e.target.value }))} className={`w-full px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white'}`} />
-              <select value={newPropertyData.property_type} onChange={e => setNewPropertyData(p => ({ ...p, property_type: e.target.value }))} className={`w-full px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white'}`}>
+              <select
+                value={newPropertyData.property_type}
+                onChange={e => {
+                  const property_type = e.target.value;
+                  setNewPropertyData(p => ({ ...p, property_type }));
+                  setShowNewPropertyTenant(property_type === 'rental' || property_type === 'commercial');
+                }}
+                className={`w-full px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white'}`}
+              >
                 <option value="residential">Residential</option>
                 <option value="rental">Rental Property</option>
                 <option value="commercial">Commercial</option>
@@ -1466,6 +1509,16 @@ const handleCreateProperty = async () => {
               </select>
               <input type="text" placeholder="Gate code (optional)" value={newPropertyData.gate_code} onChange={e => setNewPropertyData(p => ({ ...p, gate_code: e.target.value }))} className={`w-full px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white'}`} />
               <textarea placeholder="Access instructions (optional)" value={newPropertyData.access_instructions} onChange={e => setNewPropertyData(p => ({ ...p, access_instructions: e.target.value }))} rows={2} className={`w-full px-3 py-2 rounded-md text-sm resize-none ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white'}`} />
+              {showNewPropertyTenant && (
+                <div className={`space-y-3 pt-2 border-t ${isMobile ? 'border-cyan-500/20' : 'border-blue-200 dark:border-blue-800'}`}>
+                  <p className={`text-xs font-semibold uppercase tracking-wider ${isMobile ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                    Tenant / Occupant (optional)
+                  </p>
+                  <input type="text" placeholder="Tenant name" value={newPropertyData.tenant_name} onChange={e => setNewPropertyData(p => ({ ...p, tenant_name: e.target.value }))} className={`w-full px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white'}`} />
+                  <input type="text" placeholder="Tenant phone" value={newPropertyData.tenant_phone} onChange={e => setNewPropertyData(p => ({ ...p, tenant_phone: e.target.value }))} className={`w-full px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white'}`} />
+                  <input type="text" placeholder="Tenant email" value={newPropertyData.tenant_email} onChange={e => setNewPropertyData(p => ({ ...p, tenant_email: e.target.value }))} className={`w-full px-3 py-2 rounded-md text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white' : 'border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white'}`} />
+                </div>
+              )}
               <div className="flex gap-2">
                 <button type="button" onClick={handleCreateProperty} disabled={newPropertySaving} className={`flex-1 px-3 py-2 rounded-md disabled:opacity-50 text-sm font-medium ${isMobile ? 'bg-cyan-600 text-white hover:bg-cyan-700' : 'bg-blue-600 text-white hover:bg-blue-700'}`}>
                   {newPropertySaving ? 'Creating...' : 'Create Property'}

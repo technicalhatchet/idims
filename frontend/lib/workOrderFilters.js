@@ -56,5 +56,12 @@ export function filterWorkOrdersByListParams(items, params = {}) {
     list = list.filter((wo) => String(wo.assigned_technician_id || '') === techId);
   }
 
+  if (params.client_id) {
+    const clientId = String(params.client_id);
+    list = list.filter(
+      (wo) => String(wo.client_id || wo.client?.id || '') === clientId,
+    );
+  }
+
   return list;
 }

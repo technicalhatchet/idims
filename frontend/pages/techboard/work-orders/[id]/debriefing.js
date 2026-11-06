@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { getSession } from '@auth0/nextjs-auth0';
 import TechDashboardLayout from '../../../../components/layouts/TechDashboardLayout';
+import TechboardHudDoubleTapShell from '../../../../components/layouts/TechboardHudDoubleTapShell';
 import DebriefingFullPage from '../../../../components/work_orders/DebriefingFullPage';
 import LoadingSpinner from '../../../../components/ui/LoadingSpinner';
 
@@ -10,13 +11,17 @@ function WorkOrderDebriefingPage() {
 
   if (!router.isReady || !id) {
     return (
-      <div className="py-10 flex justify-center">
+      <TechboardHudDoubleTapShell contentClassName="py-10 flex justify-center pb-24">
         <LoadingSpinner size="large" />
-      </div>
+      </TechboardHudDoubleTapShell>
     );
   }
 
-  return <DebriefingFullPage workOrderId={id} />;
+  return (
+    <TechboardHudDoubleTapShell contentClassName="relative z-10 pb-24" columnClassName="">
+      <DebriefingFullPage workOrderId={id} />
+    </TechboardHudDoubleTapShell>
+  );
 }
 
 WorkOrderDebriefingPage.getLayout = function getLayout(page) {

@@ -24,7 +24,7 @@ import { withPageAuthRequired } from '../../../utils/auth0-helpers';
 import { apiClient } from '../../../utils/api-client';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { useUserRole } from '../../../context/UserRoleContext';
-import { useTechDashboardRail } from '../../../components/layouts/TechDashboardLayout';
+import { useHudGridDoubleTapRail } from '../../../hooks/useHudGridDoubleTapRail';
 import ClientAppliancesPanel from '../../../components/clients/ClientAppliancesPanel';
 import AutoApproveLimitField from '../../../components/clients/AutoApproveLimitField';
 import { useFeature } from '../../../context/FeatureFlagsContext';
@@ -33,6 +33,25 @@ import {
   buildPortalInviteSmsBody,
   buildPortalInviteSmsUrl,
 } from '../../../utils/portalInviteSms';
+
+function propertyHasTenantFields(form) {
+  return Boolean(
+    String(form?.tenant_name || '').trim() ||
+    String(form?.tenant_phone || '').trim() ||
+    String(form?.tenant_email || '').trim()
+  );
+}
+
+function clientPersonInitials(client) {
+  const first = String(client?.first_name || '').trim();
+  const last = String(client?.last_name || '').trim();
+  if (first || last) {
+    return `${first.charAt(0)}${last.charAt(0)}`.toUpperCase();
+  }
+  const company = String(client?.company_name || '').trim();
+  if (company) return company.slice(0, 2).toUpperCase();
+  return '?';
+}
 
 const formatPhoneNumber = (phoneNumberString) => {
   if (!phoneNumberString) return '';
@@ -72,6 +91,18 @@ function PropertyForm({
   onCancel,
   autoApproveEnabled = false,
 }) {
+  const [showTenantSection, setShowTenantSection] = useState(() => {
+    const t = propertyForm.property_type;
+    return t === 'rental' || t === 'commercial' || propertyHasTenantFields(propertyForm);
+  });
+
+  useEffect(() => {
+    const t = propertyForm.property_type;
+    setShowTenantSection(t === 'rental' || t === 'commercial' || propertyHasTenantFields(propertyForm));
+    // Re-evaluate when opening a different property (or switching add vs edit)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: type-change hide is handled in select onChange
+  }, [editingProperty?.id]);
+
   return (
     <div 
       className="rounded-lg p-4 mb-4"
@@ -143,7 +174,11 @@ function PropertyForm({
             <label className="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1.5">Property Type</label>
             <select 
               value={propertyForm.property_type} 
-              onChange={e => setPropertyForm(p => ({ ...p, property_type: e.target.value }))} 
+              onChange={e => {
+                const property_type = e.target.value;
+                setPropertyForm(p => ({ ...p, property_type }));
+                setShowTenantSection(property_type === 'rental' || property_type === 'commercial');
+              }} 
               className="w-full px-3 py-2.5 rounded-md text-white text-sm"
               style={{
                 background: 'rgba(0, 0, 0, 0.3)',
@@ -186,6 +221,7 @@ function PropertyForm({
             />
           </div>
         </div>
+        {showTenantSection && (
         <div className="pt-2 border-t border-cyan-500/20 mt-2">
           <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Tenant / Occupant (optional)</p>
           <div className="space-y-3">
@@ -236,19 +272,20 @@ function PropertyForm({
                 />
               </div>
             </div>
-            {autoApproveEnabled ? (
-              <div className="mt-3">
-                <AutoApproveLimitField
-                  label="Auto-approve repairs up to ($)"
-                  hint="Property override; blank uses client default or always ask."
-                  value={propertyForm.estimate_auto_approve_limit}
-                  onChange={(v) => setPropertyForm((p) => ({ ...p, estimate_auto_approve_limit: v }))}
-                  inputClassName="w-full px-3 py-2.5 rounded-md text-white text-sm"
-                />
-              </div>
-            ) : null}
           </div>
         </div>
+        )}
+        {autoApproveEnabled ? (
+          <div className="mt-3">
+            <AutoApproveLimitField
+              label="Auto-approve repairs up to ($)"
+              hint="Property override; blank uses client default or always ask."
+              value={propertyForm.estimate_auto_approve_limit}
+              onChange={(v) => setPropertyForm((p) => ({ ...p, estimate_auto_approve_limit: v }))}
+              inputClassName="w-full px-3 py-2.5 rounded-md text-white text-sm"
+            />
+          </div>
+        ) : null}
       </div>
       <div className="flex gap-2 mt-5">
         <button 
@@ -360,58 +397,7 @@ function ClientDetail() {
   }, [id]);
 
   const tacticalColumnRef = useRef(null);
-  const { openRail } = useTechDashboardRail() || {};
-
-  // Attach double-tap listener
-  useEffect(() => {
-    if (clientLoading || clientError || !tacticalColumnRef.current || !openRail) return;
-
-    const layer = tacticalColumnRef.current;
-    const lastTap = { t: 0, x: 0, y: 0 };
-
-    const tryOpenRail = (x, y, event) => {
-      const now = Date.now();
-      const dt = now - lastTap.t;
-      const dist = Math.hypot(x - lastTap.x, y - lastTap.y);
-      if (lastTap.t && dt < 350 && dist < 48) {
-        if (event) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        openRail();
-        lastTap.t = 0;
-        return true;
-      }
-      lastTap.t = now;
-      lastTap.x = x;
-      lastTap.y = y;
-      return false;
-    };
-
-    const onTouch = (e) => {
-      if (e.touches.length === 1) {
-        const t = e.touches[0];
-        if (tryOpenRail(t.clientX, t.clientY, e)) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      }
-    };
-
-    const onDblClick = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      openRail();
-    };
-
-    layer.addEventListener('touchstart', onTouch, { passive: false });
-    layer.addEventListener('dblclick', onDblClick);
-
-    return () => {
-      layer.removeEventListener('touchstart', onTouch);
-      layer.removeEventListener('dblclick', onDblClick);
-    };
-  }, [clientLoading, clientError, openRail]);
+  const gridTapLayerRef = useHudGridDoubleTapRail();
 
   const togglePropertyExpanded = (propertyId) => {
     setExpandedProperties(prev => {
@@ -524,8 +510,6 @@ function ClientDetail() {
     }
   };
 
-  const hudGridShiftForTitleplate = 64;
-
   if (clientLoading || !id) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -572,15 +556,8 @@ function ClientDetail() {
             linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
             linear-gradient(90deg, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
           background-size: 24px 24px;
-          background-position: 0 ${hudGridShiftForTitleplate}px, 0 ${hudGridShiftForTitleplate}px;
           pointer-events: none;
           z-index: 0;
-        }
-        .client-hud-titleplate-grid {
-          background-image:
-            linear-gradient(rgba(34, 211, 238, 0.15) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(34, 211, 238, 0.15) 1px, transparent 1px);
-          background-size: 8px 8px;
         }
         .hud-tactical-column {
           touch-action: manipulation;
@@ -604,44 +581,9 @@ function ClientDetail() {
         >
           
           <div className="client-tactical-scan" />
+          <div ref={gridTapLayerRef} className="absolute inset-0 z-[1]" aria-hidden />
 
-          <div 
-            className="fixed top-0 left-0 right-0 z-20 client-hud-titleplate-grid"
-            style={{
-              height: '64px',
-              background: 'linear-gradient(180deg, rgba(13, 21, 37, 0.98) 0%, rgba(13, 21, 37, 0.95) 100%)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              borderBottom: '2px solid rgba(34, 211, 238, 0.5)',
-              paddingTop: 'env(safe-area-inset-top)',
-            }}
-          >
-            <div className="h-full flex items-center justify-between px-4">
-              <Link 
-                href="/techboard/assets"
-                className="text-cyan-400 hover:text-cyan-300 transition-colors"
-              >
-                <FaArrowLeft size={20} />
-              </Link>
-              <h1 className="client-hud-orbitron text-cyan-400 text-lg uppercase tracking-wider truncate mx-4">
-                Client Profile
-              </h1>
-              <Link
-                href={`/clients/${id}/mobile_edit`}
-                className="text-cyan-400 hover:text-cyan-300 transition-colors"
-              >
-                <FaEdit size={18} />
-              </Link>
-            </div>
-          </div>
-
-          <div 
-            className="relative z-10 pb-6"
-            style={{
-              paddingTop: 'calc(64px + env(safe-area-inset-top) + 1rem)',
-              minHeight: '100vh',
-            }}
-          >
+          <div className="relative z-10 pb-6 pt-4" style={{ minHeight: '100vh' }}>
             <div className="px-4 space-y-4">
           {mergeWarnings.length > 0 && (
             <div
@@ -683,7 +625,9 @@ function ClientDetail() {
                 {isCompany ? (
                   <FaBuilding className="text-cyan-400" size={24} />
                 ) : (
-                  <FaUser className="text-cyan-400" size={24} />
+                  <span className="client-hud-orbitron text-cyan-400 text-lg tracking-wide">
+                    {clientPersonInitials(client)}
+                  </span>
                 )}
               </div>
               <div className="flex-1 min-w-0">
@@ -742,7 +686,7 @@ function ClientDetail() {
               </div>
               <div className="text-center">
                 <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Work Orders</p>
-                <p className="text-lg font-bold text-cyan-400">{workOrdersData?.totalItems || 0}</p>
+                <p className="text-lg font-bold text-cyan-400">{workOrdersData?.total || 0}</p>
               </div>
               <div className="text-center">
                 <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Since</p>
@@ -751,20 +695,6 @@ function ClientDetail() {
                 </p>
               </div>
             </div>
-
-            {isAdmin && (
-              <Link
-                href={`/clients/${id}/merge`}
-                className="flex items-center justify-center gap-2 py-3 mt-4 rounded-lg text-sm font-bold uppercase tracking-wide w-full"
-                style={{
-                  background: 'rgba(245, 158, 11, 0.12)',
-                  border: '1px solid rgba(245, 158, 11, 0.35)',
-                  color: '#FCD34D',
-                }}
-              >
-                Merge duplicate…
-              </Link>
-            )}
 
             <div className="grid grid-cols-2 gap-3 mt-4">
               <Link
@@ -842,11 +772,23 @@ function ClientDetail() {
                     )}
                     <div>
                       <p className="text-xs text-gray-500 uppercase tracking-wide">Email</p>
-                      <p className="text-cyan-400 text-sm">{client?.email || 'N/A'}</p>
+                      {client?.email ? (
+                        <a href={`mailto:${client.email}`} className="text-cyan-400 text-sm hover:text-cyan-300">
+                          {client.email}
+                        </a>
+                      ) : (
+                        <p className="text-cyan-400 text-sm">N/A</p>
+                      )}
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 uppercase tracking-wide">Phone</p>
-                      <p className="text-cyan-400">{client?.phone ? formatPhoneNumber(client.phone) : 'N/A'}</p>
+                      {client?.phone ? (
+                        <a href={`tel:${client.phone}`} className="text-cyan-400 hover:text-cyan-300">
+                          {formatPhoneNumber(client.phone)}
+                        </a>
+                      ) : (
+                        <p className="text-cyan-400">N/A</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -871,6 +813,16 @@ function ClientDetail() {
                     )}
                   </div>
                 </div>
+                {isAdmin && (
+                  <div className="pt-3 border-t border-cyan-500/20">
+                    <Link
+                      href={`/clients/${id}/merge`}
+                      className="text-sm text-amber-300/90 hover:text-amber-200 underline-offset-2 hover:underline"
+                    >
+                      Merge duplicate…
+                    </Link>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -1132,7 +1084,7 @@ function ClientDetail() {
               <div className="flex items-center gap-3">
                 <FaTools className="text-cyan-400" size={18} />
                 <span className="text-white font-bold uppercase tracking-wide">Work Orders</span>
-                {workOrdersData?.totalItems > 0 && (
+                {workOrdersData?.total > 0 && (
                   <span 
                     className="px-2 py-0.5 rounded text-xs font-bold"
                     style={{
@@ -1140,7 +1092,7 @@ function ClientDetail() {
                       color: '#22D3EE',
                     }}
                   >
-                    {workOrdersData.totalItems}
+                    {workOrdersData.total}
                   </span>
                 )}
               </div>
@@ -1208,7 +1160,7 @@ function ClientDetail() {
                         </div>
                       </Link>
                     ))}
-                    {workOrdersData.totalItems > workOrdersData.items.length && (
+                    {workOrdersData.total > workOrdersData.items.length && (
                       <Link
                         href={`/work_orders?client_id=${id}`}
                         className="block text-center py-2.5 mt-2 rounded-md text-sm font-medium text-cyan-400 transition-all active:opacity-70"
@@ -1217,7 +1169,7 @@ function ClientDetail() {
                           border: '1px solid rgba(34, 211, 238, 0.3)',
                         }}
                       >
-                        View All ({workOrdersData.totalItems})
+                        View All ({workOrdersData.total})
                       </Link>
                     )}
                   </div>

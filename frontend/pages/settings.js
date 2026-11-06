@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import TechDashboardLayout from '../components/layouts/TechDashboardLayout';
+import TechboardHudDoubleTapShell from '../components/layouts/TechboardHudDoubleTapShell';
 import { useUIPreferences } from '../context/UIPreferencesContext';
 import { apiClient } from '../utils/api-client';
 import { upsertAppSetting } from '../utils/upsertAppSetting';
@@ -2390,62 +2391,63 @@ export default function Settings() {
   const accordionSectionIds = SETTINGS_TAB_SECTIONS[activeTab] || [];
 
   return (
-    <div className="min-h-screen p-4 sm:p-6" style={{ background: '#0B0F1A' }}>
-      <div className="max-w-2xl mx-auto">
-        {/* Page Header */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-white">Settings</h1>
-          <p className="text-gray-400 mt-1">Customize your experience</p>
-        </div>
-
-        {/* Tabs */}
-        <div className="flex gap-1 mb-6 p-1 rounded-lg overflow-x-auto" style={{ background: 'rgba(255,255,255,0.03)' }}>
-          {TABS.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex-shrink-0 flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-md text-sm font-medium transition-all ${
-                activeTab === tab.id 
-                  ? 'bg-cyan-500/10 text-cyan-400' 
-                  : 'text-gray-400 hover:text-gray-300 hover:bg-white/5'
-              }`}
-            >
-              <TabIcon type={tab.icon} className={`w-4 h-4 ${activeTab === tab.id ? 'stroke-cyan-400' : 'stroke-current'}`} />
-              <span className="hidden sm:inline">{tab.label}</span>
-            </button>
-          ))}
-        </div>
-
-        <CustomerOutreachTestModeBanner />
-
-        {/* Tab Content */}
-        <SettingsAccordionProvider tabId={activeTab} sectionIds={accordionSectionIds}>
-          {accordionSectionIds.length > 0 ? <SettingsAccordionToolbar /> : null}
-          <div className="space-y-4">
-            {activeTab === 'interface' && renderInterfaceTab()}
-            {activeTab === 'availability' && renderAvailabilityTab()}
-            {activeTab === 'client-portal' && <ClientPortalSettingsAccordions />}
-            {activeTab === 'notifications' && (
-              <div className="space-y-4">
-                <SettingsAccordion sectionId="customer-outreach" title="Customer outreach" summary="Test mode and automatic outreach gating">
-                  <CustomerOutreachSettingsPanel />
-                </SettingsAccordion>
-                <SettingsAccordion sectionId="worker-flags" title="Worker jobs" summary="Celery beat tasks and background email flags">
-                  <WorkerFeatureFlagsSettingsPanel />
-                </SettingsAccordion>
-                <SettingsAccordion sectionId="push-notifications" title="Push notifications" summary="Staff deploy and schedule push settings">
-                  <PushNotificationSettingsPanel />
-                </SettingsAccordion>
-              </div>
-            )}
-            {activeTab === 'service-areas' && renderServiceAreasTab()}
-            {activeTab === 'tax' && renderTaxTab()}
-            {activeTab === 'parts' && renderPartsTab()}
-            {activeTab === 'price-book' && renderPriceBookTab()}
-          </div>
-        </SettingsAccordionProvider>
+    <TechboardHudDoubleTapShell
+      contentClassName="p-4 sm:p-6 max-w-2xl mx-auto pb-24"
+      columnClassName="max-w-2xl mx-auto"
+    >
+      {/* Page Header */}
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-white">Settings</h1>
+        <p className="text-gray-400 mt-1">Customize your experience</p>
       </div>
-    </div>
+
+      {/* Tabs */}
+      <div className="flex gap-1 mb-6 p-1 rounded-lg overflow-x-auto" style={{ background: 'rgba(255,255,255,0.03)' }}>
+        {TABS.map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`flex-shrink-0 flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-md text-sm font-medium transition-all ${
+              activeTab === tab.id 
+                ? 'bg-cyan-500/10 text-cyan-400' 
+                : 'text-gray-400 hover:text-gray-300 hover:bg-white/5'
+            }`}
+          >
+            <TabIcon type={tab.icon} className={`w-4 h-4 ${activeTab === tab.id ? 'stroke-cyan-400' : 'stroke-current'}`} />
+            <span className="hidden sm:inline">{tab.label}</span>
+          </button>
+        ))}
+      </div>
+
+      <CustomerOutreachTestModeBanner />
+
+      {/* Tab Content */}
+      <SettingsAccordionProvider tabId={activeTab} sectionIds={accordionSectionIds}>
+        {accordionSectionIds.length > 0 ? <SettingsAccordionToolbar /> : null}
+        <div className="space-y-4">
+          {activeTab === 'interface' && renderInterfaceTab()}
+          {activeTab === 'availability' && renderAvailabilityTab()}
+          {activeTab === 'client-portal' && <ClientPortalSettingsAccordions />}
+          {activeTab === 'notifications' && (
+            <div className="space-y-4">
+              <SettingsAccordion sectionId="customer-outreach" title="Customer outreach" summary="Test mode and automatic outreach gating">
+                <CustomerOutreachSettingsPanel />
+              </SettingsAccordion>
+              <SettingsAccordion sectionId="worker-flags" title="Worker jobs" summary="Celery beat tasks and background email flags">
+                <WorkerFeatureFlagsSettingsPanel />
+              </SettingsAccordion>
+              <SettingsAccordion sectionId="push-notifications" title="Push notifications" summary="Staff deploy and schedule push settings">
+                <PushNotificationSettingsPanel />
+              </SettingsAccordion>
+            </div>
+          )}
+          {activeTab === 'service-areas' && renderServiceAreasTab()}
+          {activeTab === 'tax' && renderTaxTab()}
+          {activeTab === 'parts' && renderPartsTab()}
+          {activeTab === 'price-book' && renderPriceBookTab()}
+        </div>
+      </SettingsAccordionProvider>
+    </TechboardHudDoubleTapShell>
   );
 }
 
