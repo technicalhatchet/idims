@@ -359,6 +359,16 @@ const [newPropertyError, setNewPropertyError] = useState(null);
     if (!values.service_location?.address) {
       errors.service_location = { address: 'Service location is required' };
     }
+
+    // Client with 2+ properties: require an explicit property pick or "new address"
+    if (
+      !isEdit &&
+      clientProperties.length >= 2 &&
+      !values.property_id &&
+      selectedPropertyId !== '__new__'
+    ) {
+      errors.property_id = 'Select a property or New address';
+    }
     
     if (!values.description) {
       errors.description = 'Description is required';
@@ -974,7 +984,7 @@ useEffect(() => {
     return;
   }
 
-  if (clientProperties.length > 0) {
+  if (clientProperties.length === 1) {
     if (!hasPropertySelected && !defaultPropertyAppliedRef.current) {
       defaultPropertyAppliedRef.current = true;
       const property = clientProperties[0];
@@ -985,6 +995,11 @@ useEffect(() => {
         setFieldValue('service_location', { address: addr });
       }
     }
+    return;
+  }
+
+  // 2+ properties: do not auto-pick — staff must choose (or New address)
+  if (clientProperties.length >= 2) {
     return;
   }
 
@@ -1023,8 +1038,12 @@ useEffect(() => {
 
 const handlePropertySelect = (propertyId) => {
   setSelectedPropertyId(propertyId);
-  setFieldValue('property_id', propertyId || null);
-  const property = clientProperties.find(p => p.id === propertyId);
+  if (!propertyId || propertyId === '__new__') {
+    setFieldValue('property_id', null);
+    return;
+  }
+  setFieldValue('property_id', propertyId);
+  const property = clientProperties.find(p => String(p.id) === String(propertyId));
   if (property) {
     const addr = formatPropertyAddress(property);
     if (addr) {
@@ -1406,15 +1425,26 @@ const handleCreateProperty = async () => {
               <select
                 value={selectedPropertyId}
                 onChange={(e) => handlePropertySelect(e.target.value)}
+                required={clientProperties.length >= 2}
                 className={`w-full px-3 py-2 rounded-md shadow-sm text-sm ${isMobile ? 'bg-black/30 border border-cyan-500/20 text-white focus:ring-cyan-500 focus:border-cyan-500' : 'border border-gray-300 dark:border-gray-700 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white'}`}
               >
-                <option value="">Select a property or enter address below...</option>
+                <option value="">
+                  {clientProperties.length >= 2
+                    ? 'Select a property…'
+                    : 'Select a property or enter address below...'}
+                </option>
                 {clientProperties.map(p => (
                   <option key={p.id} value={p.id}>
                     {p.address}{p.unit_number ? ` – Unit ${p.unit_number}` : ''}{p.gate_code ? ` 🔑 ${p.gate_code}` : ''}
                   </option>
                 ))}
+                {clientProperties.length >= 2 && (
+                  <option value="__new__">New address…</option>
+                )}
               </select>
+              {errors.property_id && (
+                <p className={`text-sm ${isMobile ? 'text-red-400' : 'text-red-600'}`}>{errors.property_id}</p>
+              )}
               <button type="button" onClick={() => setShowNewPropertyForm(true)} className={`text-sm flex items-center gap-1 ${isMobile ? 'text-cyan-400 hover:text-cyan-300' : 'text-blue-600 hover:text-blue-700 dark:text-blue-400'}`}>
                 <FaUserPlus className="w-3 h-3" /> Add new property for this client
               </button>
