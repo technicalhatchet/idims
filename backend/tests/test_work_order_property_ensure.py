@@ -87,6 +87,70 @@ def test_ensure_stores_address_without_country():
     db.add.assert_called_once()
 
 
+def test_parse_unit_mid_address_keeps_city_state_zip():
+    street, unit = parse_formatted_service_address(
+        "3040 Byrnwyck W, Unit 109, Maumee, OH, 43537"
+    )
+    assert street == "3040 Byrnwyck W, Maumee, OH, 43537"
+    assert unit == "109"
+
+
+def test_parse_unit_mid_address_with_usa():
+    street, unit = parse_formatted_service_address(
+        "3040 Byrnwyck W, Unit 109, Maumee, OH, 43537, USA"
+    )
+    assert street == "3040 Byrnwyck W, Maumee, OH, 43537"
+    assert unit == "109"
+
+
+def test_parse_unit_slash_style():
+    street, unit = parse_formatted_service_address(
+        "3040 Byrnwyck W / unit 109, Maumee, OH, 43537"
+    )
+    assert street == "3040 Byrnwyck W, Maumee, OH, 43537"
+    assert unit == "109"
+
+
+def test_parse_apt_and_hash_units():
+    street, unit = parse_formatted_service_address(
+        "12 Main St, Apt 2B, Toledo, OH, 43604"
+    )
+    assert street == "12 Main St, Toledo, OH, 43604"
+    assert unit == "2B"
+
+    street, unit = parse_formatted_service_address("12 Main St, #3, Toledo, OH, 43604")
+    assert street == "12 Main St, Toledo, OH, 43604"
+    assert unit == "3"
+
+
+def test_parse_no_unit_unchanged():
+    addr = "928 W Wayne, Maumee, OH, 43537"
+    street, unit = parse_formatted_service_address(addr)
+    assert street == addr
+    assert unit is None
+
+
+def test_ensure_matches_byrnwyck_unit_against_split_property():
+    """CT-001017-style WO address matches property street + unit 109."""
+    cid = uuid4()
+    existing = SimpleNamespace(
+        id=uuid4(),
+        client_id=cid,
+        address="3040 Byrnwyck W, Maumee, OH, 43537",
+        unit_number="109",
+    )
+    db = MagicMock()
+    db.query.return_value.filter.return_value.all.return_value = [existing]
+
+    prop = ensure_client_property_for_service_address(
+        db,
+        cid,
+        {"address": "3040 Byrnwyck W, Unit 109, Maumee, OH, 43537, USA"},
+    )
+    assert prop is existing
+    db.add.assert_not_called()
+
+
 def test_parse_unit_suffix_from_format_property_address():
     formatted = format_property_address("123 Main St", "4")
     assert formatted == "123 Main St, Unit 4"
