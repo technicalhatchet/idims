@@ -33,7 +33,9 @@ async def _feature_context_from_request(
     token = auth_header.split(" ", 1)[1].strip()
     try:
         token_data = await auth_handler.verify_token(token)
-        roles = getattr(token_data, "roles", None) or []
+        from app.services.role_service import load_user_roles_for_token
+
+        roles = load_user_roles_for_token(db, token_data)
         return feature_context_from_roles(roles)
     except Exception:
         logger.debug("features: could not resolve token roles", exc_info=True)

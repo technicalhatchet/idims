@@ -410,11 +410,12 @@ class AuthHandler:
         """Find or create the users row for this token (shared with portal link-account)."""
         try:
             auth_id = token_data.sub
-            email = token_data.email
+            email = getattr(token_data, "email", None)
             
             # Try to get profile info from token claims
             user_profile = {}
             raw_payload = {}
+            auth0_roles: List[str] = []
             
             # Check for profile info in custom claims
             if hasattr(token_data, 'raw_payload'):
@@ -437,7 +438,7 @@ class AuthHandler:
                             _auth_log_info(f"Found profile data in token: {user_profile.get('name', 'unknown')}")
                             break
                 
-                # Extract Auth0 roles if present
+                # Extract Auth0 roles if present (new-user seeding only)
                 auth0_roles = []
                 # Check app_metadata first
                 app_metadata = payload.get('https://idimsapi/app_metadata', {})
@@ -450,7 +451,7 @@ class AuthHandler:
                     _auth_log_info(f"Found roles in payload: {auth0_roles}")
             
             # Extract name information
-            name = user_profile.get('name') or token_data.name or ""
+            name = user_profile.get('name') or getattr(token_data, 'name', None) or ""
             given_name = user_profile.get('given_name') or getattr(token_data, 'given_name', None)
             family_name = user_profile.get('family_name') or getattr(token_data, 'family_name', None)
             
@@ -475,8 +476,8 @@ class AuthHandler:
             picture = user_profile.get('picture') or getattr(token_data, 'picture', None)
             
             # Extract roles from token data or Auth0 metadata
-            roles = token_data.roles or auth0_roles or []
-            permissions = token_data.permissions or []
+            roles = getattr(token_data, "roles", None) or auth0_roles or []
+            permissions = getattr(token_data, "permissions", None) or []
             
             # Get real email address (more aggressive)
             real_email = None
@@ -492,7 +493,7 @@ class AuthHandler:
                 logger.info(f"Found email in user profile: {real_email}")
             
             # Method 3: Token data email
-            if not real_email and token_data.email and '@example.com' not in token_data.email:
+            if not real_email and getattr(token_data, "email", None) and '@example.com' not in token_data.email:
                 real_email = token_data.email
                 logger.info(f"Using token_data email: {real_email}")
             
@@ -631,21 +632,26 @@ class AuthHandler:
                     update_needed = True
                     logger.info(f"Updating profile picture")
                 
-                # Always sync roles from Auth0
-                if roles:
-                    # Check if roles need to be updated
-                    current_roles = user.roles or []
-                    roles_set = set(roles)
-                    current_roles_set = set(current_roles)
-                    
-                    if roles_set != current_roles_set:
-                        user.roles = list(roles)
-                        update_needed = True
-                        logger.info(f"Updating roles from {current_roles} to {roles}")
+                # DB is source of truth for roles — never overwrite from token on existing users.
+                from app.services.role_service import normalize_role_names
+
+                token_role_list = normalize_role_names(roles)
+                db_role_list = normalize_role_names(user.roles)
+                if token_role_list and token_role_list != db_role_list:
+                    logger.info(
+                        "[Auth] Token roles differ from DB for %s (sub=%s); keeping DB %s (token %s)",
+                        user.email,
+                        auth_id,
+                        db_role_list,
+                        token_role_list,
+                    )
                 
                 # Update last login — throttled to reduce DB writes on every API call
                 now = datetime.utcnow()
-                if not user.last_login or (now - user.last_login) >= LAST_LOGIN_UPDATE_INTERVAL:
+                last_login = user.last_login
+                if not isinstance(last_login, datetime):
+                    last_login = None
+                if not last_login or (now - last_login) >= LAST_LOGIN_UPDATE_INTERVAL:
                     user.last_login = now
                     update_needed = True
 
@@ -682,7 +688,7 @@ class AuthHandler:
                         last_name=family_name,
                         roles=roles,
                         is_active=True,
-                        email_verified=token_data.email is not None,
+                        email_verified=getattr(token_data, "email", None) is not None,
                         avatar_url=picture,
                         last_login=datetime.utcnow(),
                         permissions=permissions
@@ -765,18 +771,7 @@ class AuthHandler:
             
             # Use the verify_token method which already handles JWT verification
             token_data = await self.verify_token(token_str)
-            
-            # Create user from token data
-            user_info = {
-                "id": token_data.sub,
-                "sub": token_data.sub,
-                "email": token_data.email or f"{token_data.sub}@example.com",
-                "name": token_data.name or token_data.nickname or token_data.sub,
-                "roles": token_data.roles or [],
-                "permissions": token_data.permissions or []
-            }
-            
-            return DBUser(**user_info)
+            return self.ensure_db_user_from_token(db, token_data)
             
         except Exception as e:
             logger.debug(f"Authentication error in optional auth: {str(e)}")
@@ -932,13 +927,13 @@ def get_auth_handler() -> AuthHandler:
         )
     return _auth_handler_singleton
 
-# Helper function to check if a user has required roles
-def has_required_roles(token_data: TokenData, required_roles: List[str]) -> bool:
-    """Check if the user has any of the required roles"""
-    if not token_data.roles or not required_roles:
+# Helper function to check if a user has required roles (DB-backed)
+def has_required_roles(user: DBUser, required_roles: List[str]) -> bool:
+    """Check if the user has any of the required roles."""
+    if not user or not required_roles:
         return False
-        
-    return any(role in token_data.roles for role in required_roles)
+    roles = user.roles or []
+    return any(role in roles for role in required_roles)
 
 class AuthUser(BaseModel):
     """User model for authenticated users"""

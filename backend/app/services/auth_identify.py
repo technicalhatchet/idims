@@ -60,8 +60,12 @@ def resolve_identify_role_hint(
             if staff_role in roles:
                 return staff_role, str(user.id), True
 
-    technician = db.query(Technician).filter(Technician.email == link_email).first()
-    if technician:
+    technician = (
+        db.query(Technician)
+        .filter(Technician.email == link_email)
+        .first()
+    )
+    if technician and getattr(technician, "status", None) == "active":
         return "technician", str(technician.id), True
 
     client = db.query(Client).filter(Client.email == link_email).first()

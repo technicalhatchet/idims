@@ -1,5 +1,7 @@
 """Portal linking and admin preview write guards."""
 
+from __future__ import annotations
+
 from datetime import datetime, timedelta
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
@@ -73,7 +75,7 @@ def test_unverified_profile_returns_no_role_hint():
 
 def test_verified_technician_email_returns_technician_hint():
     tech_id = uuid4()
-    technician = SimpleNamespace(id=tech_id, email="tech@example.com")
+    technician = SimpleNamespace(id=tech_id, email="tech@example.com", status="active")
     db = MagicMock()
 
     def query_side_effect(model):
@@ -252,11 +254,13 @@ def test_payment_blocked_even_when_unlocked(_secret):
 
 
 @pytest.mark.asyncio
+@patch("app.routers.client_portal._portal_roles", return_value=["client"])
+@patch("app.routers.client_portal.get_active_login_for_sub", return_value=None)
 @patch("app.routers.client_portal.ensure_client_login")
 @patch("app.routers.client_portal._fetch_auth0_user")
 @patch("app.routers.client_portal._assign_client_role", return_value=(True, True, None))
 @patch("app.routers.client_portal._finalize_link_account_response")
-async def test_link_account_verified_email_links(mock_finalize, _role, mock_fetch, mock_ensure):
+async def test_link_account_verified_email_links(mock_finalize, _role, mock_fetch, mock_ensure, _login, _roles):
     from app.routers.client_portal import link_portal_account, LinkAccountRequest
 
     client_id = uuid4()
@@ -302,11 +306,14 @@ async def test_link_account_unverified_email_403(mock_fetch):
 
 
 @pytest.mark.asyncio
+@patch("app.routers.client_portal._portal_roles", return_value=["client"])
+@patch("app.routers.client_portal.get_active_login_for_sub", return_value=None)
 @patch("app.routers.client_portal.ensure_client_login")
+@patch("app.routers.client_portal._fetch_auth0_user")
 @patch("app.routers.client_portal.get_portal_invite_secret", return_value="invite-secret")
 @patch("app.routers.client_portal._assign_client_role", return_value=(True, True, None))
 @patch("app.routers.client_portal._finalize_link_account_response")
-async def test_link_account_invite_token_links(mock_finalize, _role, _secret, mock_ensure):
+async def test_link_account_invite_token_links(mock_finalize, _role, _secret, mock_fetch, mock_ensure, _login, _roles):
     from app.routers.client_portal import link_portal_account, LinkAccountRequest
 
     client_id = uuid4()
@@ -325,6 +332,7 @@ async def test_link_account_invite_token_links(mock_finalize, _role, _secret, mo
 
     db = MagicMock()
     db.query.return_value.filter.return_value.first.side_effect = [None, client]
+    mock_fetch.return_value = {"email": "invited@example.com", "email_verified": True}
     mock_finalize.return_value = {"success": True}
     mock_ensure.return_value = (SimpleNamespace(id=uuid4()), True)
 
@@ -335,12 +343,14 @@ async def test_link_account_invite_token_links(mock_finalize, _role, _secret, mo
 
 
 @pytest.mark.asyncio
+@patch("app.routers.client_portal._portal_roles", return_value=["client"])
+@patch("app.routers.client_portal.get_active_login_for_sub", return_value=None)
 @patch("app.routers.client_portal.ensure_client_login")
 @patch("app.routers.client_portal.mark_claim_used")
 @patch("app.routers.client_portal.resolve_client_for_link")
 @patch("app.routers.client_portal._assign_client_role", return_value=(True, True, None))
 @patch("app.routers.client_portal._finalize_link_account_response")
-async def test_link_account_claim_token_links(mock_finalize, _role, mock_resolve, _mark_used, mock_ensure):
+async def test_link_account_claim_token_links(mock_finalize, _role, mock_resolve, _mark_used, mock_ensure, _login, _roles):
     from app.routers.client_portal import link_portal_account, LinkAccountRequest
 
     client_id = uuid4()
@@ -367,9 +377,10 @@ async def test_link_account_claim_token_links(mock_finalize, _role, mock_resolve
 
 
 @pytest.mark.asyncio
+@patch("app.routers.client_portal._portal_roles", return_value=["client"])
 @patch("app.routers.client_portal._assign_client_role", return_value=(True, False, None))
 @patch("app.routers.client_portal._finalize_link_account_response")
-async def test_already_linked_client_still_works(mock_finalize, _role):
+async def test_already_linked_client_still_works(mock_finalize, _role, _roles):
     from app.routers.client_portal import link_portal_account, LinkAccountRequest
 
     existing = SimpleNamespace(

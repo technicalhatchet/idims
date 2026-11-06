@@ -142,7 +142,7 @@ async def test_complete_signup_assigns_role(mock_apply, mock_role, _finalize):
         db,
     )
     mock_apply.assert_called_once()
-    mock_role.assert_called_once_with("auth0|finish")
+    mock_role.assert_called_once_with(db, "auth0|finish", token_data)
     assert result["profile_completed"] is True
 
 

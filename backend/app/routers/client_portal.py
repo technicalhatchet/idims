@@ -124,13 +124,20 @@ CLIENT_ROLE_ID = "rol_okGmH3pkFUu0YXWi"
 
 security = HTTPBearer()
 
+from app.core.dependencies import get_admin_user
+from app.services.role_service import load_user_roles_for_token
+
 router = APIRouter(tags=["client-portal"])
 
 
-def _portal_feature_ctx(token_data):
+def _portal_roles(db: Session, token_data) -> List[str]:
+    return load_user_roles_for_token(db, token_data)
+
+
+def _portal_feature_ctx(db: Session, token_data):
     from app.services.feature_flags_service import feature_context_from_roles
 
-    return feature_context_from_roles(getattr(token_data, "roles", None))
+    return feature_context_from_roles(_portal_roles(db, token_data))
 
 
 def _portal_feature_ctx_from_scope(scope: PortalScope):
@@ -144,7 +151,7 @@ def _portal_feature_ctx_from_scope(scope: PortalScope):
 def _portal_appliance_serialize_kwargs(db: Session, token_data) -> Dict[str, Any]:
     from app.services.feature_flags_service import feature_enabled
 
-    ctx = _portal_feature_ctx(token_data)
+    ctx = _portal_feature_ctx(db, token_data)
     return {
         "include_recalls_customer": feature_enabled(db, "recall_alerts", ctx),
         "include_appliance_age": feature_enabled(db, "appliance_age", ctx),
@@ -156,7 +163,7 @@ def _portal_appliance_serialize_kwargs(db: Session, token_data) -> Dict[str, Any
 def _require_portal_feature(db: Session, flag: str, token_data) -> None:
     from app.services.feature_flags_service import require_feature
 
-    require_feature(db, flag, _portal_feature_ctx(token_data))
+    require_feature(db, flag, _portal_feature_ctx(db, token_data))
 
 
 def _require_customer_household_invites(
@@ -166,7 +173,7 @@ def _require_customer_household_invites(
 ) -> None:
     from app.services.portal_preview_guard import is_admin_preview
 
-    roles = getattr(token_data, "roles", None)
+    roles = _portal_roles(db, token_data)
     if is_admin_preview(roles, admin_client_id):
         return
     _require_portal_feature(db, "household_invites", token_data)
@@ -329,13 +336,14 @@ def _auth0_profile_email_for_debug(auth0_user_id: str) -> Optional[str]:
 def require_portal_write(route: str, payment: bool = False):
     async def _guard(
         request: Request,
+        db: Session = Depends(get_db),
         token_data=Depends(get_token_data),
         admin_client_id: Optional[str] = Query(None),
         scope: PortalScope = Depends(portal_scope_dependency),
     ) -> None:
         assert_portal_write_allowed(
             request=request,
-            token_roles=getattr(token_data, "roles", None),
+            token_roles=_portal_roles(db, token_data),
             admin_sub=token_data.sub,
             admin_client_id=admin_client_id,
             client_id=scope.client.id,
@@ -346,42 +354,27 @@ def require_portal_write(route: str, payment: bool = False):
     return _guard
 
 
-def _assign_client_role(auth0_user_id: str) -> Tuple[bool, bool, Optional[str]]:
-    """Ensure Auth0 client role. Returns (has_role, newly_assigned, error_detail)."""
+def _assign_client_role(
+    db: Session,
+    auth0_user_id: str,
+    token_data,
+) -> Tuple[bool, bool, Optional[str]]:
+    """Add client role in DB (merge) and mirror Auth0. Returns (has_role, newly_assigned, error_detail)."""
+    from app.services.portal_user_link import ensure_db_user_for_portal_link
+    from app.services.role_service import add_user_roles, normalize_role_names
+
     try:
-        auth_handler = get_auth_handler()
-        management_token = auth_handler.get_client_credentials_token()
-        encoded_user_id = quote(auth0_user_id, safe="")
-        roles_url = auth0_mgmt_api_url(f"/users/{encoded_user_id}/roles")
-        headers = {
-            "Authorization": f"Bearer {management_token}",
-            "Content-Type": "application/json",
-        }
-
-        existing = requests.get(roles_url, headers=headers, timeout=15)
-        if not existing.ok:
-            detail = existing.text[:500]
-            logger.error(f"[LinkAccount] GET roles failed {existing.status_code}: {detail}")
-            return False, False, f"Auth0 GET roles {existing.status_code}: {detail}"
-
-        for role in existing.json() or []:
-            if role.get("id") == CLIENT_ROLE_ID or role.get("name") == "client":
-                logger.info(f"[LinkAccount] User {auth0_user_id} already has client role")
-                return True, False, None
-
-        response = requests.post(
-            roles_url,
-            headers=headers,
-            json={"roles": [CLIENT_ROLE_ID]},
-            timeout=15,
-        )
-        if not response.ok:
-            detail = response.text[:500]
-            logger.error(f"[LinkAccount] POST roles failed {response.status_code}: {detail}")
-            return False, False, f"Auth0 POST roles {response.status_code}: {detail}"
-
-        logger.info(f"[LinkAccount] Assigned client role to {auth0_user_id}")
-        return True, True, None
+        user = ensure_db_user_for_portal_link(db, token_data)
+        if user.auth_id != auth0_user_id:
+            by_sub = db.query(DBUser).filter(DBUser.auth_id == auth0_user_id).first()
+            if by_sub:
+                user = by_sub
+        had_client = "client" in normalize_role_names(user.roles)
+        user, auth0_error = add_user_roles(db, user, ["client"])
+        has_client = "client" in normalize_role_names(user.roles)
+        if not has_client:
+            return False, False, auth0_error or "Failed to assign client role in DB"
+        return True, not had_client, auth0_error
     except Exception as e:
         logger.exception(f"[LinkAccount] Client role assignment failed for {auth0_user_id}")
         return False, False, str(e)
@@ -607,7 +600,7 @@ async def get_portal_client_login(
     admin_client_id: Optional[str] = Query(None),
 ) -> ClientLogin:
     """Active login for the current client user (not admin preview)."""
-    roles = getattr(token_data, "roles", []) or []
+    roles = _portal_roles(db, token_data)
     if "admin" in roles and admin_client_id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -658,7 +651,7 @@ async def get_portal_client_login_for_actions(
     admin_client_id: Optional[str] = Query(None),
 ) -> Optional[ClientLogin]:
     """Client login for portal actions; None when admin is previewing (unlock required on writes)."""
-    roles = getattr(token_data, "roles", []) or []
+    roles = _portal_roles(db, token_data)
     if "admin" in roles and admin_client_id:
         return None
     if "client" not in roles:
@@ -677,13 +670,11 @@ async def get_portal_client_login_for_actions(
 
 @router.get("/portal/link-debug")
 async def link_account_debug(
-    token_data=Depends(get_token_data),
     db: Session = Depends(get_db),
+    token_data=Depends(get_token_data),
+    _admin: DBUser = Depends(get_admin_user),
 ):
     """Diagnostic snapshot for invite / link-account issues (admin only)."""
-    roles = list(token_data.roles or [])
-    if "admin" not in roles:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin only")
 
     auth0_user_id = token_data.sub
     token_email = normalize_email(token_data.email)
@@ -795,8 +786,9 @@ async def link_portal_account(
         )
         raise HTTPException(status_code=400, detail="Invalid token — no sub claim")
 
-    roles = list(getattr(token_data, "roles", []) or [])
-    if token_has_staff_portal_role(roles):
+    roles = list(_portal_roles(db, token_data))
+    token_roles = getattr(token_data, "roles", None)
+    if token_has_staff_portal_role(roles) or token_has_staff_portal_role(token_roles):
         _log_link_account_outcome(
             auth0_user_id,
             link_trace["method"],
@@ -870,7 +862,7 @@ def _link_portal_account_impl(
                     "needs_profile",
                 )
                 return payload
-            role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
+            role_assigned, role_newly_assigned, role_error = _assign_client_role(db, auth0_user_id, token_data)
             payload = _finalize_link_account_response(
                 auth0_user_id=auth0_user_id,
                 client=existing,
@@ -990,7 +982,7 @@ def _link_portal_account_impl(
             feature_enabled,
         )
 
-        signup_ctx = _portal_feature_ctx(token_data)
+        signup_ctx = _portal_feature_ctx(db, token_data)
         if not feature_enabled(db, "self_signup", signup_ctx):
             raise HTTPException(status_code=403, detail=SELF_SIGNUP_DISABLED_DETAIL)
         try:
@@ -1078,7 +1070,7 @@ def _link_portal_account_impl(
         created,
     )
 
-    role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
+    role_assigned, role_newly_assigned, role_error = _assign_client_role(db, auth0_user_id, token_data)
     payload = _finalize_link_account_response(
         auth0_user_id=auth0_user_id,
         client=client,
@@ -1110,7 +1102,7 @@ async def portal_signup_status(
 ):
     """Pre-role gate: whether this Auth0 user must finish portal profile."""
     auth0_user_id = token_data.sub
-    roles = getattr(token_data, "roles", []) or []
+    roles = _portal_roles(db, token_data)
     if not auth0_user_id:
         raise HTTPException(status_code=400, detail="Invalid token — no sub claim")
 
@@ -1167,8 +1159,9 @@ async def complete_portal_signup(
     if not auth0_user_id:
         raise HTTPException(status_code=400, detail="Invalid token — no sub claim")
 
-    roles = list(getattr(token_data, "roles", []) or [])
-    if token_has_staff_portal_role(roles):
+    roles = list(_portal_roles(db, token_data))
+    token_roles = getattr(token_data, "roles", None)
+    if token_has_staff_portal_role(roles) or token_has_staff_portal_role(token_roles):
         raise HTTPException(status_code=403, detail=STAFF_PORTAL_ACCOUNT_FORBIDDEN)
 
     active_login = get_active_login_for_sub(db, auth0_user_id)
@@ -1193,7 +1186,7 @@ async def complete_portal_signup(
         )
 
     if not portal_signup_needs_profile(client):
-        role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
+        role_assigned, role_newly_assigned, role_error = _assign_client_role(db, auth0_user_id, token_data)
         payload = _finalize_link_account_response(
             auth0_user_id=auth0_user_id,
             client=client,
@@ -1233,7 +1226,7 @@ async def complete_portal_signup(
     db.commit()
     db.refresh(client)
 
-    role_assigned, role_newly_assigned, role_error = _assign_client_role(auth0_user_id)
+    role_assigned, role_newly_assigned, role_error = _assign_client_role(db, auth0_user_id, token_data)
     payload = _finalize_link_account_response(
         auth0_user_id=auth0_user_id,
         client=client,
@@ -1308,7 +1301,7 @@ async def portal_create_account_invite(
         actor = resolve_portal_invite_actor(
             db,
             token_sub=token_data.sub,
-            token_roles=getattr(token_data, "roles", None),
+            token_roles=_portal_roles(db, token_data),
             admin_client_id=admin_client_id,
             client=client,
         )
@@ -1376,7 +1369,7 @@ async def portal_resend_account_invite(
         actor = resolve_portal_invite_actor(
             db,
             token_sub=token_data.sub,
-            token_roles=getattr(token_data, "roles", None),
+            token_roles=_portal_roles(db, token_data),
             admin_client_id=admin_client_id,
             client=client,
         )
@@ -1476,7 +1469,7 @@ async def portal_admin_preview_unlock(
     db: Session = Depends(get_db),
     scope: PortalScope = Depends(portal_scope_dependency),
 ):
-    roles = getattr(token_data, "roles", []) or []
+    roles = _portal_roles(db, token_data)
     if "admin" not in roles:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin only")
     try:
@@ -1705,18 +1698,35 @@ def _portal_notification_user_id(
     token_data,
     client: Client,
 ) -> Optional[uuid.UUID]:
+    from app.models.user import User as DBUser
     from app.services.portal_user_link import ensure_db_user_for_portal_link
 
     login = get_active_login_for_sub(db, token_data.sub)
     if not login or login.client_id != client.id:
         return None
     if not login.user_id:
-        user = ensure_db_user_for_portal_link(db, token_data)
-        from app.services.portal_login_service import sync_login_user_id
+        if getattr(client, "user_id", None):
+            linked = db.query(DBUser).filter(DBUser.id == client.user_id).first()
+            if linked:
+                from app.services.portal_login_service import sync_login_user_id
 
-        sync_login_user_id(db, login, user)
-        db.commit()
-        db.refresh(login)
+                sync_login_user_id(db, login, linked)
+                db.commit()
+                db.refresh(login)
+            else:
+                user = ensure_db_user_for_portal_link(db, token_data, client=client)
+                from app.services.portal_login_service import sync_login_user_id
+
+                sync_login_user_id(db, login, user)
+                db.commit()
+                db.refresh(login)
+        else:
+            user = ensure_db_user_for_portal_link(db, token_data, client=client)
+            from app.services.portal_login_service import sync_login_user_id
+
+            sync_login_user_id(db, login, user)
+            db.commit()
+            db.refresh(login)
     return login.user_id
 
 
@@ -1731,8 +1741,7 @@ async def list_portal_notifications(
     scope: PortalScope = Depends(portal_scope_dependency),
 ):
     """In-app notifications for the portal client (supports admin preview via admin_client_id)."""
-    roles = getattr(token_data, "roles", []) or []
-    if "admin" in roles and admin_client_id:
+    if admin_client_id and "admin" in _portal_roles(db, token_data):
         if not client.user_id:
             return {
                 "total": 0,
@@ -2207,12 +2216,12 @@ async def invite_portal_property_tenant(
     _require_portal_feature(db, "tenant_access", token_data)
     require_owner(scope)
     load_property_for_scope(db, scope, property_id)
-    if not feature_enabled(db, "tenant_access", _portal_feature_ctx(token_data)):
+    if not feature_enabled(db, "tenant_access", _portal_feature_ctx(db, token_data)):
         raise HTTPException(status_code=404, detail="Not found")
     actor = resolve_portal_invite_actor(
         db,
         token_sub=token_data.sub,
-        token_roles=getattr(token_data, "roles", None),
+        token_roles=_portal_roles(db, token_data),
         admin_client_id=admin_client_id,
         client=client,
     )
@@ -3434,7 +3443,7 @@ async def approve_portal_estimate(
     require_owner(scope)
     wo = _load_portal_work_order_route(db, scope, work_order_id)
 
-    roles = getattr(token_data, "roles", []) or []
+    roles = _portal_roles(db, token_data)
     staff_on_behalf = login is None and "admin" in roles
     staff_user_id = None
     staff_user_name = None
@@ -3522,7 +3531,7 @@ async def decline_portal_estimate(
     require_owner(scope)
     wo = _load_portal_work_order_route(db, scope, work_order_id)
 
-    roles = getattr(token_data, "roles", []) or []
+    roles = _portal_roles(db, token_data)
     staff_on_behalf = login is None and "admin" in roles
     staff_user_id = None
     staff_user_name = None
