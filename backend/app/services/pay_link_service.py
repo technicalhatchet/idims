@@ -84,11 +84,11 @@ def load_work_order_for_billing(db: Session, work_order_id: uuid.UUID) -> Option
     return _billing_query(db).filter(WorkOrder.id == work_order_id).first()
 
 
-def amount_due(work_order: WorkOrder) -> float:
+def amount_due(work_order: WorkOrder, db: Optional[Session] = None) -> float:
     """Same number TechDeck and the portal charge (compute_balance_due)."""
     from app.services.work_order_billing_helpers import compute_balance_due
 
-    return float(compute_balance_due(work_order))
+    return float(compute_balance_due(work_order, db=db))
 
 
 def pay_state(work_order: WorkOrder, due: float) -> str:
@@ -200,7 +200,7 @@ def build_public_pay_payload(db: Session, work_order: WorkOrder) -> Dict[str, An
     from app.services.portal_square_payment_service import get_square_config
 
     # Balance first, from the freshly loaded row, so it matches what /charge will check.
-    due = amount_due(work_order)
+    due = amount_due(work_order, db=db)
     state = pay_state(work_order, due)
 
     if state == "canceled" or details_expired(db, work_order, state):
@@ -252,7 +252,7 @@ async def charge_by_pay_token(
     if not square_credentials_configured(db):
         raise ValidationException("Online payment is not available right now. Please call us to pay.")
 
-    due = amount_due(work_order)
+    due = amount_due(work_order, db=db)
     state = pay_state(work_order, due)
     if state == "canceled":
         raise ValidationException("This invoice can't be paid online.")

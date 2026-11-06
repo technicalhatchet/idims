@@ -185,7 +185,7 @@ def _get_technicians(db: Session, settings: dict) -> List[Technician]:
 
 
 def _travel_minutes_to_address(property_address: str) -> float:
-    shop = get_default_shop_address()
+    shop = get_default_shop_address(db)
     dest = sanitize_address_for_routing(property_address) or property_address
     minutes, _ = get_travel_time_and_distance(shop, dest)
     return float(minutes) if minutes is not None else 9999.0

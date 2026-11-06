@@ -18,6 +18,7 @@ import {
   resolveWorkOrderServiceAddress,
 } from '../../utils/appointment-scheduling';
 import { DEFAULT_SHOP_ADDRESS } from '../../utils/google-maps-service';
+import { useShopHours } from '../../hooks/useShopHours';
 
 function formatAppointmentLabel(appointment) {
   if (!appointment) return 'Visit';
@@ -43,6 +44,7 @@ export default function WorkOrderRedoModal({
 }) {
   const router = useRouter();
   const isMobile = variant === 'mobile';
+  const { shopHours, prepBufferMinutes, jobGapMinutes } = useShopHours();
 
   const [scheduleDate, setScheduleDate] = useState(defaultScheduleDate);
   const [timeWindow, setTimeWindow] = useState(null);
@@ -135,12 +137,13 @@ export default function WorkOrderRedoModal({
             technicianId,
             DEFAULT_SHOP_ADDRESS,
             serviceAddress,
-            DEFAULT_MIN_SLOT_MINUTES
+            DEFAULT_MIN_SLOT_MINUTES,
+            { shopHours, prepBufferMinutes, jobGapMinutes }
           );
         }
 
         if (!slot) {
-          const { startTime, endTime } = getTimeWindowBoundaries(dateKey, windowName);
+          const { startTime, endTime } = getTimeWindowBoundaries(dateKey, windowName, shopHours);
           const fallbackEnd = new Date(startTime.getTime() + DEFAULT_MIN_SLOT_MINUTES * 60 * 1000);
           slot = {
             startTime,
@@ -159,7 +162,7 @@ export default function WorkOrderRedoModal({
         setIsCalculatingSlot(false);
       }
     },
-    [scheduleDate, technicianId, serviceAddress, technicianDailySchedule]
+    [scheduleDate, technicianId, serviceAddress, technicianDailySchedule, shopHours, prepBufferMinutes, jobGapMinutes]
   );
 
   const handleTimeWindowSelect = useCallback(async (windowName) => {

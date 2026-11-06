@@ -168,12 +168,19 @@ def diagnostic_discount_amount(
     return diagnostic_credit_dollars(raw, mode=mode)
 
 
-def compute_net_invoice_total(work_order: WorkOrder) -> Decimal:
+def _effective_tax_rate(work_order: WorkOrder, db=None) -> Decimal:
+    """Falsy stored tax_rate → TaxService default-county rate (same as historical or 0.0775)."""
+    from app.services.tax_service import effective_work_order_tax_rate
+
+    return _decimal(effective_work_order_tax_rate(work_order, db))
+
+
+def compute_net_invoice_total(work_order: WorkOrder, db=None) -> Decimal:
     """
     Total after diagnostic discount (when repair visit completed) and tax on parts only.
     Matches frontend computeWorkOrderDueToday().totalWorkOrder.
     """
-    tax_rate = _decimal(work_order.tax_rate or 0)
+    tax_rate = _effective_tax_rate(work_order, db)
 
     services_subtotal = sum(
         (_service_line_total(item) for item in (work_order.service_items or [])),
@@ -207,11 +214,12 @@ def compute_balance_due(
     work_order: WorkOrder,
     *,
     half_diagnostic_discount: bool | None = None,
+    db=None,
 ) -> Decimal:
     """
     Remaining amount owed (due today). Matches frontend dueToday (optional 50% discount toggle).
     """
-    tax_rate = _decimal(work_order.tax_rate or 0)
+    tax_rate = _effective_tax_rate(work_order, db)
 
     chargeable_services = sum(
         (
@@ -242,12 +250,13 @@ def compute_balance_due_legacy_billable_services_only(
     work_order: WorkOrder,
     *,
     half_diagnostic_discount: bool | None = None,
+    db=None,
 ) -> Decimal:
     """
     Pre-2026-10 TechDeck bug: only billing_status=='billable' services in the charge total.
     Used for read-only audits (paid lines excluded while payments still subtracted).
     """
-    tax_rate = _decimal(work_order.tax_rate or 0)
+    tax_rate = _effective_tax_rate(work_order, db)
 
     billable_services = sum(
         (
@@ -274,9 +283,9 @@ def compute_balance_due_legacy_billable_services_only(
     return max(Decimal("0"), due).quantize(Decimal("0.01"))
 
 
-def compute_tax_on_billable_parts_due(work_order: WorkOrder) -> Decimal:
+def compute_tax_on_billable_parts_due(work_order: WorkOrder, db=None) -> Decimal:
     """Sales tax portion of the current balance (parts only, billable/due statuses)."""
-    tax_rate = _decimal(work_order.tax_rate or 0)
+    tax_rate = _effective_tax_rate(work_order, db)
     billable_parts = Decimal("0")
     for part in work_order.parts or []:
         if part.price is not None and part.status in PART_DUE_STATUSES:

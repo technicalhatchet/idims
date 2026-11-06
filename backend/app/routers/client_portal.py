@@ -2337,7 +2337,7 @@ async def get_portal_invoices(
     result = []
     for wo in work_orders_list:
         paid = float(wo.amount_previously_paid or 0)
-        balance_due = float(compute_balance_due(wo))
+        balance_due = float(compute_balance_due(wo, db=db))
         total = float(compute_net_invoice_total(wo))
         wo_status = (
             wo.status.value if hasattr(wo.status, "value") else str(wo.status or "")
@@ -2422,7 +2422,7 @@ async def portal_pay_all_invoices(
         wo_ids = [
             wo.id
             for wo in work_orders
-            if float(compute_balance_due(wo)) >= 1.0
+            if float(compute_balance_due(wo, db=db)) >= 1.0
         ]
 
     try:

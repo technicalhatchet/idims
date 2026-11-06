@@ -302,6 +302,16 @@ const nextConfig = {
         destination: '/techboard/work-orders/:id/debriefing',
         permanent: true,
       },
+      {
+        source: '/settings1',
+        destination: '/settings',
+        permanent: true,
+      },
+      {
+        source: '/settings1/:path*',
+        destination: '/settings',
+        permanent: true,
+      },
     ];
   },
 };

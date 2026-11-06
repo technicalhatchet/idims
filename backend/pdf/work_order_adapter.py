@@ -172,7 +172,16 @@ def _billing_status_key(status: Optional[str]) -> str:
 def compute_totals(rd: dict, *, is_estimate: bool = False) -> dict:
     services = rd.get("services") or []
     parts = rd.get("parts") or []
-    tax_rate = float(rd.get("tax_rate") or 0.0775)
+    raw_rate = rd.get("tax_rate")
+    try:
+        tax_rate = float(raw_rate) if raw_rate else 0.0
+    except (TypeError, ValueError):
+        tax_rate = 0.0
+    if not tax_rate:
+        # Prefer rate already resolved onto rd by invoice data builders; last resort matches TaxService default.
+        from app.services.tax_service import default_county_tax_rate
+
+        tax_rate = default_county_tax_rate(None)
 
     if is_estimate:
         services_for_subtotal = [

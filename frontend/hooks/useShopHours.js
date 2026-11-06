@@ -65,6 +65,8 @@ function normalizeDayHours(dayData = {}) {
  */
 export function useShopHours() {
   const [shopHours, setShopHours] = useState(null);
+  const [prepBufferMinutes, setPrepBufferMinutes] = useState(15);
+  const [jobGapMinutes, setJobGapMinutes] = useState(10);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -85,6 +87,10 @@ export function useShopHours() {
         });
         
         setShopHours(normalized);
+        const prep = Number(response?.settings?.prep_buffer_minutes);
+        const gap = Number(response?.settings?.job_gap_minutes);
+        setPrepBufferMinutes(Number.isFinite(prep) && prep >= 0 ? prep : 15);
+        setJobGapMinutes(Number.isFinite(gap) && gap >= 0 ? gap : 10);
         setError(null);
       } catch (err) {
         if (cancelled) return;
@@ -100,7 +106,7 @@ export function useShopHours() {
     return () => { cancelled = true; };
   }, []);
 
-  return { shopHours, loading, error };
+  return { shopHours, prepBufferMinutes, jobGapMinutes, loading, error };
 }
 
 /**

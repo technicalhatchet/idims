@@ -330,7 +330,15 @@ def _totals_block(styles, work_order: dict, elements: list, is_estimate: bool = 
     """Right-aligned totals section."""
     services = work_order.get('services') or []
     parts = work_order.get('parts') or []
-    tax_rate = float(work_order.get('tax_rate') or 0.0775)
+    from app.services.tax_service import default_county_tax_rate
+
+    raw_rate = work_order.get('tax_rate')
+    try:
+        tax_rate = float(raw_rate) if raw_rate else 0.0
+    except (TypeError, ValueError):
+        tax_rate = 0.0
+    if not tax_rate:
+        tax_rate = default_county_tax_rate(None)
     BILLABLE_PART_STATUSES = ['phone_payment', 'paid_not_installed', 'upfront_50', 'installed']
 
     services_subtotal = sum(float(s.get('price') or 0) for s in services)

@@ -79,9 +79,20 @@ export function isUnscheduledEstimateLine(item) {
   return !item?.appointment_id && item?.billing_status === 'not_billable';
 }
 
+/**
+ * Use the tax_rate from the work order API only (backend resolves falsy → default-county).
+ * Do not invent a client-side fallback — FE and Square balance_due must stay identical.
+ */
 export function resolveWorkOrderTaxRate(workOrder) {
   const raw = parseFloat(workOrder?.tax_rate);
-  return Number.isFinite(raw) && raw > 0 ? raw : 0.0775;
+  if (!Number.isFinite(raw) || raw <= 0) {
+    console.warn(
+      '[billing] workOrder.tax_rate missing/falsy; expecting API to send TaxService default-county rate',
+      workOrder?.id || workOrder?.order_number,
+    );
+    return 0;
+  }
+  return raw;
 }
 
 export function formatTaxPercent(taxRate) {

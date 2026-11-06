@@ -91,7 +91,9 @@ def mark_billable_parts_paid_after_checkout(db: Session, work_order: WorkOrder) 
     After a lump-sum payment, align part collection fields with services marked paid.
     Status stays installed/upfront_50 so close readiness (disposition) is unchanged.
     """
-    tax_rate = float(work_order.tax_rate or 0.0775)
+    from app.services.tax_service import effective_work_order_tax_rate
+
+    tax_rate = effective_work_order_tax_rate(work_order, db)
     parts = (
         db.query(WorkOrderPart)
         .filter(
@@ -267,7 +269,7 @@ async def record_square_work_order_payment(
     if not work_order:
         raise ValueError("Work order not found")
 
-    expected_due = float(compute_balance_due(work_order))
+    expected_due = float(compute_balance_due(work_order, db=db))
     if expected_due < 0.01:
         raise ValidationException("Nothing is due on this work order.")
     if abs(amount - expected_due) > 0.02:
@@ -421,10 +423,10 @@ async def record_portal_bulk_square_payment(
     for work_order in work_orders:
         if is_canceled_status(work_order.status):
             continue
-        balance = float(compute_balance_due(work_order))
+        balance = float(compute_balance_due(work_order, db=db))
         if balance < 1.0:
             continue
-        tax_amount = float(compute_tax_on_billable_parts_due(work_order))
+        tax_amount = float(compute_tax_on_billable_parts_due(work_order, db=db))
         payable.append((work_order, balance, tax_amount))
 
     if not payable:

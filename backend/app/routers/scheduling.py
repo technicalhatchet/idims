@@ -381,16 +381,15 @@ async def get_available_slots(
     Get available appointment slots for the given date and technician.
     If no technician is specified, get slots for all available technicians.
     """
-    # Convert date to datetime objects for the full day
-    start_datetime = datetime.combine(date, datetime.min.time())
-    end_datetime = datetime.combine(date, datetime.max.time())
-    
-    # Business hours (configurable)
-    business_start_hour = 8  # 8:00 AM
-    business_end_hour = 17   # 5:00 PM
-    
     # Slot interval in minutes (configurable)
     slot_interval = 30
+
+    from app.services.shop_hours_scheduling import shop_day_bounds_from_db
+
+    bounds = shop_day_bounds_from_db(db, date)
+    if bounds is None:
+        return []
+    business_start_hour, business_end_hour = bounds
     
     # Query technicians
     if technician_id:
@@ -456,9 +455,20 @@ async def get_appointment_preview_slots(
     elif duration_minutes is not None:
         resolved_duration = duration_minutes
 
-    business_start_hour = 8
-    business_end_hour = 17
     slot_interval = 30
+
+    from app.services.shop_hours_scheduling import shop_day_bounds_from_db
+
+    bounds = shop_day_bounds_from_db(db, on_date)
+    if bounds is None:
+        return AppointmentPreviewResponse(
+            date=on_date.isoformat(),
+            duration_minutes=resolved_duration,
+            business_hours={"start": "00:00", "end": "00:00"},
+            slot_interval_minutes=slot_interval,
+            slots=[],
+        )
+    business_start_hour, business_end_hour = bounds
 
     if technician_id:
         technicians = [

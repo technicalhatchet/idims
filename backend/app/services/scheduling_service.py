@@ -202,12 +202,16 @@ class SchedulingService:
         start_datetime = datetime.combine(date_value.date(), time(0, 0))
         end_datetime = datetime.combine(date_value.date(), time(23, 59, 59))
         
-        # Business hours (configurable)
-        business_start_hour = 8  # 8:00 AM
-        business_end_hour = 17   # 5:00 PM
-        
         # Slot interval in minutes (configurable)
         slot_interval = 30
+
+        from app.services.shop_hours_scheduling import shop_day_bounds_from_db
+
+        on_date = date_value.date() if hasattr(date_value, "date") else date_value
+        bounds = shop_day_bounds_from_db(db, on_date)
+        if bounds is None:
+            return []
+        business_start_hour, business_end_hour = bounds
         
         # Query technicians
         if technician_id:
@@ -224,7 +228,6 @@ class SchedulingService:
         
         from app.services.scheduling_constraints_service import generate_available_slots
 
-        on_date = date_value.date() if hasattr(date_value, "date") else date_value
         return generate_available_slots(
             db,
             on_date,

@@ -254,6 +254,12 @@ class SettingsService:
             elif key == "travel_buffer_minutes":
                 if not isinstance(value, (int, float)) or value < 0:
                     raise ValueError("travel_buffer_minutes must be a non-negative number")
+            elif key == "prep_buffer_minutes":
+                if not isinstance(value, (int, float)) or value < 0:
+                    raise ValueError("prep_buffer_minutes must be a non-negative number")
+            elif key == "job_gap_minutes":
+                if not isinstance(value, (int, float)) or value < 0:
+                    raise ValueError("job_gap_minutes must be a non-negative number")
             elif key == "tax_rate":
                 if not isinstance(value, (int, float)) or value < 0 or value > 1:
                     raise ValueError("tax_rate must be between 0 and 1")

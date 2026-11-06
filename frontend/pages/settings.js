@@ -223,6 +223,9 @@ export default function Settings() {
   const [savingHours, setSavingHours] = useState(false);
   const [shopHours, setShopHours] = useState({});
   const [loadingHours, setLoadingHours] = useState(true);
+  const [prepBufferMinutes, setPrepBufferMinutes] = useState(15);
+  const [jobGapMinutes, setJobGapMinutes] = useState(10);
+  const [savingBuffers, setSavingBuffers] = useState(false);
   
   // Zone settings state
   const [zoneSettings, setZoneSettings] = useState(DEFAULT_ZONES);
@@ -596,6 +599,11 @@ export default function Settings() {
           };
         });
         setShopHours(normalizedHours);
+
+        const prep = Number(response?.settings?.prep_buffer_minutes);
+        const gap = Number(response?.settings?.job_gap_minutes);
+        setPrepBufferMinutes(Number.isFinite(prep) && prep >= 0 ? prep : 15);
+        setJobGapMinutes(Number.isFinite(gap) && gap >= 0 ? gap : 10);
         
         // Load zone settings
         const zones = response?.settings?.trip_zones;
@@ -695,6 +703,28 @@ export default function Settings() {
       toast.error('Failed to save hours');
     } finally {
       setSavingHours(false);
+    }
+  };
+
+  const saveSchedulingBuffers = async () => {
+    setSavingBuffers(true);
+    try {
+      await upsertAppSetting({
+        key: 'prep_buffer_minutes',
+        value: Number(prepBufferMinutes) || 0,
+        description: 'Prep minutes before same-day dispatch',
+      });
+      await upsertAppSetting({
+        key: 'job_gap_minutes',
+        value: Number(jobGapMinutes) || 0,
+        description: 'Gap minutes between jobs',
+      });
+      toast.success('Scheduling buffers saved');
+    } catch (err) {
+      console.error('Error saving scheduling buffers:', err);
+      toast.error('Failed to save buffers');
+    } finally {
+      setSavingBuffers(false);
     }
   };
 
@@ -1144,6 +1174,47 @@ export default function Settings() {
   );
 
   const renderAvailabilityTab = () => (
+    <div className="space-y-4">
+    <SettingsAccordion sectionId="scheduling-buffers" title="Scheduling buffers" summary="Prep before dispatch and gap between jobs">
+    <section className="p-5">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold text-white">Scheduling buffers</h2>
+        <button
+          onClick={saveSchedulingBuffers}
+          disabled={savingBuffers || loadingHours}
+          className="px-3 py-1.5 text-sm font-medium rounded-lg transition-all disabled:opacity-50"
+          style={{ background: 'rgba(34, 211, 238, 0.15)', color: '#22D3EE', border: '1px solid rgba(34, 211, 238, 0.3)' }}
+        >
+          {savingBuffers ? 'Saving...' : 'Save Buffers'}
+        </button>
+      </div>
+      <p className="text-xs text-gray-500 mb-4">
+        Defaults are 15 minutes prep and 10 minutes between jobs. Force Schedule ignores these.
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl">
+        <label className="block text-sm text-gray-300">
+          Prep buffer (minutes)
+          <input
+            type="number"
+            min={0}
+            value={prepBufferMinutes}
+            onChange={(e) => setPrepBufferMinutes(parseInt(e.target.value, 10) || 0)}
+            className="mt-1 w-full px-2 py-1.5 text-sm rounded border border-gray-600 bg-gray-800 text-white focus:border-cyan-500 focus:outline-none"
+          />
+        </label>
+        <label className="block text-sm text-gray-300">
+          Job gap (minutes)
+          <input
+            type="number"
+            min={0}
+            value={jobGapMinutes}
+            onChange={(e) => setJobGapMinutes(parseInt(e.target.value, 10) || 0)}
+            className="mt-1 w-full px-2 py-1.5 text-sm rounded border border-gray-600 bg-gray-800 text-white focus:border-cyan-500 focus:outline-none"
+          />
+        </label>
+      </div>
+    </section>
+    </SettingsAccordion>
     <SettingsAccordion sectionId="shop-hours" title="Shop hours" summary="Regular and evening availability windows">
     <section className="p-5">
       <div className="flex items-center justify-between mb-4">
@@ -1233,6 +1304,7 @@ export default function Settings() {
       )}
     </section>
     </SettingsAccordion>
+    </div>
   );
 
   const renderServiceAreasTab = () => (

@@ -35,12 +35,37 @@ def sanitize_address_for_routing(address: Optional[str]) -> Optional[str]:
     return cleaned or original
 
 
-def get_default_shop_address() -> str:
+_HARDCODED_SHOP_ADDRESS = "641 Barclay Drive, Toledo, OH 43609, USA"
+
+
+def get_default_shop_address(db=None) -> str:
+    """
+    Drive-time origin: trip_zones.driveTimeFallback.shopAddress → env → hardcode.
+    Pass db when available so the Service Areas setting is honored.
+    """
+    if db is not None:
+        try:
+            from sqlalchemy import text
+
+            row = db.execute(
+                text("SELECT value FROM settings WHERE key = :key"),
+                {"key": "trip_zones"},
+            ).fetchone()
+            if row and row[0]:
+                value = row[0]
+                if isinstance(value, dict):
+                    fallback = value.get("driveTimeFallback") or {}
+                    addr = (fallback.get("shopAddress") or "").strip()
+                    if addr:
+                        return addr
+        except Exception as exc:
+            logger.debug("Could not load trip_zones shopAddress: %s", exc)
+
     return (
         os.getenv("DEFAULT_SHOP_ADDRESS")
         or os.getenv("NEXT_PUBLIC_DEFAULT_SHOP_ADDRESS")
-        or "641 Barclay Drive, Toledo, OH 43609, USA"
-    )
+        or _HARDCODED_SHOP_ADDRESS
+    ).strip()
 
 
 def _travel_api_to_storage(
@@ -286,7 +311,7 @@ def get_shop_to_property_drive_time(db: Session, property_obj) -> Optional[float
         Drive time in minutes, or None if calculation fails
     """
     try:
-        shop_address = get_default_shop_address()
+        shop_address = get_default_shop_address(db)
         
         # Build property address
         if hasattr(property_obj, 'formatted_address') and property_obj.formatted_address:
@@ -393,7 +418,7 @@ def update_appointment_travel_info(db: Session, appointment_id: str) -> bool:
                         prev_appointment.travel_distance_after = travel_meters
                         db.add(prev_appointment)
             else:
-                shop_address = get_default_shop_address()
+                shop_address = get_default_shop_address(db)
                 travel_time, travel_distance = get_travel_time_and_distance(shop_address, service_address)
                 travel_secs, travel_meters = _travel_api_to_storage(travel_time, travel_distance)
                 if travel_secs is not None:
@@ -454,7 +479,7 @@ def update_technician_day_travel_info(db: Session, technician_id: str, day: Unio
         if first_wo:
             first_address = get_formatted_address(first_wo.service_location)
             if first_address:
-                shop_address = get_default_shop_address()
+                shop_address = get_default_shop_address(db)
                 travel_time, travel_distance = get_travel_time_and_distance(shop_address, first_address)
                 travel_secs, travel_meters = _travel_api_to_storage(travel_time, travel_distance)
                 if travel_secs is not None:

@@ -44,6 +44,7 @@ def get_square_config(db) -> Dict[str, Any]:
         "location_id": (payment.get("square_location_id") or "").strip(),
         "access_token": (payment.get("square_access_token") or "").strip(),
         "environment": payment.get("square_environment") or "sandbox",
+        "apple_pay_enabled": bool(payment.get("apple_pay_enabled", True)),
     }
 
 
@@ -67,6 +68,7 @@ def public_square_config(db) -> Dict[str, Any]:
         "square_environment": cfg["environment"],
         "configured": square_configured(db),
         "credentials_configured": square_credentials_configured(db),
+        "apple_pay_enabled": bool(cfg.get("apple_pay_enabled", True)),
     }
 
 
