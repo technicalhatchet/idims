@@ -128,6 +128,31 @@ class TaxService:
     def get_all_jurisdictions(self) -> Dict[str, Any]:
         return self._get_config()
 
+    def get_default_county_rate(self) -> float:
+        """Rate for settings defaultCounty (Lucas fallback). Used when WO tax_rate is falsy."""
+        config = self._get_config()
+        counties = config.get("counties") or {}
+        default_key = config.get("defaultCounty") or DEFAULT_COUNTY_KEY
+        county = counties.get(default_key) or counties.get("lucas") or {}
+        try:
+            return float(county.get("rate", 0.0775))
+        except (TypeError, ValueError):
+            return 0.0775
+
+    def effective_tax_rate_for_work_order(self, work_order) -> float:
+        """
+        Stored tax_rate when truthy; otherwise default-county rate.
+        Matches historical ``tax_rate or 0.0775`` falsy semantics (0 and None both fall back).
+        Does not mutate the work order.
+        """
+        try:
+            stored = float(work_order.tax_rate) if work_order.tax_rate is not None else 0.0
+        except (TypeError, ValueError):
+            stored = 0.0
+        if stored:
+            return stored
+        return self.get_default_county_rate()
+
     def get_county_by_zip(self, zip_code: Optional[str]) -> Optional[Tuple[str, Dict[str, Any]]]:
         if not zip_code:
             return None
@@ -249,3 +274,27 @@ class TaxService:
 
 def get_tax_service(db: Session) -> TaxService:
     return TaxService(db)
+
+
+def default_county_tax_rate(db: Optional[Session] = None) -> float:
+    """Default-county rate from settings, or built-in Lucas 0.0775 when db is unavailable."""
+    if db is not None:
+        return TaxService(db).get_default_county_rate()
+    county = (DEFAULT_TAX_JURISDICTIONS.get("counties") or {}).get(DEFAULT_COUNTY_KEY) or {}
+    try:
+        return float(county.get("rate", 0.0775))
+    except (TypeError, ValueError):
+        return 0.0775
+
+
+def effective_work_order_tax_rate(work_order, db: Optional[Session] = None) -> float:
+    """Falsy stored rate → default-county rate (settings-aware when db given)."""
+    if db is not None:
+        return TaxService(db).effective_tax_rate_for_work_order(work_order)
+    try:
+        stored = float(work_order.tax_rate) if getattr(work_order, "tax_rate", None) is not None else 0.0
+    except (TypeError, ValueError):
+        stored = 0.0
+    if stored:
+        return stored
+    return default_county_tax_rate(None)

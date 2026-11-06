@@ -1243,7 +1243,7 @@ class WorkOrderService:
                 # Calculate drive time from SHOP to service location
                 shop_to_property_drive_time = None
                 if service_address:
-                    shop_address = travel_calculator.get_default_shop_address()
+                    shop_address = travel_calculator.get_default_shop_address(self.db)
                     travel_time, _ = travel_calculator.get_travel_time_and_distance(shop_address, service_address)
                     if travel_time is not None:
                         shop_to_property_drive_time = float(travel_time)  # Already in minutes

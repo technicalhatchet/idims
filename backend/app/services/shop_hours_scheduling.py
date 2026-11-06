@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import logging
 from datetime import date
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from sqlalchemy import text
 from sqlalchemy.orm import Session
@@ -74,11 +74,21 @@ def _normalize_day_hours(day_data: Optional[dict]) -> dict:
 
 def get_shop_hours(db: Session) -> Dict[str, dict]:
     """Load shop hours from settings; normalized per weekday."""
+    hours, _configured = get_shop_hours_with_meta(db)
+    return hours
+
+
+def get_shop_hours_with_meta(db: Session) -> Tuple[Dict[str, dict], bool]:
+    """
+    Returns (normalized_hours, configured).
+    configured=False when no settings row / empty value → callers may fall back to 8–17.
+    """
     row = db.execute(
         text("SELECT value FROM settings WHERE key = :key"),
         {"key": SETTING_KEY},
     ).fetchone()
     raw: dict = {}
+    configured = False
     if row and row[0]:
         value = row[0]
         if isinstance(value, str):
@@ -86,12 +96,14 @@ def get_shop_hours(db: Session) -> Dict[str, dict]:
                 value = json.loads(value)
             except json.JSONDecodeError:
                 value = {}
-        raw = value if isinstance(value, dict) else {}
+        if isinstance(value, dict) and value:
+            raw = value
+            configured = True
 
     normalized: Dict[str, dict] = {}
     for day in DAYS_OF_WEEK:
         normalized[day] = _normalize_day_hours(raw.get(day))
-    return normalized
+    return normalized, configured
 
 
 def _weekday_name(on_date: date) -> str:
@@ -155,6 +167,60 @@ def portal_window_names_for_date(shop_hours: Dict[str, dict], on_date: date) -> 
 
 def is_shop_open_on_date(shop_hours: Dict[str, dict], on_date: date) -> bool:
     return bool(portal_window_names_for_date(shop_hours, on_date))
+
+
+def shop_day_bounds(
+    shop_hours: Dict[str, dict],
+    on_date: date,
+    *,
+    configured: bool = True,
+    fallback_start_hour: int = 8,
+    fallback_end_hour: int = 17,
+) -> Optional[Tuple[int, int]]:
+    """
+    Inclusive-ish staff slot day bounds in shop-local wall clock hours
+    (America/Detroit naive — same convention as appointment storage).
+
+    Returns (start_hour, end_hour), or None when the day is closed.
+    When settings are not configured, returns the 8–17 fallback.
+    """
+    if not configured:
+        return fallback_start_hour, fallback_end_hour
+
+    day_hours = shop_hours_for_date(shop_hours, on_date)
+    regular = day_hours.get("regular") or {}
+    evening = day_hours.get("evening") or {}
+    regular_on = _period_enabled(regular)
+    evening_on = _period_enabled(evening)
+
+    if not regular_on and not evening_on:
+        return None
+
+    def _hour(hhmm: str, default: int) -> int:
+        try:
+            h, _m = _parse_hhmm(hhmm)
+            return h
+        except Exception:
+            return default
+
+    starts: List[int] = []
+    ends: List[int] = []
+    if regular_on:
+        starts.append(_hour(regular.get("start") or "09:00", 9))
+        ends.append(_hour(regular.get("end") or "17:00", 17))
+    if evening_on:
+        starts.append(_hour(evening.get("start") or "17:00", 17))
+        ends.append(_hour(evening.get("end") or "21:00", 21))
+
+    return min(starts), max(ends)
+
+
+def shop_day_bounds_from_db(
+    db: Session,
+    on_date: date,
+) -> Optional[Tuple[int, int]]:
+    shop_hours, configured = get_shop_hours_with_meta(db)
+    return shop_day_bounds(shop_hours, on_date, configured=configured)
 
 
 def resolve_effective_portal_window(

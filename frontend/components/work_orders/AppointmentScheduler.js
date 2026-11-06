@@ -138,7 +138,7 @@ export default forwardRef(function AppointmentScheduler({
   const [isLoadingSchedule, setIsLoadingSchedule] = useState(false);
   
   // Load shop hours for time window filtering
-  const { shopHours } = useShopHours();
+  const { shopHours, prepBufferMinutes, jobGapMinutes } = useShopHours();
 
   const [allServices, setAllServices] = useState([]);
   const [servicesLoading, setServicesLoading] = useState(false);
@@ -934,6 +934,8 @@ export default forwardRef(function AppointmentScheduler({
   const buildSlotFinderOptions = (overrides = {}) => ({
     schedulingAnchorTime: schedulingAnchorRef.current || new Date(),
     shopHours,
+    prepBufferMinutes,
+    jobGapMinutes,
     ...overrides,
   });
 

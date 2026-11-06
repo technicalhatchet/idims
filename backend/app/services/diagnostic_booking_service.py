@@ -207,7 +207,7 @@ def estimate_trip_charge(db: Session, address: str, *, skip_drive_time_lookup: b
         and address
         and (not property_zip or not zone_service.get_zone_by_zip(property_zip))
     ):
-        shop_address = get_default_shop_address()
+        shop_address = get_default_shop_address(db)
         routed_address = sanitize_address_for_routing(address) or address
         travel_time, _ = get_travel_time_and_distance(shop_address, routed_address)
         if travel_time is not None:

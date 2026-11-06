@@ -8,6 +8,7 @@ import { findNextAvailableSlot } from '../../utils/appointment-scheduling';
 import { format } from 'date-fns';
 import { getWorkOrderAppointments, createWorkOrderAppointment } from '../../services/api/appointmentsApi';
 import { apiClient } from '../../utils/api-client';
+import { useShopHours } from '../../hooks/useShopHours';
 
 /**
  * WindowScheduler component for scheduling appointments using time windows
@@ -29,6 +30,7 @@ export default function WindowScheduler({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const { shopHours, prepBufferMinutes, jobGapMinutes } = useShopHours();
   
   // Fetch existing appointments when component mounts
   useEffect(() => {
@@ -105,7 +107,8 @@ export default function WindowScheduler({
         selectedTechnician,
         shopAddress,
         workOrderAddress,
-        60 // Default duration in minutes
+        60, // Default duration in minutes
+        { shopHours, prepBufferMinutes, jobGapMinutes }
       );
       
       if (!slot) {

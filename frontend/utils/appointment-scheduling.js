@@ -486,15 +486,48 @@ export const TIME_WINDOWS = {
   }
 };
 
-// Constants for scheduling logic
-const TECHNICIAN_WORK_START_HOUR = 8; // 8 AM
-const TECHNICIAN_WORK_END_HOUR = 17; // 5 PM
-const BUFFER_TIME_MINUTES = 10; // Buffer between appointments
-const BUFFER_TIME_MS = BUFFER_TIME_MINUTES * 60 * 1000;
+// Defaults when settings unset (behavior unchanged until Availability tab is edited).
+export const DEFAULT_PREP_BUFFER_MINUTES = 15;
+export const DEFAULT_JOB_GAP_MINUTES = 10;
+/** @deprecated Use DEFAULT_PREP_BUFFER_MINUTES / options.prepBufferMinutes */
+export const PREP_BUFFER_MINUTES = DEFAULT_PREP_BUFFER_MINUTES;
 
-/** Prep time before dispatch when scheduling same-day ASAP (not a hard commitment). */
-export const PREP_BUFFER_MINUTES = 15;
-const PREP_BUFFER_MS = PREP_BUFFER_MINUTES * 60 * 1000;
+const FALLBACK_WORK_START_HOUR = 8;
+const FALLBACK_WORK_END_HOUR = 17;
+
+function resolvePrepBufferMinutes(options = {}) {
+  const raw = options.prepBufferMinutes;
+  if (typeof raw === 'number' && Number.isFinite(raw) && raw >= 0) return raw;
+  return DEFAULT_PREP_BUFFER_MINUTES;
+}
+
+function resolveJobGapMinutes(options = {}) {
+  const raw = options.jobGapMinutes;
+  if (typeof raw === 'number' && Number.isFinite(raw) && raw >= 0) return raw;
+  return DEFAULT_JOB_GAP_MINUTES;
+}
+
+/** Shop-local day bounds from shop_hours; fallback 8–17 when shopHours missing. Closed → null. */
+export function resolveWorkDayBounds(normalizedDate, shopHours) {
+  if (!shopHours) {
+    return { startHour: FALLBACK_WORK_START_HOUR, endHour: FALLBACK_WORK_END_HOUR, closed: false };
+  }
+  try {
+    // Lazy require avoids circular import with useShopHours consumers.
+    const { getShopDayChartBounds, isDayOpen } = require('../hooks/useShopHours');
+    if (!isDayOpen(shopHours, normalizedDate)) {
+      return { startHour: FALLBACK_WORK_START_HOUR, endHour: FALLBACK_WORK_END_HOUR, closed: true };
+    }
+    const bounds = getShopDayChartBounds(shopHours, normalizedDate);
+    return {
+      startHour: bounds.dayStartHour,
+      endHour: bounds.dayEndHour,
+      closed: false,
+    };
+  } catch {
+    return { startHour: FALLBACK_WORK_START_HOUR, endHour: FALLBACK_WORK_END_HOUR, closed: false };
+  }
+}
 
 /** Client-facing afternoon ETA must not start before noon. */
 export const CLIENT_ETA_AFTERNOON_FLOOR = { hour: 12, minute: 0 };
@@ -799,11 +832,17 @@ export function isTimeWindowAvailable(
 }
 
 /** When the tech leaves the shop for the first stop in a window (not from a prior job). */
-function resolveShopDispatchTime(windowStartTime, anchorTime, normalizedDate) {
+function resolveShopDispatchTime(
+  windowStartTime,
+  anchorTime,
+  normalizedDate,
+  prepBufferMinutes = DEFAULT_PREP_BUFFER_MINUTES,
+) {
+  const prepMs = prepBufferMinutes * 60 * 1000;
   let dispatch = new Date(windowStartTime);
   if (isSameCalendarDay(normalizedDate, anchorTime)) {
     dispatch = new Date(
-      Math.max(windowStartTime.getTime(), anchorTime.getTime() + PREP_BUFFER_MS)
+      Math.max(windowStartTime.getTime(), anchorTime.getTime() + prepMs)
     );
   }
   return dispatch;
@@ -836,6 +875,10 @@ export async function findNextAvailableSlot(
     schedulingMode: explicitSchedulingMode,
     shopHours,
   } = options;
+  const prepBufferMinutes = resolvePrepBufferMinutes(options);
+  const jobGapMinutes = resolveJobGapMinutes(options);
+  const PREP_BUFFER_MS = prepBufferMinutes * 60 * 1000;
+  const BUFFER_TIME_MS = jobGapMinutes * 60 * 1000;
 
   console.log(`[findNextAvailableSlot V2] Finding slot for date: ${date}, window: ${windowName}, technician: ${technicianId}, duration: ${duration} min`);
   console.log(`[findNextAvailableSlot V2] To Address: ${toAddress}`);
@@ -865,15 +908,22 @@ export async function findNextAvailableSlot(
   const dateStr = normalizedDate.toDateString(); // For comparison
   console.log(`[findNextAvailableSlot V2] Normalized Date: ${dateStr}`);
 
+  const dayBounds = resolveWorkDayBounds(normalizedDate, shopHours);
+  if (dayBounds.closed) {
+    console.log(`[findNextAvailableSlot V2] Shop closed on ${dateStr}; no suggested slots.`);
+    return null;
+  }
+
   const { startTime: windowStartTime, endTime: windowEndTime } = getTimeWindowBoundaries(normalizedDate, windowName, shopHours);
-  const workDayStartTime = new Date(normalizedDate); workDayStartTime.setHours(TECHNICIAN_WORK_START_HOUR, 0, 0, 0);
+  const workDayStartTime = new Date(normalizedDate);
+  workDayStartTime.setHours(dayBounds.startHour, 0, 0, 0);
   // For evening windows, extend work day end to the window end time
   const workDayEndTime = new Date(normalizedDate);
   if (windowName === 'evening') {
     // Use the evening window end time as the work day end
     workDayEndTime.setTime(windowEndTime.getTime());
   } else {
-    workDayEndTime.setHours(TECHNICIAN_WORK_END_HOUR, 0, 0, 0);
+    workDayEndTime.setHours(dayBounds.endHour, 0, 0, 0);
   }
   const durationMs = duration * 60 * 1000;
 
@@ -923,7 +973,12 @@ export async function findNextAvailableSlot(
     ? inProgressBeforeAnchor.length === 0 && endedBeforeAnchor.length === 0
     : previousBeforeWindow.length === 0;
 
-  let shopDispatchTime = resolveShopDispatchTime(windowStartTime, anchorTime, normalizedDate);
+  let shopDispatchTime = resolveShopDispatchTime(
+    windowStartTime,
+    anchorTime,
+    normalizedDate,
+    prepBufferMinutes,
+  );
   let lastEventEndTime = workDayStartTime;
   let lastEventLocation = fromAddress || DEFAULT_SHOP_ADDRESS;
 

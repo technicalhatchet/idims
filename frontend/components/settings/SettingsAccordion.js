@@ -139,7 +139,7 @@ export function SettingsAccordion({ sectionId, title, summary, children, nested 
 
 export const SETTINGS_TAB_SECTIONS = {
   interface: ['display-name', 'nav-rail'],
-  availability: ['shop-hours'],
+  availability: ['scheduling-buffers', 'shop-hours'],
   'client-portal': [
     'portal-feature-flags',
     'portal-scheduling',

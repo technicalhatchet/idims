@@ -24,15 +24,39 @@ from app.services.scheduling_constraints_service import (
     block_db_utc_naive_to_local,
     get_busy_calendar_blocks,
 )
-from app.utils.travel_calculator import get_formatted_address, get_travel_time_and_distance
+from app.utils.travel_calculator import (
+    get_default_shop_address,
+    get_formatted_address,
+    get_travel_time_and_distance,
+)
 
 logger = logging.getLogger(__name__)
 
-BUFFER_MINUTES = 10
+DEFAULT_JOB_GAP_MINUTES = 10
 BLOCK_GAP_MINUTES = 5
 WORK_DAY_END_HOUR = 17
 MAX_STOPS = 12
 DEFAULT_DAY_START_HOUR = int(os.getenv("ROUTE_DAY_START_HOUR", "9"))
+
+
+def _job_gap_minutes(db: Optional[Session] = None) -> int:
+    """Gap between jobs from settings.job_gap_minutes (default 10)."""
+    if db is None:
+        return DEFAULT_JOB_GAP_MINUTES
+    try:
+        from sqlalchemy import text
+
+        row = db.execute(
+            text("SELECT value FROM settings WHERE key = :key"),
+            {"key": "job_gap_minutes"},
+        ).fetchone()
+        if row and row[0] is not None:
+            value = row[0]
+            if isinstance(value, (int, float)) and value >= 0:
+                return int(value)
+    except Exception as exc:
+        logger.debug("Could not load job_gap_minutes: %s", exc)
+    return DEFAULT_JOB_GAP_MINUTES
 
 
 def _default_day_start_hour() -> int:
@@ -63,14 +87,6 @@ class BlockInterval:
     start: datetime
     end: datetime
     label: str
-
-
-def get_default_shop_address() -> str:
-    return (
-        os.getenv("DEFAULT_SHOP_ADDRESS")
-        or os.getenv("NEXT_PUBLIC_DEFAULT_SHOP_ADDRESS")
-        or "641 Barclay Drive, Toledo, OH 43609, USA"
-    ).strip()
 
 
 def _day_bounds(schedule_date: date) -> Tuple[datetime, datetime]:
@@ -272,13 +288,14 @@ def build_time_chain(
     schedule_date: date,
     blocks: List[BlockInterval],
     day_start_hour: int = 9,
+    job_gap_minutes: int = DEFAULT_JOB_GAP_MINUTES,
 ) -> Tuple[List[dict], List[str], datetime]:
     """
     Assign new start/end along optimized visit order.
 
     ``cursor`` is departure time from the previous location (shop at day start).
     First appointment starts after drive time from shop, not at shop-departure time.
-    Buffer minutes apply between stops only, not before leaving the shop.
+    Gap minutes apply between stops only, not before leaving the shop.
     """
     warnings: List[str] = []
     if not ordered_stops:
@@ -297,7 +314,7 @@ def build_time_chain(
         travel_min = _travel_minutes(previous_location, stop.address, cache)
         cursor = cursor + timedelta(minutes=travel_min)
         if sequence > 1:
-            cursor = cursor + timedelta(minutes=BUFFER_MINUTES)
+            cursor = cursor + timedelta(minutes=job_gap_minutes)
         cursor = _advance_past_blocks(cursor, blocks)
 
         new_start = appointment_local_naive(cursor)
@@ -350,7 +367,8 @@ def build_route_preview(
 ) -> dict:
     if day_start_hour is None:
         day_start_hour = _default_day_start_hour()
-    shop = get_default_shop_address()
+    shop = get_default_shop_address(db)
+    job_gap = _job_gap_minutes(db)
     stops, blocks, warnings = load_day_stops(db, technician_id, schedule_date)
 
     if not stops:
@@ -378,7 +396,12 @@ def build_route_preview(
 
     ordered, method = optimize_stop_order(stops, shop)
     stop_changes, chain_warnings, shop_departure = build_time_chain(
-        ordered, shop, schedule_date, blocks, day_start_hour
+        ordered,
+        shop,
+        schedule_date,
+        blocks,
+        day_start_hour,
+        job_gap_minutes=job_gap,
     )
     warnings.extend(chain_warnings)
     if stop_changes:

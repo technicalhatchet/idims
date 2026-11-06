@@ -19,6 +19,7 @@ const WORKER_FLAGS = [
   { id: 'portal_narrowing_batch', label: 'Portal ETA narrowing batch' },
   { id: 'portal_scheduling_deadlines', label: 'Scheduling deadline auto-denials' },
   { id: 'delayed_review_requests', label: 'Delayed review requests after payment' },
+  { id: 'maintenance_reminder_emails', label: 'Maintenance reminder emails (monthly cap)' },
 ];
 
 export default function WorkerFeatureFlagsSettingsPanel() {

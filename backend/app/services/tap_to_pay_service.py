@@ -148,7 +148,7 @@ def start_tap_to_pay(db: Session, work_order_id: uuid.UUID, user_id: uuid.UUID) 
     if not square_credentials_configured(db):
         raise ValidationException("Square isn't set up in Settings → Billing / Square.")
 
-    due = Decimal(str(compute_balance_due(work_order)))
+    due = Decimal(str(compute_balance_due(work_order, db=db)))
     cents = int((due * 100).to_integral_value())
     if cents < 100:
         raise ValidationException("Nothing (or less than $1.00) is due on this job.")
@@ -203,7 +203,7 @@ def _result(work_order: WorkOrder, payment: WorkOrderPayment, *, already: bool, 
         "payment_number": payment.payment_number,
         "work_order_id": str(work_order.id),
         "order_number": work_order.order_number,
-        "balance_due": float(compute_balance_due(work_order)),
+        "balance_due": float(compute_balance_due(work_order, db=db)),
         "work_order_completed": bool((completion or {}).get("work_order_completed")),
         "warning": warning,
     }

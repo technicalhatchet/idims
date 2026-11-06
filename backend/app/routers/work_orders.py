@@ -366,10 +366,13 @@ async def list_work_orders(
                     wo_response_item.status = "scheduled"
 
             from app.services.portal_booking_payment_service import work_order_has_portal_prepayment
+            from app.services.tax_service import effective_work_order_tax_rate
 
             wo_response_item.portal_diagnostic_prepaid = work_order_has_portal_prepayment(
                 db, work_order_model
             )
+            # Resolved rate for FE billing (stored when truthy; TaxService default-county when falsy)
+            wo_response_item.tax_rate = effective_work_order_tax_rate(work_order_model, db)
 
             processed_items.append(wo_response_item)
         
@@ -833,7 +836,9 @@ async def get_work_order(
             response_dict["tax_county_name"] = tax_result.get("countyName")
             response_dict["tax_county_key"] = tax_result.get("countyKey")
             response_dict["tax_zip_code"] = tax_result.get("zipCode")
-        response_dict["tax_rate"] = float(work_order.tax_rate or 0)
+        from app.services.tax_service import effective_work_order_tax_rate
+
+        response_dict["tax_rate"] = effective_work_order_tax_rate(work_order, db)
         
         from app.services.portal_estimate_approval_service import staff_estimate_approval_summary
 
@@ -897,7 +902,11 @@ async def update_work_order(
     )
     
     # Convert to response model
-    return WorkOrderResponse.model_validate(updated_work_order)
+    from app.services.tax_service import effective_work_order_tax_rate
+
+    response = WorkOrderResponse.model_validate(updated_work_order)
+    response.tax_rate = effective_work_order_tax_rate(updated_work_order, db)
+    return response
 
 @router.delete("/{work_order_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_work_order(
@@ -2684,7 +2693,13 @@ async def update_work_order_part(
     
     # Get work order for tax rate
     work_order = db.query(WorkOrderModel).filter(WorkOrderModel.id == part.work_order_id).first()
-    tax_rate = float(work_order.tax_rate) if work_order and work_order.tax_rate else 0.0775
+    from app.services.tax_service import default_county_tax_rate, effective_work_order_tax_rate
+
+    tax_rate = (
+        effective_work_order_tax_rate(work_order, db)
+        if work_order
+        else default_county_tax_rate(db)
+    )
     
     # Payment-triggering statuses — calculate and record tax
     PAYMENT_STATUSES = ['phone_payment', 'paid_not_installed', 'upfront_50', 'installed']
@@ -3143,7 +3158,7 @@ async def get_square_payment_config(
         "square_location_id": cfg["location_id"],
         "square_environment": cfg["environment"],
         "configured": square_credentials_configured(db),
-        "apple_pay_enabled": True,
+        "apple_pay_enabled": bool(cfg.get("apple_pay_enabled", True)),
     }
 
 

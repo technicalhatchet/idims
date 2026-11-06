@@ -28,6 +28,16 @@ export const DEFAULT_PUSH_NOTIFICATIONS = {
     recipients: { admin: true, manager: true, technician: true },
     include_assigned_technician: true,
   },
+  portal_estimate_decision: {
+    enabled: true,
+    recipients: { admin: true, manager: true, technician: false },
+    include_assigned_technician: false,
+  },
+  portal_customer_media: {
+    enabled: true,
+    recipients: { admin: true, manager: true, technician: false },
+    include_assigned_technician: false,
+  },
   deploy_reminder: {
     enabled: true,
     recipients: { admin: false, manager: false, technician: true },
@@ -55,6 +65,14 @@ export const PUSH_NOTIFICATION_LABELS = {
   portal_same_day_request: {
     title: 'Same-day scheduling approval',
     description: 'When a client requests same-day or priority service.',
+  },
+  portal_estimate_decision: {
+    title: 'Portal estimate decision',
+    description: 'When a client approves or declines an estimate.',
+  },
+  portal_customer_media: {
+    title: 'Portal customer media',
+    description: 'When a client uploads photos or media on a work order.',
   },
   deploy_reminder: {
     title: 'Deploy / tap-in reminder',
