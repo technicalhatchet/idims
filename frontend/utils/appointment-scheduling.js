@@ -287,6 +287,20 @@ function formatUnitSuffix(unitNumber) {
   return /^unit\b/i.test(u) ? u : `Unit ${u}`;
 }
 
+/** True when street already mentions Unit/Apt/Ste/Suite/# + this value. */
+export function streetAlreadyIncludesUnit(street, unitNumber) {
+  if (!street || unitNumber == null || unitNumber === '') return false;
+  const u = String(unitNumber).trim();
+  if (!u) return false;
+  const bare = u.replace(/^(?:unit|apt\.?|apartment|ste\.?|suite)\s+/i, '').trim() || u;
+  const escaped = bare.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(
+    `(?:\\b(?:unit|apt\\.?|apartment|ste\\.?|suite)\\s+|#\\s*)${escaped}\\b`,
+    'i',
+  );
+  return re.test(String(street));
+}
+
 function formatCityStateZip({ city, state, zip }) {
   const c = (city || '').trim();
   const s = (state || '').trim();
@@ -297,14 +311,40 @@ function formatCityStateZip({ city, state, zip }) {
   return joined || null;
 }
 
+function stripTrailingUsCountryDisplay(text) {
+  return String(text || '')
+    .replace(
+      /,\s*(?:united states of america|united states|u\.s\.a\.?|u\.s\.?|usa|us)\s*$/i,
+      '',
+    )
+    .trim()
+    .replace(/,\s*$/, '')
+    .trim();
+}
+
 /** Split "street, city, ST ZIP" style strings into two display lines. */
 export function parseCommaSeparatedUSAddress(raw) {
-  const text = (raw || '').trim();
+  const text = stripTrailingUsCountryDisplay(raw);
   if (!text) return { line1: null, line2: null };
 
   const parts = text.split(',').map((p) => p.trim()).filter(Boolean);
   if (parts.length >= 3) {
     const last = parts[parts.length - 1];
+    const prev = parts[parts.length - 2];
+
+    // "..., City, ST, ZIP"
+    const zipOnly = last.match(/^(\d{5}(?:-\d{4})?)$/);
+    const stateOnly = prev.match(/^([A-Za-z]{2})$/);
+    if (zipOnly && stateOnly && parts.length >= 4) {
+      const city = parts[parts.length - 3];
+      const street = parts.slice(0, -3).join(', ');
+      return {
+        line1: street || null,
+        line2: `${city}, ${stateOnly[1].toUpperCase()} ${zipOnly[1]}`,
+      };
+    }
+
+    // "..., City, ST ZIP"
     const stateZipMatch = last.match(/^([A-Za-z]{2})\s+(\d{5}(?:-\d{4})?)$/);
     if (stateZipMatch) {
       const city = parts[parts.length - 2];
@@ -332,19 +372,28 @@ export function parseCommaSeparatedUSAddress(raw) {
   return { line1: text, line2: null };
 }
 
+function appendUnitIfMissing(line1, unitNumber) {
+  const unit = formatUnitSuffix(unitNumber);
+  if (!unit) return line1 || null;
+  if (streetAlreadyIncludesUnit(line1, unitNumber)) return line1 || null;
+  return [line1, unit].filter(Boolean).join(', ') || null;
+}
+
 function blockFromServiceLocation(serviceLocation, unitNumber) {
   if (!serviceLocation || typeof serviceLocation !== 'object') return null;
   const street = (serviceLocation.address || '').trim();
-  const unit = formatUnitSuffix(unitNumber || serviceLocation.unit_number);
+  const unitRaw = unitNumber || serviceLocation.unit_number;
   const line2 = formatCityStateZip(serviceLocation);
 
   if (street && !line2 && street.includes(',')) {
     const parsed = parseCommaSeparatedUSAddress(street);
-    const line1 = [parsed.line1, unit].filter(Boolean).join(', ');
-    return { line1: line1 || null, line2: parsed.line2 };
+    return {
+      line1: appendUnitIfMissing(parsed.line1, unitRaw),
+      line2: parsed.line2,
+    };
   }
 
-  const line1 = [street, unit].filter(Boolean).join(', ');
+  const line1 = appendUnitIfMissing(street, unitRaw);
   if (!line1 && !line2) return null;
   return { line1: line1 || null, line2 };
 }
@@ -353,10 +402,11 @@ function blockFromProperty(property) {
   if (!property) return null;
   const raw = (property.address || '').trim();
   if (!raw) return null;
-  const unit = formatUnitSuffix(property.unit_number);
   const parsed = parseCommaSeparatedUSAddress(raw);
-  const line1 = [parsed.line1, unit].filter(Boolean).join(', ');
-  return { line1: line1 || null, line2: parsed.line2 };
+  return {
+    line1: appendUnitIfMissing(parsed.line1, property.unit_number),
+    line2: parsed.line2,
+  };
 }
 
 function scoreAddressBlock(block) {
