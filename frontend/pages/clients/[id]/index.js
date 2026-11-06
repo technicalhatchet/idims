@@ -39,6 +39,14 @@ const emptyPropertyForm = {
   estimate_auto_approve_limit: null,
 };
 
+function propertyHasTenantFields(form) {
+  return Boolean(
+    String(form?.tenant_name || '').trim() ||
+    String(form?.tenant_phone || '').trim() ||
+    String(form?.tenant_email || '').trim()
+  );
+}
+
 function PropertyForm({
   propertyForm,
   setPropertyForm,
@@ -49,6 +57,17 @@ function PropertyForm({
   onCancel,
   autoApproveEnabled = false,
 }) {
+  const [showTenantSection, setShowTenantSection] = useState(() => {
+    const t = propertyForm.property_type;
+    return t === 'rental' || t === 'commercial' || propertyHasTenantFields(propertyForm);
+  });
+
+  useEffect(() => {
+    const t = propertyForm.property_type;
+    setShowTenantSection(t === 'rental' || t === 'commercial' || propertyHasTenantFields(propertyForm));
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- type-change hide is handled in select onChange
+  }, [editingProperty?.id]);
+
   return (
     <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-5 mb-4">
       <div className="flex justify-between items-center mb-4">
@@ -75,7 +94,15 @@ function PropertyForm({
         </div>
         <div>
           <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Property Type</label>
-          <select value={propertyForm.property_type} onChange={e => setPropertyForm(p => ({ ...p, property_type: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm">
+          <select
+            value={propertyForm.property_type}
+            onChange={e => {
+              const property_type = e.target.value;
+              setPropertyForm(p => ({ ...p, property_type }));
+              setShowTenantSection(property_type === 'rental' || property_type === 'commercial');
+            }}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm"
+          >
             {PROPERTY_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
           </select>
         </div>
@@ -87,21 +114,25 @@ function PropertyForm({
           <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Access Instructions</label>
           <input type="text" value={propertyForm.access_instructions} onChange={e => setPropertyForm(p => ({ ...p, access_instructions: e.target.value }))} placeholder="Side door, park in back..." autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
         </div>
-        <div className="md:col-span-2 pt-2 border-t border-blue-200 dark:border-blue-800">
-          <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Tenant / Occupant (optional)</p>
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Name</label>
-          <input type="text" value={propertyForm.tenant_name} onChange={e => setPropertyForm(p => ({ ...p, tenant_name: e.target.value }))} placeholder="John Doe" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Phone</label>
-          <input type="text" value={propertyForm.tenant_phone} onChange={e => setPropertyForm(p => ({ ...p, tenant_phone: e.target.value }))} placeholder="4195551234" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Email</label>
-          <input type="text" value={propertyForm.tenant_email} onChange={e => setPropertyForm(p => ({ ...p, tenant_email: e.target.value }))} placeholder="tenant@email.com" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
-        </div>
+        {showTenantSection && (
+          <>
+            <div className="md:col-span-2 pt-2 border-t border-blue-200 dark:border-blue-800">
+              <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Tenant / Occupant (optional)</p>
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Name</label>
+              <input type="text" value={propertyForm.tenant_name} onChange={e => setPropertyForm(p => ({ ...p, tenant_name: e.target.value }))} placeholder="John Doe" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Phone</label>
+              <input type="text" value={propertyForm.tenant_phone} onChange={e => setPropertyForm(p => ({ ...p, tenant_phone: e.target.value }))} placeholder="4195551234" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Tenant Email</label>
+              <input type="text" value={propertyForm.tenant_email} onChange={e => setPropertyForm(p => ({ ...p, tenant_email: e.target.value }))} placeholder="tenant@email.com" autoComplete="off" className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-800 dark:text-white text-sm" />
+            </div>
+          </>
+        )}
         {autoApproveEnabled ? (
           <div className="md:col-span-2">
             <AutoApproveLimitField
@@ -346,7 +377,7 @@ function ClientDetail() {
             <div className="flex-shrink-0 flex flex-col md:items-end">
               <div className="text-gray-700 dark:text-gray-300">
                 <p><span className="font-medium text-gray-900 dark:text-white">Client since:</span>{' '}{client?.created_at ? format(new Date(client.created_at), 'MMM d, yyyy') : 'N/A'}</p>
-                <p><span className="font-medium text-gray-900 dark:text-white">Work orders:</span>{' '}{workOrdersData?.totalItems || 0}</p>
+                <p><span className="font-medium text-gray-900 dark:text-white">Work orders:</span>{' '}{workOrdersData?.total || 0}</p>
                 {client?.has_payment_methods && (
                   <p className="flex items-center mt-2 text-green-600 dark:text-green-400">
                     <FaCreditCard className="mr-1" /> Payment method on file

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import TechDashboardLayout from '../../components/layouts/TechDashboardLayout';
+import TechboardHudDoubleTapShell from '../../components/layouts/TechboardHudDoubleTapShell';
 import TechnicianFieldPerformance from '../../components/technicians/TechnicianFieldPerformance';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorAlert from '../../components/ui/ErrorAlert';
@@ -22,7 +23,10 @@ function TechDashboardPerformancePage() {
         <title>My Performance | Field Tech Dashboard</title>
       </Head>
 
-      <div className="px-4 py-6 max-w-5xl mx-auto">
+      <TechboardHudDoubleTapShell
+        contentClassName="px-4 py-6 max-w-5xl mx-auto pb-24"
+        columnClassName="max-w-5xl mx-auto"
+      >
         <div className="mb-6">
           <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-400/90 mb-1">Field metrics</p>
           <h1 className="text-2xl font-bold text-white">My Performance</h1>
@@ -47,7 +51,7 @@ function TechDashboardPerformancePage() {
             variant="mobile"
           />
         )}
-      </div>
+      </TechboardHudDoubleTapShell>
     </>
   );
 }
