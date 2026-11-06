@@ -281,7 +281,11 @@ class WorkOrderService:
 
     @staticmethod
     def _apply_default_service_location(db: Session, work_order_data: Dict[str, Any]) -> None:
-        """Fill service_location from linked property or client mailing address when missing."""
+        """Fill service_location from linked property or client mailing address when missing.
+
+        Auto-picks an existing property only when the client has exactly one.
+        With 2+ properties and no property_id, do not guess.
+        """
         service_location = work_order_data.get("service_location")
         existing_address = ""
         if isinstance(service_location, dict):
@@ -305,7 +309,7 @@ class WorkOrderService:
                 .order_by(Property.created_at.asc())
                 .all()
             )
-            if props:
+            if len(props) == 1:
                 prop = props[0]
                 work_order_data["property_id"] = prop.id
 
@@ -320,6 +324,29 @@ class WorkOrderService:
             formatted = format_client_address(client.address)
             if formatted:
                 work_order_data["service_location"] = {"address": formatted}
+
+    @staticmethod
+    def _ensure_property_id_from_service_location(
+        db: Session,
+        work_order_data: Dict[str, Any],
+    ) -> None:
+        """If property_id is unset, find-or-create from resolved service_location."""
+        if work_order_data.get("property_id"):
+            return
+        client_id = work_order_data.get("client_id")
+        if not client_id:
+            return
+        from app.services.work_order_property_service import (
+            ensure_client_property_for_service_address,
+        )
+
+        prop = ensure_client_property_for_service_address(
+            db,
+            client_id,
+            work_order_data.get("service_location"),
+        )
+        if prop:
+            work_order_data["property_id"] = prop.id
     
     @staticmethod
     async def create_work_order(
@@ -347,6 +374,7 @@ class WorkOrderService:
                     raise ValidationException(f"Work order number {order_number} already exists")
 
             WorkOrderService._apply_default_service_location(db, work_order_data)
+            WorkOrderService._ensure_property_id_from_service_location(db, work_order_data)
             
             # Create work order with mandatory fields
             work_order = WorkOrder(
@@ -609,6 +637,20 @@ class WorkOrderService:
             for key, value in update_data.items():
                 if key not in ["updated_by", "status_notes"]:
                     setattr(work_order, key, value)
+
+            # Address changed with no property linked → find-or-create (never overwrite existing)
+            if "service_location" in update_data and not work_order.property_id:
+                from app.services.work_order_property_service import (
+                    ensure_client_property_for_service_address,
+                )
+
+                prop = ensure_client_property_for_service_address(
+                    db,
+                    work_order.client_id,
+                    work_order.service_location,
+                )
+                if prop:
+                    work_order.property_id = prop.id
 
             if "service_location" in update_data or "property_id" in update_data:
                 try:
