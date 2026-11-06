@@ -28,7 +28,7 @@ class UserService:
         
         # Get roles from token data
         roles = token_data.roles or []
-        role = "admin" if "admin" in roles else "client"  # Default to client if no admin role
+        role = "admin" if "admin" in roles else "client"  # legacy local var for auth0-test only
         
         if user:
             logger.info(f"Updating existing user with Auth0 ID: {auth_id}")
@@ -39,21 +39,21 @@ class UserService:
             user.avatar_url = token_data.picture or user.avatar_url
             user.email_verified = True  # Since Auth0 has verified this
             user.last_login = datetime.utcnow()
-            
-            # Update roles if changed
-            if role not in user.roles:
-                user.roles = [role]
-                logger.info(f"Updated roles for user {auth_id} to {[role]}")
                 
         else:
             logger.info(f"Creating new user from Auth0 ID: {auth_id}")
+            from app.services.role_service import normalize_role_names
+
+            token_roles = normalize_role_names(token_data.roles or [])
+            if not token_roles:
+                token_roles = ["client"]
             # Create a new user
             user = User(
                 auth_id=auth_id,
                 email=token_data.email or f"{auth_id}@example.com",
                 first_name=token_data.given_name or token_data.name or "User",
                 last_name=token_data.family_name or auth_id[-6:],  # Use last part of sub as placeholder
-                roles=[role],
+                roles=token_roles,
                 is_active=True,
                 email_verified=True,
                 avatar_url=token_data.picture,
@@ -63,7 +63,7 @@ class UserService:
             db.add(user)
             
             # If user is a client, create a client record
-            if role == "client":
+            if "client" in token_roles and "technician" not in token_roles and "admin" not in token_roles:
                 client = Client(
                     user=user,
                     first_name=user.first_name,
@@ -75,7 +75,7 @@ class UserService:
                 logger.info(f"Created client record for user {auth_id}")
                 
             # If user is a technician, create a technician record
-            elif role == "technician":
+            elif "technician" in token_roles:
                 technician = Technician(
                     user=user,
                     skills=[],

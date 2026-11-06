@@ -343,6 +343,7 @@ async def test_staff_created_client_first_login_adopts_placeholder():
 
     from app.models.notification import Notification
     from app.routers.client_portal import list_portal_notifications
+    from app.services.portal_login_service import PortalScope
 
     notification = SimpleNamespace(
         id=uuid4(),
@@ -359,7 +360,7 @@ async def test_staff_created_client_first_login_adopts_placeholder():
     notif_db = MagicMock()
     base_query = MagicMock()
     base_query.count.return_value = 1
-    base_query.order_by.return_value.offset.return_value.limit.return_value.all.return_value = [
+    base_query.order_by.return_value.all.return_value = [
         notification
     ]
     base_query.filter.return_value.count.return_value = 1
@@ -367,6 +368,13 @@ async def test_staff_created_client_first_login_adopts_placeholder():
 
     token_data = SimpleNamespace(sub=auth_sub, roles=["client"])
     active_login = SimpleNamespace(id=uuid4(), client_id=client.id, user_id=placeholder_id)
+    scope = PortalScope(
+        client=client,
+        login=active_login,
+        role="owner",
+        property_ids=None,
+        is_admin_preview=False,
+    )
     with patch(
         "app.routers.client_portal.get_active_login_for_sub",
         return_value=active_login,
@@ -377,6 +385,7 @@ async def test_staff_created_client_first_login_adopts_placeholder():
             db=notif_db,
             page=1,
             limit=20,
+            scope=scope,
         )
     assert result["portal_linked"] is True
     assert result["total"] == 1
@@ -386,6 +395,7 @@ async def test_staff_created_client_first_login_adopts_placeholder():
 @pytest.mark.asyncio
 async def test_portal_notifications_when_user_id_set():
     from app.routers.client_portal import list_portal_notifications
+    from app.services.portal_login_service import PortalScope
 
     user_id = uuid4()
     client = SimpleNamespace(id=uuid4(), user_id=user_id)
@@ -404,7 +414,7 @@ async def test_portal_notifications_when_user_id_set():
 
     base_query = MagicMock()
     base_query.count.return_value = 1
-    base_query.order_by.return_value.offset.return_value.limit.return_value.all.return_value = [
+    base_query.order_by.return_value.all.return_value = [
         notification
     ]
     base_query.filter.return_value.count.return_value = 1
@@ -414,6 +424,13 @@ async def test_portal_notifications_when_user_id_set():
 
     token_data = SimpleNamespace(sub="auth0|notify", roles=["client"])
     active_login = SimpleNamespace(id=uuid4(), client_id=client.id, user_id=user_id)
+    scope = PortalScope(
+        client=client,
+        login=active_login,
+        role="owner",
+        property_ids=None,
+        is_admin_preview=False,
+    )
     with patch(
         "app.routers.client_portal.get_active_login_for_sub",
         return_value=active_login,
@@ -424,6 +441,7 @@ async def test_portal_notifications_when_user_id_set():
             db=db,
             page=1,
             limit=20,
+            scope=scope,
         )
     assert result["portal_linked"] is True
     assert result["total"] == 1

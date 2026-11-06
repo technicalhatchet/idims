@@ -104,11 +104,6 @@ class TechnicianService:
                 # Use existing user
                 user_id = existing_user.id
                 logger.info(f"Found existing user with email {technician_data.user_email}, ID: {user_id}")
-                
-                # Update role if necessary
-                if "technician" not in existing_user.roles:
-                    existing_user.roles.append("technician")
-                    logger.info(f"Updated user roles to include technician: {existing_user.roles}")
             else:
                 # Create new user with technician role
                 logger.info(f"Creating new user with email {technician_data.user_email}")
@@ -128,6 +123,21 @@ class TechnicianService:
             # No user_id or user_email provided
             logger.error("Validation failed: Neither user_id nor user_email was provided")
             raise ValidationException("Either user_id or user_email must be provided")
+
+        from app.services.role_service import add_user_roles, mirror_user_roles, normalize_role_names
+
+        user_for_roles: Optional[User] = None
+        if user_id:
+            user_for_roles = db.query(User).filter(User.id == user_id).first()
+        role_user_pending_mirror: Optional[User] = None
+        if user_for_roles and "technician" not in normalize_role_names(user_for_roles.roles):
+            add_user_roles(db, user_for_roles, ["technician"], commit=False)
+            role_user_pending_mirror = user_for_roles
+            logger.info(
+                "Queued technician role for user %s (roles=%s)",
+                user_for_roles.id,
+                user_for_roles.roles,
+            )
         
         try:
             # Check if employee_id is unique if provided
@@ -161,6 +171,10 @@ class TechnicianService:
             db.add(new_technician)
             db.commit()
             db.refresh(new_technician)
+
+            if role_user_pending_mirror:
+                db.refresh(role_user_pending_mirror)
+                mirror_user_roles(role_user_pending_mirror)
             
             return new_technician
             
@@ -224,25 +238,24 @@ class TechnicianService:
             if work_orders > 0:
                 raise ConflictException(f"Cannot delete technician with {work_orders} active work orders")
             
-            # Optional: Update user roles if this is the only technician record for the user
+            # Drop technician role from linked user (same transaction as delete).
             user = db.query(User).filter(User.id == technician.user_id).first()
-            if user and "technician" in user.roles:
-                # Check if user has other roles in the system
-                # In a real system, you might check for other role mappings
-                
-                # Remove the technician role from the user's roles
-                logger.info(f"Updating user roles: {user.roles}")
-                if len(user.roles) > 1:
-                    # User has other roles, just remove the technician role
-                    user.roles = [role for role in user.roles if role != "technician"]
-                    logger.info(f"Updated user roles to: {user.roles}")
-                
-                # We keep at least one role for the user, so no need to set a default
-                db.flush()
+            role_user_pending_mirror: Optional[User] = None
+            if user:
+                from app.services.role_service import mirror_user_roles, normalize_role_names, remove_user_roles
+
+                if "technician" in normalize_role_names(user.roles):
+                    remove_user_roles(db, user, ["technician"], commit=False)
+                    role_user_pending_mirror = user
+                    logger.info("Queued user roles after technician removal: %s", user.roles)
             
             # Delete the technician
             db.delete(technician)
             db.commit()
+
+            if role_user_pending_mirror:
+                db.refresh(role_user_pending_mirror)
+                mirror_user_roles(role_user_pending_mirror)
             
             return True
             

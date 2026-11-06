@@ -61,10 +61,11 @@ class PortalScope:
         return not self.is_tenant
 
 
-def _portal_feature_ctx(token_data: Any):
+def _portal_feature_ctx(db: Session, token_data: Any):
     from app.services.feature_flags_service import feature_context_from_roles
+    from app.services.role_service import load_user_roles_for_token
 
-    return feature_context_from_roles(getattr(token_data, "roles", None))
+    return feature_context_from_roles(load_user_roles_for_token(db, token_data))
 
 
 def _tenant_property_ids_for_login(db: Session, login: ClientLogin) -> List[UUID]:
@@ -83,7 +84,9 @@ def get_portal_scope(
     admin_client_id: Optional[UUID] = None,
 ) -> PortalScope:
     """Resolve portal client + tenant property scope (Wave 3)."""
-    roles = getattr(token_data, "roles", []) or []
+    from app.services.role_service import load_user_roles_for_token
+
+    roles = load_user_roles_for_token(db, token_data)
     is_admin = "admin" in roles
     is_client = "client" in roles
     admin_preview = is_admin_preview(roles, str(admin_client_id) if admin_client_id else None)
@@ -134,7 +137,7 @@ def get_portal_scope(
 
         from app.services.feature_flags_service import feature_enabled
 
-        ctx = _portal_feature_ctx(token_data)
+        ctx = _portal_feature_ctx(db, token_data)
         if not feature_enabled(db, "tenant_access", ctx):
             return PortalScope(
                 client=client,
@@ -514,41 +517,22 @@ def has_real_portal_login(db: Session, client: Client) -> bool:
 
 
 def remove_auth0_client_role_if_orphaned(auth0_sub: str) -> Optional[str]:
-    """Remove Auth0 client role when sub has no active logins. Returns error detail or None."""
-    from urllib.parse import quote
-
-    import requests
-
-    from app.core.auth import get_auth_handler
+    """Remove client role from DB + Auth0 when sub has no active logins."""
     from app.db.database import SessionLocal
+    from app.models.user import User
+    from app.services.role_service import normalize_role_names, remove_user_roles
 
     db = SessionLocal()
     try:
         if has_active_login_anywhere(db, auth0_sub):
             return None
+        user = db.query(User).filter(User.auth_id == auth0_sub).first()
+        if user and "client" in normalize_role_names(user.roles):
+            _, auth0_error = remove_user_roles(db, user, ["client"])
+            return auth0_error
+        return None
     finally:
         db.close()
-
-    client_role_id = "rol_okGmH3pkFUu0YXWi"
-    try:
-        auth_handler = get_auth_handler()
-        management_token = auth_handler.get_client_credentials_token()
-        encoded_user_id = quote(auth0_sub, safe="")
-        roles_url = auth_handler.mgmt_api_url(f"/users/{encoded_user_id}/roles")
-        headers = {"Authorization": f"Bearer {management_token}"}
-        response = requests.delete(
-            roles_url,
-            headers=headers,
-            json={"roles": [client_role_id]},
-            timeout=15,
-        )
-        if not response.ok:
-            return f"Auth0 DELETE roles {response.status_code}: {response.text[:300]}"
-        logger.info("Removed Auth0 client role for orphaned sub %s", auth0_sub)
-        return None
-    except Exception as exc:
-        logger.exception("Auth0 role removal failed for %s", auth0_sub)
-        return str(exc)
 
 
 def sync_login_user_id(db: Session, login: ClientLogin, user: DBUser) -> None:

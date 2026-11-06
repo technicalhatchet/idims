@@ -47,26 +47,27 @@ def ensure_db_user_for_portal_link(
 ) -> DBUser:
     """
     Resolve users row for token sub using the same path as get_current_user.
-    Never elevates to staff from this module — roles come from the token only.
+    Staff-role warnings use DB roles after ensure_db_user_from_token.
     """
-    roles = _roles_from_token(token_data)
-    if roles and any(r in STAFF_ROLES for r in roles):
-        logger.warning(
-            "[LinkAccount] ensure_db_user called with staff roles in token: %s sub=%s",
-            roles,
-            getattr(token_data, "sub", None),
-        )
     trusted_placeholder = None
     if client and client.user_id:
         linked = db.query(DBUser).filter(DBUser.id == client.user_id).first()
         if linked and is_placeholder_client_auth_id(linked.auth_id):
             trusted_placeholder = linked
     auth_handler = get_auth_handler()
-    return auth_handler.ensure_db_user_from_token(
+    user = auth_handler.ensure_db_user_from_token(
         db,
         token_data,
         trusted_placeholder_user=trusted_placeholder,
     )
+    roles = [str(r).lower() for r in (user.roles or []) if r]
+    if roles and any(r in STAFF_ROLES for r in roles):
+        logger.warning(
+            "[LinkAccount] ensure_db_user called with staff roles in DB: %s sub=%s",
+            roles,
+            getattr(token_data, "sub", None),
+        )
+    return user
 
 
 def repoint_user_customer_data_collect_ids(

@@ -462,6 +462,7 @@ async def debug_token(
             payload = token_data.raw_payload or {}
             
         # Create a result with detailed information
+        db_roles = user.roles if user else []
         result = {
             "token_data": {
                 "sub": token_data.sub,
@@ -471,7 +472,8 @@ async def debug_token(
                 "family_name": token_data.family_name,
                 "nickname": token_data.nickname,
                 "picture": token_data.picture,
-                "roles": token_data.roles,
+                "token_roles": token_data.roles,
+                "roles": db_roles,
                 "exp": token_data.exp,
                 "raw_payload": payload,
                 "extracted_roles": roles
@@ -498,52 +500,43 @@ async def set_user_role(
     db: Session = Depends(get_db)
 ):
     """
-    Set a user's role in Auth0 and local database.
-    Only admins can access this endpoint.
+    Replace a user's roles in the DB (Auth0 mirrored best-effort). Admin only.
     """
-    try:
-        # Get client credentials token for Auth0 Management API
-        management_token = get_auth_handler().get_client_credentials_token()
-        
-        # Update user's app_metadata in Auth0
-        auth0_api_url = auth0_mgmt_api_url(f"/users/{user_id}")
-        headers = {
-            "Authorization": f"Bearer {management_token}",
-            "Content-Type": "application/json"
-        }
-        
-        # Prepare metadata update
-        metadata = {
-            "app_metadata": {
-                "roles": [role]
-            }
-        }
-        
-        # Update Auth0 user
-        response = requests.patch(auth0_api_url, headers=headers, json=metadata)
-        response.raise_for_status()
-        
-        # Update local user
-        user = db.query(User).filter(User.auth_id == user_id).first()
-        if user:
-            user.role = role
-            db.commit()
-            
-        return {"message": f"Role {role} assigned successfully"}
-        
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Auth0 management API error: {str(e)}")
+    from app.services.role_service import (
+        count_admin_users,
+        normalize_role_names,
+        set_user_roles,
+    )
+
+    role = str(role).strip().lower()
+    if not role:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Role required")
+
+    user = db.query(User).filter(User.auth_id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
+    prior = normalize_role_names(user.roles)
+    if user_id == current_user.auth_id and "admin" in prior and role != "admin":
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to update user role in Auth0"
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot remove admin role from your own account",
         )
-    except Exception as e:
-        logger.error(f"Set role error: {str(e)}")
+    if "admin" in prior and role != "admin" and count_admin_users(db, exclude_user_id=user.id) == 0:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Error setting user role"
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Cannot remove the last admin account",
         )
-        
+
+    user, auth0_error = set_user_roles(db, user, [role])
+    payload = {
+        "message": f"Role {role} assigned successfully",
+        "roles": user.roles,
+        "auth0_synced": auth0_error is None,
+    }
+    if auth0_error:
+        payload["auth0_sync_error"] = auth0_error
+    return payload
 
 
 @router.post("/auth/identify-user")
@@ -553,16 +546,14 @@ async def identify_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
     """
-    Role hint for the Auth0 login callback. Does not link portal accounts or assign roles.
-
-    Email in the request body is ignored. The caller's Bearer token sub is matched to
-    Auth0 Management API profile (email + email_verified) before any DB lookup.
+    Role hint for the Auth0 login callback. Assigns assignable staff roles to the DB user.
     """
     from app.services.auth_identify import (
         fetch_auth0_user_profile,
         resolve_identify_role_hint,
         role_assignable_from_callback,
     )
+    from app.services.role_service import add_user_roles, normalize_role_names
 
     auth_handler = get_auth_handler()
     token_data = await auth_handler.verify_token(credentials.credentials)
@@ -583,11 +574,21 @@ async def identify_user(
         ) from exc
 
     role, record_id, email_verified = resolve_identify_role_hint(db, auth0_user_id, profile)
+    db_assigned = False
+    auth0_synced = None
+    if role and role_assignable_from_callback(role):
+        db_user = auth_handler.ensure_db_user_from_token(db, token_data)
+        db_user, auth0_error = add_user_roles(db, db_user, [role.lower()])
+        db_assigned = role.lower() in normalize_role_names(db_user.roles)
+        auth0_synced = auth0_error is None
+
     return {
         "role": role,
         "record_id": record_id,
         "email_verified": email_verified,
         "assignable_from_callback": role_assignable_from_callback(role),
+        "db_assigned": db_assigned,
+        "auth0_synced": auth0_synced,
     }
 
 
@@ -622,46 +623,10 @@ async def complete_diy_signup(
         )
 
     auth0_synced = True
-    try:
-        management_token = get_auth_handler().get_client_credentials_token()
-        headers = {
-            "Authorization": f"Bearer {management_token}",
-            "Content-Type": "application/json",
-        }
+    from app.services.role_service import set_user_roles
 
-        patch_url = auth0_mgmt_api_url(f"/users/{auth_id}")
-        patch_response = requests.patch(
-            patch_url,
-            headers=headers,
-            json={"app_metadata": {"roles": ["diyer"]}},
-        )
-        if not patch_response.ok:
-            auth0_synced = False
-            logger.warning(
-                f"[CompleteDiySignup] app_metadata patch returned {patch_response.status_code}: "
-                f"{patch_response.text}"
-            )
-
-        roles_url = auth0_mgmt_api_url(f"/users/{auth_id}/roles")
-        role_response = requests.post(
-            roles_url,
-            headers=headers,
-            json={"roles": [DIYER_ROLE_ID]},
-        )
-        if role_response.status_code not in (200, 201, 204):
-            auth0_synced = False
-            logger.warning(
-                f"[CompleteDiySignup] RBAC role assign returned {role_response.status_code}: "
-                f"{role_response.text}"
-            )
-    except requests.exceptions.RequestException as e:
-        auth0_synced = False
-        logger.error(f"[CompleteDiySignup] Auth0 error for {auth_id}: {e}")
-
-    current_user.roles = ["diyer"]
-    current_user.updated_at = datetime.utcnow()
-    db.commit()
-    db.refresh(current_user)
+    _, auth0_error = set_user_roles(db, current_user, ["diyer"])
+    auth0_synced = auth0_error is None
 
     logger.info(f"[CompleteDiySignup] Assigned diyer role to {current_user.email}")
     return {"ok": True, "roles": current_user.roles, "auth0_synced": auth0_synced}
