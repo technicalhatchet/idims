@@ -92,12 +92,16 @@ export const NAV_ITEMS = [
     href: '/techboard',
     color: 'cyan',
     isPrimary: true,
+    // Three rows of slim pairs, like the dashboard tiles. Thin stroke of its own.
+    strokeWidth: 1.35,
     icon: (
       <>
-        <rect x="3" y="3" width="7" height="7" rx="1.5" />
-        <rect x="14" y="3" width="7" height="7" rx="1.5" />
-        <rect x="3" y="14" width="7" height="7" rx="1.5" />
-        <rect x="14" y="14" width="7" height="7" rx="1.5" />
+        <rect x="3" y="4" width="7.5" height="3.4" rx="1" />
+        <rect x="13.5" y="4" width="7.5" height="3.4" rx="1" />
+        <rect x="3" y="10.3" width="7.5" height="3.4" rx="1" />
+        <rect x="13.5" y="10.3" width="7.5" height="3.4" rx="1" />
+        <rect x="3" y="16.6" width="7.5" height="3.4" rx="1" />
+        <rect x="13.5" y="16.6" width="7.5" height="3.4" rx="1" />
       </>
     ),
   },
@@ -474,7 +478,7 @@ export default function TechIconRail({ isOpen, onClose }) {
                     className={glowClass}
                     style={{
                       stroke: iconColor,
-                      strokeWidth: isDashboard ? 2 : 1.75,
+                      strokeWidth: item.strokeWidth ?? (isDashboard ? 2 : 1.75),
                       fill: 'none',
                       strokeLinecap: 'round',
                       strokeLinejoin: 'round',

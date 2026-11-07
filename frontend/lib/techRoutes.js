@@ -18,6 +18,7 @@ export const TECH_ROUTE_PATH = '/techboard/route';
 export const TECH_DMA_PATH = '/techboard/dma';
 export const TECH_PARTS_WAIT_PATH = '/techboard/partswait';
 export const TECH_MASS_PATH = '/techboard/mass';
+export const TECH_AWAITING_PAY_PATH = '/techboard/awaiting-payment';
 export const TECH_PERFORMANCE_PATH = '/techboard/performance';
 
 /** Mobile work-order detail. */

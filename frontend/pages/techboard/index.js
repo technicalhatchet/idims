@@ -53,7 +53,7 @@ import {
 } from '../../utils/routeDriveTime';
 import { isTravelApiAllowed, openGoogleMapsDestination } from '../../utils/google-maps-service';
 import TechboardLaserDock from '../../components/techboard/TechboardLaserDock';
-import CriticalMassCard from '../../components/techboard/CriticalMassCard';
+import DashAlertPair from '../../components/techboard/DashAlertPair';
 import { StatValueSkeleton, StatValueUnavailable } from '../../components/techboard/StatValue';
 import { useLaserTag } from '../../components/navigation/LaserBarParts';
 import { useClaimBottomDock } from '../../components/layouts/bottomDock';
@@ -131,7 +131,7 @@ function ApplianceIcon({ equipmentType, equipmentSubtype, size = 'md' }) {
 function DurationStatValue({ text }) {
   const tokens = String(text || '').split(' ').filter(Boolean);
   return (
-    <p key={text || 'duration-empty'} className="text-white leading-tight">
+    <p key={text || 'duration-empty'} className="whitespace-nowrap text-white leading-none">
       {tokens.map((token, i) => {
         const isUnit = token === 'min' || token === 'hr';
         return (
@@ -191,30 +191,33 @@ function StatCard({ icon, label, value, valueNode, sub, subColor = '#22D3EE', bo
               : undefined,
           }}
         />
-        <FrostedCardContent className="flex items-center gap-3 p-4 h-full">
-          <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 tech-icon-wrap" style={{ background: '#080C14' }}>
-            {icon}
+        {/* Compact: two lines at Critical Mass height (icon + label + chevron, then value + note). */}
+        <FrostedCardContent className="flex h-[80px] flex-col justify-between px-3 py-2.5">
+          <div className="flex min-w-0 items-center gap-2">
+            <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center tech-icon-wrap [&>svg]:h-[18px] [&>svg]:w-[18px]">
+              {icon}
+            </span>
+            <p className="min-w-0 flex-1 truncate text-xs font-semibold text-gray-300">{label}</p>
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 flex-shrink-0 text-gray-600" aria-hidden="true" style={{ stroke: 'currentColor', strokeWidth: 2.4, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs text-gray-400 mb-0.5">{label}</p>
+          <div className="flex min-w-0 items-baseline gap-1.5">
             {failed
               ? <StatValueUnavailable onRetry={onRetry} />
               : loading
                 ? <StatValueSkeleton />
                 : (valueNode ?? (
-                  <p className="text-2xl font-bold text-white">
+                  <p className="text-2xl font-bold leading-none text-white">
                     <LiveRepaintValue value={value} />
                   </p>
                 ))}
             {sub && !loading && !failed && (
-              <p className="text-xs mt-0.5" style={{ color: subColor }}>
+              <p className="min-w-0 truncate text-xs" style={{ color: subColor }}>
                 <LiveRepaintValue value={sub}>{sub}</LiveRepaintValue>
               </p>
             )}
           </div>
-          <svg viewBox="0 0 24 24" className="w-4 h-4 flex-shrink-0 text-gray-600" style={{ stroke: 'currentColor', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round' }}>
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
         </FrostedCardContent>
       </div>
     </div>
@@ -1472,14 +1475,14 @@ export default function TechDashboardTest() {
           )}
 
           {/* ── STAT CARDS ── */}
-          <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="grid grid-cols-2 gap-3 mb-3">
             <StatCard
               label="Jobs Completed"
               value={workOrderStats.completed_today}
               loading={statsLoading}
               failed={statsFailed}
               onRetry={refetchDashboardStats}
-              sub={`${todayAppts.length} scheduled today`}
+              sub={`of ${todayAppts.length} today`}
               borderColor="rgba(34,211,238,0.25)"
               href={TECH_MISSION_QUEUE_PATH}
               icon={
@@ -1491,7 +1494,7 @@ export default function TechDashboardTest() {
             <StatCard
               label="OPS Board"
               value={todayAppts.length}
-              sub={nextJob?.scheduled_start ? `next at ${formatScheduleTime(nextJob.scheduled_start)}` : 'none remaining'}
+              sub={nextJob?.scheduled_start ? `next ${formatScheduleTime(nextJob.scheduled_start)}` : 'none left'}
               borderColor="rgba(34,211,238,0.25)"
               href={TECH_OPS_PATH}
               icon={
@@ -1506,7 +1509,7 @@ export default function TechDashboardTest() {
               loading={statsLoading}
               failed={statsFailed}
               onRetry={refetchDashboardStats}
-              sub={workOrderStats.partsWaiting > 0 ? 'orders on hold' : 'all parts in'}
+              sub={workOrderStats.partsWaiting > 0 ? 'on hold' : 'all in'}
               subColor={workOrderStats.partsWaiting > 0 ? '#FF7A00' : '#22D3EE'}
               borderColor={workOrderStats.partsWaiting > 0 ? 'rgba(255,122,0,0.4)' : 'rgba(34,211,238,0.2)'}
               sweepColor={workOrderStats.partsWaiting > 0 ? 'orange' : 'cyan'}
@@ -1521,7 +1524,7 @@ export default function TechDashboardTest() {
             <StatCard
               label="Route"
               valueNode={<DurationStatValue text={driveTimeLabel} />}
-              sub="drive time"
+              sub="drive"
               borderColor="rgba(255,122,0,0.25)"
               sweepColor="orange"
               href={TECH_ROUTE_PATH}
@@ -1533,9 +1536,9 @@ export default function TechDashboardTest() {
             />
           </div>
 
-          {/* ── CRITICAL MASS ── */}
-          <CriticalMassCard
-            count={workOrderStats.criticalMass}
+          {/* ── CRITICAL MASS + AWAITING PAY (half and half; one shared slice-open panel) ── */}
+          <DashAlertPair
+            criticalCount={workOrderStats.criticalMass}
             loading={statsLoading}
             failed={statsFailed}
             onRetry={refetchDashboardStats}

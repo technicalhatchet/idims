@@ -296,6 +296,44 @@ def compute_balance_due(
     return max(Decimal("0"), due).quantize(Decimal("0.01"))
 
 
+def compute_due_later(work_order: WorkOrder, *, db=None) -> Decimal:
+    """
+    What the estimate will still cost once the repair is done: every non-waived line,
+    quoted parts + tax, minus the diagnostic credit, minus what's paid and what's due today.
+    Matches frontend computeWorkOrderDueToday().dueLater.
+    """
+    tax_rate = _effective_tax_rate(work_order, db)
+
+    services = sum(
+        (
+            _service_line_total(item)
+            for item in (work_order.service_items or [])
+            if str(getattr(item, "billing_status", "") or "").lower() != "waived"
+        ),
+        Decimal("0"),
+    )
+    parts = sum(
+        (
+            _decimal(part.price)
+            for part in (work_order.parts or [])
+            if part.price is not None and part.status not in {"not_installed"}
+        ),
+        Decimal("0"),
+    )
+    tax = (parts * tax_rate).quantize(Decimal("0.01"))
+
+    credit = Decimal("0")
+    if has_repair_sku_on_order(work_order):
+        credit = diagnostic_credit_dollars(
+            diagnostic_credit_base(work_order),
+            mode=diagnostic_credit_mode(work_order),
+        )
+
+    projected = services + parts + tax - credit
+    later = projected - _decimal(work_order.amount_previously_paid) - compute_balance_due(work_order, db=db)
+    return max(Decimal("0"), later).quantize(Decimal("0.01"))
+
+
 def compute_balance_due_legacy_billable_services_only(
     work_order: WorkOrder,
     *,

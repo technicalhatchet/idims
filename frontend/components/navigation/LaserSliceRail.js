@@ -116,7 +116,7 @@ function RailIcon({ item, size }) {
       aria-hidden="true"
       fill="none"
       stroke="currentColor"
-      strokeWidth={item.isPrimary ? 1.9 : 1.8}
+      strokeWidth={item.strokeWidth ?? (item.isPrimary ? 1.9 : 1.8)}
       strokeLinecap="round"
       strokeLinejoin="round"
     >

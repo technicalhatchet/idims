@@ -50,6 +50,19 @@ export async function emailWorkOrderInvoice(workOrderId) {
   return apiClient(`work-orders/${workOrderId}/email-invoice`, { method: 'POST' });
 }
 
+/**
+ * Log that a pay link went out ('text' | 'copy' | 'qr'; email logs itself on the backend).
+ * Fire and forget: the send already happened, so a logging failure never surfaces.
+ * Backend: POST work-orders/{id}/pay-link/sends { channel }
+ */
+export function logPayLinkSend(workOrderId, channel) {
+  if (!workOrderId || !channel) return;
+  apiClient(`work-orders/${workOrderId}/pay-link/sends`, {
+    method: 'POST',
+    body: JSON.stringify({ channel }),
+  }).catch(() => {});
+}
+
 /** 'android' | 'ios' — which Square POS hand-off format this device needs. */
 export function tapToPayPlatform() {
   if (typeof navigator === 'undefined') return 'ios';
