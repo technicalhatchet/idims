@@ -151,6 +151,56 @@ def diagnostic_credit_dollars(raw_amount: Any, *, mode: str) -> Decimal:
     return (raw / Decimal("2")).quantize(Decimal("1"), rounding=ROUND_CEILING)
 
 
+def _is_trip_service_line(item: Any) -> bool:
+    sku = ""
+    if getattr(item, "service", None) is not None:
+        sku = str(getattr(item.service, "sku_code", None) or "")
+    sku = sku.upper()
+    if "TRIP" in sku:
+        return True
+    return "trip charge" in (getattr(item, "name", None) or "").lower()
+
+
+def is_diagnostic_service_line(item: Any) -> bool:
+    """Diagnostic SKU line (not trip charge, not a repair line)."""
+    if _is_trip_service_line(item):
+        return False
+    service_type = _service_type_str(item)
+    if service_type == "diagnostic":
+        return True
+    if service_type == "repair":
+        return False
+    name = (getattr(item, "name", None) or "").lower()
+    return "diagnostic" in name and "repair" not in name
+
+
+def diagnostic_credit_base(work_order: WorkOrder, *, chargeable_only: bool = False) -> Decimal:
+    """
+    Full diagnostic amount the credit is figured from.
+
+    Uses the stamped work_orders.diagnostic_discount_amount when set. Otherwise falls
+    back to the diagnostic line price(s) on the order, so the credit shows on estimates
+    while every SKU is still not billable. Waived diagnostics never count.
+
+    chargeable_only=True (money math: balance due / net total) only counts diagnostic
+    lines that are billable or paid, so a diagnostic nobody was charged for can't be
+    credited against the repair.
+    """
+    stamped = _decimal(getattr(work_order, "diagnostic_discount_amount", None))
+    if stamped > 0:
+        return stamped.quantize(Decimal("0.01"))
+    total = Decimal("0")
+    for item in work_order.service_items or []:
+        status = str(getattr(item, "billing_status", "") or "").lower()
+        if status == "waived":
+            continue
+        if chargeable_only and status not in ("billable", "paid"):
+            continue
+        if is_diagnostic_service_line(item):
+            total += _service_line_total(item)
+    return total.quantize(Decimal("0.01")) if total > 0 else Decimal("0")
+
+
 def diagnostic_discount_amount(
     work_order: WorkOrder,
     *,
@@ -158,7 +208,7 @@ def diagnostic_discount_amount(
 ) -> Decimal:
     if not has_repair_sku_on_order(work_order):
         return Decimal("0")
-    raw = _decimal(work_order.diagnostic_discount_amount)
+    raw = diagnostic_credit_base(work_order, chargeable_only=True)
     if raw <= 0:
         return Decimal("0")
     if half is None:

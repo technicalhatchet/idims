@@ -96,6 +96,7 @@ import {
   persistDiagnosticCreditMode,
   recordedPaymentsSummary,
   diagnosticCreditOverrideSummary,
+  showDiagnosticCreditRow,
   showPaidInFullBillingRow,
   latestRecordedPaymentDate,
   workOrderHasRepairSku,
@@ -511,8 +512,8 @@ function WorkOrderDetail() {
     [workOrder, allServices]
   );
   const paidInFullBilling = useMemo(
-    () => showPaidInFullBillingRow(billingTotals.dueToday, fieldPayments),
-    [billingTotals.dueToday, fieldPayments],
+    () => showPaidInFullBillingRow(billingTotals.dueToday, fieldPayments, billingTotals.dueLater),
+    [billingTotals.dueToday, billingTotals.dueLater, fieldPayments],
   );
   const resolvedServiceAddress = useMemo(
     () => (workOrder ? resolveWorkOrderServiceAddress(workOrder) : null),
@@ -2390,10 +2391,9 @@ function WorkOrderDetail() {
                         catalogServices: allServices,
                         workOrderServices: allServices,
                       });
-                      const discountAmt =
-                        hasRepairSku && workOrder?.diagnostic_discount_amount > 0
-                          ? appliedDiagnosticCreditAmount(workOrder, allServices)
-                          : 0;
+                      const discountAmt = hasRepairSku
+                        ? appliedDiagnosticCreditAmount(workOrder, allServices)
+                        : 0;
 
                       const totalWorkOrder = round2(grossTotal - (repairCompleted ? discountAmt : 0));
                       const previouslyPaid = round2(parseFloat(workOrder.amount_previously_paid || 0));
@@ -2459,7 +2459,7 @@ function WorkOrderDetail() {
                               <LiveRepaintMoney amount={grossTotal} />
                             </div>
 
-                            {hasRepairSku && workOrder?.diagnostic_discount_amount > 0 && (
+                            {hasRepairSku && discountAmt > 0 && (
                               <div
                                 className={`flex justify-between items-center text-sm ${
                                   repairCompleted
@@ -2494,6 +2494,12 @@ function WorkOrderDetail() {
                               <div className="flex justify-between text-base font-bold text-amber-300 md:text-yellow-600 md:dark:text-yellow-400 pt-1 border-t border-white/10 md:border-gray-200 md:dark:border-gray-600">
                                 <span>Due Today</span>
                                 <LiveRepaintMoney amount={dueToday} />
+                              </div>
+                            )}
+                            {!paidInFullBilling && billingTotals.dueLater > 0.01 && (
+                              <div className="flex justify-between text-sm font-semibold text-cyan-300 md:text-blue-600 md:dark:text-blue-400">
+                                <span>Due Later (after repair)</span>
+                                <LiveRepaintMoney amount={billingTotals.dueLater} />
                               </div>
                             )}
                           </div>
@@ -2564,7 +2570,7 @@ function WorkOrderDetail() {
                         onToggle={() => setBillingOverridesOpen((v) => !v)}
                         className="md:mt-6"
                       >
-                        {workOrderHasRepairSku(allServices) && workOrder?.diagnostic_discount_amount > 0 && (
+                        {showDiagnosticCreditRow(workOrder, allServices) && (
                           <label className="flex items-center gap-2 text-sm text-gray-300 md:text-gray-700 md:dark:text-gray-300 cursor-pointer">
                             <input
                               type="checkbox"
