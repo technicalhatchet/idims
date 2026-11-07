@@ -26,6 +26,7 @@ export function isOpenJobPortalPrepaidDeposit(workOrder) {
 export function isWorkOrderPaidInFullForDocuments(workOrder, billingTotals) {
   if (!billingTotals) return false;
   if (billingTotals.dueToday > 0.01 || billingTotals.previouslyPaid <= 0) return false;
+  if ((billingTotals.dueLater || 0) > 0.01) return false;
   if (isOpenJobPortalPrepaidDeposit(workOrder)) return false;
   return true;
 }
@@ -131,13 +132,47 @@ export function workOrderHasRepairSku(allServices) {
   );
 }
 
-export function appliedDiagnosticCreditAmount(workOrder, allServices) {
+/** Diagnostic SKU line (not trip charge, not repair). Mirrors backend is_diagnostic_service_line. */
+export function isDiagnosticServiceLine(service) {
+  if (!service || isTripChargeServiceLine(service)) return false;
+  const type = String(service.service_definition?.service_type || service.service_type || '').toLowerCase();
+  if (type === 'diagnostic') return true;
+  if (type === 'repair') return false;
+  const name = (service.name || '').toLowerCase();
+  return name.includes('diagnostic') && !name.includes('repair');
+}
+
+/**
+ * Full diagnostic amount the credit is figured from. Stamped work_orders.diagnostic_discount_amount
+ * when set; otherwise the diagnostic line price(s), any status but waived — so the credit shows on
+ * estimates while every SKU is still not billable. Mirrors backend diagnostic_credit_base().
+ * chargeableOnly (money math) counts only billable/paid diagnostic lines.
+ */
+export function diagnosticCreditBase(workOrder, allServices, { chargeableOnly = false } = {}) {
+  const stamped = parseFloat(workOrder?.diagnostic_discount_amount);
+  if (Number.isFinite(stamped) && stamped > 0) return round2(stamped);
+  const total = (allServices || [])
+    .filter((s) => {
+      const status = String(s.billing_status || '').toLowerCase();
+      if (status === 'waived') return false;
+      return !chargeableOnly || CHARGEABLE_SERVICE_BILLING_STATUSES.has(status);
+    })
+    .filter(isDiagnosticServiceLine)
+    .reduce((sum, s) => sum + serviceLineTotal(s), 0);
+  return total > 0 ? round2(total) : 0;
+}
+
+/** Discount row shows whenever a repair SKU is on the order and there's a diagnostic to credit. */
+export function showDiagnosticCreditRow(workOrder, allServices) {
+  return workOrderHasRepairSku(allServices) && diagnosticCreditBase(workOrder, allServices) > 0;
+}
+
+/** Credit dollars after 50%/100% mode. chargeableOnly for amounts actually subtracted from what's owed. */
+export function appliedDiagnosticCreditAmount(workOrder, allServices, { chargeableOnly = false } = {}) {
   if (!workOrderHasRepairSku(allServices)) return 0;
-  if (!(parseFloat(workOrder?.diagnostic_discount_amount) > 0)) return 0;
-  return diagnosticCreditDollars(
-    workOrder.diagnostic_discount_amount,
-    resolveDiagnosticCreditMode(workOrder),
-  );
+  const base = diagnosticCreditBase(workOrder, allServices, { chargeableOnly });
+  if (!(base > 0)) return 0;
+  return diagnosticCreditDollars(base, resolveDiagnosticCreditMode(workOrder));
 }
 
 export function sumRecordedPayments(payments) {
@@ -172,9 +207,12 @@ export function latestRecordedPaymentDate(payments) {
   return latest;
 }
 
-/** Paid-in-full billing row: zero balance due and at least one recorded payment. */
-export function showPaidInFullBillingRow(dueToday, payments) {
-  return round2(dueToday) <= 0 && (payments?.length ?? 0) > 0;
+/**
+ * Paid-in-full billing row: nothing due today, nothing still owed on the estimate (repair
+ * not done yet), and at least one recorded payment. Diag paid + repair pending = Due later, not paid.
+ */
+export function showPaidInFullBillingRow(dueToday, payments, dueLater = 0) {
+  return round2(dueToday) <= 0 && round2(dueLater || 0) <= 0 && (payments?.length ?? 0) > 0;
 }
 
 export async function persistDiagnosticCreditMode(workOrderId, mode) {
@@ -193,6 +231,8 @@ export function computeWorkOrderDueToday(workOrder, allServices) {
   if (!workOrder) {
     return {
       dueToday: 0,
+      dueLater: 0,
+      projectedTotal: 0,
       taxOnBillableParts: 0,
       totalWorkOrder: 0,
       previouslyPaid: 0,
@@ -205,10 +245,9 @@ export function computeWorkOrderDueToday(workOrder, allServices) {
     catalogServices: allServices,
     workOrderServices: allServices,
   });
-  const discountAmt =
-    hasRepairSku && workOrder?.diagnostic_discount_amount > 0
-      ? appliedDiagnosticCreditAmount(workOrder, allServices)
-      : 0;
+  const discountAmt = hasRepairSku
+    ? appliedDiagnosticCreditAmount(workOrder, allServices, { chargeableOnly: true })
+    : 0;
 
   const chargeableServices = (allServices || [])
     .filter((s) => CHARGEABLE_SERVICE_BILLING_STATUSES.has(s.billing_status))
@@ -235,7 +274,19 @@ export function computeWorkOrderDueToday(workOrder, allServices) {
     servicesSubtotal + partsSubtotal + taxOnParts - (repairCompleted ? discountAmt : 0)
   );
 
-  return { dueToday, taxOnBillableParts, totalWorkOrder, previouslyPaid };
+  // Due later: what the estimate will still cost once the repair is done (estimate lines,
+  // quoted parts + tax, minus the diagnostic credit that comes off the repair).
+  const projectedServices = (allServices || [])
+    .filter((s) => String(s.billing_status || '').toLowerCase() !== 'waived')
+    .reduce((sum, s) => sum + serviceLineTotal(s), 0);
+  const projectedParts = (workOrder.parts || [])
+    .filter((p) => !PART_NON_TAXABLE_STATUSES.includes(p.status))
+    .reduce((sum, p) => sum + parseFloat(p.price || 0), 0);
+  const projectedCredit = hasRepairSku ? appliedDiagnosticCreditAmount(workOrder, allServices) : 0;
+  const projectedTotal = round2(projectedServices + projectedParts + taxOnParts - projectedCredit);
+  const dueLater = Math.max(0, round2(projectedTotal - previouslyPaid - dueToday));
+
+  return { dueToday, dueLater, projectedTotal, taxOnBillableParts, totalWorkOrder, previouslyPaid };
 }
 
 /** Part line is paid when status says so, collected in full, or WO balance is settled. */
