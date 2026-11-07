@@ -1,8 +1,9 @@
 """Pay links: public invoice + pay page (/pay/{token}) and the tech-side link lookup.
 
-Two routers (see main.py):
-  public_router → /api/public/pay        (no auth; the token is the credential)
-  staff_router  → /api/work-orders       (staff auth; Pay sheet fetches the link)
+Three routers (see main.py):
+  public_router  → /api/public/pay        (no auth; the token is the credential)
+  staff_router   → /api/work-orders       (staff auth; Pay sheet fetches the link)
+  billing_router → /api/billing           (staff auth; Awaiting Pay list)
 """
 
 import logging
@@ -24,6 +25,11 @@ logger = logging.getLogger(__name__)
 
 public_router = APIRouter()
 staff_router = APIRouter()
+billing_router = APIRouter()
+
+
+class PayLinkSendRequest(BaseModel):
+    channel: str
 
 
 class TapToPayCallbackRequest(BaseModel):
@@ -184,7 +190,10 @@ async def email_work_order_invoice(
         raise HTTPException(status_code=404, detail="Work order not found")
     try:
         result = await send_invoice_with_pay_link(db, work_order)
-        db.commit()  # keeps a newly created pay token
+        from app.services.awaiting_payment_service import record_send_quietly
+
+        record_send_quietly(db, work_order.id, "email", current_user.id)
+        db.commit()  # keeps a newly created pay token + the send log row
         return {"success": True, **result}
     except ValueError as exc:
         db.rollback()
@@ -214,3 +223,38 @@ async def get_work_order_pay_link(
         "amount_due_cents": int(round(due * 100)),
         "square_status": svc.pay_state(work_order, due),
     }
+
+
+@staff_router.post("/{work_order_id}/pay-link/sends")
+async def log_work_order_pay_link_send(
+    work_order_id: uuid.UUID,
+    body: PayLinkSendRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_staff_user),
+):
+    """Pay sheet / Awaiting Pay: the link went out by text, copy or QR (email logs itself)."""
+    from app.services.awaiting_payment_service import record_send
+
+    work_order = svc.load_work_order_for_billing(db, work_order_id)
+    if not work_order:
+        raise HTTPException(status_code=404, detail="Work order not found")
+    try:
+        result = record_send(db, work_order_id, body.channel, current_user.id)
+        db.commit()
+        return result
+    except ValueError as exc:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@billing_router.get("/awaiting-payment")
+async def get_awaiting_payment(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_staff_user),
+):
+    """Jobs with money owed now: balance, due later, days open, pay link, last send."""
+    from app.services.awaiting_payment_service import list_awaiting_payment
+
+    result = list_awaiting_payment(db)
+    db.commit()  # keeps pay tokens created for jobs that didn't have one
+    return result

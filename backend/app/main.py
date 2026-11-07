@@ -767,6 +767,7 @@ app.include_router(client_portal.router, prefix="/api", tags=["client-portal"])
 from app.routers import pay_links
 app.include_router(pay_links.public_router, prefix="/api/public/pay", tags=["pay-links"])
 app.include_router(pay_links.staff_router, prefix="/api/work-orders", tags=["pay-links"])
+app.include_router(pay_links.billing_router, prefix="/api/billing", tags=["pay-links"])
 from app.routers import square_webhooks
 app.include_router(square_webhooks.router, prefix="/api/webhooks", tags=["webhooks"])
 # Mock endpoints for clients, technicians, and services

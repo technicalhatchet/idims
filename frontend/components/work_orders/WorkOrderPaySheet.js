@@ -7,6 +7,7 @@ import {
   buildPayLinkSmsUrl,
   fetchWorkOrderPayLink,
   emailWorkOrderInvoice,
+  logPayLinkSend,
   startTapToPay,
 } from '../../services/api/squarePayApi';
 
@@ -115,7 +116,8 @@ export default function WorkOrderPaySheet({
     } catch {
       window.prompt('Copy this pay link:', payLink.payUrl);
     }
-  }, [payLink, onNotice]);
+    logPayLinkSend(workOrderId, 'copy');
+  }, [payLink, onNotice, workOrderId]);
 
   const emailInvoice = useCallback(async () => {
     setPublishing(true);
@@ -172,13 +174,20 @@ export default function WorkOrderPaySheet({
           label="Show QR"
           icon={<FaQrcode aria-hidden />}
           disabled={!linkReady}
-          onClick={() => setShowQr((v) => !v)}
+          onClick={() => {
+            if (!showQr) logPayLinkSend(workOrderId, 'qr');
+            setShowQr((v) => !v);
+          }}
         />
         <MobileActionSheetGridTile
           label="Text link"
           icon={<FaSms aria-hidden />}
           disabled={!linkReady || !smsUrl}
-          onClick={() => { if (smsUrl) window.location.href = smsUrl; }}
+          onClick={() => {
+            if (!smsUrl) return;
+            logPayLinkSend(workOrderId, 'text');
+            window.location.href = smsUrl;
+          }}
         />
         <MobileActionSheetGridTile
           label={tapStarting ? 'Opening…' : 'Tap to Pay'}
