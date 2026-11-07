@@ -161,10 +161,17 @@ def enrich_document_pdf_payload(
     *,
     show_payment_message: bool = True,
     show_technician: bool = True,
+    is_estimate: bool = False,
 ) -> dict:
     """Attach render flags and header status chip derived from totals."""
     doc["show_payment_message"] = show_payment_message
     doc["show_technician"] = show_technician
+
+    if is_estimate:
+        # An estimate isn't a bill: never "due on receipt" / "paid in full".
+        doc["header_status_message"] = "FOR APPROVAL"
+        doc["header_status_tone"] = "due"
+        return doc
 
     totals = doc.get("totals") or {}
     amount_paid = float(totals.get("amount_paid") or 0)
@@ -237,6 +244,7 @@ def generate_work_order_estimate_pdf_v2(
         estimate,
         show_payment_message=show_payment_message,
         show_technician=show_technician,
+        is_estimate=True,
     )
     safe_variant = "dark" if variant == "dark" else "light"
     return build_estimate_pdf_v2(estimate, variant=safe_variant)

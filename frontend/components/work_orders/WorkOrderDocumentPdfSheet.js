@@ -128,7 +128,7 @@ export default function WorkOrderDocumentPdfSheet({
 
   if (!open) return null;
 
-  const headerPreview = isPaidInFull ? 'PAID IN FULL' : 'DUE ON RECEIPT';
+  const headerPreview = docType === 'estimate' ? 'FOR APPROVAL' : isPaidInFull ? 'PAID IN FULL' : 'DUE ON RECEIPT';
   const isBusy = isGenerating || isEmailing;
   const emailTarget = clientEmail || 'the client on file';
 
@@ -179,7 +179,7 @@ export default function WorkOrderDocumentPdfSheet({
         <span className={isMobile ? 'text-cyan-300 font-medium' : 'text-cyan-600 dark:text-cyan-400 font-medium'}>
           {headerPreview}
         </span>{' '}
-        based on current balance.
+        {docType === 'estimate' ? 'on estimates.' : 'based on current balance.'}
       </p>
 
       <div>

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import FoldBox from './FoldBox';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { techWorkOrderDetailPath } from '../../lib/techRoutes';
@@ -14,20 +15,16 @@ const PANEL_CSS = `
 @keyframes app-ignite{0%{transform:scaleX(0);opacity:0}25%{opacity:1}100%{transform:scaleX(1);opacity:1}}
 @keyframes app-row{0%{opacity:0;transform:translate3d(-10px,0,0)}100%{opacity:1;transform:translate3d(0,0,0)}}
 @keyframes app-scan{0%{transform:translate3d(0,-100%,0)}100%{transform:translate3d(0,400%,0)}}
-@keyframes app-seam{0%{left:-6px;opacity:1}80%{opacity:1}100%{left:calc(100% + 2px);opacity:0}}
+@keyframes app-seam{0%{transform:translate3d(-6px,0,0);opacity:1}80%{opacity:1}100%{transform:translate3d(var(--seam-w,320px),0,0);opacity:0}}
 @keyframes app-skel{0%,100%{opacity:.45}50%{opacity:.8}}
-.app-fold{display:grid;grid-template-rows:0fr;transition:grid-template-rows .42s cubic-bezier(.2,.85,.25,1)}
-.app-fold.is-open{grid-template-rows:1fr}
-.app-fold.is-closing{transition-duration:.26s;transition-timing-function:cubic-bezier(.5,0,.75,0)}
 .app-ignite{transform-origin:50% 50%;animation:app-ignite .18s cubic-bezier(.3,.7,.3,1) both}
 .app-row{animation:app-row .26s cubic-bezier(.2,.9,.3,1) both}
 .app-scan{animation:app-scan .9s cubic-bezier(.45,.05,.55,.95) .25s 1 both}
-.app-seam{position:absolute;top:0;bottom:0;width:3px;background:#fff;box-shadow:0 0 8px #fff,0 0 18px ${YELLOW};pointer-events:none;animation:app-seam .3s cubic-bezier(.5,0,.3,1) both}
+.app-seam{position:absolute;left:0;top:0;bottom:0;width:3px;will-change:transform;background:#fff;box-shadow:0 0 8px #fff,0 0 18px ${YELLOW};pointer-events:none;animation:app-seam .3s cubic-bezier(.5,0,.3,1) both}
 .app-skel{animation:app-skel 1.2s ease-in-out infinite}
 .app-tap:focus-visible{outline:2px solid #FDE68A;outline-offset:2px}
 @media (prefers-reduced-motion: reduce){
-  .app-fold{transition:none}
-  .app-root *{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important}
+    .app-root *{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important}
 }
 `;
 
@@ -101,9 +98,9 @@ export default function AwaitingPayPanel({ id, open, closing, data, loading, err
   const more = Math.max(0, items.length - shown.length);
 
   return (
-    <div className={`app-root app-fold${open ? ' is-open' : ''}${closing ? ' is-closing' : ''}`}>
+    <FoldBox open={open} closing={closing} className="app-root">
       <style>{PANEL_CSS}</style>
-      <div style={{ overflow: 'hidden', minHeight: 0 }}>
+      <div>
         <div
           id={id}
           className="relative overflow-hidden"
@@ -168,6 +165,6 @@ export default function AwaitingPayPanel({ id, open, closing, data, loading, err
           <div aria-hidden="true" className="absolute inset-x-0 bottom-0" style={{ height: 2, background: YELLOW, boxShadow: `0 0 8px ${YELLOW}, 0 0 18px rgba(250, 204, 21, 0.7)` }} />
         </div>
       </div>
-    </div>
+    </FoldBox>
   );
 }
