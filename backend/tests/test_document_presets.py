@@ -183,3 +183,14 @@ def test_repair_estimate_total_excludes_discount():
     estimate = work_order_to_estimate(rd, line_preset="repair")
     assert estimate["totals"]["discount"] == 0
     assert estimate["totals"]["total"] == estimate["totals"]["gross_total"]
+
+
+def test_estimate_header_stamp_is_not_a_bill():
+    from app.services.work_order_invoice_pdf_data import enrich_document_pdf_payload
+
+    estimate = enrich_document_pdf_payload({"totals": {"total": 314.0, "amount_paid": 0}}, is_estimate=True)
+    assert estimate["header_status_message"] == "FOR APPROVAL"
+    paid = enrich_document_pdf_payload({"totals": {"total": 89.0, "amount_paid": 89.0}}, is_estimate=True)
+    assert paid["header_status_message"] == "FOR APPROVAL"
+    invoice = enrich_document_pdf_payload({"totals": {"total": 89.0, "amount_paid": 0}})
+    assert invoice["header_status_message"] == "DUE ON RECEIPT"

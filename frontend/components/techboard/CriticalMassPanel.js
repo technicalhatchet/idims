@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import FoldBox from './FoldBox';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { techWorkOrderDetailPath } from '../../lib/techRoutes';
@@ -19,21 +20,17 @@ const PANEL_CSS = `
 @keyframes cmp-row{0%{opacity:0;transform:translate3d(-10px,0,0)}100%{opacity:1;transform:translate3d(0,0,0)}}
 @keyframes cmp-tag{0%{opacity:0}20%{opacity:1}35%{opacity:.3}50%{opacity:1}65%{opacity:.6}100%{opacity:1}}
 @keyframes cmp-scan{0%{transform:translate3d(0,-100%,0)}100%{transform:translate3d(0,400%,0)}}
-@keyframes cmp-seam{0%{left:-6px;opacity:1}80%{opacity:1}100%{left:calc(100% + 2px);opacity:0}}
+@keyframes cmp-seam{0%{transform:translate3d(-6px,0,0);opacity:1}80%{opacity:1}100%{transform:translate3d(var(--seam-w,320px),0,0);opacity:0}}
 @keyframes cmp-skel{0%,100%{opacity:.45}50%{opacity:.8}}
-.cmp-fold{display:grid;grid-template-rows:0fr;transition:grid-template-rows .42s cubic-bezier(.2,.85,.25,1)}
-.cmp-fold.is-open{grid-template-rows:1fr}
-.cmp-fold.is-closing{transition-duration:.26s;transition-timing-function:cubic-bezier(.5,0,.75,0)}
 .cmp-ignite{transform-origin:50% 50%;animation:cmp-ignite .18s cubic-bezier(.3,.7,.3,1) both}
 .cmp-row{animation:cmp-row .26s cubic-bezier(.2,.9,.3,1) both}
 .cmp-tag{animation:cmp-tag .5s linear both}
 .cmp-scan{animation:cmp-scan .9s cubic-bezier(.45,.05,.55,.95) .25s 1 both}
-.cmp-seam{position:absolute;top:0;bottom:0;width:3px;background:#fff;box-shadow:0 0 8px #fff,0 0 18px #FB923C;pointer-events:none;animation:cmp-seam .3s cubic-bezier(.5,0,.3,1) both}
+.cmp-seam{position:absolute;left:0;top:0;bottom:0;width:3px;will-change:transform;background:#fff;box-shadow:0 0 8px #fff,0 0 18px #FB923C;pointer-events:none;animation:cmp-seam .3s cubic-bezier(.5,0,.3,1) both}
 .cmp-skel{animation:cmp-skel 1.2s ease-in-out infinite}
 .cmp-tap:focus-visible{outline:2px solid #FDBA74;outline-offset:2px}
 @media (prefers-reduced-motion: reduce){
-  .cmp-fold{transition:none}
-  .cmp-root *{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important}
+    .cmp-root *{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important}
 }
 `;
 
@@ -116,9 +113,9 @@ export default function CriticalMassPanel({ id, open, closing, rows, total, load
   const more = Math.max(0, (total || 0) - shown.length);
 
   return (
-    <div className={`cmp-root cmp-fold${open ? ' is-open' : ''}${closing ? ' is-closing' : ''}`}>
+    <FoldBox open={open} closing={closing} className="cmp-root">
       <style>{PANEL_CSS}</style>
-      <div style={{ overflow: 'hidden', minHeight: 0 }}>
+      <div>
         <div
           id={id}
           className="relative overflow-hidden"
@@ -184,6 +181,6 @@ export default function CriticalMassPanel({ id, open, closing, rows, total, load
           <div aria-hidden="true" className="absolute inset-x-0 bottom-0" style={{ height: 2, background: '#FB923C', boxShadow: '0 0 8px #FB923C, 0 0 18px rgba(251, 146, 60, 0.7)' }} />
         </div>
       </div>
-    </div>
+    </FoldBox>
   );
 }

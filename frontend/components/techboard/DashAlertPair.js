@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSweepNavigate } from '../../hooks/useSweepNavigate';
+import { useRouter } from 'next/router';
 import { useCriticalMassOrders } from '../../hooks/useCriticalMassOrders';
 import { useAwaitingPayment } from '../../hooks/useAwaitingPayment';
 import { TECH_AWAITING_PAY_PATH, TECH_MASS_PATH } from '../../lib/techRoutes';
@@ -12,22 +12,33 @@ import AwaitingPayPanel from './AwaitingPayPanel';
 /*
  * Critical Mass + Awaiting Pay, side by side at the stat cards' height. Tapping either
  * tile slices one full-width panel open underneath; tapping the other swaps it, tapping
- * the same one folds it shut. Card CSS (.tech-glass-card, .tech-breathing-pulse,
- * .cm-card-seam, .cm-card-clear) lives on the Techboard page.
+ * the same one folds it shut. .cm-card-clear lives on the Techboard page; the rest is below.
  */
 
 const ORANGE = '#FB923C';
 const YELLOW = '#FACC15';
 
+/*
+ * Everything here animates transform / opacity only, so iOS can run it on the compositor:
+ * the glow pulse fades a pre-drawn shadow layer, the press seam slides with translateX.
+ * (Animating box-shadow, left, or opacity on a backdrop-filter card repaints every frame.)
+ */
 const PAIR_CSS = `
-@keyframes ap-breathe{0%,100%{box-shadow:0 0 10px rgba(250,204,21,.16),0 0 20px rgba(250,204,21,.08)}50%{box-shadow:0 0 18px rgba(250,204,21,.32),0 0 36px rgba(250,204,21,.16)}}
-.ap-breathing-pulse > div{animation:ap-breathe 2.5s ease-in-out infinite}
-.ap-card-seam{position:absolute;top:0;bottom:0;width:3px;background:#fff;box-shadow:0 0 8px #fff,0 0 18px ${YELLOW};pointer-events:none;animation:cm-card-seam .3s cubic-bezier(.5,0,.3,1) both}
+@keyframes dap-glow{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes dap-seam{0%{transform:translate3d(-100%,0,0);opacity:1}80%{opacity:1}100%{transform:translate3d(100%,0,0);opacity:0}}
+.dap-tile{position:relative;border-radius:.5rem;transition:transform .15s ease;-webkit-tap-highlight-color:transparent}
+.dap-tile:active{transform:scale(.98)}
+.dap-tile.is-lit:active{transform:none}
+.dap-tile::after{content:'';position:absolute;inset:0;border-radius:.5rem;pointer-events:none;opacity:0;box-shadow:0 0 18px var(--dap-glow),0 0 36px var(--dap-glow-soft);will-change:opacity}
+.dap-tile.is-pulsing::after{animation:dap-glow 2.5s ease-in-out infinite}
+.dap-seam{position:absolute;inset:0;pointer-events:none;overflow:hidden;animation:dap-seam .3s cubic-bezier(.5,0,.3,1) both;will-change:transform}
+.dap-seam::before{content:'';position:absolute;top:0;bottom:0;right:0;width:3px;background:#fff;box-shadow:0 0 8px #fff,0 0 18px var(--dap-seam)}
+@media (prefers-reduced-motion: reduce){.dap-tile.is-pulsing::after{animation:none;opacity:.6}}
 `;
 
 function Tile({
-  tone, active, lit, dim, pressing, clearFlash, panelId, onPress, failed, loading, onRetry,
-  icon, label, value, note, seamClass,
+  tone, active, lit, dim, pulsing, pressing, clearFlash, panelId, onPress, failed, loading, onRetry,
+  icon, label, value, note,
 }) {
   const Header = failed ? 'div' : 'button';
   const headerProps = failed
@@ -38,21 +49,27 @@ function Tile({
       'aria-expanded': active ? lit : undefined,
       'aria-controls': active ? panelId : undefined,
     };
-  const border = active
-    ? (lit ? `1px solid ${tone.strong}` : `1px solid ${tone.soft}`)
-    : '1px solid rgba(255,255,255,0.07)';
-  const color = active ? tone.color : '#6B7280';
+  // Border as longhands only. Mixing the `border` shorthand with borderBottomColor made React
+  // clear the bottom color on collapse, which then fell back to white (currentColor).
+  const edge = active ? (lit ? tone.strong : tone.soft) : 'rgba(255,255,255,0.07)';
+  // "Dim" the other tile with colors, not opacity (opacity on a blurred card is costly on iOS).
+  const color = active ? (dim ? tone.dimColor : tone.color) : '#6B7280';
+  const valueColor = active ? (dim ? tone.dimColor : tone.value) : '#374151';
 
   return (
     <div
-      className={`tech-glass-card ${lit ? '' : 'tech-hover-lift'} ${active && !lit && !dim ? tone.pulse : ''}`}
-      data-sweep-color={tone.sweep}
+      className={`dap-tile ${lit ? 'is-lit' : ''} ${pulsing ? 'is-pulsing' : ''}`}
       data-techboard-card
-      style={{ opacity: dim ? 0.55 : 1, transition: 'opacity .25s' }}
+      style={{ '--dap-glow': tone.pulseGlow, '--dap-glow-soft': tone.pulseGlowSoft, '--dap-seam': tone.color }}
     >
       <div
         className={`relative overflow-hidden ${lit ? 'rounded-t-lg' : 'rounded-lg'}`}
-        style={{ border, borderBottomColor: lit ? 'transparent' : undefined, transition: 'border-radius .25s' }}
+        style={{
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: edge,
+          borderBottomColor: lit ? 'transparent' : edge,
+        }}
       >
         <FrostedCardBackdrop />
         <FrostedCardContent className="p-0">
@@ -62,15 +79,15 @@ function Tile({
           >
             <span className="flex min-w-0 items-center gap-2">
               <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" className="flex-shrink-0" style={{
-                stroke: active ? tone.color : '#374151', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round',
-                filter: active ? `drop-shadow(0 0 5px ${tone.glow})` : 'none',
+                stroke: active ? color : '#374151', strokeWidth: 2, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round',
+                filter: active && !dim ? `drop-shadow(0 0 5px ${tone.glow})` : 'none',
               }}>
                 {icon}
               </svg>
               <span className="min-w-0 flex-1 truncate text-xs font-bold" style={{ color }}>{label}</span>
               {active ? (
                 <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" className="flex-shrink-0" style={{
-                  stroke: tone.color, strokeWidth: 2.4, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round',
+                  stroke: color, strokeWidth: 2.4, fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round',
                   transition: 'transform .3s cubic-bezier(.2,.9,.3,1.2)', transform: lit ? 'rotate(180deg)' : 'none',
                 }}>
                   <path d="M6 9l6 6 6-6" />
@@ -83,15 +100,15 @@ function Tile({
                 : loading
                   ? <StatValueSkeleton />
                   : (
-                    <span className="text-2xl font-bold leading-none" style={{ color: active ? tone.value : '#374151', textShadow: active ? `0 0 8px ${tone.glow}` : 'none' }}>
+                    <span className="text-2xl font-bold leading-none" style={{ color: valueColor, textShadow: active && !dim ? `0 0 8px ${tone.glow}` : 'none' }}>
                       <LiveRepaintValue value={value} />
                     </span>
                   )}
               {!failed && !loading ? (
-                <span className="min-w-0 truncate text-xs" style={{ color: active ? tone.note : '#4B5563' }}>{note}</span>
+                <span className="min-w-0 truncate text-xs" style={{ color: active && !dim ? tone.note : '#4B5563' }}>{note}</span>
               ) : null}
             </span>
-            {pressing ? <span className={seamClass} aria-hidden="true" /> : null}
+            {pressing ? <span className="dap-seam" aria-hidden="true" /> : null}
             {clearFlash ? (
               <span key={clearFlash} className="cm-card-clear" aria-live="polite" style={{ right: 10, top: 6 }}>ALL CLEAR</span>
             ) : null}
@@ -108,9 +125,8 @@ export default function DashAlertPair({ criticalCount, loading = false, failed =
   const [closing, setClosing] = useState(false);
   const [pressing, setPressing] = useState('');
   const [clearFlash, setClearFlash] = useState({ cm: 0, ap: 0 });
-  const [sweeping, setSweeping] = useState(false);
   const timers = useRef([]);
-  const { push: sweepPush } = useSweepNavigate(600);
+  const router = useRouter();
 
   const awaiting = useAwaitingPayment();
   const owed = awaiting.data;
@@ -152,13 +168,15 @@ export default function DashAlertPair({ criticalCount, loading = false, failed =
     }, which ? 120 : 160);
   };
 
-  const go = (path) => sweepPush(path, { onSweepStart: () => setSweeping(true) });
+  const go = (path) => router.push(path);
 
-  const cmTone = { color: ORANGE, value: ORANGE, note: '#C9895A', glow: 'rgba(251,146,60,0.7)', strong: 'rgba(251,146,60,0.85)', soft: 'rgba(251,146,60,0.6)', pulse: 'tech-breathing-pulse', sweep: 'orange' };
-  const apTone = { color: YELLOW, value: '#FDE68A', note: '#B8A35A', glow: 'rgba(250,204,21,0.55)', strong: 'rgba(250,204,21,0.8)', soft: 'rgba(250,204,21,0.5)', pulse: 'ap-breathing-pulse', sweep: 'orange' };
+  const cmTone = { color: ORANGE, value: ORANGE, note: '#C9895A', dimColor: '#8A5A36', glow: 'rgba(251,146,60,0.7)', strong: 'rgba(251,146,60,0.85)', soft: 'rgba(251,146,60,0.6)', pulseGlow: 'rgba(251,146,60,0.38)', pulseGlowSoft: 'rgba(251,146,60,0.16)' };
+  const apTone = { color: YELLOW, value: '#FDE68A', note: '#B8A35A', dimColor: '#8A7A3A', glow: 'rgba(250,204,21,0.55)', strong: 'rgba(250,204,21,0.8)', soft: 'rgba(250,204,21,0.5)', pulseGlow: 'rgba(250,204,21,0.3)', pulseGlowSoft: 'rgba(250,204,21,0.12)' };
+  // Glow only while both are closed: nothing else animating while a panel folds.
+  const calm = !which && !pressing;
 
   return (
-    <div className={`mb-4 ${sweeping ? 'tech-sweep-active' : ''}`}>
+    <div className="mb-4">
       <style>{PAIR_CSS}</style>
       <div className="grid grid-cols-2 gap-3">
         <Tile
@@ -167,13 +185,13 @@ export default function DashAlertPair({ criticalCount, loading = false, failed =
           lit={which === 'cm'}
           dim={which === 'ap'}
           pressing={pressing === 'cm'}
+          pulsing={calm && cmActive}
           clearFlash={clearFlash.cm}
           panelId="critical-mass-panel"
           onPress={() => toggle('cm', cmActive, loading, failed)}
           failed={failed}
           loading={loading}
           onRetry={onRetry}
-          seamClass="cm-card-seam"
           label="Critical Mass"
           value={cmActive ? criticalCount : 0}
           note={cmActive ? 'overdue' : 'all clear'}
@@ -185,13 +203,13 @@ export default function DashAlertPair({ criticalCount, loading = false, failed =
           lit={which === 'ap'}
           dim={which === 'cm'}
           pressing={pressing === 'ap'}
+          pulsing={calm && apActive}
           clearFlash={clearFlash.ap}
           panelId="awaiting-pay-panel"
           onPress={() => toggle('ap', apActive, awaiting.isLoading, Boolean(awaiting.error))}
           failed={Boolean(awaiting.error) && !owed}
           loading={awaiting.isLoading}
           onRetry={() => awaiting.refetch()}
-          seamClass="ap-card-seam"
           label="Awaiting Pay"
           value={apActive ? formatMoneyShort(owed.total_due) : '$0'}
           note={apActive ? awaitingSummary(owed) : 'all paid'}
